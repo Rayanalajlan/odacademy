@@ -3,163 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OD Academy | ريان العجلان</title>
+    <title>OD Academy | الحقيبة التعليمية المتكاملة - ريان العجلان</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #F8FAFC; color: #1E293B; scroll-behavior: smooth; }
-        .modern-card { background-color: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
-        .modern-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .accent-text { color: #4F46E5; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #F0F4F8; color: #1E293B; scroll-behavior: smooth; }
+        .modern-card { background-color: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
         .accent-bg { background-color: #4F46E5; }
-        .step-locked { filter: grayscale(1); opacity: 0.6; pointer-events: none; }
+        .lecture-section { display: none; animation: slideIn 0.5s ease-out; }
+        .lecture-section.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .diagram { background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 1rem; padding: 1.5rem; margin: 1.5rem 0; }
+        .source-tag { font-size: 0.6rem; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-right: 4px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <span class="text-2xl font-black text-slate-900">OD <span class="accent-text">ACADEMY</span></span>
-                <span class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded-full font-bold border border-indigo-100">تحت إشراف: ريان العجلان</span>
+                <span class="text-2xl font-black text-indigo-700 uppercase">OD <span class="text-slate-900">Expert Academy</span></span>
+                <span class="text-[10px] font-bold text-slate-500 border-r pr-3 border-slate-300">إشراف علمي: ريان العجلان</span>
             </div>
             <nav class="flex flex-wrap justify-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
                 <button onclick="switchTab('home')" id="btn-home" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm transition-all">الرئيسية</button>
-                <button onclick="switchTab('journey')" id="btn-journey" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-indigo-600 transition-all">رحلة التعلم</button>
+                <button onclick="switchTab('curriculum')" id="btn-curriculum" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-indigo-600 transition-all">الحقيبة التعليمية</button>
                 <button onclick="switchTab('resources')" id="btn-resources" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-indigo-600 transition-all">المراجع</button>
-                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-indigo-600 transition-all">لوحة التحكم</button>
                 <button onclick="switchTab('about')" id="btn-about" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-indigo-600 transition-all">عن المصمم</button>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-        <section id="page-home" class="tab-content space-y-12">
-            <div class="text-center max-w-4xl mx-auto py-12 space-y-6">
-                <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-tight">
-                    أكاديمية التطوير التنظيمي <br>
-                    <span class="accent-text">منهجية 6 أشهر من الاحتراف</span>
-                </h1>
-                <p class="text-slate-500 text-lg font-medium max-w-2xl mx-auto">
-                    انطلق في رحلة استشارية متكاملة تبدأ من التشخيص وتنتهي بقيادة التغيير، مع الخبير الاستراتيجي ريان العجلان.
-                </p>
-                <button onclick="switchTab('journey')" class="accent-bg text-white font-black text-lg px-10 py-4 rounded-xl hover:scale-105 shadow-lg transition-all">
-                    ابدأ رحلتك الآن
+        <section id="page-home" class="tab-content text-center py-20 space-y-8">
+            <h1 class="text-5xl lg:text-7xl font-black text-slate-900 leading-tight">
+                الحقيبة التدريبية الشاملة في <br>
+                <span class="text-indigo-600">التطوير التنظيمي (OD)</span>
+            </h1>
+            <p class="text-slate-500 text-xl max-w-3xl mx-auto leading-relaxed">
+                هذه المنصة ليست مجرد أسئلة؛ هي منهج تعليمي متكامل مستخلص من أمهات الكتب والمراجع العالمية، صممها الخبير ريان العجلان لنقلك من مستوى المبتدئ إلى الخبير الاستشاري.
+            </p>
+            <button onclick="switchTab('curriculum')" class="accent-bg text-white font-black text-lg px-12 py-5 rounded-2xl hover:scale-105 shadow-2xl shadow-indigo-200 transition-all">
+                ابدأ رحلة التعلّم التفصيلية
+            </button>
+        </section>
+
+        <section id="page-curriculum" class="tab-content hidden space-y-12">
+            <div id="grid-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="modern-card p-8 rounded-3xl border-b-4 border-indigo-600">
+                    <span class="text-indigo-600 font-bold text-[10px] uppercase tracking-widest">الوحدة الأولى - الشهر 1</span>
+                    <h3 class="text-2xl font-black text-slate-900 my-4">أساسيات OD والتشخيص</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">تعريف التطوير التنظيمي، أهدافه، والفرق الجوهري بينه وبين الإدارة التقليدية والموارد البشرية.</p>
+                    <button onclick="loadLesson(1)" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-indigo-600 transition-all">دخول الحقيبة التفصيلية</button>
+                </div>
+                <div class="modern-card p-8 rounded-3xl border-b-4 border-indigo-600">
+                    <span class="text-indigo-600 font-bold text-[10px] uppercase tracking-widest">الوحدة الثانية - الشهر 2</span>
+                    <h3 class="text-2xl font-black text-slate-900 my-4">نظرية وتصميم المنظمات</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">دراسة أنواع الهياكل، نطاق الإشراف، المركزية، وكيفية تصميم منظمة متوافقة مع الاستراتيجية.</p>
+                    <button onclick="loadLesson(2)" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-indigo-600 transition-all">دخول الحقيبة التفصيلية</button>
+                </div>
+                <div class="modern-card p-8 rounded-3xl border-b-4 border-indigo-600">
+                    <span class="text-indigo-600 font-bold text-[10px] uppercase tracking-widest">الوحدة الثالثة - الشهر 3</span>
+                    <h3 class="text-2xl font-black text-slate-900 my-4">تحليل وتوصيف الوظائف</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">المنهج العلمي لتحليل الوظائف، صياغة الجدارات، وبناء أدلة الوصف الوظيفي الاحترافية.</p>
+                    <button onclick="loadLesson(3)" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-indigo-600 transition-all">دخول الحقيبة التفصيلية</button>
+                </div>
+                </div>
+
+            <div id="content-viewer" class="hidden space-y-10 animate-fade-in">
+                <button onclick="backToGrid()" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">
+                    ← العودة لجميع الوحدات
                 </button>
-            </div>
-        </section>
-
-        <section id="page-journey" class="tab-content hidden space-y-8">
-            <div class="border-b border-slate-200 pb-4 flex justify-between items-end">
-                <div>
-                    <h2 class="text-3xl font-black text-slate-900">مختبرات الرحلة التعليمية</h2>
-                    <p class="text-slate-500 text-sm">اتبع التسلسل المنطقي: الشرح النظري ➔ التطبيق العملي ➔ الاختبار.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="months-grid">
-                </div>
-
-            <div id="active-study-area" class="hidden mt-12 space-y-6">
-                <div id="lesson-view" class="modern-card p-8 rounded-3xl border-2 border-indigo-100 bg-white shadow-xl">
-                    <div id="lesson-body" class="prose prose-slate max-w-none"></div>
-                    <div class="mt-8 flex justify-end border-t pt-6">
-                        <button onclick="openQuiz()" class="bg-amber-500 text-white font-black px-8 py-3 rounded-xl hover:bg-amber-600 transition-all">
-                            الانتقال للاختبار التطبيقي ➔
-                        </button>
+                <div id="lesson-content" class="modern-card p-12 rounded-[3rem] bg-white shadow-2xl border border-slate-100">
                     </div>
-                </div>
-
-                <div id="quiz-view" class="hidden modern-card p-8 rounded-3xl border-2 border-amber-200 bg-slate-50">
-                    <div id="quiz-body"></div>
-                    <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl font-bold text-sm"></div>
+                <div id="quiz-area" class="hidden modern-card p-12 rounded-[3rem] bg-slate-900 text-white border-4 border-amber-500 shadow-2xl">
+                    <div id="quiz-content"></div>
                 </div>
             </div>
         </section>
 
-        <section id="page-resources" class="tab-content hidden text-center py-16 space-y-8">
-            <div class="max-w-2xl mx-auto space-y-4">
-                <div class="text-6xl">📚</div>
-                <h2 class="text-3xl font-black text-slate-900">مكتبة المراجع والنماذج</h2>
-                <p class="text-slate-500">مجموعة مختارة من الأدوات، القوالب، والمصادر العلمية التي تدعم مسيرتك كأخصائي تطوير تنظيمي.</p>
-                <a href="https://drive.google.com/drive/folders/17B-kGcZk1PFTYervJT7WEvWF9DCRIkRr?usp=drive_link" 
-                   target="_blank" 
-                   class="inline-flex items-center gap-3 bg-emerald-600 text-white font-black px-10 py-4 rounded-2xl shadow-xl hover:bg-emerald-700 transition-all">
-                    فتح المجلد (Google Drive)
+        <section id="page-resources" class="tab-content hidden py-20 text-center space-y-10">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-7xl mb-6">📚</div>
+                <h2 class="text-4xl font-black text-slate-900">المكتبة الرقمية للمراجع</h2>
+                <p class="text-slate-500 mb-10 text-lg leading-relaxed">
+                    تم رفع كافة المراجع والكتب والنماذج العلمية التي استندت إليها هذه الحقيبة لتكون مرجعاً دائماً لك في حياتك المهنية.
+                </p>
+                <a href="https://drive.google.com/drive/folders/17B-kGcZk1PFTYervJT7WEvWF9DCRIkRr?usp=drive_link" target="_blank" class="accent-bg text-white font-black px-12 py-5 rounded-2xl shadow-2xl hover:bg-indigo-700 transition-all inline-flex items-center gap-3">
+                    فتح المجلد المكتبي (Google Drive)
                 </a>
             </div>
         </section>
 
-        <section id="page-dashboard" class="tab-content hidden space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="modern-card p-8 rounded-3xl text-center">
-                    <p class="text-slate-400 text-xs font-bold uppercase">التقدم الكلي</p>
-                    <h4 class="text-4xl font-black text-indigo-600" id="db-points">0 / 600</h4>
-                </div>
-                <div class="modern-card p-8 rounded-3xl text-center">
-                    <p class="text-slate-400 text-xs font-bold uppercase">الرتبة المهنية</p>
-                    <h4 class="text-xl font-black text-slate-800" id="db-rank">متدرب OD مستجد</h4>
-                </div>
-                <div class="modern-card p-8 rounded-3xl text-center">
-                    <p class="text-slate-400 text-xs font-bold uppercase">الشارات المكتسبة</p>
-                    <div id="badges-container" class="flex justify-center gap-2 mt-2">
-                        <span class="grayscale opacity-20 text-3xl" title="شارة التشخيص">🛠️</span>
-                        <span class="grayscale opacity-20 text-3xl" title="شارة التصميم">📐</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-about" class="tab-content hidden max-w-5xl mx-auto py-8">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <section id="page-about" class="tab-content hidden max-w-5xl mx-auto space-y-12 py-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
                 <div class="lg:col-span-2 space-y-8">
-                    <div class="space-y-2">
-                        <h2 class="text-4xl font-black text-slate-900">ريان العجلان</h2>
-                        <h3 class="text-xl font-bold text-indigo-600">خبير استراتيجي ومستشار موارد بشرية</h3>
-                    </div>
-                    <p class="text-slate-600 text-lg leading-relaxed">
-                        أكثر من 9 سنوات من الخبرة في صياغة استراتيجيات رأس المال البشري والتحول التنظيمي[cite: 43]. خبير في تخطيط القوى العاملة، إدارة الأداء (KPI/OKR)، وحوكمة الموارد البشرية للمنظمات الكبرى[cite: 43, 68].
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div class="p-3 border rounded-xl text-center font-bold text-[10px] bg-slate-50">PMP [cite: 93]</div>
-                        <div class="p-3 border rounded-xl text-center font-bold text-[10px] bg-slate-50">SHRM-SCP [cite: 91]</div>
-                        <div class="p-3 border rounded-xl text-center font-bold text-[10px] bg-slate-50">SPHRi [cite: 89]</div>
-                        <div class="p-3 border rounded-xl text-center font-bold text-[10px] bg-slate-50">CPTD [cite: 87]</div>
-                        <div class="p-3 border rounded-xl text-center font-bold text-[10px] bg-slate-50">CIPD Level 7 [cite: 81]</div>
+                    <h2 class="text-5xl font-black text-slate-900">ريان العجلان</h2>
+                    <h3 class="text-2xl font-bold text-indigo-600">مستشار أعمال وخبير استراتيجيات الموارد البشرية</h3>
+                    <div class="prose prose-slate prose-lg text-slate-600 leading-relaxed">
+                        <p>يمتلك ريان العجلان مسيرة مهنية تمتد لأكثر من <strong>9 سنوات</strong> في إدارة وتطوير رأس المال البشري والتحول التنظيمي وتخطيط القوى العاملة. خبير معتمد في كبرى المنظمات العالمية وساهم في بناء أنظمة الأداء والحوكمة لمنظمات كبرى.</p>
+                        <ul class="list-none p-0 space-y-3 font-bold text-slate-800">
+                            <li>✅ زميل معتمد SHRM-SCP (الجمعية الأمريكية لإدارة الموارد البشرية).</li>
+                            <li>✅ مستشار معتمد SPHRi (معهد اعتماد الموارد البشرية).</li>
+                            <li>✅ خبير تطوير مواهب CPTD (ATD).</li>
+                            <li>✅ مدير مشاريع معتمد PMP (معهد PMI).</li>
+                            <li>✅ عضو CIPD Level 7 (المعهد البريطاني للأفراد والتطوير).</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="space-y-6">
-                    <div class="modern-card p-6 rounded-2xl bg-indigo-50 border-indigo-100">
-                        <h4 class="font-black text-indigo-900">مدرب في THARWAH [cite: 48]</h4>
-                        <p class="text-indigo-700 text-xs mt-2">قدم أكثر من 600 ساعة تدريبية تفاعلية لأكثر من 300 محترف بمعدل رضا 98%[cite: 51, 52].</p>
+                    <div class="modern-card p-8 rounded-3xl bg-indigo-50 border-indigo-100">
+                        <h4 class="font-black text-indigo-900 text-lg">خبرة تدريبية رائدة</h4>
+                        <p class="text-indigo-700 text-sm mt-3">مدرب في <strong>Tharwah</strong>؛ قدم أكثر من 600 ساعة تدريبية تفاعلية لـ 300+ محترف موارد بشرية بمعدل رضا 98%.</p>
                     </div>
-                    <a href="https://www.linkedin.com/in/rayanalajlan/" target="_blank" class="w-full flex justify-center py-4 bg-[#0077B5] text-white rounded-xl font-bold hover:shadow-lg transition-all">LinkedIn Profile</a>
+                    <a href="https://www.linkedin.com/in/rayanalajlan/" target="_blank" class="w-full flex justify-center py-4 bg-[#0077B5] text-white rounded-2xl font-black hover:shadow-xl transition-all">LinkedIn Profile</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-8 text-center text-[10px] text-slate-400">
-        <p>تصميم وإعداد المحتوى العلمي: <span class="text-slate-900 font-bold">Rayan Alajlan</span> © 2026</p>
+    <footer class="bg-white border-t border-slate-200 py-10 text-center">
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest">المحتوى العلمي مستخلص من المراجع المرفقة | تصميم وإعداد: <span class="text-slate-900 font-bold">Rayan Alajlan</span> © 2026</p>
     </footer>
 
     <script>
-        // Data Structure for 6 Months
-        const odJourney = [
-            { id: 1, title: "التشخيص التنظيمي الأولي", month: "الشهر 1", desc: "فهم OD والفرق بينه وبين HR والبدء في تشخيص أعراض المنظمة.", lesson: "<h2>المرحلة 1: التشخيص التنظيمي الأولي</h2><p>في هذا الشهر، نركز على 'رؤية ما خلف الكواليس'. التطوير التنظيمي (OD) لا يحل مشاكل الموظفين كأفراد، بل يحل مشاكل 'المنظومة'.</p><h3>محاور التعلم:</h3><ul><li>الفرق الجوهري بين OD و HR.</li><li>قراءة الأعراض التنظيمية (بطء القرار، تداخل الصلاحيات).</li><li>نموذج التشخيص الأولي.</li></ul>", quiz: "شركة طيران تعاني من كثرة الشكاوى. HR يرى المشكلة كسل موظفين، بينما اكتشف الـ OD أن الصلاحيات تمنع المشرفين من القرار السريع. ما هو الحل؟", options: ["زيادة الرواتب", "تحسين الهيكل وتفويض الصلاحيات", "دورات إدارة وقت"], correct: 1 },
-            { id: 2, title: "تصميم الهياكل التنظيمية", month: "الشهر 2", desc: "تحليل نطاق الإشراف وبناء بدائل هيكلية احترافية.", lesson: "<h2>المرحلة 2: تصميم الهياكل التنظيمية</h2><p>الهيكل ليس مجرد مربعات، بل هو خريطة تدفق القرار والمسؤولية.</p><h3>محاور التعلم:</h3><ul><li>أنواع الهياكل (وظيفي، قطاعي، مصفوفي).</li><li>نطاق الإشراف (Span of Control).</li><li>المركزية واللامركزية.</li></ul>", quiz: "شركة توسعت من فرعين إلى 20 فرعاً ولا تزال مركزية جداً، ما هو التشخيص الهيكلي؟", options: ["تضخم نطاق الإشراف", "غياب الثقافة", "نقص التدريب"], correct: 0 },
-            { id: 3, title: "تحليل وتوصيف الوظائف", month: "الشهر 3", desc: "بناء أدلة الوصف الوظيفي وربطها بالجدارات.", lesson: "<h2>المرحلة 3: تحليل وتوصيف الوظائف</h2><p>تحويل الهيكل إلى أدوار فعلية واضحة المعالم.</p><h3>محاور التعلم:</h3><ul><li>تحليل المهام والمسؤوليات.</li><li>صياغة الجدارات الوظيفية.</li><li>بناء دليل الوصف الوظيفي (JD).</li></ul>", quiz: "ما الفرق بين المهمة والجدارة؟", options: ["لا فرق بينهما", "المهمة هي الفعل، والجدارة هي القدرة الكامنة لإنجازه", "الجدارة هي المسمى الوظيفي فقط"], correct: 1 },
-            { id: 4, title: "إدارة التغيير والثقافة", month: "الشهر 4", desc: "قيادة التحول البشري واستخدام نماذج Kotter و ADKAR.", lesson: "<h2>المرحلة 4: إدارة التغيير والثقافة</h2><p>التغيير ينجح بسلوك الناس لا بقرار الإدارة فقط.</p><h3>محاور التعلم:</h3><ul><li>مقاومة التغيير وكيفية إدارتها.</li><li>نموذج كوتر (8 خطوات).</li><li>تحليل أصحاب المصلحة.</li></ul>", quiz: "أول خطوة في نموذج كوتر هي؟", options: ["الاحتفال بالنجاح", "صناعة شعور بالإلحاح", "تثبيت التغيير"], correct: 1 },
-            { id: 5, title: "تخطيط القوى العاملة", month: "الشهر 5", desc: "تحليل عبء العمل (Workload) وسد الفجوات.", lesson: "<h2>المرحلة 5: تخطيط القوى العاملة</h2><p>الرقم الصحيح في المكان الصحيح.</p><h3>محاور التعلم:</h3><ul><li>تحليل العرض والطلب البشري.</li><li>الوظائف الحرجة.</li><li>تحليل عبء العمل (Workload Analysis).</li></ul>", quiz: "ما هو الهدف من تحليل عبء العمل؟", options: ["زيادة عدد الموظفين دائماً", "تحديد العدد الأمثل لإنجاز العمل بكفاءة", "مراقبة وقت الحضور والانصراف"], correct: 1 },
-            { id: 6, title: "المشروع التطبيقي الشامل", month: "الشهر 6", desc: "دمج كافة المخرجات في مشروع استشاري نهائي.", lesson: "<h2>المرحلة 6: المشروع الاستشاري النهائي</h2><p>حان الوقت لدمج التشخيص، الهيكل، الوظائف، والتغيير في ملف واحد.</p><h3>المطلوب:</h3><ul><li>بناء حالة تشخيصية لمنظمة.</li><li>اقتراح هيكل جديد.</li><li>خطة إدارة تغيير متكاملة.</li></ul>", quiz: "المشروع النهائي يقدم لـ؟", options: ["قسم التدريب فقط", "الإدارة العليا كحل استشاري متكامل", "الموظفين الجدد"], correct: 1 }
-        ];
+        const lessons = {
+            1: {
+                title: "الوحدة الأولى: ماهية التطوير التنظيمي والتشخيص",
+                content: `
+                    <h2 class="text-4xl font-black text-indigo-700 mb-8">أساسيات التطوير التنظيمي (OD Fundamentals)</h2>
+                    <p class="text-lg leading-relaxed mb-6 italic">مستخلص من مرجع: "التطوير التنظيمي والإداري".</p>
+                    
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">1. تعريف التطوير التنظيمي:</h3>
+                    <p class="text-lg leading-relaxed mb-8">هو جهد مخطط على مستوى المنظمة ككل، تدعمه الإدارة العليا، لزيادة فعالية المنظمة وصحتها من خلال تدخلات مخططة في 'عمليات المنظمة' باستخدام معرفة العلوم السلوكية.</p>
 
-        let activeMonthId = null;
+                    <div class="diagram">
+                        <h4 class="font-bold text-center mb-4">أركان عملية التطوير التنظيمي الثلاثة:</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div class="p-4 bg-white border rounded-xl font-bold">التشخيص المستمر (للواقع الحالي)</div>
+                            <div class="p-4 bg-indigo-600 text-white border rounded-xl font-bold">التدخل المخطط (لإحداث التغيير)</div>
+                            <div class="p-4 bg-white border rounded-xl font-bold">التقييم والتثبيت (للمكاسب المحققة)</div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mt-10 mb-4 text-slate-800">2. أهداف التطوير التنظيمي:</h3>
+                    <ul class="list-disc pr-10 space-y-4 text-lg mb-10 text-slate-600">
+                        <li>بناء الثقة بين الأفراد والجماعات في المنظمة.</li>
+                        <li>إيجاد حلول ابتكارية للمشاكل من خلال المشاركة.</li>
+                        <li>زيادة درجة المسؤولية في التخطيط والتنفيذ.</li>
+                        <li>تحويل المنظمة إلى "بيئة متعلمة" قادرة على التكيف.</li>
+                    </ul>
+
+                    <div class="bg-indigo-50 p-8 rounded-3xl border-r-8 border-indigo-600 mb-10">
+                        <h4 class="font-black text-indigo-900 mb-4">نموذج ريان العجلان للتشخيص الاستشاري:</h4>
+                        <p class="text-indigo-800 leading-relaxed italic">"التشخيص التنظيمي ليس بحثاً عن الجاني، بل هو مراجعة لهندسة المنظمة؛ لنعرف هل العطل في 'المحرك' (الأنظمة) أم في 'الوقود' (الكفاءات) أم في 'خريطة الطريق' (الاستراتيجية)."</p>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">3. عملية إدارة التغيير التنظيمي:</h3>
+                    <p class="text-lg leading-relaxed mb-6 italic">مستخلص من مرجع: "عملية إدارة التغيير التنظيمي".</p>
+                    <p class="text-lg leading-relaxed mb-10">يتطلب التغيير الناجح ثلاث مراحل أساسية (نموذج كورت ليوين):
+                    <br><strong>أولاً: إذابة الجليد (Unfreezing):</strong> زعزعة الوضع القائم لخلق الحاجة للتغيير.
+                    <br><strong>ثانياً: التحرك (Movement):</strong> مرحلة التدخل الفعلي وتغيير السلوكيات.
+                    <br><strong>ثالثاً: إعادة التجميد (Refreezing):</strong> تثبيت التغييرات الجديدة كجزء من ثقافة المنظمة.</p>
+
+                    <button onclick="revealQuiz(1)" class="w-full py-6 bg-amber-500 text-white font-black text-xl rounded-2xl shadow-xl hover:bg-amber-600 transition-all">جاهز للاختبار الاستشاري؟</button>
+                `,
+                quiz: {
+                    question: "بناءً على نموذج مراحل التغيير، ماذا يحدث لو قامت المنظمة بمرحلة 'التحرك' دون 'إذابة الجليد'؟",
+                    options: ["سيكون التغيير أسرع", "ستواجه المنظمة مقاومة عنيفة لعدم قناعة الموظفين بضرورة التغيير", "سيكون التغيير أكثر استقراراً"],
+                    correct: 1,
+                    feedback: "صحيح! بدون إذابة الجليد (خلق الحاجة للتغيير)، سيتمسك الموظفون بالوضع القديم ويقاومون الجديد بشراسة."
+                }
+            },
+            2: {
+                title: "الوحدة الثانية: نظرية المنظمة والتصميم التنظيمي",
+                content: `
+                    <h2 class="text-4xl font-black text-indigo-700 mb-8">التصميم والهيكل التنظيمي (Organizational Design)</h2>
+                    <p class="text-lg leading-relaxed mb-6 italic">مستخلص من مرجع: "نظرية المنظمة".</p>
+
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">1. مفهوم الهيكل التنظيمي:</h3>
+                    <p class="text-lg leading-relaxed mb-8">هو الإطار الذي يحدد تقسيم الأعمال، خطوط السلطة، قنوات الاتصال، ومستويات اتخاذ القرار في المنظمة.</p>
+
+                    <div class="diagram">
+                        <h4 class="font-bold text-center mb-6">العناصر الجوهرية للتصميم التنظيمي:</h4>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center text-[10px] font-bold">
+                            <div class="p-3 bg-white border border-indigo-200 rounded-lg">التخصص (Work Specialization)</div>
+                            <div class="p-3 bg-white border border-indigo-200 rounded-lg">نطاق الإشراف (Span of Control)</div>
+                            <div class="p-3 bg-white border border-indigo-200 rounded-lg">المركزية (Centralization)</div>
+                            <div class="p-3 bg-white border border-indigo-200 rounded-lg">الرسمية (Formalization)</div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mt-10 mb-4 text-slate-800">2. أنواع الهياكل التنظيمية:</h3>
+                    <ul class="list-disc pr-10 space-y-6 text-lg mb-10 text-slate-600">
+                        <li><strong>الهيكل الوظيفي (Functional Structure):</strong> يجمع الوظائف المتشابهة (تسويق، مالية، HR) تحت إدارة واحدة. يمتاز بالكفاءة العالية لكنه يعاني من "الصوامع" وانعزال الإدارات.</li>
+                        <li><strong>الهيكل القطاعي (Divisional Structure):</strong> ينقسم حسب المنتجات أو المناطق الجغرافية. يمتاز بالمرونة والتركيز على العميل لكنه مكلف بسبب تكرار الوظائف.</li>
+                        <li><strong>الهيكل المصفوفي (Matrix Structure):</strong> يجمع بين الوظيفي والقطاعي. الموظف يتبع لمديرين (مدير وظيفي ومدير مشروع). يمتاز بتبادل الخبرات لكنه معقد في الصلاحيات.</li>
+                    </ul>
+
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">3. نطاق الإشراف والفاعلية:</h3>
+                    <p class="text-lg leading-relaxed mb-10">يحدد عدد المرؤوسين الذين يمكن للمدير الواحد الإشراف عليهم بفاعلية.
+                    <br> - <strong>الهيكل الطويل (Tall Structure):</strong> نطاق إشراف ضيق، مستويات إدارية كثيرة، تواصل بطيء.
+                    <br> - <strong>الهيكل المفلطح (Flat Structure):</strong> نطاق إشراف واسع، مستويات قليلة، تواصل سريع ومباشر.</p>
+
+                    <button onclick="revealQuiz(2)" class="w-full py-6 bg-amber-500 text-white font-black text-xl rounded-2xl shadow-xl hover:bg-amber-600 transition-all">جاهز للاختبار الاستشاري؟</button>
+                `,
+                quiz: {
+                    question: "في بيئة عمل سريعة التغير وتتطلب ابتكاراً مستمراً، أي نوع من الهياكل هو الأنسب؟",
+                    options: ["الهيكل الوظيفي المركزي", "الهيكل المصفوفي أو المفلطح", "الهيكل البيروقراطي الطويل"],
+                    correct: 1,
+                    feedback: "بالضبط! الهياكل المرنة (المصفوفية أو المفلطحة) تتيح تداول المعلومات والقرار بسرعة، وهو ما تحتاجه بيئات التغيير."
+                }
+            },
+            3: {
+                title: "الوحدة الثالثة: تحليل وتوصيف الوظائف",
+                content: `
+                    <h2 class="text-4xl font-black text-indigo-700 mb-8">المنهج العلمي لتحليل الوظائف (Job Analysis)</h2>
+                    <p class="text-lg leading-relaxed mb-6 italic">مستخلص من مرجع: "إدارة الموارد البشرية" د. محفوظ جودة.</p>
+
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">1. تعريف تحليل الوظائف:</h3>
+                    <p class="text-lg leading-relaxed mb-8">هو العملية المنظمة لجمع وتوثيق المعلومات المتعلقة بالمهام والمسؤوليات، والظروف المحيطة بالوظيفة، والمتطلبات البشرية اللازمة لشغلها.</p>
+
+                    <div class="diagram">
+                        <h4 class="font-bold text-center mb-6">مخرجات عملية تحليل الوظيفة:</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                            <div class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl">
+                                <h5 class="font-black text-indigo-700">الوصف الوظيفي (Job Description)</h5>
+                                <p class="text-xs italic text-slate-500">يركز على الوظيفة (المهام، المسؤوليات، العلاقات)</p>
+                            </div>
+                            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                                <h5 class="font-black text-amber-700">المواصفات الوظيفية (Job Specification)</h5>
+                                <p class="text-xs italic text-slate-500">يركز على شاغل الوظيفة (التعليم، الخبرة، الجدارات)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mt-10 mb-4 text-slate-800">2. طرق جمع البيانات للتحليل:</h3>
+                    <ul class="list-disc pr-10 space-y-4 text-lg mb-10 text-slate-600">
+                        <li><strong>المقابلة (Interviews):</strong> أداة قوية لجمع تفاصيل دقيقة من الموظف والمدير.</li>
+                        <li><strong>الاستبيان (Questionnaires):</strong> طريقة اقتصادية لجمع بيانات من عدد كبير من الموظفين.</li>
+                        <li><strong>الملاحظة (Observation):</strong> مفيدة للوظائف النمطية واليدوية، لكنها قد تسبب توتراً للموظف.</li>
+                        <li><strong>سجل الأداء اليومي (Diary Log):</strong> تسجيل المهام بشكل يومي لضمان عدم نسيان التفاصيل.</li>
+                    </ul>
+
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">3. أهمية تحليل الوظائف في OD:</h3>
+                    <p class="text-lg leading-relaxed mb-10 font-bold text-indigo-700 italic">"بدون تحليل وظائف دقيق، نحن نبني هياكل وهمية؛ فالوظائف هي التي تشكل الهيكل، والتحليل هو الذي يضمن أن كل موظف يضيف قيمة حقيقية للاستراتيجية."</p>
+
+                    <button onclick="revealQuiz(3)" class="w-full py-6 bg-amber-500 text-white font-black text-xl rounded-2xl shadow-xl hover:bg-amber-600 transition-all">جاهز للاختبار الاستشاري؟</button>
+                `,
+                quiz: {
+                    question: "في مشروع إعادة هيكلة، اكتشفت تداخلاً في الصلاحيات بين مديرين. ما هو الإجراء العلمي الأول لحل هذا التداخل؟",
+                    options: ["فصل أحد المديرين", "إجراء عملية 'تحليل وظائف' لإعادة توضيح المهام والمسؤوليات لكل طرف", "زيادة رواتب المديرين لتهدئة الخلاف"],
+                    correct: 1,
+                    feedback: "أحسنت! تحليل الوظائف هو العلاج الجذري لتداخل الصلاحيات (Role Conflict) لأنه يضع حدوداً واضحة للمسؤولية والمساءلة."
+                }
+            }
+        };
+
+        let activeLessonId = null;
 
         function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById('page-' + id).classList.remove('hidden');
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
@@ -167,73 +273,55 @@
             });
             document.getElementById('btn-' + id).classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
             document.getElementById('btn-' + id).classList.remove('text-slate-500');
-        }
-
-        function renderMonths() {
-            const grid = document.getElementById('months-grid');
-            grid.innerHTML = odJourney.map(m => `
-                <div class="modern-card p-6 rounded-2xl flex flex-col justify-between">
-                    <div>
-                        <span class="text-indigo-600 text-[10px] font-black uppercase">${m.month}</span>
-                        <h3 class="text-lg font-bold text-slate-900 my-2">${m.title}</h3>
-                        <p class="text-slate-500 text-xs mb-4">${m.desc}</p>
-                    </div>
-                    <button onclick="loadLesson(${m.id})" class="w-full bg-slate-900 text-white text-xs font-bold py-3 rounded-xl hover:bg-indigo-600 transition-all">فتح المختبر</button>
-                </div>
-            `).join('');
+            if(id === 'curriculum') backToGrid();
         }
 
         function loadLesson(id) {
-            activeMonthId = id;
-            const m = odJourney.find(x => x.id === id);
-            document.getElementById('active-study-area').classList.remove('hidden');
-            document.getElementById('lesson-view').classList.remove('hidden');
-            document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('lesson-body').innerHTML = m.lesson;
-            document.getElementById('active-study-area').scrollIntoView({ behavior: 'smooth' });
+            activeLessonId = id;
+            document.getElementById('grid-view').classList.add('hidden');
+            document.getElementById('content-viewer').classList.remove('hidden');
+            document.getElementById('lesson-content').innerHTML = lessons[id].content;
+            document.getElementById('quiz-area').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openQuiz() {
-            const m = odJourney.find(x => x.id === activeMonthId);
-            document.getElementById('lesson-view').classList.add('hidden');
-            document.getElementById('quiz-view').classList.remove('hidden');
-            document.getElementById('quiz-body').innerHTML = `
-                <h4 class="text-indigo-600 font-black mb-2 uppercase text-[10px]">اختبار المحاكاة</h4>
-                <p class="text-slate-800 font-bold mb-4">${m.quiz}</p>
-                <div class="space-y-2">
-                    ${m.options.map((opt, i) => `
-                        <button onclick="checkResult(${i})" class="w-full text-right p-4 border rounded-xl hover:bg-indigo-50 transition-all text-xs font-medium">${opt}</button>
+        function backToGrid() {
+            document.getElementById('grid-view').classList.remove('hidden');
+            document.getElementById('content-viewer').classList.add('hidden');
+        }
+
+        function revealQuiz(id) {
+            const quizArea = document.getElementById('quiz-area');
+            const quizContent = document.getElementById('quiz-content');
+            const lesson = lessons[id];
+            
+            quizArea.classList.remove('hidden');
+            quizContent.innerHTML = `
+                <h3 class="text-3xl font-black mb-8">مختبر المحاكاة الاستشارية:</h3>
+                <p class="text-xl italic mb-10 text-slate-300">"${lesson.quiz.question}"</p>
+                <div class="space-y-4">
+                    ${lesson.quiz.options.map((opt, i) => `
+                        <button onclick="checkAnswer(${i}, ${id})" class="w-full text-right p-6 border-2 border-slate-700 rounded-2xl hover:border-amber-500 hover:bg-slate-800 transition-all font-bold text-lg">${opt}</button>
                     `).join('')}
                 </div>
+                <div id="quiz-feedback" class="hidden mt-10 p-6 rounded-2xl font-bold text-lg"></div>
             `;
+            quizArea.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function checkResult(idx) {
-            const m = odJourney.find(x => x.id === activeMonthId);
+        function checkAnswer(idx, lessonId) {
+            const lesson = lessons[lessonId];
             const feedback = document.getElementById('quiz-feedback');
             feedback.classList.remove('hidden');
-            if(idx === m.correct) {
-                feedback.className = "mt-6 p-4 rounded-xl font-bold text-xs bg-emerald-50 text-emerald-700 border border-emerald-200";
-                feedback.innerHTML = "🎯 إجابة صحيحة! لقد أتقنت مفهوم " + m.title + ". حصلت على +100 نقطة.";
-                localStorage.setItem('od_p', (parseInt(localStorage.getItem('od_p') || 0) + 100));
-                updateDash();
+
+            if(idx === lesson.quiz.correct) {
+                feedback.className = "mt-10 p-6 rounded-2xl font-bold text-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/50";
+                feedback.innerHTML = "🎯 " + lesson.quiz.feedback;
             } else {
-                feedback.className = "mt-6 p-4 rounded-xl font-bold text-xs bg-red-50 text-red-700 border border-red-200";
-                feedback.innerHTML = "❌ التوصية غير دقيقة. أعد مراجعة محتوى الدرس جيداً.";
+                feedback.className = "mt-10 p-6 rounded-2xl font-bold text-lg bg-red-500/20 text-red-400 border border-red-500/50";
+                feedback.innerHTML = "❌ التوصية غير دقيقة استشارياً. راجع المادة العلمية أعلاه وحاول مرة أخرى.";
             }
         }
-
-        function updateDash() {
-            const p = parseInt(localStorage.getItem('od_p') || 0);
-            document.getElementById('db-points').innerText = p + " / 600";
-            let rank = "متدرب OD مستجد";
-            if(p >= 200) rank = "محلل تنظيمي";
-            if(p >= 400) rank = "مصمم حلول OD";
-            if(p >= 600) rank = "مستشار OD جاهز";
-            document.getElementById('db-rank').innerText = rank;
-        }
-
-        window.onload = () => { renderMonths(); updateDash(); };
     </script>
 </body>
 </html>
