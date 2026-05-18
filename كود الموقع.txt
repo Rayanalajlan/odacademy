@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OD Academy | أكاديمية التطوير التنظيمي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #F8FAFC; color: #1E293B; }
+        .modern-card { background-color: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .accent-text { color: #4F46E5; }
+        .accent-bg { background-color: #4F46E5; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl font-black tracking-wider text-slate-900">OD <span class="accent-text">ACADEMY</span></span>
+                <span class="text-xs bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full font-bold border border-indigo-100">مختبر المحاكاة الاستشارية</span>
+            </div>
+            <nav class="flex gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                <button onclick="switchTab('home')" id="btn-home" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all">الرئيسية</button>
+                <button onclick="switchTab('journey')" id="btn-journey" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 transition-all">خريطة الرحلة</button>
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 transition-all">لوحة التحكم</button>
+                <button onclick="switchTab('about')" id="btn-about" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 transition-all">عن المصمم</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <section id="page-home" class="tab-content space-y-16">
+            <div class="text-center max-w-4xl mx-auto py-12 space-y-6">
+                <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-tight">
+                    لا تتعلم التطوير التنظيمي كتعريفات جامدة.. <br>
+                    <span class="accent-text">تعلّمه كرحلة استشارية حية!</span>
+                </h1>
+                <p class="text-slate-500 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+                    رحلة تفاعلية ممتدة لـ 6 أشهر، تبدأ من التشخيص الأولي للمنظمة وتنتهي بمشروع استشاري متكامل قابل للعرض أمام الإدارة العليا.
+                </p>
+                <div class="pt-4">
+                    <button onclick="switchTab('journey')" class="accent-bg text-white font-black text-lg px-8 py-4 rounded-xl hover:scale-105 shadow-lg shadow-indigo-200 transition-all">
+                        ابدأ رحلة مستشار OD الآن
+                    </button>
+                </div>
+            </div>
+
+            <div class="modern-card rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    RA
+                </div>
+                <div class="flex-grow text-center sm:text-right space-y-1">
+                    <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest block">مصمم التجربة والمنهجية</span>
+                    <h3 class="text-xl font-black text-slate-900">تصميم وإعداد: ريان العجلان</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        تم هندسة هذه التجربة لتتيح ممارسة التطوير التنظيمي ممارسة حقيقية وعميقة، قائمة على مخرجات مهنية تسلم للشركات.
+                    </p>
+                </div>
+                <div class="w-full sm:w-auto">
+                    <a href="https://www.linkedin.com/in/rayanalajlan/" target="_blank" class="w-full inline-flex justify-center items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-5 py-3 rounded-xl transition-all">
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-journey" class="tab-content hidden space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-black text-slate-900">خريطة المعامل والمختبرات</h2>
+                <p class="text-sm text-slate-500">اجتز تحدي كل شهر لفتح المختبر الاستشاري التالي.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="modern-card border-t-4 border-t-indigo-600 rounded-2xl p-6 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <span class="text-indigo-600 text-xs font-black uppercase">المختبر 1</span>
+                        <span class="bg-indigo-50 text-indigo-600 text-[10px] px-2 py-1 rounded-md font-bold">نشط</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">التشخيص التنظيمي الأولي</h3>
+                    <p class="text-slate-500 text-sm">تعلّم كيف تقرأ المنظمة من 7 زوايا وتفرّق جراحياً بين مشاكل الـ HR والـ OD.</p>
+                    <button onclick="startDay1()" class="w-full bg-slate-100 hover:bg-indigo-50 text-indigo-600 font-bold text-xs py-3 rounded-lg transition-all border border-slate-200">دخول المختبر</button>
+                </div>
+
+                <div class="modern-card bg-slate-50/50 opacity-60 rounded-2xl p-6 space-y-4">
+                    <span class="text-slate-400 text-xs font-black uppercase">المختبر 2</span>
+                    <h3 class="text-xl font-bold text-slate-400">هندسة الهياكل</h3>
+                    <p class="text-slate-400 text-sm">تحليل نطاق الإشراف، مستويات اتخاذ القرار، وبناء بدائل هيكلية احترافية.</p>
+                </div>
+            </div>
+
+            <div id="day-workspace" class="hidden modern-card rounded-2xl p-6 mt-12 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="text-xs text-indigo-500 font-bold">الشهر 1 - الأسبوع 1</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-1">التمييز الجراحي: OD أم HR؟</h3>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 text-slate-600 text-sm leading-relaxed">
+                    استدعتك شركة "ألفا للتجزئة" كمستشار تطوير تنظيمي. الشركة تشتكي من "بطء قاتل في اتخاذ القرارات". عند جلوسك مع مدير العمليات، أفاد بأن أي قرار يحتاج توقيع 5 مدراء...
+                </div>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="checkAnswer(true, 'C')" id="opt-C" class="text-right p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-slate-700 text-sm font-medium">ج) المشكلة تضخم في نطاق الإشراف؛ والتوصية الانتقال لهيكل لا مركزي.</button>
+                </div>
+                <div id="quiz-result" class="hidden p-4 rounded-xl text-sm border font-bold"></div>
+            </div>
+        </section>
+
+        <section id="page-dashboard" class="tab-content hidden space-y-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="modern-card p-6 rounded-2xl text-center">
+                    <span class="text-xs text-slate-400 font-bold uppercase">إجمالي النقاط</span>
+                    <h4 class="text-3xl font-black text-indigo-600" id="user-points">0 / 600</h4>
+                </div>
+                <div class="modern-card p-6 rounded-2xl text-center">
+                    <span class="text-xs text-slate-400 font-bold uppercase">الرتبة الحالية</span>
+                    <h4 class="text-xl font-black text-slate-800" id="user-rank">متدرب OD مستجد</h4>
+                </div>
+                <div class="modern-card p-6 rounded-2xl text-center">
+                    <span class="text-xs text-slate-400 font-bold uppercase">الشارات</span>
+                    <div id="badge-diagnostic" class="opacity-20 grayscale mt-2">🛠️ مِشرط التشخيص</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        <p>تصميم وإعداد: <span class="text-slate-600 font-bold">ريان العجلان</span> © 2026</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('page-' + tabId).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-500');
+            });
+            document.getElementById('btn-' + tabId).classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+            document.getElementById('btn-' + tabId).classList.remove('text-slate-500');
+        }
+
+        function startDay1() {
+            document.getElementById('day-workspace').classList.remove('hidden');
+            document.getElementById('day-workspace').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function checkAnswer(isCorrect, optId) {
+            const resultBox = document.getElementById('quiz-result');
+            resultBox.classList.remove('hidden');
+            if (isCorrect) {
+                resultBox.className = "p-4 rounded-xl text-sm border border-emerald-200 bg-emerald-50 text-emerald-700";
+                resultBox.innerHTML = "🎯 إجابة استشارية ممتازة! حصلت على +25 نقطة.";
+                localStorage.setItem('od_points', '25');
+                localStorage.setItem('od_rank', 'محلل تنظيمي');
+                localStorage.setItem('badge_diagnostic', 'unlocked');
+                updateDashboardUI();
+            }
+        }
+
+        function updateDashboardUI() {
+            document.getElementById('user-points').innerText = (localStorage.getItem('od_points') || '0') + " / 600";
+            document.getElementById('user-rank').innerText = localStorage.getItem('od_rank') || 'متدرب OD مستجد';
+            if (localStorage.getItem('badge_diagnostic') === 'unlocked') {
+                document.getElementById('badge-diagnostic').classList.remove('opacity-20', 'grayscale');
+            }
+        }
+        window.onload = updateDashboardUI;
+    </script>
+</body>
+</html>
