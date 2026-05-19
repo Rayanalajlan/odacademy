@@ -16,7 +16,7 @@ export default function AuthGate({ onEnter }) {
 
     try {
       if (!isSupabaseConfigured || !supabase) {
-        const name = fullName.trim() || "زميل المهنة";
+        const name = fullName.trim() || "ممارس";
         localStorage.setItem("od_demo_name", name);
         onEnter({ session: null, name, demo: true });
         return;
@@ -26,19 +26,24 @@ export default function AuthGate({ onEnter }) {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: fullName || "زميل المهنة" } }
+          options: { data: { full_name: fullName || "ممارس" } }
         });
         if (error) throw error;
         setMessage(data.session ? "أهلاً بك.. تم تفعيل الحساب والدخول بنجاح! 🚀" : "أرسلنا لك رابط التحقق السحابي.. شيك على إيميلك الحين لتأكيد الموثوقية الكلية 📨");
-        if (data.session) onEnter({ session: data.session, name: fullName || data.user?.email || "زميل المهنة" });
+        if (data.session) onEnter({ session: data.session, name: fullName || data.user?.email || "ممارس" });
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        const name = data.session?.user?.user_metadata?.full_name || data.session?.user?.email || "زميل المهنة";
+        const name = data.session?.user?.user_metadata?.full_name || data.session?.user?.email || "ممارس";
         onEnter({ session: data.session, name });
       }
     } catch (error) {
-      setMessage(error.message || "المعذرة.. تعذر إتمام العملية، تأكد من البيانات.");
+      // حقن العبارة الاستشارية الجديدة والمنقحة بالكامل
+      if (error.message === "Invalid login credentials") {
+        setMessage("يبدو أن تفاصيل الدخول غير متطابقة بالملي مع سجلات المختبر.. أعد المحاولة حبة حبة، ولعّلها تزبط هالمرة! ✨");
+      } else {
+        setMessage(error.message || "المعذرة.. تعذر إتمام العملية، تأكد من البيانات.");
+      }
     } finally {
       setBusy(false);
     }
@@ -66,13 +71,13 @@ export default function AuthGate({ onEnter }) {
           {mode === "signup" && (
             <label>
               <span>الاسم الكريم (الثلاثي)</span>
-              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="مثال: زميل المهنة البطل" required />
+              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="مثال: أحمد الدوسري" required />
             </label>
           )}
           {!isSupabaseConfigured && (
             <label>
               <span>اسمك في الميدان</span>
-              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="زميل المهنة" />
+              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="الاسم" />
             </label>
           )}
           {isSupabaseConfigured && (
