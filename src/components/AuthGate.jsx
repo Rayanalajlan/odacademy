@@ -29,7 +29,7 @@ export default function AuthGate({ onEnter }) {
           options: { data: { full_name: fullName || "زميل المهنة" } }
         });
         if (error) throw error;
-        setMessage(data.session ? "تم إنشاء الحساب والدخول." : "تم إنشاء الحساب. إذا كانت رسائل التأكيد مفعّلة، راجع بريدك.");
+        setMessage(data.session ? "أهلاً بك.. تم تفعيل الحساب والدخول بنجاح! 🚀" : "أرسلنا لك رابط التحقق السحابي.. شيك على إيميلك الحين لتأكيد الموثوقية الكلية 📨");
         if (data.session) onEnter({ session: data.session, name: fullName || data.user?.email || "زميل المهنة" });
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -38,7 +38,7 @@ export default function AuthGate({ onEnter }) {
         onEnter({ session: data.session, name });
       }
     } catch (error) {
-      setMessage(error.message || "تعذر إتمام العملية.");
+      setMessage(error.message || "المعذرة.. تعذر إتمام العملية، تأكد من البيانات.");
     } finally {
       setBusy(false);
     }
@@ -49,55 +49,55 @@ export default function AuthGate({ onEnter }) {
       <div className="auth-card-integrated">
         <div className="brand-mark">RA</div>
         <h1>إتقان هندسة التطوير التنظيمي</h1>
-        <p>منصة تدريبية عربية متكاملة تجمع الرحلة التعليمية، الرادار، المحاكاة، الموجه الذكي، ووثيقة الإتقان.</p>
+        <p>مختبر معرفي بنكهة استشارية.. هنا نفكك الأعراض، ونقيس الفجوات، ونحاكي الواقع بعيداً عن الحلول المعلبة!</p>
 
         <div className="auth-tabs" role="tablist">
-          <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>دخول</button>
-          <button type="button" className={mode === "signup" ? "active" : ""} onClick={() => setMode("signup")}>تسجيل جديد</button>
+          <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>حيّاك.. اقلط معنا ☕</button>
+          <button type="button" className={mode === "signup" ? "active" : ""} onClick={() => setMode("signup")}>عضو جديد؟ ابدأ رحلتك 🧭</button>
         </div>
 
         {!isSupabaseConfigured && (
           <div className="notice warning">
-            وضع تجريبي: لم يتم إدخال مفاتيح Supabase. سيتم حفظ التقدم محليًا في المتصفح.
+            وضع تجريبي محلي: لم نلتقط مفاتيح السيرفر بعد.. سيتم تتبع أثرك مؤقتاً داخل المتصفح.
           </div>
         )}
 
         <form onSubmit={submit} className="auth-form-integrated">
           {mode === "signup" && (
             <label>
-              <span>الاسم الثلاثي</span>
-              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="مثال: ريان صالح العجلان" />
+              <span>الاسم الكريم (الثلاثي)</span>
+              <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="مثال: زميل المهنة البطل" required />
             </label>
           )}
           {!isSupabaseConfigured && (
             <label>
-              <span>اسم الظهور التجريبي</span>
+              <span>اسمك في الميدان</span>
               <input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="زميل المهنة" />
             </label>
           )}
           {isSupabaseConfigured && (
             <>
               <label>
-                <span>البريد الإلكتروني</span>
-                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+                <span>البريد الإلكتروني المهني</span>
+                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="your-email@domain.com" required />
               </label>
               <label>
-                <span>كلمة المرور</span>
-                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={6} required />
+                <span>مفتاح العبور (كلمة المرور)</span>
+                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={6} placeholder="••••••••" required />
               </label>
               {mode === "signup" && (
                 <div className="notice warning">
-                  استخدم كلمة مرور جديدة خاصة بهذه المنصة، ولا تعيد استخدام كلمات مرورك المهمة.
+                  💡 حط لك باسوورد جديد وخاص بهالمنصة عشان حوكمة حسابك، وخل مفاتيحك الباقية بأمان!
                 </div>
               )}
             </>
           )}
           <button type="submit" className="primary-button" disabled={busy}>
-            {busy ? "جارٍ المعالجة..." : isSupabaseConfigured ? (mode === "login" ? "ادخل المنصة" : "أنشئ الحساب") : "ادخل تجريبيًا"}
+            {busy ? "يرتب الأوراق في الكواليس..." : isSupabaseConfigured ? (mode === "login" ? "ادخل المختبر الاستشاري 🏢" : "سمّ بالله وانطلق للرحلة 🚀") : "اقلط تجريبياً"}
           </button>
         </form>
 
-        {message && <div className="notice">{message}</div>}
+        {message && <div className="notice" style={{ marginTop: '15px', borderRight: '4px solid var(--accent)' }}>{message}</div>}
       </div>
     </section>
   );
