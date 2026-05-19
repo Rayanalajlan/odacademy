@@ -1,62 +1,62 @@
 import { useEffect, useMemo, useState } from "react";
 
-const STORAGE_KEY = "od_academy_simulation_lab_ultra_v1";
-const NOTES_KEY = "od_academy_simulation_notes_ultra_v1";
-const TIME_KEY = "od_academy_simulation_learning_seconds_v1";
+const STORAGE_KEY = "od_academy_simulation_lab_ar_v2";
+const NOTES_KEY = "od_academy_simulation_notes_ar_v2";
+const TIME_KEY = "od_academy_simulation_learning_seconds_ar_v2";
 
 const REFERENCES = [
   {
     key: "cw",
-    title: "Cummings & Worley",
-    label: "Organization Development & Change",
+    title: "كمنغز وورلي",
+    label: "التطوير التنظيمي والتغيير",
     idea: "التشخيص، التعاقد، التدخلات، التغيير المخطط، التقييم، والتثبيت المؤسسي."
   },
   {
     key: "schein",
-    title: "Edgar Schein",
-    label: "Organizational Culture and Leadership",
+    title: "إدغار شاين",
+    label: "الثقافة التنظيمية والقيادة",
     idea: "الثقافة عبر المظاهر، القيم المعلنة، القيم المستخدمة، والافتراضات الأساسية."
   },
   {
     key: "edmondson",
-    title: "Amy Edmondson",
-    label: "Psychological Safety",
+    title: "إيمي إدموندسون",
+    label: "الأمان النفسي",
     idea: "الأمان النفسي شرط لرفع الأخطاء والمخاطر والتعلم داخل الفرق."
   },
   {
     key: "senge",
-    title: "Peter Senge",
-    label: "The Fifth Discipline",
+    title: "بيتر سنجي",
+    label: "التفكير النظمي والمنظمة المتعلمة",
     idea: "التفكير النظمي، النماذج الذهنية، الرؤية المشتركة، وتعلم الفريق."
   },
   {
     key: "hackman",
-    title: "Hackman & Oldham",
-    label: "Job Characteristics Model",
+    title: "هاكمان وأولدهام",
+    label: "تصميم العمل وخصائص الوظيفة",
     idea: "تصميم العمل من خلال المعنى، الاستقلالية، التغذية الراجعة، وهوية المهمة."
   },
   {
     key: "kotter",
-    title: "John Kotter",
-    label: "Leading Change",
+    title: "جون كوتر",
+    label: "قيادة التغيير",
     idea: "الجاهزية، الرؤية، التحالف، الانتصارات السريعة، وترسيخ التغيير."
   },
   {
     key: "anderson",
-    title: "Anderson",
-    label: "Organization Development",
+    title: "أندرسون",
+    label: "ممارسة التطوير التنظيمي",
     idea: "الدخول، التعاقد، علاقة العميل، الأخلاقيات، وإنهاء الارتباط."
   },
   {
     key: "weick",
-    title: "Karl Weick",
-    label: "Sensemaking",
+    title: "كارل وايك",
+    label: "صناعة المعنى",
     idea: "التغيير بوصفه صناعة معنى لا مجرد إرسال رسائل."
   },
   {
     key: "argyris",
-    title: "Argyris & Schön",
-    label: "Organizational Learning",
+    title: "أرجيرس وشون",
+    label: "التعلم التنظيمي",
     idea: "التعلم من الدرجة الواحدة والدرجة الثانية وفحص الافتراضات."
   }
 ];
@@ -114,7 +114,7 @@ const DIFFICULTY_LEVELS = [
     id: "expert",
     name: "خبير",
     intensity: 7,
-    scoreLabel: "ممارس OD محترف",
+    scoreLabel: "ممارس محترف",
     description: "حالة عالية الغموض، سياسية، ثقافية، وتشغيلية في وقت واحد.",
     twist: "أي تدخل خاطئ قد يزيد فقدان الثقة أو يثبت السلوك القديم."
   }
@@ -125,11 +125,11 @@ const ARCHETYPES = [
     id: "role-clarity",
     name: "غموض أدوار وصلاحيات",
     color: "#4f46e5",
-    lens: "Organization Design / RACI",
+    lens: "تصميم المنظمة ومصفوفة المسؤوليات",
     goodFrame: "إعادة صياغة المشكلة كخلل محتمل في حقوق القرار ونقاط التسليم والصلاحيات، لا كضعف التزام فقط.",
     bestHypothesis: "الخلل الأساسي في حقوق القرار ونقاط التسليم، لا في ضعف التزام الأفراد فقط.",
     bestData: "تحليل قرارات وتصعيدات فعلية، مقابلات مع الأطراف، مراجعة أوصاف وظيفية، وملاحظة اجتماع قرار.",
-    bestIntervention: "تصميم RACI عملي مع تحديث الأدوار والصلاحيات وربطه باجتماعات القرار.",
+    bestIntervention: "تصميم مصفوفة مسؤوليات عملية مع تحديث الأدوار والصلاحيات وربطها باجتماعات القرار.",
     bestMetric: "انخفاض التصعيدات غير الضرورية وزمن حسم القرارات العابرة للإدارات.",
     bestEthic: "حماية البيانات من استخدامها لإدانة مدير محدد، وعرض النتائج كنمط نظامي لا كفشل فردي."
   },
@@ -137,7 +137,7 @@ const ARCHETYPES = [
     id: "intergroup-conflict",
     name: "صراع بين إدارات",
     color: "#e11d48",
-    lens: "Human Process / Intergroup Relations",
+    lens: "تدخلات العمليات الإنسانية والعلاقات بين المجموعات",
     goodFrame: "إعادة صياغة الصراع كاعتماد متبادل غير مصمم ومؤشرات متعارضة وصور نمطية متبادلة.",
     bestHypothesis: "الصراع الظاهر يخفي اعتمادًا متبادلًا غير مصمم ومؤشرات أداء متعارضة.",
     bestData: "مقابلات منفصلة مع الإدارات، تحليل نقاط التسليم، بيانات الشكاوى، وملاحظة اجتماع مشترك.",
@@ -149,11 +149,11 @@ const ARCHETYPES = [
     id: "culture-fear",
     name: "ثقافة خوف وإخفاء أخبار سيئة",
     color: "#7c3aed",
-    lens: "Culture / Psychological Safety",
+    lens: "الثقافة والأمان النفسي",
     goodFrame: "إعادة صياغة الخوف كمنظومة استجابات قيادية ومكافآت ومعايير تجعل الصمت أكثر أمانًا من الصراحة.",
     bestHypothesis: "إخفاء الأخبار السيئة ناتج عن نظام يعاقب الإنذار المبكر ويكافئ تجميل الواقع.",
     bestData: "مقابلات آمنة، تحليل لحظات الحقيقة، سجل المخاطر، وملاحظة استجابة القيادة للأخبار السيئة.",
-    bestIntervention: "تدخل ثقافي سلوكي يغير استجابة القيادة للأخبار السيئة ويؤسس AAR بلا لوم.",
+    bestIntervention: "تدخل ثقافي سلوكي يغير استجابة القيادة للأخبار السيئة ويؤسس مراجعة أخطاء بلا لوم.",
     bestMetric: "ارتفاع المخاطر المرفوعة مبكرًا وانخفاض المفاجآت والأزمات المتأخرة.",
     bestEthic: "عدم وعد المشاركين بسرية مطلقة غير قابلة للحماية، وعرض النتائج مجمعة دون كشف أصحاب الأقوال."
   },
@@ -161,11 +161,11 @@ const ARCHETYPES = [
     id: "process-delay",
     name: "تعطل عملية وإعادة عمل",
     color: "#f59e0b",
-    lens: "Process Reengineering",
+    lens: "إعادة تصميم العمليات",
     goodFrame: "إعادة صياغة التأخر كخلل في تدفق العمل والانتظار والقرارات والبيانات، لا ككسل فردي.",
     bestHypothesis: "التأخر ناتج عن تدفق عمل مكسور وموافقات وانتظارات، لا عن بطء فردي فقط.",
-    bestData: "رسم As-Is، قياس زمن الدورة، نقاط الانتظار، إعادة العمل، والقرارات الحرجة.",
-    bestIntervention: "إعادة تصميم To-Be للخطوات والبوابات والصلاحيات والبيانات المطلوبة.",
+    bestData: "رسم الوضع الحالي، قياس زمن الدورة، نقاط الانتظار، إعادة العمل، والقرارات الحرجة.",
+    bestIntervention: "إعادة تصميم الوضع المستقبلي للخطوات والبوابات والصلاحيات والبيانات المطلوبة.",
     bestMetric: "انخفاض زمن الدورة ونسبة إعادة العمل وارتفاع الاكتمال من أول مرة.",
     bestEthic: "عدم أتمتة عملية مكسورة كما هي، وعدم تحميل الموظفين أخطاء تصميم العملية."
   },
@@ -173,11 +173,11 @@ const ARCHETYPES = [
     id: "learning-loop",
     name: "تكرار أخطاء وضعف تعلم",
     color: "#10b981",
-    lens: "Organizational Learning",
+    lens: "التعلم المؤسسي",
     goodFrame: "إعادة صياغة تكرار الأخطاء كفشل في تحويل الخبرة إلى ذاكرة تنظيمية وتعديل نظامي.",
     bestHypothesis: "المنظمة تملك خبرات كثيرة لكنها لا تحولها إلى ذاكرة تنظيمية وتعديل نظامي.",
     bestData: "تحليل آخر ثلاث حالات متكررة، مراجعة الدروس الموثقة، مقابلات مع الخبراء، وتتبع هل طُبقت الدروس.",
-    bestIntervention: "بناء نظام AAR وقاعدة دروس مطبقة ومجتمع ممارسة ومالك لتطبيق الدروس.",
+    bestIntervention: "بناء نظام مراجعة بعد العمل وقاعدة دروس مطبقة ومجتمع ممارسة ومالك لتطبيق الدروس.",
     bestMetric: "انخفاض تكرار الخطأ نفسه وزيادة الدروس المطبقة لا الموثقة فقط.",
     bestEthic: "توجيه مراجعات التعلم للنظام لا للبحث عن مذنب، وتمييز الخطأ التعلمي من الإهمال المتعمد."
   },
@@ -185,7 +185,7 @@ const ARCHETYPES = [
     id: "performance-system",
     name: "نظام أداء شكلي",
     color: "#0ea5e9",
-    lens: "Performance Management",
+    lens: "إدارة الأداء",
     goodFrame: "إعادة صياغة المشكلة كفجوة بين شكل النظام وجودة الحوار والمساءلة والتغذية الراجعة.",
     bestHypothesis: "النظام يقيس إكمال النماذج ولا يغير جودة الحوار والتغذية الراجعة والمساءلة.",
     bestData: "عينة أهداف، محادثات أداء، مقابلات مديرين وموظفين، ومراجعة ربط النتائج بالسلوكيات.",
@@ -197,11 +197,11 @@ const ARCHETYPES = [
     id: "change-adoption",
     name: "تغيير أُطلق ولم يُتبنَّ",
     color: "#14b8a6",
-    lens: "Change Adoption",
+    lens: "تبنّي التغيير",
     goodFrame: "إعادة صياغة المشكلة كفجوة بين الإطلاق الرسمي والتبنّي السلوكي في لحظات العمل الحرجة.",
     bestHypothesis: "الإطلاق نجح شكليًا لكن السلوك الجديد لم يدخل في لحظات العمل الحرجة.",
     bestData: "ملاحظة لحظات العمل، بيانات استخدام، مقابلات عن العوائق، وتحليل السلوك القديم العائد.",
-    bestIntervention: "خطة تبنّي 30/60/90 مع Pilot وقياس استخدام وجودة استخدام وحوكمة تنفيذ.",
+    bestIntervention: "خطة تبنّي 30/60/90 مع تجربة محدودة وقياس استخدام وجودة استخدام وحوكمة تنفيذ.",
     bestMetric: "استمرار السلوك الجديد بعد 90 يومًا دون دفع يومي من فريق المشروع.",
     bestEthic: "عدم إعلان فشل الموظفين قبل التأكد من أن النظام الجديد مفهوم وممكن ومكافأ."
   },
@@ -209,7 +209,7 @@ const ARCHETYPES = [
     id: "job-design",
     name: "تصميم عمل فقير بالمعنى أو الصلاحية",
     color: "#8b5cf6",
-    lens: "Work Design",
+    lens: "تصميم العمل",
     goodFrame: "إعادة صياغة انخفاض الدافعية كخلل محتمل في تصميم العمل والاستقلالية والتغذية الراجعة.",
     bestHypothesis: "انخفاض الدافعية مرتبط بتصميم العمل والاستقلالية والتغذية الراجعة لا بالرغبة فقط.",
     bestData: "تحليل خصائص الوظيفة، مقابلات الموظفين، مراجعة الصلاحيات، وملاحظة الاعتماد المتبادل.",
@@ -221,11 +221,11 @@ const ARCHETYPES = [
     id: "leadership-symbolic",
     name: "فجوة قيادة وسلوك رمزي",
     color: "#ef4444",
-    lens: "Leadership / Symbolic Action",
+    lens: "القيادة والسلوك الرمزي",
     goodFrame: "إعادة صياغة المشكلة كفجوة بين الرسائل القيادية والسلوك القيادي عند الضغط.",
     bestHypothesis: "القادة يعلنون قيمة جديدة لكنهم يرسلون إشارات معاكسة في لحظات الضغط.",
     bestData: "تحليل لحظات الحقيقة القيادية، مقابلات، ملاحظة اجتماعات، وربط المكافآت والترقيات بالسلوك.",
-    bestIntervention: "Coaching قيادي وتدخل سلوك رمزي مع مؤشرات اتساق القول والفعل.",
+    bestIntervention: "توجيه قيادي وتدخل سلوك رمزي مع مؤشرات اتساق القول والفعل.",
     bestMetric: "تحسن الثقة في القيادة وارتفاع السلوكيات المتوافقة مع القيمة المعلنة.",
     bestEthic: "تقديم تغذية راجعة قيادية تحمي الكرامة وتستند إلى سلوكيات لا أحكام شخصية."
   },
@@ -233,85 +233,13 @@ const ARCHETYPES = [
     id: "od-dashboard",
     name: "مؤشرات كثيرة بلا رؤى",
     color: "#334155",
-    lens: "OD Dashboard",
+    lens: "لوحة قياس التطوير التنظيمي",
     goodFrame: "إعادة صياغة المشكلة كضعف في قراءة العلاقات بين المؤشرات لا نقص في الأرقام.",
     bestHypothesis: "المؤشرات تقيس النشاط المنفصل ولا تقرأ العلاقات بين الثقافة والأدوار والأداء.",
     bestData: "جرد المؤشرات الحالية، أسئلة القيادة، مصادر البيانات، وحدود التنبيه والقرارات المرتبطة بكل مؤشر.",
-    bestIntervention: "بناء OD Dashboard مع حدود تنبيه وفرضيات وقرارات متابعة لا مجرد أرقام.",
+    bestIntervention: "بناء لوحة قياس للتطوير التنظيمي مع حدود تنبيه وفرضيات وقرارات متابعة لا مجرد أرقام.",
     bestMetric: "قرارات تنظيمية أفضل مبنية على أنماط وعلاقات بين المؤشرات.",
     bestEthic: "عدم استخدام اللوحة كسلاح ضد الفرق، وعدم إخفاء المؤشرات المزعجة عن القيادة."
-  },
-  {
-    id: "merger-integration",
-    name: "دمج إدارات أو كيانات",
-    color: "#db2777",
-    lens: "Integration / Culture Clash",
-    goodFrame: "إعادة صياغة التعثر كصدام هويات ومعايير وحقوق قرار بعد الدمج.",
-    bestHypothesis: "التعثر ناتج عن صدام هويات ومعايير وحقوق قرار وليس عن رفض التغيير فقط.",
-    bestData: "تشخيص الثقافات الفرعية، مقابلات قيادية، تحليل الصلاحيات، ونقاط التعارض بعد الدمج.",
-    bestIntervention: "خطة دمج ثقافي وتشغيلي تربط الهوية الجديدة بالأدوار والحوكمة والسلوك.",
-    bestMetric: "انخفاض التعارضات المتكررة وتحسن وضوح القرار والثقة بين الفرق المدمجة.",
-    bestEthic: "عدم تصوير ثقافة أحد الكيانين كالأفضل مطلقًا، وحماية هوية الأطراف أثناء الدمج."
-  },
-  {
-    id: "talent-capability",
-    name: "فجوة قدرات ومواهب",
-    color: "#0891b2",
-    lens: "Capability / Talent System",
-    goodFrame: "إعادة صياغة الفجوة كقدرات استراتيجية وأدوار ومسارات، لا تدريب منفصل فقط.",
-    bestHypothesis: "الفجوة ليست تدريبًا فقط؛ بل مرتبطة بتصميم أدوار ومسارات وقدرات مطلوبة للاستراتيجية.",
-    bestData: "تحليل القدرات المطلوبة، فجوات الكفاءات، جاهزية المواهب، ومسارات التعاقب.",
-    bestIntervention: "بناء نموذج قدرات ومسارات تعلم وتحديث أدوار وتخطيط تعاقب للمناصب الحرجة.",
-    bestMetric: "تحسن جاهزية المواهب وانخفاض الاعتماد على أفراد محددين.",
-    bestEthic: "عدم وصم الأفراد بعدم الكفاءة قبل توضيح توقعات الدور وفرص التعلم."
-  },
-  {
-    id: "governance-politics",
-    name: "حوكمة وسياسة تنظيمية",
-    color: "#ea580c",
-    lens: "Governance / Power",
-    goodFrame: "إعادة صياغة التعطل كغموض في السلطة والمصالح وحقوق القرار، لا كقلة اجتماعات.",
-    bestHypothesis: "التعطل ناتج عن مصالح وسلطة غير مصممة بوضوح لا عن نقص اجتماعات فقط.",
-    bestData: "تحليل أصحاب المصلحة والقوة، سجل القرارات العالقة، ومراجعة مسارات التصعيد.",
-    bestIntervention: "تصميم حوكمة قرار واضحة مع مصفوفة تصعيد وحدود استثناءات وملاك قرارات.",
-    bestMetric: "انخفاض القرارات العالقة والاستثناءات غير الموثقة وزمن الحسم.",
-    bestEthic: "إظهار ديناميكيات القوة دون فضح الأشخاص أو الدخول في تحالفات تلاعبية."
-  },
-  {
-    id: "digital-adoption",
-    name: "تحول رقمي بلا تبنّي",
-    color: "#2563eb",
-    lens: "Digital Adoption / Sociotechnical",
-    goodFrame: "إعادة صياغة ضعف الاستخدام كخلل اجتماعي-تقني بين النظام والعمل والحوافز.",
-    bestHypothesis: "النظام التقني أُطلق، لكن تصميم العمل والحوافز والدعم لم تتغير.",
-    bestData: "رحلة المستخدم، بيانات جودة الاستخدام، مقابلات المستخدمين، ومراجعة الحوافز والعمليات.",
-    bestIntervention: "تصميم تبنّي رقمي اجتماعي-تقني يربط النظام بالعمل والصلاحيات والمكافآت.",
-    bestMetric: "ارتفاع جودة الاستخدام لا تسجيل الدخول فقط وانخفاض الرجوع للمسارات القديمة.",
-    bestEthic: "عدم مراقبة المستخدمين عقابيًا قبل فهم العوائق التقنية والسلوكية."
-  },
-  {
-    id: "job-description",
-    name: "أوصاف وظيفية لا تُستخدم",
-    color: "#64748b",
-    lens: "Job Description / Role System",
-    goodFrame: "إعادة صياغة الوصف الوظيفي كأداة استراتيجية تربط الدور بالأداء والتوظيف والتعلم.",
-    bestHypothesis: "الأوصاف موجودة كوثائق لكنها لم تدخل في الأداء والتوظيف والصلاحيات والحوكمة.",
-    bestData: "مراجعة عينة أوصاف، مقابلات مديرين، تحليل أهداف الأداء، وإعلانات التوظيف.",
-    bestIntervention: "حوكمة أوصاف وظيفية تربط الوصف بالأداء والتوظيف والكفاءات والمراجعة الدورية.",
-    bestMetric: "تحسن وضوح الدور وانخفاض تداخل المسؤوليات واستخدام الوصف في قرارات HR.",
-    bestEthic: "عدم استخدام الوصف الجديد لمحاسبة الموظف بأثر رجعي قبل التوضيح والتدرج."
-  },
-  {
-    id: "trust-breakdown",
-    name: "انهيار ثقة داخل النظام",
-    color: "#dc2626",
-    lens: "Trust / Organizational Health",
-    goodFrame: "إعادة صياغة انخفاض الثقة كنتاج لاتساق القيادة والعدالة والشفافية لا كمزاج عام فقط.",
-    bestHypothesis: "انخفاض الثقة مرتبط بتجارب متكررة من عدم الاتساق أو ضعف العدالة أو استخدام البيانات ضد الناس.",
-    bestData: "Pulse Survey آمن، مقابلات، تحليل قرارات حساسة، ومراجعة اتساق الرسائل والسلوك.",
-    bestIntervention: "خطة استعادة ثقة تركّز على شفافية القرارات، عدالة الإجراءات، وتعهدات قيادية قابلة للقياس.",
-    bestMetric: "تحسن الثقة في القيادة واتساق القول والفعل وانخفاض الشائعات.",
-    bestEthic: "حماية سرية المشاركين لأن قياس الثقة دون أمان قد ينتج بيانات مزيفة."
   }
 ];
 
@@ -380,7 +308,7 @@ const STAKEHOLDER_SETS = [
   ["الرئيس التنفيذي", "مدير الموارد البشرية", "مدير العمليات", "مدير المبيعات"],
   ["مدير الجودة", "مدير تجربة العميل", "قادة الفروع", "فريق الخدمة"],
   ["مدير التقنية", "مالك المنتج", "فريق العمليات", "المالية"],
-  ["مدير المشروع", "مدير الإدارة المعنية", "HRBP", "فريق القيادة الوسطى"],
+  ["مدير المشروع", "مدير الإدارة المعنية", "شريك الموارد البشرية", "فريق القيادة الوسطى"],
   ["الموظفون الجدد", "المديرون المباشرون", "التعلم والتطوير", "مكتب التحول"],
   ["مجلس الإدارة", "الرئيس التنفيذي", "القيادة الوسطى", "ملاك العمليات"],
   ["المبيعات", "العمليات", "خدمة العملاء", "الجودة"],
@@ -394,7 +322,7 @@ const DATA_SIGNALS = [
   "مقابلات مع 12 موظفًا من مستويات مختلفة",
   "ملاحظة اجتماع قيادة",
   "تحليل التصعيدات بين الإدارات",
-  "نتائج Pulse Survey",
+  "نتائج استبيان نبض قصير",
   "عينة من الأوصاف الوظيفية",
   "زمن دورة العملية قبل وبعد",
   "تحليل قرارات الترقية والمكافآت",
@@ -404,7 +332,7 @@ const DATA_SIGNALS = [
   "عينة من محادثات الأداء",
   "سجل الاستثناءات",
   "تحليل قرارات متأخرة",
-  "مراجعة نتائج AAR",
+  "مراجعة نتائج مراجعات ما بعد العمل",
   "خريطة أصحاب المصلحة والنفوذ",
   "تحليل شكاوى الموظفين",
   "ملاحظة لقاء بين إدارتين",
@@ -425,7 +353,7 @@ const PRESSURES = [
   "القائد التنفيذي يطلب أسماء المعارضين",
   "الفريق يرى أن المشروع مجرد موجة مؤقتة",
   "الوقت ضيق قبل اجتماع مجلس الإدارة",
-  "HR تريد إطلاق تدريب سريع قبل التشخيص",
+  "الموارد البشرية تريد إطلاق تدريب سريع قبل التشخيص",
   "مكتب التحول يقيس الإنجاز لا التبني",
   "أحد الأطراف يحاول تحويل المشروع ضد إدارة أخرى",
   "القيادة الوسطى صامتة لكنها غير مقتنعة"
@@ -435,7 +363,7 @@ const TRAPS = [
   "القفز إلى ورشة تدريب قبل التشخيص",
   "اعتبار المشكلة شخصية بين مديرين فقط",
   "الاكتفاء بإعلان قيم جديدة",
-  "تصميم RACI كوثيقة لا كممارسة في الاجتماعات",
+  "تصميم مصفوفة مسؤوليات كوثيقة لا كممارسة في الاجتماعات",
   "قياس الحضور بدل السلوك",
   "إهمال القيادة الوسطى",
   "استخدام البيانات لإدانة طرف",
@@ -443,30 +371,27 @@ const TRAPS = [
   "أتمتة عملية مكسورة كما هي",
   "قبول رواية الراعي كحقيقة نهائية",
   "تجاهل أصحاب المصلحة الأقل قوة",
-  "إطلاق Pilot في أسهل مكان فقط",
+  "إطلاق تجربة محدودة في أسهل مكان فقط",
   "تصميم تدخل ثقيل لا يستطيع النظام حمله",
   "اعتبار انخفاض الأخطاء المعلنة دليلًا على تحسن دون فحص الأمان النفسي"
 ];
 
 const DELIVERABLES = [
-  "Diagnostic Brief",
-  "Human Process Intervention Brief",
-  "Technostructural Intervention Brief",
-  "Culture Diagnostic Brief",
-  "Change Implementation & Adoption Plan",
-  "OD Dashboard & Insight Brief",
-  "Sustainability & Exit Brief",
-  "RACI & Role Clarity Pack",
-  "Learning System Brief",
-  "Culture Change Intervention Brief",
-  "Stakeholder & Power Map",
-  "OD Impact Measurement Brief",
-  "Continuous Capability Brief",
-  "Job Description Quality Review",
-  "Change Communication & Engagement Plan",
-  "Culture Change Intervention Brief",
-  "Learning System Brief",
-  "Sustainability & Exit Brief"
+  "موجز تشخيص تنظيمي",
+  "موجز تدخل في العمليات الإنسانية",
+  "موجز تدخل تقني هيكلي",
+  "موجز تشخيص ثقافي",
+  "خطة تنفيذ وتبنّي التغيير",
+  "موجز لوحة التطوير التنظيمي والرؤى",
+  "موجز الاستدامة والخروج",
+  "حزمة وضوح الأدوار ومصفوفة المسؤوليات",
+  "موجز نظام التعلم المؤسسي",
+  "موجز التدخل الثقافي",
+  "خريطة أصحاب المصلحة والقوة",
+  "موجز قياس أثر التطوير التنظيمي",
+  "موجز القدرة المستمرة",
+  "مراجعة جودة الأوصاف الوظيفية",
+  "خطة اتصال وإشراك التغيير"
 ];
 
 const WRONG_FRAMES = [
@@ -535,6 +460,45 @@ const WRONG_ETHICS = [
   "استخدام بيانات الثقة لمعاقبة الفريق الأقل تقييمًا."
 ];
 
+const QUESTION_FLOW = [
+  {
+    key: "frame",
+    title: "تأطير المشكلة",
+    weight: 15,
+    hint: "كيف ستعيد صياغة طلب العميل دون أن تقفز للحل؟"
+  },
+  {
+    key: "hypothesis",
+    title: "الفرضية التشخيصية",
+    weight: 20,
+    hint: "ما السبب النظامي الأكثر احتمالًا؟"
+  },
+  {
+    key: "data",
+    title: "البيانات المطلوبة",
+    weight: 15,
+    hint: "ما البيانات التي تحتاجها قبل الحكم؟"
+  },
+  {
+    key: "intervention",
+    title: "التدخل الأنسب",
+    weight: 20,
+    hint: "ما التدخل الذي يعالج السبب لا العرض؟"
+  },
+  {
+    key: "metric",
+    title: "مؤشر الأثر",
+    weight: 20,
+    hint: "كيف ستعرف أن السلوك أو النتيجة تغيرت؟"
+  },
+  {
+    key: "ethic",
+    title: "القرار الأخلاقي",
+    weight: 10,
+    hint: "كيف تحمي الثقة والسرية والكرامة المهنية؟"
+  }
+];
+
 function hashString(input) {
   let hash = 2166136261;
   for (let i = 0; i < input.length; i += 1) {
@@ -570,7 +534,7 @@ function pick(list, index) {
 function uniqueOptions(correct, wrongPool, seedText, count = 4) {
   const wrong = seededShuffle(
     wrongPool.filter((item) => item && item !== correct),
-    seedText + "-wrong"
+    seedText + "-خطأ"
   );
 
   const selected = [correct, ...wrong].filter(Boolean);
@@ -580,7 +544,7 @@ function uniqueOptions(correct, wrongPool, seedText, count = 4) {
     unique.push(`خيار ناقص ${unique.length + 1}`);
   }
 
-  return seededShuffle(unique, seedText + "-final");
+  return seededShuffle(unique, seedText + "-نهائي");
 }
 
 function safeReadJSON(key, fallback) {
@@ -646,7 +610,7 @@ function buildScenarioBank() {
 
     const extraAmbiguity =
       level.intensity >= 4
-        ? "توجد روايات متعارضة بين الأطراف، وبعض البيانات صحيحة لكنها قد تستخدم سياسيًا أو تُفهم خارج سياقها."
+        ? "توجد روايات متعارضة بين الأطراف، وبعض البيانات صحيحة لكنها قد تُستخدم سياسيًا أو تُفهم خارج سياقها."
         : "المعطيات الأولية تسمح ببداية تشخيص مهنية، لكنها لا تسمح بحكم نهائي بعد.";
 
     const ethicalPressure =
@@ -660,7 +624,7 @@ function buildScenarioBank() {
         : "الراعي يريد فهمًا عمليًا يساعده على اختيار التدخل المناسب.";
 
     bank.push({
-      id: `OD-SIM-${caseNumber}`,
+      id: `حالة-${caseNumber}`,
       title: `${archetype.name} في ${industry}`,
       archetype,
       level,
@@ -704,7 +668,7 @@ function buildScenarioBank() {
         trap,
         "تفسير العرض كسبب جذري",
         "الاعتماد على رأي صاحب السلطة وحده",
-        "تصميم تدخل لا يستطيع النظام حمله بعد خروج OD"
+        "تصميم تدخل لا يستطيع النظام حمله بعد خروج الممارس"
       ],
       successMeasures: [
         archetype.bestMetric,
@@ -768,8 +732,8 @@ function getTotalScore(answers, scenario) {
 
 function buildBriefText({ scenario, answers, score, notes }) {
   const lines = [
-    "OD Simulation Consulting Brief",
-    "==============================",
+    "تقرير محاكاة استشارية",
+    "======================",
     "",
     `رقم الحالة: ${scenario.id}`,
     `العنوان: ${scenario.title}`,
@@ -810,7 +774,7 @@ function buildBriefText({ scenario, answers, score, notes }) {
     "ما الذي جعلني أختار هذه الفرضية؟",
     "هل سمعت صوت الأطراف الأقل قوة؟",
     "هل قست النشاط أم السلوك والأثر؟",
-    "هل صممت تدخلًا يستطيع النظام حمله بعد خروج OD؟"
+    "هل صممت تدخلًا يستطيع النظام حمله بعد خروجي؟"
   ];
 
   return lines.join("\n");
@@ -836,9 +800,17 @@ function DataPill({ children }) {
   return <span className="od-data-pill">{children}</span>;
 }
 
-function TabButton({ active, onClick, children }) {
+function NavButton({ active, onClick, children }) {
   return (
-    <button type="button" className={`od-tab ${active ? "active" : ""}`} onClick={onClick}>
+    <button type="button" className={`nav-btn ${active ? "active" : ""}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+function PanelButton({ active, onClick, children }) {
+  return (
+    <button type="button" className={`panel-btn ${active ? "active" : ""}`} onClick={onClick}>
       {children}
     </button>
   );
@@ -855,6 +827,16 @@ function MiniBar({ label, value, color }) {
       <div className="mini-bar-track">
         <i style={{ width: `${safeValue}%`, background: color }} />
       </div>
+    </div>
+  );
+}
+
+function MasteryCard({ title, value, subtitle, color }) {
+  return (
+    <div className="mastery-card" style={{ "--accent": color }}>
+      <span>{title}</span>
+      <strong>{value}</strong>
+      <p>{subtitle}</p>
     </div>
   );
 }
@@ -885,7 +867,7 @@ function CausalLoop({ scenario }) {
     <div className="causal-loop">
       <svg viewBox="0 0 680 310" role="img" aria-label="خريطة سببية">
         <defs>
-          <marker id="arrowHeadUltra" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+          <marker id="arrowHeadArabic" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="currentColor" />
           </marker>
         </defs>
@@ -912,14 +894,18 @@ function CausalLoop({ scenario }) {
   );
 }
 
-function ChoiceGroup({ title, options, correct, selected, onSelect, locked, weight }) {
+function ChoiceStep({ question, options, correct, selected, locked, onSelect }) {
   const letters = ["أ", "ب", "ج", "د"];
 
   return (
-    <div className="choice-group">
-      <div className="choice-title">
-        <h4>{title}</h4>
-        <span>{weight} نقطة</span>
+    <div className="decision-card">
+      <div className="decision-top">
+        <div>
+          <span className="od-kicker">قرار استشاري</span>
+          <h2>{question.title}</h2>
+          <p>{question.hint}</p>
+        </div>
+        <div className="points-badge">{question.weight} نقطة</div>
       </div>
 
       <div className="choice-list">
@@ -945,25 +931,20 @@ function ChoiceGroup({ title, options, correct, selected, onSelect, locked, weig
   );
 }
 
-function MasteryCard({ title, value, subtitle, color }) {
-  return (
-    <div className="mastery-card" style={{ "--accent": color }}>
-      <span>{title}</span>
-      <strong>{value}</strong>
-      <p>{subtitle}</p>
-    </div>
-  );
-}
-
 export default function Simulation() {
   const scenarioBank = useMemo(() => buildScenarioBank(), []);
+
+  const [activeView, setActiveView] = useState("home");
+  const [casePanel, setCasePanel] = useState("summary");
+  const [decisionStep, setDecisionStep] = useState(0);
+
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [level, setLevel] = useState("all");
-  const [activeTab, setActiveTab] = useState("case");
   const [currentId, setCurrentId] = useState(scenarioBank[0].id);
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
+
   const [progress, setProgress] = useState(() =>
     safeReadJSON(STORAGE_KEY, {
       attempts: 0,
@@ -973,6 +954,7 @@ export default function Simulation() {
       categoryScores: {}
     })
   );
+
   const [notes, setNotes] = useState(() => safeReadJSON(NOTES_KEY, {}));
   const [baseSeconds] = useState(() => safeReadNumber(TIME_KEY, 0));
   const [sessionSeconds, setSessionSeconds] = useState(0);
@@ -1037,36 +1019,12 @@ export default function Simulation() {
 
   const choiceSets = useMemo(() => {
     return {
-      frame: uniqueOptions(
-        scenario.correct.frame,
-        WRONG_FRAMES,
-        `${scenario.id}-frame-${scenario.category}`
-      ),
-      hypothesis: uniqueOptions(
-        scenario.correct.hypothesis,
-        WRONG_HYPOTHESES,
-        `${scenario.id}-hypothesis-${scenario.level.id}`
-      ),
-      data: uniqueOptions(
-        scenario.correct.data,
-        WRONG_DATA,
-        `${scenario.id}-data-${scenario.reference.key}`
-      ),
-      intervention: uniqueOptions(
-        scenario.correct.intervention,
-        WRONG_INTERVENTIONS,
-        `${scenario.id}-intervention-${scenario.archetype.id}`
-      ),
-      metric: uniqueOptions(
-        scenario.correct.metric,
-        WRONG_METRICS,
-        `${scenario.id}-metric-${scenario.pressure}`
-      ),
-      ethic: uniqueOptions(
-        scenario.correct.ethic,
-        WRONG_ETHICS,
-        `${scenario.id}-ethic-${scenario.trap}`
-      )
+      frame: uniqueOptions(scenario.correct.frame, WRONG_FRAMES, `${scenario.id}-تأطير`),
+      hypothesis: uniqueOptions(scenario.correct.hypothesis, WRONG_HYPOTHESES, `${scenario.id}-فرضية`),
+      data: uniqueOptions(scenario.correct.data, WRONG_DATA, `${scenario.id}-بيانات`),
+      intervention: uniqueOptions(scenario.correct.intervention, WRONG_INTERVENTIONS, `${scenario.id}-تدخل`),
+      metric: uniqueOptions(scenario.correct.metric, WRONG_METRICS, `${scenario.id}-قياس`),
+      ethic: uniqueOptions(scenario.correct.ethic, WRONG_ETHICS, `${scenario.id}-أخلاقيات`)
     };
   }, [scenario]);
 
@@ -1077,6 +1035,7 @@ export default function Simulation() {
 
   const completedCount = progress.completed?.length || 0;
   const completionRate = Math.round((completedCount / scenarioBank.length) * 100);
+
   const avgScore =
     progress.history && progress.history.length > 0
       ? Math.round(progress.history.reduce((sum, item) => sum + item.score, 0) / progress.history.length)
@@ -1093,21 +1052,20 @@ export default function Simulation() {
       .slice(0, 6);
   }, [categoryStats]);
 
+  const currentQuestion = QUESTION_FLOW[decisionStep];
+  const currentOptions = choiceSets[currentQuestion.key];
+
   function openScenario(id) {
     setCurrentId(id);
     setAnswers({});
     setLocked(false);
-    setActiveTab("case");
+    setDecisionStep(0);
+    setCasePanel("summary");
+    setActiveView("case");
   }
 
   function randomScenario() {
     const pool = filtered.length ? filtered : scenarioBank;
-    const index = Math.floor(Math.random() * pool.length);
-    openScenario(pool[index].id);
-  }
-
-  function hardRandomScenario() {
-    const pool = scenarioBank.filter((item) => item.level.intensity >= 5);
     const index = Math.floor(Math.random() * pool.length);
     openScenario(pool[index].id);
   }
@@ -1117,11 +1075,20 @@ export default function Simulation() {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   }
 
+  function nextQuestion() {
+    setDecisionStep((prev) => Math.min(QUESTION_FLOW.length - 1, prev + 1));
+  }
+
+  function previousQuestion() {
+    setDecisionStep((prev) => Math.max(0, prev - 1));
+  }
+
   function submitAttempt() {
     if (!completed) return;
 
     const scoreNow = getTotalScore(answers, scenario);
     const nextCompleted = Array.from(new Set([...(progress.completed || []), scenario.id]));
+
     const nextHistory = [
       ...(progress.history || []),
       {
@@ -1151,13 +1118,14 @@ export default function Simulation() {
     setLocked(true);
     setProgress(next);
     safeWriteJSON(STORAGE_KEY, next);
-    setActiveTab("debrief");
+    setActiveView("debrief");
   }
 
   function resetAttempt() {
     setAnswers({});
     setLocked(false);
-    setActiveTab("decision");
+    setDecisionStep(0);
+    setActiveView("decision");
   }
 
   function updateNotes(value) {
@@ -1174,7 +1142,7 @@ export default function Simulation() {
       notes: currentNotes
     });
 
-    downloadTextFile(`${scenario.id}-OD-Consulting-Brief.txt`, text);
+    downloadTextFile(`تقرير-${scenario.id}.txt`, text);
   }
 
   function clearProgress() {
@@ -1184,9 +1152,9 @@ export default function Simulation() {
   }
 
   return (
-    <section className="od-sim" dir="rtl">
+    <section className="sim-root" dir="rtl">
       <style>{`
-        .od-sim {
+        .sim-root {
           min-height: 100vh;
           padding: 26px 14px 80px;
           color: #0f172a;
@@ -1195,11 +1163,10 @@ export default function Simulation() {
             radial-gradient(circle at 92% 12%, rgba(245,158,11,.16), transparent 28%),
             radial-gradient(circle at 50% 98%, rgba(16,185,129,.13), transparent 34%),
             linear-gradient(135deg, #f8fafc, #eef2ff 55%, #fff7ed);
-          overflow: hidden;
           font-family: inherit;
         }
 
-        .od-wrap {
+        .sim-wrap {
           width: min(1320px, 100%);
           margin: 0 auto;
         }
@@ -1239,7 +1206,7 @@ export default function Simulation() {
           align-items: center;
         }
 
-        .hero-kicker,
+        .kicker,
         .od-kicker {
           display: inline-flex;
           width: fit-content;
@@ -1277,7 +1244,6 @@ export default function Simulation() {
           font-weight: 750;
         }
 
-        .hero-actions,
         .actions {
           display: flex;
           flex-wrap: wrap;
@@ -1369,118 +1335,21 @@ export default function Simulation() {
           font-weight: 950;
         }
 
-        .layout {
-          margin-top: 18px;
-          display: grid;
-          grid-template-columns: 340px 1fr;
-          gap: 18px;
-          align-items: start;
-        }
-
-        .sidebar,
-        .main,
-        .card {
-          border-radius: 32px;
-          background: rgba(255,255,255,.84);
-          border: 1px solid rgba(255,255,255,.95);
-          box-shadow: 0 18px 55px rgba(15,23,42,.08);
-          backdrop-filter: blur(18px);
-        }
-
-        .sidebar {
-          padding: 18px;
-          position: sticky;
-          top: 14px;
-        }
-
-        .main {
-          padding: 20px;
-          overflow: hidden;
-        }
-
-        .field {
-          display: grid;
-          gap: 8px;
-          margin-bottom: 12px;
-        }
-
-        .field label {
-          color: #475569;
-          font-size: 11px;
-          font-weight: 950;
-        }
-
-        .field input,
-        .field select,
-        .field textarea {
-          width: 100%;
-          box-sizing: border-box;
-          border: 1px solid rgba(148,163,184,.24);
-          background: #f8fafc;
-          border-radius: 16px;
-          padding: 12px;
-          font-family: inherit;
-          color: #0f172a;
-          font-weight: 850;
-          outline: none;
-        }
-
-        .field textarea {
-          min-height: 180px;
-          resize: vertical;
-          line-height: 1.8;
-        }
-
-        .category-list {
-          display: grid;
-          gap: 8px;
-          max-height: 460px;
-          overflow: auto;
-          padding-left: 4px;
-        }
-
-        .category {
-          border: 0;
-          cursor: pointer;
-          text-align: right;
-          font-family: inherit;
-          padding: 12px;
-          border-radius: 18px;
-          background: #f8fafc;
-          color: #0f172a;
-          border: 1px solid rgba(148,163,184,.16);
-          transition: .2s ease;
-        }
-
-        .category:hover,
-        .category.active {
-          background: #eef2ff;
-          border-color: rgba(79,70,229,.24);
-        }
-
-        .category b {
-          display: block;
-          font-size: 12px;
-          font-weight: 950;
-          margin-bottom: 5px;
-        }
-
-        .category span {
-          display: block;
-          color: #64748b;
-          font-size: 10px;
-          font-weight: 850;
-          line-height: 1.6;
-        }
-
-        .tabs {
+        .nav {
+          margin: 18px 0;
+          padding: 10px;
           display: flex;
           gap: 8px;
           flex-wrap: wrap;
-          margin-bottom: 16px;
+          border-radius: 26px;
+          background: rgba(255,255,255,.72);
+          border: 1px solid rgba(255,255,255,.9);
+          box-shadow: 0 12px 35px rgba(15,23,42,.06);
+          backdrop-filter: blur(16px);
         }
 
-        .od-tab {
+        .nav-btn,
+        .panel-btn {
           border: 0;
           cursor: pointer;
           padding: 11px 14px;
@@ -1494,21 +1363,32 @@ export default function Simulation() {
           transition: .2s ease;
         }
 
-        .od-tab.active {
+        .nav-btn.active,
+        .panel-btn.active {
           color: white;
           background: linear-gradient(135deg, #4f46e5, #7c3aed);
           border-color: transparent;
         }
 
-        .scenario-head {
+        .page {
+          border-radius: 34px;
+          background: rgba(255,255,255,.86);
+          border: 1px solid rgba(255,255,255,.94);
+          box-shadow: 0 18px 55px rgba(15,23,42,.08);
+          backdrop-filter: blur(18px);
+          padding: 22px;
+          overflow: hidden;
+        }
+
+        .page-head {
           display: flex;
           justify-content: space-between;
           gap: 16px;
           align-items: flex-start;
-          margin-bottom: 16px;
+          margin-bottom: 18px;
         }
 
-        .scenario-head h2 {
+        .page-head h2 {
           margin: 0;
           color: #0f172a;
           font-size: clamp(26px, 4vw, 46px);
@@ -1517,7 +1397,7 @@ export default function Simulation() {
           letter-spacing: -.8px;
         }
 
-        .scenario-head p {
+        .page-head p {
           margin: 10px 0 0;
           color: #64748b;
           font-size: 14px;
@@ -1530,6 +1410,74 @@ export default function Simulation() {
           color: #3730a3;
           border-color: rgba(79,70,229,.12);
           margin-bottom: 12px;
+        }
+
+        .home-grid {
+          margin-top: 18px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+        }
+
+        .home-card {
+          cursor: pointer;
+          border: 0;
+          text-align: right;
+          font-family: inherit;
+          min-height: 210px;
+          border-radius: 30px;
+          padding: 20px;
+          background: #fff;
+          border: 1px solid rgba(148,163,184,.16);
+          box-shadow: 0 14px 35px rgba(15,23,42,.06);
+          transition: .22s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .home-card::before {
+          content: "";
+          position: absolute;
+          width: 170px;
+          height: 170px;
+          border-radius: 50%;
+          left: -68px;
+          bottom: -88px;
+          background: var(--accent);
+          opacity: .13;
+        }
+
+        .home-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 22px 45px rgba(15,23,42,.11);
+        }
+
+        .home-card b {
+          display: grid;
+          place-items: center;
+          width: 42px;
+          height: 42px;
+          border-radius: 17px;
+          color: white;
+          background: var(--accent);
+          font-size: 18px;
+          margin-bottom: 14px;
+        }
+
+        .home-card strong {
+          display: block;
+          font-size: 18px;
+          font-weight: 950;
+          color: #0f172a;
+          margin-bottom: 10px;
+        }
+
+        .home-card span {
+          display: block;
+          font-size: 12px;
+          line-height: 1.8;
+          color: #64748b;
+          font-weight: 750;
         }
 
         .pills {
@@ -1606,8 +1554,9 @@ export default function Simulation() {
 
         .card {
           padding: 18px;
-          box-shadow: none;
+          border-radius: 28px;
           background: #fff;
+          border: 1px solid rgba(148,163,184,.16);
         }
 
         .card h3 {
@@ -1630,11 +1579,17 @@ export default function Simulation() {
           padding: 0 18px 0 0;
         }
 
+        .panel-tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 14px;
+        }
+
         .scenario-map {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 12px;
-          margin: 16px 0;
         }
 
         .scenario-node {
@@ -1707,7 +1662,7 @@ export default function Simulation() {
           fill: none;
           stroke: currentColor;
           stroke-width: 3;
-          marker-end: url(#arrowHeadUltra);
+          marker-end: url(#arrowHeadArabic);
           opacity: .62;
         }
 
@@ -1729,87 +1684,91 @@ export default function Simulation() {
           fill: #0f172a;
         }
 
-        .challenge {
+        .decision-shell {
+          border-radius: 34px;
           padding: 18px;
-          border-radius: 32px;
           background:
-            radial-gradient(circle at 15% 15%, rgba(79,70,229,.35), transparent 30%),
-            radial-gradient(circle at 88% 0%, rgba(16,185,129,.22), transparent 30%),
+            radial-gradient(circle at 12% 10%, rgba(79,70,229,.30), transparent 32%),
+            radial-gradient(circle at 88% 0%, rgba(16,185,129,.20), transparent 30%),
             #0f172a;
           color: white;
-          box-shadow: 0 22px 52px rgba(15,23,42,.18);
         }
 
-        .challenge h3 {
-          margin: 0 0 8px;
-          font-size: 24px;
+        .decision-progress {
+          height: 10px;
+          border-radius: 999px;
+          background: rgba(255,255,255,.12);
+          overflow: hidden;
+          margin-bottom: 14px;
+        }
+
+        .decision-progress i {
+          display: block;
+          height: 100%;
+          border-radius: 999px;
+          background: linear-gradient(90deg, #10b981, #a7f3d0);
+        }
+
+        .decision-card {
+          padding: 20px;
+          border-radius: 28px;
+          background: rgba(255,255,255,.08);
+          border: 1px solid rgba(255,255,255,.12);
+        }
+
+        .decision-top {
+          display: flex;
+          justify-content: space-between;
+          gap: 16px;
+          align-items: flex-start;
+          margin-bottom: 14px;
+        }
+
+        .decision-top h2 {
+          margin: 0;
+          font-size: clamp(24px, 4vw, 40px);
           font-weight: 950;
         }
 
-        .challenge p {
-          margin: 0;
+        .decision-top p {
+          margin: 8px 0 0;
           color: rgba(226,232,240,.78);
           line-height: 1.8;
           font-size: 13px;
           font-weight: 750;
         }
 
-        .choice-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
-          margin-top: 14px;
-        }
-
-        .choice-group {
-          background: rgba(255,255,255,.08);
-          border: 1px solid rgba(255,255,255,.12);
-          border-radius: 24px;
-          padding: 14px;
-        }
-
-        .choice-title {
-          display: flex;
-          justify-content: space-between;
-          gap: 8px;
-          align-items: center;
-          margin-bottom: 10px;
-        }
-
-        .choice-title h4 {
-          margin: 0;
-          color: white;
-          font-size: 14px;
-          font-weight: 950;
-        }
-
-        .choice-title span {
+        .points-badge {
+          padding: 12px 14px;
+          border-radius: 18px;
+          background: rgba(253,230,138,.16);
           color: #fde68a;
-          font-size: 10px;
           font-weight: 950;
+          font-size: 12px;
+          white-space: nowrap;
         }
 
         .choice-list {
           display: grid;
-          gap: 8px;
+          gap: 10px;
         }
 
         .choice {
           cursor: pointer;
           border: 1px solid rgba(255,255,255,.12);
           background: rgba(255,255,255,.08);
-          color: rgba(255,255,255,.84);
-          border-radius: 16px;
-          padding: 11px;
+          color: rgba(255,255,255,.88);
+          border-radius: 18px;
+          padding: 13px;
           font-family: inherit;
           text-align: right;
-          line-height: 1.6;
-          font-size: 11px;
+          line-height: 1.7;
+          font-size: 12px;
           font-weight: 850;
           transition: .2s ease;
           display: grid;
-          grid-template-columns: 28px 1fr;
-          gap: 8px;
+          grid-template-columns: 30px 1fr;
+          gap: 10px;
           align-items: start;
         }
 
@@ -1818,9 +1777,9 @@ export default function Simulation() {
         }
 
         .choice-letter {
-          width: 24px;
-          height: 24px;
-          border-radius: 9px;
+          width: 26px;
+          height: 26px;
+          border-radius: 10px;
           display: grid;
           place-items: center;
           background: rgba(255,255,255,.12);
@@ -1830,7 +1789,7 @@ export default function Simulation() {
 
         .choice.selected {
           border-color: rgba(129,140,248,.9);
-          background: rgba(129,140,248,.16);
+          background: rgba(129,140,248,.18);
         }
 
         .choice.correct {
@@ -1893,43 +1852,47 @@ export default function Simulation() {
           font-weight: 750;
         }
 
-        .mini-bar {
-          margin-top: 12px;
+        .field {
+          display: grid;
+          gap: 8px;
+          margin-bottom: 12px;
         }
 
-        .mini-bar-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 7px;
-        }
-
-        .mini-bar-top span,
-        .mini-bar-top b {
+        .field label {
+          color: #475569;
           font-size: 11px;
           font-weight: 950;
         }
 
-        .mini-bar-top span {
-          color: #64748b;
+        .field input,
+        .field select,
+        .field textarea {
+          width: 100%;
+          box-sizing: border-box;
+          border: 1px solid rgba(148,163,184,.24);
+          background: #f8fafc;
+          border-radius: 16px;
+          padding: 12px;
+          font-family: inherit;
+          color: #0f172a;
+          font-weight: 850;
+          outline: none;
         }
 
-        .mini-bar-track {
-          height: 9px;
-          border-radius: 999px;
-          background: #e2e8f0;
-          overflow: hidden;
+        .field textarea {
+          min-height: 220px;
+          resize: vertical;
+          line-height: 1.8;
         }
 
-        .mini-bar-track i {
-          display: block;
-          height: 100%;
-          border-radius: 999px;
+        .filters {
+          display: grid;
+          grid-template-columns: 1.4fr .8fr .8fr;
+          gap: 12px;
+          margin-bottom: 16px;
         }
 
         .scenario-list {
-          margin-top: 18px;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 12px;
@@ -2029,6 +1992,41 @@ export default function Simulation() {
           font-weight: 850;
         }
 
+        .mini-bar {
+          margin-top: 12px;
+        }
+
+        .mini-bar-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 7px;
+        }
+
+        .mini-bar-top span,
+        .mini-bar-top b {
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .mini-bar-top span {
+          color: #64748b;
+        }
+
+        .mini-bar-track {
+          height: 9px;
+          border-radius: 999px;
+          background: #e2e8f0;
+          overflow: hidden;
+        }
+
+        .mini-bar-track i {
+          display: block;
+          height: 100%;
+          border-radius: 999px;
+        }
+
         .rubric {
           display: grid;
           gap: 10px;
@@ -2062,16 +2060,11 @@ export default function Simulation() {
 
         @media (max-width: 1120px) {
           .hero-inner,
-          .layout,
+          .home-grid,
           .grid-2,
           .grid-3,
-          .choice-grid {
+          .filters {
             grid-template-columns: 1fr;
-          }
-
-          .sidebar {
-            position: relative;
-            top: auto;
           }
 
           .scenario-map,
@@ -2082,7 +2075,7 @@ export default function Simulation() {
         }
 
         @media (max-width: 720px) {
-          .od-sim {
+          .sim-root {
             padding: 14px 8px 48px;
           }
 
@@ -2098,7 +2091,8 @@ export default function Simulation() {
             grid-template-columns: 1fr;
           }
 
-          .scenario-head {
+          .page-head,
+          .decision-top {
             display: grid;
           }
 
@@ -2113,33 +2107,36 @@ export default function Simulation() {
         }
       `}</style>
 
-      <div className="od-wrap">
+      <div className="sim-wrap">
         <header className="hero">
           <div className="hero-inner">
             <div>
-              <span className="hero-kicker">مختبر المحاكاة الاستشارية · 350 سيناريو · قرارات متغيرة المواقع</span>
+              <span className="kicker">مختبر المحاكاة الاستشارية · 350 حالة · قرارات متغيرة</span>
               <h1>
-                محاكاة OD متقدمة
-                <span>تختبر الحكم الاستشاري لا الحفظ</span>
+                اختبر حكمك الاستشاري
+                <span>لا حفظك للمصطلحات</span>
               </h1>
               <p>
-                هذا القسم يحوّل المتدرب من متلقي محتوى إلى ممارس يفكر تحت ضغط: تأطير المشكلة، بناء فرضية، اختيار بيانات، تصميم تدخل، قياس أثر، وحماية أخلاقيات العلاقة الاستشارية.
+                واجهة تدريبية تحاكي عمل ممارس التطوير التنظيمي: تقرأ الحالة، تبني فرضية، تختار البيانات، تصمم تدخلًا، تقيس الأثر، وتحمي أخلاقيات العلاقة الاستشارية.
               </p>
 
-              <div className="hero-actions">
-                <button className="btn primary" type="button" onClick={randomScenario}>ولّد سيناريو عشوائي</button>
-                <button className="btn light" type="button" onClick={hardRandomScenario}>تحدي صعب</button>
-                <button className="btn light" type="button" onClick={() => setActiveTab("library")}>افتح المكتبة</button>
+              <div className="actions">
+                <button className="btn primary" type="button" onClick={randomScenario}>
+                  ولّد سيناريو عشوائي
+                </button>
+                <button className="btn light" type="button" onClick={() => setActiveView("library")}>
+                  استكشف الحالات
+                </button>
               </div>
             </div>
 
             <div className="hero-metrics">
               <div className="hero-metric">
-                <span>مكتبة السيناريوهات</span>
+                <span>عدد الحالات</span>
                 <strong>{scenarioBank.length}</strong>
               </div>
               <div className="hero-metric">
-                <span>وقت التعلم داخل المختبر</span>
+                <span>وقت التعلم</span>
                 <strong>{formatTime(totalSeconds)}</strong>
               </div>
               <div className="hero-metric">
@@ -2154,447 +2151,445 @@ export default function Simulation() {
           </div>
         </header>
 
-        <div className="layout">
-          <aside className="sidebar">
-            <div className="field">
-              <label>ابحث داخل المختبر</label>
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="ثقافة، صلاحيات، أداء، تعلم..."
-              />
-            </div>
+        <nav className="nav">
+          <NavButton active={activeView === "home"} onClick={() => setActiveView("home")}>الواجهة</NavButton>
+          <NavButton active={activeView === "case"} onClick={() => setActiveView("case")}>ملف الحالة</NavButton>
+          <NavButton active={activeView === "decision"} onClick={() => setActiveView("decision")}>غرفة القرار</NavButton>
+          <NavButton active={activeView === "debrief"} onClick={() => setActiveView("debrief")}>التغذية الراجعة</NavButton>
+          <NavButton active={activeView === "notes"} onClick={() => setActiveView("notes")}>ملاحظاتي</NavButton>
+          <NavButton active={activeView === "library"} onClick={() => setActiveView("library")}>استكشف الحالات</NavButton>
+          <NavButton active={activeView === "mastery"} onClick={() => setActiveView("mastery")}>الإتقان</NavButton>
+        </nav>
 
-            <div className="field">
-              <label>مستوى الصعوبة</label>
-              <select value={level} onChange={(e) => setLevel(e.target.value)}>
-                <option value="all">كل المستويات</option>
-                {levelStats.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name} — {item.count} حالة
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="field">
-              <label>المجال الاستشاري</label>
-              <div className="category-list">
-                <button
-                  className={`category ${category === "all" ? "active" : ""}`}
-                  type="button"
-                  onClick={() => setCategory("all")}
-                >
-                  <b>كل المجالات</b>
-                  <span>{scenarioBank.length} سيناريو تدريبي</span>
-                </button>
-
-                {categoryStats.map((type) => (
-                  <button
-                    key={type.id}
-                    className={`category ${category === type.id ? "active" : ""}`}
-                    type="button"
-                    onClick={() => setCategory(type.id)}
-                  >
-                    <b>{type.name}</b>
-                    <span>{type.completed}/{type.count} مكتمل · {type.lens}</span>
-                  </button>
-                ))}
+        {activeView === "home" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">واجهة المختبر</span>
+                <h2>اختر مسارك داخل المحاكاة</h2>
+                <p>
+                  بدل عرض كل شيء تحت بعض، هذا المختبر يعمل كغرف منفصلة. ابدأ من الواجهة، ثم انتقل إلى الحالة، ثم القرار، ثم التغذية الراجعة.
+                </p>
               </div>
             </div>
 
-            <div className="card" style={{ marginTop: 14 }}>
-              <h3>لوحة تقدمك</h3>
-              <MiniBar label="إنجاز المكتبة" value={completionRate} color="#4f46e5" />
-              <MiniBar label="متوسط محاولاتك" value={avgScore} color="#10b981" />
-              <MiniBar label="أفضل أداء" value={progress.bestScore || 0} color="#f59e0b" />
-              <div className="actions">
-                <button className="btn danger" type="button" onClick={clearProgress}>تصفير التقدم</button>
+            <div className="home-grid">
+              <button className="home-card" style={{ "--accent": "#4f46e5" }} type="button" onClick={randomScenario}>
+                <b>1</b>
+                <strong>ابدأ حالة جديدة</strong>
+                <span>يولد لك المختبر سيناريو تدريبيًا عشوائيًا من 350 حالة.</span>
+              </button>
+
+              <button className="home-card" style={{ "--accent": "#10b981" }} type="button" onClick={() => setActiveView("case")}>
+                <b>2</b>
+                <strong>ادخل ملف الحالة</strong>
+                <span>اقرأ الملخص والخريطة والبيانات والمخاطر دون تشتيت.</span>
+              </button>
+
+              <button className="home-card" style={{ "--accent": "#f59e0b" }} type="button" onClick={() => setActiveView("decision")}>
+                <b>3</b>
+                <strong>افتح غرفة القرار</strong>
+                <span>أجب سؤالًا وراء سؤال مثل مستشار يعمل تحت ضغط.</span>
+              </button>
+
+              <button className="home-card" style={{ "--accent": "#e11d48" }} type="button" onClick={() => setActiveView("library")}>
+                <b>4</b>
+                <strong>استكشف الحالات</strong>
+                <span>ابحث وفلتر حسب المجال والصعوبة واختر الحالة المناسبة.</span>
+              </button>
+            </div>
+          </section>
+        )}
+
+        {activeView === "case" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">{scenario.id} · {scenario.level.name}</span>
+                <h2>{scenario.title}</h2>
+                <p>{scenario.situation}</p>
+                <div className="pills">
+                  <Pill>{scenario.industry}</Pill>
+                  <Pill>{scenario.size}</Pill>
+                  <Pill>{scenario.archetype.lens}</Pill>
+                  <Pill>{scenario.reference.title}: {scenario.reference.label}</Pill>
+                </div>
+              </div>
+
+              <div className="score-orb" style={{ "--score": `${score}%` }}>
+                <div>
+                  <strong>{score}%</strong>
+                  <span>{getGrade(score)}</span>
+                </div>
               </div>
             </div>
-          </aside>
 
-          <main className="main">
-            <div className="tabs">
-              <TabButton active={activeTab === "case"} onClick={() => setActiveTab("case")}>ملف الحالة</TabButton>
-              <TabButton active={activeTab === "decision"} onClick={() => setActiveTab("decision")}>غرفة القرار</TabButton>
-              <TabButton active={activeTab === "debrief"} onClick={() => setActiveTab("debrief")}>التغذية الراجعة</TabButton>
-              <TabButton active={activeTab === "notes"} onClick={() => setActiveTab("notes")}>مذكرة المستشار</TabButton>
-              <TabButton active={activeTab === "library"} onClick={() => setActiveTab("library")}>المكتبة</TabButton>
-              <TabButton active={activeTab === "mastery"} onClick={() => setActiveTab("mastery")}>لوحة الإتقان</TabButton>
+            <div className="panel-tabs">
+              <PanelButton active={casePanel === "summary"} onClick={() => setCasePanel("summary")}>ملخص الحالة</PanelButton>
+              <PanelButton active={casePanel === "map"} onClick={() => setCasePanel("map")}>الخريطة السببية</PanelButton>
+              <PanelButton active={casePanel === "data"} onClick={() => setCasePanel("data")}>البيانات والمخاطر</PanelButton>
+              <PanelButton active={casePanel === "people"} onClick={() => setCasePanel("people")}>أصحاب المصلحة</PanelButton>
             </div>
 
-            {activeTab === "case" && (
+            {casePanel === "summary" && (
+              <div className="grid-2">
+                <div className="card">
+                  <h3>تعقيد الحالة</h3>
+                  <p>{scenario.complexityNote}</p>
+                  <p><strong>الالتواء المهني:</strong> {scenario.level.twist}</p>
+                </div>
+
+                <div className="card">
+                  <h3>سؤال القيادة</h3>
+                  <p>{scenario.boardQuestion}</p>
+                </div>
+              </div>
+            )}
+
+            {casePanel === "map" && (
               <>
-                <div className="scenario-head">
-                  <div>
-                    <span className="od-kicker">{scenario.id} · {scenario.level.name} · {scenario.level.scoreLabel}</span>
-                    <h2>{scenario.title}</h2>
-                    <p>{scenario.situation}</p>
-
-                    <div className="pills">
-                      <Pill>{scenario.industry}</Pill>
-                      <Pill>{scenario.size}</Pill>
-                      <Pill>{scenario.archetype.lens}</Pill>
-                      <Pill>{scenario.reference.title}: {scenario.reference.label}</Pill>
-                    </div>
-                  </div>
-
-                  <div className="score-orb" style={{ "--score": `${score}%` }}>
-                    <div>
-                      <strong>{score}%</strong>
-                      <span>{getGrade(score)}</span>
-                    </div>
-                  </div>
-                </div>
-
                 <ScenarioMap scenario={scenario} />
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>تعقيد الحالة</h3>
-                    <p>{scenario.complexityNote}</p>
-                    <p><strong>الالتواء المهني:</strong> {scenario.level.twist}</p>
-                  </div>
-
-                  <div className="card">
-                    <h3>سؤال القيادة</h3>
-                    <p>{scenario.boardQuestion}</p>
-                  </div>
-                </div>
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>إشارات بيانات أولية</h3>
-                    <div className="pills">
-                      <DataPill>{scenario.mainSignal}</DataPill>
-                      <DataPill>{scenario.secondarySignal}</DataPill>
-                      <DataPill>{scenario.thirdSignal}</DataPill>
-                      <DataPill>{scenario.fourthSignal}</DataPill>
-                    </div>
-                  </div>
-
-                  <div className="card">
-                    <h3>الخطر الأخلاقي</h3>
-                    <p>{scenario.ethicalRisk}</p>
-                  </div>
-                </div>
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>خريطة سببية مبسطة</h3>
-                    <CausalLoop scenario={scenario} />
-                  </div>
-
-                  <div className="card">
-                    <h3>أصحاب المصلحة</h3>
-                    <ul>
-                      {scenario.stakeholders.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="actions">
-                  <button className="btn primary" type="button" onClick={() => setActiveTab("decision")}>ابدأ القرار الاستشاري</button>
-                  <button className="btn ghost" type="button" onClick={randomScenario}>حالة أخرى</button>
+                <div className="card" style={{ marginTop: 14 }}>
+                  <h3>خريطة سببية مبسطة</h3>
+                  <CausalLoop scenario={scenario} />
                 </div>
               </>
             )}
 
-            {activeTab === "decision" && (
-              <section className="challenge">
-                <h3>غرفة القرار الاستشاري</h3>
-                <p>{scenario.decisionMoment}</p>
-
-                <div className="choice-grid">
-                  <ChoiceGroup
-                    title="1) تأطير المشكلة"
-                    weight={15}
-                    options={choiceSets.frame}
-                    correct={scenario.correct.frame}
-                    selected={answers.frame}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("frame", value)}
-                  />
-
-                  <ChoiceGroup
-                    title="2) الفرضية التشخيصية"
-                    weight={20}
-                    options={choiceSets.hypothesis}
-                    correct={scenario.correct.hypothesis}
-                    selected={answers.hypothesis}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("hypothesis", value)}
-                  />
-
-                  <ChoiceGroup
-                    title="3) البيانات المطلوبة"
-                    weight={15}
-                    options={choiceSets.data}
-                    correct={scenario.correct.data}
-                    selected={answers.data}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("data", value)}
-                  />
-
-                  <ChoiceGroup
-                    title="4) التدخل الأنسب"
-                    weight={20}
-                    options={choiceSets.intervention}
-                    correct={scenario.correct.intervention}
-                    selected={answers.intervention}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("intervention", value)}
-                  />
-
-                  <ChoiceGroup
-                    title="5) مؤشر الأثر"
-                    weight={20}
-                    options={choiceSets.metric}
-                    correct={scenario.correct.metric}
-                    selected={answers.metric}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("metric", value)}
-                  />
-
-                  <ChoiceGroup
-                    title="6) القرار الأخلاقي"
-                    weight={10}
-                    options={choiceSets.ethic}
-                    correct={scenario.correct.ethic}
-                    selected={answers.ethic}
-                    locked={locked}
-                    onSelect={(value) => answerQuestion("ethic", value)}
-                  />
-                </div>
-
-                <div className="actions">
-                  <button className="btn success" type="button" disabled={!completed || locked} onClick={submitAttempt}>
-                    اعتماد الإجابة وكشف التصحيح
-                  </button>
-                  <button className="btn light" type="button" onClick={resetAttempt}>
-                    إعادة المحاولة
-                  </button>
-                  <button className="btn light" type="button" onClick={randomScenario}>
-                    سيناريو جديد
-                  </button>
-                </div>
-
-                {!completed && (
-                  <div className="feedback-panel" style={{ marginTop: 14, background: "rgba(255,255,255,.08)", color: "white" }}>
-                    <p style={{ color: "rgba(255,255,255,.82)" }}>
-                      بقيت بعض القرارات غير مكتملة. المختبر لا يقبل محاولة ناقصة لأن ممارسة OD تتطلب سلسلة قرار كاملة: تأطير، فرضية، بيانات، تدخل، قياس، وأخلاقيات.
-                    </p>
+            {casePanel === "data" && (
+              <div className="grid-2">
+                <div className="card">
+                  <h3>إشارات بيانات أولية</h3>
+                  <div className="pills">
+                    <DataPill>{scenario.mainSignal}</DataPill>
+                    <DataPill>{scenario.secondarySignal}</DataPill>
+                    <DataPill>{scenario.thirdSignal}</DataPill>
+                    <DataPill>{scenario.fourthSignal}</DataPill>
                   </div>
-                )}
-              </section>
+                </div>
+
+                <div className="card">
+                  <h3>الخطر الأخلاقي</h3>
+                  <p>{scenario.ethicalRisk}</p>
+                </div>
+              </div>
             )}
 
-            {activeTab === "debrief" && (
-              <section className="feedback-panel">
-                <div className="scenario-head">
-                  <div>
-                    <span className="od-kicker">تقرير التغذية الراجعة</span>
-                    <h2>{score}% · {getGrade(score)}</h2>
-                    <p>
-                      التصحيح هنا لا يقيس الحفظ، بل يقيس جودة القرار الاستشاري. كل إجابة صحيحة مرتبطة بمنطق OD: فهم النظام، حماية العلاقة، اختيار تدخل ملائم، وقياس أثر لا نشاط.
-                    </p>
-                  </div>
-
-                  <div className="score-orb" style={{ "--score": `${score}%` }}>
-                    <div>
-                      <strong>{score}%</strong>
-                      <span>نضج القرار</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="breakdown-list">
-                  {breakdown.map((item) => (
-                    <div className="breakdown" key={item.key}>
-                      <div className="breakdown-top">
-                        <b>{item.label}</b>
-                        <span>{item.earned}/{item.weight}</span>
-                      </div>
-                      <p>
-                        <strong>اختيارك:</strong> {item.selected || "غير مجاب"}
-                      </p>
-                      {!item.isCorrect && (
-                        <p>
-                          <strong>الأفضل مهنيًا:</strong> {item.correct}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>أخطاء كان يجب تجنبها</h3>
-                    <ul>
-                      {scenario.mistakes.map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                  </div>
-
-                  <div className="card">
-                    <h3>علامات النجاح في هذه الحالة</h3>
-                    <ul>
-                      {scenario.successMeasures.map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="card" style={{ marginTop: 14 }}>
-                  <h3>المرجع المفاهيمي</h3>
-                  <p>
-                    {scenario.reference.title} — {scenario.reference.label}: {scenario.reference.idea}
-                  </p>
-                </div>
-
-                <div className="actions">
-                  <button className="btn primary" type="button" onClick={downloadBrief} disabled={!locked}>
-                    تنزيل تقرير المحاولة
-                  </button>
-                  <button className="btn ghost" type="button" onClick={() => setActiveTab("decision")}>
-                    مراجعة الإجابات
-                  </button>
-                  <button className="btn ghost" type="button" onClick={randomScenario}>
-                    حالة جديدة
-                  </button>
-                </div>
-              </section>
-            )}
-
-            {activeTab === "notes" && (
-              <section>
-                <div className="scenario-head">
-                  <div>
-                    <span className="od-kicker">مذكرة المستشار</span>
-                    <h2>اكتب تفكيرك قبل الحكم</h2>
-                    <p>
-                      استخدم هذه المساحة لكتابة ملاحظاتك: ما العرض؟ ما النمط؟ ما الفرضيات؟ ما البيانات؟ ما الخطر الأخلاقي؟ وما السلوك الذي يجب قياسه؟
-                    </p>
-                  </div>
-                </div>
-
-                <div className="field">
-                  <label>ملاحظاتك على {scenario.id}</label>
-                  <textarea
-                    value={currentNotes}
-                    onChange={(e) => updateNotes(e.target.value)}
-                    placeholder="مثال: لا أعتقد أن المشكلة تدريبية فقط؛ هناك احتمال أن الصلاحيات والمؤشرات تعيد إنتاج السلوك القديم..."
-                  />
-                </div>
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>أسئلة تساعدك</h3>
-                    <ul>
-                      <li>ما الذي يجعل السلوك القديم منطقيًا داخل النظام؟</li>
-                      <li>من يربح من الوضع الحالي؟ ومن يخسر؟</li>
-                      <li>ما البيانات التي لو ظهرت ستغيّر فرضيتي؟</li>
-                      <li>كيف أحمي المشاركين من استخدام البيانات ضدهم؟</li>
-                      <li>ما السلوك القابل للملاحظة الذي سأقيسه؟</li>
-                    </ul>
-                  </div>
-
-                  <div className="card">
-                    <h3>المخرج المتوقع</h3>
-                    <p>{scenario.deliverable}</p>
-                    <p>الهدف ليس وثيقة جميلة، بل قرار تنظيمي أفضل قابل للتنفيذ والقياس والاستدامة.</p>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {activeTab === "library" && (
-              <section>
-                <div className="scenario-head">
-                  <div>
-                    <span className="od-kicker">مكتبة المحاكاة</span>
-                    <h2>{filtered.length} سيناريو مطابق</h2>
-                    <p>
-                      استخدم الفلترة للوصول إلى المجال أو المستوى المطلوب. المعروض أدناه أول 48 سيناريو حتى تبقى الصفحة سريعة وواضحة.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="scenario-list">
-                  {filtered.slice(0, 48).map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`scenario-mini ${item.id === scenario.id ? "active" : ""}`}
-                      onClick={() => openScenario(item.id)}
-                    >
-                      <span>{item.id} · {item.level.name}</span>
-                      <strong>{item.title}</strong>
-                      <small>{item.trigger}</small>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {activeTab === "mastery" && (
-              <section>
-                <div className="scenario-head">
-                  <div>
-                    <span className="od-kicker">لوحة الإتقان</span>
-                    <h2>هل تتقدم كحافظ أم كممارس؟</h2>
-                    <p>
-                      هذه اللوحة تقرأ رحلتك داخل المختبر: عدد المحاولات، أفضل درجة، متوسط الأداء، المجالات التي مارستها، ووقت التعلم.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mastery-grid">
-                  <MasteryCard title="المحاولات" value={progress.attempts || 0} subtitle="كل محاولة كاملة" color="#4f46e5" />
-                  <MasteryCard title="أفضل درجة" value={`${progress.bestScore || 0}%`} subtitle="أعلى نضج قرار" color="#10b981" />
-                  <MasteryCard title="متوسط الأداء" value={`${avgScore}%`} subtitle="آخر المحاولات" color="#f59e0b" />
-                  <MasteryCard title="وقت التعلم" value={formatTime(totalSeconds)} subtitle="داخل المختبر" color="#e11d48" />
-                </div>
-
-                <div className="grid-2">
-                  <div className="card">
-                    <h3>أفضل المجالات تدريبًا</h3>
-                    {masteryByCategory.map((item) => (
-                      <MiniBar key={item.name} label={item.name} value={item.value} color={item.color} />
+            {casePanel === "people" && (
+              <div className="grid-2">
+                <div className="card">
+                  <h3>أصحاب المصلحة</h3>
+                  <ul>
+                    {scenario.stakeholders.map((item) => (
+                      <li key={item}>{item}</li>
                     ))}
-                  </div>
+                  </ul>
+                </div>
 
-                  <div className="card">
-                    <h3>روبرك الإتقان</h3>
-                    <div className="rubric">
-                      <div className="rubric-item">
-                        <b>أقل من 55%</b>
-                        <p>توجد سرعة في القفز للحلول أو ضعف في حماية الأخلاقيات أو قياس النشاط بدل الأثر.</p>
-                      </div>
-                      <div className="rubric-item">
-                        <b>55% - 69%</b>
-                        <p>يوجد فهم جزئي، لكن القرار ما زال يحتاج ربطًا أوضح بين التشخيص والتدخل والقياس.</p>
-                      </div>
-                      <div className="rubric-item">
-                        <b>70% - 81%</b>
-                        <p>قرار جيد، مع فجوات محددة غالبًا في البيانات أو الأخلاقيات أو الاستدامة.</p>
-                      </div>
-                      <div className="rubric-item">
-                        <b>82% - 91%</b>
-                        <p>ممارسة ناضجة وقادرة على قراءة النظام وتجنب الحلول السطحية.</p>
-                      </div>
-                      <div className="rubric-item">
-                        <b>92%+</b>
-                        <p>حكم استشاري قوي يجمع الفرضية والبيانات والتدخل والقياس والأخلاق.</p>
-                      </div>
-                    </div>
+                <div className="card">
+                  <h3>المخرج المتوقع</h3>
+                  <p>{scenario.deliverable}</p>
+                  <p>المخرج ليس وثيقة جميلة فقط، بل قرار تنظيمي قابل للتنفيذ والقياس والاستدامة.</p>
+                </div>
+              </div>
+            )}
+
+            <div className="actions">
+              <button className="btn primary" type="button" onClick={() => setActiveView("decision")}>انتقل إلى غرفة القرار</button>
+              <button className="btn ghost" type="button" onClick={randomScenario}>حالة أخرى</button>
+            </div>
+          </section>
+        )}
+
+        {activeView === "decision" && (
+          <section className="decision-shell">
+            <div className="decision-progress">
+              <i style={{ width: `${((decisionStep + 1) / QUESTION_FLOW.length) * 100}%` }} />
+            </div>
+
+            <ChoiceStep
+              question={currentQuestion}
+              options={currentOptions}
+              correct={scenario.correct[currentQuestion.key]}
+              selected={answers[currentQuestion.key]}
+              locked={locked}
+              onSelect={(value) => answerQuestion(currentQuestion.key, value)}
+            />
+
+            <div className="actions">
+              <button className="btn light" type="button" onClick={previousQuestion} disabled={decisionStep === 0}>
+                السابق
+              </button>
+
+              {decisionStep < QUESTION_FLOW.length - 1 && (
+                <button className="btn light" type="button" onClick={nextQuestion}>
+                  التالي
+                </button>
+              )}
+
+              {decisionStep === QUESTION_FLOW.length - 1 && (
+                <button className="btn success" type="button" disabled={!completed || locked} onClick={submitAttempt}>
+                  اعتماد الإجابة وكشف التصحيح
+                </button>
+              )}
+
+              <button className="btn light" type="button" onClick={resetAttempt}>
+                إعادة المحاولة
+              </button>
+            </div>
+
+            {!completed && (
+              <div className="card" style={{ marginTop: 14, background: "rgba(255,255,255,.08)", borderColor: "rgba(255,255,255,.12)" }}>
+                <p style={{ color: "rgba(255,255,255,.82)" }}>
+                  بقيت قرارات غير مكتملة. يجب إكمال السلسلة كاملة: التأطير، الفرضية، البيانات، التدخل، القياس، والأخلاقيات.
+                </p>
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeView === "debrief" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">تقرير التغذية الراجعة</span>
+                <h2>{score}% · {getGrade(score)}</h2>
+                <p>
+                  التصحيح يقيس جودة الحكم الاستشاري: هل فهمت النظام؟ هل اخترت البيانات الصحيحة؟ هل صممت تدخلًا مناسبًا؟ وهل حميت الأخلاقيات؟
+                </p>
+              </div>
+
+              <div className="score-orb" style={{ "--score": `${score}%` }}>
+                <div>
+                  <strong>{score}%</strong>
+                  <span>نضج القرار</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="breakdown-list">
+              {breakdown.map((item) => (
+                <div className="breakdown" key={item.key}>
+                  <div className="breakdown-top">
+                    <b>{item.label}</b>
+                    <span>{item.earned}/{item.weight}</span>
+                  </div>
+                  <p>
+                    <strong>اختيارك:</strong> {item.selected || "غير مجاب"}
+                  </p>
+                  {!item.isCorrect && (
+                    <p>
+                      <strong>الأفضل مهنيًا:</strong> {item.correct}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="grid-2">
+              <div className="card">
+                <h3>أخطاء كان يجب تجنبها</h3>
+                <ul>
+                  {scenario.mistakes.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+
+              <div className="card">
+                <h3>علامات النجاح في هذه الحالة</h3>
+                <ul>
+                  {scenario.successMeasures.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+            </div>
+
+            <div className="card" style={{ marginTop: 14 }}>
+              <h3>المرجع المفاهيمي</h3>
+              <p>
+                {scenario.reference.title} — {scenario.reference.label}: {scenario.reference.idea}
+              </p>
+            </div>
+
+            <div className="actions">
+              <button className="btn primary" type="button" onClick={downloadBrief} disabled={!locked}>
+                تنزيل تقرير المحاولة
+              </button>
+              <button className="btn ghost" type="button" onClick={() => setActiveView("decision")}>
+                مراجعة الإجابات
+              </button>
+              <button className="btn ghost" type="button" onClick={randomScenario}>
+                حالة جديدة
+              </button>
+            </div>
+          </section>
+        )}
+
+        {activeView === "notes" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">مذكرة المستشار</span>
+                <h2>اكتب تفكيرك قبل الحكم</h2>
+                <p>
+                  اكتب ملاحظاتك: ما العرض؟ ما النمط؟ ما الفرضيات؟ ما البيانات؟ ما الخطر الأخلاقي؟ وما السلوك الذي يجب قياسه؟
+                </p>
+              </div>
+            </div>
+
+            <div className="field">
+              <label>ملاحظاتك على {scenario.id}</label>
+              <textarea
+                value={currentNotes}
+                onChange={(e) => updateNotes(e.target.value)}
+                placeholder="مثال: لا أعتقد أن المشكلة تدريبية فقط؛ هناك احتمال أن الصلاحيات والمؤشرات تعيد إنتاج السلوك القديم..."
+              />
+            </div>
+
+            <div className="grid-2">
+              <div className="card">
+                <h3>أسئلة تساعدك</h3>
+                <ul>
+                  <li>ما الذي يجعل السلوك القديم منطقيًا داخل النظام؟</li>
+                  <li>من يربح من الوضع الحالي؟ ومن يخسر؟</li>
+                  <li>ما البيانات التي لو ظهرت ستغيّر فرضيتي؟</li>
+                  <li>كيف أحمي المشاركين من استخدام البيانات ضدهم؟</li>
+                  <li>ما السلوك القابل للملاحظة الذي سأقيسه؟</li>
+                </ul>
+              </div>
+
+              <div className="card">
+                <h3>المخرج المتوقع</h3>
+                <p>{scenario.deliverable}</p>
+                <p>الهدف ليس وثيقة جميلة، بل قرار تنظيمي أفضل قابل للتنفيذ والقياس والاستدامة.</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeView === "library" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">استكشاف الحالات</span>
+                <h2>{filtered.length} حالة مطابقة</h2>
+                <p>
+                  اختر المجال والصعوبة أو ابحث بكلمة مفتاحية. عند اختيار حالة ستنتقل مباشرة إلى ملفها المستقل.
+                </p>
+              </div>
+            </div>
+
+            <div className="filters">
+              <div className="field">
+                <label>البحث</label>
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="ثقافة، صلاحيات، أداء، تعلم..."
+                />
+              </div>
+
+              <div className="field">
+                <label>مستوى الصعوبة</label>
+                <select value={level} onChange={(e) => setLevel(e.target.value)}>
+                  <option value="all">كل المستويات</option>
+                  {levelStats.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name} — {item.count} حالة
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="field">
+                <label>المجال</label>
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <option value="all">كل المجالات</option>
+                  {categoryStats.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="scenario-list">
+              {filtered.slice(0, 60).map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`scenario-mini ${item.id === scenario.id ? "active" : ""}`}
+                  onClick={() => openScenario(item.id)}
+                >
+                  <span>{item.id} · {item.level.name}</span>
+                  <strong>{item.title}</strong>
+                  <small>{item.trigger}</small>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeView === "mastery" && (
+          <section className="page">
+            <div className="page-head">
+              <div>
+                <span className="od-kicker">لوحة الإتقان</span>
+                <h2>هل تتقدم كحافظ أم كممارس؟</h2>
+                <p>
+                  هذه اللوحة تقرأ رحلتك داخل المختبر: عدد المحاولات، أفضل درجة، متوسط الأداء، المجالات التي مارستها، ووقت التعلم.
+                </p>
+              </div>
+            </div>
+
+            <div className="mastery-grid">
+              <MasteryCard title="المحاولات" value={progress.attempts || 0} subtitle="كل محاولة كاملة" color="#4f46e5" />
+              <MasteryCard title="أفضل درجة" value={`${progress.bestScore || 0}%`} subtitle="أعلى نضج قرار" color="#10b981" />
+              <MasteryCard title="متوسط الأداء" value={`${avgScore}%`} subtitle="آخر المحاولات" color="#f59e0b" />
+              <MasteryCard title="وقت التعلم" value={formatTime(totalSeconds)} subtitle="داخل المختبر" color="#e11d48" />
+            </div>
+
+            <div className="grid-2">
+              <div className="card">
+                <h3>أفضل المجالات تدريبًا</h3>
+                {masteryByCategory.map((item) => (
+                  <MiniBar key={item.name} label={item.name} value={item.value} color={item.color} />
+                ))}
+              </div>
+
+              <div className="card">
+                <h3>معيار الإتقان</h3>
+                <div className="rubric">
+                  <div className="rubric-item">
+                    <b>أقل من 55%</b>
+                    <p>توجد سرعة في القفز للحلول أو ضعف في حماية الأخلاقيات أو قياس النشاط بدل الأثر.</p>
+                  </div>
+                  <div className="rubric-item">
+                    <b>55% - 69%</b>
+                    <p>يوجد فهم جزئي، لكن القرار ما زال يحتاج ربطًا أوضح بين التشخيص والتدخل والقياس.</p>
+                  </div>
+                  <div className="rubric-item">
+                    <b>70% - 81%</b>
+                    <p>قرار جيد، مع فجوات محددة غالبًا في البيانات أو الأخلاقيات أو الاستدامة.</p>
+                  </div>
+                  <div className="rubric-item">
+                    <b>82% - 91%</b>
+                    <p>ممارسة ناضجة وقادرة على قراءة النظام وتجنب الحلول السطحية.</p>
+                  </div>
+                  <div className="rubric-item">
+                    <b>92%+</b>
+                    <p>حكم استشاري قوي يجمع الفرضية والبيانات والتدخل والقياس والأخلاق.</p>
                   </div>
                 </div>
-              </section>
-            )}
-          </main>
-        </div>
+              </div>
+            </div>
+
+            <div className="actions">
+              <button className="btn danger" type="button" onClick={clearProgress}>
+                تصفير التقدم
+              </button>
+            </div>
+          </section>
+        )}
       </div>
     </section>
   );
