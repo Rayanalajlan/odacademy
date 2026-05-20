@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 
 /**
  * OD Academy Home.jsx
@@ -17,7 +18,10 @@ import { useEffect, useMemo, useState } from "react";
  */
 
 const TIMER_STORAGE_KEY = "od_academy_learning_timer_v1";
+const TIMER_STORAGE_KEY_PREFIX = "od_academy_learning_timer_v2_user_";
 const LEGACY_HOURS_KEY = "od_hours";
+const REMOTE_LEARNING_TIME_TABLE = "user_learning_time";
+const REMOTE_SYNC_INTERVAL_MS = 15000;
 const TIMER_EVENT = "od-learning-time-update";
 const DAILY_GOAL_SECONDS = 45 * 60;
 const IDLE_LIMIT_MS = 5 * 60 * 1000;
@@ -91,11 +95,15 @@ function clampNumber(value, fallback = 0) {
   return Number.isFinite(number) && number >= 0 ? number : fallback;
 }
 
-function readStoredTimer() {
+function getTimerStorageKey(userId) {
+  return userId ? `${TIMER_STORAGE_KEY_PREFIX}${userId}` : TIMER_STORAGE_KEY;
+}
+
+function readStoredTimer(storageKey = TIMER_STORAGE_KEY) {
   if (typeof window === "undefined") return null;
 
   try {
-    const raw = window.localStorage.getItem(TIMER_STORAGE_KEY);
+    const raw = window.localStorage.getItem(storageKey);
     if (!raw) return null;
     return JSON.parse(raw);
   } catch {
@@ -132,17 +140,110 @@ function normalizeTimerData(raw) {
   return data;
 }
 
-function saveTimerData(data) {
+function mergeDailyLogs(...logs) {
+  const merged = {};
+
+  logs.forEach((log) => {
+    if (!log || typeof log !== "object") return;
+
+    Object.entries(log).forEach(([date, seconds]) => {
+      merged[date] = Math.max(clampNumber(merged[date]), clampNumber(seconds));
+    });
+  });
+
+  return merged;
+}
+
+function mergeTimerData(...sources) {
+  const normalizedSources = sources
+    .filter(Boolean)
+    .map((source) => normalizeTimerData(source));
+
+  if (!normalizedSources.length) return normalizeTimerData(null);
+
+  const base = normalizeTimerData(null);
+  const dailyLog = mergeDailyLogs(...normalizedSources.map((source) => source.dailyLog));
+  const dailyTotal = Object.values(dailyLog).reduce((sum, seconds) => sum + clampNumber(seconds), 0);
+  const totalSeconds = Math.max(
+    dailyTotal,
+    ...normalizedSources.map((source) => clampNumber(source.totalSeconds))
+  );
+
+  return {
+    ...base,
+    totalSeconds,
+    dailyLog,
+    sessionsCount: Math.max(...normalizedSources.map((source) => clampNumber(source.sessionsCount))),
+    longestSessionSeconds: Math.max(...normalizedSources.map((source) => clampNumber(source.longestSessionSeconds))),
+    createdAt: normalizedSources.map((source) => source.createdAt).filter(Boolean).sort()[0] || base.createdAt,
+    updatedAt: new Date().toISOString()
+  };
+}
+
+async function fetchRemoteTimerData(userId) {
+  if (!userId || !isSupabaseConfigured || !supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from(REMOTE_LEARNING_TIME_TABLE)
+      .select("total_seconds, daily_log, sessions_count, longest_session_seconds, created_at, updated_at")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error || !data) return null;
+
+    return normalizeTimerData({
+      totalSeconds: data.total_seconds,
+      dailyLog: data.daily_log,
+      sessionsCount: data.sessions_count,
+      longestSessionSeconds: data.longest_session_seconds,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function pushRemoteTimerData(userId, data) {
+  if (!userId || !isSupabaseConfigured || !supabase) return;
+
+  const normalized = normalizeTimerData(data);
+
+  try {
+    await supabase.from(REMOTE_LEARNING_TIME_TABLE).upsert(
+      {
+        user_id: userId,
+        total_seconds: Math.floor(clampNumber(normalized.totalSeconds)),
+        daily_log: normalized.dailyLog,
+        sessions_count: Math.floor(clampNumber(normalized.sessionsCount)),
+        longest_session_seconds: Math.floor(clampNumber(normalized.longestSessionSeconds)),
+        updated_at: new Date().toISOString()
+      },
+      { onConflict: "user_id" }
+    );
+  } catch {
+    // فشل المزامنة السحابية لا يوقف العداد؛ النسخة المحلية تبقى محفوظة.
+  }
+}
+
+function saveTimerData(data, storageKey = TIMER_STORAGE_KEY) {
   if (typeof window === "undefined") return;
 
   try {
-    window.localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(data));
+    const normalized = normalizeTimerData(data);
+    window.localStorage.setItem(storageKey, JSON.stringify(normalized));
+
+    // نحفظ نسخة عامة أيضًا حتى لا يضيع وقتك لو تغيّر مفتاح المستخدم أو دخلت من نسخة قديمة.
+    if (storageKey !== TIMER_STORAGE_KEY) {
+      window.localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(normalized));
+    }
 
     /**
      * مفتاح متوافق مع كود وثيقة الإتقان القديم.
      * نخزن عدد الساعات المكتملة فعليًا، لا الدقائق.
      */
-    const completedHours = Math.floor(clampNumber(data.totalSeconds) / 3600);
+    const completedHours = Math.floor(clampNumber(normalized.totalSeconds) / 3600);
     window.localStorage.setItem(LEGACY_HOURS_KEY, String(completedHours));
   } catch {
     // تجاهل فشل التخزين حتى لا يتعطل الموقع
@@ -246,19 +347,76 @@ function createLearningTimer() {
   }
 
   const timer = {
-    data: normalizeTimerData(readStoredTimer()),
+    userId: null,
+    storageKey: TIMER_STORAGE_KEY,
+    data: normalizeTimerData(readStoredTimer(TIMER_STORAGE_KEY)),
     intervalId: null,
+    authSubscription: null,
     lastTickAt: Date.now(),
     lastInteractionAt: Date.now(),
     lastSaveAt: Date.now(),
+    lastRemoteSyncAt: 0,
+    syncInFlight: false,
     sessionSeconds: 0,
     isPaused: false,
     isIdle: false,
 
+    async bindCurrentUser() {
+      if (!isSupabaseConfigured || !supabase) return;
+
+      try {
+        const { data } = await supabase.auth.getUser();
+        const userId = data?.user?.id;
+
+        if (!userId || this.userId === userId) return;
+
+        const userStorageKey = getTimerStorageKey(userId);
+        const genericLocalData = readStoredTimer(TIMER_STORAGE_KEY);
+        const userLocalData = readStoredTimer(userStorageKey);
+        const remoteData = await fetchRemoteTimerData(userId);
+
+        this.userId = userId;
+        this.storageKey = userStorageKey;
+        this.data = mergeTimerData(this.data, genericLocalData, userLocalData, remoteData);
+        this.data.updatedAt = new Date().toISOString();
+
+        this.persist(true);
+        this.broadcast();
+      } catch {
+        // لو فشل ربط المستخدم، نستمر بالحفظ المحلي حتى لا يضيع الوقت.
+      }
+    },
+
+    persist(forceRemote = false) {
+      saveTimerData(this.data, this.storageKey);
+
+      const now = Date.now();
+      const shouldSyncRemote =
+        forceRemote || now - this.lastRemoteSyncAt >= REMOTE_SYNC_INTERVAL_MS;
+
+      if (this.userId && shouldSyncRemote && !this.syncInFlight) {
+        this.syncInFlight = true;
+        this.lastRemoteSyncAt = now;
+
+        pushRemoteTimerData(this.userId, this.data).finally(() => {
+          this.syncInFlight = false;
+        });
+      }
+    },
+
     start() {
       this.data.sessionsCount += 1;
       this.data.updatedAt = new Date().toISOString();
-      saveTimerData(this.data);
+      this.persist(true);
+      this.bindCurrentUser();
+
+      if (isSupabaseConfigured && supabase) {
+        const { data } = supabase.auth.onAuthStateChange(() => {
+          this.bindCurrentUser();
+        });
+
+        this.authSubscription = data?.subscription || null;
+      }
 
       const interactionEvents = ["mousemove", "mousedown", "keydown", "scroll", "touchstart", "click"];
 
@@ -275,11 +433,11 @@ function createLearningTimer() {
       document.addEventListener("visibilitychange", () => {
         this.lastTickAt = Date.now();
         this.broadcast();
-        saveTimerData(this.data);
+        this.persist();
       });
 
       window.addEventListener("beforeunload", () => {
-        saveTimerData(this.data);
+        this.persist();
       });
 
       this.intervalId = window.setInterval(() => this.tick(), 1000);
@@ -320,7 +478,7 @@ function createLearningTimer() {
 
       if (now - this.lastSaveAt >= 5000) {
         this.lastSaveAt = now;
-        saveTimerData(this.data);
+        this.persist();
       }
 
       this.broadcast();
@@ -329,7 +487,7 @@ function createLearningTimer() {
     pause() {
       this.isPaused = true;
       this.broadcast();
-      saveTimerData(this.data);
+      this.persist();
     },
 
     resume() {
@@ -348,7 +506,7 @@ function createLearningTimer() {
       this.sessionSeconds = 0;
       this.data.updatedAt = new Date().toISOString();
 
-      saveTimerData(this.data);
+      this.persist();
       this.broadcast();
     },
 
