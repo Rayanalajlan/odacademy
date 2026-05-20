@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap } from "../data/courseContent";
 import { loadUserProgress } from "../lib/progressService";
 
-const ASSESSMENT_STORAGE_KEY = "odacademy_radar_pre_assessment_v2";
-const ASSESSMENT_DRAFT_KEY = "odacademy_radar_pre_assessment_draft_v2";
+const ASSESSMENT_STORAGE_KEY = "odacademy_radar_pre_assessment_v3";
+const ASSESSMENT_DRAFT_KEY = "odacademy_radar_pre_assessment_draft_v3";
 
 const competencyLabels = [
   "تفكير نظمي",
@@ -513,6 +513,53 @@ function seededShuffle(items, seedText) {
   return result;
 }
 
+
+const OPTION_BALANCE_SUFFIXES = [
+  "مع توثيق ما يحتاج إلى تحقق لاحقًا.",
+  "دون اعتباره تفسيرًا نهائيًا للمشكلة.",
+  "مع مراجعة أثره قبل تحويله إلى تدخل.",
+  "ضمن قراءة أولية قابلة للمراجعة.",
+  "مع الانتباه لحدود البيانات المتاحة.",
+  "مع ربطه بسياق العمل قبل اعتماده.",
+  "مع اختبار أثره على أكثر من طرف.",
+  "وفق نطاق واضح ومسؤوليات محددة."
+];
+
+const OPTION_BALANCE_QUESTION_SUFFIXES = [
+  "ضمن قراءة أولية لا تفترض السبب مسبقًا.",
+  "مع ربط الإجابة بسياق العمل لا بالرأي العام.",
+  "قبل تحويل الملاحظة إلى تدخل أو توصية.",
+  "مع تحديد نوع البيانات اللازمة للتحقق.",
+  "دون إغلاق احتمالات تفسيرية أخرى."
+];
+
+function balanceOptionText(text, seedText) {
+  const original = String(text || "").replace(/\s+/g, " ").trim();
+
+  if (!original) return original;
+
+  const startsLikeQuestion = /^(هل|ما|كم|لماذا|كيف|أي)\b/.test(original);
+  const suffixPool = startsLikeQuestion ? OPTION_BALANCE_QUESTION_SUFFIXES : OPTION_BALANCE_SUFFIXES;
+
+  // الهدف هنا ليس تغيير معنى البديل، بل منع ظهور دليل شكلي مثل أن تكون الإجابة الأفضل هي الأطول دائمًا.
+  // يوصي دليل NBME بمراجعة طول وتفصيل البدائل حتى لا تبرز الإجابة الصحيحة شكليًا.
+  const targetLength = 92 + (hashText(seedText) % 22);
+  let balanced = original;
+  let suffixIndex = hashText(`${seedText}-suffix`) % suffixPool.length;
+
+  while (balanced.length < targetLength && suffixIndex < suffixPool.length + 3) {
+    const suffix = suffixPool[suffixIndex % suffixPool.length];
+
+    if (!balanced.includes(suffix)) {
+      balanced = `${balanced} ${suffix}`.trim();
+    }
+
+    suffixIndex += 1;
+  }
+
+  return balanced;
+}
+
 function createAssessmentRun(seed = String(Date.now())) {
   return preAssessmentQuestions.map((question, index) => ({
     ...question,
@@ -520,6 +567,8 @@ function createAssessmentRun(seed = String(Date.now())) {
     options: seededShuffle(
       question.options.map((option, optionIndex) => ({
         ...option,
+        // نعرض نسخة متوازنة الطول من البديل حتى لا تكون الإجابة الأفضل مفضوحة من شكلها.
+        text: balanceOptionText(option.text, `${seed}-${question.id}-${optionIndex}`),
         optionId: `${question.id}-option-${optionIndex + 1}`
       })),
       `${seed}-${question.id}`
