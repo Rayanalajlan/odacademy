@@ -68,9 +68,6 @@ function getSessionName(session, fallbackName = "") {
   );
 }
 
-// تعديل مهم:
-// لا ننتظر رسالة البريد قبل إدخال المستخدم.
-// التنبيه يعمل في الخلفية فقط، حتى لا يعلق تسجيل الدخول.
 function sendLoginNoticeInBackground(session) {
   if (!session?.access_token) return;
 
@@ -95,7 +92,6 @@ function sendLoginNoticeInBackground(session) {
     })
   })
     .catch((error) => {
-      // لا نوقف دخول المستخدم إذا فشل إرسال تنبيه البريد.
       console.warn("تعذر إرسال تنبيه الدخول:", error);
     })
     .finally(() => {
@@ -129,7 +125,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
       localStorage.setItem("od_demo_name", finalName);
     }
 
-    // يدعم App.jsx الجديد.
     if (typeof onEnter === "function") {
       onEnter({
         session,
@@ -139,7 +134,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
       return;
     }
 
-    // يدعم App.jsx القديم احتياطًا.
     if (typeof onAuthenticated === "function") {
       onAuthenticated(session);
       return;
@@ -174,8 +168,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
 
       validateBeforeSubmit(cleanEmail);
 
-      // وضع آمن عند عدم ضبط Supabase:
-      // يفيدك في التجربة المحلية فقط، ولا يعتمد عليه للإنتاج.
       if (!isSupabaseConfigured || !supabase) {
         const demoName = cleanName || cleanEmail || "زميل المهنة";
 
@@ -202,7 +194,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           throw new Error("لم تصل جلسة دخول صالحة من Supabase.");
         }
 
-        // لا نستخدم await هنا حتى لا يتعطل الدخول بسبب البريد.
         sendLoginNoticeInBackground(nextSession);
 
         setMessage({
@@ -497,7 +488,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
         }
 
         .auth-principle {
-          min-height: 116px;
+          min-height: 128px;
           padding: 16px;
           border-radius: 24px;
           background: rgba(255,255,255,.10);
@@ -624,7 +615,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
         .auth-help-row {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           gap: 12px;
           flex-wrap: wrap;
           margin-top: -4px;
@@ -639,12 +630,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           font-family: inherit;
           font-size: 12px;
           font-weight: 950;
-        }
-
-        .auth-hint {
-          color: #94a3b8;
-          font-size: 11px;
-          font-weight: 800;
         }
 
         .auth-submit {
@@ -765,14 +750,16 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
               </div>
             </div>
 
-            <span className="auth-badge">رحلة معرفية محفوظة بالتقدم</span>
+            <span className="auth-badge">
+              رحلة معرفية متكاملة في التطوير التنظيمي
+            </span>
           </div>
 
           <div className="auth-welcome">
             <small>{greetingLine}</small>
 
             <h1>
-              ادخل إلى مساحة
+              حياك في مساحة
               <span>الفهم قبل الحل</span>
             </h1>
 
@@ -785,20 +772,29 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           <div className="auth-principles">
             <div className="auth-principle">
               <b>01</b>
-              <strong>لا تقفز للحل</strong>
-              <span>كل رحلة تبدأ بسؤال: ما الذي ينتج هذا السلوك داخل النظام؟</span>
+              <strong>اقرأ المنظمة كنظام</strong>
+              <span>
+                افهم العلاقات بين الاستراتيجية، الهيكل، الأدوار، الثقافة،
+                والحوافز قبل بناء أي تدخل.
+              </span>
             </div>
 
             <div className="auth-principle">
               <b>02</b>
-              <strong>اجعل التقدم مرئيًا</strong>
-              <span>إنجازك محفوظ، ووثيقة الإتقان لا تفتح إلا بعد إكمال الرحلة.</span>
+              <strong>ابنِ حكمًا مهنيًا</strong>
+              <span>
+                تدرّب على تحليل الأعراض، اختبار الفرضيات، وطلب البيانات
+                المناسبة قبل إصدار التوصية.
+              </span>
             </div>
 
             <div className="auth-principle">
               <b>03</b>
-              <strong>حوّل المعرفة إلى ممارسة</strong>
-              <span>كل درس مصمم ليقودك إلى حكم مهني لا إلى حفظ نظري فقط.</span>
+              <strong>حوّل التعلم إلى أثر</strong>
+              <span>
+                انتقل من فهم المفاهيم إلى تطبيقها في قرارات تنظيمية أوضح وأكثر
+                قابلية للقياس.
+              </span>
             </div>
           </div>
         </aside>
@@ -820,7 +816,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
                   type="text"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  placeholder="اكتب اسمك كما تريد ظهوره داخل المنصة"
+                  placeholder="اكتب اسمك كما تحب أن تراه في شهادتك"
                   autoComplete="name"
                 />
               </div>
@@ -843,6 +839,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
             {mode !== "reset" && (
               <div className="auth-field">
                 <label htmlFor="password">كلمة المرور</label>
+
                 <div className="auth-input-wrap">
                   <input
                     id="password"
@@ -868,8 +865,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
 
             {mode === "login" && (
               <div className="auth-help-row">
-                <span className="auth-hint">سيتم إرسال تنبيه ترحيبي بعد الدخول الناجح.</span>
-
                 <button
                   type="button"
                   className="auth-link"
@@ -904,8 +899,8 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           </div>
 
           <div className="auth-security-note">
-            <b>تنبيه أمان:</b> لا تشارك كلمة المرور مع أي شخص. عند كل دخول ناجح ستصلك رسالة
-            تنبيه، لكن دخولك للمنصة لن ينتظر وصول الرسالة.
+            <b>تنبيه أمان:</b> لا تشارك كلمة المرور مع أي شخص. عند كل دخول ناجح
+            ستصلك رسالة تنبيه لحماية حسابك.
           </div>
         </section>
       </section>
