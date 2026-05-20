@@ -60,15 +60,17 @@ const socialLinks = [
   {
     name: "LinkedIn",
     label: "المساحة المهنية",
-    description: "مقالات ونقاشات حول الإنسان، المنظمة، الأداء، وبناء القدرة.",
+    description:
+      "مقالات وقراءات معمّقة في فلسفة العمل، بناء المنظمات، والقدرات البشرية التي تصنع الفارق.",
     icon: "in",
     url: "https://www.linkedin.com/in/rayanalajlan/",
     brandClass: "linkedin"
   },
   {
     name: "X",
-    label: "الأفكار القصيرة",
-    description: "ومضات مركزة حول العمل، التطوير، السلوك، والقرارات التنظيمية.",
+    label: "الأفكار الحرة",
+    description:
+      "ومضات سريعة وأفكار حرة حول السلوك المؤسسي، القرارات اليومية، وتطوير بيئات العمل.",
     icon: "𝕏",
     url: "https://x.com/Rayan_Alajlan",
     brandClass: "x"
@@ -130,7 +132,9 @@ export default function AboutRayan() {
             linear-gradient(135deg,#f8fafc 0%,#fffaf3 46%,#eef2ff 100%);
         }
 
-        .about-rayan * { box-sizing:border-box; }
+        .about-rayan * {
+          box-sizing:border-box;
+        }
 
         .ar-wrap {
           width:min(1180px,100%);
@@ -377,6 +381,56 @@ export default function AboutRayan() {
           box-shadow:0 16px 44px rgba(15,23,42,.06);
         }
 
+        .ar-dua-section {
+          margin-top:20px;
+          padding:0;
+          background:transparent;
+          border:0;
+          box-shadow:none;
+          backdrop-filter:none;
+        }
+
+        .ar-dua-card {
+          position:relative;
+          overflow:hidden;
+          border-radius:34px;
+          padding:30px;
+          background:
+            radial-gradient(circle at top left, rgba(180,138,90,.22), transparent 34%),
+            linear-gradient(135deg,#ffffff,#fffbeb);
+        }
+
+        .ar-dua-card::before {
+          content:"";
+          position:absolute;
+          top:-90px;
+          left:-90px;
+          width:220px;
+          height:220px;
+          border-radius:999px;
+          background:rgba(180,138,90,.14);
+        }
+
+        .ar-dua-card span {
+          position:relative;
+          z-index:1;
+          display:inline-flex;
+          margin-bottom:10px;
+          color:#92400e;
+          font-size:12px;
+          font-weight:950;
+        }
+
+        .ar-dua-card p {
+          position:relative;
+          z-index:1;
+          margin:0;
+          color:#78350f;
+          font-size:18px;
+          line-height:2.15;
+          font-weight:900;
+        }
+
         .ar-bio-box {
           border-radius:28px;
           padding:22px;
@@ -390,7 +444,9 @@ export default function AboutRayan() {
           font-weight:700;
         }
 
-        .ar-bio-box p + p { margin-top:14px; }
+        .ar-bio-box p + p {
+          margin-top:14px;
+        }
 
         .ar-identity-grid,
         .ar-lens-grid {
@@ -582,22 +638,25 @@ export default function AboutRayan() {
           color:white;
           background:linear-gradient(150deg,#0f172a,#1e293b);
           box-shadow:0 20px 52px rgba(15,23,42,.16);
-        }
-
-        .ar-consultation-panel small {
-          display:block;
-          color:#fde68a;
-          font-size:12px;
-          font-weight:950;
-          margin-bottom:10px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          gap:14px;
         }
 
         .ar-consultation-panel strong {
           display:block;
-          font-size:18px;
-          line-height:1.6;
+          font-size:19px;
+          line-height:1.7;
           font-weight:950;
-          margin-bottom:14px;
+        }
+
+        .ar-consultation-panel p {
+          margin:0;
+          color:rgba(226,232,240,.86);
+          font-size:13px;
+          line-height:1.9;
+          font-weight:750;
         }
 
         .ar-consultation-button {
@@ -615,47 +674,8 @@ export default function AboutRayan() {
           transition:.24s ease;
         }
 
-        .ar-consultation-button:hover { transform:translateY(-3px); }
-
-        .ar-dua-card {
-          position:relative;
-          overflow:hidden;
-          border-radius:34px;
-          padding:28px;
-          background:
-            radial-gradient(circle at top left, rgba(180,138,90,.18), transparent 34%),
-            linear-gradient(135deg,#ffffff,#fffbeb);
-        }
-
-        .ar-dua-card::before {
-          content:"";
-          position:absolute;
-          top:-90px;
-          left:-90px;
-          width:220px;
-          height:220px;
-          border-radius:999px;
-          background:rgba(180,138,90,.14);
-        }
-
-        .ar-dua-card span {
-          position:relative;
-          z-index:1;
-          display:inline-flex;
-          margin-bottom:10px;
-          color:#92400e;
-          font-size:12px;
-          font-weight:950;
-        }
-
-        .ar-dua-card p {
-          position:relative;
-          z-index:1;
-          margin:0;
-          color:#78350f;
-          font-size:18px;
-          line-height:2.15;
-          font-weight:900;
+        .ar-consultation-button:hover {
+          transform:translateY(-3px);
         }
 
         .ar-social {
@@ -687,10 +707,21 @@ export default function AboutRayan() {
           font-weight:950;
         }
 
-        .ar-social.linkedin .ar-social-icon { background:var(--linkedin); }
-        .ar-social.x .ar-social-icon { background:var(--x); }
-        .ar-social.linkedin span { color:var(--linkedin); }
-        .ar-social.x span { color:#111827; }
+        .ar-social.linkedin .ar-social-icon {
+          background:var(--linkedin);
+        }
+
+        .ar-social.x .ar-social-icon {
+          background:var(--x);
+        }
+
+        .ar-social.linkedin span {
+          color:var(--linkedin);
+        }
+
+        .ar-social.x span {
+          color:#111827;
+        }
 
         .ar-social span {
           display:block;
@@ -724,7 +755,9 @@ export default function AboutRayan() {
             grid-template-columns:1fr;
           }
 
-          .ar-section-head { display:block; }
+          .ar-section-head {
+            display:block;
+          }
 
           .ar-signature {
             max-width:100%;
@@ -738,10 +771,13 @@ export default function AboutRayan() {
         }
 
         @media (max-width:560px) {
-          .about-rayan { padding:16px 10px 44px; }
+          .about-rayan {
+            padding:16px 10px 44px;
+          }
 
           .ar-hero,
-          .ar-section {
+          .ar-section,
+          .ar-dua-card {
             border-radius:28px;
             padding:22px;
           }
@@ -817,6 +853,13 @@ export default function AboutRayan() {
             </aside>
           </div>
         </header>
+
+        <section className="ar-dua-section">
+          <div className="ar-dua-card">
+            <span>طلب دعاء</span>
+            <p>{duaText}</p>
+          </div>
+        </section>
 
         <section className="ar-section">
           <div className="ar-section-head">
@@ -951,31 +994,27 @@ export default function AboutRayan() {
             </div>
 
             <aside className="ar-consultation-panel">
-              <small>البريد المعتمد</small>
-              <strong>Rayansalajlan@gmail.com</strong>
+              <strong>هل لديك تحدٍ تنظيمي يحتاج قراءة أعمق؟</strong>
+              <p>
+                ابدأ برسالة منظمة توضّح السياق، الهدف، والتحدي؛ لتكون نقطة
+                البداية أكثر وضوحًا وفائدة.
+              </p>
 
               <a className="ar-consultation-button" href={consultationMailto}>
-                فتح قالب طلب الاستشارة
+                إرسال طلب استشارة
               </a>
             </aside>
           </div>
         </section>
 
         <section className="ar-section">
-          <div className="ar-dua-card">
-            <span>طلب دعاء</span>
-            <p>{duaText}</p>
-          </div>
-        </section>
-
-        <section className="ar-section">
           <div className="ar-section-head">
             <div>
-              <span>الحضور المهني</span>
-              <h2>تابع الأفكار والنقاشات</h2>
+              <span>أين تجدني مهنياً؟</span>
+              <h2>زوايا للقراءة والتأمل المهني</h2>
               <p>
-                مساحات أشارك فيها قراءات مهنية حول الإنسان، الأداء، التعلم،
-                التصميم، والقدرة التنظيمية.
+                زوايا أشاركك فيها قناعاتي وتجاربي حول هندسة السلوك، وتصميم
+                التجارب، وصياغة التوجهات.
               </p>
             </div>
           </div>

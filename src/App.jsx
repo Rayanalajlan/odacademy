@@ -21,8 +21,8 @@ const pages = [
   { id: "about", label: "عن ريان" }
 ];
 
-// مدة انتظار آمنة حتى لا تبقى شاشة التجهيز معلقة إذا تأخر Supabase أو الإنترنت.
 const BOOT_TIMEOUT_MS = 8000;
+const BRAND_LOGO_SRC = "/rayan-logo.png";
 
 function progressKey(row) {
   return `${row.month_index}-${row.week_index}-${row.day_index}`;
@@ -38,7 +38,6 @@ function getDisplayName(session, fallbackName) {
   );
 }
 
-// هذه الدالة تمنع أي عملية طويلة من تعليق الموقع للأبد.
 function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
   return Promise.race([
     promise,
@@ -54,7 +53,9 @@ function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
-  const [userName, setUserName] = useState(localStorage.getItem("od_demo_name") || "");
+  const [userName, setUserName] = useState(
+    localStorage.getItem("od_demo_name") || ""
+  );
   const [activePage, setActivePage] = useState("home");
   const [progressRows, setProgressRows] = useState([]);
   const [loadingProgress, setLoadingProgress] = useState(false);
@@ -83,6 +84,7 @@ export default function App() {
       setProgressRows(Array.isArray(rows) ? rows : []);
     } catch (error) {
       console.warn("تعذر تحميل التقدم:", error);
+
       setNotice(
         "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
       );
@@ -143,23 +145,22 @@ export default function App() {
     boot();
 
     if (isSupabaseConfigured && supabase) {
-      const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-        if (!mounted) return;
+      const { data } = supabase.auth.onAuthStateChange(
+        (_event, nextSession) => {
+          if (!mounted) return;
 
-        setSession(nextSession || null);
+          setSession(nextSession || null);
 
-        if (nextSession?.user) {
-          setUserName(getDisplayName(nextSession));
+          if (nextSession?.user) {
+            setUserName(getDisplayName(nextSession));
+          }
+
+          loadProgressSafely({ showLoader: true });
         }
-
-        // لا نعلّق شاشة الدخول بسبب تحميل التقدم؛ نحمّله في الخلفية.
-        loadProgressSafely({ showLoader: true });
-      });
+      );
 
       return () => {
         mounted = false;
-
-        // تنظيف الاشتراك حتى لا يحدث استدعاء متكرر أو تسريب ذاكرة.
         data?.subscription?.unsubscribe?.();
       };
     }
@@ -168,7 +169,6 @@ export default function App() {
       mounted = false;
     };
 
-    // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -193,8 +193,6 @@ export default function App() {
     loadProgressSafely({ showLoader: true });
   }
 
-  // هذا السطر موجود حتى يشتغل App.jsx مع AuthGate القديم والجديد.
-  // AuthGate القديم كان يرسل session مباشرة، والجديد سيرسل object.
   function handleAuthenticatedFromOldAuthGate(nextSession) {
     handleEnter({
       session: nextSession,
@@ -224,7 +222,11 @@ export default function App() {
   }
 
   if (booting) {
-    return <div className="boot-screen">جارٍ تجهيز مختبر التطوير التنظيمي...</div>;
+    return (
+      <div className="boot-screen">
+        جارٍ تجهيز مختبر التطوير التنظيمي...
+      </div>
+    );
   }
 
   if (!authenticated) {
@@ -242,7 +244,14 @@ export default function App() {
     <div className="site-frame">
       <header className="site-header">
         <div className="brand">
-          <div className="brand-mark">RA</div>
+          <div className="brand-mark image-mark">
+            <img
+              src={BRAND_LOGO_SRC}
+              alt="شعار ريان العجلان"
+              className="brand-logo-image"
+            />
+          </div>
+
           <div>
             <strong>OD Engineering</strong>
             <span>إتقان التطوير التنظيمي</span>
@@ -262,7 +271,11 @@ export default function App() {
           ))}
         </nav>
 
-        <button type="button" className="logout-button" onClick={handleSignOut}>
+        <button
+          type="button"
+          className="logout-button"
+          onClick={handleSignOut}
+        >
           خروج
         </button>
       </header>
@@ -301,11 +314,14 @@ export default function App() {
 
       {activePage === "about" && <AboutRayan />}
 
-<footer className="site-footer">
-  <div>
-    صنعها ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
-  </div>
-  <span>© 2026 — جميع الحقوق محفوظة</span>
-</footer>    </div>
+      <footer className="site-footer">
+        <div>
+          صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
+          السلوك، والنظام خلف المشكلة.
+        </div>
+
+        <span>© 2026 — جميع الحقوق محفوظة</span>
+      </footer>
+    </div>
   );
 }

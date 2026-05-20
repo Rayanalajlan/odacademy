@@ -25,6 +25,7 @@ const REMOTE_SYNC_INTERVAL_MS = 15000;
 const TIMER_EVENT = "od-learning-time-update";
 const DAILY_GOAL_SECONDS = 45 * 60;
 const IDLE_LIMIT_MS = 5 * 60 * 1000;
+const BRAND_LOGO_SRC = "/rayan-logo.png";
 
 const cards = [
   {
@@ -70,7 +71,8 @@ const cards = [
   {
     title: "عن ريان",
     text: "خلفية المبادرة وفلسفتها المهنية ومنطلقاتها العلمية.",
-    icon: "RA",
+    icon: "",
+    useLogo: true,
     page: "about",
     badge: "الفلسفة",
     tone: "rose"
@@ -666,7 +668,13 @@ function FeatureCard({ card, onOpen, metric }) {
     <button type="button" className={`od-feature-card od-feature-card--${card.tone}`} onClick={onOpen}>
       <div className="od-feature-top">
         <span className="od-feature-badge">{card.badge}</span>
-        <div className="od-feature-icon">{card.icon}</div>
+        <div className={card.useLogo ? "od-feature-icon od-feature-icon--logo" : "od-feature-icon"}>
+          {card.useLogo ? (
+            <img src={BRAND_LOGO_SRC} alt="شعار ريان العجلان" />
+          ) : (
+            card.icon
+          )}
+        </div>
       </div>
 
       <h3>{card.title}</h3>
@@ -1052,16 +1060,16 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           font-weight: 900;
         }
 
-        .od-quote-bar span {
+        .od-quote-logo {
           width: 54px;
           height: 54px;
           border-radius: 22px;
           display: grid;
           place-items: center;
-          color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          font-weight: 950;
-          box-shadow: 0 16px 34px rgba(79,70,229,.22);
+          background: #ffffff;
+          overflow: hidden;
+          box-shadow: 0 16px 34px rgba(15,23,42,.12);
+          border: 1px solid rgba(180,138,90,.18);
         }
 
         .od-timer-command {
@@ -1413,6 +1421,21 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           font-size: 22px;
           font-weight: 950;
           box-shadow: 0 14px 30px rgba(15,23,42,.1);
+          overflow: hidden;
+        }
+
+        .od-feature-icon--logo {
+          background: #ffffff;
+          padding: 0;
+          color: inherit;
+        }
+
+        .od-feature-icon img,
+        .od-quote-logo img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
         }
 
         .od-feature-card h3 {
@@ -1646,7 +1669,9 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         <section className="od-quote-bar">
           <p>“{quote}”</p>
-          <span>RA</span>
+          <div className="od-quote-logo" aria-label="شعار ريان العجلان">
+            <img src={BRAND_LOGO_SRC} alt="شعار ريان العجلان" />
+          </div>
         </section>
 
         <TimerCommandCenter
