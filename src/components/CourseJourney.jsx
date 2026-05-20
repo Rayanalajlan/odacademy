@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { courseMap } from "../data/courseContent";
+import { courseMap as rawCourseMap } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
 
 const stateLabels = {
@@ -11,60 +11,159 @@ const stateLabels = {
 const stageMeta = {
   months: {
     kicker: "بوابة الرحلة",
-    title: "اختر الشهر الذي تريد دخوله",
-    note: "تبدأ الرحلة من الشهر الأول، ثم تُفتح الشهور التالية بعد إكمال المسار السابق.",
+    title: "اختر الشهر",
+    note: "لا يظهر لك كل المحتوى دفعة واحدة. ابدأ بالشهر، ثم افتح الأسبوع، ثم اليوم، ثم الدرس والاختبار.",
     quote: "لا تبدأ بالحل. افهم النظام أولًا."
   },
   weeks: {
     kicker: "خريطة الشهر",
-    title: "اختر الأسبوع داخل هذا الشهر",
-    note: "كل أسبوع بوابة مستقلة داخل الشهر. لا يظهر الدرس إلا بعد دخول الأسبوع ثم اختيار اليوم.",
-    quote: "التقدم الحقيقي ليس كثرة القراءة؛ بل وضوح التفكير."
+    title: "اختر الأسبوع",
+    note: "كل أسبوع بوابة معرفية مستقلة. لا تنتقل للبوابة التالية إلا بعد إكمال ما قبلها.",
+    quote: "الإتقان ليس سرعة الوصول؛ بل جودة العبور."
   },
   days: {
     kicker: "مسار الأسبوع",
-    title: "اختر اليوم التعليمي",
-    note: "الأيام تُعرض كمحطات متتابعة، ولا يُفتح اليوم التالي إلا بعد إكمال اليوم الحالي.",
-    quote: "كل يوم تنهيه يضيف طبقة جديدة إلى حكمك المهني."
+    title: "اختر اليوم",
+    note: "كل أسبوع يحتوي على سبعة أيام تعليمية. كل يوم يفتح بعد إكمال اليوم السابق.",
+    quote: "اليوم الصغير المتقن يصنع عقلًا مهنيًا كبيرًا."
   },
   lesson: {
-    kicker: "غرفة الإتقان",
-    title: "الدرس الحالي",
-    note: "اقرأ الدرس، ثم اضغط إنهاء اليوم حتى تُحفظ المحطة وتُفتح المحطة التالية.",
-    quote: "الممارس المحترف لا يستهلك المعرفة؛ يحوّلها إلى ممارسة."
+    kicker: "غرفة الدرس والاختبار",
+    title: "اقرأ الدرس ثم اختبر فهمك",
+    note: "الدرس منسق إلى فقرات وأقسام، ثم يأتي اختبار اليوم بثلاثة أسئلة متعددة الخيارات.",
+    quote: "لا تحفظ النص؛ استخرج منه حكمًا مهنيًا."
   }
 };
 
-const STORAGE_KEY = "odacademy_local_course_progress";
+const ARABIC_ORDINAL = {
+  1: "الأول",
+  2: "الثاني",
+  3: "الثالث",
+  4: "الرابع",
+  5: "الخامس",
+  6: "السادس",
+  7: "السابع"
+};
 
-function toInt(value, fallback = 0) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : fallback;
+const HEADING_PHRASES = [
+  "الفكرة المركزية",
+  "ما المقصود بالتطوير التنظيمي؟",
+  "لماذا لا تبدأ بالحل؟",
+  "الفرق بين الشكوى والفرضية والدليل",
+  "قاعدة اليوم",
+  "تطبيق اليوم",
+  "أداة اليوم",
+  "مثال تطبيقي",
+  "لماذا هذا مهم؟",
+  "متى نستخدمه؟",
+  "متى لا نستخدمه؟",
+  "أخطاء شائعة",
+  "مكونات الخطة",
+  "مؤشرات النجاح",
+  "المهمة النهائية",
+  "الحصيلة المعرفية",
+  "القراءة المهنية",
+  "البيانات المطلوبة",
+  "مخاطر التطبيق",
+  "خطة التنفيذ",
+  "خطة القياس",
+  "خطة الاستدامة"
+];
+
+function toNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function safeText(value) {
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.filter(Boolean).join("\n\n");
+  if (value && typeof value === "object") {
+    if (typeof value.text === "string") return value.text;
+    if (typeof value.content === "string") return value.content;
+    if (typeof value.body === "string") return value.body;
+  }
+  return "";
+}
+
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function progressKey(monthIndex, weekIndex, dayIndex) {
-  return `${toInt(monthIndex)}-${toInt(weekIndex)}-${toInt(dayIndex)}`;
+  return `${monthIndex}-${weekIndex}-${dayIndex}`;
 }
 
-function hasText(value) {
-  return typeof value === "string" && value.trim().length > 0;
+function arabicPercent(value) {
+  const clean = Number.isFinite(value) ? value : 0;
+  return `${Math.round(clean)}٪`;
 }
 
-function dayHasContent(day) {
-  return hasText(day?.content);
+function seededHash(text) {
+  let hash = 2166136261;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  return Math.abs(hash >>> 0);
 }
 
-function normalizeCourseMap(source) {
-  const months = Array.isArray(source) ? source : [];
+function seededShuffle(items, seedText) {
+  const arr = [...items];
+  let seed = seededHash(seedText || "od");
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const j = Math.floor((seed / 233280) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
-  return months.map((month, monthPosition) => {
-    const monthIndex = toInt(month.monthIndex ?? month.index ?? month.id, monthPosition + 1);
+function normalizeCourse(raw = []) {
+  if (!Array.isArray(raw)) return [];
 
-    const weeks = (Array.isArray(month.weeks) ? month.weeks : []).map((week, weekPosition) => {
-      const weekIndex = toInt(week.weekIndex ?? week.index ?? week.id, weekPosition + 1);
+  return raw.map((month, monthArrayIndex) => {
+    const monthIndex = toNumber(
+      month.monthIndex ?? month.month_index ?? month.index ?? month.number,
+      monthArrayIndex + 1
+    );
 
-      const days = (Array.isArray(week.days) ? week.days : []).map((day, dayPosition) => {
-        const dayIndex = toInt(day.dayIndex ?? day.index ?? day.id, dayPosition + 1);
+    const rawWeeks = Array.isArray(month.weeks)
+      ? month.weeks
+      : Array.isArray(month.children)
+        ? month.children
+        : Array.isArray(month.units)
+          ? month.units
+          : [];
+
+    const weeks = rawWeeks.map((week, weekArrayIndex) => {
+      const weekIndex = toNumber(
+        week.weekIndex ?? week.week_index ?? week.index ?? week.number,
+        weekArrayIndex + 1
+      );
+
+      const rawDays = Array.isArray(week.days)
+        ? week.days
+        : Array.isArray(week.lessons)
+          ? week.lessons
+          : Array.isArray(week.children)
+            ? week.children
+            : [];
+
+      const days = rawDays.map((day, dayArrayIndex) => {
+        const dayIndex = toNumber(
+          day.dayIndex ?? day.day_index ?? day.index ?? day.number,
+          dayArrayIndex + 1
+        );
+
+        const content = safeText(
+          day.content ??
+          day.lesson ??
+          day.body ??
+          day.text ??
+          day.markdown ??
+          ""
+        );
 
         return {
           ...day,
@@ -72,9 +171,10 @@ function normalizeCourseMap(source) {
           monthIndex,
           weekIndex,
           dayIndex,
-          label: day.label || `اليوم ${dayIndex}`,
-          title: day.title || day.label || `اليوم ${dayIndex}`,
-          content: day.content || day.lesson || day.body || day.text || ""
+          label: day.label || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          title: day.title || day.name || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          content,
+          quiz: day.quiz || day.questions || null
         };
       });
 
@@ -83,95 +183,266 @@ function normalizeCourseMap(source) {
         id: week.id || `m${monthIndex}-w${weekIndex}`,
         monthIndex,
         weekIndex,
-        days,
-        title: week.title || `الأسبوع ${weekIndex}`,
-        subtitle: week.subtitle || "",
-        intro: week.intro || "",
-        isContentAvailable: days.some(dayHasContent)
+        title: week.title || week.name || `الأسبوع ${ARABIC_ORDINAL[weekIndex] || weekIndex}`,
+        subtitle: week.subtitle || week.description || "",
+        intro: safeText(week.intro ?? week.summary ?? ""),
+        days
       };
     });
 
     return {
       ...month,
-      id: month.id || `month-${monthIndex}`,
+      id: month.id || `m${monthIndex}`,
       monthIndex,
-      weeks,
-      title: month.title || `الشهر ${monthIndex}`,
-      subtitle: month.subtitle || ""
+      title: month.title || month.name || `الشهر ${monthIndex}`,
+      subtitle: month.subtitle || month.description || "",
+      weeks
     };
   });
 }
 
-function weekTotalDays(week) {
-  return (week?.days || []).filter(dayHasContent).length;
+function getDayContent(day) {
+  return safeText(day?.content || "");
 }
 
-function monthTotalDays(month) {
-  return (month?.weeks || []).reduce((sum, week) => sum + weekTotalDays(week), 0);
+function getContentDays(week) {
+  if (!week?.days) return [];
+  return week.days.filter((day) => Boolean(getDayContent(day)) || Boolean(day.quiz));
+}
+
+function hasWeekContent(week) {
+  return getContentDays(week).length > 0;
+}
+
+function getCourseTotalDays(course) {
+  return course.reduce((total, month) => {
+    return total + month.weeks.reduce((weekTotal, week) => weekTotal + getContentDays(week).length, 0);
+  }, 0);
+}
+
+function normalizeProgressRows(progressRows) {
+  if (!Array.isArray(progressRows)) return [];
+  return progressRows.map((row) => ({
+    ...row,
+    month_index: toNumber(row.month_index ?? row.monthIndex, 0),
+    week_index: toNumber(row.week_index ?? row.weekIndex, 0),
+    day_index: toNumber(row.day_index ?? row.dayIndex, 0),
+    status: row.status || "opened"
+  }));
+}
+
+function calculateCompletedSet(progressRows) {
+  return new Set(
+    normalizeProgressRows(progressRows)
+      .filter((row) => row.status === "completed")
+      .map((row) => progressKey(row.month_index, row.week_index, row.day_index))
+  );
 }
 
 function countCompletedInWeek(completedSet, week) {
-  return (week?.days || []).filter((day) => {
-    return dayHasContent(day) && completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex));
-  }).length;
+  return getContentDays(week).filter((day) =>
+    completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex))
+  ).length;
 }
 
 function countCompletedInMonth(completedSet, month) {
-  return (month?.weeks || []).reduce((sum, week) => sum + countCompletedInWeek(completedSet, week), 0);
+  return month.weeks.reduce((total, week) => total + countCompletedInWeek(completedSet, week), 0);
 }
 
-function arabicPercent(value) {
-  const n = Number(value);
-  if (!Number.isFinite(n)) return "0٪";
-  return `${Math.round(Math.max(0, Math.min(100, n)))}٪`;
+function isDayCompleted(day, completedSet) {
+  return completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex));
 }
 
-function getRowKey(row) {
-  return progressKey(
-    row.month_index ?? row.monthIndex,
-    row.week_index ?? row.weekIndex,
-    row.day_index ?? row.dayIndex
-  );
-}
+function splitQuizFromText(rawText) {
+  const text = safeText(rawText);
 
-function calculateCompletedSet(rows) {
-  return new Set(
-    (Array.isArray(rows) ? rows : [])
-      .filter((row) => row?.status === "completed")
-      .map(getRowKey)
-  );
-}
+  const cleanText = text
+    .replace(/ملحق غير مخصص لنسخة المتدرب[\s\S]*$/g, "")
+    .replace(/مفتاح إجابات[\s\S]*$/g, "")
+    .trim();
 
-function loadLocalRows() {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
+  const quizMatch = cleanText.match(/اختبار\s+اليوم[\s\S]*$/);
+  if (!quizMatch) {
+    return { lessonText: cleanText, quizText: "" };
   }
+
+  const quizText = quizMatch[0].trim();
+  const lessonText = cleanText.slice(0, quizMatch.index).trim();
+
+  return { lessonText, quizText };
 }
 
-function saveLocalRows(rows) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
-  } catch {
-    // لا نوقف الواجهة إذا تعذر الحفظ المحلي
-  }
+function normalizeStructuredQuiz(day) {
+  const rawQuiz = day?.quiz;
+
+  if (!rawQuiz) return [];
+
+  const questions = Array.isArray(rawQuiz)
+    ? rawQuiz
+    : Array.isArray(rawQuiz.questions)
+      ? rawQuiz.questions
+      : [];
+
+  return questions.map((q, index) => {
+    const originalOptions = Array.isArray(q.options) ? q.options : [];
+
+    const correctKey =
+      q.correctKey ??
+      q.correct ??
+      q.answer ??
+      q.correctAnswer ??
+      q.correct_option ??
+      null;
+
+    const options = originalOptions.map((option, optionIndex) => {
+      if (typeof option === "string") {
+        const key = ["A", "B", "C", "D"][optionIndex] || String(optionIndex + 1);
+        return {
+          id: key,
+          originalKey: key,
+          text: option,
+          isCorrect:
+            correctKey === key ||
+            correctKey === optionIndex ||
+            correctKey === optionIndex + 1 ||
+            correctKey === option
+        };
+      }
+
+      const key = option.key || option.id || ["A", "B", "C", "D"][optionIndex] || String(optionIndex + 1);
+
+      return {
+        id: key,
+        originalKey: key,
+        text: option.text || option.label || option.value || "",
+        isCorrect:
+          Boolean(option.isCorrect) ||
+          Boolean(option.correct) ||
+          correctKey === key ||
+          correctKey === option.text
+      };
+    });
+
+    return {
+      id: q.id || `q-${index + 1}`,
+      question: q.question || q.title || q.text || "",
+      options: seededShuffle(options, `${day.id}-q-${index + 1}`),
+      hasKnownCorrectAnswer: options.some((option) => option.isCorrect)
+    };
+  }).filter((q) => q.question && q.options.length);
 }
 
-function upsertCompletedRow(rows, day) {
-  const nextRow = {
-    month_index: day.monthIndex,
-    week_index: day.weekIndex,
-    day_index: day.dayIndex,
-    status: "completed"
+function parseQuizText(day, quizText) {
+  const structured = normalizeStructuredQuiz(day);
+  if (structured.length) return structured;
+
+  const text = safeText(quizText);
+  if (!text) return [];
+
+  const blocks = text
+    .replace(/\r/g, "")
+    .split(/(?=السؤال\s+\d+)/g)
+    .map((item) => item.trim())
+    .filter((item) => /^السؤال\s+\d+/.test(item));
+
+  return blocks.map((block, index) => {
+    const withoutLabel = block.replace(/^السؤال\s+\d+\s*/g, "").trim();
+    const questionMatch = withoutLabel.match(/^([\s\S]*?)(?=\s+[A-D]\.)/);
+    const question = questionMatch ? questionMatch[1].trim() : withoutLabel;
+
+    const options = [];
+    const optionRegex = /([A-D])\.\s*([\s\S]*?)(?=(?:\s+[A-D]\.)|$)/g;
+    let match;
+
+    while ((match = optionRegex.exec(withoutLabel)) !== null) {
+      options.push({
+        id: match[1],
+        originalKey: match[1],
+        text: match[2].trim(),
+        isCorrect: false
+      });
+    }
+
+    return {
+      id: `${day.id}-parsed-q-${index + 1}`,
+      question,
+      options: seededShuffle(options, `${day.id}-parsed-${index + 1}`),
+      hasKnownCorrectAnswer: false
+    };
+  }).filter((q) => q.question && q.options.length);
+}
+
+function prepareLesson(day) {
+  const { lessonText, quizText } = splitQuizFromText(getDayContent(day));
+  const parsedQuiz = parseQuizText(day, quizText);
+
+  return {
+    lessonText,
+    quiz: parsedQuiz
   };
+}
 
-  const map = new Map((Array.isArray(rows) ? rows : []).map((row) => [getRowKey(row), row]));
-  map.set(getRowKey(nextRow), nextRow);
+function prepareReadableText(rawText) {
+  let text = safeText(rawText)
+    .replace(/\r/g, "")
+    .replace(/[ \t]+/g, " ")
+    .replace(/([^\n])(\d+\.\s)/g, "$1\n\n$2")
+    .replace(/([^\n])([•·]\s)/g, "$1\n$2")
+    .replace(/([^\n])(السؤال\s+\d+)/g, "$1\n\n$2")
+    .replace(/([؟.!])(?=[اأإآء-ي])/g, "$1\n")
+    .replace(/(:)(?=[اأإآء-ي])/g, "$1\n");
 
-  return Array.from(map.values());
+  HEADING_PHRASES.forEach((heading) => {
+    const pattern = new RegExp(`(\\d+\\.\\s*${escapeRegExp(heading)})(?=[اأإآء-ي])`, "g");
+    text = text.replace(pattern, "$1\n");
+  });
+
+  return text
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function RichLesson({ text }) {
+  const lines = prepareReadableText(text);
+
+  if (!lines.length) {
+    return <div className="jl-empty">لا يوجد نص لهذا اليوم بعد.</div>;
+  }
+
+  return (
+    <div className="jl-rich-text">
+      {lines.map((line, index) => {
+        const key = `${index}-${line.slice(0, 16)}`;
+
+        if (/^الشهر\s+/.test(line)) {
+          return <h1 key={key}>{line}</h1>;
+        }
+
+        if (/^الأسبوع\s+/.test(line)) {
+          return <h2 key={key}>{line}</h2>;
+        }
+
+        if (/^اليوم\s+/.test(line)) {
+          return <h2 key={key}>{line}</h2>;
+        }
+
+        if (/^\d+\.\s/.test(line)) {
+          return <h3 key={key}>{line}</h3>;
+        }
+
+        if (/^[•·-]\s/.test(line)) {
+          return <div key={key} className="jl-bullet">{line.replace(/^[•·-]\s/, "")}</div>;
+        }
+
+        if (line.endsWith(":") && line.length < 80) {
+          return <h4 key={key}>{line}</h4>;
+        }
+
+        return <p key={key}>{line}</p>;
+      })}
+    </div>
+  );
 }
 
 function StatusMark({ state }) {
@@ -183,87 +454,188 @@ function StatusMark({ state }) {
 function MiniProgress({ label, value, help }) {
   return (
     <div className="jl-mini-progress">
-      <div>
+      <div className="jl-mini-head">
         <span>{label}</span>
         <strong>{arabicPercent(value)}</strong>
       </div>
+
       <div className="jl-mini-track">
-        <i style={{ width: `${Math.min(100, Math.max(0, Number(value) || 0))}%` }} />
+        <i style={{ width: `${Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0))}%` }} />
       </div>
+
       {help && <small>{help}</small>}
     </div>
   );
 }
 
-export default function CourseJourney({
-  progressRows = [],
-  setProgressRows = () => {},
-  loading = false
-}) {
-  const months = useMemo(() => normalizeCourseMap(courseMap), []);
-  const [localRows, setLocalRows] = useState(() => loadLocalRows());
+function QuizPanel({ day, questions, onPass }) {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
-  const allRows = useMemo(() => {
-    const map = new Map();
+  useEffect(() => {
+    setAnswers({});
+    setSubmitted(false);
+  }, [day.id]);
 
-    [...(Array.isArray(progressRows) ? progressRows : []), ...localRows].forEach((row) => {
-      if (row?.status === "completed") {
-        map.set(getRowKey(row), row);
-      }
-    });
+  const total = questions.length;
+  const answeredCount = Object.keys(answers).length;
+  const allAnswered = total > 0 && answeredCount === total;
+  const hasKnownAnswers = questions.every((q) => q.hasKnownCorrectAnswer);
 
-    return Array.from(map.values());
-  }, [progressRows, localRows]);
+  const score = questions.reduce((sum, question) => {
+    const selected = answers[question.id];
+    const option = question.options.find((item) => item.id === selected);
+    return sum + (option?.isCorrect ? 1 : 0);
+  }, 0);
 
-  const completedSet = useMemo(() => calculateCompletedSet(allRows), [allRows]);
+  const passed = hasKnownAnswers ? score === total : allAnswered;
 
-  const firstMonth = months[0] || {
-    id: "empty-month",
-    monthIndex: 1,
-    title: "لا يوجد محتوى",
-    subtitle: "",
-    weeks: []
-  };
+  function submitQuiz() {
+    setSubmitted(true);
+    if (passed) onPass(true);
+  }
 
+  if (!questions.length) {
+    return (
+      <div className="jl-quiz jl-quiz-soft">
+        <h3>اختبار اليوم</h3>
+        <p>لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء اليوم بعد قراءة الدرس.</p>
+      </div>
+    );
+  }
+
+  return (
+    <section className="jl-quiz" aria-label="اختبار اليوم">
+      <div className="jl-quiz-header">
+        <span>اختبار اليوم</span>
+        <strong>{answeredCount} / {total}</strong>
+      </div>
+
+      <h3>اختبر فهمك قبل حفظ الإنجاز</h3>
+
+      {!hasKnownAnswers && (
+        <div className="jl-quiz-warning">
+          تم استخراج الأسئلة من النص، لكن لم توجد مفاتيح إجابة منظمة في بيانات هذا اليوم. سيتم اعتبار الاختبار مكتملًا بعد الإجابة عن كل الأسئلة.
+        </div>
+      )}
+
+      <div className="jl-question-list">
+        {questions.map((question, questionIndex) => {
+          const selected = answers[question.id];
+
+          return (
+            <div className="jl-question" key={question.id}>
+              <div className="jl-question-title">
+                <b>{questionIndex + 1}</b>
+                <span>{question.question}</span>
+              </div>
+
+              <div className="jl-options">
+                {question.options.map((option, optionIndex) => {
+                  const isSelected = selected === option.id;
+                  const showCorrect = submitted && hasKnownAnswers && option.isCorrect;
+                  const showWrong = submitted && hasKnownAnswers && isSelected && !option.isCorrect;
+
+                  return (
+                    <button
+                      key={`${question.id}-${option.id}-${optionIndex}`}
+                      type="button"
+                      className={[
+                        "jl-option",
+                        isSelected ? "jl-option--selected" : "",
+                        showCorrect ? "jl-option--correct" : "",
+                        showWrong ? "jl-option--wrong" : ""
+                      ].join(" ")}
+                      onClick={() => {
+                        setAnswers((current) => ({
+                          ...current,
+                          [question.id]: option.id
+                        }));
+                      }}
+                    >
+                      <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
+                      <strong>{option.text}</strong>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="jl-quiz-footer">
+        <button
+          type="button"
+          className="jl-quiz-submit"
+          disabled={!allAnswered}
+          onClick={submitQuiz}
+        >
+          تحقق من الاختبار
+        </button>
+
+        {submitted && (
+          <div className={passed ? "jl-quiz-result jl-quiz-result--pass" : "jl-quiz-result jl-quiz-result--fail"}>
+            {hasKnownAnswers
+              ? passed
+                ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
+                : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
+              : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+export default function CourseJourney({ progressRows = [], setProgressRows = () => {}, loading = false }) {
+  const course = useMemo(() => normalizeCourse(rawCourseMap), []);
   const [stage, setStage] = useState("months");
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(firstMonth.monthIndex);
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(1);
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(1);
   const [selectedDayIndex, setSelectedDayIndex] = useState(1);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
+  const [quizPassedByDay, setQuizPassedByDay] = useState({});
+
+  const completedSet = useMemo(() => calculateCompletedSet(progressRows), [progressRows]);
 
   const selectedMonth =
-    months.find((month) => month.monthIndex === selectedMonthIndex) || firstMonth;
+    course.find((month) => month.monthIndex === selectedMonthIndex) || course[0];
 
   const selectedWeek =
-    selectedMonth.weeks.find((week) => week.weekIndex === selectedWeekIndex) ||
-    selectedMonth.weeks[0] ||
-    {
-      id: "empty-week",
-      monthIndex: selectedMonth.monthIndex,
-      weekIndex: 1,
-      title: "لا يوجد أسبوع متاح",
-      subtitle: "",
-      intro: "",
-      days: [],
-      isContentAvailable: false
-    };
+    selectedMonth?.weeks?.find((week) => week.weekIndex === selectedWeekIndex) ||
+    selectedMonth?.weeks?.[0];
 
   const selectedDay =
-    selectedWeek.days.find((day) => day.dayIndex === selectedDayIndex) ||
-    selectedWeek.days[0] ||
-    {
-      id: "empty-day",
-      monthIndex: selectedMonth.monthIndex,
-      weekIndex: selectedWeek.weekIndex,
-      dayIndex: 1,
-      label: "اليوم الأول",
-      title: "لا يوجد درس متاح",
-      content: ""
-    };
+    selectedWeek?.days?.find((day) => day.dayIndex === selectedDayIndex) ||
+    selectedWeek?.days?.[0];
+
+  const preparedLesson = useMemo(
+    () => prepareLesson(selectedDay || {}),
+    [selectedDay?.id, selectedDay?.content, selectedDay?.quiz]
+  );
+
+  const totalCourseDays = getCourseTotalDays(course);
+  const totalCompletedDays = course.reduce(
+    (sum, month) => sum + countCompletedInMonth(completedSet, month),
+    0
+  );
+
+  const monthTotalDays = selectedMonth
+    ? selectedMonth.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0)
+    : 0;
+
+  const weekTotalDays = selectedWeek ? getContentDays(selectedWeek).length : 0;
+  const monthCompletedDays = selectedMonth ? countCompletedInMonth(completedSet, selectedMonth) : 0;
+  const weekCompletedDays = selectedWeek ? countCompletedInWeek(completedSet, selectedWeek) : 0;
+
+  const overallProgress = totalCourseDays ? (totalCompletedDays / totalCourseDays) * 100 : 0;
+  const monthProgress = monthTotalDays ? (monthCompletedDays / monthTotalDays) * 100 : 0;
+  const weekProgress = weekTotalDays ? (weekCompletedDays / weekTotalDays) * 100 : 0;
 
   function isMonthCompleted(month) {
-    const total = monthTotalDays(month);
+    const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
     if (!total) return false;
     return countCompletedInMonth(completedSet, month) >= total;
   }
@@ -271,7 +643,7 @@ export default function CourseJourney({
   function isMonthUnlocked(month) {
     if (month.monthIndex === 1) return true;
 
-    const previousMonth = months.find((item) => item.monthIndex === month.monthIndex - 1);
+    const previousMonth = course.find((item) => item.monthIndex === month.monthIndex - 1);
     return Boolean(previousMonth && isMonthCompleted(previousMonth));
   }
 
@@ -282,156 +654,180 @@ export default function CourseJourney({
   }
 
   function isWeekCompleted(week) {
-    const total = weekTotalDays(week);
+    const total = getContentDays(week).length;
     if (!total) return false;
     return countCompletedInWeek(completedSet, week) >= total;
   }
 
   function isWeekUnlocked(week, monthContext = selectedMonth) {
-    if (!isMonthUnlocked(monthContext)) return false;
-    if (!week?.isContentAvailable) return false;
+    if (!monthContext || !isMonthUnlocked(monthContext)) return false;
+    if (!hasWeekContent(week)) return false;
     if (week.weekIndex === 1) return true;
 
     const previousWeek = monthContext.weeks.find((item) => item.weekIndex === week.weekIndex - 1);
     return Boolean(previousWeek && isWeekCompleted(previousWeek));
   }
 
-  function weekState(week) {
+  function weekState(week, monthContext = selectedMonth) {
     if (isWeekCompleted(week)) return "completed";
-    if (isWeekUnlocked(week)) return "active";
+    if (isWeekUnlocked(week, monthContext)) return "active";
     return "locked";
   }
 
-  function isDayCompleted(day) {
-    return completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex));
+  function previousContentDay(day, week) {
+    const contentDays = getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex);
+    const currentIndex = contentDays.findIndex((item) => item.dayIndex === day.dayIndex);
+    return currentIndex > 0 ? contentDays[currentIndex - 1] : null;
   }
 
-  function isDayUnlockedWithin(day, week, month) {
-    if (!dayHasContent(day)) return false;
-    if (!isWeekUnlocked(week, month)) return false;
+  function isDayUnlocked(day, weekContext = selectedWeek, monthContext = selectedMonth) {
+    if (!day || !weekContext || !monthContext) return false;
+    if (!getDayContent(day) && !day.quiz) return false;
+    if (!isWeekUnlocked(weekContext, monthContext)) return false;
 
-    const contentDays = week.days.filter(dayHasContent);
-    const position = contentDays.findIndex((item) => item.dayIndex === day.dayIndex);
+    const prev = previousContentDay(day, weekContext);
+    if (!prev) return true;
 
-    if (position <= 0) return true;
-
-    const previousDay = contentDays[position - 1];
-    return isDayCompleted(previousDay);
+    return isDayCompleted(prev, completedSet);
   }
 
-  function isDayUnlocked(day) {
-    return isDayUnlockedWithin(day, selectedWeek, selectedMonth);
-  }
-
-  function dayState(day) {
-    if (isDayCompleted(day)) return "completed";
-    if (isDayUnlocked(day)) return "active";
+  function dayState(day, weekContext = selectedWeek, monthContext = selectedMonth) {
+    if (isDayCompleted(day, completedSet)) return "completed";
+    if (isDayUnlocked(day, weekContext, monthContext)) return "active";
     return "locked";
-  }
-
-  function firstAvailableDay(week, month) {
-    const contentDays = (week?.days || []).filter(dayHasContent);
-    if (!contentDays.length) return week?.days?.[0] || selectedDay;
-
-    return (
-      contentDays.find((day) => isDayUnlockedWithin(day, week, month) && !isDayCompleted(day)) ||
-      contentDays.find((day) => !isDayCompleted(day)) ||
-      contentDays[0]
-    );
   }
 
   function firstRelevantWeekInMonth(month) {
-    const unlockedWeeks = (month?.weeks || []).filter((week) => isWeekUnlocked(week, month));
-    return unlockedWeeks.find((week) => !isWeekCompleted(week)) || unlockedWeeks[0] || month.weeks[0];
+    const weeksWithContent = month.weeks.filter(hasWeekContent);
+    const unlockedWeeks = weeksWithContent.filter((week) => isWeekUnlocked(week, month));
+
+    return (
+      unlockedWeeks.find((week) => !isWeekCompleted(week)) ||
+      unlockedWeeks[0] ||
+      weeksWithContent[0] ||
+      month.weeks[0]
+    );
+  }
+
+  function firstAvailableDayInWeek(week, monthContext) {
+    const contentDays = getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex);
+
+    return (
+      contentDays.find((day) =>
+        isDayUnlocked(day, week, monthContext) &&
+        !isDayCompleted(day, completedSet)
+      ) ||
+      contentDays[0] ||
+      week.days[0]
+    );
   }
 
   function firstAvailableLearningPoint() {
-    for (const month of months) {
+    for (const month of course) {
       if (!isMonthUnlocked(month)) continue;
 
       for (const week of month.weeks) {
         if (!isWeekUnlocked(week, month)) continue;
 
-        const day = week.days.find((item) => {
-          return dayHasContent(item) && isDayUnlockedWithin(item, week, month) && !isDayCompleted(item);
-        });
+        const nextDay = getContentDays(week)
+          .sort((a, b) => a.dayIndex - b.dayIndex)
+          .find((day) =>
+            isDayUnlocked(day, week, month) &&
+            !isDayCompleted(day, completedSet)
+          );
 
-        if (day) return { month, week, day };
+        if (nextDay) return { month, week, day: nextDay };
       }
     }
 
-    const month = months.find(isMonthUnlocked) || firstMonth;
-    const week = firstRelevantWeekInMonth(month) || month.weeks[0] || selectedWeek;
-    const day = firstAvailableDay(week, month) || selectedDay;
+    const fallbackMonth = course[0];
+    const fallbackWeek = firstRelevantWeekInMonth(fallbackMonth);
+    const fallbackDay = firstAvailableDayInWeek(fallbackWeek, fallbackMonth);
 
-    return { month, week, day };
+    return { month: fallbackMonth, week: fallbackWeek, day: fallbackDay };
   }
 
   useEffect(() => {
-    const next = firstAvailableLearningPoint();
+    if (!course.length) return;
 
-    if (next?.month?.monthIndex) setSelectedMonthIndex(next.month.monthIndex);
-    if (next?.week?.weekIndex) setSelectedWeekIndex(next.week.weekIndex);
-    if (next?.day?.dayIndex) setSelectedDayIndex(next.day.dayIndex);
-    // نترك المستخدم في بوابة الشهور ولا نفتح الدرس تلقائيًا
+    const nextPoint = firstAvailableLearningPoint();
+
+    if (nextPoint?.month && nextPoint?.week && nextPoint?.day) {
+      setSelectedMonthIndex(nextPoint.month.monthIndex);
+      setSelectedWeekIndex(nextPoint.week.weekIndex);
+      setSelectedDayIndex(nextPoint.day.dayIndex);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [months.length, completedSet.size]);
+  }, [course.length, progressRows.length]);
 
   useEffect(() => {
     if (stage !== "lesson") return;
-    if (!selectedDay?.content) return;
+    if (!selectedDay?.id) return;
+    if (!isDayUnlocked(selectedDay, selectedWeek, selectedMonth)) return;
 
     markDayOpened({
       monthIndex: selectedDay.monthIndex,
       weekIndex: selectedDay.weekIndex,
       dayIndex: selectedDay.dayIndex
     }).catch(() => undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stage, selectedDay?.id]);
-
-  function openNextPoint() {
-    const next = firstAvailableLearningPoint();
-
-    setSelectedMonthIndex(next.month.monthIndex);
-    setSelectedWeekIndex(next.week.weekIndex);
-    setSelectedDayIndex(next.day.dayIndex);
-    setStage("lesson");
-    setNotice("");
-  }
 
   function handleMonthClick(month) {
     if (!isMonthUnlocked(month)) return;
 
-    const week = firstRelevantWeekInMonth(month) || month.weeks[0];
-    const day = firstAvailableDay(week, month);
+    const week = firstRelevantWeekInMonth(month);
+    const day = firstAvailableDayInWeek(week, month);
 
     setSelectedMonthIndex(month.monthIndex);
     setSelectedWeekIndex(week.weekIndex);
     setSelectedDayIndex(day.dayIndex);
-    setStage("weeks");
     setNotice("");
+    setStage("weeks");
   }
 
   function handleWeekClick(week) {
-    if (!isWeekUnlocked(week)) return;
+    if (!isWeekUnlocked(week, selectedMonth)) return;
 
-    const day = firstAvailableDay(week, selectedMonth);
+    const day = firstAvailableDayInWeek(week, selectedMonth);
 
     setSelectedWeekIndex(week.weekIndex);
     setSelectedDayIndex(day.dayIndex);
-    setStage("days");
     setNotice("");
+    setStage("days");
   }
 
   function handleDayClick(day) {
-    if (!isDayUnlocked(day)) return;
+    if (!isDayUnlocked(day, selectedWeek, selectedMonth)) return;
 
     setSelectedDayIndex(day.dayIndex);
+    setNotice("");
+    setStage("lesson");
+  }
+
+  function openNextPoint() {
+    const nextPoint = firstAvailableLearningPoint();
+    if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) return;
+
+    setSelectedMonthIndex(nextPoint.month.monthIndex);
+    setSelectedWeekIndex(nextPoint.week.weekIndex);
+    setSelectedDayIndex(nextPoint.day.dayIndex);
     setStage("lesson");
     setNotice("");
   }
 
   async function completeCurrentDay() {
-    if (!selectedDay?.content || isDayCompleted(selectedDay) || !isDayUnlocked(selectedDay)) return;
+    if (!selectedDay) return;
+    if (!isDayUnlocked(selectedDay, selectedWeek, selectedMonth)) return;
+    if (isDayCompleted(selectedDay, completedSet)) return;
+
+    const hasQuiz = preparedLesson.quiz.length > 0;
+    const quizPassed = quizPassedByDay[selectedDay.id];
+
+    if (hasQuiz && !quizPassed) {
+      setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
+      return;
+    }
 
     setSaving(true);
     setNotice("");
@@ -446,15 +842,29 @@ export default function CourseJourney({
 
       if (Array.isArray(rows)) {
         setProgressRows(rows);
+      } else {
+        const currentRows = normalizeProgressRows(progressRows).filter((row) => {
+          return !(
+            row.month_index === selectedDay.monthIndex &&
+            row.week_index === selectedDay.weekIndex &&
+            row.day_index === selectedDay.dayIndex
+          );
+        });
+
+        setProgressRows([
+          ...currentRows,
+          {
+            month_index: selectedDay.monthIndex,
+            week_index: selectedDay.weekIndex,
+            day_index: selectedDay.dayIndex,
+            status: "completed"
+          }
+        ]);
       }
 
-      setNotice("تم حفظ تقدمك وفتح المحطة التالية.");
-    } catch {
-      const nextLocalRows = upsertCompletedRow(localRows, selectedDay);
-      setLocalRows(nextLocalRows);
-      saveLocalRows(nextLocalRows);
-      setProgressRows([...progressRows, ...nextLocalRows]);
-      setNotice("تم حفظ التقدم محليًا. لاحقًا نضبط Supabase حتى يُحفظ التقدم سحابيًا.");
+      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
+    } catch (error) {
+      setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
     } finally {
       setSaving(false);
     }
@@ -466,687 +876,994 @@ export default function CourseJourney({
     else if (stage === "weeks") setStage("months");
   }
 
-  const totalCourseDays = months.reduce((sum, month) => sum + monthTotalDays(month), 0);
-  const totalCompletedDays = months.reduce(
-    (sum, month) => sum + countCompletedInMonth(completedSet, month),
-    0
-  );
-
-  const monthTotal = monthTotalDays(selectedMonth);
-  const weekTotal = weekTotalDays(selectedWeek);
-
-  const monthCompleted = countCompletedInMonth(completedSet, selectedMonth);
-  const weekCompleted = countCompletedInWeek(completedSet, selectedWeek);
-
-  const overallProgress = totalCourseDays ? (totalCompletedDays / totalCourseDays) * 100 : 0;
-  const monthProgress = monthTotal ? (monthCompleted / monthTotal) * 100 : 0;
-  const weekProgress = weekTotal ? (weekCompleted / weekTotal) * 100 : 0;
+  if (!course.length) {
+    return (
+      <section className="journey-lab" dir="rtl">
+        <div className="jl-empty">لم يتم العثور على محتوى الرحلة داخل courseContent.</div>
+      </section>
+    );
+  }
 
   const currentMeta = stageMeta[stage];
-  const currentDayState = dayState(selectedDay);
+  const currentDayState = selectedDay ? dayState(selectedDay) : "locked";
+  const dayHasQuiz = preparedLesson.quiz.length > 0;
+  const canCompleteLesson =
+    currentDayState === "active" &&
+    (!dayHasQuiz || quizPassedByDay[selectedDay?.id]);
 
   return (
     <section className="journey-lab" dir="rtl">
       <style>{`
         .journey-lab {
-          min-height: 100vh;
-          padding: 28px 16px 70px;
-          color: #0f172a;
+          --ink:#0f172a;
+          --muted:#64748b;
+          --line:rgba(148,163,184,.23);
+          --primary:#4f46e5;
+          --violet:#7c3aed;
+          --gold:#f59e0b;
+          --green:#10b981;
+          --red:#ef4444;
+          min-height:100vh;
+          position:relative;
+          overflow:hidden;
+          color:var(--ink);
+          padding:28px 16px 70px;
           background:
-            radial-gradient(circle at 10% 10%, rgba(79,70,229,.18), transparent 32%),
-            radial-gradient(circle at 90% 20%, rgba(245,158,11,.14), transparent 30%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 52%, #f8fafc 100%);
+            radial-gradient(circle at 12% 12%, rgba(79,70,229,.18), transparent 31%),
+            radial-gradient(circle at 86% 18%, rgba(245,158,11,.16), transparent 28%),
+            radial-gradient(circle at 50% 88%, rgba(16,185,129,.13), transparent 31%),
+            linear-gradient(135deg,#f8fafc 0%,#eef2ff 48%,#f8fafc 100%);
         }
 
         .jl-wrap {
-          width: min(1180px, 100%);
-          margin: 0 auto;
+          width:min(1180px,100%);
+          margin:0 auto;
+          position:relative;
+          z-index:1;
         }
 
         .jl-hero {
-          border-radius: 36px;
-          padding: 34px;
-          overflow: hidden;
-          color: white;
+          border-radius:38px;
+          padding:34px;
+          color:white;
+          overflow:hidden;
+          position:relative;
           background:
-            radial-gradient(circle at top left, rgba(124,58,237,.35), transparent 35%),
-            linear-gradient(135deg, #0f172a, #1e293b);
-          box-shadow: 0 25px 70px rgba(15,23,42,.18);
+            radial-gradient(circle at top left, rgba(245,158,11,.24), transparent 35%),
+            linear-gradient(135deg,#0f172a,#1e293b 54%,#111827);
+          box-shadow:0 28px 90px rgba(15,23,42,.22);
         }
 
-        .jl-hero-grid {
-          display: grid;
-          grid-template-columns: 1.35fr .65fr;
-          gap: 24px;
-          align-items: center;
+        .jl-hero::before {
+          content:"";
+          position:absolute;
+          inset:-40%;
+          background-image:
+            linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+          background-size:42px 42px;
+          transform:rotate(-8deg);
+          opacity:.45;
+        }
+
+        .jl-hero-inner {
+          position:relative;
+          z-index:1;
+          display:grid;
+          grid-template-columns:1.35fr .65fr;
+          gap:26px;
+          align-items:center;
         }
 
         .jl-eyebrow {
-          display: inline-flex;
-          width: fit-content;
-          padding: 8px 14px;
-          border-radius: 999px;
-          background: rgba(255,255,255,.12);
-          color: #c7d2fe;
-          font-size: 12px;
-          font-weight: 900;
+          display:inline-flex;
+          width:fit-content;
+          padding:8px 14px;
+          border-radius:999px;
+          background:rgba(255,255,255,.10);
+          border:1px solid rgba(255,255,255,.16);
+          color:#fde68a;
+          font-size:12px;
+          font-weight:950;
         }
 
-        .jl-hero h1 {
-          margin: 18px 0 12px;
-          font-size: clamp(30px, 5vw, 58px);
-          line-height: 1.08;
-          font-weight: 950;
-          letter-spacing: -1px;
+        .jl-title {
+          margin:16px 0 12px;
+          font-size:clamp(30px,5vw,62px);
+          line-height:1.06;
+          font-weight:950;
+          letter-spacing:-1.2px;
         }
 
-        .jl-hero h1 span {
-          display: block;
-          color: #fde68a;
+        .jl-title span {
+          display:block;
+          color:transparent;
+          background:linear-gradient(90deg,#fff,#c7d2fe,#fde68a);
+          -webkit-background-clip:text;
+          background-clip:text;
         }
 
         .jl-hero p {
-          margin: 0;
-          max-width: 760px;
-          color: rgba(226,232,240,.88);
-          line-height: 2;
-          font-size: 15px;
-          font-weight: 700;
+          margin:0;
+          max-width:780px;
+          color:rgba(226,232,240,.88);
+          font-size:15px;
+          line-height:2;
+          font-weight:750;
+        }
+
+        .jl-orb-card {
+          min-height:230px;
+          display:grid;
+          place-items:center;
         }
 
         .jl-orb {
-          width: 210px;
-          height: 210px;
-          margin: auto;
-          display: grid;
-          place-items: center;
-          border-radius: 999px;
+          width:210px;
+          height:210px;
+          border-radius:999px;
+          display:grid;
+          place-items:center;
           background:
-            radial-gradient(circle at 35% 30%, rgba(255,255,255,.88), rgba(255,255,255,.15) 20%, transparent 38%),
-            conic-gradient(from 0deg, #4f46e5, #7c3aed, #f59e0b, #10b981, #4f46e5);
-          box-shadow: 0 30px 90px rgba(79,70,229,.36);
+            radial-gradient(circle at 38% 32%, rgba(255,255,255,.96), rgba(199,210,254,.35) 19%, rgba(79,70,229,.24) 42%, rgba(15,23,42,.08) 66%),
+            conic-gradient(from 0deg,#4f46e5,#7c3aed,#f59e0b,#10b981,#4f46e5);
+          box-shadow:inset 0 0 38px rgba(255,255,255,.35),0 30px 90px rgba(79,70,229,.34);
         }
 
         .jl-orb strong {
-          display: block;
-          font-size: 44px;
-          font-weight: 950;
-          text-align: center;
+          display:block;
+          color:white;
+          font-size:46px;
+          font-weight:950;
+          text-align:center;
+          text-shadow:0 8px 24px rgba(15,23,42,.35);
         }
 
         .jl-orb small {
-          display: block;
-          margin-top: 4px;
-          font-size: 11px;
-          font-weight: 900;
-          text-align: center;
-          color: rgba(255,255,255,.86);
+          display:block;
+          color:rgba(255,255,255,.82);
+          font-size:11px;
+          font-weight:900;
+          text-align:center;
         }
 
         .jl-control-deck {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-          margin: 18px 0;
+          margin:18px 0;
+          display:grid;
+          grid-template-columns:repeat(3,minmax(0,1fr));
+          gap:12px;
         }
 
         .jl-mini-progress {
-          border-radius: 24px;
-          padding: 16px;
-          background: rgba(255,255,255,.84);
-          border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 16px 38px rgba(15,23,42,.08);
+          border-radius:24px;
+          padding:16px;
+          background:rgba(255,255,255,.80);
+          border:1px solid rgba(255,255,255,.92);
+          box-shadow:0 16px 38px rgba(15,23,42,.08);
+          backdrop-filter:blur(18px);
         }
 
-        .jl-mini-progress > div:first-child {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 10px;
+        .jl-mini-head {
+          display:flex;
+          justify-content:space-between;
+          gap:12px;
+          align-items:center;
+          margin-bottom:10px;
         }
 
-        .jl-mini-progress span {
-          color: #64748b;
-          font-size: 11px;
-          font-weight: 900;
+        .jl-mini-head span {
+          color:var(--muted);
+          font-size:11px;
+          font-weight:900;
+          line-height:1.6;
         }
 
-        .jl-mini-progress strong {
-          color: #0f172a;
-          font-size: 18px;
-          font-weight: 950;
-        }
-
-        .jl-mini-progress small {
-          display: block;
-          margin-top: 8px;
-          color: #94a3b8;
-          font-size: 11px;
-          font-weight: 800;
+        .jl-mini-head strong {
+          color:var(--ink);
+          font-size:18px;
+          font-weight:950;
         }
 
         .jl-mini-track {
-          height: 9px;
-          overflow: hidden;
-          border-radius: 999px;
-          background: rgba(148,163,184,.18);
+          height:9px;
+          border-radius:999px;
+          background:rgba(148,163,184,.18);
+          overflow:hidden;
         }
 
         .jl-mini-track i {
-          display: block;
-          height: 100%;
-          border-radius: inherit;
-          background: linear-gradient(90deg, #4f46e5, #7c3aed, #f59e0b);
+          display:block;
+          height:100%;
+          border-radius:inherit;
+          background:linear-gradient(90deg,#4f46e5,#7c3aed,#f59e0b);
+        }
+
+        .jl-mini-progress small {
+          display:block;
+          margin-top:9px;
+          color:#94a3b8;
+          font-size:11px;
+          font-weight:850;
         }
 
         .jl-top-actions {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-          margin: 20px 0;
+          margin:20px 0;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:12px;
+          flex-wrap:wrap;
         }
 
         .jl-breadcrumbs {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 8px;
+          display:flex;
+          gap:8px;
+          flex-wrap:wrap;
+          align-items:center;
         }
 
         .jl-crumb,
         .jl-back,
         .jl-main-btn,
         .jl-ghost-btn,
-        .jl-complete {
-          font-family: inherit;
-          border: 0;
-          cursor: pointer;
-          transition: .22s ease;
+        .jl-complete,
+        .jl-quiz-submit {
+          font-family:inherit;
+          border:0;
+          cursor:pointer;
+          transition:.24s ease;
         }
 
         .jl-crumb {
-          padding: 10px 14px;
-          border-radius: 999px;
-          background: rgba(255,255,255,.76);
-          border: 1px solid rgba(255,255,255,.95);
-          color: #475569;
-          font-size: 12px;
-          font-weight: 950;
+          padding:10px 14px;
+          border-radius:999px;
+          background:rgba(255,255,255,.78);
+          border:1px solid rgba(255,255,255,.92);
+          color:#475569;
+          font-size:12px;
+          font-weight:950;
+          box-shadow:0 10px 28px rgba(15,23,42,.06);
         }
 
         .jl-crumb:hover,
         .jl-back:hover,
         .jl-main-btn:hover,
         .jl-ghost-btn:hover,
-        .jl-complete:hover {
-          transform: translateY(-2px);
+        .jl-complete:hover,
+        .jl-quiz-submit:hover {
+          transform:translateY(-2px);
         }
 
-        .jl-crumb:disabled {
-          opacity: .55;
-          cursor: not-allowed;
-          transform: none;
+        .jl-crumb:disabled,
+        .jl-complete:disabled,
+        .jl-quiz-submit:disabled {
+          opacity:.55;
+          cursor:not-allowed;
+          transform:none;
         }
 
         .jl-back {
-          padding: 11px 15px;
-          border-radius: 16px;
-          background: #0f172a;
-          color: white;
-          font-size: 12px;
-          font-weight: 950;
+          padding:11px 15px;
+          border-radius:16px;
+          background:#0f172a;
+          color:white;
+          font-size:12px;
+          font-weight:950;
         }
 
         .jl-main-btn {
-          padding: 13px 18px;
-          border-radius: 18px;
-          color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .jl-ghost-btn {
-          padding: 13px 18px;
-          border-radius: 18px;
-          color: #334155;
-          background: rgba(255,255,255,.84);
-          border: 1px solid rgba(148,163,184,.28);
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .jl-notice {
-          margin: 12px 0;
-          border-radius: 20px;
-          padding: 13px 15px;
-          background: #ecfdf5;
-          color: #065f46;
-          border: 1px solid rgba(16,185,129,.22);
-          font-size: 12px;
-          font-weight: 900;
-        }
-
-        .jl-loading {
-          background: #fffbeb;
-          color: #92400e;
-          border-color: rgba(245,158,11,.24);
+          padding:13px 18px;
+          border-radius:18px;
+          color:white;
+          background:linear-gradient(135deg,#4f46e5,#7c3aed);
+          box-shadow:0 18px 38px rgba(79,70,229,.24);
+          font-size:12px;
+          font-weight:950;
         }
 
         .jl-stage-panel {
-          border-radius: 34px;
-          padding: 24px;
-          background: rgba(255,255,255,.78);
-          border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 22px 60px rgba(15,23,42,.08);
+          border-radius:34px;
+          padding:24px;
+          background:rgba(255,255,255,.76);
+          border:1px solid rgba(255,255,255,.94);
+          box-shadow:0 22px 60px rgba(15,23,42,.08);
+          backdrop-filter:blur(22px);
         }
 
         .jl-stage-head {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          gap: 16px;
-          align-items: start;
-          margin-bottom: 18px;
+          display:grid;
+          grid-template-columns:1fr auto;
+          gap:16px;
+          align-items:start;
+          margin-bottom:18px;
         }
 
         .jl-stage-head span {
-          color: #4f46e5;
-          font-size: 11px;
-          font-weight: 950;
+          display:inline-flex;
+          margin-bottom:8px;
+          color:var(--primary);
+          font-size:11px;
+          font-weight:950;
         }
 
         .jl-stage-head h2 {
-          margin: 8px 0 0;
-          color: #0f172a;
-          font-size: clamp(22px, 3vw, 34px);
-          line-height: 1.25;
-          font-weight: 950;
+          margin:0;
+          color:var(--ink);
+          font-size:clamp(22px,3vw,34px);
+          line-height:1.25;
+          font-weight:950;
         }
 
         .jl-stage-head p {
-          margin: 10px 0 0;
-          color: #64748b;
-          font-size: 13px;
-          line-height: 1.9;
-          font-weight: 750;
+          margin:10px 0 0;
+          max-width:760px;
+          color:var(--muted);
+          font-size:13px;
+          line-height:1.9;
+          font-weight:750;
         }
 
         .jl-quote {
-          max-width: 310px;
-          padding: 14px 16px;
-          border-radius: 22px;
-          background: #0f172a;
-          color: #f8fafc;
-          font-size: 12px;
-          font-weight: 900;
-          line-height: 1.8;
+          max-width:310px;
+          padding:14px 16px;
+          border-radius:22px;
+          background:#0f172a;
+          color:#f8fafc;
+          font-size:12px;
+          line-height:1.8;
+          font-weight:900;
+        }
+
+        .jl-notice {
+          margin:12px 0;
+          border-radius:20px;
+          padding:13px 15px;
+          background:#ecfdf5;
+          color:#065f46;
+          border:1px solid rgba(16,185,129,.22);
+          font-size:12px;
+          font-weight:900;
+        }
+
+        .jl-loading {
+          background:#fffbeb;
+          color:#92400e;
+          border-color:rgba(245,158,11,.24);
         }
 
         .jl-month-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 16px;
+          display:grid;
+          grid-template-columns:repeat(3,minmax(0,1fr));
+          gap:16px;
         }
 
         .jl-weeks-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
+          display:grid;
+          grid-template-columns:repeat(2,minmax(0,1fr));
+          gap:16px;
         }
 
         .jl-days-grid {
-          display: grid;
-          grid-template-columns: repeat(7, minmax(0, 1fr));
-          gap: 12px;
+          display:grid;
+          grid-template-columns:repeat(7,minmax(0,1fr));
+          gap:12px;
         }
 
         .jl-month-card,
         .jl-week-card,
         .jl-day-card {
-          font-family: inherit;
-          text-align: right;
-          border: 0;
-          cursor: pointer;
-          border-radius: 28px;
-          background: rgba(255,255,255,.9);
-          border: 1px solid rgba(148,163,184,.2);
-          box-shadow: 0 16px 40px rgba(15,23,42,.07);
-          transition: .24s ease;
-        }
-
-        .jl-month-card {
-          position: relative;
-          min-height: 215px;
-          padding: 18px;
-        }
-
-        .jl-week-card {
-          position: relative;
-          min-height: 178px;
-          padding: 18px;
-        }
-
-        .jl-day-card {
-          min-height: 148px;
-          padding: 14px 10px;
-          text-align: center;
+          font-family:inherit;
+          cursor:pointer;
+          text-align:right;
+          border:0;
+          border-radius:30px;
+          background:rgba(255,255,255,.90);
+          border:1px solid rgba(148,163,184,.20);
+          box-shadow:0 18px 45px rgba(15,23,42,.07);
+          transition:.25s ease;
+          position:relative;
+          overflow:hidden;
         }
 
         .jl-month-card:hover,
         .jl-week-card:hover,
         .jl-day-card:hover {
-          transform: translateY(-6px);
-          border-color: rgba(79,70,229,.3);
+          transform:translateY(-6px);
+          box-shadow:0 26px 60px rgba(79,70,229,.12);
         }
 
         .jl-month-card:disabled,
         .jl-week-card:disabled,
         .jl-day-card:disabled {
-          cursor: not-allowed;
-          opacity: .55;
-          filter: grayscale(.7);
-          transform: none;
+          cursor:not-allowed;
+          opacity:.55;
+          filter:grayscale(.65);
+          transform:none;
+        }
+
+        .jl-month-card {
+          min-height:220px;
+          padding:18px;
+        }
+
+        .jl-week-card {
+          min-height:188px;
+          padding:18px;
+        }
+
+        .jl-day-card {
+          min-height:148px;
+          padding:14px 10px;
+          text-align:center;
         }
 
         .jl-month-top,
         .jl-week-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 10px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:10px;
         }
 
         .jl-status {
-          width: 32px;
-          height: 32px;
-          display: inline-grid;
-          place-items: center;
-          border-radius: 14px;
-          font-size: 13px;
-          font-weight: 950;
+          width:34px;
+          height:34px;
+          display:inline-grid;
+          place-items:center;
+          border-radius:14px;
+          font-size:13px;
+          font-weight:950;
         }
 
         .jl-status--completed {
-          color: #065f46;
-          background: rgba(16,185,129,.12);
+          color:#065f46;
+          background:rgba(16,185,129,.12);
         }
 
         .jl-status--active {
-          color: #3730a3;
-          background: rgba(79,70,229,.12);
+          color:#3730a3;
+          background:rgba(79,70,229,.12);
         }
 
         .jl-status--locked {
-          color: #64748b;
-          background: rgba(100,116,139,.12);
+          color:#64748b;
+          background:rgba(100,116,139,.12);
         }
 
         .jl-index {
-          color: rgba(15,23,42,.13);
-          font-size: 42px;
-          font-weight: 950;
-          line-height: 1;
+          color:rgba(15,23,42,.13);
+          font-size:42px;
+          font-weight:950;
+          line-height:1;
         }
 
         .jl-month-card h3,
         .jl-week-card h3 {
-          margin: 22px 0 8px;
-          color: #0f172a;
-          font-size: 19px;
-          line-height: 1.45;
-          font-weight: 950;
+          margin:22px 0 8px;
+          color:var(--ink);
+          font-size:18px;
+          line-height:1.45;
+          font-weight:950;
         }
 
         .jl-month-card p,
         .jl-week-card p {
-          margin: 0;
-          color: #64748b;
-          font-size: 12px;
-          line-height: 1.8;
-          font-weight: 750;
+          margin:0 0 36px;
+          color:var(--muted);
+          font-size:12px;
+          line-height:1.8;
+          font-weight:750;
         }
 
         .jl-card-foot {
-          position: absolute;
-          right: 18px;
-          left: 18px;
-          bottom: 16px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          color: #64748b;
-          font-size: 11px;
-          font-weight: 900;
+          position:absolute;
+          right:18px;
+          left:18px;
+          bottom:16px;
+          display:flex;
+          justify-content:space-between;
+          gap:12px;
+          color:#64748b;
+          font-size:11px;
+          font-weight:900;
         }
 
         .jl-day-number {
-          width: 52px;
-          height: 52px;
-          margin: 0 auto 12px;
-          display: grid;
-          place-items: center;
-          border-radius: 21px;
-          color: white;
-          font-size: 20px;
-          font-weight: 950;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
+          width:52px;
+          height:52px;
+          margin:0 auto 12px;
+          border-radius:21px;
+          display:grid;
+          place-items:center;
+          color:white;
+          font-size:20px;
+          font-weight:950;
+          background:linear-gradient(135deg,#4f46e5,#7c3aed);
         }
 
         .jl-day-card--completed .jl-day-number {
-          background: linear-gradient(135deg, #10b981, #059669);
+          background:linear-gradient(135deg,#10b981,#059669);
         }
 
         .jl-day-card--locked .jl-day-number {
-          background: linear-gradient(135deg, #94a3b8, #64748b);
+          background:linear-gradient(135deg,#94a3b8,#64748b);
         }
 
         .jl-day-card strong {
-          display: block;
-          color: #0f172a;
-          font-size: 12px;
-          font-weight: 950;
-          line-height: 1.6;
+          display:block;
+          color:var(--ink);
+          font-size:12px;
+          line-height:1.6;
+          font-weight:950;
         }
 
         .jl-day-card small {
-          display: block;
-          margin-top: 6px;
-          color: #64748b;
-          font-size: 10px;
-          font-weight: 850;
+          display:block;
+          margin-top:6px;
+          color:var(--muted);
+          font-size:10px;
+          font-weight:850;
         }
 
         .jl-lesson-shell {
-          display: grid;
-          grid-template-columns: 290px minmax(0, 1fr);
-          gap: 18px;
-          align-items: start;
+          display:grid;
+          grid-template-columns:300px minmax(0,1fr);
+          gap:18px;
+          align-items:start;
         }
 
         .jl-lesson-side {
-          position: sticky;
-          top: 20px;
-          border-radius: 30px;
-          padding: 18px;
-          color: white;
+          position:sticky;
+          top:20px;
+          border-radius:30px;
+          padding:18px;
+          color:white;
           background:
             radial-gradient(circle at top right, rgba(245,158,11,.22), transparent 36%),
-            linear-gradient(160deg, #0f172a, #1e293b);
-          box-shadow: 0 22px 55px rgba(15,23,42,.18);
+            linear-gradient(160deg,#0f172a,#1e293b);
+          box-shadow:0 22px 55px rgba(15,23,42,.18);
         }
 
         .jl-pill {
-          display: inline-flex;
-          width: fit-content;
-          padding: 8px 12px;
-          border-radius: 999px;
-          font-size: 11px;
-          font-weight: 950;
-          margin-bottom: 14px;
+          display:inline-flex;
+          width:fit-content;
+          padding:8px 12px;
+          border-radius:999px;
+          font-size:11px;
+          font-weight:950;
+          margin-bottom:14px;
         }
 
         .jl-pill--completed {
-          color: #d1fae5;
-          background: rgba(16,185,129,.18);
+          color:#d1fae5;
+          background:rgba(16,185,129,.18);
         }
 
         .jl-pill--active {
-          color: #e0e7ff;
-          background: rgba(79,70,229,.24);
+          color:#e0e7ff;
+          background:rgba(79,70,229,.24);
         }
 
         .jl-pill--locked {
-          color: #e2e8f0;
-          background: rgba(148,163,184,.18);
+          color:#e2e8f0;
+          background:rgba(148,163,184,.18);
         }
 
         .jl-lesson-side h3 {
-          margin: 0 0 10px;
-          font-size: 22px;
-          line-height: 1.4;
-          font-weight: 950;
+          margin:0 0 10px;
+          font-size:22px;
+          line-height:1.4;
+          font-weight:950;
         }
 
         .jl-lesson-side p {
-          color: rgba(226,232,240,.86);
-          font-size: 12px;
-          line-height: 1.9;
-          font-weight: 750;
-          margin: 0;
+          margin:0;
+          color:rgba(226,232,240,.86);
+          font-size:12px;
+          line-height:1.9;
+          font-weight:750;
         }
 
         .jl-lesson-actions {
-          display: grid;
-          gap: 10px;
-          margin-top: 16px;
+          display:grid;
+          gap:10px;
+          margin-top:16px;
         }
 
         .jl-complete {
-          padding: 14px 16px;
-          border-radius: 18px;
-          color: white;
-          background: linear-gradient(135deg, #10b981, #059669);
-          font-size: 12px;
-          font-weight: 950;
+          padding:14px 16px;
+          border-radius:18px;
+          color:white;
+          background:linear-gradient(135deg,#10b981,#059669);
+          font-size:12px;
+          font-weight:950;
         }
 
-        .jl-complete:disabled {
-          cursor: not-allowed;
-          opacity: .62;
-          transform: none;
+        .jl-ghost-btn {
+          padding:13px 16px;
+          border-radius:18px;
+          background:rgba(255,255,255,.10);
+          border:1px solid rgba(255,255,255,.18);
+          color:white;
+          font-size:12px;
+          font-weight:950;
         }
 
         .jl-reader {
-          border-radius: 30px;
-          padding: 28px;
-          background: rgba(255,255,255,.95);
-          border: 1px solid rgba(148,163,184,.18);
-          box-shadow: 0 20px 55px rgba(15,23,42,.07);
+          border-radius:30px;
+          padding:28px;
+          background:rgba(255,255,255,.96);
+          border:1px solid rgba(148,163,184,.18);
+          box-shadow:0 20px 55px rgba(15,23,42,.07);
         }
 
         .jl-week-intro {
-          margin: 0 0 18px;
-          border-radius: 24px;
-          padding: 18px;
-          background: #fffbeb;
-          border: 1px solid #fde68a;
-          color: #78350f;
-          line-height: 2;
-          font-size: 13px;
-          font-weight: 800;
-          white-space: pre-wrap;
+          margin:0 0 18px;
+          border-radius:24px;
+          padding:18px;
+          background:#fffbeb;
+          border:1px solid #fde68a;
+          color:#78350f;
+          line-height:2;
+          font-size:13px;
+          font-weight:800;
+          white-space:pre-wrap;
         }
 
-        .jl-content-body {
-          color: #1e293b;
-          font-size: 15px;
-          line-height: 2.15;
-          font-weight: 650;
-          white-space: pre-wrap;
+        .jl-rich-text {
+          display:grid;
+          gap:12px;
+        }
+
+        .jl-rich-text h1,
+        .jl-rich-text h2,
+        .jl-rich-text h3,
+        .jl-rich-text h4 {
+          margin:0;
+          color:#0f172a;
+          line-height:1.55;
+          font-weight:950;
+        }
+
+        .jl-rich-text h1 {
+          font-size:30px;
+          padding:20px;
+          border-radius:24px;
+          color:white;
+          background:linear-gradient(135deg,#0f172a,#1e293b);
+        }
+
+        .jl-rich-text h2 {
+          font-size:24px;
+          padding:16px 18px;
+          border-radius:22px;
+          background:#eef2ff;
+          color:#3730a3;
+          border:1px solid rgba(79,70,229,.12);
+        }
+
+        .jl-rich-text h3 {
+          font-size:18px;
+          margin-top:8px;
+          padding:14px 16px;
+          border-radius:20px;
+          background:#f8fafc;
+          border-right:5px solid #4f46e5;
+        }
+
+        .jl-rich-text h4 {
+          font-size:15px;
+          color:#92400e;
+          padding:12px 14px;
+          border-radius:18px;
+          background:#fffbeb;
+        }
+
+        .jl-rich-text p {
+          margin:0;
+          color:#1e293b;
+          font-size:15px;
+          line-height:2.12;
+          font-weight:650;
+          padding:0 2px;
+        }
+
+        .jl-bullet {
+          position:relative;
+          padding:12px 42px 12px 14px;
+          border-radius:18px;
+          color:#334155;
+          background:#f8fafc;
+          border:1px solid rgba(148,163,184,.18);
+          font-size:14px;
+          line-height:1.9;
+          font-weight:750;
+        }
+
+        .jl-bullet::before {
+          content:"";
+          position:absolute;
+          right:16px;
+          top:22px;
+          width:9px;
+          height:9px;
+          border-radius:999px;
+          background:linear-gradient(135deg,#4f46e5,#7c3aed);
+        }
+
+        .jl-quiz {
+          margin-top:24px;
+          padding:22px;
+          border-radius:28px;
+          background:#0f172a;
+          color:white;
+          box-shadow:0 22px 55px rgba(15,23,42,.16);
+        }
+
+        .jl-quiz-soft {
+          background:#f8fafc;
+          color:#334155;
+          border:1px dashed rgba(100,116,139,.35);
+          box-shadow:none;
+        }
+
+        .jl-quiz-header {
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:12px;
+          margin-bottom:10px;
+        }
+
+        .jl-quiz-header span {
+          color:#fde68a;
+          font-size:12px;
+          font-weight:950;
+        }
+
+        .jl-quiz-header strong {
+          color:white;
+          font-size:13px;
+          font-weight:950;
+        }
+
+        .jl-quiz h3 {
+          margin:0 0 14px;
+          font-size:23px;
+          line-height:1.4;
+          font-weight:950;
+        }
+
+        .jl-quiz-warning {
+          margin:0 0 14px;
+          padding:12px 14px;
+          border-radius:18px;
+          background:rgba(245,158,11,.14);
+          color:#fde68a;
+          font-size:12px;
+          line-height:1.8;
+          font-weight:850;
+        }
+
+        .jl-question-list {
+          display:grid;
+          gap:14px;
+        }
+
+        .jl-question {
+          padding:16px;
+          border-radius:22px;
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,.10);
+        }
+
+        .jl-question-title {
+          display:flex;
+          gap:12px;
+          align-items:flex-start;
+          margin-bottom:12px;
+        }
+
+        .jl-question-title b {
+          flex:0 0 auto;
+          width:32px;
+          height:32px;
+          border-radius:13px;
+          display:grid;
+          place-items:center;
+          background:linear-gradient(135deg,#f59e0b,#facc15);
+          color:#111827;
+          font-weight:950;
+        }
+
+        .jl-question-title span {
+          color:#f8fafc;
+          font-size:14px;
+          line-height:1.9;
+          font-weight:850;
+        }
+
+        .jl-options {
+          display:grid;
+          gap:10px;
+        }
+
+        .jl-option {
+          width:100%;
+          display:flex;
+          align-items:center;
+          gap:10px;
+          text-align:right;
+          border:1px solid rgba(255,255,255,.12);
+          background:rgba(255,255,255,.08);
+          color:white;
+          border-radius:18px;
+          padding:12px;
+          font-family:inherit;
+          cursor:pointer;
+          transition:.22s ease;
+        }
+
+        .jl-option:hover {
+          background:rgba(255,255,255,.13);
+        }
+
+        .jl-option span {
+          width:30px;
+          height:30px;
+          border-radius:12px;
+          display:grid;
+          place-items:center;
+          background:rgba(255,255,255,.12);
+          color:#fde68a;
+          font-size:12px;
+          font-weight:950;
+          flex:0 0 auto;
+        }
+
+        .jl-option strong {
+          font-size:13px;
+          line-height:1.8;
+          font-weight:850;
+        }
+
+        .jl-option--selected {
+          border-color:rgba(245,158,11,.65);
+          background:rgba(245,158,11,.14);
+        }
+
+        .jl-option--correct {
+          border-color:rgba(16,185,129,.72);
+          background:rgba(16,185,129,.18);
+        }
+
+        .jl-option--wrong {
+          border-color:rgba(239,68,68,.72);
+          background:rgba(239,68,68,.18);
+        }
+
+        .jl-quiz-footer {
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+          gap:12px;
+          margin-top:16px;
+        }
+
+        .jl-quiz-submit {
+          padding:13px 18px;
+          border-radius:18px;
+          color:#111827;
+          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          font-size:12px;
+          font-weight:950;
+        }
+
+        .jl-quiz-result {
+          flex:1;
+          min-width:220px;
+          border-radius:18px;
+          padding:12px 14px;
+          font-size:12px;
+          line-height:1.8;
+          font-weight:900;
+        }
+
+        .jl-quiz-result--pass {
+          background:rgba(16,185,129,.14);
+          color:#d1fae5;
+        }
+
+        .jl-quiz-result--fail {
+          background:rgba(239,68,68,.14);
+          color:#fecaca;
         }
 
         .jl-empty {
-          border-radius: 24px;
-          padding: 22px;
-          background: #f8fafc;
-          color: #64748b;
-          border: 1px dashed rgba(100,116,139,.35);
-          font-size: 13px;
-          font-weight: 900;
-          text-align: center;
+          border-radius:24px;
+          padding:22px;
+          background:#f8fafc;
+          color:#64748b;
+          border:1px dashed rgba(100,116,139,.35);
+          font-size:13px;
+          font-weight:900;
+          text-align:center;
         }
 
-        @media (max-width: 980px) {
-          .jl-hero-grid,
-          .jl-lesson-shell,
-          .jl-stage-head {
-            grid-template-columns: 1fr;
+        @media (max-width:980px) {
+          .jl-hero-inner,
+          .jl-lesson-shell {
+            grid-template-columns:1fr;
           }
 
           .jl-control-deck,
-          .jl-month-grid,
+          .jl-month-grid {
+            grid-template-columns:1fr;
+          }
+
           .jl-weeks-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns:1fr;
           }
 
           .jl-days-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns:repeat(2,minmax(0,1fr));
+          }
+
+          .jl-stage-head {
+            grid-template-columns:1fr;
           }
 
           .jl-quote {
-            max-width: 100%;
+            max-width:100%;
           }
 
           .jl-lesson-side {
-            position: relative;
-            top: auto;
+            position:relative;
+            top:auto;
           }
         }
 
-        @media (max-width: 560px) {
+        @media (max-width:560px) {
           .journey-lab {
-            padding: 16px 10px 44px;
+            padding:16px 10px 44px;
           }
 
           .jl-hero,
-          .jl-stage-panel {
-            border-radius: 26px;
-            padding: 20px;
+          .jl-stage-panel,
+          .jl-reader {
+            border-radius:26px;
+            padding:20px;
           }
 
           .jl-days-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .jl-reader {
-            padding: 18px;
-            border-radius: 24px;
+            grid-template-columns:1fr;
           }
         }
       `}</style>
 
       <div className="jl-wrap">
         <header className="jl-hero">
-          <div className="jl-hero-grid">
+          <div className="jl-hero-inner">
             <div>
               <span className="jl-eyebrow">رحلتك التعليمية · 6 أشهر · OD Mastery</span>
-              <h1>
-                رحلة لا تُعرض دفعة واحدة
-                <span>بل تُفتح كبوابات إتقان</span>
+
+              <h1 className="jl-title">
+                رحلة تعليمية متدرجة
+                <span>شهر ← أسبوع ← يوم ← درس ← اختبار</span>
               </h1>
+
               <p>
-                الشهر أولًا، ثم الأسبوع، ثم اليوم، ثم الدرس. هكذا تبقى الرحلة منظمة ومشوقة وقابلة للإنجاز دون تشتيت أو تكديس.
+                تم تصميم الرحلة كبوابات إتقان لا كصفحة طويلة مشتتة. كل شهر يفتح أسابيعه،
+                وكل أسبوع يفتح أيامه، وكل يوم يحتوي على درس منسق واختبار فهم قبل حفظ الإنجاز.
               </p>
             </div>
 
-            <div className="jl-orb">
-              <div>
-                <strong>{arabicPercent(overallProgress)}</strong>
-                <small>من الرحلة الكاملة</small>
+            <div className="jl-orb-card">
+              <div className="jl-orb">
+                <div>
+                  <strong>{arabicPercent(overallProgress)}</strong>
+                  <small>من الرحلة الكاملة</small>
+                </div>
               </div>
             </div>
           </div>
@@ -1156,19 +1873,19 @@ export default function CourseJourney({
           <MiniProgress
             label="التقدم الكلي"
             value={overallProgress}
-            help={`${totalCompletedDays} من ${totalCourseDays || 0} يومًا`}
+            help={`${totalCompletedDays} من ${totalCourseDays} يومًا`}
           />
 
           <MiniProgress
-            label={`تقدم ${selectedMonth.title}`}
+            label={`تقدم ${selectedMonth?.title || "الشهر"}`}
             value={monthProgress}
-            help={`${monthCompleted} من ${monthTotal || 0} يومًا`}
+            help={`${monthCompletedDays} من ${monthTotalDays} يومًا`}
           />
 
           <MiniProgress
-            label={`تقدم ${selectedWeek.title}`}
+            label={`تقدم ${selectedWeek?.title || "الأسبوع"}`}
             value={weekProgress}
-            help={`${weekCompleted} من ${weekTotal || 0} أيام`}
+            help={`${weekCompletedDays} من ${weekTotalDays} أيام`}
           />
         </section>
 
@@ -1184,7 +1901,7 @@ export default function CourseJourney({
               onClick={() => setStage("weeks")}
               disabled={stage === "months"}
             >
-              {selectedMonth.title}
+              {selectedMonth?.title || "الشهر"}
             </button>
 
             <button
@@ -1193,11 +1910,15 @@ export default function CourseJourney({
               onClick={() => setStage("days")}
               disabled={stage === "months" || stage === "weeks"}
             >
-              {selectedWeek.title}
+              {selectedWeek?.title || "الأسبوع"}
             </button>
 
-            <button type="button" className="jl-crumb" disabled>
-              {stage === "lesson" ? selectedDay.label : "الدرس"}
+            <button
+              type="button"
+              className="jl-crumb"
+              disabled={stage !== "lesson"}
+            >
+              {selectedDay?.label || "اليوم"}
             </button>
           </div>
 
@@ -1215,9 +1936,9 @@ export default function CourseJourney({
         </div>
 
         {notice && <div className="jl-notice">{notice}</div>}
-        {loading && <div className="jl-notice jl-loading">جارٍ تحميل حالة الطالب...</div>}
+        {loading && <div className="jl-notice jl-loading">جارٍ تحميل تقدمك...</div>}
 
-        <main className="jl-stage-panel" key={stage}>
+        <main className="jl-stage-panel">
           <div className="jl-stage-head">
             <div>
               <span>{currentMeta.kicker}</span>
@@ -1230,9 +1951,9 @@ export default function CourseJourney({
 
           {stage === "months" && (
             <section className="jl-month-grid">
-              {months.map((month) => {
+              {course.map((month) => {
                 const state = monthState(month);
-                const total = monthTotalDays(month);
+                const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
                 const done = countCompletedInMonth(completedSet, month);
                 const percent = total ? (done / total) * 100 : 0;
 
@@ -1254,7 +1975,7 @@ export default function CourseJourney({
 
                     <div className="jl-card-foot">
                       <span>{stateLabels[state]}</span>
-                      <span>{arabicPercent(percent)}</span>
+                      <span>{done} من {total} يومًا · {arabicPercent(percent)}</span>
                     </div>
                   </button>
                 );
@@ -1265,8 +1986,8 @@ export default function CourseJourney({
           {stage === "weeks" && (
             <section className="jl-weeks-grid">
               {selectedMonth.weeks.map((week) => {
-                const state = weekState(week);
-                const total = weekTotalDays(week);
+                const state = weekState(week, selectedMonth);
+                const total = getContentDays(week).length;
                 const done = countCompletedInWeek(completedSet, week);
                 const percent = total ? (done / total) * 100 : 0;
 
@@ -1287,8 +2008,8 @@ export default function CourseJourney({
                     <p>{week.subtitle}</p>
 
                     <div className="jl-card-foot">
-                      <span>{done} من {total} أيام</span>
-                      <span>{arabicPercent(percent)}</span>
+                      <span>{stateLabels[state]}</span>
+                      <span>{done} من {total} أيام · {arabicPercent(percent)}</span>
                     </div>
                   </button>
                 );
@@ -1298,8 +2019,8 @@ export default function CourseJourney({
 
           {stage === "days" && (
             <section className="jl-days-grid">
-              {selectedWeek.days.filter(dayHasContent).map((day) => {
-                const state = dayState(day);
+              {selectedWeek.days.map((day) => {
+                const state = dayState(day, selectedWeek, selectedMonth);
 
                 return (
                   <button
@@ -1321,7 +2042,7 @@ export default function CourseJourney({
             </section>
           )}
 
-          {stage === "lesson" && (
+          {stage === "lesson" && selectedDay && (
             <section className="jl-lesson-shell">
               <aside className="jl-lesson-side">
                 <span className={`jl-pill jl-pill--${currentDayState}`}>
@@ -1339,13 +2060,15 @@ export default function CourseJourney({
                     type="button"
                     className="jl-complete"
                     onClick={completeCurrentDay}
-                    disabled={saving || currentDayState === "locked" || currentDayState === "completed"}
+                    disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
                     {currentDayState === "completed"
                       ? "تم إكمال اليوم"
                       : saving
                         ? "جارٍ الحفظ..."
-                        : "إنهاء اليوم وحفظ التقدم"}
+                        : dayHasQuiz && !quizPassedByDay[selectedDay.id]
+                          ? "أكمل الاختبار أولًا"
+                          : "إنهاء اليوم وحفظ التقدم"}
                   </button>
 
                   {currentDayState === "completed" && (
@@ -1365,11 +2088,18 @@ export default function CourseJourney({
                   <div className="jl-week-intro">{selectedWeek.intro}</div>
                 )}
 
-                {selectedDay.content ? (
-                  <div className="jl-content-body">{selectedDay.content}</div>
-                ) : (
-                  <div className="jl-empty">هذا المحتوى غير متاح بعد.</div>
-                )}
+                <RichLesson text={preparedLesson.lessonText} />
+
+                <QuizPanel
+                  day={selectedDay}
+                  questions={preparedLesson.quiz}
+                  onPass={() => {
+                    setQuizPassedByDay((current) => ({
+                      ...current,
+                      [selectedDay.id]: true
+                    }));
+                  }}
+                />
               </article>
             </section>
           )}
