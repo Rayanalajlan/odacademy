@@ -1,21 +1,21 @@
 import { useMemo, useState } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 
 const MODES = {
   login: {
-    eyebrow: "بوابة الدخول",
-    title: "مرحبًا بك في منصة إتقان التطوير التنظيمي",
+    eyebrow: "بوابة العودة",
+    title: "مرحبًا بك في مساحة الإتقان",
     subtitle:
-      "هذه ليست صفحة دخول عادية؛ هذه بوابة عودة إلى رحلتك في التشخيص، تصميم المنظمة، قيادة التغيير، الثقافة، قياس الأثر، وبناء الاحتراف.",
+      "سجّل دخولك لتعود إلى رحلتك في التشخيص، تصميم المنظمة، قيادة التغيير، الثقافة، قياس الأثر، وبناء الاحتراف.",
     button: "دخول إلى رحلتي",
     switchText: "ليس لديك حساب؟",
     switchAction: "إنشاء حساب جديد"
   },
   signup: {
     eyebrow: "بداية الرحلة",
-    title: "أنشئ حسابك وابدأ مسارك المهني",
+    title: "أنشئ حسابك وابدأ المسار",
     subtitle:
-      "سجّل بياناتك لتبدأ رحلة منظمة من ستة أشهر، مصممة لتبني عقلية ممارس تطوير تنظيمي محترف.",
+      "سجّل بياناتك لتبدأ رحلة منظمة من ستة أشهر، مصممة لبناء عقلية ممارس تطوير تنظيمي محترف.",
     button: "إنشاء الحساب",
     switchText: "لديك حساب بالفعل؟",
     switchAction: "تسجيل الدخول"
@@ -24,12 +24,14 @@ const MODES = {
     eyebrow: "استعادة الوصول",
     title: "استعد دخولك بهدوء",
     subtitle:
-      "اكتب بريدك المهني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور إن كان الحساب مسجلًا.",
+      "اكتب بريدك الإلكتروني، وسنرسل لك رابطًا لإعادة تعيين كلمة المرور إن كان الحساب مسجلًا.",
     button: "إرسال رابط الاستعادة",
     switchText: "تذكرت كلمة المرور؟",
     switchAction: "العودة للدخول"
   }
 };
+
+const LOGIN_NOTICE_TIMEOUT_MS = 3500;
 
 function getFriendlyError(errorMessage = "") {
   const text = String(errorMessage).toLowerCase();
@@ -50,32 +52,58 @@ function getFriendlyError(errorMessage = "") {
     return "تمت محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.";
   }
 
+  if (text.includes("failed to fetch") || text.includes("network")) {
+    return "تعذر الاتصال بالخادم. تحقق من الإنترنت أو حاول لاحقًا.";
+  }
+
   return "تعذر تنفيذ العملية الآن. تحقق من البيانات أو حاول لاحقًا.";
 }
 
-async function sendLoginNotice(session) {
-  if (!session?.access_token) return;
-
-  try {
-    await fetch("/api/login-notice", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify({
-        source: "odacademy-login",
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      })
-    });
-  } catch {
-    // لا نوقف دخول المستخدم لو فشل إرسال التنبيه.
-  }
+function getSessionName(session, fallbackName = "") {
+  return (
+    fallbackName ||
+    session?.user?.user_metadata?.full_name ||
+    session?.user?.email ||
+    "زميل المهنة"
+  );
 }
 
-export default function AuthGate({ onAuthenticated }) {
+// تعديل مهم:
+// لا ننتظر رسالة البريد قبل إدخال المستخدم.
+// التنبيه يعمل في الخلفية فقط، حتى لا يعلق تسجيل الدخول.
+function sendLoginNoticeInBackground(session) {
+  if (!session?.access_token) return;
+
+  const controller = new AbortController();
+
+  const timer = window.setTimeout(() => {
+    controller.abort();
+  }, LOGIN_NOTICE_TIMEOUT_MS);
+
+  fetch("/api/login-notice", {
+    method: "POST",
+    signal: controller.signal,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.access_token}`
+    },
+    body: JSON.stringify({
+      source: "odacademy-login",
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
+  })
+    .catch((error) => {
+      // لا نوقف دخول المستخدم إذا فشل إرسال تنبيه البريد.
+      console.warn("تعذر إرسال تنبيه الدخول:", error);
+    })
+    .finally(() => {
+      window.clearTimeout(timer);
+    });
+}
+
+export default function AuthGate({ onEnter, onAuthenticated }) {
   const [mode, setMode] = useState("login");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -89,25 +117,75 @@ export default function AuthGate({ onAuthenticated }) {
   const greetingLine = useMemo(() => {
     const hour = new Date().getHours();
 
-    if (hour < 12) return "صباح الإنجاز، ريان.";
-    if (hour < 18) return "مساء التركيز، ريان.";
+    if (hour < 12) return "صباح الإنجاز.";
+    if (hour < 18) return "مساء التركيز.";
     return "مرحبًا بعودتك إلى مساحة الإتقان.";
   }, []);
 
+  function enterPlatform(session, name, demo = false) {
+    const finalName = getSessionName(session, name);
+
+    if (demo) {
+      localStorage.setItem("od_demo_name", finalName);
+    }
+
+    // يدعم App.jsx الجديد.
+    if (typeof onEnter === "function") {
+      onEnter({
+        session,
+        name: finalName,
+        demo
+      });
+      return;
+    }
+
+    // يدعم App.jsx القديم احتياطًا.
+    if (typeof onAuthenticated === "function") {
+      onAuthenticated(session);
+      return;
+    }
+
+    window.setTimeout(() => window.location.reload(), 500);
+  }
+
+  function validateBeforeSubmit(cleanEmail) {
+    if (!cleanEmail) {
+      throw new Error("اكتب البريد الإلكتروني أولًا.");
+    }
+
+    if (mode !== "reset" && !password) {
+      throw new Error("اكتب كلمة المرور أولًا.");
+    }
+
+    if (mode === "signup" && password.length < 6) {
+      throw new Error("كلمة المرور يجب ألا تقل عن 6 أحرف.");
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+
     setBusy(true);
     setMessage(null);
 
     try {
       const cleanEmail = email.trim().toLowerCase();
+      const cleanName = fullName.trim();
 
-      if (!cleanEmail) {
-        throw new Error("اكتب البريد الإلكتروني أولًا.");
-      }
+      validateBeforeSubmit(cleanEmail);
 
-      if (mode !== "reset" && !password) {
-        throw new Error("اكتب كلمة المرور أولًا.");
+      // وضع آمن عند عدم ضبط Supabase:
+      // يفيدك في التجربة المحلية فقط، ولا يعتمد عليه للإنتاج.
+      if (!isSupabaseConfigured || !supabase) {
+        const demoName = cleanName || cleanEmail || "زميل المهنة";
+
+        setMessage({
+          type: "success",
+          text: "Supabase غير مضبوط حاليًا، لذلك سيتم الدخول بوضع تجريبي محلي."
+        });
+
+        enterPlatform(null, demoName, true);
+        return;
       }
 
       if (mode === "login") {
@@ -118,18 +196,22 @@ export default function AuthGate({ onAuthenticated }) {
 
         if (error) throw error;
 
-        await sendLoginNotice(data?.session);
+        const nextSession = data?.session;
+
+        if (!nextSession) {
+          throw new Error("لم تصل جلسة دخول صالحة من Supabase.");
+        }
+
+        // لا نستخدم await هنا حتى لا يتعطل الدخول بسبب البريد.
+        sendLoginNoticeInBackground(nextSession);
 
         setMessage({
           type: "success",
-          text: "تم تسجيل الدخول بنجاح. لحظة واحدة وننقلك إلى رحلتك التعليمية."
+          text: "تم تسجيل الدخول بنجاح. يتم فتح رحلتك الآن."
         });
 
-        if (typeof onAuthenticated === "function") {
-          onAuthenticated(data?.session);
-        } else {
-          setTimeout(() => window.location.reload(), 650);
-        }
+        enterPlatform(nextSession, getSessionName(nextSession));
+        return;
       }
 
       if (mode === "signup") {
@@ -138,30 +220,33 @@ export default function AuthGate({ onAuthenticated }) {
           password,
           options: {
             data: {
-              full_name: fullName.trim()
+              full_name: cleanName || cleanEmail
             }
           }
         });
 
         if (error) throw error;
 
+        if (data?.session) {
+          sendLoginNoticeInBackground(data.session);
+
+          setMessage({
+            type: "success",
+            text: "تم إنشاء الحساب وتسجيل الدخول بنجاح."
+          });
+
+          enterPlatform(data.session, cleanName || getSessionName(data.session));
+          return;
+        }
+
         setMessage({
           type: "success",
-          text:
-            data?.session
-              ? "تم إنشاء الحساب وتسجيل الدخول بنجاح."
-              : "تم إنشاء الحساب. راجع بريدك لتأكيد الحساب ثم سجّل الدخول."
+          text: "تم إنشاء الحساب. راجع بريدك لتأكيد الحساب، ثم عد لتسجيل الدخول."
         });
 
-        if (data?.session) {
-          await sendLoginNotice(data.session);
-
-          if (typeof onAuthenticated === "function") {
-            onAuthenticated(data.session);
-          } else {
-            setTimeout(() => window.location.reload(), 650);
-          }
-        }
+        setMode("login");
+        setPassword("");
+        return;
       }
 
       if (mode === "reset") {
@@ -175,13 +260,18 @@ export default function AuthGate({ onAuthenticated }) {
           type: "success",
           text: "تم إرسال رابط استعادة كلمة المرور إلى بريدك إن كان الحساب موجودًا."
         });
+
+        return;
       }
     } catch (error) {
+      const rawMessage = error?.message || "";
+
       setMessage({
         type: "error",
-        text: error?.message?.startsWith("اكتب")
-          ? error.message
-          : getFriendlyError(error?.message)
+        text:
+          rawMessage.startsWith("اكتب") || rawMessage.includes("6 أحرف")
+            ? rawMessage
+            : getFriendlyError(rawMessage)
       });
     } finally {
       setBusy(false);
@@ -192,6 +282,7 @@ export default function AuthGate({ onAuthenticated }) {
     setMode(nextMode);
     setMessage(null);
     setPassword("");
+    setShowPassword(false);
   }
 
   return (
@@ -674,7 +765,7 @@ export default function AuthGate({ onAuthenticated }) {
               </div>
             </div>
 
-            <span className="auth-badge">رحلة معرفية مغلقة بالتقدم</span>
+            <span className="auth-badge">رحلة معرفية محفوظة بالتقدم</span>
           </div>
 
           <div className="auth-welcome">
@@ -814,7 +905,7 @@ export default function AuthGate({ onAuthenticated }) {
 
           <div className="auth-security-note">
             <b>تنبيه أمان:</b> لا تشارك كلمة المرور مع أي شخص. عند كل دخول ناجح ستصلك رسالة
-            تنبيه حتى تعرف أن حسابك استُخدم للوصول إلى المنصة.
+            تنبيه، لكن دخولك للمنصة لن ينتظر وصول الرسالة.
           </div>
         </section>
       </section>

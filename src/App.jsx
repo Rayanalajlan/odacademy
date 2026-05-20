@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "./data/courseContent";
 import { supabase, isSupabaseConfigured } from "./lib/supabaseClient";
-import { fetchUserProgress } from "./lib/progressService";
+import { loadUserProgress } from "./lib/progressService";
 import AuthGate from "./components/AuthGate";
 import Home from "./components/Home";
 import CourseJourney from "./components/CourseJourney";
@@ -21,6 +21,9 @@ const pages = [
   { id: "about", label: "عن ريان" }
 ];
 
+// مدة انتظار آمنة حتى لا تبقى شاشة التجهيز معلقة إذا تأخر Supabase أو الإنترنت.
+const BOOT_TIMEOUT_MS = 8000;
+
 function progressKey(row) {
   return `${row.month_index}-${row.week_index}-${row.day_index}`;
 }
@@ -35,32 +38,56 @@ function getDisplayName(session, fallbackName) {
   );
 }
 
+// هذه الدالة تمنع أي عملية طويلة من تعليق الموقع للأبد.
+function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      window.setTimeout(
+        () => reject(new Error(`${label} استغرق وقتًا أطول من المتوقع.`)),
+        timeoutMs
+      );
+    })
+  ]);
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
   const [userName, setUserName] = useState(localStorage.getItem("od_demo_name") || "");
   const [activePage, setActivePage] = useState("home");
   const [progressRows, setProgressRows] = useState([]);
-  const [loadingProgress, setLoadingProgress] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
   const [notice, setNotice] = useState("");
 
   const completedDays = useMemo(() => {
-    const unique = new Set(progressRows.filter((row) => row.status === "completed").map(progressKey));
+    const unique = new Set(
+      progressRows
+        .filter((row) => row.status === "completed")
+        .map(progressKey)
+    );
+
     return unique.size;
   }, [progressRows]);
 
-  const authenticated = Boolean(session?.user || demoMode || (!isSupabaseConfigured && userName));
+  const authenticated = Boolean(
+    session?.user || demoMode || (!isSupabaseConfigured && userName)
+  );
 
-  async function loadProgress() {
-    setLoadingProgress(true);
+  async function loadProgressSafely({ showLoader = true } = {}) {
+    if (showLoader) setLoadingProgress(true);
+
     try {
-      const rows = await fetchUserProgress();
-      setProgressRows(rows);
+      const rows = await withTimeout(loadUserProgress(), "تحميل تقدمك");
+      setProgressRows(Array.isArray(rows) ? rows : []);
     } catch (error) {
-      setNotice(error.message || "تعذر جلب تقدم الطالب.");
+      console.warn("تعذر تحميل التقدم:", error);
+      setNotice(
+        "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
+      );
     } finally {
-      setLoadingProgress(false);
+      if (showLoader) setLoadingProgress(false);
     }
   }
 
@@ -70,55 +97,120 @@ export default function App() {
     async function boot() {
       try {
         if (isSupabaseConfigured && supabase) {
-          const { data } = await supabase.auth.getSession();
+          const { data, error } = await withTimeout(
+            supabase.auth.getSession(),
+            "فحص جلسة الدخول"
+          );
+
+          if (error) {
+            console.warn("تعذر فحص جلسة Supabase:", error.message);
+          }
+
           if (mounted) {
-            setSession(data.session);
-            if (data.session?.user) setUserName(getDisplayName(data.session));
+            setSession(data?.session || null);
+
+            if (data?.session?.user) {
+              setUserName(getDisplayName(data.session));
+            }
           }
         } else {
           const localName = localStorage.getItem("od_demo_name");
+
           if (localName && mounted) {
             setUserName(localName);
             setDemoMode(true);
           }
         }
 
-        await loadProgress();
+        if (mounted) {
+          await loadProgressSafely({ showLoader: false });
+        }
+      } catch (error) {
+        console.warn("تعذر تجهيز التطبيق:", error);
+
+        if (mounted) {
+          setNotice(
+            "تم تجاوز فحص الدخول لأنه استغرق وقتًا طويلًا. إذا لم تظهر بياناتك، حدّث الصفحة مرة واحدة."
+          );
+        }
       } finally {
-        if (mounted) setBooting(false);
+        if (mounted) {
+          setBooting(false);
+        }
       }
     }
 
     boot();
 
     if (isSupabaseConfigured && supabase) {
-      const { data } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
-        setSession(nextSession);
-        if (nextSession?.user) setUserName(getDisplayName(nextSession));
-        await loadProgress();
+      const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+        if (!mounted) return;
+
+        setSession(nextSession || null);
+
+        if (nextSession?.user) {
+          setUserName(getDisplayName(nextSession));
+        }
+
+        // لا نعلّق شاشة الدخول بسبب تحميل التقدم؛ نحمّله في الخلفية.
+        loadProgressSafely({ showLoader: true });
       });
 
       return () => {
         mounted = false;
-        data.subscription.unsubscribe();
+
+        // تنظيف الاشتراك حتى لا يحدث استدعاء متكرر أو تسريب ذاكرة.
+        data?.subscription?.unsubscribe?.();
       };
     }
 
     return () => {
       mounted = false;
     };
+
+    // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleEnter({ session: nextSession, name, demo }) {
-    if (nextSession) setSession(nextSession);
-    if (name) setUserName(name);
-    if (demo) setDemoMode(true);
+  function handleEnter({ session: nextSession, name, demo } = {}) {
+    if (nextSession) {
+      setSession(nextSession);
+    }
+
+    const nextName = name || getDisplayName(nextSession);
+
+    if (nextName) {
+      setUserName(nextName);
+    }
+
+    if (demo) {
+      setDemoMode(true);
+      localStorage.setItem("od_demo_name", nextName || "زميل المهنة");
+    }
+
     setActivePage("home");
-    loadProgress();
+    setNotice("");
+    loadProgressSafely({ showLoader: true });
+  }
+
+  // هذا السطر موجود حتى يشتغل App.jsx مع AuthGate القديم والجديد.
+  // AuthGate القديم كان يرسل session مباشرة، والجديد سيرسل object.
+  function handleAuthenticatedFromOldAuthGate(nextSession) {
+    handleEnter({
+      session: nextSession,
+      name: getDisplayName(nextSession)
+    });
   }
 
   async function handleSignOut() {
-    if (isSupabaseConfigured && supabase && session) await supabase.auth.signOut();
+    try {
+      if (isSupabaseConfigured && supabase && session) {
+        await supabase.auth.signOut();
+      }
+    } catch (error) {
+      console.warn("تعذر تسجيل الخروج من Supabase:", error);
+    }
+
     setSession(null);
     setDemoMode(false);
     localStorage.removeItem("od_demo_name");
@@ -136,7 +228,12 @@ export default function App() {
   }
 
   if (!authenticated) {
-    return <AuthGate onEnter={handleEnter} />;
+    return (
+      <AuthGate
+        onEnter={handleEnter}
+        onAuthenticated={handleAuthenticatedFromOldAuthGate}
+      />
+    );
   }
 
   const displayName = getDisplayName(session, userName);
@@ -190,9 +287,18 @@ export default function App() {
       )}
 
       {activePage === "radar" && <RadarAssessment setActivePage={navigate} />}
+
       {activePage === "simulation" && <SimulationLab />}
+
       {activePage === "ai-mentor" && <AiMentor />}
-      {activePage === "mastery" && <MasteryCertificate userName={displayName} completedDays={completedDays} />}
+
+      {activePage === "mastery" && (
+        <MasteryCertificate
+          userName={displayName}
+          completedDays={completedDays}
+        />
+      )}
+
       {activePage === "about" && <AboutRayan />}
 
       <footer className="site-footer">
