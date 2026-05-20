@@ -1,74 +1,223 @@
+// functions/api/mentor.js
+// هذه دالة Cloudflare Pages Function وليست Worker عادي.
+// المسار المتوقع:
+// /api/mentor
+//
+// مهم:
+// لا تضع GEMINI_API_KEY داخل React أو داخل ملفات الواجهة.
+// ضعه فقط في Cloudflare كـ Secret / Encrypted.
+
 const systemInstruction = `
 أنت مستشار أول وعرّاب خبير في هندسة التطوير التنظيمي (Organization Development).
-تتحدث بالعامية السعودية المهنية الرصينة والفخمة الذكية (مثل: يا زميل المهنة، خلنا نفككها، وش العرض، وش النمط، وش الفرضيات اللي بنيت عليها).
+
+تتحدث بالعربية المهنية القريبة من العامية السعودية الرصينة، بأسلوب ذكي وفخم دون مبالغة.
+استخدم عبارات مثل:
+- يا زميل المهنة
+- خلنا نفككها
+- وش العرض؟
+- وش النمط؟
+- وش الفرضيات اللي بنيت عليها؟
+
 مهمتك هي توجيه المتدربين والممارسين باستخدام الطريقة السقراطية الذكية.
-لا تعطِ حلولاً جاهزة أبداً؛ ساعد المستخدم خطوة بخطوة على تفكيك (العرض ➔ النمط ➔ الفرضيات ➔ البيانات المطلوبة ➔ التدخل ➔ ثم قياس الأثر).
-استند في منطقك العرّابي إلى مبادئ OD العالمية مثل التفكير النظمي، الدخول والتعاقد، التشخيص متعدد المصادر، قيادة التغيير، الثقافة، التعلم المؤسسي، والاستدامة.
+
+قواعدك:
+1. لا تعطِ حلولاً جاهزة مباشرة.
+2. ساعد المستخدم خطوة بخطوة على تفكيك:
+   العرض → النمط → الفرضيات → البيانات المطلوبة → التدخل → قياس الأثر.
+3. اربط إجاباتك بمبادئ التطوير التنظيمي:
+   التفكير النظمي، الدخول والتعاقد، التشخيص متعدد المصادر، قيادة التغيير، الثقافة، التعلم المؤسسي، والاستدامة.
+4. اجعل ردك عمليًا ومباشرًا، لكن لا تختصر لدرجة تفقد العمق.
+5. عندما يكون سؤال المستخدم عامًا، اسأله سؤالين تشخيصيين قبل اقتراح المسار.
+6. عندما يطلب المستخدم مثالًا، أعطه مثالًا تطبيقيًا مختصرًا ثم اسأله كيف ينطبق على حالته.
 `;
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400"
+  };
+}
 
 function jsonResponse(payload, status = 200) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "POST, OPTIONS"
+      ...corsHeaders(),
+      "Content-Type": "application/json; charset=utf-8"
     }
   });
 }
 
-export default {
-  async fetch(request, env) {
-    // معالجة طلبات OPTIONS الخاصة بـ CORS
-    if (request.method === "OPTIONS") {
-      return jsonResponse({});
-    }
+function getEnvValue(env, ...names) {
+  for (const name of names) {
+    const value = env?.[name];
 
-    // السماح فقط بطلبات POST
-    if (request.method !== "POST") {
-      return jsonResponse({ error: "Method not allowed" }, 405);
-    }
-
-    try {
-      // جلب المفتاح مباشرة من بيئة الـ Worker الحية
-      const apiKey = env.GEMINI_API_KEY;
-      
-      if (!apiKey) {
-        return jsonResponse({ error: "مفتاح GEMINI_API_KEY غير معرف في لوحة تحكم الـ Worker." }, 500);
-      }
-
-      const body = await request.json();
-      const message = String(body.message || "").trim();
-
-      if (!message) {
-        return jsonResponse({ error: "الرسالة فارغة." }, 400);
-      }
-
-      // الاتصال بنموذج جيميناي المستقر والسريع
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: message }] }],
-            systemInstruction: { parts: [{ text: systemInstruction }] },
-            generationConfig: { maxOutputTokens: 900, temperature: 0.7 }
-          })
-        }
-      );
-
-      const data = await response.json();
-      if (!response.ok) {
-        return jsonResponse({ error: data.error?.message || "تعذر الاتصال بنموذج Gemini السحابي." }, response.status);
-      }
-
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "لم يصل رد صالح من الموجه الذكي.";
-      return jsonResponse({ text });
-
-    } catch (error) {
-      return jsonResponse({ error: error.message || "حدث خطأ غير متوقع في السيرفر." }, 500);
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
     }
   }
-};
+
+  return "";
+}
+
+async function safeJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return {};
+  }
+}
+
+function cleanUserMessage(value) {
+  return String(value || "")
+    .replace(/\u0000/g, "")
+    .trim()
+    .slice(0, 6000);
+}
+
+function extractGeminiText(data) {
+  const parts = data?.candidates?.[0]?.content?.parts;
+
+  if (!Array.isArray(parts)) {
+    return "";
+  }
+
+  return parts
+    .map((part) => part?.text || "")
+    .filter(Boolean)
+    .join("\n")
+    .trim();
+}
+
+async function callGemini({ apiKey, model, message }) {
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+    model
+  )}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      systemInstruction: {
+        parts: [
+          {
+            text: systemInstruction
+          }
+        ]
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: message
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.9,
+        maxOutputTokens: 1000
+      }
+    })
+  });
+
+  const data = await safeJson(response);
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      error:
+        data?.error?.message ||
+        data?.message ||
+        "تعذر الاتصال بنموذج Gemini."
+    };
+  }
+
+  const text = extractGeminiText(data);
+
+  return {
+    ok: true,
+    text:
+      text ||
+      "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
+  };
+}
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders()
+  });
+}
+
+export async function onRequestPost({ request, env }) {
+  try {
+    const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+
+    // تقدر تغيّر النموذج من Cloudflare بإضافة GEMINI_MODEL.
+    // لو لم تضفه سيستخدم gemini-2.5-flash.
+    const model = getEnvValue(env, "GEMINI_MODEL") || "gemini-2.5-flash";
+
+    if (!apiKey) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            "مفتاح GEMINI_API_KEY غير موجود في متغيرات Cloudflare. أضفه كـ Secret / Encrypted."
+        },
+        500
+      );
+    }
+
+    const body = await request.json().catch(() => ({}));
+    const message = cleanUserMessage(body?.message);
+
+    if (!message) {
+      return jsonResponse(
+        {
+          ok: false,
+          error: "اكتب رسالة أولًا حتى يستطيع الموجه الذكي الرد عليك."
+        },
+        400
+      );
+    }
+
+    const result = await callGemini({
+      apiKey,
+      model,
+      message
+    });
+
+    if (!result.ok) {
+      return jsonResponse(
+        {
+          ok: false,
+          error: result.error,
+          model
+        },
+        result.status || 502
+      );
+    }
+
+    return jsonResponse({
+      ok: true,
+      model,
+      text: result.text
+    });
+  } catch (error) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: error?.message || "حدث خطأ غير متوقع في خادم الموجه الذكي."
+      },
+      500
+    );
+  }
+}

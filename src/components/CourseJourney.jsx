@@ -54,17 +54,20 @@ const HEADING_PHRASES = [
   "تطبيق اليوم",
   "أداة اليوم",
   "مثال تطبيقي",
-  "لماذا هذا مهم؟",
-  "متى نستخدمه؟",
-  "متى لا نستخدمه؟",
-  "أخطاء شائعة",
-  "مكونات الخطة",
-  "مؤشرات النجاح",
-  "المهمة النهائية",
-  "الحصيلة المعرفية",
+  "الحالة التطبيقية",
   "القراءة المهنية",
+  "القراءة السطحية",
+  "القراءة النظامية",
   "البيانات المطلوبة",
-  "مخاطر التطبيق",
+  "قالب التقرير",
+  "قالب التقرير التشخيصي الأول",
+  "الحصيلة المعرفية",
+  "المهمة النهائية",
+  "مخاطر الحلول المتسرعة",
+  "التوصية المرحلية",
+  "أصحاب المصلحة",
+  "مناطق عدم المواءمة",
+  "مؤشرات النجاح",
   "خطة التنفيذ",
   "خطة القياس",
   "خطة الاستدامة"
@@ -77,12 +80,30 @@ function toNumber(value, fallback = 0) {
 
 function safeText(value) {
   if (typeof value === "string") return value;
-  if (Array.isArray(value)) return value.filter(Boolean).join("\n\n");
-  if (value && typeof value === "object") {
-    if (typeof value.text === "string") return value.text;
-    if (typeof value.content === "string") return value.content;
-    if (typeof value.body === "string") return value.body;
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => safeText(item))
+      .filter(Boolean)
+      .join("\n\n");
   }
+
+  if (value && typeof value === "object") {
+    const parts = [];
+
+    if (typeof value.title === "string") parts.push(value.title);
+    if (typeof value.heading === "string") parts.push(value.heading);
+    if (typeof value.name === "string") parts.push(value.name);
+    if (typeof value.text === "string") parts.push(value.text);
+    if (typeof value.content === "string") parts.push(value.content);
+    if (typeof value.body === "string") parts.push(value.body);
+    if (Array.isArray(value.content)) parts.push(safeText(value.content));
+    if (Array.isArray(value.items)) parts.push(safeText(value.items));
+    if (Array.isArray(value.paragraphs)) parts.push(safeText(value.paragraphs));
+
+    return parts.filter(Boolean).join("\n\n");
+  }
+
   return "";
 }
 
@@ -91,7 +112,7 @@ function escapeRegExp(text) {
 }
 
 function progressKey(monthIndex, weekIndex, dayIndex) {
-  return `${monthIndex}-${weekIndex}-${dayIndex}`;
+  return `${Number(monthIndex)}-${Number(weekIndex)}-${Number(dayIndex)}`;
 }
 
 function arabicPercent(value) {
@@ -99,32 +120,17 @@ function arabicPercent(value) {
   return `${Math.round(clean)}٪`;
 }
 
-function seededHash(text) {
-  let hash = 2166136261;
-  for (let i = 0; i < text.length; i += 1) {
-    hash ^= text.charCodeAt(i);
-    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
-  }
-  return Math.abs(hash >>> 0);
-}
-
-function seededShuffle(items, seedText) {
-  const arr = [...items];
-  let seed = seededHash(seedText || "od");
-  for (let i = arr.length - 1; i > 0; i -= 1) {
-    seed = (seed * 9301 + 49297) % 233280;
-    const j = Math.floor((seed / 233280) * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
 function normalizeCourse(raw = []) {
   if (!Array.isArray(raw)) return [];
 
   return raw.map((month, monthArrayIndex) => {
     const monthIndex = toNumber(
-      month.monthIndex ?? month.month_index ?? month.index ?? month.number,
+      month.monthIndex ??
+        month.month_index ??
+        month.monthNumber ??
+        month.month_number ??
+        month.index ??
+        month.number,
       monthArrayIndex + 1
     );
 
@@ -138,7 +144,12 @@ function normalizeCourse(raw = []) {
 
     const weeks = rawWeeks.map((week, weekArrayIndex) => {
       const weekIndex = toNumber(
-        week.weekIndex ?? week.week_index ?? week.index ?? week.number,
+        week.weekIndex ??
+          week.week_index ??
+          week.weekNumber ??
+          week.week_number ??
+          week.index ??
+          week.number,
         weekArrayIndex + 1
       );
 
@@ -152,17 +163,22 @@ function normalizeCourse(raw = []) {
 
       const days = rawDays.map((day, dayArrayIndex) => {
         const dayIndex = toNumber(
-          day.dayIndex ?? day.day_index ?? day.index ?? day.number,
+          day.dayIndex ??
+            day.day_index ??
+            day.dayNumber ??
+            day.day_number ??
+            day.index ??
+            day.number,
           dayArrayIndex + 1
         );
 
         const content = safeText(
           day.content ??
-          day.lesson ??
-          day.body ??
-          day.text ??
-          day.markdown ??
-          ""
+            day.lesson ??
+            day.body ??
+            day.text ??
+            day.markdown ??
+            ""
         );
 
         return {
@@ -171,8 +187,13 @@ function normalizeCourse(raw = []) {
           monthIndex,
           weekIndex,
           dayIndex,
-          label: day.label || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
-          title: day.title || day.name || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          label:
+            day.label ||
+            `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          title:
+            day.title ||
+            day.name ||
+            `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
           content,
           quiz: day.quiz || day.questions || null
         };
@@ -183,7 +204,12 @@ function normalizeCourse(raw = []) {
         id: week.id || `m${monthIndex}-w${weekIndex}`,
         monthIndex,
         weekIndex,
-        title: week.title || week.name || `الأسبوع ${ARABIC_ORDINAL[weekIndex] || weekIndex}`,
+        title:
+          week.title ||
+          week.name ||
+          week.weekTitle ||
+          week.label ||
+          `الأسبوع ${ARABIC_ORDINAL[weekIndex] || weekIndex}`,
         subtitle: week.subtitle || week.description || "",
         intro: safeText(week.intro ?? week.summary ?? ""),
         days
@@ -194,7 +220,12 @@ function normalizeCourse(raw = []) {
       ...month,
       id: month.id || `m${monthIndex}`,
       monthIndex,
-      title: month.title || month.name || `الشهر ${monthIndex}`,
+      title:
+        month.title ||
+        month.name ||
+        month.monthTitle ||
+        month.label ||
+        `الشهر ${monthIndex}`,
       subtitle: month.subtitle || month.description || "",
       weeks
     };
@@ -207,7 +238,10 @@ function getDayContent(day) {
 
 function getContentDays(week) {
   if (!week?.days) return [];
-  return week.days.filter((day) => Boolean(getDayContent(day)) || Boolean(day.quiz));
+
+  return week.days.filter((day) => {
+    return Boolean(getDayContent(day)) || Boolean(day.quiz);
+  });
 }
 
 function hasWeekContent(week) {
@@ -216,12 +250,18 @@ function hasWeekContent(week) {
 
 function getCourseTotalDays(course) {
   return course.reduce((total, month) => {
-    return total + month.weeks.reduce((weekTotal, week) => weekTotal + getContentDays(week).length, 0);
+    return (
+      total +
+      month.weeks.reduce((weekTotal, week) => {
+        return weekTotal + getContentDays(week).length;
+      }, 0)
+    );
   }, 0);
 }
 
 function normalizeProgressRows(progressRows) {
   if (!Array.isArray(progressRows)) return [];
+
   return progressRows.map((row) => ({
     ...row,
     month_index: toNumber(row.month_index ?? row.monthIndex, 0),
@@ -235,22 +275,30 @@ function calculateCompletedSet(progressRows) {
   return new Set(
     normalizeProgressRows(progressRows)
       .filter((row) => row.status === "completed")
-      .map((row) => progressKey(row.month_index, row.week_index, row.day_index))
+      .map((row) =>
+        progressKey(row.month_index, row.week_index, row.day_index)
+      )
   );
 }
 
 function countCompletedInWeek(completedSet, week) {
   return getContentDays(week).filter((day) =>
-    completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex))
+    completedSet.has(
+      progressKey(day.monthIndex, day.weekIndex, day.dayIndex)
+    )
   ).length;
 }
 
 function countCompletedInMonth(completedSet, month) {
-  return month.weeks.reduce((total, week) => total + countCompletedInWeek(completedSet, week), 0);
+  return month.weeks.reduce((total, week) => {
+    return total + countCompletedInWeek(completedSet, week);
+  }, 0);
 }
 
 function isDayCompleted(day, completedSet) {
-  return completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex));
+  return completedSet.has(
+    progressKey(day.monthIndex, day.weekIndex, day.dayIndex)
+  );
 }
 
 function splitQuizFromText(rawText) {
@@ -261,15 +309,39 @@ function splitQuizFromText(rawText) {
     .replace(/مفتاح إجابات[\s\S]*$/g, "")
     .trim();
 
-  const quizMatch = cleanText.match(/اختبار\s+اليوم[\s\S]*$/);
+  const quizMatch = cleanText.match(/(?:^|\n)(اختبار\s+اليوم[\s\S]*)$/m);
+
   if (!quizMatch) {
-    return { lessonText: cleanText, quizText: "" };
+    return {
+      lessonText: cleanText,
+      quizText: ""
+    };
   }
 
-  const quizText = quizMatch[0].trim();
+  const quizText = quizMatch[1].trim();
   const lessonText = cleanText.slice(0, quizMatch.index).trim();
 
-  return { lessonText, quizText };
+  return {
+    lessonText,
+    quizText
+  };
+}
+
+function normalizeOptionKey(value, fallback) {
+  const key = String(value || fallback || "").trim();
+
+  const map = {
+    أ: "A",
+    ب: "B",
+    ج: "C",
+    د: "D",
+    a: "A",
+    b: "B",
+    c: "C",
+    d: "D"
+  };
+
+  return map[key] || key;
 }
 
 function normalizeStructuredQuiz(day) {
@@ -283,61 +355,79 @@ function normalizeStructuredQuiz(day) {
       ? rawQuiz.questions
       : [];
 
-  return questions.map((q, index) => {
-    const originalOptions = Array.isArray(q.options) ? q.options : [];
+  return questions
+    .map((q, index) => {
+      const originalOptions = Array.isArray(q.options) ? q.options : [];
 
-    const correctKey =
-      q.correctKey ??
-      q.correct ??
-      q.answer ??
-      q.correctAnswer ??
-      q.correct_option ??
-      null;
+      const correctKey = normalizeOptionKey(
+        q.correctKey ??
+          q.correct ??
+          q.answer ??
+          q.correctAnswer ??
+          q.correct_option ??
+          q.correctLetter ??
+          null,
+        null
+      );
 
-    const options = originalOptions.map((option, optionIndex) => {
-      if (typeof option === "string") {
-        const key = ["A", "B", "C", "D"][optionIndex] || String(optionIndex + 1);
+      const options = originalOptions.map((option, optionIndex) => {
+        const fallbackKey = ["A", "B", "C", "D"][optionIndex] || String(optionIndex + 1);
+
+        if (typeof option === "string") {
+          const key = fallbackKey;
+
+          return {
+            id: key,
+            originalKey: key,
+            text: option,
+            isCorrect:
+              correctKey === key ||
+              correctKey === String(optionIndex) ||
+              correctKey === String(optionIndex + 1) ||
+              correctKey === option
+          };
+        }
+
+        const key = normalizeOptionKey(
+          option.key || option.id || option.letter || fallbackKey,
+          fallbackKey
+        );
+
         return {
           id: key,
-          originalKey: key,
-          text: option,
+          originalKey: option.key || option.id || option.letter || key,
+          text: option.text || option.label || option.value || "",
           isCorrect:
+            Boolean(option.isCorrect) ||
+            Boolean(option.correct) ||
+            Boolean(option.isCorrectSource) ||
             correctKey === key ||
-            correctKey === optionIndex ||
-            correctKey === optionIndex + 1 ||
-            correctKey === option
+            correctKey === option.text
         };
-      }
-
-      const key = option.key || option.id || ["A", "B", "C", "D"][optionIndex] || String(optionIndex + 1);
+      });
 
       return {
-        id: key,
-        originalKey: key,
-        text: option.text || option.label || option.value || "",
-        isCorrect:
-          Boolean(option.isCorrect) ||
-          Boolean(option.correct) ||
-          correctKey === key ||
-          correctKey === option.text
+        id: q.id || `${day.id}-structured-q-${index + 1}`,
+        question: q.question || q.title || q.text || "",
+        options,
+        hasKnownCorrectAnswer: options.some((option) => option.isCorrect)
       };
-    });
-
-    return {
-      id: q.id || `q-${index + 1}`,
-      question: q.question || q.title || q.text || "",
-      options: seededShuffle(options, `${day.id}-q-${index + 1}`),
-      hasKnownCorrectAnswer: options.some((option) => option.isCorrect)
-    };
-  }).filter((q) => q.question && q.options.length);
+    })
+    .filter((q) => q.question && q.options.length);
 }
 
 function parseQuizText(day, quizText) {
   const structured = normalizeStructuredQuiz(day);
-  if (structured.length) return structured;
+
+  if (structured.length) {
+    return structured;
+  }
 
   const text = safeText(quizText);
-  if (!text) return [];
+
+  if (!text) {
+    return [];
+  }
 
   const blocks = text
     .replace(/\r/g, "")
@@ -345,39 +435,55 @@ function parseQuizText(day, quizText) {
     .map((item) => item.trim())
     .filter((item) => /^السؤال\s+\d+/.test(item));
 
-  return blocks.map((block, index) => {
-    const withoutLabel = block.replace(/^السؤال\s+\d+\s*/g, "").trim();
-    const questionMatch = withoutLabel.match(/^([\s\S]*?)(?=\s+[A-D]\.)/);
-    const question = questionMatch ? questionMatch[1].trim() : withoutLabel;
+  return blocks
+    .map((block, index) => {
+      const withoutLabel = block.replace(/^السؤال\s+\d+\s*/g, "").trim();
 
-    const options = [];
-    const optionRegex = /([A-D])\.\s*([\s\S]*?)(?=(?:\s+[A-D]\.)|$)/g;
-    let match;
+      const questionMatch = withoutLabel.match(
+        /^([\s\S]*?)(?=\s+(?:[A-D]|أ|ب|ج|د)\.)/
+      );
 
-    while ((match = optionRegex.exec(withoutLabel)) !== null) {
-      options.push({
-        id: match[1],
-        originalKey: match[1],
-        text: match[2].trim(),
-        isCorrect: false
-      });
-    }
+      const question = questionMatch
+        ? questionMatch[1].trim()
+        : withoutLabel;
 
-    return {
-      id: `${day.id}-parsed-q-${index + 1}`,
-      question,
-      options: seededShuffle(options, `${day.id}-parsed-${index + 1}`),
-      hasKnownCorrectAnswer: false
-    };
-  }).filter((q) => q.question && q.options.length);
+      const options = [];
+      const optionRegex =
+        /([A-D]|أ|ب|ج|د)\.\s*([\s\S]*?)(?=(?:\s+(?:[A-D]|أ|ب|ج|د)\.)|$)/g;
+
+      let match;
+
+      while ((match = optionRegex.exec(withoutLabel)) !== null) {
+        const id = normalizeOptionKey(match[1], match[1]);
+
+        options.push({
+          id,
+          originalKey: match[1],
+          text: match[2].trim(),
+          isCorrect: false
+        });
+      }
+
+      return {
+        id: `${day.id}-parsed-q-${index + 1}`,
+        question,
+        options,
+        hasKnownCorrectAnswer: false
+      };
+    })
+    .filter((q) => q.question && q.options.length);
 }
 
 function prepareLesson(day) {
-  const { lessonText, quizText } = splitQuizFromText(getDayContent(day));
+  const fullText = getDayContent(day);
+  const { lessonText, quizText } = splitQuizFromText(fullText);
   const parsedQuiz = parseQuizText(day, quizText);
 
   return {
+    fullText,
     lessonText,
+    quizText,
+    hasQuizText: Boolean(quizText),
     quiz: parsedQuiz
   };
 }
@@ -393,7 +499,11 @@ function prepareReadableText(rawText) {
     .replace(/(:)(?=[اأإآء-ي])/g, "$1\n");
 
   HEADING_PHRASES.forEach((heading) => {
-    const pattern = new RegExp(`(\\d+\\.\\s*${escapeRegExp(heading)})(?=[اأإآء-ي])`, "g");
+    const pattern = new RegExp(
+      `(\\d+\\.\\s*${escapeRegExp(heading)})(?=[اأإآء-ي])`,
+      "g"
+    );
+
     text = text.replace(pattern, "$1\n");
   });
 
@@ -413,7 +523,7 @@ function RichLesson({ text }) {
   return (
     <div className="jl-rich-text">
       {lines.map((line, index) => {
-        const key = `${index}-${line.slice(0, 16)}`;
+        const key = `${index}-${line.slice(0, 24)}`;
 
         if (/^الشهر\s+/.test(line)) {
           return <h1 key={key}>{line}</h1>;
@@ -427,15 +537,27 @@ function RichLesson({ text }) {
           return <h2 key={key}>{line}</h2>;
         }
 
+        if (/^اختبار\s+اليوم/.test(line)) {
+          return <h2 key={key}>{line}</h2>;
+        }
+
+        if (/^السؤال\s+\d+/.test(line)) {
+          return <h3 key={key}>{line}</h3>;
+        }
+
         if (/^\d+\.\s/.test(line)) {
           return <h3 key={key}>{line}</h3>;
         }
 
         if (/^[•·-]\s/.test(line)) {
-          return <div key={key} className="jl-bullet">{line.replace(/^[•·-]\s/, "")}</div>;
+          return (
+            <div key={key} className="jl-bullet">
+              {line.replace(/^[•·-]\s/, "")}
+            </div>
+          );
         }
 
-        if (line.endsWith(":") && line.length < 80) {
+        if (line.endsWith(":") && line.length < 90) {
           return <h4 key={key}>{line}</h4>;
         }
 
@@ -445,13 +567,37 @@ function RichLesson({ text }) {
   );
 }
 
+function ExactSourcePanel({ text }) {
+  const source = safeText(text).trim();
+
+  if (!source) return null;
+
+  return (
+    <details className="jl-exact-source">
+      <summary>النص الأصلي الكامل لهذا اليوم كما هو في ملف المحتوى</summary>
+      <pre>{source}</pre>
+    </details>
+  );
+}
+
 function StatusMark({ state }) {
-  if (state === "completed") return <span className="jl-status jl-status--completed">✓</span>;
-  if (state === "locked") return <span className="jl-status jl-status--locked">🔒</span>;
+  if (state === "completed") {
+    return <span className="jl-status jl-status--completed">✓</span>;
+  }
+
+  if (state === "locked") {
+    return <span className="jl-status jl-status--locked">🔒</span>;
+  }
+
   return <span className="jl-status jl-status--active">●</span>;
 }
 
 function MiniProgress({ label, value, help }) {
+  const width = Math.min(
+    100,
+    Math.max(0, Number.isFinite(value) ? value : 0)
+  );
+
   return (
     <div className="jl-mini-progress">
       <div className="jl-mini-head">
@@ -460,7 +606,7 @@ function MiniProgress({ label, value, help }) {
       </div>
 
       <div className="jl-mini-track">
-        <i style={{ width: `${Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0))}%` }} />
+        <i style={{ width: `${width}%` }} />
       </div>
 
       {help && <small>{help}</small>}
@@ -468,7 +614,7 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({ day, questions, onPass }) {
+function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -480,11 +626,13 @@ function QuizPanel({ day, questions, onPass }) {
   const total = questions.length;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = total > 0 && answeredCount === total;
-  const hasKnownAnswers = questions.every((q) => q.hasKnownCorrectAnswer);
+  const hasKnownAnswers =
+    total > 0 && questions.every((q) => q.hasKnownCorrectAnswer);
 
   const score = questions.reduce((sum, question) => {
     const selected = answers[question.id];
     const option = question.options.find((item) => item.id === selected);
+
     return sum + (option?.isCorrect ? 1 : 0);
   }, 0);
 
@@ -492,14 +640,39 @@ function QuizPanel({ day, questions, onPass }) {
 
   function submitQuiz() {
     setSubmitted(true);
-    if (passed) onPass(true);
+
+    if (passed) {
+      onPass(true);
+    }
   }
 
   if (!questions.length) {
     return (
       <div className="jl-quiz jl-quiz-soft">
         <h3>اختبار اليوم</h3>
-        <p>لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء اليوم بعد قراءة الدرس.</p>
+
+        {hasQuizText ? (
+          <>
+            <p>
+              يوجد اختبار داخل النص الأصلي، لكن لم يتمكن النظام من تحويله
+              تلقائيًا إلى أزرار اختيار. افتح قسم النص الأصلي الكامل، أجب عن
+              الأسئلة، ثم اضغط الزر التالي.
+            </p>
+
+            <button
+              type="button"
+              className="jl-quiz-submit"
+              onClick={() => onPass(true)}
+            >
+              أجبت على اختبار اليوم من النص الأصلي
+            </button>
+          </>
+        ) : (
+          <p>
+            لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء
+            اليوم بعد قراءة الدرس.
+          </p>
+        )}
       </div>
     );
   }
@@ -508,14 +681,26 @@ function QuizPanel({ day, questions, onPass }) {
     <section className="jl-quiz" aria-label="اختبار اليوم">
       <div className="jl-quiz-header">
         <span>اختبار اليوم</span>
-        <strong>{answeredCount} / {total}</strong>
+        <strong>
+          {answeredCount} / {total}
+        </strong>
       </div>
 
       <h3>اختبر فهمك قبل حفظ الإنجاز</h3>
 
+      {total !== 3 && (
+        <div className="jl-quiz-warning">
+          تنبيه: المتوقع أن يحتوي اختبار كل يوم على 3 أسئلة. هذا اليوم ظهر فيه{" "}
+          {total} سؤال/أسئلة بعد التحويل الآلي. النص الأصلي الكامل ظاهر أسفل
+          الدرس للمراجعة.
+        </div>
+      )}
+
       {!hasKnownAnswers && (
         <div className="jl-quiz-warning">
-          تم استخراج الأسئلة من النص، لكن لم توجد مفاتيح إجابة منظمة في بيانات هذا اليوم. سيتم اعتبار الاختبار مكتملًا بعد الإجابة عن كل الأسئلة.
+          تم استخراج الأسئلة من النص، لكن لا توجد مفاتيح إجابة منظمة داخل
+          البيانات. لذلك سيتم اعتبار الاختبار مكتملًا بعد الإجابة عن كل
+          الأسئلة.
         </div>
       )}
 
@@ -533,8 +718,13 @@ function QuizPanel({ day, questions, onPass }) {
               <div className="jl-options">
                 {question.options.map((option, optionIndex) => {
                   const isSelected = selected === option.id;
-                  const showCorrect = submitted && hasKnownAnswers && option.isCorrect;
-                  const showWrong = submitted && hasKnownAnswers && isSelected && !option.isCorrect;
+                  const showCorrect =
+                    submitted && hasKnownAnswers && option.isCorrect;
+                  const showWrong =
+                    submitted &&
+                    hasKnownAnswers &&
+                    isSelected &&
+                    !option.isCorrect;
 
                   return (
                     <button
@@ -553,7 +743,11 @@ function QuizPanel({ day, questions, onPass }) {
                         }));
                       }}
                     >
-                      <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
+                      <span>
+                        {["أ", "ب", "ج", "د"][optionIndex] ||
+                          optionIndex + 1}
+                      </span>
+
                       <strong>{option.text}</strong>
                     </button>
                   );
@@ -575,7 +769,13 @@ function QuizPanel({ day, questions, onPass }) {
         </button>
 
         {submitted && (
-          <div className={passed ? "jl-quiz-result jl-quiz-result--pass" : "jl-quiz-result jl-quiz-result--fail"}>
+          <div
+            className={
+              passed
+                ? "jl-quiz-result jl-quiz-result--pass"
+                : "jl-quiz-result jl-quiz-result--fail"
+            }
+          >
             {hasKnownAnswers
               ? passed
                 ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
@@ -588,7 +788,11 @@ function QuizPanel({ day, questions, onPass }) {
   );
 }
 
-export default function CourseJourney({ progressRows = [], setProgressRows = () => {}, loading = false }) {
+export default function CourseJourney({
+  progressRows = [],
+  setProgressRows = () => {},
+  loading = false
+}) {
   const course = useMemo(() => normalizeCourse(rawCourseMap), []);
   const [stage, setStage] = useState("months");
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(1);
@@ -598,10 +802,14 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
   const [notice, setNotice] = useState("");
   const [quizPassedByDay, setQuizPassedByDay] = useState({});
 
-  const completedSet = useMemo(() => calculateCompletedSet(progressRows), [progressRows]);
+  const completedSet = useMemo(
+    () => calculateCompletedSet(progressRows),
+    [progressRows]
+  );
 
   const selectedMonth =
-    course.find((month) => month.monthIndex === selectedMonthIndex) || course[0];
+    course.find((month) => month.monthIndex === selectedMonthIndex) ||
+    course[0];
 
   const selectedWeek =
     selectedMonth?.weeks?.find((week) => week.weekIndex === selectedWeekIndex) ||
@@ -617,45 +825,73 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
   );
 
   const totalCourseDays = getCourseTotalDays(course);
-  const totalCompletedDays = course.reduce(
-    (sum, month) => sum + countCompletedInMonth(completedSet, month),
-    0
-  );
+
+  const totalCompletedDays = course.reduce((sum, month) => {
+    return sum + countCompletedInMonth(completedSet, month);
+  }, 0);
 
   const monthTotalDays = selectedMonth
-    ? selectedMonth.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0)
+    ? selectedMonth.weeks.reduce((sum, week) => {
+        return sum + getContentDays(week).length;
+      }, 0)
     : 0;
 
-  const weekTotalDays = selectedWeek ? getContentDays(selectedWeek).length : 0;
-  const monthCompletedDays = selectedMonth ? countCompletedInMonth(completedSet, selectedMonth) : 0;
-  const weekCompletedDays = selectedWeek ? countCompletedInWeek(completedSet, selectedWeek) : 0;
+  const weekTotalDays = selectedWeek
+    ? getContentDays(selectedWeek).length
+    : 0;
 
-  const overallProgress = totalCourseDays ? (totalCompletedDays / totalCourseDays) * 100 : 0;
-  const monthProgress = monthTotalDays ? (monthCompletedDays / monthTotalDays) * 100 : 0;
-  const weekProgress = weekTotalDays ? (weekCompletedDays / weekTotalDays) * 100 : 0;
+  const monthCompletedDays = selectedMonth
+    ? countCompletedInMonth(completedSet, selectedMonth)
+    : 0;
+
+  const weekCompletedDays = selectedWeek
+    ? countCompletedInWeek(completedSet, selectedWeek)
+    : 0;
+
+  const overallProgress = totalCourseDays
+    ? (totalCompletedDays / totalCourseDays) * 100
+    : 0;
+
+  const monthProgress = monthTotalDays
+    ? (monthCompletedDays / monthTotalDays) * 100
+    : 0;
+
+  const weekProgress = weekTotalDays
+    ? (weekCompletedDays / weekTotalDays) * 100
+    : 0;
 
   function isMonthCompleted(month) {
-    const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
+    const total = month.weeks.reduce((sum, week) => {
+      return sum + getContentDays(week).length;
+    }, 0);
+
     if (!total) return false;
+
     return countCompletedInMonth(completedSet, month) >= total;
   }
 
   function isMonthUnlocked(month) {
     if (month.monthIndex === 1) return true;
 
-    const previousMonth = course.find((item) => item.monthIndex === month.monthIndex - 1);
+    const previousMonth = course.find(
+      (item) => item.monthIndex === month.monthIndex - 1
+    );
+
     return Boolean(previousMonth && isMonthCompleted(previousMonth));
   }
 
   function monthState(month) {
     if (isMonthCompleted(month)) return "completed";
     if (isMonthUnlocked(month)) return "active";
+
     return "locked";
   }
 
   function isWeekCompleted(week) {
     const total = getContentDays(week).length;
+
     if (!total) return false;
+
     return countCompletedInWeek(completedSet, week) >= total;
   }
 
@@ -664,42 +900,64 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     if (!hasWeekContent(week)) return false;
     if (week.weekIndex === 1) return true;
 
-    const previousWeek = monthContext.weeks.find((item) => item.weekIndex === week.weekIndex - 1);
+    const previousWeek = monthContext.weeks.find(
+      (item) => item.weekIndex === week.weekIndex - 1
+    );
+
     return Boolean(previousWeek && isWeekCompleted(previousWeek));
   }
 
   function weekState(week, monthContext = selectedMonth) {
     if (isWeekCompleted(week)) return "completed";
     if (isWeekUnlocked(week, monthContext)) return "active";
+
     return "locked";
   }
 
   function previousContentDay(day, week) {
-    const contentDays = getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex);
-    const currentIndex = contentDays.findIndex((item) => item.dayIndex === day.dayIndex);
+    const contentDays = getContentDays(week).sort(
+      (a, b) => a.dayIndex - b.dayIndex
+    );
+
+    const currentIndex = contentDays.findIndex(
+      (item) => item.dayIndex === day.dayIndex
+    );
+
     return currentIndex > 0 ? contentDays[currentIndex - 1] : null;
   }
 
-  function isDayUnlocked(day, weekContext = selectedWeek, monthContext = selectedMonth) {
+  function isDayUnlocked(
+    day,
+    weekContext = selectedWeek,
+    monthContext = selectedMonth
+  ) {
     if (!day || !weekContext || !monthContext) return false;
     if (!getDayContent(day) && !day.quiz) return false;
     if (!isWeekUnlocked(weekContext, monthContext)) return false;
 
-    const prev = previousContentDay(day, weekContext);
-    if (!prev) return true;
+    const previousDay = previousContentDay(day, weekContext);
 
-    return isDayCompleted(prev, completedSet);
+    if (!previousDay) return true;
+
+    return isDayCompleted(previousDay, completedSet);
   }
 
-  function dayState(day, weekContext = selectedWeek, monthContext = selectedMonth) {
+  function dayState(
+    day,
+    weekContext = selectedWeek,
+    monthContext = selectedMonth
+  ) {
     if (isDayCompleted(day, completedSet)) return "completed";
     if (isDayUnlocked(day, weekContext, monthContext)) return "active";
+
     return "locked";
   }
 
   function firstRelevantWeekInMonth(month) {
     const weeksWithContent = month.weeks.filter(hasWeekContent);
-    const unlockedWeeks = weeksWithContent.filter((week) => isWeekUnlocked(week, month));
+    const unlockedWeeks = weeksWithContent.filter((week) =>
+      isWeekUnlocked(week, month)
+    );
 
     return (
       unlockedWeeks.find((week) => !isWeekCompleted(week)) ||
@@ -710,13 +968,17 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
   }
 
   function firstAvailableDayInWeek(week, monthContext) {
-    const contentDays = getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex);
+    const contentDays = getContentDays(week).sort(
+      (a, b) => a.dayIndex - b.dayIndex
+    );
 
     return (
-      contentDays.find((day) =>
-        isDayUnlocked(day, week, monthContext) &&
-        !isDayCompleted(day, completedSet)
-      ) ||
+      contentDays.find((day) => {
+        return (
+          isDayUnlocked(day, week, monthContext) &&
+          !isDayCompleted(day, completedSet)
+        );
+      }) ||
       contentDays[0] ||
       week.days[0]
     );
@@ -731,20 +993,35 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
         const nextDay = getContentDays(week)
           .sort((a, b) => a.dayIndex - b.dayIndex)
-          .find((day) =>
-            isDayUnlocked(day, week, month) &&
-            !isDayCompleted(day, completedSet)
-          );
+          .find((day) => {
+            return (
+              isDayUnlocked(day, week, month) &&
+              !isDayCompleted(day, completedSet)
+            );
+          });
 
-        if (nextDay) return { month, week, day: nextDay };
+        if (nextDay) {
+          return {
+            month,
+            week,
+            day: nextDay
+          };
+        }
       }
     }
 
     const fallbackMonth = course[0];
     const fallbackWeek = firstRelevantWeekInMonth(fallbackMonth);
-    const fallbackDay = firstAvailableDayInWeek(fallbackWeek, fallbackMonth);
+    const fallbackDay = firstAvailableDayInWeek(
+      fallbackWeek,
+      fallbackMonth
+    );
 
-    return { month: fallbackMonth, week: fallbackWeek, day: fallbackDay };
+    return {
+      month: fallbackMonth,
+      week: fallbackWeek,
+      day: fallbackDay
+    };
   }
 
   useEffect(() => {
@@ -757,6 +1034,8 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
       setSelectedWeekIndex(nextPoint.week.weekIndex);
       setSelectedDayIndex(nextPoint.day.dayIndex);
     }
+
+    // لا نضيف كل الدوال هنا حتى لا يدخل في حلقة تحديث مستمرة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course.length, progressRows.length]);
 
@@ -770,6 +1049,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
       weekIndex: selectedDay.weekIndex,
       dayIndex: selectedDay.dayIndex
     }).catch(() => undefined);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stage, selectedDay?.id]);
 
@@ -807,6 +1087,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
   function openNextPoint() {
     const nextPoint = firstAvailableLearningPoint();
+
     if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) return;
 
     setSelectedMonthIndex(nextPoint.month.monthIndex);
@@ -821,7 +1102,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     if (!isDayUnlocked(selectedDay, selectedWeek, selectedMonth)) return;
     if (isDayCompleted(selectedDay, completedSet)) return;
 
-    const hasQuiz = preparedLesson.quiz.length > 0;
+    const hasQuiz = preparedLesson.hasQuizText || preparedLesson.quiz.length > 0;
     const quizPassed = quizPassedByDay[selectedDay.id];
 
     if (hasQuiz && !quizPassed) {
@@ -864,7 +1145,10 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
       setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
     } catch (error) {
-      setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
+      setNotice(
+        error?.message ||
+          "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase."
+      );
     } finally {
       setSaving(false);
     }
@@ -879,14 +1163,17 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
   if (!course.length) {
     return (
       <section className="journey-lab" dir="rtl">
-        <div className="jl-empty">لم يتم العثور على محتوى الرحلة داخل courseContent.</div>
+        <div className="jl-empty">
+          لم يتم العثور على محتوى الرحلة داخل courseContent.
+        </div>
       </section>
     );
   }
 
   const currentMeta = stageMeta[stage];
   const currentDayState = selectedDay ? dayState(selectedDay) : "locked";
-  const dayHasQuiz = preparedLesson.quiz.length > 0;
+  const dayHasQuiz = preparedLesson.hasQuizText || preparedLesson.quiz.length > 0;
+
   const canCompleteLesson =
     currentDayState === "active" &&
     (!dayHasQuiz || quizPassedByDay[selectedDay?.id]);
@@ -1779,6 +2066,37 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           color:#fecaca;
         }
 
+        .jl-exact-source {
+          margin-top:24px;
+          border-radius:24px;
+          background:#f8fafc;
+          border:1px solid rgba(148,163,184,.28);
+          overflow:hidden;
+        }
+
+        .jl-exact-source summary {
+          cursor:pointer;
+          padding:16px 18px;
+          color:#3730a3;
+          background:#eef2ff;
+          font-size:13px;
+          font-weight:950;
+        }
+
+        .jl-exact-source pre {
+          margin:0;
+          padding:18px;
+          white-space:pre-wrap;
+          word-break:break-word;
+          overflow:auto;
+          color:#0f172a;
+          background:white;
+          font-family:Tajawal, Arial, Tahoma, sans-serif;
+          font-size:14px;
+          line-height:2;
+          font-weight:650;
+        }
+
         .jl-empty {
           border-radius:24px;
           padding:22px;
@@ -1845,7 +2163,9 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
         <header className="jl-hero">
           <div className="jl-hero-inner">
             <div>
-              <span className="jl-eyebrow">رحلتك التعليمية · 6 أشهر · OD Mastery</span>
+              <span className="jl-eyebrow">
+                رحلتك التعليمية · 6 أشهر · OD Mastery
+              </span>
 
               <h1 className="jl-title">
                 رحلة تعليمية متدرجة
@@ -1853,8 +2173,9 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
               </h1>
 
               <p>
-                تم تصميم الرحلة كبوابات إتقان لا كصفحة طويلة مشتتة. كل شهر يفتح أسابيعه،
-                وكل أسبوع يفتح أيامه، وكل يوم يحتوي على درس منسق واختبار فهم قبل حفظ الإنجاز.
+                تم تصميم الرحلة كبوابات إتقان لا كصفحة طويلة مشتتة. كل شهر
+                يفتح أسابيعه، وكل أسبوع يفتح أيامه، وكل يوم يحتوي على درس
+                منسق واختبار فهم قبل حفظ الإنجاز.
               </p>
             </div>
 
@@ -1891,7 +2212,11 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
         <div className="jl-top-actions">
           <div className="jl-breadcrumbs">
-            <button type="button" className="jl-crumb" onClick={() => setStage("months")}>
+            <button
+              type="button"
+              className="jl-crumb"
+              onClick={() => setStage("months")}
+            >
               الشهور
             </button>
 
@@ -1929,14 +2254,20 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
               </button>
             )}
 
-            <button type="button" className="jl-main-btn" onClick={openNextPoint}>
+            <button
+              type="button"
+              className="jl-main-btn"
+              onClick={openNextPoint}
+            >
               واصل من آخر محطة
             </button>
           </div>
         </div>
 
         {notice && <div className="jl-notice">{notice}</div>}
-        {loading && <div className="jl-notice jl-loading">جارٍ تحميل تقدمك...</div>}
+        {loading && (
+          <div className="jl-notice jl-loading">جارٍ تحميل تقدمك...</div>
+        )}
 
         <main className="jl-stage-panel">
           <div className="jl-stage-head">
@@ -1953,7 +2284,10 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
             <section className="jl-month-grid">
               {course.map((month) => {
                 const state = monthState(month);
-                const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
+                const total = month.weeks.reduce((sum, week) => {
+                  return sum + getContentDays(week).length;
+                }, 0);
+
                 const done = countCompletedInMonth(completedSet, month);
                 const percent = total ? (done / total) * 100 : 0;
 
@@ -1975,7 +2309,9 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
                     <div className="jl-card-foot">
                       <span>{stateLabels[state]}</span>
-                      <span>{done} من {total} يومًا · {arabicPercent(percent)}</span>
+                      <span>
+                        {done} من {total} يومًا · {arabicPercent(percent)}
+                      </span>
                     </div>
                   </button>
                 );
@@ -2009,7 +2345,9 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
 
                     <div className="jl-card-foot">
                       <span>{stateLabels[state]}</span>
-                      <span>{done} من {total} أيام · {arabicPercent(percent)}</span>
+                      <span>
+                        {done} من {total} أيام · {arabicPercent(percent)}
+                      </span>
                     </div>
                   </button>
                 );
@@ -2031,7 +2369,11 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                     disabled={state === "locked"}
                   >
                     <div className="jl-day-number">
-                      {state === "completed" ? "✓" : state === "locked" ? "🔒" : day.dayIndex}
+                      {state === "completed"
+                        ? "✓"
+                        : state === "locked"
+                          ? "🔒"
+                          : day.dayIndex}
                     </div>
 
                     <strong>{day.label}</strong>
@@ -2052,7 +2394,8 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                 <h3>{selectedDay.title}</h3>
 
                 <p>
-                  {selectedMonth.title} · {selectedWeek.title} · {selectedDay.label}
+                  {selectedMonth.title} · {selectedWeek.title} ·{" "}
+                  {selectedDay.label}
                 </p>
 
                 <div className="jl-lesson-actions">
@@ -2060,7 +2403,11 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                     type="button"
                     className="jl-complete"
                     onClick={completeCurrentDay}
-                    disabled={saving || currentDayState !== "active" || !canCompleteLesson}
+                    disabled={
+                      saving ||
+                      currentDayState !== "active" ||
+                      !canCompleteLesson
+                    }
                   >
                     {currentDayState === "completed"
                       ? "تم إكمال اليوم"
@@ -2072,12 +2419,20 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                   </button>
 
                   {currentDayState === "completed" && (
-                    <button type="button" className="jl-ghost-btn" onClick={openNextPoint}>
+                    <button
+                      type="button"
+                      className="jl-ghost-btn"
+                      onClick={openNextPoint}
+                    >
                       افتح المحطة التالية
                     </button>
                   )}
 
-                  <button type="button" className="jl-ghost-btn" onClick={() => setStage("days")}>
+                  <button
+                    type="button"
+                    className="jl-ghost-btn"
+                    onClick={() => setStage("days")}
+                  >
                     العودة لأيام الأسبوع
                   </button>
                 </div>
@@ -2093,6 +2448,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                 <QuizPanel
                   day={selectedDay}
                   questions={preparedLesson.quiz}
+                  hasQuizText={preparedLesson.hasQuizText}
                   onPass={() => {
                     setQuizPassedByDay((current) => ({
                       ...current,
@@ -2100,6 +2456,8 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                     }));
                   }}
                 />
+
+                <ExactSourcePanel text={preparedLesson.fullText} />
               </article>
             </section>
           )}
