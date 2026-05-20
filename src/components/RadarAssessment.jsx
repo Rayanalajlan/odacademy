@@ -738,7 +738,9 @@ function calculateLearningRadar(course, progressRows) {
     return clamp(Math.round((point / totals[index]) * 5 * 10) / 10, 0, 5);
   });
 
-  const totalDays = days.length;
+  // الرقم المعتمد للبرنامج كاملًا: 180 يومًا.
+  // لا نعتمد هنا على عدد الأيام الموجودة في مصفوفة المحتوى لأن بعض الأسابيع ممثلة كـ 7 أيام داخل ملف البيانات.
+  const totalDays = 180;
   const progressPercentage = totalDays ? (completedDays / totalDays) * 100 : 0;
 
   return {

@@ -301,10 +301,11 @@ export default function App() {
 
       {activePage === "about" && <AboutRayan />}
 
-      <footer className="site-footer">
-        <div>SHRM-SCP · SPHRi · CPTD · PMP</div>
-        <span>Mastering OD Engineering Academy © 2026</span>
-      </footer>
-    </div>
+<footer className="site-footer">
+  <div>
+    صنعها ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
+  </div>
+  <span>© 2026 — جميع الحقوق محفوظة</span>
+</footer>    </div>
   );
 }

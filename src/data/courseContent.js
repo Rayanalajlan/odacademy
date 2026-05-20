@@ -413,6 +413,6 @@ export const COURSE_TOTALS = {
   months: 6,
   weeksPerMonth: 4,
   daysPerWeek: 7,
-  daysPerMonth: 28,
-  totalDays: 168
+  daysPerMonth: 30,
+  totalDays: 180
 };

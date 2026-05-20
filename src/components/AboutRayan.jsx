@@ -1,22 +1,24 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const LOGO_SRC = "/rayan-logo.png";
+
+const credentials = ["SHRM-SCP", "SPHRi", "CPTD", "PMP"];
 
 const identityCards = [
   {
     title: "العدسة",
     value: "قراءة النظام قبل الحكم",
-    text: "فهم السياق، العلاقات، الحوافز، الصلاحيات، والتاريخ التنظيمي قبل القفز إلى أي حل."
+    text: "فهم السياق، والعلاقات، والحوافز، والصلاحيات، والتاريخ التنظيمي قبل تفسير المشكلة أو بناء التدخل."
   },
   {
     title: "البنية",
     value: "تحويل الغموض إلى تصميم",
-    text: "توضيح الأدوار، المسؤوليات، الحوكمة، آليات القرار، ومعايير الأداء بطريقة تجعل العمل قابلاً للإدارة والتطوير."
+    text: "توضيح الأدوار، المسؤوليات، نقاط القرار، آليات الحوكمة، ومعايير الأداء حتى يصبح العمل قابلًا للإدارة والتطوير."
   },
   {
     title: "القدرة",
     value: "بناء منظمة تتعلم",
-    text: "تثبيت ممارسات تجعل المنظمة تقيس، تتعلم، تصحح، وتطوّر نفسها بدل الاعتماد على حلول مؤقتة."
+    text: "تثبيت ممارسات تجعل المنظمة تقيس، تتعلم، تصحح، وتطوّر نفسها بدل الاعتماد على مبادرات مؤقتة."
   }
 ];
 
@@ -37,19 +39,19 @@ const systemLens = [
 
 const workDomains = [
   {
-    title: "تشخيص المنظمة",
-    text: "قراءة الأعراض، الأنماط، الفرضيات، ومصادر البيانات للوصول إلى فهم مهني قبل اختيار التدخل."
+    title: "التشخيص التنظيمي",
+    text: "قراءة الأعراض، الأنماط، الفرضيات، وأصحاب المصلحة للوصول إلى فهم مهني قبل اختيار الحل."
   },
   {
-    title: "تصميم العمل والحوكمة",
-    text: "بناء وضوح الأدوار، الصلاحيات، نقاط القرار، التداخلات، ومصفوفات المسؤولية بما يخدم الهدف لا الشكل."
+    title: "تصميم الأدوار والحوكمة",
+    text: "بناء وضوح في المسؤوليات، الصلاحيات، نقاط القرار، التداخلات، ومصفوفات المساءلة."
   },
   {
     title: "منظومة الأداء والتعلم",
-    text: "تحويل الأداء من متابعة أرقام منفصلة إلى نظام يربط المسؤولية، السلوك، التغذية الراجعة، والتطور المستمر."
+    text: "ربط الأداء بالسلوك، التغذية الراجعة، التعلم المستمر، ووضوح النتائج المتوقعة."
   },
   {
-    title: "التحول وبناء القدرة",
+    title: "التغيير وبناء القدرة",
     text: "تصميم تدخلات تساعد المنظمة على تبنّي التغيير، تثبيت الممارسات، وبناء قدرة داخلية قابلة للاستمرار."
   }
 ];
@@ -58,21 +60,50 @@ const socialLinks = [
   {
     name: "LinkedIn",
     label: "المساحة المهنية",
-    description: "مقالات، تأملات، ونقاشات حول الإنسان والمنظمة وبناء القدرة.",
+    description: "مقالات ونقاشات حول الإنسان، المنظمة، الأداء، وبناء القدرة.",
     icon: "in",
-    url: "https://www.linkedin.com/in/rayanalajlan/"
+    url: "https://www.linkedin.com/in/rayanalajlan/",
+    brandClass: "linkedin"
   },
   {
     name: "X",
     label: "الأفكار القصيرة",
-    description: "ومضات مركزة حول العمل، الأداء، التطوير، والسلوك التنظيمي.",
+    description: "ومضات مركزة حول العمل، التطوير، السلوك، والقرارات التنظيمية.",
     icon: "𝕏",
-    url: "https://x.com/Rayan_Alajlan"
+    url: "https://x.com/Rayan_Alajlan",
+    brandClass: "x"
   }
 ];
 
+const duaText =
+  "أجمل ما قد يهديه لي العابرون بعد الفائدة: دعوة صادقة بظهر الغيب لوالديّ، وللمسلمين والمسلمات، الأحياء منهم والأموات؛ أن يشملهم الله بعفوه، ويعمّهم برضوانه.";
+
+function buildConsultationMailto() {
+  const to = "Rayansalajlan@gmail.com";
+  const subject = "طلب استشارة مهنية";
+  const body = `
+السلام عليكم ريان،
+
+أرغب بطلب استشارة مهنية، وهذه بعض التفاصيل الأولية:
+
+الاسم:
+الجهة / القطاع:
+المسمى الوظيفي:
+موضوع الاستشارة:
+التحدي الحالي باختصار:
+الهدف المتوقع من الاستشارة:
+طريقة التواصل المناسبة:
+الأوقات المناسبة للتواصل:
+
+شكرًا لك.
+`.trim();
+
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export default function AboutRayan() {
   const [logoLoaded, setLogoLoaded] = useState(true);
+  const consultationMailto = useMemo(() => buildConsultationMailto(), []);
 
   return (
     <section className="about-rayan" dir="rtl">
@@ -80,13 +111,13 @@ export default function AboutRayan() {
         .about-rayan {
           --ink:#0f172a;
           --muted:#64748b;
-          --soft:#f8fafc;
           --line:rgba(148,163,184,.22);
           --gold:#b48a5a;
+          --gold-deep:#7c4a20;
           --gold-light:#d6bb95;
           --gold-soft:rgba(180,138,90,.13);
-          --primary:#4f46e5;
-          --green:#10b981;
+          --linkedin:#0a66c2;
+          --x:#000000;
           min-height:100vh;
           position:relative;
           overflow:hidden;
@@ -99,9 +130,7 @@ export default function AboutRayan() {
             linear-gradient(135deg,#f8fafc 0%,#fffaf3 46%,#eef2ff 100%);
         }
 
-        .about-rayan * {
-          box-sizing:border-box;
-        }
+        .about-rayan * { box-sizing:border-box; }
 
         .ar-wrap {
           width:min(1180px,100%);
@@ -115,11 +144,11 @@ export default function AboutRayan() {
           overflow:hidden;
           border-radius:42px;
           padding:34px;
+          color:white;
           background:
             radial-gradient(circle at 14% 20%, rgba(214,187,149,.26), transparent 32%),
             linear-gradient(135deg,#0f172a,#1e293b 58%,#111827);
           box-shadow:0 30px 90px rgba(15,23,42,.22);
-          color:white;
         }
 
         .ar-hero::before {
@@ -173,11 +202,70 @@ export default function AboutRayan() {
 
         .ar-lead {
           margin:0;
-          max-width:780px;
+          max-width:820px;
           color:rgba(226,232,240,.88);
           font-size:16px;
           line-height:2.15;
           font-weight:700;
+        }
+
+        .ar-credentials {
+          margin-top:18px;
+          display:flex;
+          flex-wrap:wrap;
+          gap:10px;
+        }
+
+        .ar-credential {
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-height:38px;
+          padding:9px 13px;
+          border-radius:999px;
+          color:#fde68a;
+          background:rgba(255,255,255,.10);
+          border:1px solid rgba(255,255,255,.15);
+          font-size:12px;
+          font-weight:950;
+          letter-spacing:.3px;
+        }
+
+        .ar-hero-actions {
+          display:flex;
+          flex-wrap:wrap;
+          gap:12px;
+          margin-top:22px;
+        }
+
+        .ar-primary-action,
+        .ar-secondary-action {
+          text-decoration:none;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          border-radius:18px;
+          padding:13px 18px;
+          font-size:13px;
+          font-weight:950;
+          transition:.24s ease;
+        }
+
+        .ar-primary-action {
+          color:#111827;
+          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          box-shadow:0 18px 42px rgba(245,158,11,.20);
+        }
+
+        .ar-secondary-action {
+          color:white;
+          background:rgba(255,255,255,.10);
+          border:1px solid rgba(255,255,255,.16);
+        }
+
+        .ar-primary-action:hover,
+        .ar-secondary-action:hover {
+          transform:translateY(-3px);
         }
 
         .ar-logo-card {
@@ -227,7 +315,7 @@ export default function AboutRayan() {
           margin-top:20px;
           border-radius:34px;
           padding:26px;
-          background:rgba(255,255,255,.82);
+          background:rgba(255,255,255,.84);
           border:1px solid rgba(255,255,255,.94);
           box-shadow:0 22px 60px rgba(15,23,42,.08);
           backdrop-filter:blur(20px);
@@ -259,7 +347,7 @@ export default function AboutRayan() {
 
         .ar-section-head p {
           margin:10px 0 0;
-          max-width:760px;
+          max-width:780px;
           color:var(--muted);
           font-size:14px;
           line-height:2;
@@ -275,10 +363,37 @@ export default function AboutRayan() {
           font-size:12px;
           line-height:1.8;
           font-weight:900;
-          max-width:290px;
+          max-width:300px;
         }
 
-        .ar-identity-grid {
+        .ar-bio-box,
+        .ar-consultation-copy,
+        .ar-card,
+        .ar-domain,
+        .ar-social,
+        .ar-dua-card {
+          background:white;
+          border:1px solid var(--line);
+          box-shadow:0 16px 44px rgba(15,23,42,.06);
+        }
+
+        .ar-bio-box {
+          border-radius:28px;
+          padding:22px;
+        }
+
+        .ar-bio-box p {
+          margin:0;
+          color:#1e293b;
+          font-size:15px;
+          line-height:2.15;
+          font-weight:700;
+        }
+
+        .ar-bio-box p + p { margin-top:14px; }
+
+        .ar-identity-grid,
+        .ar-lens-grid {
           display:grid;
           grid-template-columns:repeat(3,minmax(0,1fr));
           gap:14px;
@@ -290,9 +405,6 @@ export default function AboutRayan() {
           overflow:hidden;
           border-radius:28px;
           padding:20px;
-          background:white;
-          border:1px solid var(--line);
-          box-shadow:0 16px 44px rgba(15,23,42,.07);
         }
 
         .ar-card::before {
@@ -322,9 +434,14 @@ export default function AboutRayan() {
           margin-bottom:18px;
         }
 
-        .ar-card h3 {
+        .ar-card h3,
+        .ar-card strong,
+        .ar-card p {
           position:relative;
           z-index:1;
+        }
+
+        .ar-card h3 {
           margin:0 0 8px;
           color:var(--ink);
           font-size:18px;
@@ -333,8 +450,6 @@ export default function AboutRayan() {
         }
 
         .ar-card strong {
-          position:relative;
-          z-index:1;
           display:block;
           color:var(--gold);
           font-size:14px;
@@ -344,19 +459,11 @@ export default function AboutRayan() {
         }
 
         .ar-card p {
-          position:relative;
-          z-index:1;
           margin:0;
           color:var(--muted);
           font-size:13px;
           line-height:1.95;
           font-weight:700;
-        }
-
-        .ar-lens-grid {
-          display:grid;
-          grid-template-columns:repeat(3,minmax(0,1fr));
-          gap:16px;
         }
 
         .ar-lens {
@@ -396,7 +503,8 @@ export default function AboutRayan() {
           font-weight:750;
         }
 
-        .ar-domains-grid {
+        .ar-domains-grid,
+        .ar-social-grid {
           display:grid;
           grid-template-columns:repeat(2,minmax(0,1fr));
           gap:14px;
@@ -410,9 +518,6 @@ export default function AboutRayan() {
           min-height:150px;
           border-radius:26px;
           padding:18px;
-          background:white;
-          border:1px solid var(--line);
-          box-shadow:0 14px 38px rgba(15,23,42,.06);
         }
 
         .ar-domain-mark {
@@ -422,7 +527,7 @@ export default function AboutRayan() {
           place-items:center;
           border-radius:20px;
           color:white;
-          background:linear-gradient(135deg,var(--gold),#7c4a20);
+          background:linear-gradient(135deg,var(--gold),var(--gold-deep));
           font-size:18px;
           font-weight:950;
         }
@@ -443,10 +548,114 @@ export default function AboutRayan() {
           font-weight:700;
         }
 
-        .ar-social-grid {
+        .ar-consultation {
           display:grid;
-          grid-template-columns:repeat(2,minmax(0,1fr));
-          gap:14px;
+          grid-template-columns:1fr 330px;
+          gap:16px;
+          align-items:stretch;
+        }
+
+        .ar-consultation-copy {
+          border-radius:28px;
+          padding:22px;
+        }
+
+        .ar-consultation-copy h3 {
+          margin:0 0 10px;
+          color:var(--ink);
+          font-size:24px;
+          line-height:1.4;
+          font-weight:950;
+        }
+
+        .ar-consultation-copy p {
+          margin:0;
+          color:var(--muted);
+          font-size:14px;
+          line-height:2;
+          font-weight:700;
+        }
+
+        .ar-consultation-panel {
+          border-radius:28px;
+          padding:22px;
+          color:white;
+          background:linear-gradient(150deg,#0f172a,#1e293b);
+          box-shadow:0 20px 52px rgba(15,23,42,.16);
+        }
+
+        .ar-consultation-panel small {
+          display:block;
+          color:#fde68a;
+          font-size:12px;
+          font-weight:950;
+          margin-bottom:10px;
+        }
+
+        .ar-consultation-panel strong {
+          display:block;
+          font-size:18px;
+          line-height:1.6;
+          font-weight:950;
+          margin-bottom:14px;
+        }
+
+        .ar-consultation-button {
+          text-decoration:none;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          width:100%;
+          min-height:48px;
+          border-radius:18px;
+          color:#111827;
+          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          font-size:13px;
+          font-weight:950;
+          transition:.24s ease;
+        }
+
+        .ar-consultation-button:hover { transform:translateY(-3px); }
+
+        .ar-dua-card {
+          position:relative;
+          overflow:hidden;
+          border-radius:34px;
+          padding:28px;
+          background:
+            radial-gradient(circle at top left, rgba(180,138,90,.18), transparent 34%),
+            linear-gradient(135deg,#ffffff,#fffbeb);
+        }
+
+        .ar-dua-card::before {
+          content:"";
+          position:absolute;
+          top:-90px;
+          left:-90px;
+          width:220px;
+          height:220px;
+          border-radius:999px;
+          background:rgba(180,138,90,.14);
+        }
+
+        .ar-dua-card span {
+          position:relative;
+          z-index:1;
+          display:inline-flex;
+          margin-bottom:10px;
+          color:#92400e;
+          font-size:12px;
+          font-weight:950;
+        }
+
+        .ar-dua-card p {
+          position:relative;
+          z-index:1;
+          margin:0;
+          color:#78350f;
+          font-size:18px;
+          line-height:2.15;
+          font-weight:900;
         }
 
         .ar-social {
@@ -458,9 +667,6 @@ export default function AboutRayan() {
           grid-template-columns:64px 1fr;
           gap:16px;
           align-items:center;
-          background:white;
-          border:1px solid var(--line);
-          box-shadow:0 16px 42px rgba(15,23,42,.07);
           transition:.24s ease;
           color:inherit;
         }
@@ -477,14 +683,17 @@ export default function AboutRayan() {
           place-items:center;
           border-radius:22px;
           color:white;
-          background:#0f172a;
           font-size:22px;
           font-weight:950;
         }
 
+        .ar-social.linkedin .ar-social-icon { background:var(--linkedin); }
+        .ar-social.x .ar-social-icon { background:var(--x); }
+        .ar-social.linkedin span { color:var(--linkedin); }
+        .ar-social.x span { color:#111827; }
+
         .ar-social span {
           display:block;
-          color:var(--gold);
           font-size:12px;
           font-weight:950;
           margin-bottom:6px;
@@ -510,13 +719,12 @@ export default function AboutRayan() {
           .ar-identity-grid,
           .ar-lens-grid,
           .ar-domains-grid,
-          .ar-social-grid {
+          .ar-social-grid,
+          .ar-consultation {
             grid-template-columns:1fr;
           }
 
-          .ar-section-head {
-            display:block;
-          }
+          .ar-section-head { display:block; }
 
           .ar-signature {
             max-width:100%;
@@ -530,9 +738,7 @@ export default function AboutRayan() {
         }
 
         @media (max-width:560px) {
-          .about-rayan {
-            padding:16px 10px 44px;
-          }
+          .about-rayan { padding:16px 10px 44px; }
 
           .ar-hero,
           .ar-section {
@@ -564,14 +770,36 @@ export default function AboutRayan() {
               </h1>
 
               <p className="ar-lead">
-                أعمل عند تقاطع الإنسان والمنظمة والاستراتيجية؛ حيث لا تكفي
-                المبادرات المنفصلة ولا الشعارات العامة لصناعة أثر مستدام.
-                أتعامل مع المنظمة بوصفها نظامًا حيًا: تتداخل فيه القرارات،
-                الأدوار، الصلاحيات، الثقافة، التعلم، الأداء، وتجربة الإنسان.
-                لذلك يبدأ عملي من فهم ما يحدث فعلًا داخل النظام، ثم تحويل هذا
-                الفهم إلى وضوح في التصميم، وانضباط في التنفيذ، وقدرة قابلة
-                للنمو والاستمرار.
+                متخصص في الموارد البشرية والتطوير التنظيمي وبناء الأداء، أعمل
+                على قراءة المنظمات بوصفها أنظمة حيّة تتداخل فيها الاستراتيجية،
+                الأدوار، الصلاحيات، الثقافة، السلوك، التعلم، والقياس. أؤمن أن
+                جودة الحل تبدأ من جودة التشخيص، وأن الأثر الحقيقي لا يتحقق
+                بكثرة المبادرات، بل بوضوح التصميم وقدرة المنظمة على التعلم
+                والاستمرار.
               </p>
+
+              <div className="ar-credentials" aria-label="الاعتمادات المهنية">
+                {credentials.map((item) => (
+                  <span className="ar-credential" key={item}>
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="ar-hero-actions">
+                <a className="ar-primary-action" href={consultationMailto}>
+                  طلب استشارة
+                </a>
+
+                <a
+                  className="ar-secondary-action"
+                  href="https://www.linkedin.com/in/rayanalajlan/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  زيارة LinkedIn
+                </a>
+              </div>
             </div>
 
             <aside className="ar-logo-card" aria-label="شعار ريان العجلان">
@@ -593,6 +821,41 @@ export default function AboutRayan() {
         <section className="ar-section">
           <div className="ar-section-head">
             <div>
+              <span>نبذة تعريفية</span>
+              <h2>بين الإنسان والمنظمة والأثر</h2>
+              <p>
+                هذه النبذة توضّح طريقة التفكير المهنية التي يقوم عليها العمل:
+                فهم عميق للنظام، ثم تصميم منضبط، ثم قياس للأثر.
+              </p>
+            </div>
+
+            <div className="ar-signature">
+              لا يبدأ التطوير التنظيمي من اسم الحل، بل من فهم ما الذي يجعل
+              المشكلة تتكرر داخل النظام.
+            </div>
+          </div>
+
+          <div className="ar-bio-box">
+            <p>
+              أعمل في المساحة التي يلتقي فيها الإنسان بالمنظمة وبالاستراتيجية:
+              حيث تتشكل القرارات، وتُبنى الأدوار، وتظهر الثقافة في السلوك
+              اليومي، وتتحول مؤشرات الأداء إلى رسائل تنظيمية تعلّم الناس ما
+              الذي يستحق الانتباه وما الذي يمكن تجاهله.
+            </p>
+
+            <p>
+              منهجي لا يتعامل مع الموارد البشرية كإجراءات منعزلة، ولا مع
+              التطوير التنظيمي كمبادرات عامة، ولا مع التخطيط الاستراتيجي كوثيقة
+              بعيدة عن التشغيل؛ بل كمنظومة مترابطة تحتاج قراءة دقيقة قبل
+              التدخل، وتصميمًا واضحًا قبل التنفيذ، وقياسًا مستمرًا قبل الحكم
+              على النجاح.
+            </p>
+          </div>
+        </section>
+
+        <section className="ar-section">
+          <div className="ar-section-head">
+            <div>
               <span>منهجيتي</span>
               <h2>الفهم أولًا، ثم التصميم، ثم الأثر</h2>
               <p>
@@ -600,11 +863,6 @@ export default function AboutRayan() {
                 السلوك منطقيًا داخل هذا النظام؟ عندما يتضح النظام، يصبح التدخل
                 أكثر دقة، وأقل ضجيجًا، وأقرب للأثر الحقيقي.
               </p>
-            </div>
-
-            <div className="ar-signature">
-              ممارستي تقوم على تحويل الغموض التنظيمي إلى قراءة واضحة، ثم إلى
-              تصميم قابل للتطبيق والقياس.
             </div>
           </div>
 
@@ -672,6 +930,47 @@ export default function AboutRayan() {
         <section className="ar-section">
           <div className="ar-section-head">
             <div>
+              <span>طلب استشارة</span>
+              <h2>ابدأ برسالة واضحة</h2>
+              <p>
+                عند الضغط على الزر، ستفتح رسالة بريد جاهزة تحتوي قالبًا مختصرًا
+                يساعد على توضيح موضوع الاستشارة قبل التواصل.
+              </p>
+            </div>
+          </div>
+
+          <div className="ar-consultation">
+            <div className="ar-consultation-copy">
+              <h3>استشارة مهنية مبنية على فهم السياق</h3>
+              <p>
+                سواء كان التحدي مرتبطًا بتشخيص تنظيمي، تصميم أدوار وصلاحيات،
+                بناء منظومة أداء، تطوير سياسات، قراءة ثقافة، أو تحويل توجه
+                استراتيجي إلى تنفيذ؛ تبدأ الاستشارة من فهم السياق لا من وصفة
+                جاهزة.
+              </p>
+            </div>
+
+            <aside className="ar-consultation-panel">
+              <small>البريد المعتمد</small>
+              <strong>Rayansalajlan@gmail.com</strong>
+
+              <a className="ar-consultation-button" href={consultationMailto}>
+                فتح قالب طلب الاستشارة
+              </a>
+            </aside>
+          </div>
+        </section>
+
+        <section className="ar-section">
+          <div className="ar-dua-card">
+            <span>طلب دعاء</span>
+            <p>{duaText}</p>
+          </div>
+        </section>
+
+        <section className="ar-section">
+          <div className="ar-section-head">
+            <div>
               <span>الحضور المهني</span>
               <h2>تابع الأفكار والنقاشات</h2>
               <p>
@@ -684,7 +983,7 @@ export default function AboutRayan() {
           <div className="ar-social-grid">
             {socialLinks.map((link) => (
               <a
-                className="ar-social"
+                className={`ar-social ${link.brandClass}`}
                 key={link.name}
                 href={link.url}
                 target="_blank"
@@ -692,6 +991,7 @@ export default function AboutRayan() {
                 aria-label={link.name}
               >
                 <div className="ar-social-icon">{link.icon}</div>
+
                 <div>
                   <span>{link.label}</span>
                   <h3>{link.name}</h3>

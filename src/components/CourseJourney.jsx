@@ -45,6 +45,11 @@ const ARABIC_ORDINAL = {
   7: "السابع"
 };
 
+// أرقام العرض المعتمدة في المنصة: البرنامج 6 أشهر × 30 يومًا = 180 يومًا.
+// لا نستخدم هذه الأرقام لقفل وفتح المحتوى؛ القفل يعتمد على الأيام الفعلية الموجودة في courseContent.
+const JOURNEY_DISPLAY_TOTAL_DAYS = 180;
+const MONTH_DISPLAY_TOTAL_DAYS = 30;
+
 const HEADING_PHRASES = [
   "الفكرة المركزية",
   "ما المقصود بالتطوير التنظيمي؟",
@@ -599,15 +604,17 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({ day, questions, hasQuizText = false, completed = false, onComplete }) {
+function QuizPanel({ day, questions, hasQuizText = false, completed = false, onComplete, onReviewClosed }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [savingAfterCheck, setSavingAfterCheck] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   useEffect(() => {
     setAnswers({});
     setSubmitted(false);
     setSavingAfterCheck(false);
+    setReviewOpen(false);
   }, [day.id]);
 
   const total = questions.length;
@@ -622,7 +629,7 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
   }, 0);
 
   function chooseAnswer(questionId, optionId) {
-    if (submitted || completed) return;
+    if (submitted || completed || savingAfterCheck) return;
 
     setAnswers((current) => ({
       ...current,
@@ -630,10 +637,11 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
     }));
   }
 
-  async function verifyAnswers() {
-    if (!allAnswered || submitted || completed) return;
+  async function verifyAnswersAutomatically() {
+    if (!allAnswered || submitted || completed || savingAfterCheck) return;
 
     setSubmitted(true);
+    setReviewOpen(true);
     setSavingAfterCheck(true);
 
     try {
@@ -641,6 +649,22 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
     } finally {
       setSavingAfterCheck(false);
     }
+  }
+
+  useEffect(() => {
+    if (!allAnswered || submitted || completed || savingAfterCheck) return undefined;
+
+    const timer = window.setTimeout(() => {
+      verifyAnswersAutomatically();
+    }, 450);
+
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allAnswered, submitted, completed, savingAfterCheck]);
+
+  function closeReviewModal() {
+    setReviewOpen(false);
+    onReviewClosed?.();
   }
 
   if (!questions.length) {
@@ -666,10 +690,10 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
         <strong>{answeredCount} / {total}</strong>
       </div>
 
-      <h3>أجب عن الأسئلة ثم تحقّق من إجاباتك</h3>
+      <h3>أجب عن الأسئلة الثلاثة</h3>
       <p className="jl-quiz-note">
-        بعد الإجابة عن الأسئلة الثلاثة، اضغط زر التحقق لتظهر لك الإجابة الصحيحة
-        وسببها، ثم يُحفظ إنجاز اليوم تلقائيًا.
+        بعد اختيار إجابة السؤال الأخير يظهر لك التصحيح تلقائيًا، ثم تُحفظ محطتك
+        وينتقل بك المسار إلى اليوم التالي بعد إغلاق نافذة التصحيح.
       </p>
 
       <div className="jl-question-list">
@@ -702,7 +726,7 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
                         showCorrect ? "jl-option--correct" : "",
                         showWrong ? "jl-option--wrong" : ""
                       ].join(" ")}
-                      disabled={submitted || completed}
+                      disabled={submitted || completed || savingAfterCheck}
                       onClick={() => chooseAnswer(question.id, option.id)}
                     >
                       <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
@@ -727,34 +751,73 @@ function QuizPanel({ day, questions, hasQuizText = false, completed = false, onC
         })}
       </div>
 
-      <div className="jl-quiz-footer">
-        <button
-          type="button"
-          className="jl-quiz-submit"
-          disabled={!allAnswered || submitted || completed || savingAfterCheck}
-          onClick={verifyAnswers}
-        >
-          {savingAfterCheck ? "جارٍ حفظ الإنجاز..." : "تحقق من الإجابات وحفظ الإنجاز"}
-        </button>
-
-        {!allAnswered && !submitted && (
-          <div className="jl-quiz-result jl-quiz-result--neutral">
-            أجب عن جميع الأسئلة حتى يظهر لك التصحيح.
-          </div>
-        )}
-
-        {submitted && (
+      {submitted && (
+        <div className="jl-quiz-footer">
           <div className="jl-quiz-result jl-quiz-result--pass">
             {hasKnownAnswers
-              ? `تم التحقق من إجاباتك. نتيجتك ${score} من ${total}.`
-              : "تم التحقق من إجاباتك وحفظ إنجاز اليوم."}
+              ? `تم التصحيح. نتيجتك ${score} من ${total}.`
+              : "تم تسجيل إجاباتك وحفظ محطتك."}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {reviewOpen && (
+        <div className="jl-review-modal" role="dialog" aria-modal="true" aria-label="تصحيح اختبار اليوم">
+          <div className="jl-review-card">
+            <div className="jl-review-head">
+              <span>تصحيح اختبار اليوم</span>
+              <h3>مراجعة إجاباتك</h3>
+              <p>
+                راجع الإجابة الصحيحة وسببها. عند إغلاق هذه النافذة ستنتقل مباشرة إلى اليوم التالي.
+              </p>
+            </div>
+
+            <div className="jl-review-list">
+              {questions.map((question, questionIndex) => {
+                const selectedId = answers[question.id];
+                const selectedOption = question.options.find((option) => option.id === selectedId);
+                const correctOption = question.options.find((option) => option.isCorrect) || selectedOption;
+                const selectedIsCorrect = Boolean(selectedOption?.isCorrect);
+
+                return (
+                  <article className="jl-review-item" key={`review-${question.id}`}>
+                    <div className="jl-review-question">
+                      <b>{questionIndex + 1}</b>
+                      <strong>{question.question}</strong>
+                    </div>
+
+                    <div className="jl-review-answer-row">
+                      <span className={selectedIsCorrect ? "jl-review-choice jl-review-choice--correct" : "jl-review-choice jl-review-choice--wrong"}>
+                        اختيارك: {selectedOption?.text || "لم يتم تحديد اختيار"}
+                      </span>
+
+                      {!selectedIsCorrect && correctOption && (
+                        <span className="jl-review-choice jl-review-choice--correct">
+                          الصحيح: {correctOption.text}
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="jl-review-explanation">
+                      {correctOption?.explanation ||
+                        (selectedIsCorrect
+                          ? "إجابتك منسجمة مع منطق الدرس."
+                          : "راجع الفكرة المركزية في الدرس لفهم سبب تفضيل هذه الإجابة.")}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+
+            <button type="button" className="jl-review-close" onClick={closeReviewModal}>
+              إغلاق والانتقال لليوم التالي
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
 export default function CourseJourney({ progressRows = [], setProgressRows = () => {}, loading = false }) {
   const course = useMemo(() => normalizeCourse(rawCourseMap), []);
   const [stage, setStage] = useState("months");
@@ -783,15 +846,18 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     [selectedDay?.id, selectedDay?.content, selectedDay?.quiz, selectedWeek?.instructorAppendix]
   );
 
-  const totalCourseDays = getCourseTotalDays(course);
+  const actualCourseDays = getCourseTotalDays(course);
+  const totalCourseDays = JOURNEY_DISPLAY_TOTAL_DAYS;
   const totalCompletedDays = course.reduce(
     (sum, month) => sum + countCompletedInMonth(completedSet, month),
     0
   );
 
-  const monthTotalDays = selectedMonth
+  const actualMonthDays = selectedMonth
     ? selectedMonth.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0)
     : 0;
+
+  const monthTotalDays = MONTH_DISPLAY_TOTAL_DAYS;
 
   const weekTotalDays = selectedWeek ? getContentDays(selectedWeek).length : 0;
   const monthCompletedDays = selectedMonth ? countCompletedInMonth(completedSet, selectedMonth) : 0;
@@ -999,6 +1065,49 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function getAllLearningPoints() {
+    return course.flatMap((month) =>
+      month.weeks.flatMap((week) =>
+        getContentDays(week)
+          .sort((a, b) => a.dayIndex - b.dayIndex)
+          .map((day) => ({ month, week, day }))
+      )
+    );
+  }
+
+  function moveToNextAfterReview() {
+    if (!selectedDay) return;
+
+    const points = getAllLearningPoints();
+    const currentKey = progressKey(
+      selectedDay.monthIndex,
+      selectedDay.weekIndex,
+      selectedDay.dayIndex
+    );
+
+    const currentIndex = points.findIndex(({ day }) => {
+      return progressKey(day.monthIndex, day.weekIndex, day.dayIndex) === currentKey;
+    });
+
+    const nextPoint = currentIndex >= 0 ? points[currentIndex + 1] : null;
+
+    if (!nextPoint) {
+      setNotice("أحسنت. وصلت إلى نهاية الرحلة المتاحة.");
+      window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
+      return;
+    }
+
+    setSelectedMonthIndex(nextPoint.month.monthIndex);
+    setSelectedWeekIndex(nextPoint.week.weekIndex);
+    setSelectedDayIndex(nextPoint.day.dayIndex);
+    setStage("lesson");
+    setNotice("");
+
+    window.setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 120);
+  }
+
   function openNextPoint() {
     const nextPoint = firstAvailableLearningPoint();
     if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) return;
@@ -1019,7 +1128,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     const quizPassed = forceQuizPassed || quizPassedByDay[selectedDay.id];
 
     if (hasQuiz && !quizPassed) {
-      setNotice("أكمل اختبار اليوم أولًا؛ سيتم حفظ إنجازك تلقائيًا بعد آخر سؤال.");
+      setNotice("أكمل اختبار اليوم أولًا.");
       return;
     }
 
@@ -2112,6 +2221,146 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           text-align:center;
         }
 
+        .jl-feedback--wrong p {
+          color:#fecaca;
+        }
+
+
+        .jl-review-modal {
+          position:fixed;
+          inset:0;
+          z-index:9999;
+          display:grid;
+          place-items:center;
+          padding:18px;
+          background:rgba(15,23,42,.62);
+          backdrop-filter:blur(12px);
+        }
+
+        .jl-review-card {
+          width:min(760px,100%);
+          max-height:min(86vh,820px);
+          overflow:auto;
+          border-radius:32px;
+          padding:24px;
+          color:#0f172a;
+          background:#ffffff;
+          box-shadow:0 36px 110px rgba(15,23,42,.35);
+          border:1px solid rgba(255,255,255,.88);
+        }
+
+        .jl-review-head span {
+          display:inline-flex;
+          color:#4f46e5;
+          font-size:12px;
+          font-weight:950;
+          margin-bottom:8px;
+        }
+
+        .jl-review-head h3 {
+          margin:0;
+          color:#0f172a;
+          font-size:28px;
+          line-height:1.35;
+          font-weight:950;
+        }
+
+        .jl-review-head p {
+          margin:10px 0 0;
+          color:#64748b;
+          font-size:13px;
+          line-height:1.9;
+          font-weight:800;
+        }
+
+        .jl-review-list {
+          display:grid;
+          gap:12px;
+          margin-top:18px;
+        }
+
+        .jl-review-item {
+          border-radius:24px;
+          padding:16px;
+          background:#f8fafc;
+          border:1px solid rgba(148,163,184,.22);
+        }
+
+        .jl-review-question {
+          display:flex;
+          gap:12px;
+          align-items:flex-start;
+        }
+
+        .jl-review-question b {
+          width:34px;
+          height:34px;
+          flex:0 0 auto;
+          display:grid;
+          place-items:center;
+          border-radius:14px;
+          color:#111827;
+          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          font-weight:950;
+        }
+
+        .jl-review-question strong {
+          color:#0f172a;
+          font-size:14px;
+          line-height:1.9;
+          font-weight:950;
+        }
+
+        .jl-review-answer-row {
+          display:grid;
+          gap:8px;
+          margin-top:12px;
+        }
+
+        .jl-review-choice {
+          display:block;
+          border-radius:18px;
+          padding:11px 13px;
+          font-size:13px;
+          line-height:1.8;
+          font-weight:900;
+        }
+
+        .jl-review-choice--correct {
+          color:#065f46;
+          background:#ecfdf5;
+          border:1px solid rgba(16,185,129,.24);
+        }
+
+        .jl-review-choice--wrong {
+          color:#991b1b;
+          background:#fef2f2;
+          border:1px solid rgba(239,68,68,.24);
+        }
+
+        .jl-review-explanation {
+          margin:12px 0 0;
+          color:#475569;
+          font-size:13px;
+          line-height:2;
+          font-weight:800;
+        }
+
+        .jl-review-close {
+          width:100%;
+          margin-top:18px;
+          border:0;
+          cursor:pointer;
+          font-family:inherit;
+          border-radius:20px;
+          padding:15px 18px;
+          color:white;
+          background:linear-gradient(135deg,#4f46e5,#7c3aed);
+          box-shadow:0 18px 42px rgba(79,70,229,.24);
+          font-size:13px;
+          font-weight:950;
+        }
+
         @media (max-width:980px) {
           .jl-hero-inner,
           .jl-lesson-shell {
@@ -2276,7 +2525,8 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
             <section className="jl-month-grid">
               {course.map((month) => {
                 const state = monthState(month);
-                const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
+                const actualTotal = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
+                const total = MONTH_DISPLAY_TOTAL_DAYS;
                 const done = countCompletedInMonth(completedSet, month);
                 const percent = total ? (done / total) * 100 : 0;
 
@@ -2446,6 +2696,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                   hasQuizText={preparedLesson.hasQuizText}
                   completed={currentDayState === "completed"}
                   onComplete={handleQuizComplete}
+                  onReviewClosed={moveToNextAfterReview}
                 />
               </article>
             </section>

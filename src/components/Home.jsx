@@ -29,7 +29,7 @@ const IDLE_LIMIT_MS = 5 * 60 * 1000;
 const cards = [
   {
     title: "رحلتك التعليمية",
-    text: "168 يومًا موزعة على 6 أشهر، من العقل التشخيصي إلى الاحتراف كممارس OD.",
+    text: "180 يومًا موزعة على 6 أشهر، من العقل التشخيصي إلى الاحتراف كممارس OD.",
     icon: "🧭",
     page: "journey",
     badge: "المسار الرئيسي",
@@ -680,8 +680,8 @@ function FeatureCard({ card, onOpen, metric }) {
   );
 }
 
-export default function Home({ userName, setActivePage, completedDays = 0, totalDays = 168 }) {
-  const safeTotalDays = totalDays > 0 ? totalDays : 168;
+export default function Home({ userName, setActivePage, completedDays = 0, totalDays = 180 }) {
+  const safeTotalDays = totalDays > 0 ? totalDays : 180;
   const safeCompletedDays = Math.max(0, Math.min(completedDays || 0, safeTotalDays));
   const progress = Math.round((safeCompletedDays / safeTotalDays) * 100);
 

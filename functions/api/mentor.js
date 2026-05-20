@@ -1,17 +1,16 @@
 // functions/api/mentor.js
-// هذه دالة Cloudflare Pages Function وليست Worker عادي.
+// Cloudflare Pages Function للموجه الذكي.
 // المسار المتوقع:
 // /api/mentor
 //
-// مهم:
-// لا تضع GEMINI_API_KEY داخل React أو داخل ملفات الواجهة.
-// ضعه فقط في Cloudflare كـ Secret / Encrypted.
+// هذا الملف لا يضع GEMINI_API_KEY في الواجهة.
+// يجب أن يكون GEMINI_API_KEY موجودًا في Cloudflare كـ Secret / Encrypted.
 
 const systemInstruction = `
 أنت مستشار أول وعرّاب خبير في هندسة التطوير التنظيمي (Organization Development).
 
 تتحدث بالعربية المهنية القريبة من العامية السعودية الرصينة، بأسلوب ذكي وفخم دون مبالغة.
-استخدم عبارات مثل:
+استخدم عبارات مناسبة مثل:
 - يا زميل المهنة
 - خلنا نفككها
 - وش العرض؟
@@ -21,7 +20,7 @@ const systemInstruction = `
 مهمتك هي توجيه المتدربين والممارسين باستخدام الطريقة السقراطية الذكية.
 
 قواعدك:
-1. لا تعطِ حلولاً جاهزة مباشرة.
+1. لا تعطِ حلولًا جاهزة مباشرة.
 2. ساعد المستخدم خطوة بخطوة على تفكيك:
    العرض → النمط → الفرضيات → البيانات المطلوبة → التدخل → قياس الأثر.
 3. اربط إجاباتك بمبادئ التطوير التنظيمي:
@@ -29,13 +28,20 @@ const systemInstruction = `
 4. اجعل ردك عمليًا ومباشرًا، لكن لا تختصر لدرجة تفقد العمق.
 5. عندما يكون سؤال المستخدم عامًا، اسأله سؤالين تشخيصيين قبل اقتراح المسار.
 6. عندما يطلب المستخدم مثالًا، أعطه مثالًا تطبيقيًا مختصرًا ثم اسأله كيف ينطبق على حالته.
+7. إذا سألك المستخدم عن بناء وصف وظيفي، لا تعطِ نموذجًا جاهزًا فقط؛ وجّهه أولًا إلى فهم الغرض، موقع الدور، المخرجات، الصلاحيات، العلاقات، مؤشرات الأداء، ثم المهارات.
 `;
+
+const DEFAULT_MODELS = [
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-1.5-flash"
+];
 
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400"
   };
 }
@@ -74,7 +80,7 @@ function cleanUserMessage(value) {
   return String(value || "")
     .replace(/\u0000/g, "")
     .trim()
-    .slice(0, 6000);
+    .slice(0, 7000);
 }
 
 function extractGeminiText(data) {
@@ -91,7 +97,20 @@ function extractGeminiText(data) {
     .trim();
 }
 
-async function callGemini({ apiKey, model, message }) {
+function buildModelList(env) {
+  const configuredModel = getEnvValue(env, "GEMINI_MODEL");
+
+  if (configuredModel) {
+    return [
+      configuredModel,
+      ...DEFAULT_MODELS.filter((model) => model !== configuredModel)
+    ];
+  }
+
+  return DEFAULT_MODELS;
+}
+
+async function callGeminiOnce({ apiKey, model, message }) {
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
     model
   )}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -120,9 +139,9 @@ async function callGemini({ apiKey, model, message }) {
         }
       ],
       generationConfig: {
-        temperature: 0.7,
+        temperature: 0.72,
         topP: 0.9,
-        maxOutputTokens: 1000
+        maxOutputTokens: 1200
       }
     })
   });
@@ -133,10 +152,11 @@ async function callGemini({ apiKey, model, message }) {
     return {
       ok: false,
       status: response.status,
+      model,
       error:
         data?.error?.message ||
         data?.message ||
-        "تعذر الاتصال بنموذج Gemini."
+        `تعذر الاتصال بنموذج Gemini: ${model}`
     };
   }
 
@@ -144,33 +164,87 @@ async function callGemini({ apiKey, model, message }) {
 
   return {
     ok: true,
+    model,
     text:
       text ||
       "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
   };
 }
 
-export async function onRequestOptions() {
-  return new Response(null, {
-    status: 204,
-    headers: corsHeaders()
-  });
+async function callGeminiWithFallbacks({ apiKey, env, message }) {
+  const models = buildModelList(env);
+  const errors = [];
+
+  for (const model of models) {
+    const result = await callGeminiOnce({
+      apiKey,
+      model,
+      message
+    });
+
+    if (result.ok) {
+      return result;
+    }
+
+    errors.push(`${model}: ${result.error}`);
+
+    // إذا كان الخطأ بسبب ضغط أو نموذج غير متاح، جرّب النموذج التالي.
+    // أما أخطاء المفتاح غالبًا لن تنجح مع أي نموذج، لكن نترك الرسالة النهائية أوضح.
+    if (![400, 404, 429, 500, 502, 503].includes(result.status)) {
+      break;
+    }
+  }
+
+  return {
+    ok: false,
+    status: 502,
+    error:
+      errors.join(" | ") ||
+      "تعذر الاتصال بالموجه الذكي عبر جميع النماذج المتاحة."
+  };
 }
 
-export async function onRequestPost({ request, env }) {
+// استخدمنا onRequest بدل onRequestPost حتى لا يظهر 405 بسبب اختلاف طريقة الاستدعاء.
+// هذه الدالة ستتعامل مع OPTIONS و GET و POST بوضوح.
+export async function onRequest({ request, env }) {
   try {
-    const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders()
+      });
+    }
 
-    // تقدر تغيّر النموذج من Cloudflare بإضافة GEMINI_MODEL.
-    // لو لم تضفه سيستخدم gemini-2.5-flash.
-    const model = getEnvValue(env, "GEMINI_MODEL") || "gemini-2.5-flash";
+    // اختبار سريع من المتصفح:
+    // افتح /api/mentor
+    // إذا ظهر هذا الرد، فهذا يعني أن Cloudflare Function تعمل.
+    if (request.method === "GET") {
+      return jsonResponse({
+        ok: true,
+        service: "odacademy-ai-mentor",
+        message: "الموجه الذكي متصل على مستوى Cloudflare Function. أرسل POST لاستخدامه.",
+        expectedMethod: "POST"
+      });
+    }
+
+    if (request.method !== "POST") {
+      return jsonResponse(
+        {
+          ok: false,
+          error: `طريقة الطلب ${request.method} غير مدعومة. استخدم POST.`
+        },
+        405
+      );
+    }
+
+    const apiKey = getEnvValue(env, "GEMINI_API_KEY");
 
     if (!apiKey) {
       return jsonResponse(
         {
           ok: false,
           error:
-            "مفتاح GEMINI_API_KEY غير موجود في متغيرات Cloudflare. أضفه كـ Secret / Encrypted."
+            "مفتاح GEMINI_API_KEY غير موجود في متغيرات Cloudflare. أضفه كـ Secret / Encrypted ثم أعد النشر."
         },
         500
       );
@@ -189,9 +263,9 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    const result = await callGemini({
+    const result = await callGeminiWithFallbacks({
       apiKey,
-      model,
+      env,
       message
     });
 
@@ -199,8 +273,7 @@ export async function onRequestPost({ request, env }) {
       return jsonResponse(
         {
           ok: false,
-          error: result.error,
-          model
+          error: result.error
         },
         result.status || 502
       );
@@ -208,7 +281,7 @@ export async function onRequestPost({ request, env }) {
 
     return jsonResponse({
       ok: true,
-      model,
+      model: result.model,
       text: result.text
     });
   } catch (error) {
