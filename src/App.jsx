@@ -169,6 +169,7 @@ export default function App() {
       mounted = false;
     };
 
+    // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -242,6 +243,88 @@ export default function App() {
 
   return (
     <div className="site-frame">
+      <style>{`
+        /*
+          إصلاح مهم:
+          هذه القواعد تمنع شعار ريان من الظهور بحجمه الأصلي الضخم.
+          لا تؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
+        */
+
+        .brand .brand-mark,
+        .brand .brand-mark.image-mark {
+          width: 52px !important;
+          height: 52px !important;
+          min-width: 52px !important;
+          max-width: 52px !important;
+          min-height: 52px !important;
+          max-height: 52px !important;
+          flex: 0 0 52px !important;
+          border-radius: 18px !important;
+          overflow: hidden !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background: #ffffff !important;
+          padding: 4px !important;
+          box-sizing: border-box !important;
+        }
+
+        .brand-logo-image,
+        .brand .brand-mark img {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
+          object-fit: contain !important;
+          display: block !important;
+        }
+
+        .od-feature-icon.od-feature-icon--logo,
+        .od-quote-logo,
+        .logo-badge,
+        .mini-badge.logo-badge,
+        .feature-icon.logo-badge,
+        .card-icon.logo-badge {
+          width: 58px !important;
+          height: 58px !important;
+          min-width: 58px !important;
+          max-width: 58px !important;
+          min-height: 58px !important;
+          max-height: 58px !important;
+          flex: 0 0 58px !important;
+          border-radius: 20px !important;
+          overflow: hidden !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background: #ffffff !important;
+          padding: 5px !important;
+          box-sizing: border-box !important;
+        }
+
+        .od-feature-icon.od-feature-icon--logo img,
+        .od-quote-logo img,
+        .logo-badge img,
+        .mini-badge-logo {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
+          object-fit: contain !important;
+          display: block !important;
+        }
+
+        .od-feature-icon img[src="/rayan-logo.png"],
+        .od-quote-logo img[src="/rayan-logo.png"],
+        .brand-mark img[src="/rayan-logo.png"] {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
+          object-fit: contain !important;
+        }
+      `}</style>
+
       <header className="site-header">
         <div className="brand">
           <div className="brand-mark image-mark">
