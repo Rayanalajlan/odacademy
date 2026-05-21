@@ -28,7 +28,7 @@ export default function MasteryCertificate({
 }) {
   const [copied, setCopied] = useState(false);
 
-  const totalDays = COURSE_TOTALS?.totalDays || 168;
+  const totalDays = COURSE_TOTALS?.totalDays || 180;
   const safeCompletedDays = clampNumber(completedDays, 0, totalDays);
   const progress = Math.round((safeCompletedDays / totalDays) * 100);
   const remainingDays = Math.max(0, totalDays - safeCompletedDays);
@@ -697,7 +697,7 @@ export default function MasteryCertificate({
               </h1>
               <p>
                 هذه الوثيقة ليست شهادة حضور؛ إنها سجل إتمام لمسار معرفي تطبيقي
-                يمتد عبر 168 يومًا في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
+                يمتد عبر 180 يومًا في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
                 اكتمال جميع أيام الرحلة التعليمية.
               </p>
             </div>
@@ -799,7 +799,7 @@ export default function MasteryCertificate({
 
                   <div className="certificate-pillars">
                     <div className="certificate-pillar">
-                      <strong>168</strong>
+                      <strong>{totalDays}</strong>
                       <span>يومًا تعليميًا</span>
                     </div>
                     <div className="certificate-pillar">
