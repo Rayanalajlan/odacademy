@@ -8,6 +8,8 @@ const stateLabels = {
   completed: "مكتمل"
 };
 
+const RESUME_REQUEST_KEY = "odacademy_resume_next_lesson";
+
 const stageMeta = {
   months: {
     kicker: "بوابة الرحلة",
@@ -608,21 +610,19 @@ function QuizPanel({
   onReviewDone
 }) {
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
   const [savingAfterCheck, setSavingAfterCheck] = useState(false);
-  const [showResultModal, setShowResultModal] = useState(false);
+  const [savedForDay, setSavedForDay] = useState(false);
 
   useEffect(() => {
     setAnswers({});
-    setSubmitted(false);
     setSavingAfterCheck(false);
-    setShowResultModal(false);
+    setSavedForDay(false);
   }, [day.id]);
 
   const total = questions.length;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = total > 0 && answeredCount === total;
-  const hasKnownAnswers = total > 0 && questions.every((q) => q.hasKnownCorrectAnswer);
+  const hasKnownAnswers = total > 0 && questions.some((q) => q.hasKnownCorrectAnswer);
 
   const score = questions.reduce((sum, question) => {
     const selected = answers[question.id];
@@ -630,29 +630,11 @@ function QuizPanel({
     return sum + (option?.isCorrect ? 1 : 0);
   }, 0);
 
-  useEffect(() => {
-    if (!allAnswered || submitted || completed) return;
-
-    const timer = window.setTimeout(async () => {
-      setSubmitted(true);
-      setShowResultModal(true);
-      setSavingAfterCheck(true);
-
-      try {
-        await onComplete?.({ score, total, hasKnownAnswers });
-      } finally {
-        setSavingAfterCheck(false);
-      }
-    }, 350);
-
-    return () => window.clearTimeout(timer);
-  }, [allAnswered, submitted, completed, score, total, hasKnownAnswers, onComplete]);
-
   function chooseAnswer(questionId, optionId) {
-    if (submitted || completed) return;
+    if (completed || savedForDay || savingAfterCheck) return;
 
-    // بعد اختيار إجابة السؤال تظهر نتيجة هذا السؤال مباشرة، لذلك نمنع تغييرها
-    // حتى لا تتحول التجربة إلى تخمين بعد ظهور التصحيح.
+    // بعد اختيار إجابة السؤال تظهر نتيجة هذا السؤال مباشرة.
+    // نمنع تغيير الإجابة بعد ظهور التصحيح حتى لا تتحول التجربة إلى تخمين.
     if (answers[questionId]) return;
 
     setAnswers((current) => ({
@@ -661,11 +643,21 @@ function QuizPanel({
     }));
   }
 
-  function closeResultModal() {
-    if (savingAfterCheck) return;
+  async function saveAndMoveNext() {
+    if (!allAnswered || completed || savingAfterCheck) return;
 
-    setShowResultModal(false);
-    onReviewDone?.();
+    setSavingAfterCheck(true);
+
+    try {
+      await onComplete?.({ score, total, hasKnownAnswers });
+      setSavedForDay(true);
+
+      window.setTimeout(() => {
+        onReviewDone?.();
+      }, 180);
+    } finally {
+      setSavingAfterCheck(false);
+    }
   }
 
   if (!questions.length) {
@@ -674,8 +666,8 @@ function QuizPanel({
         <h3>اختبار اليوم</h3>
         {hasQuizText ? (
           <p>
-            اختبار هذا اليوم يحتاج مراجعة في بيانات المحتوى حتى يظهر للمتدرب
-            بصيغة تفاعلية واضحة.
+            اختبار هذا اليوم يحتاج مراجعة في بيانات المحتوى حتى يظهر بصيغة
+            تفاعلية واضحة.
           </p>
         ) : (
           <p>لا يوجد اختبار مضاف لهذا اليوم داخل بيانات المحتوى.</p>
@@ -693,9 +685,9 @@ function QuizPanel({
 
       <h3>أجب عن الأسئلة وسيظهر التصحيح مباشرة</h3>
       <p className="jl-quiz-note">
-        عند اختيار إجابة كل سؤال ستظهر لك النتيجة فورًا: الأخضر للإجابة الصحيحة،
-        والأحمر للاختيار غير الدقيق، مع توضيح الإجابة الأنسب. وبعد السؤال الأخير
-        يُحفظ إنجاز اليوم تلقائيًا.
+        بعد اختيار إجابة كل سؤال ستظهر النتيجة في مكانها: الأخضر للإجابة
+        الصحيحة، والأحمر للاختيار غير الدقيق. بعد إكمال الأسئلة اضغط زر
+        الانتقال لحفظ إنجاز اليوم وفتح المحطة التالية.
       </p>
 
       <div className="jl-question-list">
@@ -705,6 +697,7 @@ function QuizPanel({
           const correctOption = question.options.find((option) => option.isCorrect);
           const selectedIsCorrect = Boolean(selectedOption?.isCorrect);
           const revealForQuestion = Boolean(selected);
+          const questionHasKnownAnswer = Boolean(correctOption);
 
           return (
             <div className="jl-question" key={question.id}>
@@ -716,8 +709,8 @@ function QuizPanel({
               <div className="jl-options">
                 {question.options.map((option, optionIndex) => {
                   const isSelected = selected === option.id;
-                  const showCorrect = revealForQuestion && hasKnownAnswers && option.isCorrect;
-                  const showWrong = revealForQuestion && hasKnownAnswers && isSelected && !option.isCorrect;
+                  const showCorrect = revealForQuestion && questionHasKnownAnswer && option.isCorrect;
+                  const showWrong = revealForQuestion && questionHasKnownAnswer && isSelected && !option.isCorrect;
 
                   return (
                     <button
@@ -729,7 +722,7 @@ function QuizPanel({
                         showCorrect ? "jl-option--correct" : "",
                         showWrong ? "jl-option--wrong" : ""
                       ].join(" ")}
-                      disabled={Boolean(selected) || submitted || completed}
+                      disabled={Boolean(selected) || completed || savedForDay || savingAfterCheck}
                       onClick={() => chooseAnswer(question.id, option.id)}
                     >
                       <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
@@ -739,7 +732,7 @@ function QuizPanel({
                 })}
               </div>
 
-              {revealForQuestion && hasKnownAnswers && (
+              {revealForQuestion && questionHasKnownAnswer && (
                 <div className={selectedIsCorrect ? "jl-feedback jl-feedback--correct" : "jl-feedback jl-feedback--wrong"}>
                   <strong>{selectedIsCorrect ? "إجابة صحيحة" : "الإجابة الصحيحة"}</strong>
                   <p>
@@ -747,13 +740,6 @@ function QuizPanel({
                       ? selectedOption?.explanation || "اختيارك متسق مع منطق الدرس."
                       : correctOption?.explanation || `الإجابة الصحيحة هي: ${correctOption?.text || "غير محددة"}`}
                   </p>
-                </div>
-              )}
-
-              {revealForQuestion && !hasKnownAnswers && (
-                <div className="jl-feedback jl-feedback--neutral">
-                  <strong>تم تسجيل إجابتك</strong>
-                  <p>هذا السؤال لا يحتوي مفتاح إجابة منظم داخل البيانات الحالية.</p>
                 </div>
               )}
             </div>
@@ -764,71 +750,37 @@ function QuizPanel({
       <div className="jl-quiz-footer">
         {!allAnswered && (
           <div className="jl-quiz-result jl-quiz-result--neutral">
-            أكمل الأسئلة المتبقية، وسيُحفظ إنجازك تلقائيًا بعد السؤال الأخير.
+            أكمل الأسئلة المتبقية، ثم اضغط زر الانتقال لحفظ إنجاز اليوم.
           </div>
         )}
 
         {allAnswered && (
           <div className="jl-quiz-result jl-quiz-result--pass">
-            {savingAfterCheck
-              ? "جارٍ حفظ إنجاز اليوم..."
-              : hasKnownAnswers
-                ? `تم حفظ إنجاز اليوم. نتيجتك ${score} من ${total}.`
-                : "تم حفظ إنجاز اليوم."}
+            {hasKnownAnswers
+              ? `انتهيت من الاختبار. نتيجتك الحالية ${score} من ${total}.`
+              : "انتهيت من أسئلة اليوم."}
+          </div>
+        )}
+
+        {allAnswered && !completed && (
+          <button
+            type="button"
+            className="jl-quiz-submit"
+            onClick={saveAndMoveNext}
+            disabled={savingAfterCheck || savedForDay}
+          >
+            {savingAfterCheck || savedForDay
+              ? "جارٍ حفظ الإنجاز..."
+              : "حفظ الإنجاز والانتقال لليوم التالي"}
+          </button>
+        )}
+
+        {completed && (
+          <div className="jl-quiz-result jl-quiz-result--pass">
+            هذا اليوم مكتمل. يمكنك الانتقال من أزرار التنقل الجانبية.
           </div>
         )}
       </div>
-
-      {showResultModal && (
-        <div className="jl-modal-backdrop" role="dialog" aria-modal="true" aria-label="نتيجة اختبار اليوم">
-          <div className="jl-result-modal">
-            <span className="jl-result-kicker">نتيجة اختبار اليوم</span>
-            <h3>{hasKnownAnswers ? `نتيجتك ${score} من ${total}` : "تم إكمال اختبار اليوم"}</h3>
-            <p>
-              راجع التصحيح أدناه. بعد إغلاق هذه النافذة ستنتقل تلقائيًا إلى أعلى
-              محطة التعلم التالية.
-            </p>
-
-            <div className="jl-result-summary">
-              {questions.map((question, questionIndex) => {
-                const selected = answers[question.id];
-                const selectedOption = question.options.find((option) => option.id === selected);
-                const correctOption = question.options.find((option) => option.isCorrect);
-                const selectedIsCorrect = Boolean(selectedOption?.isCorrect);
-
-                return (
-                  <div
-                    className={selectedIsCorrect ? "jl-result-item jl-result-item--correct" : "jl-result-item jl-result-item--wrong"}
-                    key={`result-${question.id}`}
-                  >
-                    <b>{questionIndex + 1}</b>
-                    <div>
-                      <strong>{question.question}</strong>
-                      <p>
-                        اختيارك: {selectedOption?.text || "لم يتم تحديد إجابة"}
-                      </p>
-                      {hasKnownAnswers && (
-                        <p>
-                          الإجابة الصحيحة: {correctOption?.text || "غير محددة"}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <button
-              type="button"
-              className="jl-modal-button"
-              onClick={closeResultModal}
-              disabled={savingAfterCheck}
-            >
-              {savingAfterCheck ? "جارٍ حفظ الإنجاز..." : "إغلاق والانتقال لليوم التالي"}
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
@@ -1001,6 +953,17 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
       setSelectedMonthIndex(nextPoint.month.monthIndex);
       setSelectedWeekIndex(nextPoint.week.weekIndex);
       setSelectedDayIndex(nextPoint.day.dayIndex);
+
+      const shouldOpenLastStation = localStorage.getItem(RESUME_REQUEST_KEY) === "1";
+
+      if (shouldOpenLastStation) {
+        localStorage.removeItem(RESUME_REQUEST_KEY);
+        setStage("lesson");
+
+        window.setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 120);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course.length, progressRows.length]);
@@ -1097,7 +1060,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     const quizPassed = forceQuizPassed || quizPassedByDay[selectedDay.id];
 
     if (hasQuiz && !quizPassed) {
-      setNotice("أكمل اختبار اليوم أولًا؛ سيتم حفظ إنجازك تلقائيًا بعد آخر سؤال.");
+      setNotice("أكمل اختبار اليوم أولًا، ثم اضغط زر الانتقال لحفظ إنجاز اليوم.");
       return;
     }
 

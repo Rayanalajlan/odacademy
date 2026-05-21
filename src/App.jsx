@@ -84,7 +84,6 @@ export default function App() {
       setProgressRows(Array.isArray(rows) ? rows : []);
     } catch (error) {
       console.warn("تعذر تحميل التقدم:", error);
-
       setNotice(
         "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
       );
@@ -136,28 +135,24 @@ export default function App() {
           );
         }
       } finally {
-        if (mounted) {
-          setBooting(false);
-        }
+        if (mounted) setBooting(false);
       }
     }
 
     boot();
 
     if (isSupabaseConfigured && supabase) {
-      const { data } = supabase.auth.onAuthStateChange(
-        (_event, nextSession) => {
-          if (!mounted) return;
+      const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+        if (!mounted) return;
 
-          setSession(nextSession || null);
+        setSession(nextSession || null);
 
-          if (nextSession?.user) {
-            setUserName(getDisplayName(nextSession));
-          }
-
-          loadProgressSafely({ showLoader: true });
+        if (nextSession?.user) {
+          setUserName(getDisplayName(nextSession));
         }
-      );
+
+        loadProgressSafely({ showLoader: true });
+      });
 
       return () => {
         mounted = false;
@@ -169,20 +164,15 @@ export default function App() {
       mounted = false;
     };
 
-    // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleEnter({ session: nextSession, name, demo } = {}) {
-    if (nextSession) {
-      setSession(nextSession);
-    }
+    if (nextSession) setSession(nextSession);
 
     const nextName = name || getDisplayName(nextSession);
 
-    if (nextName) {
-      setUserName(nextName);
-    }
+    if (nextName) setUserName(nextName);
 
     if (demo) {
       setDemoMode(true);
@@ -223,11 +213,7 @@ export default function App() {
   }
 
   if (booting) {
-    return (
-      <div className="boot-screen">
-        جارٍ تجهيز مختبر التطوير التنظيمي...
-      </div>
-    );
+    return <div className="boot-screen">جارٍ تجهيز مختبر التطوير التنظيمي...</div>;
   }
 
   if (!authenticated) {
@@ -244,12 +230,6 @@ export default function App() {
   return (
     <div className="site-frame">
       <style>{`
-        /*
-          إصلاح مهم:
-          هذه القواعد تمنع شعار ريان من الظهور بحجمه الأصلي الضخم.
-          لا تؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
-        */
-
         .brand .brand-mark,
         .brand .brand-mark.image-mark {
           width: 52px !important;
@@ -313,16 +293,6 @@ export default function App() {
           object-fit: contain !important;
           display: block !important;
         }
-
-        .od-feature-icon img[src="/rayan-logo.png"],
-        .od-quote-logo img[src="/rayan-logo.png"],
-        .brand-mark img[src="/rayan-logo.png"] {
-          width: 100% !important;
-          height: 100% !important;
-          max-width: 100% !important;
-          max-height: 100% !important;
-          object-fit: contain !important;
-        }
       `}</style>
 
       <header className="site-header">
@@ -354,11 +324,7 @@ export default function App() {
           ))}
         </nav>
 
-        <button
-          type="button"
-          className="logout-button"
-          onClick={handleSignOut}
-        >
+        <button type="button" className="logout-button" onClick={handleSignOut}>
           خروج
         </button>
       </header>
@@ -383,16 +349,15 @@ export default function App() {
       )}
 
       {activePage === "radar" && <RadarAssessment setActivePage={navigate} />}
-
       {activePage === "simulation" && <SimulationLab />}
-
       {activePage === "ai-mentor" && <AiMentor />}
 
       {activePage === "mastery" && (
-        <MasteryCertificate
-          userName={displayName}
-          completedDays={completedDays}
-        />
+     <MasteryCertificate
+  userName={displayName}
+  completedDays={completedDays}
+  setActivePage={navigate}
+/>
       )}
 
       {activePage === "about" && <AboutRayan />}
@@ -402,7 +367,6 @@ export default function App() {
           صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
           السلوك، والنظام خلف المشكلة.
         </div>
-
         <span>© 2026 — جميع الحقوق محفوظة</span>
       </footer>
     </div>
