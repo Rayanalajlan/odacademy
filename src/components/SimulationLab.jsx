@@ -1272,49 +1272,78 @@ function CausalLoop({ scenario }) {
   const variants = [
     {
       name: "حلقة تشخيصية",
-      className: "loop-ring",
-      insight: "توضح كيف يتحول العرض الظاهر إلى نمط متكرر عندما تبقى البنية والضغط دون معالجة."
+      className: "visual-ring",
+      center: "النمط الذي يعيد إنتاج المشكلة",
+      insight: "تقرأ الخريطة هنا كيف يتحول العرض الظاهر إلى دورة متكررة عندما تبقى البنية والضغط والتدخلات السريعة دون معالجة."
     },
     {
       name: "سلسلة قرار",
-      className: "loop-chain",
-      insight: "تقرأ الحالة كتتابع قرارات؛ كل قرار غير محسوم يدفع القرار التالي إلى مزيد من التعقيد."
+      className: "visual-chain",
+      center: "نقطة القرار التي تغيّر المسار",
+      insight: "توضح الخريطة كيف تنتقل الحالة من عرض أولي إلى قرارات متتابعة؛ كل قرار غير محسوم يرفع تكلفة القرار التالي."
     },
     {
       name: "تعارض روايات",
-      className: "loop-tension",
-      insight: "تجعل الروايات المتعارضة مادة تشخيصية بدل التعامل معها كضجيج أو مقاومة شخصية."
+      className: "visual-tension",
+      center: "الروايات المتعارضة",
+      insight: "تجعل الخريطة اختلاف الروايات مادة تشخيصية؛ فكل طرف يرى جزءًا من النظام، والمطلوب تفسير التناقض لا اختيار رواية واحدة."
     },
     {
       name: "ضغط نظامي",
-      className: "loop-pressure",
-      insight: "تكشف كيف يضغط النظام على الأفراد لإعادة إنتاج السلوك حتى لو تغيرت النوايا."
+      className: "visual-pressure",
+      center: "القوى التي تضغط على السلوك",
+      insight: "تكشف الخريطة كيف يدفع النظام الأفراد إلى تكرار السلوك نفسه حتى لو تغيّرت النوايا أو صدرت تعليمات جديدة."
     },
     {
       name: "مركز ونفوذ",
-      className: "loop-hub",
-      insight: "توضح مواقع النفوذ والاعتماد المتبادل؛ أين تتجمع السلطة؟ وأين يتعطل القرار؟"
+      className: "visual-hub",
+      center: "مركز النفوذ والاعتماد المتبادل",
+      insight: "توضح الخريطة أين تتجمع السلطة، وأين يتعطل القرار، وكيف تتحول العلاقات غير المصممة إلى اختناق تنظيمي."
     },
     {
       name: "تعلم راجع",
-      className: "loop-learning",
-      insight: "تربط الحدث بالتعلم المؤسسي: هل تتحول التجربة إلى تعديل في النظام أم تتكرر كحادثة جديدة؟"
+      className: "visual-learning",
+      center: "هل يتحول الحدث إلى تعلم؟",
+      insight: "تربط الخريطة بين الحدث والتعلم المؤسسي: هل يتحول ما حدث إلى تعديل في النظام أم يعود كحادثة جديدة؟"
     }
   ];
 
   const selected = variants[variant];
 
   return (
-    <div className={`causal-loop causal-loop-cards ${selected.className}`} style={{ "--loop": color }}>
-      <div className="causal-loop-label">{selected.name}</div>
+    <div className={`causal-loop causal-loop-visual ${selected.className}`} style={{ "--loop": color }}>
+      <div className="causal-loop-top">
+        <div>
+          <span>الخريطة السببية</span>
+          <strong>{selected.name}</strong>
+        </div>
+        <small>{scenario.level.name} · {scenario.archetype.name}</small>
+      </div>
 
-      <div className="causal-network" aria-label="خريطة سببية متغيرة حسب الحالة والمجال والمستوى">
+      <div className="causal-canvas" aria-label="رسم سببي يوضح علاقة العرض بالنمط والضغط والمخرج المهني">
+        <div className="causal-spokes" aria-hidden="true">
+          <i className="spoke spoke-one" />
+          <i className="spoke spoke-two" />
+          <i className="spoke spoke-three" />
+          <i className="spoke spoke-four" />
+          {visibleNodes.length > 4 && <i className="spoke spoke-five" />}
+        </div>
+
+        <div className="causal-center-node">
+          <span>المركز</span>
+          <strong>{selected.center}</strong>
+        </div>
+
         {visibleNodes.map((node, index) => (
-          <article className="causal-card-node" key={`${node.label}-${index}`} style={{ "--node": node.color }}>
-            <div className="causal-node-index">{index + 1}</div>
+          <article
+            className={`causal-visual-node causal-node-${index + 1}`}
+            key={`${node.label}-${index}`}
+            style={{ "--node": node.color }}
+          >
+            <div className="causal-node-badge">{index + 1}</div>
             <div>
               <strong>{node.label}</strong>
-              <p>{wrapCausalText(node.text, 22)}</p>
+              <p>{node.text}</p>
             </div>
           </article>
         ))}
@@ -3174,6 +3203,423 @@ export default function Simulation() {
           font-size: 13px;
           line-height: 1.9;
           font-weight: 800;
+        }
+
+
+        /* تحسين نهائي: ألوان النبذة واتجاهها كعناصر عربية متناسقة مع هوية الموقع */
+        .briefing-grid {
+          direction: rtl !important;
+          text-align: right !important;
+          display: grid !important;
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          gap: 16px !important;
+          margin: 18px 0 22px !important;
+        }
+
+        .briefing-card,
+        .level-brief,
+        .domain-brief {
+          direction: rtl !important;
+          text-align: right !important;
+          position: relative !important;
+          overflow: hidden !important;
+          border-radius: 30px !important;
+          padding: 22px !important;
+          color: #0f172a !important;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(79, 70, 229, 0.12), transparent 34%),
+            radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.12), transparent 30%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92)) !important;
+          border: 1px solid rgba(148, 163, 184, 0.24) !important;
+          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08) !important;
+          backdrop-filter: blur(16px) !important;
+        }
+
+        .domain-brief {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.14), transparent 34%),
+            radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.10), transparent 30%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 251, 235, 0.72)) !important;
+        }
+
+        .briefing-card::before,
+        .level-brief::before,
+        .domain-brief::before {
+          content: "" !important;
+          position: absolute !important;
+          top: -72px !important;
+          right: -72px !important;
+          width: 180px !important;
+          height: 180px !important;
+          border-radius: 999px !important;
+          background: linear-gradient(135deg, rgba(79, 70, 229, 0.16), rgba(245, 158, 11, 0.12)) !important;
+          pointer-events: none !important;
+        }
+
+        .briefing-card::after,
+        .level-brief::after,
+        .domain-brief::after {
+          content: "" !important;
+          position: absolute !important;
+          bottom: -84px !important;
+          left: -84px !important;
+          width: 190px !important;
+          height: 190px !important;
+          border-radius: 999px !important;
+          background: rgba(16, 185, 129, 0.10) !important;
+          pointer-events: none !important;
+        }
+
+        .briefing-head {
+          position: relative !important;
+          z-index: 1 !important;
+          direction: rtl !important;
+          text-align: right !important;
+          display: flex !important;
+          flex-direction: row-reverse !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 14px !important;
+          padding: 0 !important;
+          margin: 0 0 14px !important;
+        }
+
+        .briefing-head span {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: fit-content !important;
+          padding: 7px 12px !important;
+          border-radius: 999px !important;
+          color: #3730a3 !important;
+          background: #eef2ff !important;
+          border: 1px solid rgba(79, 70, 229, 0.12) !important;
+          font-size: 11px !important;
+          font-weight: 950 !important;
+          white-space: nowrap !important;
+        }
+
+        .domain-brief .briefing-head span {
+          color: #92400e !important;
+          background: #fffbeb !important;
+          border-color: rgba(245, 158, 11, 0.18) !important;
+        }
+
+        .briefing-head strong {
+          color: #0f172a !important;
+          font-size: 23px !important;
+          line-height: 1.35 !important;
+          font-weight: 950 !important;
+          text-align: right !important;
+        }
+
+        .briefing-card > p,
+        .briefing-focus p,
+        .briefing-note {
+          direction: rtl !important;
+          text-align: right !important;
+        }
+
+        .briefing-card > p {
+          position: relative !important;
+          z-index: 1 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          color: #334155 !important;
+          font-size: 14px !important;
+          line-height: 2.05 !important;
+          font-weight: 750 !important;
+        }
+
+        .briefing-focus {
+          position: relative !important;
+          z-index: 1 !important;
+          margin: 14px 0 0 !important;
+          padding: 14px 16px !important;
+          border-radius: 20px !important;
+          background: rgba(248, 250, 252, 0.92) !important;
+          border: 1px solid rgba(148, 163, 184, 0.18) !important;
+          backdrop-filter: none !important;
+        }
+
+        .briefing-focus b {
+          display: block !important;
+          margin-bottom: 8px !important;
+          color: #0f172a !important;
+          font-size: 13px !important;
+          line-height: 1.8 !important;
+          font-weight: 950 !important;
+          text-align: right !important;
+        }
+
+        .briefing-focus p {
+          margin: 0 !important;
+          color: #475569 !important;
+          font-size: 13px !important;
+          line-height: 1.95 !important;
+          font-weight: 800 !important;
+        }
+
+        .briefing-note {
+          position: relative !important;
+          z-index: 1 !important;
+          margin: 12px 0 0 !important;
+          padding: 12px 14px !important;
+          border-radius: 18px !important;
+          color: #312e81 !important;
+          background: rgba(238, 242, 255, 0.92) !important;
+          border: 1px solid rgba(79, 70, 229, 0.16) !important;
+          font-size: 13px !important;
+          line-height: 1.95 !important;
+          font-weight: 850 !important;
+          box-shadow: none !important;
+        }
+
+        /* خريطة سببية مرسومة بصريًا بدل بطاقات جامدة */
+        .causal-loop-visual {
+          direction: rtl !important;
+          text-align: right !important;
+          position: relative !important;
+          overflow: hidden !important;
+          border-radius: 32px !important;
+          padding: 22px !important;
+          background:
+            radial-gradient(circle at 90% 8%, rgba(79,70,229,.14), transparent 31%),
+            radial-gradient(circle at 10% 92%, rgba(245,158,11,.14), transparent 28%),
+            linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,250,252,.90)) !important;
+          border: 1px solid rgba(148,163,184,.24) !important;
+          box-shadow: 0 20px 60px rgba(15,23,42,.08) !important;
+        }
+
+        .causal-loop-top {
+          position: relative !important;
+          z-index: 2 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 14px !important;
+          margin-bottom: 18px !important;
+        }
+
+        .causal-loop-top span {
+          display: inline-flex !important;
+          width: fit-content !important;
+          padding: 7px 12px !important;
+          border-radius: 999px !important;
+          color: #3730a3 !important;
+          background: #eef2ff !important;
+          border: 1px solid rgba(79,70,229,.13) !important;
+          font-size: 11px !important;
+          font-weight: 950 !important;
+          margin-bottom: 7px !important;
+        }
+
+        .causal-loop-top strong {
+          display: block !important;
+          color: #0f172a !important;
+          font-size: 22px !important;
+          line-height: 1.35 !important;
+          font-weight: 950 !important;
+        }
+
+        .causal-loop-top small {
+          color: #64748b !important;
+          background: #f8fafc !important;
+          border: 1px solid rgba(148,163,184,.18) !important;
+          border-radius: 999px !important;
+          padding: 8px 12px !important;
+          font-size: 11px !important;
+          font-weight: 900 !important;
+          white-space: nowrap !important;
+        }
+
+        .causal-canvas {
+          position: relative !important;
+          min-height: 470px !important;
+          display: grid !important;
+          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+          grid-template-rows: repeat(3, minmax(120px, auto)) !important;
+          grid-template-areas:
+            "node1 center node2"
+            "node3 center node4"
+            ". node5 ." !important;
+          gap: 20px !important;
+          align-items: center !important;
+        }
+
+        .causal-spokes {
+          position: absolute !important;
+          inset: 18px !important;
+          pointer-events: none !important;
+          z-index: 0 !important;
+        }
+
+        .spoke {
+          position: absolute !important;
+          top: 50% !important;
+          left: 50% !important;
+          width: 38% !important;
+          height: 3px !important;
+          transform-origin: right center !important;
+          border-radius: 999px !important;
+          background: linear-gradient(90deg, rgba(79,70,229,.02), rgba(79,70,229,.26), rgba(245,158,11,.25)) !important;
+        }
+
+        .spoke::after {
+          content: "" !important;
+          position: absolute !important;
+          left: -2px !important;
+          top: 50% !important;
+          width: 10px !important;
+          height: 10px !important;
+          border-radius: 999px !important;
+          background: var(--loop, #4f46e5) !important;
+          transform: translateY(-50%) !important;
+          box-shadow: 0 0 0 5px rgba(79,70,229,.08) !important;
+        }
+
+        .spoke-one { transform: translate(-100%, -50%) rotate(28deg) !important; }
+        .spoke-two { transform: translate(-5%, -50%) rotate(152deg) !important; }
+        .spoke-three { transform: translate(-98%, -50%) rotate(-28deg) !important; }
+        .spoke-four { transform: translate(-5%, -50%) rotate(-152deg) !important; }
+        .spoke-five { width: 26% !important; transform: translate(-50%, 110px) rotate(90deg) !important; }
+
+        .causal-center-node {
+          grid-area: center !important;
+          justify-self: center !important;
+          align-self: center !important;
+          position: relative !important;
+          z-index: 2 !important;
+          width: min(100%, 250px) !important;
+          min-height: 190px !important;
+          display: grid !important;
+          place-items: center !important;
+          text-align: center !important;
+          border-radius: 36px !important;
+          padding: 22px !important;
+          color: white !important;
+          background:
+            radial-gradient(circle at 30% 20%, rgba(255,255,255,.22), transparent 30%),
+            linear-gradient(135deg, var(--loop, #4f46e5), #0f172a) !important;
+          box-shadow: 0 24px 70px rgba(15,23,42,.18) !important;
+        }
+
+        .causal-center-node span {
+          display: inline-flex !important;
+          padding: 7px 11px !important;
+          border-radius: 999px !important;
+          background: rgba(255,255,255,.14) !important;
+          color: #fde68a !important;
+          font-size: 11px !important;
+          font-weight: 950 !important;
+          margin-bottom: 10px !important;
+        }
+
+        .causal-center-node strong {
+          color: white !important;
+          font-size: 17px !important;
+          line-height: 1.8 !important;
+          font-weight: 950 !important;
+        }
+
+        .causal-visual-node {
+          position: relative !important;
+          z-index: 2 !important;
+          display: grid !important;
+          grid-template-columns: 42px 1fr !important;
+          gap: 12px !important;
+          align-items: start !important;
+          min-height: 130px !important;
+          border-radius: 24px !important;
+          padding: 16px !important;
+          background: #ffffff !important;
+          border: 1px solid rgba(148,163,184,.22) !important;
+          box-shadow: 0 14px 38px rgba(15,23,42,.07) !important;
+        }
+
+        .causal-node-1 { grid-area: node1 !important; }
+        .causal-node-2 { grid-area: node2 !important; }
+        .causal-node-3 { grid-area: node3 !important; }
+        .causal-node-4 { grid-area: node4 !important; }
+        .causal-node-5 { grid-area: node5 !important; }
+
+        .causal-node-badge {
+          width: 40px !important;
+          height: 40px !important;
+          display: grid !important;
+          place-items: center !important;
+          border-radius: 16px !important;
+          color: #fff !important;
+          background: var(--node, var(--loop)) !important;
+          font-size: 14px !important;
+          font-weight: 950 !important;
+          box-shadow: 0 12px 26px rgba(15,23,42,.14) !important;
+        }
+
+        .causal-visual-node strong {
+          display: block !important;
+          color: #0f172a !important;
+          font-size: 14px !important;
+          line-height: 1.7 !important;
+          font-weight: 950 !important;
+          margin-bottom: 5px !important;
+        }
+
+        .causal-visual-node p {
+          margin: 0 !important;
+          color: #475569 !important;
+          font-size: 12px !important;
+          line-height: 1.85 !important;
+          font-weight: 750 !important;
+          overflow-wrap: anywhere !important;
+          word-break: normal !important;
+        }
+
+        .visual-chain .causal-canvas {
+          grid-template-areas:
+            "node1 node2 center"
+            "node3 center node4"
+            ". node5 ." !important;
+        }
+
+        .visual-tension .causal-canvas,
+        .visual-pressure .causal-canvas {
+          grid-template-areas:
+            "node1 center node2"
+            "node3 center node4"
+            "node5 center ." !important;
+        }
+
+        .visual-hub .causal-canvas {
+          grid-template-areas:
+            "node1 node2 node3"
+            ". center ."
+            "node4 node5 ." !important;
+        }
+
+        .visual-learning .causal-canvas {
+          grid-template-areas:
+            "center node1 node2"
+            "node5 center node3"
+            ". node4 ." !important;
+        }
+
+        @media (max-width: 980px) {
+          .causal-canvas {
+            min-height: auto !important;
+            grid-template-columns: 1fr !important;
+            grid-template-areas: none !important;
+          }
+
+          .causal-center-node,
+          .causal-visual-node {
+            grid-area: auto !important;
+            width: 100% !important;
+          }
+
+          .causal-spokes {
+            display: none !important;
+          }
         }
 
         @media (max-width: 850px) {
