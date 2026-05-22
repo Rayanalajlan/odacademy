@@ -28,12 +28,7 @@ const AI_SYSTEM_INSTRUCTION = `
 7. إذا سألك المستخدم عن بناء وصف وظيفي، وجّهه إلى فهم الغرض من الدور، موقعه في الهيكل، مخرجاته، صلاحياته، علاقاته، مؤشرات أدائه، ثم كفاءاته.
 `;
 
-const DEFAULT_GEMINI_MODELS = [
-  "gemini-2.5-flash",
-  "gemini-2.5-flash-lite",
-  "gemini-2.0-flash",
-  "gemini-1.5-flash"
-];
+const WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 
 function corsHeaders() {
   return {
@@ -44,12 +39,14 @@ function corsHeaders() {
   };
 }
 
-function jsonResponse(payload, status = 200) {
+function jsonResponse(payload, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       ...corsHeaders(),
-      "Content-Type": "application/json; charset=utf-8"
+      ...extraHeaders,
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store"
     }
   });
 }
@@ -88,125 +85,81 @@ function cleanUserMessage(value) {
     .slice(0, 7000);
 }
 
-function extractGeminiText(data) {
-  const parts = data?.candidates?.[0]?.content?.parts;
 
-  if (!Array.isArray(parts)) {
-    return "";
-  }
 
-  return parts
-    .map((part) => part?.text || "")
-    .filter(Boolean)
-    .join("\n")
-    .trim();
+function normalizeAiText(result) {
+  return (
+    result?.response ||
+    result?.result?.response ||
+    result?.text ||
+    result?.answer ||
+    ""
+  ).trim();
 }
 
-function buildGeminiModelList(env) {
-  const configuredModel = getEnvValue(env, "GEMINI_MODEL");
+function isQuotaError(error) {
+  const message = String(error?.message || error || "").toLowerCase();
 
-  if (configuredModel) {
-    return [
-      configuredModel,
-      ...DEFAULT_GEMINI_MODELS.filter((model) => model !== configuredModel)
-    ];
-  }
-
-  return DEFAULT_GEMINI_MODELS;
+  return (
+    message.includes("quota") ||
+    message.includes("limit") ||
+    message.includes("neurons") ||
+    message.includes("allocation") ||
+    message.includes("account limited") ||
+    message.includes("429") ||
+    message.includes("3036")
+  );
 }
 
-async function callGeminiOnce({ apiKey, model, message }) {
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
-    model
-  )}:generateContent?key=${encodeURIComponent(apiKey)}`;
+function getNextResetAtUtc() {
+  const now = new Date();
 
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      systemInstruction: {
-        parts: [
-          {
-            text: AI_SYSTEM_INSTRUCTION
-          }
-        ]
+  return new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1,
+      0,
+      5,
+      0
+    )
+  ).toISOString();
+}
+
+function getFriendlyQuotaMessage() {
+  return "يا زميل المهنة، واضح أن المختبر عليه ضغط اليوم والموجه أخذ نصيبه من الأسئلة. أعطني فرصة لين تتجدد الحصة، وارجع لي بعدها نكمّل التشخيص بهدوء.";
+}
+
+function safeHistory(value) {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .slice(-8)
+    .filter((item) => item && item.content && item.role)
+    .map((item) => ({
+      role: item.role === "user" ? "user" : "assistant",
+      content: String(item.content).slice(0, 1200)
+    }));
+}
+
+async function runWorkersAi({ env, message, lens, history }) {
+  const lensText = lens ? `عدسة التفكير المختارة: ${lens}\n\n` : "";
+
+  return env.AI.run(WORKERS_AI_MODEL, {
+    messages: [
+      {
+        role: "system",
+        content: AI_SYSTEM_INSTRUCTION
       },
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: message
-            }
-          ]
-        }
-      ],
-      generationConfig: {
-        temperature: 0.72,
-        topP: 0.9,
-        maxOutputTokens: 1400
+      ...safeHistory(history),
+      {
+        role: "user",
+        content: `${lensText}الحالة أو السؤال:\n${message}`
       }
-    })
+    ],
+    max_tokens: 1100,
+    temperature: 0.55
   });
-
-  const data = await safeJson(response);
-
-  if (!response.ok) {
-    return {
-      ok: false,
-      status: response.status,
-      model,
-      error:
-        data?.error?.message ||
-        data?.message ||
-        `تعذر الاتصال بنموذج Gemini: ${model}`
-    };
-  }
-
-  const text = extractGeminiText(data);
-
-  return {
-    ok: true,
-    model,
-    text:
-      text ||
-      "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
-  };
-}
-
-async function callGeminiWithFallbacks({ apiKey, env, message }) {
-  const models = buildGeminiModelList(env);
-  const errors = [];
-
-  for (const model of models) {
-    const result = await callGeminiOnce({
-      apiKey,
-      model,
-      message
-    });
-
-    if (result.ok) {
-      return result;
-    }
-
-    errors.push(`${model}: ${result.error}`);
-
-    // هذه الأخطاء قد تكون بسبب نموذج غير متاح أو ضغط أو تغيير اسم النموذج.
-    // لذلك نجرّب النموذج التالي.
-    if (![400, 404, 429, 500, 502, 503].includes(result.status)) {
-      break;
-    }
-  }
-
-  return {
-    ok: false,
-    status: 502,
-    error:
-      errors.join(" | ") ||
-      "تعذر الاتصال بالموجه الذكي عبر النماذج المتاحة."
-  };
 }
 
 async function handleMentorRequest(request, env) {
@@ -214,15 +167,14 @@ async function handleMentorRequest(request, env) {
     return emptyResponse();
   }
 
-  // اختبار سريع من المتصفح:
-  // افتح /api/mentor
-  // إذا ظهر هذا الرد، فالمسار يعمل.
   if (request.method === "GET") {
     return jsonResponse({
       ok: true,
       service: "odacademy-ai-mentor",
-      message:
-        "الموجه الذكي متصل على مستوى Cloudflare Worker. أرسل POST لاستخدامه."
+      provider: "Cloudflare Workers AI",
+      model: WORKERS_AI_MODEL,
+      aiBinding: Boolean(env?.AI),
+      expectedMethod: "POST"
     });
   }
 
@@ -236,14 +188,12 @@ async function handleMentorRequest(request, env) {
     );
   }
 
-  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
-
-  if (!apiKey) {
+  if (!env?.AI) {
     return jsonResponse(
       {
         ok: false,
         error:
-          "مفتاح GEMINI_API_KEY غير موجود في متغيرات Cloudflare. أضفه كـ Secret / Encrypted ثم أعد النشر."
+          "Workers AI غير مفعّل. أضف Binding باسم AI من إعدادات Cloudflare ثم أعد النشر."
       },
       500
     );
@@ -251,6 +201,8 @@ async function handleMentorRequest(request, env) {
 
   const body = await request.json().catch(() => ({}));
   const message = cleanUserMessage(body?.message);
+  const lens = String(body?.lens || "").trim().slice(0, 80);
+  const history = body?.history;
 
   if (!message) {
     return jsonResponse(
@@ -262,27 +214,65 @@ async function handleMentorRequest(request, env) {
     );
   }
 
-  const result = await callGeminiWithFallbacks({
-    apiKey,
-    env,
-    message
-  });
+  try {
+    const result = await runWorkersAi({
+      env,
+      message,
+      lens,
+      history
+    });
 
-  if (!result.ok) {
+    const answer = normalizeAiText(result);
+
+    if (!answer) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
+        },
+        502
+      );
+    }
+
+    return jsonResponse({
+      ok: true,
+      provider: "cloudflare-workers-ai",
+      model: WORKERS_AI_MODEL,
+      answer,
+      text: answer
+    });
+  } catch (error) {
+    if (isQuotaError(error)) {
+      const resetAt = getNextResetAtUtc();
+      const retryAfterSeconds = Math.max(
+        60,
+        Math.floor((new Date(resetAt).getTime() - Date.now()) / 1000)
+      );
+
+      return jsonResponse(
+        {
+          ok: false,
+          code: "AI_QUOTA_EXCEEDED",
+          message: getFriendlyQuotaMessage(),
+          resetAt,
+          retryAfterSeconds
+        },
+        429,
+        {
+          "Retry-After": String(retryAfterSeconds)
+        }
+      );
+    }
+
     return jsonResponse(
       {
         ok: false,
-        error: result.error
+        error: error?.message || "حدث خطأ غير متوقع في خادم الموجه الذكي."
       },
-      result.status || 502
+      500
     );
   }
-
-  return jsonResponse({
-    ok: true,
-    model: result.model,
-    text: result.text
-  });
 }
 
 /* -------------------------------------------------------
