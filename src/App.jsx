@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "./data/courseContent";
 import { supabase, isSupabaseConfigured } from "./lib/supabaseClient";
-import { loadUserProgress } from "./lib/progressService";
+import * as progressService from "./lib/progressService";
 import AuthGate from "./components/AuthGate";
 import Home from "./components/Home";
 import CourseJourney from "./components/CourseJourney";
 import RadarAssessment from "./components/RadarAssessment";
 import SimulationLab from "./components/SimulationLab";
 import AiMentor from "./components/AiMentor";
+import LearningROICalculator from "./components/LearningROICalculator";
 import MasteryCertificate from "./components/MasteryCertificate";
 import AboutRayan from "./components/AboutRayan";
 
@@ -17,6 +18,10 @@ const pages = [
   { id: "radar", label: "رادار الأداء" },
   { id: "simulation", label: "المحاكاة" },
   { id: "ai-mentor", label: "الموجه الذكي" },
+
+  // القسم الجديد
+  { id: "learning-roi", label: "حاسبة العائد من التعلم" },
+
   { id: "mastery", label: "وثيقة الإتقان" },
   { id: "about", label: "عن ريان" }
 ];
@@ -50,6 +55,19 @@ function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
   ]);
 }
 
+async function readProgressRows() {
+  const loader =
+    progressService.loadUserProgress ||
+    progressService.fetchUserProgress ||
+    progressService.default;
+
+  if (typeof loader !== "function") {
+    return [];
+  }
+
+  return loader();
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
@@ -72,6 +90,8 @@ export default function App() {
     return unique.size;
   }, [progressRows]);
 
+  const totalJourneyDays = COURSE_TOTALS?.totalDays || 180;
+
   const authenticated = Boolean(
     session?.user || demoMode || (!isSupabaseConfigured && userName)
   );
@@ -80,10 +100,11 @@ export default function App() {
     if (showLoader) setLoadingProgress(true);
 
     try {
-      const rows = await withTimeout(loadUserProgress(), "تحميل تقدمك");
+      const rows = await withTimeout(readProgressRows(), "تحميل تقدمك");
       setProgressRows(Array.isArray(rows) ? rows : []);
     } catch (error) {
       console.warn("تعذر تحميل التقدم:", error);
+
       setNotice(
         "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
       );
@@ -135,24 +156,28 @@ export default function App() {
           );
         }
       } finally {
-        if (mounted) setBooting(false);
+        if (mounted) {
+          setBooting(false);
+        }
       }
     }
 
     boot();
 
     if (isSupabaseConfigured && supabase) {
-      const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-        if (!mounted) return;
+      const { data } = supabase.auth.onAuthStateChange(
+        (_event, nextSession) => {
+          if (!mounted) return;
 
-        setSession(nextSession || null);
+          setSession(nextSession || null);
 
-        if (nextSession?.user) {
-          setUserName(getDisplayName(nextSession));
+          if (nextSession?.user) {
+            setUserName(getDisplayName(nextSession));
+          }
+
+          loadProgressSafely({ showLoader: true });
         }
-
-        loadProgressSafely({ showLoader: true });
-      });
+      );
 
       return () => {
         mounted = false;
@@ -164,15 +189,20 @@ export default function App() {
       mounted = false;
     };
 
+    // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleEnter({ session: nextSession, name, demo } = {}) {
-    if (nextSession) setSession(nextSession);
+    if (nextSession) {
+      setSession(nextSession);
+    }
 
     const nextName = name || getDisplayName(nextSession);
 
-    if (nextName) setUserName(nextName);
+    if (nextName) {
+      setUserName(nextName);
+    }
 
     if (demo) {
       setDemoMode(true);
@@ -213,7 +243,11 @@ export default function App() {
   }
 
   if (booting) {
-    return <div className="boot-screen">جارٍ تجهيز مختبر التطوير التنظيمي...</div>;
+    return (
+      <div className="boot-screen">
+        جارٍ تجهيز مختبر التطوير التنظيمي...
+      </div>
+    );
   }
 
   if (!authenticated) {
@@ -230,6 +264,11 @@ export default function App() {
   return (
     <div className="site-frame">
       <style>{`
+        /*
+          إصلاح حجم شعار ريان في الهيدر وبعض البطاقات الصغيرة.
+          لا يؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
+        */
+
         .brand .brand-mark,
         .brand .brand-mark.image-mark {
           width: 52px !important;
@@ -324,7 +363,11 @@ export default function App() {
           ))}
         </nav>
 
-        <button type="button" className="logout-button" onClick={handleSignOut}>
+        <button
+          type="button"
+          className="logout-button"
+          onClick={handleSignOut}
+        >
           خروج
         </button>
       </header>
@@ -336,7 +379,7 @@ export default function App() {
           userName={displayName}
           setActivePage={navigate}
           completedDays={completedDays}
-          totalDays={COURSE_TOTALS.totalDays}
+          totalDays={totalJourneyDays}
         />
       )}
 
@@ -349,15 +392,24 @@ export default function App() {
       )}
 
       {activePage === "radar" && <RadarAssessment setActivePage={navigate} />}
+
       {activePage === "simulation" && <SimulationLab />}
+
       {activePage === "ai-mentor" && <AiMentor />}
 
+      {activePage === "learning-roi" && (
+        <LearningROICalculator
+          completedDays={completedDays}
+          totalDays={totalJourneyDays}
+        />
+      )}
+
       {activePage === "mastery" && (
-     <MasteryCertificate
-  userName={displayName}
-  completedDays={completedDays}
-  setActivePage={navigate}
-/>
+        <MasteryCertificate
+          userName={displayName}
+          completedDays={completedDays}
+          setActivePage={navigate}
+        />
       )}
 
       {activePage === "about" && <AboutRayan />}
@@ -367,6 +419,7 @@ export default function App() {
           صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
           السلوك، والنظام خلف المشكلة.
         </div>
+
         <span>© 2026 — جميع الحقوق محفوظة</span>
       </footer>
     </div>
