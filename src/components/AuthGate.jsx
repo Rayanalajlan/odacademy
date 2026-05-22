@@ -1,909 +1,844 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 
-const MODES = {
-  login: {
-    eyebrow: "بوابة العودة",
-    title: "مرحبًا بك في مساحة الإتقان",
-    subtitle:
-      "سجّل دخولك لتعود إلى رحلتك في التشخيص، تصميم المنظمة، قيادة التغيير، الثقافة، قياس الأثر، وبناء الاحتراف.",
-    button: "دخول إلى رحلتي",
-    switchText: "ليس لديك حساب؟",
-    switchAction: "إنشاء حساب جديد"
+const MONTHS = [
+  {
+    number: "01",
+    title: "تأسيس العقل التنظيمي",
+    output: "قراءة المنظمة كنظام قبل القفز إلى الحلول."
   },
-  signup: {
-    eyebrow: "بداية الرحلة",
-    title: "أنشئ حسابك وابدأ المسار",
-    subtitle:
-      "سجّل بياناتك لتبدأ رحلة منظمة من ستة أشهر، مصممة لبناء عقلية ممارس تطوير تنظيمي محترف.",
-    button: "إنشاء الحساب",
-    switchText: "لديك حساب بالفعل؟",
-    switchAction: "تسجيل الدخول"
+  {
+    number: "02",
+    title: "تصميم المنظمة والهياكل والأدوار",
+    output: "تحويل التشخيص إلى أدوار وصلاحيات ونظام عمل واضح."
   },
-  reset: {
-    eyebrow: "استعادة الوصول",
-    title: "استعد دخولك بهدوء",
-    subtitle:
-      "اكتب بريدك الإلكتروني، وسنرسل لك رابطًا لإعادة تعيين كلمة المرور إن كان الحساب مسجلًا.",
-    button: "إرسال رابط الاستعادة",
-    switchText: "تذكرت كلمة المرور؟",
-    switchAction: "العودة للدخول"
+  {
+    number: "03",
+    title: "تصميم التدخلات التنظيمية",
+    output: "اختيار تدخل مناسب بدل الاكتفاء بتوصيات عامة."
+  },
+  {
+    number: "04",
+    title: "قيادة التغيير والتحول",
+    output: "بناء الالتزام وإدارة المقاومة واستدامة التغيير."
+  },
+  {
+    number: "05",
+    title: "الثقافة والتعلم وبناء القدرة",
+    output: "قراءة السلوك والثقة والتعلم المؤسسي كقدرة مستمرة."
+  },
+  {
+    number: "06",
+    title: "قياس الأثر والاحتراف",
+    output: "ربط التدخلات بمؤشرات أثر وممارسة مهنية ناضجة."
   }
-};
+];
 
-const LOGIN_NOTICE_TIMEOUT_MS = 3500;
-
-function getFriendlyError(errorMessage = "") {
-  const text = String(errorMessage).toLowerCase();
-
-  if (text.includes("invalid login credentials")) {
-    return "بيانات الدخول غير صحيحة. تأكد من البريد وكلمة المرور.";
+const FAQ = [
+  {
+    q: "كم مدة الرحلة؟",
+    a: "الرحلة مصممة على 180 يومًا، موزعة على 6 أشهر، مع دروس واختبارات ومحاكاة تطبيقية."
+  },
+  {
+    q: "هل المحتوى مجاني؟",
+    a: "نعم، الدخول إلى هذه النسخة من الرحلة مجاني. وقد يتم لاحقًا إضافة دفعات أو مسارات خاصة بحسب آلية التسجيل."
+  },
+  {
+    q: "هل توجد شهادة؟",
+    a: "تظهر وثيقة الإتقان بعد اكتمال التقدم المطلوب داخل الرحلة، وليست شهادة حضور تلقائية."
+  },
+  {
+    q: "هل يوجد دعم أو متابعة؟",
+    a: "توجد أدوات داخلية للتعلم مثل الرادار، المحاكاة، والموجه الذكي عند تفعيله تقنيًا. أي متابعة مباشرة تعتمد على ما يعلنه صاحب المنصة."
+  },
+  {
+    q: "كيف تُحفظ بياناتي؟",
+    a: "يتم استخدام بيانات الحساب والتقدم التعليمي لتشغيل التجربة وحفظ الإنجاز. لا ينبغي مشاركة بيانات حساسة داخل الحقول العامة."
   }
+];
 
-  if (text.includes("email not confirmed")) {
-    return "يبدو أن البريد لم يتم تأكيده بعد. راجع بريدك الإلكتروني.";
-  }
-
-  if (text.includes("password")) {
-    return "تحقق من كلمة المرور. يجب أن تكون صحيحة ومكتوبة بدون مسافات زائدة.";
-  }
-
-  if (text.includes("rate limit")) {
-    return "تمت محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.";
-  }
-
-  if (text.includes("failed to fetch") || text.includes("network")) {
-    return "تعذر الاتصال بالخادم. تحقق من الإنترنت أو حاول لاحقًا.";
-  }
-
-  return "تعذر تنفيذ العملية الآن. تحقق من البيانات أو حاول لاحقًا.";
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
 }
 
-function getSessionName(session, fallbackName = "") {
-  return (
-    fallbackName ||
-    session?.user?.user_metadata?.full_name ||
-    session?.user?.email ||
-    "زميل المهنة"
-  );
+function passwordIssue(password) {
+  if (!password || password.length < 8) return "كلمة المرور يجب ألا تقل عن 8 أحرف.";
+  if (!/[A-Za-z]/.test(password)) return "كلمة المرور يجب أن تحتوي على حرف واحد على الأقل.";
+  if (!/[0-9]/.test(password)) return "كلمة المرور يجب أن تحتوي على رقم واحد على الأقل.";
+  return "";
 }
 
-function sendLoginNoticeInBackground(session) {
-  if (!session?.access_token) return;
+function getDynamicCounters() {
+  const launch = new Date("2026-01-01T00:00:00+03:00").getTime();
+  const now = Date.now();
+  const days = Math.max(1, Math.floor((now - launch) / 86400000));
+  const minute = new Date().getMinutes();
 
-  const controller = new AbortController();
+  const total = 186 + days * 2 + (minute % 7);
+  const active = 9 + (minute % 9);
+  const completed = Math.max(3, Math.floor(total * 0.08));
+  const remaining = Math.max(6, 44 - (total % 31));
 
-  const timer = window.setTimeout(() => {
-    controller.abort();
-  }, LOGIN_NOTICE_TIMEOUT_MS);
-
-  fetch("/api/login-notice", {
-    method: "POST",
-    signal: controller.signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${session.access_token}`
-    },
-    body: JSON.stringify({
-      source: "odacademy-login",
-      userAgent: navigator.userAgent,
-      language: navigator.language,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-    })
-  })
-    .catch((error) => {
-      console.warn("تعذر إرسال تنبيه الدخول:", error);
-    })
-    .finally(() => {
-      window.clearTimeout(timer);
-    });
+  return { total, active, completed, remaining };
 }
 
 export default function AuthGate({ onEnter, onAuthenticated }) {
-  const [mode, setMode] = useState("login");
-  const [fullName, setFullName] = useState("");
+  const [mode, setMode] = useState("signin");
+  const [fullName, setFullName] = useState(localStorage.getItem("od_demo_name") || "");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [counters, setCounters] = useState(getDynamicCounters);
 
-  const meta = MODES[mode];
-
-  const greetingLine = useMemo(() => {
-    const hour = new Date().getHours();
-
-    if (hour < 12) return "صباح الإنجاز.";
-    if (hour < 18) return "مساء التركيز.";
-    return "مرحبًا بعودتك إلى مساحة الإتقان.";
+  useEffect(() => {
+    const timer = window.setInterval(() => setCounters(getDynamicCounters()), 12000);
+    return () => window.clearInterval(timer);
   }, []);
 
-  function enterPlatform(session, name, demo = false) {
-    const finalName = getSessionName(session, name);
+  const passwordHint = useMemo(() => passwordIssue(password), [password]);
 
-    if (demo) {
-      localStorage.setItem("od_demo_name", finalName);
-    }
-
-    if (typeof onEnter === "function") {
-      onEnter({
-        session,
-        name: finalName,
-        demo
-      });
-      return;
-    }
-
-    if (typeof onAuthenticated === "function") {
-      onAuthenticated(session);
-      return;
-    }
-
-    window.setTimeout(() => window.location.reload(), 500);
-  }
-
-  function validateBeforeSubmit(cleanEmail) {
-    if (!cleanEmail) {
-      throw new Error("اكتب البريد الإلكتروني أولًا.");
-    }
-
-    if (mode !== "reset" && !password) {
-      throw new Error("اكتب كلمة المرور أولًا.");
-    }
-
-    if (mode === "signup" && password.length < 6) {
-      throw new Error("كلمة المرور يجب ألا تقل عن 6 أحرف.");
-    }
+  function showNotice(message) {
+    setNotice(message);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setNotice("");
+
+    const cleanEmail = normalizeEmail(email);
+    const cleanName = fullName.trim();
+
+    if (!cleanName) {
+      showNotice("اكتب اسمك كما تحب أن يظهر داخل المنصة.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      localStorage.setItem("od_demo_name", cleanName);
+      onEnter?.({ name: cleanName, demo: true });
+      return;
+    }
+
+    if (!cleanEmail) {
+      showNotice("أدخل البريد الإلكتروني.");
+      return;
+    }
+
+    if (passwordIssue(password)) {
+      showNotice(passwordIssue(password));
+      return;
+    }
 
     setBusy(true);
-    setMessage(null);
 
     try {
-      const cleanEmail = email.trim().toLowerCase();
-      const cleanName = fullName.trim();
-
-      validateBeforeSubmit(cleanEmail);
-
-      if (!isSupabaseConfigured || !supabase) {
-        const demoName = cleanName || cleanEmail || "زميل المهنة";
-
-        setMessage({
-          type: "success",
-          text: "Supabase غير مضبوط حاليًا، لذلك سيتم الدخول بوضع تجريبي محلي."
-        });
-
-        enterPlatform(null, demoName, true);
-        return;
-      }
-
-      if (mode === "login") {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: cleanEmail,
-          password
-        });
-
-        if (error) throw error;
-
-        const nextSession = data?.session;
-
-        if (!nextSession) {
-          throw new Error("لم تصل جلسة دخول صالحة من Supabase.");
-        }
-
-        sendLoginNoticeInBackground(nextSession);
-
-        setMessage({
-          type: "success",
-          text: "تم تسجيل الدخول بنجاح. يتم فتح رحلتك الآن."
-        });
-
-        enterPlatform(nextSession, getSessionName(nextSession));
-        return;
-      }
-
       if (mode === "signup") {
         const { data, error } = await supabase.auth.signUp({
           email: cleanEmail,
           password,
           options: {
-            data: {
-              full_name: cleanName || cleanEmail
-            }
+            data: { full_name: cleanName }
           }
         });
 
         if (error) throw error;
 
         if (data?.session) {
-          sendLoginNoticeInBackground(data.session);
-
-          setMessage({
-            type: "success",
-            text: "تم إنشاء الحساب وتسجيل الدخول بنجاح."
-          });
-
-          enterPlatform(data.session, cleanName || getSessionName(data.session));
-          return;
+          onEnter?.({ session: data.session, name: cleanName });
+          onAuthenticated?.(data.session);
+        } else {
+          showNotice("تم إنشاء الحساب. إذا كان تأكيد البريد مفعّلًا، افتح بريدك ثم سجل الدخول.");
         }
 
-        setMessage({
-          type: "success",
-          text: "تم إنشاء الحساب. راجع بريدك لتأكيد الحساب، ثم عد لتسجيل الدخول."
-        });
-
-        setMode("login");
-        setPassword("");
         return;
       }
 
-      if (mode === "reset") {
-        const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
-          redirectTo: window.location.origin
-        });
-
-        if (error) throw error;
-
-        setMessage({
-          type: "success",
-          text: "تم إرسال رابط استعادة كلمة المرور إلى بريدك إن كان الحساب موجودًا."
-        });
-
-        return;
-      }
-    } catch (error) {
-      const rawMessage = error?.message || "";
-
-      setMessage({
-        type: "error",
-        text:
-          rawMessage.startsWith("اكتب") || rawMessage.includes("6 أحرف")
-            ? rawMessage
-            : getFriendlyError(rawMessage)
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password
       });
+
+      if (error) throw error;
+
+      const session = data?.session;
+      const name =
+        session?.user?.user_metadata?.full_name ||
+        cleanName ||
+        session?.user?.email ||
+        "زميل المهنة";
+
+      onEnter?.({ session, name });
+      onAuthenticated?.(session);
+    } catch (error) {
+      showNotice(error?.message || "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.");
     } finally {
       setBusy(false);
     }
   }
 
-  function switchMode(nextMode) {
-    setMode(nextMode);
-    setMessage(null);
-    setPassword("");
-    setShowPassword(false);
+  function enterDemo() {
+    const cleanName = fullName.trim() || "زميل المهنة";
+    localStorage.setItem("od_demo_name", cleanName);
+    onEnter?.({ name: cleanName, demo: true });
   }
 
   return (
-    <main className="auth-cosmos" dir="rtl">
+    <main className="public-gate" dir="rtl">
       <style>{`
-        .auth-cosmos {
-          --ink: #0f172a;
-          --muted: #64748b;
-          --line: rgba(148, 163, 184, .22);
-          --primary: #4f46e5;
-          --violet: #7c3aed;
-          --gold: #f59e0b;
-          --green: #10b981;
-          --red: #ef4444;
+        .public-gate {
           min-height: 100vh;
+          background:
+            radial-gradient(circle at 12% 8%, rgba(79, 70, 229, 0.16), transparent 30%),
+            radial-gradient(circle at 88% 14%, rgba(245, 158, 11, 0.16), transparent 30%),
+            linear-gradient(180deg, #f8fafc 0%, #eef2ff 48%, #f8fafc 100%);
+          color: #0f172a;
+          padding: 28px 14px 70px;
+          font-family: inherit;
+        }
+
+        .public-wrap {
+          width: min(1180px, 100%);
+          margin: 0 auto;
+        }
+
+        .public-hero {
           position: relative;
           overflow: hidden;
           display: grid;
-          place-items: center;
-          padding: 28px 16px;
-          color: var(--ink);
-          background:
-            radial-gradient(circle at 10% 12%, rgba(79,70,229,.22), transparent 32%),
-            radial-gradient(circle at 92% 18%, rgba(245,158,11,.18), transparent 30%),
-            radial-gradient(circle at 48% 92%, rgba(16,185,129,.16), transparent 34%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 48%, #f8fafc 100%);
-        }
-
-        .auth-cosmos::before,
-        .auth-cosmos::after {
-          content: "";
-          position: absolute;
-          width: 560px;
-          height: 560px;
-          border-radius: 999px;
-          pointer-events: none;
-          filter: blur(10px);
-          opacity: .56;
-          background: conic-gradient(
-            from 120deg,
-            rgba(79,70,229,.18),
-            rgba(245,158,11,.12),
-            rgba(16,185,129,.13),
-            rgba(124,58,237,.16),
-            rgba(79,70,229,.18)
-          );
-          animation: authFloat 12s ease-in-out infinite alternate;
-        }
-
-        .auth-cosmos::before {
-          top: -350px;
-          right: -230px;
-        }
-
-        .auth-cosmos::after {
-          bottom: -370px;
-          left: -250px;
-          animation-delay: -5s;
-        }
-
-        @keyframes authFloat {
-          from { transform: translate3d(0,0,0) rotate(0deg); }
-          to { transform: translate3d(24px,34px,0) rotate(22deg); }
-        }
-
-        .auth-shell {
-          width: min(1120px, 100%);
-          position: relative;
-          z-index: 1;
-          display: grid;
-          grid-template-columns: 1.08fr .92fr;
-          gap: 18px;
-          align-items: stretch;
-        }
-
-        .auth-hero,
-        .auth-card {
+          grid-template-columns: 1.1fr .9fr;
+          gap: 22px;
+          align-items: center;
           border-radius: 38px;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,.82);
-          box-shadow: 0 28px 90px rgba(15,23,42,.14);
-          backdrop-filter: blur(22px);
-        }
-
-        .auth-hero {
-          min-height: 650px;
-          position: relative;
-          color: white;
           padding: 34px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          color: white;
           background:
-            radial-gradient(circle at top right, rgba(245,158,11,.22), transparent 34%),
-            radial-gradient(circle at bottom left, rgba(79,70,229,.35), transparent 36%),
-            linear-gradient(150deg, #0f172a 0%, #1e293b 55%, #111827 100%);
+            radial-gradient(circle at 20% 15%, rgba(129, 140, 248, .25), transparent 30%),
+            radial-gradient(circle at 85% 20%, rgba(245, 158, 11, .20), transparent 30%),
+            linear-gradient(135deg, #0f172a, #1e1b4b 55%, #312e81);
+          box-shadow: 0 26px 80px rgba(15, 23, 42, 0.22);
         }
 
-        .auth-hero::before {
-          content: "";
-          position: absolute;
-          inset: -40%;
-          background-image:
-            linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
-          background-size: 42px 42px;
-          transform: rotate(-8deg);
-          opacity: .42;
-        }
-
-        .auth-hero > * {
-          position: relative;
-          z-index: 1;
-        }
-
-        .auth-logo-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-        }
-
-        .auth-brand {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .auth-logo {
-          width: 54px;
-          height: 54px;
-          border-radius: 20px;
-          display: grid;
-          place-items: center;
-          font-weight: 950;
-          font-size: 18px;
-          color: #111827;
-          background: linear-gradient(135deg, #fde68a, #f59e0b);
-          box-shadow: 0 18px 40px rgba(245,158,11,.26);
-        }
-
-        .auth-brand strong {
-          display: block;
-          font-size: 16px;
-          font-weight: 950;
-        }
-
-        .auth-brand span {
-          display: block;
-          margin-top: 3px;
-          color: rgba(226,232,240,.78);
+        .public-badge {
+          display: inline-flex;
+          padding: 8px 14px;
+          border-radius: 999px;
+          background: rgba(255,255,255,.1);
+          border: 1px solid rgba(255,255,255,.16);
+          color: #fde68a;
           font-size: 12px;
+          font-weight: 900;
+        }
+
+        .public-hero h1 {
+          margin: 18px 0 14px;
+          font-size: clamp(34px, 5vw, 64px);
+          line-height: 1.15;
+          font-weight: 950;
+          letter-spacing: -1px;
+        }
+
+        .public-hero p {
+          margin: 0;
+          color: #cbd5e1;
+          line-height: 2;
+          font-size: 15px;
+          font-weight: 700;
+        }
+
+        .auth-card {
+          border-radius: 30px;
+          padding: 22px;
+          background: rgba(255,255,255,.94);
+          color: #0f172a;
+          border: 1px solid rgba(255,255,255,.8);
+          box-shadow: 0 22px 55px rgba(0,0,0,.16);
+        }
+
+        .auth-tabs {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          padding: 7px;
+          border-radius: 20px;
+          background: #f1f5f9;
+          margin-bottom: 16px;
+        }
+
+        .auth-tabs button {
+          border: 0;
+          cursor: pointer;
+          border-radius: 15px;
+          padding: 11px;
+          font-family: inherit;
+          color: #475569;
+          font-weight: 900;
+          background: transparent;
+        }
+
+        .auth-tabs button.active {
+          color: white;
+          background: linear-gradient(135deg, #4f46e5, #312e81);
+        }
+
+        .auth-field {
+          margin-bottom: 12px;
+        }
+
+        .auth-field label {
+          display: block;
+          margin-bottom: 7px;
+          color: #334155;
+          font-size: 13px;
+          font-weight: 900;
+        }
+
+        .auth-field input {
+          width: 100%;
+          min-height: 48px;
+          border-radius: 17px;
+          border: 1px solid #cbd5e1;
+          padding: 0 13px;
+          font-family: inherit;
+          font-weight: 800;
+          color: #0f172a;
+          background: white;
+          outline: none;
+          box-sizing: border-box;
+        }
+
+        .auth-field input:focus {
+          border-color: #4f46e5;
+          box-shadow: 0 0 0 4px rgba(79,70,229,.10);
+        }
+
+        .password-row {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          gap: 8px;
+        }
+
+        .toggle-password {
+          border: 0;
+          border-radius: 15px;
+          padding: 0 14px;
+          background: #eef2ff;
+          color: #3730a3;
+          font-family: inherit;
+          font-weight: 900;
+          cursor: pointer;
+        }
+
+        .hint {
+          display: block;
+          margin-top: 7px;
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.7;
+          font-weight: 700;
+        }
+
+        .auth-notice {
+          margin: 10px 0;
+          border-radius: 16px;
+          padding: 11px 13px;
+          background: #fff7ed;
+          border: 1px solid #fed7aa;
+          color: #9a3412;
+          font-size: 12px;
+          line-height: 1.8;
           font-weight: 800;
         }
 
-        .auth-badge {
-          border-radius: 999px;
-          padding: 8px 12px;
-          background: rgba(255,255,255,.10);
-          border: 1px solid rgba(255,255,255,.14);
-          color: #fde68a;
-          font-size: 11px;
+        .auth-actions {
+          display: grid;
+          gap: 9px;
+          margin-top: 14px;
+        }
+
+        .auth-actions button {
+          border: 0;
+          border-radius: 17px;
+          min-height: 48px;
+          cursor: pointer;
+          font-family: inherit;
           font-weight: 950;
-          white-space: nowrap;
         }
 
-        .auth-welcome {
-          padding: 30px 0;
+        .auth-primary {
+          color: white;
+          background: linear-gradient(135deg, #4f46e5, #312e81);
         }
 
-        .auth-welcome small {
-          display: inline-flex;
-          width: fit-content;
-          border-radius: 999px;
-          padding: 8px 14px;
+        .auth-ghost {
+          color: #0f172a;
+          background: #f1f5f9;
+        }
+
+        .public-section {
+          margin-top: 18px;
+          border-radius: 34px;
+          padding: 28px;
+          background: rgba(255,255,255,.88);
+          border: 1px solid rgba(148,163,184,.18);
+          box-shadow: 0 18px 55px rgba(15,23,42,.07);
+        }
+
+        .section-head {
+          display: flex;
+          align-items: end;
+          justify-content: space-between;
+          gap: 18px;
           margin-bottom: 18px;
-          background: rgba(255,255,255,.11);
-          border: 1px solid rgba(255,255,255,.14);
-          color: #c7d2fe;
-          font-weight: 950;
         }
 
-        .auth-welcome h1 {
+        .section-head h2 {
           margin: 0;
-          font-size: clamp(34px, 5vw, 66px);
-          line-height: 1.05;
-          letter-spacing: -1.4px;
+          font-size: clamp(24px, 3vw, 36px);
+          color: #0f172a;
           font-weight: 950;
         }
 
-        .auth-welcome h1 span {
-          display: block;
-          color: transparent;
-          background: linear-gradient(90deg, #fff, #c7d2fe, #fde68a);
-          -webkit-background-clip: text;
-          background-clip: text;
-        }
-
-        .auth-welcome p {
-          margin: 18px 0 0;
-          max-width: 720px;
-          color: rgba(226,232,240,.86);
-          font-size: 15px;
-          line-height: 2;
+        .section-head p {
+          margin: 6px 0 0;
+          color: #64748b;
+          line-height: 1.9;
+          font-size: 13px;
           font-weight: 750;
         }
 
-        .auth-principles {
+        .counter-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .counter-card {
+          overflow: hidden;
+          position: relative;
+          border-radius: 26px;
+          padding: 20px;
+          background: #fff;
+          border: 1px solid rgba(148,163,184,.20);
+        }
+
+        .counter-card::before {
+          content: "";
+          position: absolute;
+          top: -70px;
+          right: -70px;
+          width: 150px;
+          height: 150px;
+          border-radius: 999px;
+          background: rgba(79,70,229,.12);
+        }
+
+        .counter-card strong {
+          position: relative;
+          display: block;
+          font-size: 34px;
+          color: #0f172a;
+          font-weight: 950;
+        }
+
+        .counter-card span {
+          position: relative;
+          display: block;
+          color: #475569;
+          font-size: 13px;
+          line-height: 1.8;
+          font-weight: 850;
+        }
+
+        .counter-card small {
+          position: relative;
+          display: block;
+          margin-top: 8px;
+          color: #94a3b8;
+          font-size: 10px;
+          line-height: 1.7;
+          font-weight: 800;
+        }
+
+        .path-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
         }
 
-        .auth-principle {
-          min-height: 128px;
-          padding: 16px;
+        .path-card,
+        .info-card,
+        .faq-card {
           border-radius: 24px;
-          background: rgba(255,255,255,.10);
-          border: 1px solid rgba(255,255,255,.12);
+          padding: 18px;
+          background: #fff;
+          border: 1px solid rgba(148,163,184,.20);
         }
 
-        .auth-principle b {
-          display: block;
-          color: #fde68a;
-          font-size: 20px;
-          margin-bottom: 8px;
-        }
-
-        .auth-principle strong {
-          display: block;
-          font-size: 13px;
-          font-weight: 950;
-          line-height: 1.6;
-        }
-
-        .auth-principle span {
-          display: block;
-          margin-top: 6px;
-          color: rgba(226,232,240,.74);
-          font-size: 11px;
-          line-height: 1.7;
-          font-weight: 750;
-        }
-
-        .auth-card {
-          background: rgba(255,255,255,.84);
-          padding: 30px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        .auth-card-top {
-          margin-bottom: 22px;
-        }
-
-        .auth-card-top small {
+        .path-card b {
           display: inline-flex;
-          color: var(--primary);
-          font-size: 12px;
-          font-weight: 950;
           margin-bottom: 10px;
-        }
-
-        .auth-card-top h2 {
-          margin: 0;
-          color: var(--ink);
-          font-size: clamp(26px, 3vw, 38px);
-          line-height: 1.25;
-          font-weight: 950;
-          letter-spacing: -.7px;
-        }
-
-        .auth-card-top p {
-          margin: 12px 0 0;
-          color: var(--muted);
-          font-size: 13px;
-          line-height: 1.95;
-          font-weight: 750;
-        }
-
-        .auth-form {
-          display: grid;
-          gap: 14px;
-        }
-
-        .auth-field {
-          display: grid;
-          gap: 8px;
-        }
-
-        .auth-field label {
-          color: #334155;
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .auth-input-wrap {
-          position: relative;
-        }
-
-        .auth-input {
-          width: 100%;
-          box-sizing: border-box;
-          border: 1px solid rgba(148,163,184,.26);
-          outline: 0;
-          border-radius: 20px;
-          padding: 15px 16px;
-          background: rgba(255,255,255,.88);
-          color: var(--ink);
-          font-family: inherit;
-          font-size: 14px;
-          font-weight: 800;
-          transition: .22s ease;
-        }
-
-        .auth-input:focus {
-          border-color: rgba(79,70,229,.55);
-          box-shadow: 0 0 0 4px rgba(79,70,229,.10);
-          background: white;
-        }
-
-        .auth-show {
-          position: absolute;
-          left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          border: 0;
-          cursor: pointer;
-          border-radius: 14px;
-          padding: 8px 10px;
+          padding: 5px 10px;
+          border-radius: 999px;
           background: #eef2ff;
           color: #3730a3;
-          font-family: inherit;
-          font-size: 11px;
+          font-size: 12px;
+        }
+
+        .path-card strong,
+        .info-card strong,
+        .faq-card strong {
+          display: block;
+          margin-bottom: 8px;
+          color: #0f172a;
+          font-size: 16px;
+          line-height: 1.6;
           font-weight: 950;
         }
 
-        .auth-help-row {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
+        .path-card span,
+        .info-card span,
+        .faq-card span {
+          display: block;
+          color: #64748b;
+          line-height: 1.9;
+          font-size: 13px;
+          font-weight: 750;
+        }
+
+        .two-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 12px;
+        }
+
+        .sample-box {
+          border-radius: 28px;
+          padding: 22px;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(245,158,11,.14), transparent 34%),
+            linear-gradient(135deg, #fff, #f8fafc);
+          border: 1px solid rgba(148,163,184,.20);
+        }
+
+        .sample-box h3 {
+          margin: 0 0 10px;
+          color: #0f172a;
+          font-size: 20px;
+          font-weight: 950;
+        }
+
+        .sample-box p {
+          margin: 0;
+          color: #475569;
+          line-height: 2;
+          font-size: 13px;
+          font-weight: 800;
+        }
+
+        .about-links {
+          display: flex;
           flex-wrap: wrap;
-          margin-top: -4px;
+          gap: 8px;
+          margin-top: 14px;
         }
 
-        .auth-link {
-          border: 0;
-          padding: 0;
-          background: transparent;
-          color: var(--primary);
-          cursor: pointer;
-          font-family: inherit;
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .auth-submit {
-          width: 100%;
-          border: 0;
-          cursor: pointer;
-          font-family: inherit;
-          border-radius: 22px;
-          padding: 16px 18px;
+        .about-links a {
+          text-decoration: none;
+          border-radius: 999px;
+          padding: 9px 13px;
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          box-shadow: 0 18px 42px rgba(79,70,229,.24);
-          font-size: 14px;
-          font-weight: 950;
-          transition: .24s ease;
-        }
-
-        .auth-submit:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 24px 48px rgba(79,70,229,.30);
-        }
-
-        .auth-submit:disabled {
-          opacity: .62;
-          cursor: not-allowed;
-          transform: none;
-        }
-
-        .auth-message {
-          border-radius: 20px;
-          padding: 13px 15px;
+          background: #0f172a;
           font-size: 12px;
-          line-height: 1.8;
           font-weight: 900;
         }
 
-        .auth-message.success {
-          background: #ecfdf5;
-          color: #065f46;
-          border: 1px solid rgba(16,185,129,.22);
-        }
-
-        .auth-message.error {
-          background: #fef2f2;
-          color: #991b1b;
-          border: 1px solid rgba(239,68,68,.22);
-        }
-
-        .auth-switch {
-          margin-top: 18px;
-          padding-top: 18px;
-          border-top: 1px solid rgba(148,163,184,.18);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          flex-wrap: wrap;
-          color: var(--muted);
-          font-size: 12px;
+        .legal-note {
+          border-radius: 24px;
+          padding: 18px;
+          background: #fffbeb;
+          border: 1px solid #fde68a;
+          color: #78350f;
+          line-height: 2;
+          font-size: 13px;
           font-weight: 850;
         }
 
-        .auth-security-note {
-          margin-top: 18px;
-          border-radius: 22px;
-          padding: 14px 16px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
-          color: #475569;
-          font-size: 12px;
-          line-height: 1.85;
-          font-weight: 800;
-        }
-
-        .auth-security-note b {
-          color: #0f172a;
-        }
-
-        @media (max-width: 980px) {
-          .auth-shell {
+        @media (max-width: 920px) {
+          .public-hero,
+          .counter-grid,
+          .path-grid,
+          .two-grid {
             grid-template-columns: 1fr;
           }
 
-          .auth-hero {
-            min-height: auto;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .auth-cosmos {
-            padding: 16px 10px;
-          }
-
-          .auth-hero,
-          .auth-card {
-            border-radius: 28px;
-            padding: 22px;
-          }
-
-          .auth-principles {
-            grid-template-columns: 1fr;
-          }
-
-          .auth-badge {
-            display: none;
+          .section-head {
+            display: block;
           }
         }
       `}</style>
 
-      <section className="auth-shell">
-        <aside className="auth-hero">
-          <div className="auth-logo-row">
-            <div className="auth-brand">
-              <div className="auth-logo">OD</div>
-              <div>
-                <strong>OD Engineering Academy</strong>
-                <span>منصة إتقان التطوير التنظيمي</span>
-              </div>
-            </div>
-
-            <span className="auth-badge">
-              رحلة معرفية متكاملة في التطوير التنظيمي
-            </span>
-          </div>
-
-          <div className="auth-welcome">
-            <small>{greetingLine}</small>
-
-            <h1>
-              حياك في مساحة
-              <span>الفهم قبل الحل</span>
-            </h1>
-
+      <div className="public-wrap">
+        <section className="public-hero">
+          <div>
+            <span className="public-badge">رحلة معرفية متكاملة في التطوير التنظيمي</span>
+            <h1>حياك في مساحة الفهم قبل الحل</h1>
             <p>
-              هنا لا تدخل لتقرأ محتوى متراكمًا، بل لتتقدم عبر مسار مصمم بعقلية
+              هنا لا تدخل لتقرأ محتوى متراكما، بل لتتقدم عبر مسار مصمم بعقلية
               استشارية: تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
             </p>
           </div>
 
-          <div className="auth-principles">
-            <div className="auth-principle">
-              <b>01</b>
-              <strong>اقرأ المنظمة كنظام</strong>
-              <span>
-                افهم العلاقات بين الاستراتيجية، الهيكل، الأدوار، الثقافة،
-                والحوافز قبل بناء أي تدخل.
-              </span>
+          <form className="auth-card" onSubmit={handleSubmit}>
+            <div className="auth-tabs">
+              <button
+                type="button"
+                className={mode === "signin" ? "active" : ""}
+                onClick={() => setMode("signin")}
+              >
+                دخول
+              </button>
+              <button
+                type="button"
+                className={mode === "signup" ? "active" : ""}
+                onClick={() => setMode("signup")}
+              >
+                تسجيل جديد
+              </button>
             </div>
-
-            <div className="auth-principle">
-              <b>02</b>
-              <strong>ابنِ حكمًا مهنيًا</strong>
-              <span>
-                تدرّب على تحليل الأعراض، اختبار الفرضيات، وطلب البيانات
-                المناسبة قبل إصدار التوصية.
-              </span>
-            </div>
-
-            <div className="auth-principle">
-              <b>03</b>
-              <strong>حوّل التعلم إلى أثر</strong>
-              <span>
-                انتقل من فهم المفاهيم إلى تطبيقها في قرارات تنظيمية أوضح وأكثر
-                قابلية للقياس.
-              </span>
-            </div>
-          </div>
-        </aside>
-
-        <section className="auth-card">
-          <div className="auth-card-top">
-            <small>{meta.eyebrow}</small>
-            <h2>{meta.title}</h2>
-            <p>{meta.subtitle}</p>
-          </div>
-
-          <form className="auth-form" onSubmit={handleSubmit}>
-            {mode === "signup" && (
-              <div className="auth-field">
-                <label htmlFor="fullName">الاسم</label>
-                <input
-                  id="fullName"
-                  className="auth-input"
-                  type="text"
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  placeholder="اكتب اسمك كما تحب أن تراه في شهادتك"
-                  autoComplete="name"
-                />
-              </div>
-            )}
 
             <div className="auth-field">
-              <label htmlFor="email">البريد الإلكتروني</label>
+              <label htmlFor="fullName">اكتب اسمك كما تحب أن تراه في شهادتك</label>
               <input
-                id="email"
-                className="auth-input"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="example@email.com"
-                autoComplete="email"
+                id="fullName"
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                placeholder="مثال: ريان العجلان"
+                autoComplete="name"
                 required
               />
             </div>
 
-            {mode !== "reset" && (
-              <div className="auth-field">
-                <label htmlFor="password">كلمة المرور</label>
-
-                <div className="auth-input-wrap">
+            {isSupabaseConfigured && (
+              <>
+                <div className="auth-field">
+                  <label htmlFor="email">البريد الإلكتروني</label>
                   <input
-                    id="password"
-                    className="auth-input"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="اكتب كلمة المرور"
-                    autoComplete={mode === "login" ? "current-password" : "new-password"}
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(normalizeEmail(event.target.value))}
+                    placeholder="name@example.com"
+                    autoComplete="email"
                     required
                   />
-
-                  <button
-                    type="button"
-                    className="auth-show"
-                    onClick={() => setShowPassword((current) => !current)}
-                  >
-                    {showPassword ? "إخفاء" : "إظهار"}
-                  </button>
+                  <span className="hint">يتم تحويل البريد تلقائيا إلى أحرف صغيرة لتسهيل الدخول.</span>
                 </div>
+
+                <div className="auth-field">
+                  <label htmlFor="password">كلمة المرور</label>
+                  <div className="password-row">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="8 أحرف على الأقل وفيها حرف ورقم"
+                      autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+                      aria-pressed={showPassword}
+                      onClick={() => setShowPassword((value) => !value)}
+                    >
+                      {showPassword ? "إخفاء" : "إظهار"}
+                    </button>
+                  </div>
+                  <span className="hint">
+                    الشرط: 8 أحرف على الأقل، وتحتوي على حرف ورقم.
+                  </span>
+                </div>
+              </>
+            )}
+
+            {notice && (
+              <div className="auth-notice" role="alert" aria-live="assertive">
+                {notice}
               </div>
             )}
 
-            {mode === "login" && (
-              <div className="auth-help-row">
-                <button
-                  type="button"
-                  className="auth-link"
-                  onClick={() => switchMode("reset")}
-                >
-                  نسيت كلمة المرور؟
+            <div className="auth-actions">
+              <button className="auth-primary" type="submit" disabled={busy}>
+                {busy ? "جار المعالجة..." : mode === "signin" ? "دخول إلى الرحلة" : "إنشاء حساب"}
+              </button>
+
+              {!isSupabaseConfigured && (
+                <button className="auth-ghost" type="button" onClick={enterDemo}>
+                  دخول تجريبي
                 </button>
-              </div>
-            )}
-
-            {message && (
-              <div className={`auth-message ${message.type}`}>
-                {message.text}
-              </div>
-            )}
-
-            <button className="auth-submit" type="submit" disabled={busy}>
-              {busy ? "جارٍ التنفيذ..." : meta.button}
-            </button>
+              )}
+            </div>
           </form>
+        </section>
 
-          <div className="auth-switch">
-            <span>{meta.switchText}</span>
-
-            <button
-              type="button"
-              className="auth-link"
-              onClick={() => switchMode(mode === "login" ? "signup" : "login")}
-            >
-              {meta.switchAction}
-            </button>
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>مؤشرات الرحلة</h2>
+              <p>عدادات تفاعلية للواجهة العامة، ويمكن لاحقا ربطها ببيانات فعلية من Supabase.</p>
+            </div>
           </div>
 
-          <div className="auth-security-note">
-            <b>تنبيه أمان:</b> لا تشارك كلمة المرور مع أي شخص. عند كل دخول ناجح
-            ستصلك رسالة تنبيه لحماية حسابك.
+          <div className="counter-grid">
+            <div className="counter-card">
+              <strong>{counters.total}</strong>
+              <span>متدرب ومتدربة بدأوا رحلتهم</span>
+              <small>مؤشر واجهة قابل للربط لاحقا بعدد المسجلين الفعلي.</small>
+            </div>
+            <div className="counter-card">
+              <strong>{counters.active}</strong>
+              <span>يدرسون معك في هذه اللحظة</span>
+              <small>يتغير ديناميكيا لمحاكاة النشاط الحي.</small>
+            </div>
+            <div className="counter-card">
+              <strong>{counters.completed}</strong>
+              <span>أتموا الـ 180 يوما بنجاح</span>
+              <small>يمكن ربطه لاحقا بإكمال جميع أيام الرحلة.</small>
+            </div>
+            <div className="counter-card">
+              <strong>{counters.remaining}</strong>
+              <span>مقعدا متبقيا في دفعة الشهر الحالي</span>
+              <small>عداد دفعة قابل للربط بسياسة قبول فعلية.</small>
+            </div>
           </div>
         </section>
-      </section>
+
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>خريطة مختصرة للمسار</h2>
+              <p>6 أشهر، كل شهر يبني قدرة مختلفة في قراءة المنظمة وتصميم التدخل وقياس الأثر.</p>
+            </div>
+          </div>
+
+          <div className="path-grid">
+            {MONTHS.map((month) => (
+              <div className="path-card" key={month.number}>
+                <b>{month.number}</b>
+                <strong>{month.title}</strong>
+                <span>{month.output}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>عينة مجانية من التجربة</h2>
+              <p>لمحة تكشف جودة المسار قبل الدخول: درس قصير + موقف محاكاة.</p>
+            </div>
+          </div>
+
+          <div className="two-grid">
+            <div className="sample-box">
+              <h3>عينة درس: العرض ليس السبب</h3>
+              <p>
+                ارتفاع الدوران الوظيفي قد يكون عرضا لا سببا. قبل اقتراح حوافز
+                أو تدريب، اسأل: ما النمط المتكرر؟ من يتأثر؟ ما البيانات التي
+                تثبت أو تنفي الفرضية؟
+              </p>
+            </div>
+
+            <div className="sample-box">
+              <h3>عينة محاكاة: مدير يريد حلا سريعا</h3>
+              <p>
+                يطلب منك قائد إدارة ورشة عاجلة لرفع الالتزام. القرار المهني:
+                هل تنفذ الورشة مباشرة، أم تعيد التعاقد وتطلب بيانات عن القيادة
+                والأدوار والحوافز؟
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>عن ريان</h2>
+              <p>خلفية المبادرة وفلسفتها المهنية، ظاهرة للزائر قبل التسجيل.</p>
+            </div>
+          </div>
+
+          <div className="two-grid">
+            <div className="info-card">
+              <strong>ريان العجلان</strong>
+              <span>
+                ممارس ومهتم ببناء محتوى معرفي يساعد القادة والممارسين على رؤية
+                النظام خلف المشكلة، والمعنى خلف السلوك، قبل الاستعجال في الحل.
+              </span>
+
+              <div className="about-links">
+                <a href="https://www.linkedin.com/in/rayanalajlan/" target="_blank" rel="noreferrer">
+                  LinkedIn
+                </a>
+                <a href="https://x.com/Rayan_Alajlan" target="_blank" rel="noreferrer">
+                  منصة X
+                </a>
+                <a href="mailto:Rayansalajlan@gmail.com">
+                  طلب استشارة
+                </a>
+              </div>
+            </div>
+
+            <div className="info-card">
+              <strong>اعتمادات وخبرة مهنية</strong>
+              <span>
+                SHRM-SCP · SPHRi · CPTD · PMP، مع اهتمام عميق بالموارد البشرية،
+                التطوير التنظيمي، الأداء، التعلم، وبناء القدرة المؤسسية.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>أسئلة شائعة</h2>
+              <p>إجابات مختصرة قبل إنشاء الحساب.</p>
+            </div>
+          </div>
+
+          <div className="path-grid">
+            {FAQ.map((item) => (
+              <div className="faq-card" key={item.q}>
+                <strong>{item.q}</strong>
+                <span>{item.a}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="public-section">
+          <div className="section-head">
+            <div>
+              <h2>الخصوصية وشروط الاستخدام</h2>
+              <p>صياغة أولية واضحة إلى حين بناء صفحة قانونية مستقلة.</p>
+            </div>
+          </div>
+
+          <div className="legal-note">
+            باستخدامك للمنصة، فأنت توافق على استخدام بيانات حسابك وتقدمك التعليمي
+            لتشغيل الرحلة وحفظ الإنجاز وتحسين التجربة. لا تُعد المنصة وعدا
+            وظيفيا أو شهادة أكاديمية رسمية، ولا ينبغي إدخال معلومات سرية أو
+            حساسة داخل الحقول العامة. سيتم لاحقا توسيع هذه الصفحة بسياسة خصوصية
+            وشروط استخدام مفصلة.
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

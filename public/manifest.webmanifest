@@ -1,13 +1,13 @@
 {
-  "name": "رحلة إتقان التطوير التنظيمي",
+  "name": "إتقان هندسة التطوير التنظيمي",
   "short_name": "OD Engineering",
-  "description": "رحلة معرفية تفاعلية في التطوير التنظيمي.",
+  "description": "مختبر معرفي ومسار استشاري متكامل في هندسة التطوير التنظيمي.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "dir": "rtl",
   "lang": "ar-SA",
-  "theme_color": "#1e1b4b",
+  "theme_color": "#4F46E5",
   "background_color": "#f8fafc",
   "icons": [
     {
