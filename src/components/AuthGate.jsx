@@ -119,7 +119,7 @@ export default function AuthGate({
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState(DEFAULT_STATS);
   const [statsReady, setStatsReady] = useState(false);
-  const [sampleOpen, setSampleOpen] = useState(false);
+  const [sampleModal, setSampleModal] = useState("");
   const [openFaq, setOpenFaq] = useState("هل الرحلة مجانية؟");
 
   const passwordHint = useMemo(() => passwordIssue(password), [password]);
@@ -717,6 +717,38 @@ export default function AuthGate({
           font-weight: 800;
         }
 
+        .sample-kicker {
+          display: inline-flex;
+          margin-bottom: 10px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: #eef2ff;
+          color: #3730a3;
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .sample-lesson {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            linear-gradient(135deg, #fff, #f8fafc);
+        }
+
+        .sample-simulation {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(16,185,129,.12), transparent 34%),
+            linear-gradient(135deg, #fff, #f8fafc);
+        }
+
+        .sample-bullets {
+          margin: 14px 0 0;
+          padding: 0 18px 0 0;
+          color: #334155;
+          line-height: 1.9;
+          font-size: 12px;
+          font-weight: 850;
+        }
+
         .sample-button {
           margin-top: 16px;
           border: 0;
@@ -864,6 +896,89 @@ export default function AuthGate({
           line-height: 2;
           font-size: 14px;
           font-weight: 800;
+        }
+
+        .sample-modal-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+          margin: 16px 0;
+        }
+
+        .sample-modal-card {
+          border-radius: 20px;
+          padding: 14px;
+          background: #f8fafc;
+          border: 1px solid rgba(148,163,184,.22);
+        }
+
+        .sample-modal-card b {
+          display: inline-flex;
+          margin-bottom: 8px;
+          padding: 5px 9px;
+          border-radius: 999px;
+          background: #eef2ff;
+          color: #3730a3;
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .sample-modal-card strong {
+          display: block;
+          color: #0f172a;
+          line-height: 1.7;
+          font-size: 13px;
+          font-weight: 950;
+        }
+
+        .sample-modal-card span {
+          display: block;
+          margin-top: 6px;
+          color: #64748b;
+          line-height: 1.8;
+          font-size: 12px;
+          font-weight: 750;
+        }
+
+        .simulation-choice {
+          border-radius: 20px;
+          padding: 14px;
+          margin-top: 10px;
+          background: #fff;
+          border: 1px solid rgba(148,163,184,.24);
+        }
+
+        .simulation-choice.correct {
+          border-color: rgba(16,185,129,.45);
+          background: #ecfdf5;
+        }
+
+        .simulation-choice.warning {
+          border-color: rgba(245,158,11,.45);
+          background: #fffbeb;
+        }
+
+        .simulation-choice strong {
+          display: block;
+          color: #0f172a;
+          font-size: 13px;
+          line-height: 1.7;
+          font-weight: 950;
+        }
+
+        .simulation-choice span {
+          display: block;
+          margin-top: 5px;
+          color: #475569;
+          font-size: 12px;
+          line-height: 1.8;
+          font-weight: 750;
+        }
+
+        @media (max-width: 920px) {
+          .sample-modal-grid {
+            grid-template-columns: 1fr;
+          }
         }
 
         .modal-actions {
@@ -1125,29 +1240,41 @@ export default function AuthGate({
           <div className="section-head">
             <div>
               <h2>عينة مجانية من التجربة</h2>
-              <p>افتح نموذجا مصغرا من طريقة التفكير داخل الرحلة.</p>
+              <p>جرّب الفرق بين قراءة محتوى عادي، وبين تفكير استشاري يقودك من العرض إلى الفرضية والتدخل.</p>
             </div>
           </div>
 
           <div className="two-grid">
-            <div className="sample-box">
-              <h3>درس تجريبي: العرض ليس السبب</h3>
+            <div className="sample-box sample-lesson">
+              <span className="sample-kicker">عينة درس</span>
+              <h3>لماذا لا تبدأ من الحل؟</h3>
               <p>
-                ارتفاع الدوران الوظيفي قد يكون عرضا لا سببا. قبل اقتراح حوافز
-                أو تدريب، اسأل عن النمط والبيانات والافتراضات.
+                ستتعلم كيف تفرّق بين العرض الظاهر والسبب الجذري، وكيف تحوّل
+                مشكلة عامة مثل ضعف الالتزام إلى أسئلة تشخيصية قابلة للتحقق.
               </p>
-              <button className="sample-button" type="button" onClick={() => setSampleOpen(true)}>
+              <ul className="sample-bullets">
+                <li>فكرة مركزة من درس فعلي.</li>
+                <li>إطار تشخيصي مختصر.</li>
+                <li>سؤال تطبيقي قبل الانتقال للحل.</li>
+              </ul>
+              <button className="sample-button" type="button" onClick={() => setSampleModal("lesson")}>
                 فتح الدرس التجريبي
               </button>
             </div>
 
-            <div className="sample-box">
-              <h3>محاكاة تجريبية: طلب حل سريع</h3>
+            <div className="sample-box sample-simulation">
+              <span className="sample-kicker">عينة محاكاة</span>
+              <h3>اجتماع عاجل قبل إطلاق مبادرة تغيير</h3>
               <p>
-                قائد إدارة يطلب ورشة عاجلة لرفع الالتزام. هل تنفذ مباشرة أم
-                تعيد التعاقد وتطلب بيانات قبل التدخل؟
+                ستدخل موقفًا قصيرًا فيه ضغط من الإدارة، بيانات ناقصة، وروايات
+                مختلفة. المطلوب أن تختار تصرفًا مهنيًا وتعرف لماذا هو الأقرب.
               </p>
-              <button className="sample-button" type="button" onClick={() => setSampleOpen(true)}>
+              <ul className="sample-bullets">
+                <li>موقف تشخيصي مصغر.</li>
+                <li>ثلاثة اختيارات غير مفضوحة.</li>
+                <li>تصحيح فوري يوضح منطق الإجابة.</li>
+              </ul>
+              <button className="sample-button" type="button" onClick={() => setSampleModal("simulation")}>
                 تجربة الموقف
               </button>
             </div>
@@ -1271,33 +1398,119 @@ export default function AuthGate({
         </footer>
       </div>
 
-      {sampleOpen && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="درس تجريبي">
+      {sampleModal && (
+        <div
+          className="modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-label={sampleModal === "lesson" ? "درس تجريبي" : "محاكاة تجريبية"}
+        >
           <div className="sample-modal">
-            <h2>درس تجريبي: العرض ليس السبب</h2>
+            {sampleModal === "lesson" ? (
+              <>
+                <h2>درس تجريبي: لماذا لا تبدأ من الحل؟</h2>
 
-            <p>
-              في التطوير التنظيمي، الخطأ الأول هو التعامل مع أول عرض ظاهر كأنه
-              السبب الحقيقي. إذا ظهرت مشكلة مثل ضعف الالتزام أو ارتفاع الدوران،
-              فالسؤال المهني ليس: ما الحل؟ بل: ما النمط الذي يعيد إنتاج هذا
-              السلوك؟
-            </p>
+                <p>
+                  في التطوير التنظيمي، المشكلة التي تسمعها أولًا غالبًا ليست
+                  المشكلة التي يجب أن تعالجها أولًا. عندما يقول المدير: "نحتاج
+                  ورشة التزام"، فقد يكون يصف علاجًا يريده، لا عرضًا تم تشخيصه.
+                </p>
 
-            <ul>
-              <li>ما العرض الظاهر؟ ارتفاع دوران، ضعف التزام، صمت، أو مقاومة.</li>
-              <li>ما النمط المتكرر؟ هل يحدث في قسم معين أم عبر المنظمة؟</li>
-              <li>ما الفرضيات؟ قيادة، أدوار، حوافز، ثقافة، أو ضغط عمل.</li>
-              <li>ما البيانات المطلوبة؟ مقابلات، استبيان، مؤشرات أداء، أو تحليل خروج.</li>
-            </ul>
+                <div className="sample-modal-grid">
+                  <div className="sample-modal-card">
+                    <b>01</b>
+                    <strong>العرض الظاهر</strong>
+                    <span>انخفاض الالتزام، تأخر التسليم، مقاومة مبادرة، أو دوران وظيفي.</span>
+                  </div>
 
-            <p>
-              الموقف التجريبي: قائد يطلب ورشة عاجلة لرفع الالتزام. القرار
-              المهني الأفضل هو إعادة التعاقد: ما المشكلة التي نحاول حلها؟ وما
-              البيانات التي تجعل الورشة تدخلا مناسبا لا مجرد نشاط جميل؟
-            </p>
+                  <div className="sample-modal-card">
+                    <b>02</b>
+                    <strong>النمط المتكرر</strong>
+                    <span>هل يحدث في فريق واحد، أم يتكرر مع كل مبادرة أو كل قائد؟</span>
+                  </div>
+
+                  <div className="sample-modal-card">
+                    <b>03</b>
+                    <strong>الفرضية المهنية</strong>
+                    <span>قد يكون السبب في الأدوار، القيادة، الحوافز، الثقة، أو ضغط العمل.</span>
+                  </div>
+                </div>
+
+                <p>
+                  الفكرة العملية: لا تسأل "ما الحل المناسب؟" قبل أن تسأل:
+                  "ما الذي يجعل هذا السلوك منطقيًا داخل النظام؟" هنا يبدأ
+                  الفرق بين منفذ حلول وممارس تطوير تنظيمي.
+                </p>
+
+                <div className="sample-modal-card">
+                  <b>تمرين سريع</b>
+                  <strong>قبل أي تدخل، اكتب جملة تشخيصية واحدة:</strong>
+                  <span>
+                    يبدو أن العرض هو ضعف الالتزام، لكن الفرضية الأولية أن المشكلة
+                    مرتبطة بوضوح الأولويات وحقوق القرار، وسأتحقق منها عبر مقابلات
+                    قصيرة وقراءة مؤشرات التسليم.
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>محاكاة تجريبية: اجتماع عاجل قبل مبادرة تغيير</h2>
+
+                <p>
+                  وصلتك رسالة من مدير إدارة: "عندنا مقاومة عالية لمبادرة التحول.
+                  نحتاج ورشة تحفيزية الأسبوع القادم." في المقابل، يخبرك أحد
+                  المشرفين أن الفريق لا يقاوم التغيير نفسه، بل لا يفهم لماذا
+                  تغيرت الأولويات ثلاث مرات خلال شهر واحد.
+                </p>
+
+                <div className="sample-modal-grid">
+                  <div className="sample-modal-card">
+                    <b>المعطى الأول</b>
+                    <strong>الإدارة ترى مقاومة</strong>
+                    <span>اللغة الرسمية تصف الناس بأنهم غير متعاونين.</span>
+                  </div>
+
+                  <div className="sample-modal-card">
+                    <b>المعطى الثاني</b>
+                    <strong>الموظفون يرون غموضًا</strong>
+                    <span>الحديث غير الرسمي يدور حول تضارب الأولويات.</span>
+                  </div>
+
+                  <div className="sample-modal-card">
+                    <b>التوتر التشخيصي</b>
+                    <strong>هل المشكلة دافعية أم تصميم؟</strong>
+                    <span>الإجابة تحدد هل نحتاج ورشة أم إعادة تعاقد وتشخيص.</span>
+                  </div>
+                </div>
+
+                <div className="simulation-choice warning">
+                  <strong>الخيار أ: تنفيذ ورشة تحفيزية مباشرة</strong>
+                  <span>
+                    يبدو سريعًا ومريحًا للإدارة، لكنه يقفز فوق التشخيص وقد يعالج
+                    العرض لا السبب.
+                  </span>
+                </div>
+
+                <div className="simulation-choice correct">
+                  <strong>الخيار ب: إعادة التعاقد وطلب بيانات قبل التدخل</strong>
+                  <span>
+                    الأقرب مهنيًا: تحدد السؤال التشخيصي، تقابل عينات من الأطراف،
+                    وتراجع تغيّر الأولويات قبل تصميم أي ورشة.
+                  </span>
+                </div>
+
+                <div className="simulation-choice warning">
+                  <strong>الخيار ج: إرسال استبيان رضا عام للجميع</strong>
+                  <span>
+                    قد يعطي مؤشرات عامة، لكنه لا يكفي وحده لفهم تضارب الروايات
+                    وسياق المبادرة.
+                  </span>
+                </div>
+              </>
+            )}
 
             <div className="modal-actions">
-              <button type="button" onClick={() => setSampleOpen(false)}>
+              <button type="button" onClick={() => setSampleModal("")}>
                 إغلاق العينة
               </button>
             </div>
