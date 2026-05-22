@@ -709,8 +709,8 @@ function buildScenarioBank() {
   const bank = [];
 
   for (let i = 0; i < 350; i += 1) {
-    const archetype = pick(ARCHETYPES, i * 3);
-    const level = pick(DIFFICULTY_LEVELS, i * 5);
+    const archetype = pick(ARCHETYPES, i);
+    const level = DIFFICULTY_LEVELS[Math.min(DIFFICULTY_LEVELS.length - 1, Math.floor(i / 70))];
     const industry = pick(INDUSTRIES, i * 7);
     const size = pick(ORG_SIZES, i * 11);
     const trigger = pick(TRIGGERS, i * 13);
@@ -1246,73 +1246,140 @@ function ScenarioMap({ scenario }) {
 function CausalLoop({ scenario }) {
   const color = scenario.archetype.color || "#4f46e5";
   const intensity = scenario.level.intensity || 1;
-  const isExpert = intensity >= 5;
-  const isAdvanced = intensity >= 4;
+  const nodes = scenario.causalMap || [
+    { label: "العرض الظاهر", text: scenario.trigger, color: "#f59e0b" },
+    { label: "النمط المتكرر", text: scenario.hiddenDynamic, color },
+    { label: "عامل الضغط", text: scenario.pressure, color: "#e11d48" },
+    { label: "الفجوة التشخيصية", text: scenario.level?.learnerPrompt || "فرضية تحتاج اختبارًا", color: "#7c3aed" },
+    { label: "المخرج المهني", text: scenario.deliverable, color: "#10b981" }
+  ];
 
-  const paths = isExpert
-    ? [
-        "M120 86 C230 12, 430 12, 560 86",
-        "M565 105 C650 170, 540 282, 360 232",
-        "M350 235 C185 286, 54 198, 118 108",
-        "M135 112 C250 186, 430 178, 545 114",
-        "M190 245 C270 175, 405 170, 505 242"
-      ]
-    : isAdvanced
-      ? [
-          "M130 88 C260 30, 420 30, 550 88",
-          "M555 105 C630 168, 520 260, 350 226",
-          "M342 230 C205 270, 78 195, 126 108",
-          "M150 112 C250 170, 420 168, 530 112"
-        ]
-      : [
-          "M150 88 C260 30, 420 30, 530 88",
-          "M540 104 C610 170, 490 250, 340 222",
-          "M330 224 C210 260, 92 190, 140 108"
-        ];
+  const markerId = `arrowHeadArabic-${hashString(scenario.id)}`;
+  const variant = hashString(`${scenario.id}-${scenario.category}-${scenario.level.id}`) % 6;
+
+  const layouts = [
+    {
+      name: "حلقة تشخيصية",
+      positions: [
+        { x: 118, y: 82, r: 48 },
+        { x: 340, y: 62, r: 50 },
+        { x: 562, y: 96, r: 48 },
+        { x: 468, y: 238, r: 45 },
+        { x: 208, y: 236, r: 45 }
+      ],
+      links: [[0, 1, -32], [1, 2, 24], [2, 3, 34], [3, 4, -18], [4, 0, 28], [1, 4, 42]]
+    },
+    {
+      name: "سلسلة قرار",
+      positions: [
+        { x: 92, y: 92, r: 44 },
+        { x: 225, y: 92, r: 44 },
+        { x: 360, y: 92, r: 44 },
+        { x: 495, y: 92, r: 44 },
+        { x: 360, y: 230, r: 52 }
+      ],
+      links: [[0, 1, -10], [1, 2, 10], [2, 3, -10], [3, 4, 28], [4, 1, 46]]
+    },
+    {
+      name: "تعارض روايات",
+      positions: [
+        { x: 135, y: 86, r: 48 },
+        { x: 545, y: 86, r: 48 },
+        { x: 340, y: 156, r: 56 },
+        { x: 180, y: 244, r: 42 },
+        { x: 505, y: 244, r: 42 }
+      ],
+      links: [[0, 2, 34], [1, 2, -34], [2, 3, 18], [2, 4, -18], [3, 4, 36], [4, 1, 20]]
+    },
+    {
+      name: "ضغط نظامي",
+      positions: [
+        { x: 340, y: 58, r: 48 },
+        { x: 150, y: 150, r: 44 },
+        { x: 530, y: 150, r: 44 },
+        { x: 245, y: 254, r: 42 },
+        { x: 435, y: 254, r: 42 }
+      ],
+      links: [[0, 1, 26], [0, 2, -26], [1, 3, -18], [2, 4, 18], [3, 4, 22], [4, 0, -48]]
+    },
+    {
+      name: "مركز ونفوذ",
+      positions: [
+        { x: 340, y: 154, r: 58 },
+        { x: 112, y: 72, r: 42 },
+        { x: 568, y: 72, r: 42 },
+        { x: 122, y: 250, r: 42 },
+        { x: 558, y: 250, r: 42 }
+      ],
+      links: [[1, 0, 34], [2, 0, -34], [3, 0, -28], [4, 0, 28], [0, 4, -40], [0, 3, 40]]
+    },
+    {
+      name: "تعلم راجع",
+      positions: [
+        { x: 118, y: 158, r: 46 },
+        { x: 274, y: 70, r: 46 },
+        { x: 510, y: 90, r: 46 },
+        { x: 548, y: 236, r: 46 },
+        { x: 286, y: 246, r: 46 }
+      ],
+      links: [[0, 1, -26], [1, 2, 24], [2, 3, 26], [3, 4, 22], [4, 0, -24], [2, 4, 44]]
+    }
+  ];
+
+  const layout = layouts[variant];
+  const visibleNodeCount = intensity >= 4 ? 5 : 4;
+  const positionedNodes = layout.positions.slice(0, visibleNodeCount).map((position, index) => ({
+    ...position,
+    ...(nodes[index] || nodes[nodes.length - 1]),
+    shortText: String((nodes[index] || nodes[nodes.length - 1])?.text || "").slice(0, 18)
+  }));
+
+  const links = layout.links.filter(([from, to]) => from < visibleNodeCount && to < visibleNodeCount);
+
+  function curvedPath(fromIndex, toIndex, offset = 0) {
+    const from = positionedNodes[fromIndex];
+    const to = positionedNodes[toIndex];
+    const midX = (from.x + to.x) / 2;
+    const midY = (from.y + to.y) / 2;
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const length = Math.sqrt(dx * dx + dy * dy) || 1;
+    const normalX = (-dy / length) * offset;
+    const normalY = (dx / length) * offset;
+
+    return `M${from.x} ${from.y} Q${Math.round(midX + normalX)} ${Math.round(midY + normalY)} ${to.x} ${to.y}`;
+  }
 
   return (
     <div className="causal-loop" style={{ "--loop": color }}>
-      <svg viewBox="0 0 680 310" role="img" aria-label="خريطة سببية متغيرة حسب الحالة">
+      <div className="causal-loop-label">{layout.name}</div>
+      <svg viewBox="0 0 680 310" role="img" aria-label="خريطة سببية متغيرة حسب الحالة والمجال والمستوى">
         <defs>
-          <marker id={`arrowHeadArabic-${scenario.id}`} markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+          <marker id={markerId} markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="currentColor" />
           </marker>
         </defs>
 
-        {paths.map((path, index) => (
+        {links.map(([from, to, offset], index) => (
           <path
-            key={path}
-            d={path}
-            className={index === paths.length - 1 && intensity >= 4 ? "dashed" : ""}
-            style={{ markerEnd: `url(#arrowHeadArabic-${scenario.id})` }}
+            key={`${from}-${to}-${index}`}
+            d={curvedPath(from, to, offset)}
+            className={index >= 4 || intensity >= 5 ? "dashed" : ""}
+            style={{ markerEnd: `url(#${markerId})` }}
           />
         ))}
 
-        <circle cx="145" cy="88" r="52" />
-        <circle cx="540" cy="88" r="52" />
-        <circle cx="340" cy="225" r="52" />
-        {intensity >= 4 && <circle cx="505" cy="242" r="43" className="secondary" />}
-
-        <text x="145" y="72">العرض</text>
-        <text x="145" y="98">{scenario.trigger.slice(0, 17)}</text>
-
-        <text x="540" y="72">البنية</text>
-        <text x="540" y="98">{scenario.archetype.name.slice(0, 17)}</text>
-
-        <text x="340" y="209">النمط</text>
-        <text x="340" y="235">يتكرر</text>
-
-        {intensity >= 4 && (
-          <>
-            <text x="505" y="232">ضغط</text>
-            <text x="505" y="254">مصالح</text>
-          </>
-        )}
+        {positionedNodes.map((node, index) => (
+          <g key={`${node.label}-${index}`}>
+            <circle cx={node.x} cy={node.y} r={node.r} style={{ stroke: node.color, fill: index === 0 ? "#fffbeb" : "#ffffff" }} />
+            <text x={node.x} y={node.y - 14}>{node.label.slice(0, 13)}</text>
+            <text x={node.x} y={node.y + 10}>{node.shortText}</text>
+          </g>
+        ))}
       </svg>
     </div>
   );
 }
-
 function DifficultyRubric({ dimensions }) {
   return (
     <div className="difficulty-rubric">
@@ -2126,7 +2193,6 @@ export default function Simulation() {
           fill: none;
           stroke: currentColor;
           stroke-width: 3;
-          marker-end: url(#arrowHeadArabic);
           opacity: .62;
         }
 
@@ -2657,33 +2723,49 @@ export default function Simulation() {
         .briefing-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 14px;
-          margin: 16px 0 18px;
+          gap: 16px;
+          margin: 18px 0 20px;
         }
 
         .briefing-card {
           position: relative;
           overflow: hidden;
-          border-radius: 28px;
-          padding: 20px;
-          background: rgba(255,255,255,.9);
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 18px 50px rgba(15,23,42,.08);
+          border-radius: 34px;
+          padding: 0;
+          background:
+            radial-gradient(circle at 12% 18%, rgba(255,255,255,.68), transparent 34%),
+            linear-gradient(135deg, rgba(15,23,42,.96), rgba(30,41,59,.92));
+          color: white;
+          border: 1px solid rgba(255,255,255,.16);
+          box-shadow: 0 24px 70px rgba(15,23,42,.16);
+        }
+
+        .domain-brief {
+          background:
+            radial-gradient(circle at 12% 18%, rgba(255,255,255,.62), transparent 34%),
+            linear-gradient(135deg, rgba(120,53,15,.95), rgba(146,64,14,.90));
         }
 
         .briefing-card::before {
           content: "";
           position: absolute;
-          inset-inline-start: -70px;
-          top: -70px;
-          width: 170px;
-          height: 170px;
-          border-radius: 999px;
-          background: rgba(79,70,229,.12);
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+          background-size: 38px 38px;
+          opacity: .48;
+          transform: rotate(-4deg) scale(1.12);
         }
 
-        .domain-brief::before {
-          background: rgba(245,158,11,.16);
+        .briefing-card::after {
+          content: "";
+          position: absolute;
+          inset-inline-start: 0;
+          top: 0;
+          bottom: 0;
+          width: 7px;
+          background: linear-gradient(180deg, #c7d2fe, #fbbf24, #10b981);
         }
 
         .briefing-head {
@@ -2693,35 +2775,39 @@ export default function Simulation() {
           align-items: center;
           justify-content: space-between;
           gap: 12px;
+          padding: 18px 20px 0;
           margin-bottom: 14px;
         }
 
         .briefing-head span {
           display: inline-flex;
-          padding: 7px 11px;
+          padding: 8px 12px;
           border-radius: 999px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #fde68a;
+          background: rgba(255,255,255,.10);
+          border: 1px solid rgba(255,255,255,.16);
           font-size: 11px;
           font-weight: 950;
         }
 
         .domain-brief .briefing-head span {
-          color: #92400e;
-          background: #fffbeb;
+          color: #ffedd5;
+          background: rgba(255,255,255,.12);
         }
 
         .briefing-head strong {
-          color: #0f172a;
-          font-size: 20px;
+          color: #ffffff;
+          font-size: 24px;
+          line-height: 1.2;
           font-weight: 950;
         }
 
-        .briefing-card p {
+        .briefing-card > p {
           position: relative;
           z-index: 1;
           margin: 0;
-          color: #334155;
+          padding: 0 20px 18px;
+          color: rgba(226,232,240,.92);
           font-size: 14px;
           line-height: 2.05;
           font-weight: 750;
@@ -2730,33 +2816,54 @@ export default function Simulation() {
         .briefing-focus {
           position: relative;
           z-index: 1;
-          margin-top: 14px;
-          padding: 14px;
-          border-radius: 20px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          margin: 0 20px 18px;
+          padding: 16px;
+          border-radius: 24px;
+          background: rgba(255,255,255,.10);
+          border: 1px solid rgba(255,255,255,.14);
+          backdrop-filter: blur(10px);
         }
 
         .briefing-focus b {
           display: block;
           margin-bottom: 8px;
-          color: #0f172a;
+          color: #fde68a;
           font-size: 13px;
           font-weight: 950;
+        }
+
+        .briefing-focus p {
+          margin: 0;
+          color: rgba(255,255,255,.88);
+          font-size: 13px;
+          line-height: 1.95;
+          font-weight: 800;
         }
 
         .briefing-note {
           position: relative;
           z-index: 1;
-          margin-top: 12px;
-          padding: 12px 14px;
-          border-radius: 18px;
-          color: #312e81;
-          background: #eef2ff;
-          border: 1px solid rgba(79,70,229,.16);
+          margin: 0 20px 20px;
+          padding: 13px 15px;
+          border-radius: 20px;
+          color: #111827;
+          background: linear-gradient(135deg, #fde68a, #fbbf24);
+          border: 1px solid rgba(255,255,255,.18);
           font-size: 13px;
           line-height: 1.9;
-          font-weight: 850;
+          font-weight: 900;
+          box-shadow: 0 14px 32px rgba(245,158,11,.18);
+        }
+
+        .causal-loop-label {
+          display: inline-flex;
+          margin: 2px 0 10px;
+          padding: 7px 12px;
+          border-radius: 999px;
+          color: #312e81;
+          background: #eef2ff;
+          font-size: 11px;
+          font-weight: 950;
         }
 
         .full-card {
