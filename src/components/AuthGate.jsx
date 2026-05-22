@@ -419,6 +419,52 @@ export default function AuthGate({
           font-weight: 700;
         }
 
+        .hero-points {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+          margin-top: 22px;
+        }
+
+        .hero-point {
+          border-radius: 22px;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.10);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(14px);
+        }
+
+        .hero-point b {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 34px;
+          height: 30px;
+          border-radius: 999px;
+          margin-bottom: 10px;
+          color: #fde68a;
+          background: rgba(255, 255, 255, 0.12);
+          font-size: 12px;
+          font-weight: 950;
+        }
+
+        .hero-point strong {
+          display: block;
+          color: #ffffff;
+          font-size: 15px;
+          line-height: 1.7;
+          font-weight: 950;
+          margin-bottom: 6px;
+        }
+
+        .hero-point span {
+          display: block;
+          color: rgba(226, 232, 240, 0.88);
+          font-size: 12px;
+          line-height: 1.9;
+          font-weight: 750;
+        }
+
         .auth-card {
           border-radius: 30px;
           padding: 22px;
@@ -1004,7 +1050,8 @@ export default function AuthGate({
           .path-grid,
           .two-grid,
           .about-panel,
-          .legal-grid {
+          .legal-grid,
+          .hero-points {
             grid-template-columns: 1fr;
           }
 
@@ -1020,9 +1067,38 @@ export default function AuthGate({
             <span className="public-badge">رحلة معرفية متكاملة في التطوير التنظيمي</span>
             <h1>حياك في مساحة الفهم قبل الحل</h1>
             <p>
-              هنا لا تدخل لتقرأ محتوى متراكما، بل لتتقدم عبر مسار مصمم بعقلية
+              هنا لا تدخل لتقرأ محتوى متراكمًا، بل لتتقدم عبر مسار مصمم بعقلية
               استشارية: تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
             </p>
+
+            <div className="hero-points" aria-label="مرتكزات الرحلة">
+              <div className="hero-point">
+                <b>01</b>
+                <strong>اقرأ المنظمة كنظام</strong>
+                <span>
+                  افهم العلاقات بين الاستراتيجية، الهيكل، الأدوار، الثقافة،
+                  والحوافز قبل بناء أي تدخل.
+                </span>
+              </div>
+
+              <div className="hero-point">
+                <b>02</b>
+                <strong>ابنِ حكمًا مهنيًا</strong>
+                <span>
+                  تدرّب على تحليل الأعراض، اختبار الفرضيات، وطلب البيانات
+                  المناسبة قبل إصدار التوصية.
+                </span>
+              </div>
+
+              <div className="hero-point">
+                <b>03</b>
+                <strong>حوّل التعلم إلى أثر</strong>
+                <span>
+                  انتقل من فهم المفاهيم إلى تطبيقها في قرارات تنظيمية أوضح
+                  وأكثر قابلية للقياس.
+                </span>
+              </div>
+            </div>
           </div>
 
           <form className="auth-card" onSubmit={mode === "recover" ? handleRecoverySubmit : handleSubmit}>
