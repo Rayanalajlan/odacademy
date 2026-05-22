@@ -3,41 +3,282 @@ import { useMemo, useState } from "react";
 const TOTAL_JOURNEY_DAYS = 180;
 const DEFAULT_INFLATION_RATE = 0.019;
 
-/*
-  حاسبة العائد من التعلم
-  نسخة مبتكرة ومجانية:
-  - لا توجد تكلفة برنامج لأن المنصة مجانية.
-  - تقيس قيمة التعلم من خلال: التقدم الفعلي + سنوات الخبرة + عمق التطبيق + بيئة السوق المستهدفة.
-  - تعرض قراءة محافظة، لا وعدا وظيفيا.
-*/
+const RELATION_GROUPS = {
+  outside: {
+    title: "لست داخل مجال الموارد البشرية بعد",
+    shortTitle: "خارج المجال",
+    description:
+      "هذه القراءة مناسبة لمن يريد فهم المجال أو الانتقال إليه دون افتراض أنه يملك خبرة مباشرة في الموارد البشرية.",
+    baseRange: { low: 6000, mid: 7600, high: 9500 },
+    defaultOutcome: "enter"
+  },
+  inside: {
+    title: "داخل مجال الموارد البشرية أو قريب منه",
+    shortTitle: "داخل المجال",
+    description:
+      "هذه القراءة مناسبة لمن يعمل في الموارد البشرية أو التدريب أو شؤون الموظفين أو أدوار قريبة من إدارة الناس.",
+    baseRange: { low: 8500, mid: 12500, high: 17000 },
+    defaultOutcome: "promotion"
+  },
+  leader: {
+    title: "أعمل في قيادة أو إدارة وأريد فهم الناس والمنظمة كأداة قرار",
+    shortTitle: "قائد أو مدير",
+    description:
+      "هذه القراءة مناسبة لمن لا يريد بالضرورة وظيفة موارد بشرية، بل يريد فهم الأداء والثقافة والهيكل والفرق لتحسين قراراته القيادية.",
+    baseRange: { low: 12000, mid: 18000, high: 26000 },
+    defaultOutcome: "leadership"
+  },
+  consultant: {
+    title: "أمارس الاستشارات أو أريد بناء مسار استشاري",
+    shortTitle: "مسار استشاري",
+    description:
+      "هذه القراءة مناسبة لمن يريد تحويل المعرفة إلى منهجية تشخيصية وتدخلات ومخرجات قابلة للبيع أو التأثير.",
+    baseRange: { low: 10000, mid: 16000, high: 24000 },
+    defaultOutcome: "consulting"
+  }
+};
 
-const TRACKS = {
-  graduate: {
-    title: "خريج جديد / باحث عن عمل",
-    shortTitle: "بداية المسار",
-    description:
-      "تقرأ الحاسبة هنا قيمة بناء الأساس المهني من نقطة البداية: لغة الموارد البشرية، فهم الأدوار، وتحسين جاهزية الدخول للمقابلات.",
-    baseRange: { low: 6000, mid: 7500, high: 9000 },
-    directIncreaseAllowed: true,
-    mainValue: "تقليل التشتت وبناء بداية مهنية أوضح"
+const LEVELS_BY_RELATION = {
+  outside: [
+    {
+      id: "explorer",
+      title: "مستكشف",
+      description: "لا تعرف المجال بعد وتريد بناء تصور واضح قبل اختيار المسار.",
+      factor: 0.78,
+      score: 8
+    },
+    {
+      id: "career-switcher",
+      title: "منتقل مهنيا",
+      description: "تعمل في مجال آخر وتريد الدخول للموارد البشرية أو التطوير التنظيمي.",
+      factor: 0.88,
+      score: 12
+    },
+    {
+      id: "first-job",
+      title: "باحث عن أول فرصة",
+      description: "تستهدف أول وظيفة أو تدريب مهني في المجال.",
+      factor: 0.94,
+      score: 15
+    },
+    {
+      id: "competition-ready",
+      title: "جاهز للمنافسة",
+      description: "لديك معرفة أولية وتريد تقوية المقابلات والأدوات واللغة المهنية.",
+      factor: 1,
+      score: 18
+    }
+  ],
+  inside: [
+    {
+      id: "coordinator",
+      title: "منسق أو مساعد",
+      description: "تتعامل مع أعمال تشغيلية وتريد فهم الصورة المهنية الأكبر.",
+      factor: 0.9,
+      score: 13
+    },
+    {
+      id: "specialist",
+      title: "أخصائي",
+      description: "تمارس أدوارا محددة وتريد الانتقال من التنفيذ إلى التحليل المهني.",
+      factor: 1,
+      score: 17
+    },
+    {
+      id: "senior-specialist",
+      title: "أخصائي أول أو مشرف",
+      description: "تحتاج إلى ربط الممارسات بالنتائج والمؤشرات ومشكلات العمل.",
+      factor: 1.12,
+      score: 21
+    },
+    {
+      id: "business-partner",
+      title: "شريك أعمال أو مدير قسم",
+      description: "تحتاج إلى لغة أعمال وتحليل منظمة وتدخلات أكثر نضجا.",
+      factor: 1.24,
+      score: 24
+    },
+    {
+      id: "hr-leader",
+      title: "مدير موارد بشرية أو قائد وظيفة",
+      description: "تحتاج إلى قراءة استراتيجية للمنظمة والناس والقدرة المؤسسية.",
+      factor: 1.38,
+      score: 27
+    }
+  ],
+  leader: [
+    {
+      id: "team-lead",
+      title: "قائد فريق",
+      description: "تدير مجموعة صغيرة وتحتاج إلى فهم السلوك والأداء والتغذية الراجعة.",
+      factor: 0.95,
+      score: 15
+    },
+    {
+      id: "supervisor",
+      title: "مشرف تشغيلي",
+      description: "تحتاج إلى ربط الناس بالعملية والانضباط والتعلم اليومي.",
+      factor: 1.04,
+      score: 18
+    },
+    {
+      id: "department-manager",
+      title: "مدير قسم",
+      description: "تتعامل مع نتائج وفرق وتحتاج إلى قراءة أعمق للأدوار والثقافة.",
+      factor: 1.16,
+      score: 22
+    },
+    {
+      id: "director",
+      title: "مدير إدارة",
+      description: "تحتاج إلى فهم العلاقة بين الاستراتيجية والهيكل والقدرات.",
+      factor: 1.3,
+      score: 25
+    },
+    {
+      id: "executive",
+      title: "قائد تنفيذي",
+      description: "تحتاج إلى قراءة نظامية عالية تساعدك على قرارات أثرها واسع.",
+      factor: 1.5,
+      score: 29
+    }
+  ],
+  consultant: [
+    {
+      id: "consulting-learner",
+      title: "متعلم استشاري",
+      description: "تريد تعلم لغة التشخيص وصناعة الفرضيات قبل تقديم الحلول.",
+      factor: 0.9,
+      score: 14
+    },
+    {
+      id: "diagnostic-analyst",
+      title: "محلل أو باحث تشخيصي",
+      description: "تركز على جمع البيانات وتحليل الأنماط وبناء الاستنتاجات.",
+      factor: 1.05,
+      score: 18
+    },
+    {
+      id: "junior-consultant",
+      title: "مستشار مبتدئ",
+      description: "تحتاج إلى تحويل التحليل إلى توصيات ومخرجات قابلة للتطبيق.",
+      factor: 1.15,
+      score: 22
+    },
+    {
+      id: "practicing-consultant",
+      title: "مستشار ممارس",
+      description: "تحتاج إلى إدارة العلاقة الاستشارية والتدخل وقياس الأثر.",
+      factor: 1.32,
+      score: 26
+    },
+    {
+      id: "trusted-advisor",
+      title: "مستشار خبير أو شريك موثوق",
+      description: "تتعامل مع قضايا غامضة وسياسية واستراتيجية وتحتاج إلى نزاهة تشخيص عالية.",
+      factor: 1.52,
+      score: 30
+    }
+  ]
+};
+
+const LENSES = {
+  hr_general: {
+    title: "الموارد البشرية العامة",
+    description: "سياسات، إجراءات، عمليات، وقرارات يومية مرتبطة بالموظفين.",
+    factor: 0.98,
+    gap: "ترتيب الممارسات وربطها بأثر واضح."
   },
-  practitioner: {
-    title: "ممارس موارد بشرية يريد التطوير والترقية",
-    shortTitle: "تطوير داخل المجال",
-    description:
-      "تقرأ الحاسبة أثر تقدمك وخبرتك وتطبيقك على انتقالك من ممارسة تشغيلية إلى حكم مهني أكثر نضجا داخل الموارد البشرية.",
-    baseRange: { low: 9000, mid: 12000, high: 15000 },
-    directIncreaseAllowed: true,
-    mainValue: "رفع جودة الحكم المهني ودعم فرص الترقية"
+  performance_rewards: {
+    title: "الأداء والمكافآت",
+    description: "الأهداف، المحادثات، المساءلة، الحوافز، والعدالة الداخلية.",
+    factor: 1.04,
+    gap: "ربط القياس بالسلوك لا بالنماذج فقط."
   },
-  careerShift: {
-    title: "أعمل في مجال آخر وأريد تغيير مساري المهني",
-    shortTitle: "تغيير المسار",
-    description:
-      "تقرأ الحاسبة قيمة الانتقال الذكي دون افتراض زيادة فورية فوق راتبك الحالي في مجالك القديم.",
-    baseRange: { low: 7000, mid: 8250, high: 9500 },
-    directIncreaseAllowed: false,
-    mainValue: "اختصار التخبط وبناء مسار جديد بوعي"
+  learning_development: {
+    title: "التعلم والتطوير",
+    description: "تحليل الاحتياج، بناء البرامج، نقل أثر التعلم إلى العمل.",
+    factor: 1.02,
+    gap: "تحويل التدريب من حضور إلى أثر."
+  },
+  employee_experience: {
+    title: "تجربة الموظف والثقافة",
+    description: "الثقة، المناخ، الصمت التنظيمي، السلوك اليومي، ومعنى العمل.",
+    factor: 1.03,
+    gap: "قراءة الثقافة من السلوك لا من الشعارات."
+  },
+  od: {
+    title: "التطوير التنظيمي",
+    description: "تشخيص، تدخل، تغيير، قدرة مؤسسية، واستدامة.",
+    factor: 1.08,
+    gap: "بناء فرضيات نظامية قبل اقتراح الحل."
+  },
+  structures_roles: {
+    title: "الهياكل والأدوار والصلاحيات",
+    description: "تصميم العمل، حقوق القرار، التداخل، الحوكمة، والمسؤوليات.",
+    factor: 1.06,
+    gap: "توضيح من يقرر ومتى وكيف."
+  },
+  leadership_teams: {
+    title: "القيادة وإدارة الفرق",
+    description: "المساءلة، التعاون، الصراع، الأمان النفسي، وجودة القرار.",
+    factor: 1.05,
+    gap: "تحويل القيادة من نوايا إلى سلوك قابل للملاحظة."
+  },
+  strategy_transformation: {
+    title: "الاستراتيجية والتحول",
+    description: "المواءمة، المبادرات، التحول، القياس، وفقدان التركيز.",
+    factor: 1.1,
+    gap: "ربط المبادرات بالقدرة التنفيذية لا بالخطة فقط."
+  },
+  discover: {
+    title: "لا أعرف بعد، اقترح لي المسار الأنسب",
+    description: "قراءة استكشافية تساعدك على رؤية المسار الأقرب لك.",
+    factor: 0.97,
+    gap: "تحديد العدسة الأنسب قبل التخصص."
+  }
+};
+
+const OUTCOMES = {
+  enter: {
+    title: "دخول المجال لأول مرة",
+    description: "هدفك بناء بوابة دخول واضحة للمجال.",
+    factor: 0.95
+  },
+  interview: {
+    title: "رفع فرصي في المقابلات",
+    description: "هدفك بناء لغة مهنية وأمثلة عملية تقنع جهات التوظيف.",
+    factor: 1
+  },
+  promotion: {
+    title: "ترقية أو انتقال لدور أعلى",
+    description: "هدفك تحويل التعلم إلى جاهزية لدور أوسع ومسؤوليات أعلى.",
+    factor: 1.06
+  },
+  salary: {
+    title: "تحسين الراتب",
+    description: "هدفك قراءة موقعك من السوق وبناء مبررات مهنية للتحسن.",
+    factor: 1.03
+  },
+  tools: {
+    title: "بناء أدوات ونماذج عملية",
+    description: "هدفك الخروج بقوالب ومنتجات عمل يمكن استخدامها.",
+    factor: 1.04
+  },
+  leadership: {
+    title: "تحسين قراراتي كقائد",
+    description: "هدفك فهم الناس والمنظمة لاتخاذ قرارات أفضل.",
+    factor: 1.08
+  },
+  consulting: {
+    title: "بناء مسار استشاري",
+    description: "هدفك تحويل المعرفة إلى تشخيص وتوصية ومخرجات قابلة للبيع أو التأثير.",
+    factor: 1.1
+  },
+  deep_understanding: {
+    title: "فهم المنظمات بعمق",
+    description: "هدفك بناء عدسة مهنية تقرأ النظام خلف السلوك.",
+    factor: 1.02
   }
 };
 
@@ -65,40 +306,35 @@ const APPLICATION_LEVELS = [
     title: "أقرأ فقط",
     short: "استهلاك",
     description: "تتعرف على المفاهيم دون تحويلها إلى ممارسة.",
-    multiplier: 0.62,
-    icon: "قراءة"
+    multiplier: 0.62
   },
   {
     value: 2,
     title: "أدون وألخص",
     short: "تنظيم",
     description: "تحول التعلم إلى ملاحظات ولغة مهنية مرتبة.",
-    multiplier: 0.76,
-    icon: "تدوين"
+    multiplier: 0.76
   },
   {
     value: 3,
     title: "أحلل حالات",
     short: "تحليل",
     description: "تستخدم المفاهيم في قراءة مواقف ومشكلات حقيقية.",
-    multiplier: 0.9,
-    icon: "تحليل"
+    multiplier: 0.9
   },
   {
     value: 4,
     title: "أبني نماذج عمل",
     short: "إنتاج",
     description: "تخرج من التعلم بقوالب وأدوات قابلة للاستخدام.",
-    multiplier: 1,
-    icon: "نماذج"
+    multiplier: 1
   },
   {
     value: 5,
     title: "أطبق وأوثق الأثر",
     short: "أثر",
     description: "تربط التعلم بسلوك وقرار ونتيجة قابلة للقياس.",
-    multiplier: 1.12,
-    icon: "أثر"
+    multiplier: 1.12
   }
 ];
 
@@ -188,14 +424,14 @@ const SOURCES = [
     url: "https://www.michaelpage.ae/jobs/saudi-arabia"
   },
   {
-    name: "CIPD Learning and Development",
-    type: "أثر التعلم والتطوير على المهنة",
-    year: "2025",
-    url: "https://www.cipd.org/en/knowledge/factsheets/strategy-development-factsheet/"
+    name: "CIPD Profession Map",
+    type: "مستويات الأثر المهني وتطور مهنة الناس",
+    year: "2025 - 2026",
+    url: "https://www.cipd.org/en/the-people-profession/the-profession-map/explore-the-profession-map/"
   },
   {
     name: "SHRM Certification",
-    type: "مرجعية مهنية في الموارد البشرية",
+    type: "إطار كفاءات وممارسات الموارد البشرية",
     year: "2025 - 2026",
     url: "https://www.shrm.org/credentials/certification"
   }
@@ -228,8 +464,8 @@ function getExperienceStage(years) {
   if (value < 1) {
     return {
       label: "بداية مهنية",
-      factor: 0.86,
-      score: 10,
+      factor: 0.9,
+      score: 8,
       description: "خبرتك ما زالت في البداية، لذلك تقرأ الحاسبة النطاق بحذر أكبر."
     };
   }
@@ -237,8 +473,8 @@ function getExperienceStage(years) {
   if (value < 3) {
     return {
       label: "خبرة ناشئة",
-      factor: 0.95,
-      score: 15,
+      factor: 0.98,
+      score: 12,
       description: "لديك بداية خبرة تساعدك على فهم بيئة العمل، لكنها تحتاج إلى توثيق وتطبيق."
     };
   }
@@ -247,7 +483,7 @@ function getExperienceStage(years) {
     return {
       label: "خبرة متوسطة",
       factor: 1.08,
-      score: 20,
+      score: 16,
       description: "خبرتك تساعدك على ربط التعلم بسياقات العمل ومشكلات المنظمات."
     };
   }
@@ -255,16 +491,16 @@ function getExperienceStage(years) {
   if (value < 10) {
     return {
       label: "خبرة ناضجة",
-      factor: 1.2,
-      score: 23,
+      factor: 1.18,
+      score: 19,
       description: "لديك رصيد مهني يساعدك على تحويل التعلم إلى أحكام أعمق ومخرجات أقوى."
     };
   }
 
   return {
     label: "خبرة قيادية أو ممتدة",
-    factor: 1.32,
-    score: 25,
+    factor: 1.28,
+    score: 21,
     description: "خبرتك الكبيرة تجعل أثر التعلم أعلى عندما تربطه بالتشخيص والقيادة وصناعة القرار."
   };
 }
@@ -272,31 +508,27 @@ function getExperienceStage(years) {
 function getPositionLabel(currentSalary, range) {
   if (currentSalary <= 0) {
     return {
-      label: "نقطة بداية",
-      tone: "neutral",
-      text: "ستقرأ النتيجة باعتبارك في بداية أو انتقال، وليس كمقارنة مباشرة مع راتب قائم."
+      label: "راتب غير مدخل",
+      text: "ستقرأ النتيجة دون مقارنة راتب مباشرة. هذا مناسب للخريج أو من لا يريد مشاركة راتبه."
     };
   }
 
   if (currentSalary < range.low) {
     return {
       label: "أقل من النطاق المحافظ",
-      tone: "positive",
-      text: "توجد فجوة واضحة بين وضعك الحالي والحد الأدنى المحافظ للنطاق المستهدف."
+      text: "توجد فجوة بين وضعك الحالي والحد الأدنى المحافظ للنطاق المستهدف."
     };
   }
 
   if (currentSalary <= range.high) {
     return {
       label: "داخل النطاق السوقي",
-      tone: "balanced",
       text: "أنت داخل النطاق المتوقع تقريبا، والعائد يعتمد على انتقالك داخل النطاق لا مجرد دخوله."
     };
   }
 
   return {
     label: "أعلى من النطاق المحافظ",
-    tone: "caution",
     text: "راتبك الحالي أعلى من النطاق المحافظ، لذلك لا يصح تقديم النتيجة كزيادة مباشرة."
   };
 }
@@ -325,7 +557,7 @@ function getReadinessLabel(score) {
   return "جاهزية محدودة";
 }
 
-function getNextMove(score, track, applicationLevel) {
+function getNextMove(score, relation, outcome, lens) {
   if (score < 36) {
     return "ابدأ بتثبيت الأساس: أكمل أول شهر، واكتب ملخصا عمليا بعد كل درس، ولا تتعجل مقارنة نفسك بالسوق.";
   }
@@ -338,19 +570,29 @@ function getNextMove(score, track, applicationLevel) {
     return "ابن ملفا مهنيا صغيرا: وصف وظيفي، نموذج تشخيص، مصفوفة صلاحيات، ومؤشر قياس أثر.";
   }
 
-  if (score < 86) {
-    return "حول التعلم إلى دليل عمل: اربط كل مفهوم بمشكلة واقعية، وجهز أمثلة مقابلات من تطبيقك الشخصي.";
+  if (relation === "outside" && outcome === "enter") {
+    return "جهز قصة دخولك للمجال: لماذا هذا المسار؟ ما الذي تعلمته؟ وما أول دور تستهدفه؟";
   }
 
-  if (track === "careerShift") {
-    return "جهز قصة انتقالك المهني: لماذا الموارد البشرية؟ ما القيمة المنقولة من خبرتك السابقة؟ وما أول دور تستهدفه؟";
+  if (relation === "consultant" || outcome === "consulting") {
+    return "ابن محفظة استشارية صغيرة: حالة تشخيص، خريطة أصحاب مصلحة، توصية، ومؤشر أثر.";
   }
 
-  if (applicationLevel < 5) {
-    return "للوصول إلى أثر أعلى، وثق تطبيقاتك: ما المشكلة؟ ما الفرضية؟ ما التدخل؟ وما تغير بعده؟";
+  if (lens === "od" || lens === "structures_roles") {
+    return "وثق أداة واحدة قابلة للاستخدام: نموذج تشخيص، مصفوفة أدوار، أو خريطة تدخل تنظيمي.";
   }
 
-  return "جاهزيتك قوية. ركز الآن على السيرة المهنية، محاكاة المقابلات، وتوثيق مشاريع صغيرة تثبت فهمك.";
+  return "ركز الآن على السيرة المهنية، أمثلة المقابلات، وتوثيق تطبيقات صغيرة تثبت فهمك.";
+}
+
+function getDefaultLevel(relation) {
+  const levels = LEVELS_BY_RELATION[relation] || LEVELS_BY_RELATION.outside;
+  return levels[0]?.id || "";
+}
+
+function getLevelObject(relation, levelId) {
+  const levels = LEVELS_BY_RELATION[relation] || LEVELS_BY_RELATION.outside;
+  return levels.find((item) => item.id === levelId) || levels[0];
 }
 
 export default function LearningROICalculator({
@@ -360,7 +602,10 @@ export default function LearningROICalculator({
   const safeTotalDays = Math.max(1, Number(totalDays || TOTAL_JOURNEY_DAYS));
   const actualCompletedDays = clamp(completedDays, 0, safeTotalDays);
 
-  const [track, setTrack] = useState("practitioner");
+  const [relation, setRelation] = useState("inside");
+  const [levelId, setLevelId] = useState(getDefaultLevel("inside"));
+  const [lens, setLens] = useState("od");
+  const [outcome, setOutcome] = useState("promotion");
   const [yearsOfExperience, setYearsOfExperience] = useState(2);
   const [currentSalary, setCurrentSalary] = useState(8000);
   const [applicationLevel, setApplicationLevel] = useState(3);
@@ -369,7 +614,10 @@ export default function LearningROICalculator({
   const [scenarioDays, setScenarioDays] = useState(actualCompletedDays || 30);
   const [showSources, setShowSources] = useState(false);
 
-  const activeTrack = TRACKS[track];
+  const activeRelation = RELATION_GROUPS[relation];
+  const activeLevel = getLevelObject(relation, levelId);
+  const activeLens = LENSES[lens];
+  const activeOutcome = OUTCOMES[outcome];
   const activeMarket = MARKET_CONTEXTS[marketContext];
   const activeApplication =
     APPLICATION_LEVELS.find((item) => item.value === Number(applicationLevel)) ||
@@ -379,31 +627,37 @@ export default function LearningROICalculator({
     ? actualCompletedDays
     : clamp(scenarioDays, 1, safeTotalDays);
 
+  function changeRelation(nextRelation) {
+    setRelation(nextRelation);
+    setLevelId(getDefaultLevel(nextRelation));
+
+    const defaultOutcome = RELATION_GROUPS[nextRelation]?.defaultOutcome;
+    if (defaultOutcome && OUTCOMES[defaultOutcome]) {
+      setOutcome(defaultOutcome);
+    }
+  }
+
   const result = useMemo(() => {
     const progressFactor = clamp(effectiveDays / safeTotalDays, 0, 1);
     const experienceStage = getExperienceStage(yearsOfExperience);
-    const applicationFactor = activeApplication.multiplier;
-    const rawRange = activeTrack.baseRange;
 
+    const rawRange = activeRelation.baseRange;
     const progressLift = 0.74 + progressFactor * 0.26;
-    const marketFactor = activeMarket.multiplier;
-
-    const adjustedLow =
-      rawRange.low * experienceStage.factor * progressLift * marketFactor;
-    const adjustedMid =
-      rawRange.mid *
-      experienceStage.factor *
-      (0.8 + progressFactor * 0.2) *
-      applicationFactor *
-      marketFactor;
-    const adjustedHigh =
-      rawRange.high *
-      experienceStage.factor *
-      (0.82 + progressFactor * 0.18) *
-      applicationFactor *
-      marketFactor;
-
     const inflationFactor = 1 + DEFAULT_INFLATION_RATE;
+
+    const combinedFactor =
+      experienceStage.factor *
+      activeLevel.factor *
+      activeLens.factor *
+      activeOutcome.factor *
+      activeApplication.multiplier *
+      activeMarket.multiplier;
+
+    const adjustedLow = rawRange.low * combinedFactor * progressLift;
+    const adjustedMid =
+      rawRange.mid * combinedFactor * (0.8 + progressFactor * 0.2);
+    const adjustedHigh =
+      rawRange.high * combinedFactor * (0.82 + progressFactor * 0.18);
 
     const realLow = adjustedLow / inflationFactor;
     const realMid = adjustedMid / inflationFactor;
@@ -412,10 +666,10 @@ export default function LearningROICalculator({
     const current = Number(currentSalary || 0);
 
     let monthlyOpportunity = Math.max(0, realLow - current);
-    let mode = "direct";
+    let valueMode = "direct";
 
-    if (track === "careerShift" && current > realLow) {
-      mode = "career-shift-non-direct";
+    if ((relation === "outside" || relation === "leader") && current > realLow) {
+      valueMode = "non-direct";
       monthlyOpportunity = 0;
     }
 
@@ -425,13 +679,18 @@ export default function LearningROICalculator({
       high: realHigh
     });
 
-    const progressScore = progressFactor * 42;
+    const progressScore = progressFactor * 34;
     const experienceScore = experienceStage.score;
-    const applicationScore = (Number(applicationLevel) / 5) * 23;
-    const marketScore = current <= realHigh ? 10 : 5;
+    const levelScore = Math.min(22, activeLevel.score);
+    const applicationScore = (Number(applicationLevel) / 5) * 18;
+    const marketScore = current <= realHigh ? 5 : 3;
 
     const readinessScore = Math.round(
-      clamp(progressScore + experienceScore + applicationScore + marketScore, 0, 100)
+      clamp(
+        progressScore + experienceScore + levelScore + applicationScore + marketScore,
+        0,
+        100
+      )
     );
 
     return {
@@ -439,7 +698,7 @@ export default function LearningROICalculator({
       readinessPercent: Math.round(progressFactor * 100),
       readinessScore,
       readinessLabel: getReadinessLabel(readinessScore),
-      nextMove: getNextMove(readinessScore, track, Number(applicationLevel)),
+      nextMove: getNextMove(readinessScore, relation, outcome, lens),
       experienceStage,
       nominalLow: adjustedLow,
       nominalMid: adjustedMid,
@@ -449,21 +708,28 @@ export default function LearningROICalculator({
       realHigh,
       monthlyOpportunity,
       annualOpportunity: monthlyOpportunity * 12,
-      mode,
+      valueMode,
       position,
       commitmentMessage: getCommitmentMessage(effectiveDays)
     };
   }, [
     activeApplication,
+    activeLevel,
+    activeLens,
     activeMarket,
-    activeTrack,
+    activeOutcome,
+    activeRelation,
     applicationLevel,
     currentSalary,
     effectiveDays,
+    lens,
+    outcome,
+    relation,
     safeTotalDays,
-    track,
     yearsOfExperience
   ]);
+
+  const professionalPosition = `${activeLevel.title} · ${activeLens.title}`;
 
   return (
     <section className="roi-page" dir="rtl">
@@ -1007,9 +1273,9 @@ export default function LearningROICalculator({
               </h1>
 
               <p>
-                هذه الأداة لا تحسب استرداد رسوم. تقرأ أثر تقدمك الفعلي، وخبرتك،
-                وعمق تطبيقك، وبيئة السوق المستهدفة؛ ثم تعطيك قراءة محافظة لموقعك
-                المهني دون وعود مبالغ فيها.
+                تبدأ الحاسبة من علاقتك بمجال الموارد البشرية والتطوير التنظيمي،
+                ثم تقرأ مستواك وعدستك وهدفك وتقدمك الفعلي لتنتج قراءة مهنية
+                محافظة، لا وعدا وظيفيا.
               </p>
             </div>
 
@@ -1029,14 +1295,50 @@ export default function LearningROICalculator({
           <aside className="roi-panel">
             <h2>مدخلات القراءة</h2>
             <p>
-              عدل القيم حسب وضعك. كل تغيير يظهر أثره مباشرة في مؤشر الجاهزية
-              ونطاق السوق المحافظ.
+              اختر علاقتك بالمجال أولا، ثم سيظهر مستوى مناسب لهذه العلاقة بدون
+              تكرار أو خلط بين المسارات.
             </p>
 
             <div className="roi-field">
-              <label>المسار الحالي</label>
-              <select value={track} onChange={(event) => setTrack(event.target.value)}>
-                {Object.entries(TRACKS).map(([key, item]) => (
+              <label>أولا: أين تقف من مجال الموارد البشرية والتطوير التنظيمي؟</label>
+              <select
+                value={relation}
+                onChange={(event) => changeRelation(event.target.value)}
+              >
+                {Object.entries(RELATION_GROUPS).map(([key, item]) => (
+                  <option key={key} value={key}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="roi-field">
+              <label>ثانيا: ما المستوى الأقرب لوضعك الحالي؟</label>
+              <select value={levelId} onChange={(event) => setLevelId(event.target.value)}>
+                {(LEVELS_BY_RELATION[relation] || []).map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="roi-field">
+              <label>ثالثا: ما العدسة التي تريد تقويتها؟</label>
+              <select value={lens} onChange={(event) => setLens(event.target.value)}>
+                {Object.entries(LENSES).map(([key, item]) => (
+                  <option key={key} value={key}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="roi-field">
+              <label>رابعا: ما العائد الذي تبحث عنه من هذه الرحلة؟</label>
+              <select value={outcome} onChange={(event) => setOutcome(event.target.value)}>
+                {Object.entries(OUTCOMES).map(([key, item]) => (
                   <option key={key} value={key}>
                     {item.title}
                   </option>
@@ -1056,7 +1358,7 @@ export default function LearningROICalculator({
             </div>
 
             <div className="roi-field">
-              <label>راتبك الشهري الحالي</label>
+              <label>راتبك الشهري الحالي - اختياري</label>
               <input
                 type="number"
                 min="0"
@@ -1132,8 +1434,8 @@ export default function LearningROICalculator({
             )}
 
             <div className="roi-reading">
-              <h3>{activeTrack.shortTitle}</h3>
-              <p>{activeTrack.description}</p>
+              <h3>{activeRelation.shortTitle}</h3>
+              <p>{activeRelation.description}</p>
             </div>
           </aside>
 
@@ -1146,17 +1448,15 @@ export default function LearningROICalculator({
 
             <div className="roi-result-grid">
               <div className="roi-result-card">
-                <span>تقدم الرحلة</span>
-                <strong>
-                  {formatNumber(effectiveDays)} / {formatNumber(safeTotalDays)}
-                </strong>
-                <p>{result.commitmentMessage}</p>
+                <span>تموضعك المهني</span>
+                <strong>{professionalPosition}</strong>
+                <p>{activeLevel.description}</p>
               </div>
 
               <div className="roi-result-card gold">
-                <span>مرحلة الخبرة</span>
-                <strong>{result.experienceStage.label}</strong>
-                <p>{result.experienceStage.description}</p>
+                <span>فجوة التعلم الأقرب</span>
+                <strong>{activeLens.gap}</strong>
+                <p>{activeLens.description}</p>
               </div>
 
               <div className="roi-result-card green">
@@ -1193,9 +1493,9 @@ export default function LearningROICalculator({
             <div className="roi-reading">
               <h3>التفسير المهني</h3>
               <p>
-                {track === "careerShift" && result.mode === "career-shift-non-direct"
-                  ? "بما أنك قادم من مجال آخر وراتبك الحالي أعلى من نطاق الدخول المحافظ في الموارد البشرية، فالعائد المالي المباشر ليس القراءة الصحيحة. القيمة هنا في بناء مسار جديد بوعي، واختصار التخبط، ورفع جاهزيتك للمنافسة على بداية صحيحة."
-                  : activeTrack.mainValue + ". " + activeTrack.description}
+                {result.valueMode === "non-direct"
+                  ? "لأن وضعك الحالي لا يقرأ كزيادة راتب مباشرة، فالقيمة هنا تظهر في وضوح المسار، ونضج الحكم المهني، وتقليل التخبط، وبناء لغة ومخرجات قابلة للاستخدام."
+                  : `${activeOutcome.description} ${activeMarket.text}`}
               </p>
             </div>
 
@@ -1209,26 +1509,26 @@ export default function LearningROICalculator({
               <div className="value-map">
                 <div className="value-step">
                   <b>01</b>
-                  <strong>تقدم فعلي</strong>
-                  <span>{formatNumber(effectiveDays)} يوم من أصل {formatNumber(safeTotalDays)}</span>
+                  <strong>علاقة بالمجال</strong>
+                  <span>{activeRelation.shortTitle}</span>
                 </div>
 
                 <div className="value-step">
                   <b>02</b>
-                  <strong>خبرة وسياق</strong>
-                  <span>{result.experienceStage.label} · {activeMarket.title}</span>
+                  <strong>مستوى مهني</strong>
+                  <span>{activeLevel.title}</span>
                 </div>
 
                 <div className="value-step">
                   <b>03</b>
-                  <strong>تطبيق عملي</strong>
-                  <span>{activeApplication.title}</span>
+                  <strong>عدسة التعلم</strong>
+                  <span>{activeLens.title}</span>
                 </div>
 
                 <div className="value-step">
                   <b>04</b>
-                  <strong>قراءة سوقية</strong>
-                  <span>{result.position.label}</span>
+                  <strong>تقدم فعلي</strong>
+                  <span>{formatNumber(effectiveDays)} من {formatNumber(safeTotalDays)} يوم</span>
                 </div>
               </div>
             </div>
