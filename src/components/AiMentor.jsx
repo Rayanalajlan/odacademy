@@ -1,57 +1,95 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const QUICK_LENSES = [
+const STORAGE_KEY = "odacademy_ai_mentor_sessions_v2";
+const ACTIVE_KEY = "odacademy_ai_mentor_active_session_v2";
+
+const THINKING_MODES = [
   {
-    id: "symptom",
-    title: "فكك العرض",
+    id: "job_description",
+    title: "بناء وصف وظيفي",
+    subtitle: "من الغرض إلى المخرجات والصلاحيات والمؤشرات",
     prompt:
-      "لدي عرض تنظيمي ظاهر، ساعدني على تفكيكه دون القفز للحل. اسألني عن النمط، الأطراف، والبيانات المطلوبة."
+      "أريد بناء وصف وظيفي احترافي لدور عام. أعطني منهجية كاملة، قالبًا جاهزًا، وأخطاء يجب تجنبها.",
+    badge: "JD"
   },
   {
-    id: "hypotheses",
-    title: "ابنِ فرضيات",
+    id: "org_diagnosis",
+    title: "تشخيص مشكلة تنظيمية",
+    subtitle: "عرض، نمط، فرضيات، بيانات، قرار",
     prompt:
-      "ساعدني على بناء فرضيات متعددة لحالة تنظيمية، وميّز بين فرضية بشرية، هيكلية، ثقافية، وقيادية."
+      "لدي مشكلة تنظيمية وأريد تشخيصها بمنهجية واضحة: العرض الظاهر، النمط، الفرضيات، البيانات المطلوبة، والتدخل المحتمل.",
+    badge: "DX"
   },
   {
-    id: "data",
-    title: "اطلب بيانات",
+    id: "intervention_design",
+    title: "تصميم تدخل",
+    subtitle: "تدخل متدرج لا يقفز فوق التشخيص",
     prompt:
-      "ما البيانات التي يجب جمعها للتحقق من فرضيات التطوير التنظيمي؟ رتّبها حسب الأولوية والسهولة والحساسية."
+      "بعد التشخيص، أريد تصميم تدخل تنظيمي متدرج مع المخاطر ومؤشرات قياس الأثر.",
+    badge: "OD"
   },
   {
-    id: "intervention",
-    title: "صمّم تدخل",
+    id: "change",
+    title: "إدارة تغيير",
+    subtitle: "رسائل، مقاومة، أصحاب مصلحة، تثبيت",
     prompt:
-      "بعد التشخيص، ساعدني على تصميم تدخل تنظيمي متدرج، مع مخاطر التنفيذ ومؤشرات قياس الأثر."
+      "أريد التعامل مع مقاومة تغيير. ساعدني على فهم الأطراف، أسباب المقاومة، خطة التواصل، ومؤشرات الاستدامة.",
+    badge: "CH"
   },
   {
-    id: "ethics",
-    title: "اختبر الأخلاقيات",
+    id: "performance",
+    title: "أداء ومساءلة",
+    subtitle: "أهداف، مؤشرات، تغذية راجعة، سلوك",
     prompt:
-      "راجع الحالة من زاوية أخلاقية: السرية، تضارب المصالح، ضغط الإدارة، وحماية الموظفين."
+      "أريد تحليل مشكلة أداء دون اختزالها في الموظف. ساعدني على قراءة الأهداف، المؤشرات، السلوك، والبيئة.",
+    badge: "PM"
   },
   {
-    id: "meeting",
-    title: "جهّز اجتماع",
+    id: "culture",
+    title: "ثقافة ومناخ",
+    subtitle: "ثقة، صمت تنظيمي، سلوك متكرر",
     prompt:
-      "ساعدني على تجهيز أسئلة اجتماع تشخيصي مع قائد إدارة، بحيث لا أتورط في تبني رواية واحدة."
+      "أريد قراءة مشكلة ثقافية أو مناخ تنظيمي: ما السلوك المتكرر؟ ما الرسائل غير المعلنة؟ وكيف أقيسه؟",
+    badge: "CL"
   }
 ];
 
-const STARTER_MESSAGES = [
-  {
-    role: "assistant",
-    content:
-      "حيّاك الله يا زميل المهنة. اكتب الحالة كما هي، وسأساعدك بالطريقة السقراطية: العرض، النمط، الفرضيات، البيانات، ثم التدخل. لا تقلق من ترتيب الكلام؛ ابدأ بما تعرفه."
-  }
-];
+const STARTER_MESSAGE = {
+  id: "starter",
+  role: "assistant",
+  content:
+    "اختر الأداة المناسبة أو اكتب سؤالك مباشرة. سأتعامل مع طلبك كمسألة عمل: أوضح لك المنهجية، أعطيك خطوات قابلة للتنفيذ، ثم أختم بأسئلة تضبط التطبيق على حالتك."
+};
 
-const SAUDI_QUOTA_MESSAGE =
-  "يا زميل المهنة، واضح أن المختبر عليه ضغط اليوم والموجه أخذ نصيبه من الأسئلة. أعطني فرصة لين تتجدد الحصة، وارجع لي بعدها نكمّل التشخيص بهدوء. حفظت لك طريقة التفكير: لا تقفز للحل، ارجع للعرض والنمط والبيانات.";
+const QUOTA_MESSAGE =
+  "المختبر مزدحم اليوم ووصل إلى الحد المتاح من تشغيل الذكاء الاصطناعي. ارجع بعد تجدد الحصة وسنكمل من نفس المحادثة؛ محفوظة هنا ولن تضيع.";
 
-function makeId() {
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+function makeId(prefix = "id") {
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function nowIso() {
+  return new Date().toISOString();
+}
+
+function formatDate(value) {
+  if (!value) return "";
+
+  return new Intl.DateTimeFormat("ar-SA", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Riyadh"
+  }).format(new Date(value));
+}
+
+function makeTitle(text) {
+  const cleaned = String(text || "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return "جلسة جديدة";
+
+  return cleaned.length > 44 ? `${cleaned.slice(0, 44)}...` : cleaned;
 }
 
 function getNextSaudiMidnightIso() {
@@ -68,7 +106,7 @@ function getNextSaudiMidnightIso() {
     return acc;
   }, {});
 
-  const nextRiyadhMidnightUtc = new Date(
+  return new Date(
     Date.UTC(
       Number(parts.year),
       Number(parts.month) - 1,
@@ -77,17 +115,13 @@ function getNextSaudiMidnightIso() {
       5,
       0
     )
-  );
-
-  return nextRiyadhMidnightUtc.toISOString();
+  ).toISOString();
 }
 
 function resolveResetAt(data, response) {
   const directReset = data?.resetAt || data?.reset_at || data?.retryAt || data?.retry_at;
 
-  if (directReset) {
-    return new Date(directReset).toISOString();
-  }
+  if (directReset) return new Date(directReset).toISOString();
 
   const retryAfter = response?.headers?.get?.("Retry-After");
   const retryAfterSeconds = Number(data?.retryAfterSeconds || data?.retry_after_seconds || retryAfter);
@@ -100,21 +134,11 @@ function resolveResetAt(data, response) {
 }
 
 function getTimeLeft(resetAt) {
-  if (!resetAt) {
-    return {
-      total: 0,
-      label: ""
-    };
-  }
+  if (!resetAt) return { total: 0, label: "" };
 
   const difference = new Date(resetAt).getTime() - Date.now();
 
-  if (difference <= 0) {
-    return {
-      total: 0,
-      label: "جاهز الآن"
-    };
-  }
+  if (difference <= 0) return { total: 0, label: "جاهز الآن" };
 
   const totalSeconds = Math.floor(difference / 1000);
   const hours = Math.floor(totalSeconds / 3600);
@@ -123,10 +147,9 @@ function getTimeLeft(resetAt) {
 
   return {
     total: difference,
-    label: `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`
+    label: `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(
+      seconds
+    ).padStart(2, "0")}`
   };
 }
 
@@ -142,7 +165,7 @@ function formatResetTime(resetAt) {
 }
 
 function isQuotaMessage(errorMessage = "") {
-  const lowered = errorMessage.toLowerCase();
+  const lowered = String(errorMessage).toLowerCase();
 
   return (
     lowered.includes("quota") ||
@@ -150,32 +173,117 @@ function isQuotaMessage(errorMessage = "") {
     lowered.includes("daily") ||
     lowered.includes("429") ||
     lowered.includes("neurons") ||
-    errorMessage.includes("الحصة") ||
-    errorMessage.includes("الحد") ||
-    errorMessage.includes("الاستخدام")
+    String(errorMessage).includes("الحصة") ||
+    String(errorMessage).includes("الحد") ||
+    String(errorMessage).includes("الاستخدام")
   );
 }
 
+function makeSession(modeId = "job_description") {
+  const timestamp = nowIso();
+
+  return {
+    id: makeId("session"),
+    title: "جلسة جديدة",
+    modeId,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    messages: [STARTER_MESSAGE]
+  };
+}
+
+function loadInitialState() {
+  if (typeof window === "undefined") {
+    const session = makeSession();
+
+    return {
+      sessions: [session],
+      activeSessionId: session.id
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]");
+    const validSessions = Array.isArray(parsed)
+      ? parsed.filter((session) => session?.id && Array.isArray(session?.messages))
+      : [];
+
+    if (validSessions.length) {
+      const savedActive = window.localStorage.getItem(ACTIVE_KEY);
+      const activeSessionId = validSessions.some((session) => session.id === savedActive)
+        ? savedActive
+        : validSessions[0].id;
+
+      return {
+        sessions: validSessions,
+        activeSessionId
+      };
+    }
+  } catch {
+    // ignore corrupted storage
+  }
+
+  const session = makeSession();
+
+  return {
+    sessions: [session],
+    activeSessionId: session.id
+  };
+}
+
 export default function AiMentor() {
-  const [messages, setMessages] = useState(STARTER_MESSAGES);
+  const initialState = useMemo(() => loadInitialState(), []);
+  const [sessions, setSessions] = useState(initialState.sessions);
+  const [activeSessionId, setActiveSessionId] = useState(initialState.activeSessionId);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [quota, setQuota] = useState(null);
   const [countdown, setCountdown] = useState({ total: 0, label: "" });
-  const [activeLens, setActiveLens] = useState("symptom");
+  const [archiveQuery, setArchiveQuery] = useState("");
   const endRef = useRef(null);
+
+  const activeSession = useMemo(
+    () => sessions.find((session) => session.id === activeSessionId) || sessions[0],
+    [sessions, activeSessionId]
+  );
+
+  const activeMode = useMemo(() => {
+    const modeId = activeSession?.modeId || "job_description";
+    return THINKING_MODES.find((mode) => mode.id === modeId) || THINKING_MODES[0];
+  }, [activeSession?.modeId]);
+
+  const filteredSessions = useMemo(() => {
+    const query = archiveQuery.trim().toLowerCase();
+
+    if (!query) return sessions;
+
+    return sessions.filter((session) => {
+      const haystack = [
+        session.title,
+        session.createdAt,
+        session.updatedAt,
+        ...(session.messages || []).map((message) => message.content)
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
+    });
+  }, [archiveQuery, sessions]);
 
   const disabledByQuota = quota && countdown.total > 0;
 
-  const selectedLens = useMemo(
-    () => QUICK_LENSES.find((item) => item.id === activeLens) || QUICK_LENSES[0],
-    [activeLens]
-  );
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    window.localStorage.setItem(ACTIVE_KEY, activeSessionId || "");
+  }, [sessions, activeSessionId]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, busy, error, quota]);
+  }, [activeSession?.messages, busy, error, quota]);
 
   useEffect(() => {
     if (!quota?.resetAt) return undefined;
@@ -195,42 +303,111 @@ export default function AiMentor() {
     return () => window.clearInterval(timer);
   }, [quota?.resetAt]);
 
-  function addMessage(role, content) {
-    setMessages((current) => [
-      ...current,
-      {
-        id: makeId(),
-        role,
-        content
-      }
-    ]);
+  function updateActiveSession(updater) {
+    setSessions((current) =>
+      current.map((session) => {
+        if (session.id !== activeSessionId) return session;
+
+        const updated = updater(session);
+
+        return {
+          ...session,
+          ...updated,
+          updatedAt: nowIso()
+        };
+      })
+    );
   }
 
-  function applyLens(lens) {
-    setActiveLens(lens.id);
-    setInput((current) => {
-      if (current.trim()) return current;
-      return lens.prompt;
+  function addMessage(role, content, options = {}) {
+    const nextMessage = {
+      id: makeId(role),
+      role,
+      content
+    };
+
+    updateActiveSession((session) => {
+      const nextMessages = [...session.messages, nextMessage];
+      const shouldRetitle =
+        options.retitle ||
+        (role === "user" && (!session.title || session.title === "جلسة جديدة"));
+
+      return {
+        messages: nextMessages,
+        title: shouldRetitle ? makeTitle(content) : session.title
+      };
     });
+  }
+
+  function setMode(modeId) {
+    const mode = THINKING_MODES.find((item) => item.id === modeId) || THINKING_MODES[0];
+
+    updateActiveSession(() => ({
+      modeId: mode.id
+    }));
+
+    setInput((current) => current || mode.prompt);
+  }
+
+  function createSession(modeId = activeMode?.id || "job_description") {
+    const session = makeSession(modeId);
+
+    setSessions((current) => [session, ...current]);
+    setActiveSessionId(session.id);
+    setInput("");
+    setError("");
+    setQuota(null);
+  }
+
+  function deleteSession(sessionId) {
+    setSessions((current) => {
+      const next = current.filter((session) => session.id !== sessionId);
+
+      if (!next.length) {
+        const replacement = makeSession();
+        setActiveSessionId(replacement.id);
+        return [replacement];
+      }
+
+      if (sessionId === activeSessionId) {
+        setActiveSessionId(next[0].id);
+      }
+
+      return next;
+    });
+  }
+
+  function clearActiveSession() {
+    updateActiveSession((session) => ({
+      title: "جلسة جديدة",
+      messages: [STARTER_MESSAGE],
+      modeId: session.modeId || "job_description"
+    }));
+
+    setInput("");
+    setError("");
+    setQuota(null);
   }
 
   async function askMentor(customMessage) {
     const message = String(customMessage || input || "").trim();
 
     if (!message) {
-      setError("اكتب الحالة أو السؤال أولًا.");
+      setError("اكتب الطلب أو الحالة أولًا.");
       return;
     }
 
     if (disabledByQuota) {
-      setError(SAUDI_QUOTA_MESSAGE);
+      setError(QUOTA_MESSAGE);
       return;
     }
+
+    const previousMessages = activeSession?.messages || [];
 
     setBusy(true);
     setError("");
     setInput("");
-    addMessage("user", message);
+    addMessage("user", message, { retitle: true });
 
     try {
       const response = await fetch("/api/mentor", {
@@ -240,8 +417,9 @@ export default function AiMentor() {
         },
         body: JSON.stringify({
           message,
-          lens: selectedLens?.id,
-          history: messages.slice(-8).map((item) => ({
+          mode: activeMode?.id,
+          modeTitle: activeMode?.title,
+          history: previousMessages.slice(-8).map((item) => ({
             role: item.role,
             content: item.content
           }))
@@ -252,115 +430,104 @@ export default function AiMentor() {
 
       if (response.status === 429 || data?.code === "AI_QUOTA_EXCEEDED") {
         const resetAt = resolveResetAt(data, response);
+        const quotaMessage = data?.message || QUOTA_MESSAGE;
 
         setQuota({
           resetAt,
-          message: data?.message || SAUDI_QUOTA_MESSAGE
+          message: quotaMessage
         });
 
         addMessage(
           "assistant",
-          `${data?.message || SAUDI_QUOTA_MESSAGE}\n\nالعودة المتوقعة: بعد الساعة ${formatResetTime(
-            resetAt
-          )} بتوقيت السعودية.`
+          `${quotaMessage}\n\nالعودة المتوقعة: بعد الساعة ${formatResetTime(resetAt)} بتوقيت السعودية.`
         );
 
         return;
       }
 
       if (!response.ok) {
-        const messageFromServer =
+        const serverMessage =
           data?.error ||
           data?.message ||
-          "تعذر الاتصال بالموجه الذكي الآن. حاول بعد قليل.";
+          "تعذر تشغيل الموجه الآن. جرّب بعد قليل.";
 
-        if (isQuotaMessage(messageFromServer)) {
+        if (isQuotaMessage(serverMessage)) {
           const resetAt = resolveResetAt(data, response);
 
           setQuota({
             resetAt,
-            message: SAUDI_QUOTA_MESSAGE
+            message: QUOTA_MESSAGE
           });
 
           addMessage(
             "assistant",
-            `${SAUDI_QUOTA_MESSAGE}\n\nالعودة المتوقعة: بعد الساعة ${formatResetTime(
-              resetAt
-            )} بتوقيت السعودية.`
+            `${QUOTA_MESSAGE}\n\nالعودة المتوقعة: بعد الساعة ${formatResetTime(resetAt)} بتوقيت السعودية.`
           );
 
           return;
         }
 
-        throw new Error(messageFromServer);
+        throw new Error(serverMessage);
       }
 
       const answer =
         data?.answer ||
         data?.response ||
-        "وصلني سؤالك، لكن لم أستطع توليد إجابة واضحة. أعد صياغة الحالة بتفاصيل أكثر.";
+        data?.text ||
+        "وصلني طلبك، لكن الرد لم يكن واضحًا. أعد صياغته بتفاصيل أكثر.";
 
       addMessage("assistant", answer);
     } catch (caughtError) {
       const messageFromError =
-        caughtError?.message || "تعذر تشغيل الموجه الذكي الآن.";
+        caughtError?.message || "تعذر تشغيل الموجه الآن.";
 
       setError(messageFromError);
       addMessage(
         "assistant",
-        messageFromError.includes("Workers AI")
-          ? messageFromError
-          : "واجهتني مشكلة تقنية وأنا أحاول قراءة الحالة. جرّب مرة أخرى بعد قليل، أو اختصر الحالة في نقاط: العرض، الأطراف، ما حدث، وما القرار المطلوب."
+        "واجهتني مشكلة تقنية أثناء قراءة الطلب. جرّب مرة أخرى بعد قليل، أو اختصره في نقاط: ما الدور أو المشكلة؟ ما السياق؟ وما النتيجة المطلوبة؟"
       );
     } finally {
       setBusy(false);
     }
   }
 
-  function clearChat() {
-    setMessages(STARTER_MESSAGES);
-    setError("");
-    setQuota(null);
-    setInput("");
-  }
-
   return (
-    <section className="ai-mentor-page" dir="rtl">
+    <section className="ai-command-page" dir="rtl">
       <style>{`
-        .ai-mentor-page {
+        .ai-command-page {
           min-height: 100vh;
-          padding: 30px 14px 70px;
+          padding: 30px 14px 72px;
           color: #0f172a;
           background:
-            radial-gradient(circle at 12% 10%, rgba(79, 70, 229, 0.14), transparent 31%),
-            radial-gradient(circle at 90% 18%, rgba(245, 158, 11, 0.13), transparent 30%),
-            radial-gradient(circle at 48% 95%, rgba(16, 185, 129, 0.10), transparent 33%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 55%, #fff7ed 100%);
+            radial-gradient(circle at 10% 8%, rgba(79, 70, 229, 0.16), transparent 30%),
+            radial-gradient(circle at 92% 13%, rgba(245, 158, 11, 0.15), transparent 28%),
+            radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.10), transparent 36%),
+            linear-gradient(135deg, #f8fafc 0%, #eef2ff 52%, #fff7ed 100%);
         }
 
-        .ai-mentor-wrap {
-          width: min(1200px, 100%);
+        .ai-command-wrap {
+          width: min(1280px, 100%);
           margin: 0 auto;
         }
 
-        .ai-mentor-hero {
+        .command-hero {
           position: relative;
           overflow: hidden;
-          border-radius: 38px;
-          padding: 30px;
-          color: white;
+          border-radius: 40px;
+          padding: 32px;
+          color: #fff;
           background:
-            radial-gradient(circle at 20% 18%, rgba(129, 140, 248, 0.26), transparent 32%),
-            radial-gradient(circle at 86% 12%, rgba(245, 158, 11, 0.18), transparent 30%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 56%, #312e81);
-          box-shadow: 0 28px 80px rgba(15, 23, 42, 0.20);
+            radial-gradient(circle at 18% 18%, rgba(129, 140, 248, .28), transparent 30%),
+            radial-gradient(circle at 82% 8%, rgba(245, 158, 11, .20), transparent 30%),
+            linear-gradient(135deg, #020617, #1e1b4b 58%, #312e81);
+          box-shadow: 0 28px 82px rgba(15, 23, 42, .22);
         }
 
-        .ai-mentor-hero::before {
+        .command-hero::before {
           content: "";
           position: absolute;
           inset: -70px;
-          opacity: .32;
+          opacity: .30;
           background-image:
             linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
@@ -368,53 +535,53 @@ export default function AiMentor() {
           transform: rotate(-8deg);
         }
 
-        .ai-mentor-hero-inner {
+        .command-hero-inner {
           position: relative;
           z-index: 1;
           display: grid;
           grid-template-columns: 1fr auto;
-          gap: 18px;
+          gap: 20px;
           align-items: center;
         }
 
-        .mentor-kicker {
+        .command-kicker {
           display: inline-flex;
-          padding: 8px 13px;
+          padding: 8px 14px;
           border-radius: 999px;
-          color: #fde68a;
           background: rgba(255,255,255,.10);
           border: 1px solid rgba(255,255,255,.16);
+          color: #fde68a;
           font-size: 12px;
           font-weight: 950;
         }
 
-        .ai-mentor-hero h1 {
-          margin: 16px 0 10px;
-          font-size: clamp(32px, 4.8vw, 58px);
-          line-height: 1.16;
+        .command-hero h1 {
+          margin: 16px 0 12px;
+          font-size: clamp(34px, 5vw, 62px);
+          line-height: 1.14;
           font-weight: 950;
-          letter-spacing: -1px;
+          letter-spacing: -1.1px;
         }
 
-        .ai-mentor-hero p {
+        .command-hero p {
           margin: 0;
-          max-width: 760px;
-          color: rgba(226,232,240,.92);
-          font-size: 15px;
+          max-width: 820px;
+          color: rgba(226, 232, 240, .92);
           line-height: 2.05;
+          font-size: 15px;
           font-weight: 760;
         }
 
-        .mentor-status {
-          min-width: 220px;
-          border-radius: 26px;
+        .command-live-card {
+          min-width: 235px;
+          border-radius: 28px;
           padding: 18px;
-          background: rgba(255,255,255,.10);
+          background: rgba(255, 255, 255, .11);
           border: 1px solid rgba(255,255,255,.16);
-          backdrop-filter: blur(14px);
+          backdrop-filter: blur(16px);
         }
 
-        .mentor-status span {
+        .command-live-card span {
           display: block;
           color: #cbd5e1;
           font-size: 12px;
@@ -422,7 +589,7 @@ export default function AiMentor() {
           margin-bottom: 8px;
         }
 
-        .mentor-status strong {
+        .command-live-card strong {
           display: block;
           color: #fff;
           font-size: 20px;
@@ -430,7 +597,7 @@ export default function AiMentor() {
           font-weight: 950;
         }
 
-        .mentor-status small {
+        .command-live-card small {
           display: block;
           margin-top: 8px;
           color: #fde68a;
@@ -439,48 +606,52 @@ export default function AiMentor() {
           font-weight: 850;
         }
 
-        .mentor-grid {
+        .command-layout {
           display: grid;
-          grid-template-columns: .78fr 1.22fr;
-          gap: 18px;
+          grid-template-columns: 290px minmax(0, 1fr) 320px;
+          gap: 16px;
           margin-top: 18px;
         }
 
-        .mentor-panel {
+        .command-panel {
           border-radius: 32px;
-          padding: 22px;
-          background: rgba(255,255,255,.90);
+          padding: 20px;
+          background: rgba(255,255,255,.92);
           border: 1px solid rgba(255,255,255,.92);
           box-shadow: 0 22px 60px rgba(15,23,42,.08);
           backdrop-filter: blur(18px);
         }
 
-        .mentor-panel h2 {
+        .command-panel h2 {
           margin: 0 0 8px;
           color: #0f172a;
-          font-size: 24px;
+          font-size: 22px;
           line-height: 1.45;
           font-weight: 950;
         }
 
-        .mentor-panel p {
+        .command-panel p {
           margin: 0;
           color: #64748b;
-          line-height: 1.9;
-          font-size: 13px;
-          font-weight: 750;
+          line-height: 1.85;
+          font-size: 12.5px;
+          font-weight: 760;
         }
 
-        .lens-grid {
+        .mode-grid {
           display: grid;
-          gap: 10px;
-          margin-top: 16px;
+          gap: 9px;
+          margin-top: 14px;
         }
 
-        .lens-button {
-          border: 1px solid rgba(148,163,184,.24);
+        .mode-button {
+          border: 1px solid rgba(148, 163, 184, .22);
           border-radius: 22px;
-          padding: 14px;
+          padding: 13px;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 10px;
+          align-items: center;
           background: #fff;
           color: #0f172a;
           cursor: pointer;
@@ -489,85 +660,113 @@ export default function AiMentor() {
           transition: .18s ease;
         }
 
-        .lens-button:hover {
+        .mode-button:hover {
           transform: translateY(-1px);
           box-shadow: 0 14px 34px rgba(15,23,42,.08);
         }
 
-        .lens-button.active {
-          border-color: rgba(79,70,229,.35);
+        .mode-button.active {
+          border-color: rgba(79,70,229,.36);
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.13), transparent 34%),
-            #ffffff;
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            #fff;
         }
 
-        .lens-button strong {
-          display: block;
-          font-size: 14px;
+        .mode-badge {
+          width: 38px;
+          height: 38px;
+          border-radius: 14px;
+          display: grid;
+          place-items: center;
+          color: white;
+          background: linear-gradient(135deg, #4f46e5, #312e81);
+          font-size: 12px;
           font-weight: 950;
-          margin-bottom: 5px;
         }
 
-        .lens-button span {
+        .mode-button strong {
+          display: block;
+          font-size: 13px;
+          line-height: 1.6;
+          font-weight: 950;
+        }
+
+        .mode-button span {
           display: block;
           color: #64748b;
-          font-size: 12px;
-          line-height: 1.7;
-          font-weight: 740;
+          font-size: 11px;
+          line-height: 1.65;
+          font-weight: 750;
         }
 
-        .mentor-chat {
-          min-height: 620px;
+        .chat-panel {
+          min-height: 680px;
           display: grid;
           grid-template-rows: auto 1fr auto;
         }
 
-        .chat-top {
+        .chat-header {
           display: flex;
           justify-content: space-between;
           gap: 12px;
-          align-items: center;
+          align-items: flex-start;
           margin-bottom: 14px;
         }
 
-        .chat-actions {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
+        .chat-title strong {
+          display: block;
+          color: #0f172a;
+          font-size: 22px;
+          line-height: 1.45;
+          font-weight: 950;
         }
 
-        .chat-actions button {
+        .chat-title span {
+          display: block;
+          color: #64748b;
+          font-size: 12px;
+          line-height: 1.8;
+          font-weight: 760;
+        }
+
+        .header-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .soft-button {
           border: 0;
           border-radius: 999px;
           padding: 9px 13px;
           background: #f1f5f9;
           color: #334155;
-          cursor: pointer;
           font-family: inherit;
           font-size: 12px;
           font-weight: 900;
+          cursor: pointer;
         }
 
         .messages-box {
           overflow: auto;
-          max-height: 520px;
+          max-height: 560px;
           display: grid;
           gap: 12px;
           padding: 14px;
-          border-radius: 26px;
+          border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(248,250,252,.95), rgba(241,245,249,.80));
+            linear-gradient(180deg, rgba(248,250,252,.96), rgba(241,245,249,.84));
           border: 1px solid rgba(148,163,184,.16);
         }
 
         .message {
           display: grid;
           gap: 5px;
-          max-width: 86%;
-          animation: mentorFade .18s ease;
+          max-width: 88%;
+          animation: fadeIn .18s ease;
         }
 
-        @keyframes mentorFade {
+        @keyframes fadeIn {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: translateY(0); }
         }
@@ -611,8 +810,8 @@ export default function AiMentor() {
 
         .typing {
           display: inline-flex;
-          align-items: center;
           gap: 5px;
+          align-items: center;
         }
 
         .typing i {
@@ -623,66 +822,45 @@ export default function AiMentor() {
           animation: bounce 1s infinite ease-in-out;
         }
 
-        .typing i:nth-child(2) {
-          animation-delay: .12s;
-        }
-
-        .typing i:nth-child(3) {
-          animation-delay: .24s;
-        }
+        .typing i:nth-child(2) { animation-delay: .12s; }
+        .typing i:nth-child(3) { animation-delay: .24s; }
 
         @keyframes bounce {
           0%, 80%, 100% { transform: translateY(0); opacity: .45; }
           40% { transform: translateY(-5px); opacity: 1; }
         }
 
-        .quota-card {
-          margin-bottom: 14px;
-          border-radius: 24px;
-          padding: 16px;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(245,158,11,.15), transparent 35%),
-            #fffbeb;
-          border: 1px solid #fde68a;
-          color: #78350f;
-        }
-
-        .quota-card strong {
-          display: block;
-          font-size: 15px;
-          line-height: 1.7;
-          font-weight: 950;
-        }
-
-        .quota-card span {
-          display: block;
-          margin-top: 6px;
+        .quota-card,
+        .error-card {
+          margin-bottom: 12px;
+          border-radius: 22px;
+          padding: 14px;
+          line-height: 1.85;
           font-size: 12px;
-          line-height: 1.9;
           font-weight: 850;
+        }
+
+        .quota-card {
+          color: #78350f;
+          background: #fffbeb;
+          border: 1px solid #fde68a;
+        }
+
+        .error-card {
+          color: #9f1239;
+          background: #fff1f2;
+          border: 1px solid #fecdd3;
         }
 
         .quota-timer {
           display: inline-flex;
-          margin-top: 10px;
+          margin-top: 9px;
           padding: 8px 12px;
           border-radius: 999px;
           background: #fff;
           color: #92400e;
           font-size: 12px;
           font-weight: 950;
-        }
-
-        .mentor-error {
-          margin-bottom: 12px;
-          border-radius: 18px;
-          padding: 12px;
-          color: #9f1239;
-          background: #fff1f2;
-          border: 1px solid #fecdd3;
-          line-height: 1.8;
-          font-size: 12px;
-          font-weight: 850;
         }
 
         .composer {
@@ -693,9 +871,9 @@ export default function AiMentor() {
 
         .composer textarea {
           width: 100%;
-          min-height: 112px;
+          min-height: 120px;
           resize: vertical;
-          border-radius: 22px;
+          border-radius: 24px;
           border: 1px solid #cbd5e1;
           padding: 15px;
           background: #fff;
@@ -725,13 +903,13 @@ export default function AiMentor() {
           color: #64748b;
           line-height: 1.7;
           font-size: 11px;
-          font-weight: 760;
+          font-weight: 780;
         }
 
         .send-button {
           border: 0;
           min-height: 46px;
-          border-radius: 17px;
+          border-radius: 18px;
           padding: 0 18px;
           color: #fff;
           background: linear-gradient(135deg, #4f46e5, #312e81);
@@ -747,13 +925,96 @@ export default function AiMentor() {
           box-shadow: none;
         }
 
-        @media (max-width: 960px) {
-          .ai-mentor-hero-inner,
-          .mentor-grid {
+        .archive-search {
+          width: 100%;
+          box-sizing: border-box;
+          margin-top: 14px;
+          min-height: 42px;
+          border-radius: 16px;
+          border: 1px solid #cbd5e1;
+          padding: 0 12px;
+          font-family: inherit;
+          font-weight: 800;
+          outline: none;
+        }
+
+        .archive-list {
+          display: grid;
+          gap: 9px;
+          margin-top: 12px;
+          max-height: 520px;
+          overflow: auto;
+          padding-left: 2px;
+        }
+
+        .archive-item {
+          border: 1px solid rgba(148,163,184,.22);
+          border-radius: 20px;
+          padding: 12px;
+          background: #fff;
+          cursor: pointer;
+          text-align: right;
+          font-family: inherit;
+          transition: .16s ease;
+        }
+
+        .archive-item:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 14px 32px rgba(15,23,42,.07);
+        }
+
+        .archive-item.active {
+          border-color: rgba(79,70,229,.36);
+          background: #eef2ff;
+        }
+
+        .archive-item strong {
+          display: block;
+          color: #0f172a;
+          font-size: 13px;
+          line-height: 1.65;
+          font-weight: 950;
+        }
+
+        .archive-item span {
+          display: block;
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.65;
+          margin-top: 4px;
+          font-weight: 740;
+        }
+
+        .archive-item-footer {
+          display: flex;
+          justify-content: space-between;
+          gap: 8px;
+          align-items: center;
+          margin-top: 8px;
+        }
+
+        .delete-mini {
+          border: 0;
+          border-radius: 999px;
+          padding: 5px 8px;
+          background: #fff1f2;
+          color: #be123c;
+          font-family: inherit;
+          font-size: 10px;
+          font-weight: 900;
+          cursor: pointer;
+        }
+
+        @media (max-width: 1180px) {
+          .command-layout {
             grid-template-columns: 1fr;
           }
 
-          .mentor-status {
+          .command-hero-inner {
+            grid-template-columns: 1fr;
+          }
+
+          .command-live-card {
             min-width: 0;
           }
 
@@ -763,77 +1024,96 @@ export default function AiMentor() {
         }
 
         @media (max-width: 560px) {
-          .ai-mentor-page {
+          .ai-command-page {
             padding: 18px 10px 46px;
           }
 
-          .ai-mentor-hero,
-          .mentor-panel {
+          .command-hero,
+          .command-panel {
             border-radius: 26px;
             padding: 20px;
+          }
+
+          .chat-header,
+          .composer-footer {
+            display: block;
+          }
+
+          .header-actions {
+            margin-top: 10px;
+          }
+
+          .send-button {
+            width: 100%;
+            margin-top: 10px;
           }
         }
       `}</style>
 
-      <div className="ai-mentor-wrap">
-        <header className="ai-mentor-hero">
-          <div className="ai-mentor-hero-inner">
+      <div className="ai-command-wrap">
+        <header className="command-hero">
+          <div className="command-hero-inner">
             <div>
-              <span className="mentor-kicker">الموجه الذكي</span>
-              <h1>مختبر سقراطي لفهم المنظمة قبل وصف العلاج</h1>
+              <span className="command-kicker">الموجه الذكي</span>
+              <h1>الموجه الذكي</h1>
               <p>
-                هذا ليس روبوت إجابات جاهزة؛ بل رفيق تشخيصي يساعدك على تفكيك
-                العرض، بناء الفرضيات، طلب البيانات، ثم تصميم تدخل مهني بحذر.
+                غرفة عمل ذكية داخل قسم الموجه الذكي: اكتب طلبك كما هو؛ وصف وظيفي،
+                مشكلة أداء، تدخل تنظيمي، أو موقف تغيير. الموجه يعطيك إطار عمل
+                واضحًا، ثم يسألك فقط عما يلزم لتخصيصه.
               </p>
             </div>
 
-            <div className="mentor-status">
-              <span>حالة الموجه</span>
-              <strong>
-                {disabledByQuota ? "استراحة ذكية مؤقتة" : busy ? "يفكر معك..." : "جاهز للتشخيص"}
-              </strong>
+            <div className="command-live-card">
+              <span>حالة المختبر</span>
+              <strong>{disabledByQuota ? "استراحة مؤقتة" : busy ? "يبني الرد..." : "جاهز للعمل"}</strong>
               <small>
                 {disabledByQuota
                   ? `يعود تقريبًا بعد الساعة ${formatResetTime(quota.resetAt)}`
-                  : "اكتب الحالة كما حدثت، لا كما تتمنى حلها."}
+                  : "المحادثات محفوظة تلقائيًا في الأرشيف."}
               </small>
             </div>
           </div>
         </header>
 
-        <div className="mentor-grid">
-          <aside className="mentor-panel">
-            <h2>اختر عدسة التفكير</h2>
-            <p>
-              اختر العدسة، ثم اكتب حالتك. العدسة لا تعطيك إجابة، بل تضبط طريقة
-              تفكير الموجه.
-            </p>
+        <div className="command-layout">
+          <aside className="command-panel">
+            <h2>أدوات جاهزة</h2>
+            <p>اختر نوع المهمة، وسيضبط الموجه طريقة الرد بدل إجابات عامة.</p>
 
-            <div className="lens-grid">
-              {QUICK_LENSES.map((lens) => (
+            <div className="mode-grid">
+              {THINKING_MODES.map((mode) => (
                 <button
-                  key={lens.id}
+                  key={mode.id}
                   type="button"
-                  className={`lens-button ${activeLens === lens.id ? "active" : ""}`}
-                  onClick={() => applyLens(lens)}
+                  className={`mode-button ${activeMode.id === mode.id ? "active" : ""}`}
+                  onClick={() => setMode(mode.id)}
                 >
-                  <strong>{lens.title}</strong>
-                  <span>{lens.prompt}</span>
+                  <span className="mode-badge">{mode.badge}</span>
+                  <span>
+                    <strong>{mode.title}</strong>
+                    <span>{mode.subtitle}</span>
+                  </span>
                 </button>
               ))}
             </div>
           </aside>
 
-          <main className="mentor-panel mentor-chat">
-            <div className="chat-top">
-              <div>
-                <h2>جلسة تشخيص</h2>
-                <p>ابدأ بسطر واحد، أو اكتب الحالة كاملة. الأفضل: من؟ ماذا حدث؟ ما القرار المطلوب؟</p>
+          <main className="command-panel chat-panel">
+            <div className="chat-header">
+              <div className="chat-title">
+                <strong>{activeSession?.title || "جلسة جديدة"}</strong>
+                <span>
+                  {activeMode.title} · محفوظ تلقائيًا · آخر تحديث:{" "}
+                  {formatDate(activeSession?.updatedAt)}
+                </span>
               </div>
 
-              <div className="chat-actions">
-                <button type="button" onClick={clearChat}>
-                  مسح الجلسة
+              <div className="header-actions">
+                <button type="button" className="soft-button" onClick={() => createSession()}>
+                  جلسة جديدة
+                </button>
+                <button type="button" className="soft-button" onClick={clearActiveSession}>
+                  مسح هذه الجلسة
                 </button>
               </div>
             </div>
@@ -841,29 +1121,22 @@ export default function AiMentor() {
             <div>
               {disabledByQuota && (
                 <div className="quota-card" role="status" aria-live="polite">
-                  <strong>الموجه مزدحم اليوم، بس ما راح نتركك معلّق.</strong>
-                  <span>{quota.message || SAUDI_QUOTA_MESSAGE}</span>
-                  <span className="quota-timer">
-                    يفتح تقريبًا بعد: {countdown.label || "قليل"}
-                  </span>
+                  <strong>الموجه مزدحم مؤقتًا.</strong>
+                  <div>{quota.message || QUOTA_MESSAGE}</div>
+                  <span className="quota-timer">يعود تقريبًا بعد: {countdown.label || "قليل"}</span>
                 </div>
               )}
 
               {error && (
-                <div className="mentor-error" role="alert" aria-live="assertive">
+                <div className="error-card" role="alert" aria-live="assertive">
                   {error}
                 </div>
               )}
 
               <div className="messages-box" aria-live="polite">
-                {messages.map((message, index) => (
-                  <div
-                    key={message.id || `${message.role}-${index}`}
-                    className={`message ${message.role}`}
-                  >
-                    <span className="message-label">
-                      {message.role === "user" ? "أنت" : "الموجه"}
-                    </span>
+                {(activeSession?.messages || []).map((message, index) => (
+                  <div key={message.id || `${message.role}-${index}`} className={`message ${message.role}`}>
+                    <span className="message-label">{message.role === "user" ? "أنت" : "الموجه"}</span>
                     <div className="message-bubble">{message.content}</div>
                   </div>
                 ))}
@@ -895,13 +1168,13 @@ export default function AiMentor() {
               <textarea
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                placeholder="مثال: عندنا مقاومة لمبادرة تغيير، الإدارة تقول الموظفون غير متعاونين، والفريق يقول الأولويات غير واضحة..."
+                placeholder="مثال: كيف أبني وصفًا وظيفيًا احترافيًا لأي دور؟ أو: عندي دوران مرتفع في قسم محدد وأريد تشخيص السبب..."
                 disabled={busy || disabledByQuota}
               />
 
               <div className="composer-footer">
                 <small>
-                  الموجه يساعدك على التفكير، لكنه لا يستبدل حكمك المهني ولا قراءة البيانات الواقعية.
+                  محفوظ محليًا في هذا المتصفح. لا تدخل بيانات سرية أو أسماء أشخاص حقيقية داخل المحادثة.
                 </small>
 
                 <button
@@ -909,11 +1182,50 @@ export default function AiMentor() {
                   className="send-button"
                   disabled={busy || disabledByQuota || !input.trim()}
                 >
-                  {busy ? "يفكر..." : "ابدأ التشخيص"}
+                  {busy ? "يبني الرد..." : "إرسال للموجه"}
                 </button>
               </div>
             </form>
           </main>
+
+          <aside className="command-panel">
+            <h2>أرشيف المحادثات</h2>
+            <p>ابحث في محادثاتك السابقة أو ارجع لأي جلسة محفوظة.</p>
+
+            <input
+              className="archive-search"
+              value={archiveQuery}
+              onChange={(event) => setArchiveQuery(event.target.value)}
+              placeholder="ابحث بكلمة أو فكرة..."
+            />
+
+            <div className="archive-list">
+              {filteredSessions.map((session) => (
+                <button
+                  key={session.id}
+                  type="button"
+                  className={`archive-item ${session.id === activeSessionId ? "active" : ""}`}
+                  onClick={() => setActiveSessionId(session.id)}
+                >
+                  <strong>{session.title || "جلسة بدون عنوان"}</strong>
+                  <span>{formatDate(session.updatedAt)}</span>
+                  <div className="archive-item-footer">
+                    <span>{Math.max(0, (session.messages?.length || 1) - 1)} رسالة</span>
+                    <button
+                      type="button"
+                      className="delete-mini"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteSession(session.id);
+                      }}
+                    >
+                      حذف
+                    </button>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </aside>
         </div>
       </div>
     </section>
