@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { courseMap as rawCourseMap } from "../data/courseContent";
+import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
 
 const stateLabels = {
@@ -7,8 +7,6 @@ const stateLabels = {
   active: "متاح",
   completed: "مكتمل"
 };
-
-const RESUME_REQUEST_KEY = "odacademy_resume_next_lesson";
 
 const stageMeta = {
   months: {
@@ -384,134 +382,18 @@ function parseQuizText(day, quizText) {
   }).filter((q) => q.question && q.options.length);
 }
 
-
-function normalizeAnswerKey(value) {
-  const key = String(value || "").trim();
-  const map = {
-    "أ": "A",
-    "ب": "B",
-    "ج": "C",
-    "د": "D",
-    "a": "A",
-    "b": "B",
-    "c": "C",
-    "d": "D"
-  };
-
-  return map[key] || key.toUpperCase();
-}
-
-function extractDayAnswerMap(week, day) {
-  const appendix = safeText(week?.instructorAppendix || "");
-
-  if (!appendix) {
-    return {};
-  }
-
-  const dayPatterns = [
-    new RegExp(`اليوم\\s+${day.dayIndex}\\s*[:：]([\\s\\S]*?)(?=\\n\\s*اليوم\\s+\\d+\\s*[:：]|$)`, "m"),
-    new RegExp(`${escapeRegExp(day.label || "")}\\s*[:：]([\\s\\S]*?)(?=\\n\\s*اليوم\\s+(?:الأول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|\\d+)\\s*[:：]|$)`, "m")
-  ];
-
-  let dayBlock = "";
-
-  for (const pattern of dayPatterns) {
-    const match = appendix.match(pattern);
-    if (match?.[1]) {
-      dayBlock = match[1];
-      break;
-    }
-  }
-
-  if (!dayBlock) {
-    return {};
-  }
-
-  const answerMap = {};
-  const answerRegex = /(\\d+)\\s*[-–—:]\\s*([A-Dأبجد])/g;
-  let match;
-
-  while ((match = answerRegex.exec(dayBlock)) !== null) {
-    answerMap[Number(match[1])] = normalizeAnswerKey(match[2]);
-  }
-
-  return answerMap;
-}
-
-function buildOptionExplanation({ question, option, isCorrect, selectedIsCorrect }) {
-  if (!option?.text) {
-    return "راجع الفكرة المركزية في الدرس ثم اربط السؤال بالنمط التشخيصي المطلوب.";
-  }
-
-  if (isCorrect) {
-    return `الإجابة صحيحة لأنها الأقرب لمنطق الدرس: ${option.text}`;
-  }
-
-  if (selectedIsCorrect === false) {
-    return "هذا الخيار يبدو قريبًا، لكنه لا يمثل أدق قراءة مهنية للسؤال. ارجع للعنوان والفكرة المركزية في الدرس وميّز بين الرأي، العرض، الفرضية، والدليل.";
-  }
-
-  return `الخيار الصحيح هو: ${option.text}`;
-}
-
-function applyAnswerKeysToQuiz({ questions, week, day }) {
-  const answerMap = extractDayAnswerMap(week, day);
-
-  return questions.map((question, questionIndex) => {
-    const correctKey = answerMap[questionIndex + 1];
-
-    if (!correctKey) {
-      return {
-        ...question,
-        options: question.options.map((option) => ({
-          ...option,
-          explanation:
-            option.explanation ||
-            "هذا السؤال مخصص للتأمل والفهم. اربط اختيارك بفكرة الدرس قبل الانتقال."
-        })),
-        hasKnownCorrectAnswer: Boolean(question.hasKnownCorrectAnswer)
-      };
-    }
-
-    const options = question.options.map((option) => {
-      const isCorrect = normalizeAnswerKey(option.id || option.originalKey) === correctKey;
-
-      return {
-        ...option,
-        isCorrect,
-        explanation: buildOptionExplanation({
-          question,
-          option,
-          isCorrect,
-          selectedIsCorrect: isCorrect
-        })
-      };
-    });
-
-    return {
-      ...question,
-      options,
-      hasKnownCorrectAnswer: true
-    };
-  });
-}
-
-function prepareLesson(day, week) {
+function prepareLesson(day) {
   const fullText = getDayContent(day);
   const { lessonText, quizText } = splitQuizFromText(fullText);
   const parsedQuiz = parseQuizText(day, quizText);
-  const quizWithAnswers = applyAnswerKeysToQuiz({
-    questions: parsedQuiz,
-    week,
-    day
-  });
 
   return {
+    // النص الكامل محفوظ كما هو من ملف courseContent، ويُعرض أيضًا في قسم "النص الأصلي الكامل".
     fullText,
     lessonText,
     quizText,
     hasQuizText: Boolean(quizText),
-    quiz: quizWithAnswers
+    quiz: parsedQuiz
   };
 }
 
@@ -578,6 +460,19 @@ function RichLesson({ text }) {
   );
 }
 
+function ExactSourcePanel({ text }) {
+  const source = safeText(text).trim();
+
+  if (!source) return null;
+
+  return (
+    <details className="jl-exact-source">
+      <summary>النص الأصلي الكامل لهذا اليوم كما هو في ملف المحتوى</summary>
+      <pre>{source}</pre>
+    </details>
+  );
+}
+
 function StatusMark({ state }) {
   if (state === "completed") return <span className="jl-status jl-status--completed">✓</span>;
   if (state === "locked") return <span className="jl-status jl-status--locked">🔒</span>;
@@ -601,28 +496,19 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({
-  day,
-  questions,
-  hasQuizText = false,
-  completed = false,
-  onComplete,
-  onReviewDone
-}) {
+function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   const [answers, setAnswers] = useState({});
-  const [savingAfterCheck, setSavingAfterCheck] = useState(false);
-  const [savedForDay, setSavedForDay] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     setAnswers({});
-    setSavingAfterCheck(false);
-    setSavedForDay(false);
+    setSubmitted(false);
   }, [day.id]);
 
   const total = questions.length;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = total > 0 && answeredCount === total;
-  const hasKnownAnswers = total > 0 && questions.some((q) => q.hasKnownCorrectAnswer);
+  const hasKnownAnswers = questions.every((q) => q.hasKnownCorrectAnswer);
 
   const score = questions.reduce((sum, question) => {
     const selected = answers[question.id];
@@ -630,34 +516,11 @@ function QuizPanel({
     return sum + (option?.isCorrect ? 1 : 0);
   }, 0);
 
-  function chooseAnswer(questionId, optionId) {
-    if (completed || savedForDay || savingAfterCheck) return;
+  const passed = hasKnownAnswers ? score === total : allAnswered;
 
-    // بعد اختيار إجابة السؤال تظهر نتيجة هذا السؤال مباشرة.
-    // نمنع تغيير الإجابة بعد ظهور التصحيح حتى لا تتحول التجربة إلى تخمين.
-    if (answers[questionId]) return;
-
-    setAnswers((current) => ({
-      ...current,
-      [questionId]: optionId
-    }));
-  }
-
-  async function saveAndMoveNext() {
-    if (!allAnswered || completed || savingAfterCheck) return;
-
-    setSavingAfterCheck(true);
-
-    try {
-      await onComplete?.({ score, total, hasKnownAnswers });
-      setSavedForDay(true);
-
-      window.setTimeout(() => {
-        onReviewDone?.();
-      }, 180);
-    } finally {
-      setSavingAfterCheck(false);
-    }
+  function submitQuiz() {
+    setSubmitted(true);
+    if (passed) onPass(true);
   }
 
   if (!questions.length) {
@@ -665,12 +528,17 @@ function QuizPanel({
       <div className="jl-quiz jl-quiz-soft">
         <h3>اختبار اليوم</h3>
         {hasQuizText ? (
-          <p>
-            اختبار هذا اليوم يحتاج مراجعة في بيانات المحتوى حتى يظهر بصيغة
-            تفاعلية واضحة.
-          </p>
+          <>
+            <p>
+              يوجد اختبار في النص الأصلي، لكن لم أستطع تحويله تلقائيًا إلى أزرار اختيار.
+              اقرأ اختبار اليوم من قسم "النص الأصلي الكامل" ثم اضغط الزر التالي لتأكيد أنك أجبت عنه.
+            </p>
+            <button type="button" className="jl-quiz-submit" onClick={() => onPass(true)}>
+              أجبت على اختبار اليوم من النص الأصلي
+            </button>
+          </>
         ) : (
-          <p>لا يوجد اختبار مضاف لهذا اليوم داخل بيانات المحتوى.</p>
+          <p>لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء اليوم بعد قراءة الدرس.</p>
         )}
       </div>
     );
@@ -683,21 +551,24 @@ function QuizPanel({
         <strong>{answeredCount} / {total}</strong>
       </div>
 
-      <h3>أجب عن الأسئلة وسيظهر التصحيح مباشرة</h3>
-      <p className="jl-quiz-note">
-        بعد اختيار إجابة كل سؤال ستظهر النتيجة في مكانها: الأخضر للإجابة
-        الصحيحة، والأحمر للاختيار غير الدقيق. بعد إكمال الأسئلة اضغط زر
-        الانتقال لحفظ إنجاز اليوم وفتح المحطة التالية.
-      </p>
+      <h3>اختبر فهمك قبل حفظ الإنجاز</h3>
+
+      {total !== 3 && (
+        <div className="jl-quiz-warning">
+          تنبيه: المتوقع أن يحتوي اختبار كل يوم على 3 أسئلة. هذا اليوم ظهر فيه {total} سؤال/أسئلة بعد التحويل الآلي.
+          النص الأصلي الكامل ظاهر أسفل الدرس للمراجعة.
+        </div>
+      )}
+
+      {!hasKnownAnswers && (
+        <div className="jl-quiz-warning">
+          تم استخراج الأسئلة من النص، لكن لم توجد مفاتيح إجابة منظمة في بيانات هذا اليوم. سيتم اعتبار الاختبار مكتملًا بعد الإجابة عن كل الأسئلة.
+        </div>
+      )}
 
       <div className="jl-question-list">
         {questions.map((question, questionIndex) => {
           const selected = answers[question.id];
-          const selectedOption = question.options.find((option) => option.id === selected);
-          const correctOption = question.options.find((option) => option.isCorrect);
-          const selectedIsCorrect = Boolean(selectedOption?.isCorrect);
-          const revealForQuestion = Boolean(selected);
-          const questionHasKnownAnswer = Boolean(correctOption);
 
           return (
             <div className="jl-question" key={question.id}>
@@ -709,8 +580,8 @@ function QuizPanel({
               <div className="jl-options">
                 {question.options.map((option, optionIndex) => {
                   const isSelected = selected === option.id;
-                  const showCorrect = revealForQuestion && questionHasKnownAnswer && option.isCorrect;
-                  const showWrong = revealForQuestion && questionHasKnownAnswer && isSelected && !option.isCorrect;
+                  const showCorrect = submitted && hasKnownAnswers && option.isCorrect;
+                  const showWrong = submitted && hasKnownAnswers && isSelected && !option.isCorrect;
 
                   return (
                     <button
@@ -722,8 +593,12 @@ function QuizPanel({
                         showCorrect ? "jl-option--correct" : "",
                         showWrong ? "jl-option--wrong" : ""
                       ].join(" ")}
-                      disabled={Boolean(selected) || completed || savedForDay || savingAfterCheck}
-                      onClick={() => chooseAnswer(question.id, option.id)}
+                      onClick={() => {
+                        setAnswers((current) => ({
+                          ...current,
+                          [question.id]: option.id
+                        }));
+                      }}
                     >
                       <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
                       <strong>{option.text}</strong>
@@ -731,53 +606,28 @@ function QuizPanel({
                   );
                 })}
               </div>
-
-              {revealForQuestion && questionHasKnownAnswer && (
-                <div className={selectedIsCorrect ? "jl-feedback jl-feedback--correct" : "jl-feedback jl-feedback--wrong"}>
-                  <strong>{selectedIsCorrect ? "إجابة صحيحة" : "الإجابة الصحيحة"}</strong>
-                  <p>
-                    {selectedIsCorrect
-                      ? selectedOption?.explanation || "اختيارك متسق مع منطق الدرس."
-                      : correctOption?.explanation || `الإجابة الصحيحة هي: ${correctOption?.text || "غير محددة"}`}
-                  </p>
-                </div>
-              )}
             </div>
           );
         })}
       </div>
 
       <div className="jl-quiz-footer">
-        {!allAnswered && (
-          <div className="jl-quiz-result jl-quiz-result--neutral">
-            أكمل الأسئلة المتبقية، ثم اضغط زر الانتقال لحفظ إنجاز اليوم.
-          </div>
-        )}
+        <button
+          type="button"
+          className="jl-quiz-submit"
+          disabled={!allAnswered}
+          onClick={submitQuiz}
+        >
+          تحقق من الاختبار
+        </button>
 
-        {allAnswered && (
-          <div className="jl-quiz-result jl-quiz-result--pass">
+        {submitted && (
+          <div className={passed ? "jl-quiz-result jl-quiz-result--pass" : "jl-quiz-result jl-quiz-result--fail"}>
             {hasKnownAnswers
-              ? `انتهيت من الاختبار. نتيجتك الحالية ${score} من ${total}.`
-              : "انتهيت من أسئلة اليوم."}
-          </div>
-        )}
-
-        {allAnswered && !completed && (
-          <button
-            type="button"
-            className="jl-quiz-submit"
-            onClick={saveAndMoveNext}
-            disabled={savingAfterCheck || savedForDay}
-          >
-            {savingAfterCheck || savedForDay
-              ? "جارٍ حفظ الإنجاز..."
-              : "حفظ الإنجاز والانتقال لليوم التالي"}
-          </button>
-        )}
-
-        {completed && (
-          <div className="jl-quiz-result jl-quiz-result--pass">
-            هذا اليوم مكتمل. يمكنك الانتقال من أزرار التنقل الجانبية.
+              ? passed
+                ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
+                : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
+              : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
           </div>
         )}
       </div>
@@ -809,20 +659,26 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     selectedWeek?.days?.[0];
 
   const preparedLesson = useMemo(
-    () => prepareLesson(selectedDay || {}, selectedWeek || {}),
-    [selectedDay?.id, selectedDay?.content, selectedDay?.quiz, selectedWeek?.instructorAppendix]
+    () => prepareLesson(selectedDay || {}),
+    [selectedDay?.id, selectedDay?.content, selectedDay?.quiz]
   );
 
-  const totalCourseDays = getCourseTotalDays(course);
+  // العدد الفعلي داخل المحتوى يبقى كما هو حتى لا ينكسر فتح الأسابيع والشهور.
+  // أما العرض أمام المتدرب فيكون حسب الخطة المعتمدة: 6 أشهر × 30 يوم = 180 يومًا.
+  const actualCourseDays = getCourseTotalDays(course);
+  const totalCourseDays = COURSE_TOTALS?.totalDays || 180;
+  const daysPerMonth = COURSE_TOTALS?.daysPerMonth || 30;
+
   const totalCompletedDays = course.reduce(
     (sum, month) => sum + countCompletedInMonth(completedSet, month),
     0
   );
 
-  const monthTotalDays = selectedMonth
+  const actualMonthDays = selectedMonth
     ? selectedMonth.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0)
     : 0;
 
+  const monthTotalDays = selectedMonth ? daysPerMonth : 0;
   const weekTotalDays = selectedWeek ? getContentDays(selectedWeek).length : 0;
   const monthCompletedDays = selectedMonth ? countCompletedInMonth(completedSet, selectedMonth) : 0;
   const weekCompletedDays = selectedWeek ? countCompletedInWeek(completedSet, selectedWeek) : 0;
@@ -953,17 +809,6 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
       setSelectedMonthIndex(nextPoint.month.monthIndex);
       setSelectedWeekIndex(nextPoint.week.weekIndex);
       setSelectedDayIndex(nextPoint.day.dayIndex);
-
-      const shouldOpenLastStation = localStorage.getItem(RESUME_REQUEST_KEY) === "1";
-
-      if (shouldOpenLastStation) {
-        localStorage.removeItem(RESUME_REQUEST_KEY);
-        setStage("lesson");
-
-        window.setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 120);
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course.length, progressRows.length]);
@@ -1013,33 +858,6 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     setStage("lesson");
   }
 
-  function getRelativeDay(direction) {
-    if (!selectedWeek || !selectedDay) return null;
-
-    const contentDays = getContentDays(selectedWeek).sort((a, b) => a.dayIndex - b.dayIndex);
-    const currentIndex = contentDays.findIndex((day) => day.dayIndex === selectedDay.dayIndex);
-
-    if (currentIndex === -1) return null;
-
-    const targetDay = contentDays[currentIndex + direction];
-
-    if (!targetDay) return null;
-
-    return targetDay;
-  }
-
-  function moveToRelativeDay(direction) {
-    const targetDay = getRelativeDay(direction);
-
-    if (!targetDay) return;
-    if (!isDayUnlocked(targetDay, selectedWeek, selectedMonth)) return;
-
-    setSelectedDayIndex(targetDay.dayIndex);
-    setNotice("");
-    setStage("lesson");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   function openNextPoint() {
     const nextPoint = firstAvailableLearningPoint();
     if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) return;
@@ -1051,21 +869,21 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     setNotice("");
   }
 
-  async function completeCurrentDay({ forceQuizPassed = false, silent = false } = {}) {
+  async function completeCurrentDay() {
     if (!selectedDay) return;
     if (!isDayUnlocked(selectedDay, selectedWeek, selectedMonth)) return;
     if (isDayCompleted(selectedDay, completedSet)) return;
 
-    const hasQuiz = preparedLesson.hasQuizText || preparedLesson.quiz.length > 0;
-    const quizPassed = forceQuizPassed || quizPassedByDay[selectedDay.id];
+    const hasQuiz = preparedLesson.quiz.length > 0;
+    const quizPassed = quizPassedByDay[selectedDay.id];
 
     if (hasQuiz && !quizPassed) {
-      setNotice("أكمل اختبار اليوم أولًا، ثم اضغط زر الانتقال لحفظ إنجاز اليوم.");
+      setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
       return;
     }
 
     setSaving(true);
-    if (!silent) setNotice("");
+    setNotice("");
 
     try {
       const rows = await updateUserProgress({
@@ -1097,72 +915,12 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
         ]);
       }
 
-      if (!silent) {
-        setNotice("تم حفظ إنجاز اليوم.");
-      }
+      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
     } catch (error) {
       setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
     } finally {
       setSaving(false);
     }
-  }
-
-  function moveToNextLearningPointAfterCurrent() {
-    if (!selectedDay) return;
-
-    const flatDays = [];
-
-    course.forEach((month) => {
-      month.weeks.forEach((week) => {
-        getContentDays(week)
-          .sort((a, b) => a.dayIndex - b.dayIndex)
-          .forEach((day) => {
-            flatDays.push({ month, week, day });
-          });
-      });
-    });
-
-    const currentIndex = flatDays.findIndex((item) => {
-      return (
-        item.day.monthIndex === selectedDay.monthIndex &&
-        item.day.weekIndex === selectedDay.weekIndex &&
-        item.day.dayIndex === selectedDay.dayIndex
-      );
-    });
-
-    const nextPoint = flatDays[currentIndex + 1];
-
-    if (nextPoint?.month && nextPoint?.week && nextPoint?.day) {
-      setSelectedMonthIndex(nextPoint.month.monthIndex);
-      setSelectedWeekIndex(nextPoint.week.weekIndex);
-      setSelectedDayIndex(nextPoint.day.dayIndex);
-      setStage("lesson");
-      setNotice("");
-    } else {
-      setNotice("أكملت آخر محطة في الرحلة التعليمية.");
-    }
-
-    window.setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 120);
-  }
-
-  async function handleQuizComplete() {
-    if (!selectedDay?.id) return;
-
-    setQuizPassedByDay((current) => ({
-      ...current,
-      [selectedDay.id]: true
-    }));
-
-    await completeCurrentDay({
-      forceQuizPassed: true,
-      silent: true
-    });
-  }
-
-  function handleQuizReviewDone() {
-    moveToNextLearningPointAfterCurrent();
   }
 
   function goBack() {
@@ -1185,15 +943,6 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
   const canCompleteLesson =
     currentDayState === "active" &&
     (!dayHasQuiz || quizPassedByDay[selectedDay?.id]);
-
-  const previousDay = getRelativeDay(-1);
-  const nextDay = getRelativeDay(1);
-  const canOpenPreviousDay = Boolean(
-    previousDay && isDayUnlocked(previousDay, selectedWeek, selectedMonth)
-  );
-  const canOpenNextDay = Boolean(
-    nextDay && isDayUnlocked(nextDay, selectedWeek, selectedMonth)
-  );
 
   return (
     <section className="journey-lab" dir="rtl">
@@ -1793,36 +1542,6 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           font-weight:950;
         }
 
-        .jl-day-nav-grid {
-          display:grid;
-          grid-template-columns:1fr 1fr;
-          gap:10px;
-        }
-
-        .jl-day-nav {
-          border:0;
-          cursor:pointer;
-          padding:12px 13px;
-          border-radius:17px;
-          font-family:inherit;
-          color:#0f172a;
-          background:#f8fafc;
-          font-size:12px;
-          font-weight:950;
-          transition:.22s ease;
-        }
-
-        .jl-day-nav:hover {
-          transform:translateY(-2px);
-          background:#ffffff;
-        }
-
-        .jl-day-nav:disabled {
-          opacity:.45;
-          cursor:not-allowed;
-          transform:none;
-        }
-
         .jl-reader {
           border-radius:30px;
           padding:28px;
@@ -1831,45 +1550,17 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           box-shadow:0 20px 55px rgba(15,23,42,.07);
         }
 
-        .jl-week-intro-card {
-          margin:0 0 22px;
-          border-radius:26px;
+        .jl-week-intro {
+          margin:0 0 18px;
+          border-radius:24px;
           padding:18px;
-          background:linear-gradient(135deg,#f8fafc,#eef2ff);
-          border:1px solid rgba(79,70,229,.12);
-          box-shadow:0 14px 38px rgba(15,23,42,.05);
-        }
-
-        .jl-week-intro-card > span {
-          display:inline-flex;
-          width:fit-content;
-          margin-bottom:12px;
-          padding:7px 12px;
-          border-radius:999px;
-          background:white;
-          color:#3730a3;
-          border:1px solid rgba(79,70,229,.12);
-          font-size:11px;
-          font-weight:950;
-        }
-
-        .jl-week-intro-card .jl-rich-text h1 {
-          font-size:22px;
-          padding:16px;
-        }
-
-        .jl-week-intro-card .jl-rich-text h2 {
-          font-size:18px;
-          padding:13px 15px;
-        }
-
-        .jl-week-intro-card .jl-rich-text h3 {
-          font-size:15px;
-        }
-
-        .jl-week-intro-card .jl-rich-text p {
-          font-size:14px;
+          background:#fffbeb;
+          border:1px solid #fde68a;
+          color:#78350f;
           line-height:2;
+          font-size:13px;
+          font-weight:800;
+          white-space:pre-wrap;
         }
 
         .jl-rich-text {
@@ -1990,18 +1681,10 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
         }
 
         .jl-quiz h3 {
-          margin:0 0 10px;
+          margin:0 0 14px;
           font-size:23px;
           line-height:1.4;
           font-weight:950;
-        }
-
-        .jl-quiz-note {
-          margin:0 0 16px;
-          color:rgba(226,232,240,.86);
-          font-size:13px;
-          line-height:1.9;
-          font-weight:750;
         }
 
         .jl-quiz-warning {
@@ -2112,183 +1795,6 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           background:rgba(239,68,68,.18);
         }
 
-
-        .jl-feedback {
-          margin-top:12px;
-          border-radius:18px;
-          padding:12px 14px;
-          font-size:12px;
-          line-height:1.8;
-          font-weight:850;
-        }
-
-        .jl-feedback strong {
-          display:block;
-          margin-bottom:4px;
-          font-size:12px;
-          font-weight:950;
-        }
-
-        .jl-feedback p {
-          margin:0;
-        }
-
-        .jl-feedback--correct {
-          background:rgba(16,185,129,.14);
-          color:#d1fae5;
-          border:1px solid rgba(16,185,129,.22);
-        }
-
-        .jl-feedback--wrong {
-          background:rgba(239,68,68,.16);
-          color:#fecaca;
-          border:1px solid rgba(239,68,68,.28);
-        }
-
-
-
-        .jl-feedback--neutral {
-          background:rgba(148,163,184,.16);
-          color:#e2e8f0;
-          border:1px solid rgba(148,163,184,.24);
-        }
-
-        .jl-modal-backdrop {
-          position:fixed;
-          inset:0;
-          z-index:9999;
-          display:grid;
-          place-items:center;
-          padding:18px;
-          background:rgba(15,23,42,.72);
-          backdrop-filter:blur(10px);
-        }
-
-        .jl-result-modal {
-          width:min(760px,100%);
-          max-height:min(86vh,760px);
-          overflow:auto;
-          border-radius:30px;
-          padding:26px;
-          background:#ffffff;
-          color:#0f172a;
-          box-shadow:0 35px 100px rgba(0,0,0,.34);
-        }
-
-        .jl-result-kicker {
-          display:inline-flex;
-          width:fit-content;
-          padding:8px 13px;
-          margin-bottom:12px;
-          border-radius:999px;
-          background:#ecfdf5;
-          color:#065f46;
-          font-size:12px;
-          font-weight:950;
-        }
-
-        .jl-result-modal h3 {
-          margin:0 0 8px;
-          font-size:28px;
-          line-height:1.35;
-          font-weight:950;
-          color:#0f172a;
-        }
-
-        .jl-result-modal > p {
-          margin:0 0 16px;
-          color:#64748b;
-          font-size:13px;
-          line-height:1.9;
-          font-weight:800;
-        }
-
-        .jl-result-summary {
-          display:grid;
-          gap:12px;
-          margin:16px 0 18px;
-        }
-
-        .jl-result-item {
-          display:grid;
-          grid-template-columns:38px 1fr;
-          gap:12px;
-          padding:14px;
-          border-radius:20px;
-          border:1px solid rgba(148,163,184,.24);
-          background:#f8fafc;
-        }
-
-        .jl-result-item b {
-          width:38px;
-          height:38px;
-          border-radius:14px;
-          display:grid;
-          place-items:center;
-          color:white;
-          background:#64748b;
-          font-weight:950;
-        }
-
-        .jl-result-item--correct {
-          background:#ecfdf5;
-          border-color:rgba(16,185,129,.24);
-        }
-
-        .jl-result-item--correct b {
-          background:#10b981;
-        }
-
-        .jl-result-item--wrong {
-          background:#fef2f2;
-          border-color:rgba(239,68,68,.24);
-        }
-
-        .jl-result-item--wrong b {
-          background:#ef4444;
-        }
-
-        .jl-result-item strong {
-          display:block;
-          margin-bottom:8px;
-          color:#0f172a;
-          font-size:13px;
-          line-height:1.8;
-          font-weight:950;
-        }
-
-        .jl-result-item p {
-          margin:4px 0 0;
-          color:#334155;
-          font-size:12px;
-          line-height:1.8;
-          font-weight:800;
-        }
-
-        .jl-modal-button {
-          width:100%;
-          border:0;
-          cursor:pointer;
-          font-family:inherit;
-          border-radius:20px;
-          padding:15px 18px;
-          color:white;
-          background:linear-gradient(135deg,#4f46e5,#7c3aed);
-          font-size:13px;
-          font-weight:950;
-          transition:.24s ease;
-        }
-
-        .jl-modal-button:hover {
-          transform:translateY(-2px);
-        }
-
-        .jl-modal-button:disabled {
-          opacity:.6;
-          cursor:not-allowed;
-          transform:none;
-        }
-
         .jl-quiz-footer {
           display:flex;
           flex-wrap:wrap;
@@ -2326,10 +1832,37 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
           color:#fecaca;
         }
 
-        .jl-quiz-result--neutral {
-          background:rgba(148,163,184,.14);
-          color:#e2e8f0;
+        .jl-exact-source {
+          margin-top:24px;
+          border-radius:24px;
+          background:#f8fafc;
+          border:1px solid rgba(148,163,184,.28);
+          overflow:hidden;
         }
+
+        .jl-exact-source summary {
+          cursor:pointer;
+          padding:16px 18px;
+          color:#3730a3;
+          background:#eef2ff;
+          font-size:13px;
+          font-weight:950;
+        }
+
+        .jl-exact-source pre {
+          margin:0;
+          padding:18px;
+          white-space:pre-wrap;
+          word-break:break-word;
+          overflow:auto;
+          color:#0f172a;
+          background:white;
+          font-family:Tajawal, Arial, Tahoma, sans-serif;
+          font-size:14px;
+          line-height:2;
+          font-weight:650;
+        }
+
         .jl-empty {
           border-radius:24px;
           padding:22px;
@@ -2399,14 +1932,13 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
               <span className="jl-eyebrow">رحلتك التعليمية · 6 أشهر · OD Mastery</span>
 
               <h1 className="jl-title">
-                رحلة إتقان التطوير التنظيمي
-                <span>تعلّم متدرّج يصنع حكمًا مهنيًا</span>
+                رحلة تعليمية متدرجة
+                <span>شهر ← أسبوع ← يوم ← درس ← اختبار</span>
               </h1>
 
               <p>
-                مسار معرفي وعملي يقود المتدرب من فهم المنظمة كنظام، إلى تشخيص
-                الأعراض، وبناء الفرضيات، وتصميم التدخل، وقياس الأثر. كل محطة
-                مصممة لتراكم الفهم لا لتكديس المحتوى.
+                تم تصميم الرحلة كبوابات إتقان لا كصفحة طويلة مشتتة. كل شهر يفتح أسابيعه،
+                وكل أسبوع يفتح أيامه، وكل يوم يحتوي على درس منسق واختبار فهم قبل حفظ الإنجاز.
               </p>
             </div>
 
@@ -2505,7 +2037,7 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
             <section className="jl-month-grid">
               {course.map((month) => {
                 const state = monthState(month);
-                const total = month.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0);
+                const total = daysPerMonth;
                 const done = countCompletedInMonth(completedSet, month);
                 const percent = total ? (done / total) * 100 : 0;
 
@@ -2611,20 +2143,16 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                   <button
                     type="button"
                     className="jl-complete"
-                    onClick={() => completeCurrentDay()}
-                    disabled={
-                      saving ||
-                      currentDayState !== "active" ||
-                      (dayHasQuiz && !canCompleteLesson)
-                    }
+                    onClick={completeCurrentDay}
+                    disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
                     {currentDayState === "completed"
                       ? "تم إكمال اليوم"
                       : saving
                         ? "جارٍ الحفظ..."
                         : dayHasQuiz && !quizPassedByDay[selectedDay.id]
-                          ? "سيُحفظ تلقائيًا بعد الاختبار"
-                          : "إنهاء اليوم"}
+                          ? "أكمل الاختبار أولًا"
+                          : "إنهاء اليوم وحفظ التقدم"}
                   </button>
 
                   {currentDayState === "completed" && (
@@ -2633,38 +2161,15 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                     </button>
                   )}
 
-                  <div className="jl-day-nav-grid">
-                    <button
-                      type="button"
-                      className="jl-day-nav"
-                      onClick={() => moveToRelativeDay(-1)}
-                      disabled={!canOpenPreviousDay}
-                    >
-                      اليوم السابق
-                    </button>
-
-                    <button
-                      type="button"
-                      className="jl-day-nav"
-                      onClick={() => moveToRelativeDay(1)}
-                      disabled={!canOpenNextDay}
-                    >
-                      اليوم التالي
-                    </button>
-                  </div>
-
                   <button type="button" className="jl-ghost-btn" onClick={() => setStage("days")}>
-                    عرض أيام الأسبوع
+                    العودة لأيام الأسبوع
                   </button>
                 </div>
               </aside>
 
               <article className="jl-reader">
                 {selectedWeek.intro && selectedDay.dayIndex === 1 && (
-                  <section className="jl-week-intro-card">
-                    <span>تمهيد الأسبوع</span>
-                    <RichLesson text={selectedWeek.intro} />
-                  </section>
+                  <div className="jl-week-intro">{selectedWeek.intro}</div>
                 )}
 
                 <RichLesson text={preparedLesson.lessonText} />
@@ -2673,10 +2178,15 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                   day={selectedDay}
                   questions={preparedLesson.quiz}
                   hasQuizText={preparedLesson.hasQuizText}
-                  completed={currentDayState === "completed"}
-                  onComplete={handleQuizComplete}
-                  onReviewDone={handleQuizReviewDone}
+                  onPass={() => {
+                    setQuizPassedByDay((current) => ({
+                      ...current,
+                      [selectedDay.id]: true
+                    }));
+                  }}
                 />
+
+                <ExactSourcePanel text={preparedLesson.fullText} />
               </article>
             </section>
           )}
