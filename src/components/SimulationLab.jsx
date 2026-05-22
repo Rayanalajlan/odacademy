@@ -63,183 +63,259 @@ const REFERENCES = [
 
 const DIFFICULTY_LEVELS = [
   {
-    id: "foundation",
-    name: "تأسيسي",
+    id: "beginner",
+    name: "مبتدئ",
     intensity: 1,
     scoreLabel: "قراءة أولية",
-    description: "المشكلة واضحة نسبيًا، والراعي يقبل التشخيص، والمخاطر الأخلاقية محدودة.",
-    twist: "الحل السريع مغرٍ لكنه غير كارثي إذا أُجّل قليلًا."
+    description:
+      "تتعامل هنا مع حالة واضحة المعالم، يظهر فيها العرض التنظيمي بشكل مباشر داخل فريق أو قسم محدد. نطاق التأثير محدود، وعدد أصحاب المصلحة قليل، والبيانات المتاحة تكفي لبناء فرضية أولية دون الدخول في تعقيد سياسي أو مقاومة عالية.",
+    practice:
+      "مهمتك أن تحدد المشكلة المباشرة، تميزها عن الانطباع العام، تبني فرضية أولية قابلة للاختبار، تختار أداة جمع بيانات بسيطة، ثم تقترح تدخلًا محدودًا وتقيس أثره القريب مع الالتزام بمبدأ مهني أساسي مثل السرية.",
+    learnerPrompt:
+      "ركّز على عادة التشخيص قبل الحل: ما العرض؟ ما الفرضية الأولية؟ وما أقل بيانات كافية للتحقق؟",
+    riskNote:
+      "الخطر هنا أن تتعامل مع الحالة كإجراء سريع فقط، فتتجاهل أول سؤال مهني: هل ما أراه سبب أم مجرد عرض؟",
+    twist: "الحل المباشر يبدو مغريًا، لكنه قد يخفي عرضًا لم تُختبر أسبابه بعد.",
+    dimensions: {
+      problemAmbiguity: 1,
+      stakeholders: 1,
+      dataComplexity: 1,
+      impactScope: 1,
+      interventionSensitivity: 1,
+      measurementDifficulty: 1,
+      ethicalSensitivity: 1
+    }
   },
   {
-    id: "professional",
-    name: "مهني",
+    id: "basic",
+    name: "أساسي",
     intensity: 2,
-    scoreLabel: "قرار مهني",
-    description: "يوجد أكثر من طرف، وروايات مختلفة، والحل لا يظهر من العرض الأول.",
-    twist: "كل إدارة تملك جزءًا من الحقيقة."
+    scoreLabel: "تمييز السبب عن العرض",
+    description:
+      "تدخل هنا إلى حالة لها أكثر من تفسير محتمل. الأعراض متداخلة، والبيانات موجودة لكنها تحتاج إلى فرز وربط. قد يبدو السبب واضحًا في البداية، لكن القراءة المهنية تتطلب اختبار أكثر من فرضية قبل اختيار التدخل.",
+    practice:
+      "مهمتك أن تفرّق بين العرض والسبب الجذري، تحدد البيانات التي تثبت أو تنفي الفرضيات، تقارن بين تدخلين محتملين، ثم تختار مؤشر أداء مباشرًا يوضح هل حدث تغير فعلي أم مجرد نشاط إضافي.",
+    learnerPrompt:
+      "لا تكتفِ بأول تفسير مقنع. اسأل: ما الفرضيات البديلة؟ وما البيانات التي ستجعلني أغيّر رأيي؟",
+    riskNote:
+      "الخطر هنا أن تختار حلًا صحيحًا شكليًا لكنه يعالج العرض، لا السبب الذي يعيد إنتاج المشكلة.",
+    twist: "كل تفسير يبدو معقولًا، لكن ليس كل تفسير يصلح أن يكون سببًا جذريًا.",
+    dimensions: {
+      problemAmbiguity: 2,
+      stakeholders: 2,
+      dataComplexity: 2,
+      impactScope: 2,
+      interventionSensitivity: 2,
+      measurementDifficulty: 2,
+      ethicalSensitivity: 2
+    }
+  },
+  {
+    id: "intermediate",
+    name: "متوسط",
+    intensity: 3,
+    scoreLabel: "تحليل التناقضات",
+    description:
+      "تواجه هنا حالة تتداخل فيها العلاقات بين الفرق أو الإدارات، وتظهر فجوة بين ما تقوله التصريحات الرسمية وما يعيشه الناس في العمل اليومي. البيانات ليست ناقصة فقط؛ بعضها متناقض، وكل طرف يملك جزءًا من الحقيقة.",
+    practice:
+      "مهمتك أن تبني فرضيات متعددة ومتقاطعة، تحلل الروايات المتعارضة، تفكك الفجوات بين التصميم والممارسة، وتقارن بين تدخل بشري وتدخل هيكلي قبل دمجهما في مسار واحد قابل للقياس على المدى المتوسط.",
+    learnerPrompt:
+      "اقرأ التناقض باعتباره مادة تشخيصية لا إرباكًا: لماذا يرى كل طرف المشكلة من زاوية مختلفة؟ وما التصميم الذي يجعل هذا التناقض يتكرر؟",
+    riskNote:
+      "الخطر هنا أن تنحاز للرواية الأعلى صوتًا أو الأكثر سلطة، فتفقد القدرة على رؤية النمط النظامي خلف الصراع.",
+    twist: "التصريحات الرسمية تبدو مطمئنة، لكن التجربة اليومية تكشف نمطًا مختلفًا.",
+    dimensions: {
+      problemAmbiguity: 3,
+      stakeholders: 3,
+      dataComplexity: 3,
+      impactScope: 3,
+      interventionSensitivity: 3,
+      measurementDifficulty: 3,
+      ethicalSensitivity: 3
+    }
   },
   {
     id: "advanced",
     name: "متقدم",
-    intensity: 3,
-    scoreLabel: "تحليل نظامي",
-    description: "المشكلة تمتد بين الهيكل، الثقافة، القيادة، والصلاحيات.",
-    twist: "التدخل الظاهر قد ينجح شكليًا ويفشل سلوكيًا."
-  },
-  {
-    id: "complex",
-    name: "معقد",
     intensity: 4,
-    scoreLabel: "حكم استشاري",
-    description: "توجد مصالح متعارضة، وبيانات ناقصة، وخوف من الإفصاح.",
-    twist: "الراعي يحاول دفع التشخيص نحو تفسير واحد يخدم موقفه."
-  },
-  {
-    id: "critical",
-    name: "حرج",
-    intensity: 5,
-    scoreLabel: "قرار تحت ضغط",
-    description: "القرار قد يمس السلطة أو السمعة أو التقييم أو مستقبل أشخاص.",
-    twist: "توجد احتمالية لاستخدام البيانات لمعاقبة طرف بدل تحسين النظام."
-  },
-  {
-    id: "strategic",
-    name: "استراتيجي",
-    intensity: 6,
-    scoreLabel: "قراءة تنفيذية",
-    description: "الحالة مرتبطة بالاستراتيجية، نموذج التشغيل، والقدرة المستقبلية.",
-    twist: "القيادة تريد توصية سريعة بينما السبب جذري ومتعدد المستويات."
+    scoreLabel: "تدخل نظامي",
+    description:
+      "تتعامل هنا مع مشكلة نظامية تتجاوز فريقًا أو إدارة واحدة. الأثر ممتد، والمقاومة حاضرة، والمصالح متداخلة بين القيادة العليا والوسطى. أي تدخل منفرد قد يعطي نتيجة مؤقتة ثم يعود النظام إلى سلوكه القديم.",
+    practice:
+      "مهمتك أن تصمم تدخلًا متعدد المراحل يجمع بين الهيكل والثقافة والقيادة والقياس، وتضع خطة واضحة لإدارة مقاومة التغيير، ثم تبني نموذج قياس قبل وبعد يحمي التشخيص من التسييس أو التجميل.",
+    learnerPrompt:
+      "فكّر كنظام: ما البنية التي تنتج السلوك؟ ما مصالح الأطراف؟ وما التدخل الذي يستطيع النظام حمله بعد خروجك؟",
+    riskNote:
+      "الخطر هنا أن تنفذ مبادرة قوية في ظاهرها لكنها لا تغيّر حقوق القرار أو الحوافز أو السلوك القيادي.",
+    twist: "التدخل الفردي سيبدو عمليًا، لكنه لن يصمد إذا بقيت البنية القديمة تنتج السلوك نفسه.",
+    dimensions: {
+      problemAmbiguity: 4,
+      stakeholders: 4,
+      dataComplexity: 4,
+      impactScope: 4,
+      interventionSensitivity: 4,
+      measurementDifficulty: 4,
+      ethicalSensitivity: 4
+    }
   },
   {
     id: "expert",
     name: "خبير",
-    intensity: 7,
-    scoreLabel: "ممارس محترف",
-    description: "حالة عالية الغموض، سياسية، ثقافية، وتشغيلية في وقت واحد.",
-    twist: "أي تدخل خاطئ قد يزيد فقدان الثقة أو يثبت السلوك القديم."
+    intensity: 5,
+    scoreLabel: "حكم استشاري تحت ضغط",
+    description:
+      "تدخل هنا إلى حالة عالية الغموض، لا تظهر فيها المشكلة كعرض واحد واضح، بل كتدهور عام في الثقة أو الأداء أو التركيز الاستراتيجي. أصحاب المصلحة كثر، المصالح متعارضة، والضغط السياسي والأخلاقي حاضر بقوة.",
+    practice:
+      "مهمتك أن تدير العلاقة الاستشارية مع أصحاب قرار مؤثرين، توازن بين المصالح دون التنازل عن نزاهة التشخيص، تحمي سرية المشاركين، وتبني قراءة بعيدة المدى للأثر التنظيمي والقيمة المتحققة.",
+    learnerPrompt:
+      "هنا لا يكفي أن تعرف الحل. المطلوب أن تحمي المهنة: من هو العميل الحقيقي؟ ما حدود السرية؟ وما الحقيقة التي يجب قولها دون تهور؟",
+    riskNote:
+      "الخطر هنا أن يتحول التشخيص إلى أداة لإثبات موقف مسبق أو معاقبة طرف، بدل أن يكون وسيلة لتحسين النظام.",
+    twist: "الطلب المعلن يبدو إداريًا، لكن القرار الحقيقي يمس الثقة والسلطة والشرعية داخل المنظمة.",
+    dimensions: {
+      problemAmbiguity: 5,
+      stakeholders: 5,
+      dataComplexity: 5,
+      impactScope: 5,
+      interventionSensitivity: 5,
+      measurementDifficulty: 5,
+      ethicalSensitivity: 5
+    }
   }
 ];
 
 const ARCHETYPES = [
   {
-    id: "role-clarity",
-    name: "غموض أدوار وصلاحيات",
+    id: "contracting-diagnosis",
+    name: "التعاقد والتشخيص",
     color: "#4f46e5",
-    lens: "تصميم المنظمة ومصفوفة المسؤوليات",
-    goodFrame: "إعادة صياغة المشكلة كخلل محتمل في حقوق القرار ونقاط التسليم والصلاحيات، لا كضعف التزام فقط.",
-    bestHypothesis: "الخلل الأساسي في حقوق القرار ونقاط التسليم، لا في ضعف التزام الأفراد فقط.",
-    bestData: "تحليل قرارات وتصعيدات فعلية، مقابلات مع الأطراف، مراجعة أوصاف وظيفية، وملاحظة اجتماع قرار.",
-    bestIntervention: "تصميم مصفوفة مسؤوليات عملية مع تحديث الأدوار والصلاحيات وربطها باجتماعات القرار.",
-    bestMetric: "انخفاض التصعيدات غير الضرورية وزمن حسم القرارات العابرة للإدارات.",
-    bestEthic: "حماية البيانات من استخدامها لإدانة مدير محدد، وعرض النتائج كنمط نظامي لا كفشل فردي."
+    lens: "نطاق العمل والعميل الحقيقي والبيانات والسرية",
+    description:
+      "مشكلات تحديد نطاق العمل، العميل الحقيقي، جمع البيانات، السرية، وتحليل الفجوات التنظيمية.",
+    examples:
+      "تعاقد غير واضح، راعٍ يريد تأكيد رأيه، عينة بيانات منحازة، خوف من الإفصاح، أو حدود سرية غير متفق عليها.",
+    goodFrame:
+      "إعادة صياغة الطلب كمسألة تعاقد وتشخيص: من العميل الحقيقي؟ ما حدود السرية؟ وما السؤال التنظيمي الذي يجب فحصه قبل أي توصية؟",
+    bestHypothesis:
+      "الخلل ليس في غياب الحل، بل في غموض نطاق التشخيص واختلاط توقعات الراعي مع احتياجات النظام.",
+    bestData:
+      "مقابلات دخول منفصلة، خريطة أصحاب المصلحة، مراجعة الطلب الأصلي، تحديد حدود استخدام البيانات، وعينة بيانات من مستويات مختلفة.",
+    bestIntervention:
+      "إعادة ضبط التعاقد التشخيصي، تعريف العميل الحقيقي، توثيق حدود السرية، وبناء خطة بيانات متعددة المصادر.",
+    bestMetric:
+      "وضوح نطاق العمل، قبول الأطراف بخطة التشخيص، وتوفر بيانات كافية قبل الانتقال للتدخل.",
+    bestEthic:
+      "حماية السرية وعدم قبول استخدام التشخيص لإثبات رأي مسبق أو استهداف طرف محدد."
   },
   {
-    id: "intergroup-conflict",
-    name: "صراع بين إدارات",
-    color: "#e11d48",
-    lens: "تدخلات العمليات الإنسانية والعلاقات بين المجموعات",
-    goodFrame: "إعادة صياغة الصراع كاعتماد متبادل غير مصمم ومؤشرات متعارضة وصور نمطية متبادلة.",
-    bestHypothesis: "الصراع الظاهر يخفي اعتمادًا متبادلًا غير مصمم ومؤشرات أداء متعارضة.",
-    bestData: "مقابلات منفصلة مع الإدارات، تحليل نقاط التسليم، بيانات الشكاوى، وملاحظة اجتماع مشترك.",
-    bestIntervention: "تدخل علاقات بين مجموعات مع اتفاق عمل ونقاط تسليم ومؤشرات مشتركة.",
-    bestMetric: "تحسن جودة التسليم وانخفاض اللوم المتبادل وزمن حل القضايا المشتركة.",
-    bestEthic: "عدم تحويل جلسة العلاقات إلى محاكمة لطرف، وتثبيت قواعد حوار تحمي الأصوات الأقل قوة."
-  },
-  {
-    id: "culture-fear",
-    name: "ثقافة خوف وإخفاء أخبار سيئة",
-    color: "#7c3aed",
-    lens: "الثقافة والأمان النفسي",
-    goodFrame: "إعادة صياغة الخوف كمنظومة استجابات قيادية ومكافآت ومعايير تجعل الصمت أكثر أمانًا من الصراحة.",
-    bestHypothesis: "إخفاء الأخبار السيئة ناتج عن نظام يعاقب الإنذار المبكر ويكافئ تجميل الواقع.",
-    bestData: "مقابلات آمنة، تحليل لحظات الحقيقة، سجل المخاطر، وملاحظة استجابة القيادة للأخبار السيئة.",
-    bestIntervention: "تدخل ثقافي سلوكي يغير استجابة القيادة للأخبار السيئة ويؤسس مراجعة أخطاء بلا لوم.",
-    bestMetric: "ارتفاع المخاطر المرفوعة مبكرًا وانخفاض المفاجآت والأزمات المتأخرة.",
-    bestEthic: "عدم وعد المشاركين بسرية مطلقة غير قابلة للحماية، وعرض النتائج مجمعة دون كشف أصحاب الأقوال."
-  },
-  {
-    id: "process-delay",
-    name: "تعطل عملية وإعادة عمل",
+    id: "structures-processes",
+    name: "الهياكل والعمليات",
     color: "#f59e0b",
-    lens: "إعادة تصميم العمليات",
-    goodFrame: "إعادة صياغة التأخر كخلل في تدفق العمل والانتظار والقرارات والبيانات، لا ككسل فردي.",
-    bestHypothesis: "التأخر ناتج عن تدفق عمل مكسور وموافقات وانتظارات، لا عن بطء فردي فقط.",
-    bestData: "رسم الوضع الحالي، قياس زمن الدورة، نقاط الانتظار، إعادة العمل، والقرارات الحرجة.",
-    bestIntervention: "إعادة تصميم الوضع المستقبلي للخطوات والبوابات والصلاحيات والبيانات المطلوبة.",
-    bestMetric: "انخفاض زمن الدورة ونسبة إعادة العمل وارتفاع الاكتمال من أول مرة.",
-    bestEthic: "عدم أتمتة عملية مكسورة كما هي، وعدم تحميل الموظفين أخطاء تصميم العملية."
+    lens: "الصلاحيات والحوكمة وتدفق العمل ونقاط القرار",
+    description:
+      "مشكلات تداخل الصلاحيات، بطء اتخاذ القرار، ازدواجية العمل، الاختناقات، وضعف الحوكمة.",
+    examples:
+      "تأخر قرارات، ازدواجية بين الإدارات، تصعيد دائم، عملية بطيئة، اجتماعات كثيرة بلا قرار، أو صلاحيات غير محسومة.",
+    goodFrame:
+      "إعادة صياغة العرض كخلل محتمل في تصميم العمل: أين يتعطل القرار؟ من يملك الصلاحية؟ وما نقطة التسليم التي تعيد إنتاج التأخير؟",
+    bestHypothesis:
+      "السبب الجذري في تداخل الصلاحيات ونقاط القرار والاعتماد المتبادل غير المصمم، لا في ضعف التزام الأفراد فقط.",
+    bestData:
+      "تحليل قرارات فعلية، رسم مسار العملية، قياس زمن الدورة، مراجعة الصلاحيات، وملاحظة اجتماع قرار حقيقي.",
+    bestIntervention:
+      "إعادة تصميم نقاط القرار والتسليم، تحديث مصفوفة المسؤوليات، وتبسيط الحوكمة بما يربط الصلاحية بالمخرجات.",
+    bestMetric:
+      "انخفاض زمن القرار، تراجع التصعيدات غير الضرورية، وتحسن جودة التسليم بين الإدارات.",
+    bestEthic:
+      "عرض الخلل كنمط تصميمي لا كإدانة لأشخاص، ومنع استخدام بيانات العملية لمحاسبة طرف قبل إصلاح البنية."
   },
   {
-    id: "learning-loop",
-    name: "تكرار أخطاء وضعف تعلم",
+    id: "culture-climate-change",
+    name: "الثقافة والمناخ والتغيير",
+    color: "#7c3aed",
+    lens: "الثقة والصمت التنظيمي ومقاومة التغيير والسلوك اليومي",
+    description:
+      "مشكلات ثقافة اللوم، ضعف الثقة، مقاومة التغيير، الصمت التنظيمي، وبيئات العمل غير الصحية.",
+    examples:
+      "خوف من رفع الأخبار السيئة، مقاومة مبادرة جديدة، تجميل الواقع، صمت في الاجتماعات، أو ثقافة لوم بعد الأخطاء.",
+    goodFrame:
+      "إعادة صياغة المشكلة كثقافة تشغيل يومية: ما السلوك الذي أصبح آمنًا؟ وما الذي يعاقبه النظام حتى لو ادعى عكس ذلك؟",
+    bestHypothesis:
+      "السلوك الظاهر ناتج عن افتراضات ومكافآت واستجابات قيادية تجعل الصمت أو المقاومة أكثر أمانًا من الصراحة والتجربة.",
+    bestData:
+      "مقابلات آمنة، تحليل لحظات الحقيقة، سجل المخاطر، ملاحظة استجابة القيادة، وقياس ثقة الموظفين في رفع المشكلات.",
+    bestIntervention:
+      "تدخل ثقافي سلوكي يغير استجابة القيادة، يبني أمانًا نفسيًا، ويحول التغيير من إعلان إلى ممارسة مدعومة.",
+    bestMetric:
+      "ارتفاع الإفصاح المبكر عن المخاطر، تحسن الثقة، انخفاض المفاجآت المتأخرة، واستمرار السلوك الجديد بعد فترة المتابعة.",
+    bestEthic:
+      "عدم وعد المشاركين بسرية مطلقة غير قابلة للحماية، وعرض النتائج مجمعة دون كشف أصحاب الأقوال."
+  },
+  {
+    id: "leadership-teams",
+    name: "القيادة والفرق",
+    color: "#e11d48",
+    lens: "الصراع والمساءلة والتعاون والسلامة النفسية",
+    description:
+      "مشكلات الصراع بين القادة، تفكك الفرق، ضعف التعاون، غياب المساءلة، وانخفاض السلامة النفسية.",
+    examples:
+      "صراع بين قائدين، فريق لا يتعاون، اجتماعات دفاعية، غياب مساءلة، قرارات فردية، أو فريق يخفي الأخطاء خوفًا من اللوم.",
+    goodFrame:
+      "إعادة صياغة الصراع كسلوك قيادة وفريق: كيف تؤثر السلطة والمساءلة والأمان النفسي في طريقة العمل المشترك؟",
+    bestHypothesis:
+      "الصراع الظاهر يخفي نمطًا في القيادة والمساءلة والتعاون، حيث تحمي الأطراف مواقعها بدل حل المشكلة المشتركة.",
+    bestData:
+      "ملاحظة اجتماعات، مقابلات مع أعضاء الفريق، تحليل قرارات مشتركة، فحص مؤشرات المساءلة، وقياس الأمان النفسي.",
+    bestIntervention:
+      "تدخل فريق وقيادة يوضح قواعد القرار والمساءلة، يبني اتفاق عمل، ويغير سلوك القادة في لحظات الضغط.",
+    bestMetric:
+      "تحسن جودة القرارات المشتركة، انخفاض اللوم، ارتفاع الإفصاح عن المخاطر، وزيادة الالتزام بما يُتفق عليه.",
+    bestEthic:
+      "عدم تحويل التشخيص إلى محاكمة لقائد أو فريق، وحماية الأصوات الأقل قوة أثناء جمع البيانات."
+  },
+  {
+    id: "talent-capabilities",
+    name: "المواهب والقدرات",
     color: "#10b981",
-    lens: "التعلم المؤسسي",
-    goodFrame: "إعادة صياغة تكرار الأخطاء كفشل في تحويل الخبرة إلى ذاكرة تنظيمية وتعديل نظامي.",
-    bestHypothesis: "المنظمة تملك خبرات كثيرة لكنها لا تحولها إلى ذاكرة تنظيمية وتعديل نظامي.",
-    bestData: "تحليل آخر ثلاث حالات متكررة، مراجعة الدروس الموثقة، مقابلات مع الخبراء، وتتبع هل طُبقت الدروس.",
-    bestIntervention: "بناء نظام مراجعة بعد العمل وقاعدة دروس مطبقة ومجتمع ممارسة ومالك لتطبيق الدروس.",
-    bestMetric: "انخفاض تكرار الخطأ نفسه وزيادة الدروس المطبقة لا الموثقة فقط.",
-    bestEthic: "توجيه مراجعات التعلم للنظام لا للبحث عن مذنب، وتمييز الخطأ التعلمي من الإهمال المتعمد."
+    lens: "الأداء والتعلم والتعاقب وفجوات المهارات",
+    description:
+      "مشكلات تقييم الأداء، التغذية الراجعة، التعاقب الوظيفي، فجوات المهارات، وضعف أثر التعلم.",
+    examples:
+      "تقييم أداء شكلي، ضعف تغذية راجعة، برامج تعلم بلا أثر، فجوات مهارية، تعاقب وظيفي غير موثوق، أو ترقية لا ترتبط بالقدرة الفعلية.",
+    goodFrame:
+      "إعادة صياغة المشكلة كمنظومة قدرة: هل يترجم النظام الأداء والتعلم والتغذية الراجعة إلى سلوك ومهارة وقرار؟",
+    bestHypothesis:
+      "الخلل في ربط الأداء والتعلم بالقدرة الفعلية، حيث تُدار النماذج والبرامج أكثر مما تُدار السلوكيات والمهارات.",
+    bestData:
+      "عينة أهداف وتقييمات، مقابلات أداء، تحليل فجوات مهارية، نتائج تعلم مطبقة، ومراجعة قرارات التعاقب والترقية.",
+    bestIntervention:
+      "تحسين جودة محادثات الأداء، ربط التعلم بالتطبيق، بناء مصفوفة قدرات، وتفعيل تعاقب وظيفي مبني على أدلة.",
+    bestMetric:
+      "تحسن جودة التغذية الراجعة، زيادة تطبيق المهارات، انخفاض مفاجآت الأداء، ووضوح جاهزية الخلفاء للأدوار الحرجة.",
+    bestEthic:
+      "عدم استخدام بيانات القدرة لمعاقبة الموظفين قبل إصلاح عدالة النظام وتدريب المديرين على التقييم والتغذية الراجعة."
   },
   {
-    id: "performance-system",
-    name: "نظام أداء شكلي",
+    id: "strategy-transformation",
+    name: "الاستراتيجية والتحول",
     color: "#0ea5e9",
-    lens: "إدارة الأداء",
-    goodFrame: "إعادة صياغة المشكلة كفجوة بين شكل النظام وجودة الحوار والمساءلة والتغذية الراجعة.",
-    bestHypothesis: "النظام يقيس إكمال النماذج ولا يغير جودة الحوار والتغذية الراجعة والمساءلة.",
-    bestData: "عينة أهداف، محادثات أداء، مقابلات مديرين وموظفين، ومراجعة ربط النتائج بالسلوكيات.",
-    bestIntervention: "تطوير جودة محادثات الأداء والمعايرة وربط المديرين بجودة إدارة الأداء.",
-    bestMetric: "تحسن جودة الأهداف والمحادثات وانخفاض مفاجآت نهاية السنة.",
-    bestEthic: "عدم استخدام بيانات الأداء الجديدة لمعاقبة الموظفين قبل تدريب المديرين وضبط العدالة."
-  },
-  {
-    id: "change-adoption",
-    name: "تغيير أُطلق ولم يُتبنَّ",
-    color: "#14b8a6",
-    lens: "تبنّي التغيير",
-    goodFrame: "إعادة صياغة المشكلة كفجوة بين الإطلاق الرسمي والتبنّي السلوكي في لحظات العمل الحرجة.",
-    bestHypothesis: "الإطلاق نجح شكليًا لكن السلوك الجديد لم يدخل في لحظات العمل الحرجة.",
-    bestData: "ملاحظة لحظات العمل، بيانات استخدام، مقابلات عن العوائق، وتحليل السلوك القديم العائد.",
-    bestIntervention: "خطة تبنّي 30/60/90 مع تجربة محدودة وقياس استخدام وجودة استخدام وحوكمة تنفيذ.",
-    bestMetric: "استمرار السلوك الجديد بعد 90 يومًا دون دفع يومي من فريق المشروع.",
-    bestEthic: "عدم إعلان فشل الموظفين قبل التأكد من أن النظام الجديد مفهوم وممكن ومكافأ."
-  },
-  {
-    id: "job-design",
-    name: "تصميم عمل فقير بالمعنى أو الصلاحية",
-    color: "#8b5cf6",
-    lens: "تصميم العمل",
-    goodFrame: "إعادة صياغة انخفاض الدافعية كخلل محتمل في تصميم العمل والاستقلالية والتغذية الراجعة.",
-    bestHypothesis: "انخفاض الدافعية مرتبط بتصميم العمل والاستقلالية والتغذية الراجعة لا بالرغبة فقط.",
-    bestData: "تحليل خصائص الوظيفة، مقابلات الموظفين، مراجعة الصلاحيات، وملاحظة الاعتماد المتبادل.",
-    bestIntervention: "إثراء وظيفي أو تصميم فريق ذاتي الإدارة مع صلاحيات ومعلومات ومكافآت مناسبة.",
-    bestMetric: "تحسن الاستقلالية وجودة المخرجات وانخفاض الدوران أو الشكاوى المرتبطة بالعمل.",
-    bestEthic: "عدم إضافة مهام باسم الإثراء دون صلاحية أو دعم أو تعديل في عبء العمل."
-  },
-  {
-    id: "leadership-symbolic",
-    name: "فجوة قيادة وسلوك رمزي",
-    color: "#ef4444",
-    lens: "القيادة والسلوك الرمزي",
-    goodFrame: "إعادة صياغة المشكلة كفجوة بين الرسائل القيادية والسلوك القيادي عند الضغط.",
-    bestHypothesis: "القادة يعلنون قيمة جديدة لكنهم يرسلون إشارات معاكسة في لحظات الضغط.",
-    bestData: "تحليل لحظات الحقيقة القيادية، مقابلات، ملاحظة اجتماعات، وربط المكافآت والترقيات بالسلوك.",
-    bestIntervention: "توجيه قيادي وتدخل سلوك رمزي مع مؤشرات اتساق القول والفعل.",
-    bestMetric: "تحسن الثقة في القيادة وارتفاع السلوكيات المتوافقة مع القيمة المعلنة.",
-    bestEthic: "تقديم تغذية راجعة قيادية تحمي الكرامة وتستند إلى سلوكيات لا أحكام شخصية."
-  },
-  {
-    id: "od-dashboard",
-    name: "مؤشرات كثيرة بلا رؤى",
-    color: "#334155",
-    lens: "لوحة قياس التطوير التنظيمي",
-    goodFrame: "إعادة صياغة المشكلة كضعف في قراءة العلاقات بين المؤشرات لا نقص في الأرقام.",
-    bestHypothesis: "المؤشرات تقيس النشاط المنفصل ولا تقرأ العلاقات بين الثقافة والأدوار والأداء.",
-    bestData: "جرد المؤشرات الحالية، أسئلة القيادة، مصادر البيانات، وحدود التنبيه والقرارات المرتبطة بكل مؤشر.",
-    bestIntervention: "بناء لوحة قياس للتطوير التنظيمي مع حدود تنبيه وفرضيات وقرارات متابعة لا مجرد أرقام.",
-    bestMetric: "قرارات تنظيمية أفضل مبنية على أنماط وعلاقات بين المؤشرات.",
-    bestEthic: "عدم استخدام اللوحة كسلاح ضد الفرق، وعدم إخفاء المؤشرات المزعجة عن القيادة."
+    lens: "المواءمة والتركيز الاستراتيجي والتحولات الكبرى",
+    description:
+      "مشكلات تشتت المبادرات، ضعف المواءمة، التحولات الكبرى، الاندماج والاستحواذ، وفقدان التركيز الاستراتيجي.",
+    examples:
+      "مبادرات كثيرة بلا أثر، تحول رقمي غير متبنّى، اندماج متعثر، أهداف متضاربة، أو فقدان تركيز بين الاستراتيجية والتنفيذ.",
+    goodFrame:
+      "إعادة صياغة الحالة كفجوة مواءمة: كيف تتحول الاستراتيجية إلى أولويات وقرارات وسلوك يومي قابل للقياس؟",
+    bestHypothesis:
+      "التدهور ناتج عن ضعف المواءمة بين التوجه الاستراتيجي ونموذج التشغيل والقدرة التنفيذية، لا عن نقص المبادرات.",
+    bestData:
+      "خريطة المبادرات، تحليل الأولويات، مقابلات قيادة، مؤشرات تبني التحول، مراجعة نموذج التشغيل، وقياس وضوح الاتجاه لدى الفرق.",
+    bestIntervention:
+      "إعادة مواءمة المبادرات مع الأولويات، ضبط حوكمة التحول، بناء خريطة قدرة، وإيقاف الأنشطة التي لا تخدم التوجه.",
+    bestMetric:
+      "انخفاض تشتت المبادرات، تحسن سرعة القرار، وضوح الأولويات، وارتفاع أثر التحول على نتائج تنظيمية محددة.",
+    bestEthic:
+      "عدم تزيين نتائج التحول لإرضاء القيادة، وعدم إخفاء المخاطر التي تمس قدرة المنظمة على التنفيذ."
   }
 ];
 
@@ -587,6 +663,48 @@ function safeWriteNumber(key, value) {
   }
 }
 
+
+function getDimensionValue(level, key, offset = 0) {
+  const base = Number(level?.dimensions?.[key] || level?.intensity || 1);
+  return Math.max(1, Math.min(5, base + offset));
+}
+
+function buildDifficultyDimensions(level, archetype, index) {
+  const fieldPressure = archetype.id === "strategy-transformation" || archetype.id === "culture-climate-change" ? 1 : 0;
+  const dataPressure = archetype.id === "talent-capabilities" || archetype.id === "structures-processes" ? 1 : 0;
+  const ethicalPressure = archetype.id === "contracting-diagnosis" || archetype.id === "leadership-teams" ? 1 : 0;
+
+  return [
+    { label: "غموض المشكلة", value: getDimensionValue(level, "problemAmbiguity", index % 3 === 0 ? 1 : 0) },
+    { label: "عدد أصحاب المصلحة", value: getDimensionValue(level, "stakeholders", fieldPressure) },
+    { label: "تعقيد البيانات", value: getDimensionValue(level, "dataComplexity", dataPressure) },
+    { label: "نطاق الأثر", value: getDimensionValue(level, "impactScope", fieldPressure) },
+    { label: "حساسية التدخل", value: getDimensionValue(level, "interventionSensitivity", index % 4 === 0 ? 1 : 0) },
+    { label: "صعوبة القياس", value: getDimensionValue(level, "measurementDifficulty", dataPressure) },
+    { label: "الحساسية الأخلاقية", value: getDimensionValue(level, "ethicalSensitivity", ethicalPressure) }
+  ];
+}
+
+function getDifficultyColor(value) {
+  if (value <= 1) return "#10b981";
+  if (value === 2) return "#84cc16";
+  if (value === 3) return "#f59e0b";
+  if (value === 4) return "#f97316";
+  return "#ef4444";
+}
+
+function getDifficultyLabel(value) {
+  if (value <= 1) return "منخفض";
+  if (value === 2) return "محدود";
+  if (value === 3) return "متوسط";
+  if (value === 4) return "مرتفع";
+  return "حرج";
+}
+
+function extractCaseDigits(value) {
+  return String(value || "").replace(/[٠-٩]/g, (digit) => "٠١٢٣٤٥٦٧٨٩".indexOf(digit)).replace(/\D/g, "");
+}
+
 function buildScenarioBank() {
   const bank = [];
 
@@ -607,24 +725,32 @@ function buildScenarioBank() {
     const reference = pick(REFERENCES, i * 47);
 
     const caseNumber = String(i + 1).padStart(3, "0");
+    const difficultyDimensions = buildDifficultyDimensions(level, archetype, i);
 
-    const extraAmbiguity =
-      level.intensity >= 4
-        ? "توجد روايات متعارضة بين الأطراف، وبعض البيانات صحيحة لكنها قد تُستخدم سياسيًا أو تُفهم خارج سياقها."
-        : "المعطيات الأولية تسمح ببداية تشخيص مهنية، لكنها لا تسمح بحكم نهائي بعد.";
+    const directSymptom = `${trigger} داخل ${industry}، مع اتساع أثره تدريجيًا على جودة العمل وثقة الأطراف.`;
+    const officialNarrative = level.intensity <= 2
+      ? "الرواية الرسمية تميل إلى تفسير المشكلة كضعف التزام أو نقص متابعة."
+      : "الرواية الرسمية تبدو متماسكة ظاهريًا، لكنها لا تفسر تكرار النمط ولا اختلاف تجربة الأطراف.";
+    const employeeNarrative = level.intensity >= 3
+      ? "الموظفون يصفون واقعًا مختلفًا؛ المشكلة بالنسبة لهم مرتبطة بطريقة اتخاذ القرار وتوزيع الصلاحيات واستجابة القيادة."
+      : "الموظفون يلمحون إلى أن بعض تفاصيل العمل اليومية لا تظهر في التقارير الرسمية.";
+    const politicalNarrative = level.intensity >= 4
+      ? "بعض الأطراف تحاول دفع التشخيص نحو تفسير يخدم موقعها أو يحمي قرارًا سابقًا."
+      : "لا تظهر حساسية سياسية عالية، لكن أي تشخيص غير دقيق قد يوجّه التدخل إلى المكان الخطأ.";
 
-    const ethicalPressure =
-      level.intensity >= 5
-        ? "يوجد خطر أن تُستخدم نتائج التشخيص لمعاقبة طرف أو تثبيت قرار مسبق بدل تحسين النظام."
-        : "الخطر الأخلاقي متوسط، لكنه يتطلب وضوح السرية وحدود استخدام البيانات.";
+    const situation = `أنت تعمل مع ${industry} بحجم ${size}. ظهر عرض تنظيمي واضح: ${trigger}. في البداية يبدو الأمر كخلل تشغيلي يمكن التعامل معه بسرعة، لكن قراءة المجال تكشف أنه يقع ضمن ${archetype.name}. المطلوب ليس إصدار حكم سريع، بل بناء تشخيص يوضح ما الذي يجعل هذا النمط يتكرر داخل العمل.`;
 
-    const boardDemand =
-      level.intensity >= 6
-        ? "مجلس الإدارة يريد توصية تنفيذية، لكن التوصية المتسرعة قد تعالج العرض وتترك السبب الجذري."
-        : "الراعي يريد فهمًا عمليًا يساعده على اختيار التدخل المناسب.";
+    const complexityNote = `${level.description} في هذه الحالة، لا يكفي أن تسأل: ما الحل؟ بل تحتاج إلى قراءة العلاقة بين المجال، مستوى التعقيد، أصحاب المصلحة، ونوعية البيانات المتاحة قبل اختيار التدخل.`;
+
+    const boardQuestion = `${level.practice} السؤال المهني هنا: كيف تقود تشخيصًا يحترم الواقع، يختبر الفرضيات، ويحمي المشاركين من استخدام البيانات خارج غرض التطوير؟`;
+
+    const ethicalRisk = `${level.riskNote} الضغط الحالي: ${pressure}. لذلك يجب أن تكون حدود السرية واستخدام البيانات واضحة قبل جمع أي إفادات حساسة.`;
+
+    const decisionMoment = "لحظة القرار: هل تتعامل مع العرض كما قُدّم لك، أم تعيد بناءه كفرضيات قابلة للاختبار قبل أن تختار التدخل؟";
 
     bank.push({
       id: `حالة-${caseNumber}`,
+      caseNumber,
       title: `${archetype.name} في ${industry}`,
       archetype,
       level,
@@ -641,12 +767,20 @@ function buildScenarioBank() {
       trap,
       deliverable,
       reference,
-      situation: `تعمل مع ${industry} بحجم ${size}. ظهرت مشكلة مركزية: ${trigger}. الإدارة تصف الوضع بأنه خلل في الالتزام أو الانضباط، لكن المؤشرات الأولية تشير إلى احتمال وجود سبب نظامي أعمق مرتبط بالعمل أو الثقافة أو السلطة أو التعلم.`,
-      complexityNote: `${level.description} ${extraAmbiguity}`,
-      boardQuestion: `${boardDemand} المطلوب منك تقديم قراءة مهنية: ما التأطير الصحيح؟ ما الفرضية الأقوى؟ ما البيانات؟ ما التدخل؟ كيف تقيس؟ وكيف تحمي الأخلاقيات؟`,
+      situation,
+      complexityNote,
+      boardQuestion,
       hiddenDynamic: archetype.bestHypothesis,
-      ethicalRisk: `${ethicalPressure} الضغط الحالي: ${pressure}.`,
-      decisionMoment: "لحظة القرار: هل تقبل التفسير السهل وتنفذ حلًا سريعًا، أم تعيد صياغة الطلب كفرضيات تشخيصية وتبني تدخلًا قابلًا للقياس والاستدامة؟",
+      ethicalRisk,
+      decisionMoment,
+      diagnosticBrief: {
+        directSymptom,
+        officialNarrative,
+        employeeNarrative,
+        politicalNarrative,
+        professionalQuestion: level.learnerPrompt
+      },
+      difficultyDimensions,
       correct: {
         frame: archetype.goodFrame,
         hypothesis: archetype.bestHypothesis,
@@ -664,6 +798,11 @@ function buildScenarioBank() {
         "ملاحظة لحظة عمل حقيقية لا الاكتفاء بالتصريحات",
         "مراجعة مؤشر سلوكي ومؤشر أثر"
       ],
+      missingData: [
+        "ما الذي يحدث في لحظة العمل لا في العرض الرسمي فقط؟",
+        "كيف تختلف رواية القيادة عن رواية من ينفذون العمل؟",
+        "ما القرار أو الحافز الذي يجعل النمط يستمر؟"
+      ],
       mistakes: [
         trap,
         "تفسير العرض كسبب جذري",
@@ -676,6 +815,13 @@ function buildScenarioBank() {
         "نقل الملكية إلى مالك داخلي",
         "وجود مؤشر تبنّي ومؤشر أثر",
         "انخفاض الاعتماد على التدخل الخارجي"
+      ],
+      causalMap: [
+        { label: "العرض الظاهر", text: directSymptom, color: "#f59e0b" },
+        { label: "نمط التكرار", text: archetype.bestHypothesis, color: archetype.color },
+        { label: "عامل الضغط", text: pressure, color: "#e11d48" },
+        { label: "الفجوة التشخيصية", text: level.learnerPrompt, color: "#7c3aed" },
+        { label: "المخرج المهني", text: deliverable, color: "#10b981" }
       ]
     });
   }
@@ -948,7 +1094,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
         <div class="box"><b>الصعوبة</b><span>${escapeReportHtml(scenario.level.name)}</span></div>
         <div class="box"><b>المرجع</b><span>${safeReference}</span></div>
       </div>
-      <div class="footer"><span>OD Engineering Simulation</span><span>صنع بواسطة ريان العجلان</span></div>
+      <div class="footer"><span>محاكاة هندسة التطوير التنظيمي</span><span>صنع بواسطة ريان العجلان</span></div>
     </section>
 
     <section class="slide">
@@ -1077,17 +1223,17 @@ function MasteryCard({ title, value, subtitle, color }) {
 }
 
 function ScenarioMap({ scenario }) {
-  const nodes = [
-    { label: "العرض", text: scenario.trigger, color: "#f59e0b" },
-    { label: "النمط", text: scenario.hiddenDynamic, color: scenario.archetype.color },
-    { label: "الضغط", text: scenario.pressure, color: "#e11d48" },
-    { label: "المخرج", text: scenario.deliverable, color: "#10b981" }
+  const nodes = scenario.causalMap || [
+    { label: "العرض الظاهر", text: scenario.trigger, color: "#f59e0b" },
+    { label: "النمط المتكرر", text: scenario.hiddenDynamic, color: scenario.archetype.color },
+    { label: "عامل الضغط", text: scenario.pressure, color: "#e11d48" },
+    { label: "المخرج المهني", text: scenario.deliverable, color: "#10b981" }
   ];
 
   return (
     <div className="scenario-map">
       {nodes.map((node, index) => (
-        <div className="scenario-node" key={node.label} style={{ "--node": node.color }}>
+        <div className="scenario-node" key={`${node.label}-${index}`} style={{ "--node": node.color }}>
           <b>{index + 1}</b>
           <span>{node.label}</span>
           <p>{node.text}</p>
@@ -1098,33 +1244,100 @@ function ScenarioMap({ scenario }) {
 }
 
 function CausalLoop({ scenario }) {
+  const color = scenario.archetype.color || "#4f46e5";
+  const intensity = scenario.level.intensity || 1;
+  const isExpert = intensity >= 5;
+  const isAdvanced = intensity >= 4;
+
+  const paths = isExpert
+    ? [
+        "M120 86 C230 12, 430 12, 560 86",
+        "M565 105 C650 170, 540 282, 360 232",
+        "M350 235 C185 286, 54 198, 118 108",
+        "M135 112 C250 186, 430 178, 545 114",
+        "M190 245 C270 175, 405 170, 505 242"
+      ]
+    : isAdvanced
+      ? [
+          "M130 88 C260 30, 420 30, 550 88",
+          "M555 105 C630 168, 520 260, 350 226",
+          "M342 230 C205 270, 78 195, 126 108",
+          "M150 112 C250 170, 420 168, 530 112"
+        ]
+      : [
+          "M150 88 C260 30, 420 30, 530 88",
+          "M540 104 C610 170, 490 250, 340 222",
+          "M330 224 C210 260, 92 190, 140 108"
+        ];
+
   return (
-    <div className="causal-loop">
-      <svg viewBox="0 0 680 310" role="img" aria-label="خريطة سببية">
+    <div className="causal-loop" style={{ "--loop": color }}>
+      <svg viewBox="0 0 680 310" role="img" aria-label="خريطة سببية متغيرة حسب الحالة">
         <defs>
-          <marker id="arrowHeadArabic" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+          <marker id={`arrowHeadArabic-${scenario.id}`} markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="currentColor" />
           </marker>
         </defs>
 
-        <path d="M150 85 C260 20, 415 20, 530 85" />
-        <path d="M540 98 C630 165, 490 265, 340 225" />
-        <path d="M330 225 C205 262, 78 190, 138 102" />
-        <path d="M155 105 C235 165, 420 165, 520 108" className="dashed" />
+        {paths.map((path, index) => (
+          <path
+            key={path}
+            d={path}
+            className={index === paths.length - 1 && intensity >= 4 ? "dashed" : ""}
+            style={{ markerEnd: `url(#arrowHeadArabic-${scenario.id})` }}
+          />
+        ))}
 
         <circle cx="145" cy="88" r="52" />
         <circle cx="540" cy="88" r="52" />
         <circle cx="340" cy="225" r="52" />
+        {intensity >= 4 && <circle cx="505" cy="242" r="43" className="secondary" />}
 
-        <text x="145" y="74">حدث</text>
-        <text x="145" y="98">{scenario.trigger.slice(0, 16)}</text>
+        <text x="145" y="72">العرض</text>
+        <text x="145" y="98">{scenario.trigger.slice(0, 17)}</text>
 
-        <text x="540" y="74">بنية</text>
-        <text x="540" y="98">{scenario.archetype.name.slice(0, 16)}</text>
+        <text x="540" y="72">البنية</text>
+        <text x="540" y="98">{scenario.archetype.name.slice(0, 17)}</text>
 
-        <text x="340" y="211">نتيجة</text>
-        <text x="340" y="235">تكرار النمط</text>
+        <text x="340" y="209">النمط</text>
+        <text x="340" y="235">يتكرر</text>
+
+        {intensity >= 4 && (
+          <>
+            <text x="505" y="232">ضغط</text>
+            <text x="505" y="254">مصالح</text>
+          </>
+        )}
       </svg>
+    </div>
+  );
+}
+
+function DifficultyRubric({ dimensions }) {
+  return (
+    <div className="difficulty-rubric">
+      <div className="rubric-title">
+        <span>معايير الصعوبة</span>
+        <strong>قراءة مركبة لتعقيد الحالة</strong>
+      </div>
+
+      {(dimensions || []).map((dimension) => (
+        <div className="rubric-row" key={dimension.label}>
+          <div className="rubric-info">
+            <span>{dimension.label}</span>
+            <b>{getDifficultyLabel(dimension.value)} · {dimension.value}/5</b>
+          </div>
+
+          <div className="rubric-track">
+            <i
+              style={{
+                width: `${(dimension.value / 5) * 100}%`,
+                background: getDifficultyColor(dimension.value)
+              }}
+            />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -1218,12 +1431,21 @@ export default function Simulation() {
   const filtered = useMemo(() => {
     return scenarioBank.filter((item) => {
       const q = query.trim();
+      const caseDigits = extractCaseDigits(q);
+      const matchesCaseNumber =
+        Boolean(caseDigits) &&
+        (item.caseNumber === caseDigits.padStart(3, "0") ||
+          String(Number(item.caseNumber)) === String(Number(caseDigits)) ||
+          item.id.includes(caseDigits.padStart(3, "0")));
+
       const matchesQuery =
         !q ||
+        matchesCaseNumber ||
         item.title.includes(q) ||
         item.industry.includes(q) ||
         item.trigger.includes(q) ||
         item.archetype.name.includes(q) ||
+        item.archetype.description.includes(q) ||
         item.level.name.includes(q) ||
         item.reference.title.includes(q);
 
@@ -1251,6 +1473,14 @@ export default function Simulation() {
       count: scenarioBank.filter((scenarioItem) => scenarioItem.level.id === item.id).length
     }));
   }, [scenarioBank]);
+
+  const selectedLevelMeta = useMemo(() => {
+    return level === "all" ? null : levelStats.find((item) => item.id === level) || null;
+  }, [level, levelStats]);
+
+  const selectedCategoryMeta = useMemo(() => {
+    return category === "all" ? null : categoryStats.find((item) => item.id === category) || null;
+  }, [category, categoryStats]);
 
   const choiceSets = useMemo(() => {
     return {
@@ -1889,7 +2119,7 @@ export default function Simulation() {
         .causal-loop svg {
           width: 100%;
           height: auto;
-          color: #4f46e5;
+          color: var(--loop, #4f46e5);
         }
 
         .causal-loop path {
@@ -1909,6 +2139,11 @@ export default function Simulation() {
           fill: white;
           stroke: #c7d2fe;
           stroke-width: 3;
+        }
+
+        .causal-loop circle.secondary {
+          stroke: #fde68a;
+          fill: #fffbeb;
         }
 
         .causal-loop text {
@@ -2292,6 +2527,241 @@ export default function Simulation() {
           font-weight: 750;
         }
 
+
+
+        .case-summary-layout {
+          display: grid;
+          grid-template-columns: 1.2fr .8fr;
+          gap: 14px;
+          align-items: start;
+          margin-top: 14px;
+        }
+
+        .diagnostic-story {
+          display: grid;
+          gap: 14px;
+        }
+
+        .diagnostic-side {
+          display: grid;
+          gap: 14px;
+        }
+
+        .story-card {
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+        }
+
+        .story-card::before {
+          content: "";
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          border-radius: 999px;
+          left: -80px;
+          top: -80px;
+          background: rgba(79,70,229,.10);
+        }
+
+        .story-card > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .story-card span {
+          display: inline-flex;
+          margin-bottom: 8px;
+          padding: 7px 11px;
+          border-radius: 999px;
+          color: #3730a3;
+          background: #eef2ff;
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .accent-card::before {
+          background: rgba(245,158,11,.18);
+        }
+
+        .difficulty-rubric {
+          border-radius: 28px;
+          padding: 20px;
+          background: rgba(255,255,255,.92);
+          border: 1px solid rgba(148,163,184,.22);
+          box-shadow: 0 18px 50px rgba(15,23,42,.08);
+        }
+
+        .rubric-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .rubric-title span {
+          display: inline-flex;
+          padding: 7px 12px;
+          border-radius: 999px;
+          color: #92400e;
+          background: #fffbeb;
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .rubric-title strong {
+          color: #0f172a;
+          font-size: 16px;
+          font-weight: 950;
+        }
+
+        .rubric-row {
+          display: grid;
+          gap: 8px;
+          margin-bottom: 13px;
+        }
+
+        .rubric-row:last-child {
+          margin-bottom: 0;
+        }
+
+        .rubric-info {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          color: #334155;
+          font-size: 13px;
+          font-weight: 900;
+        }
+
+        .rubric-info b {
+          color: #0f172a;
+          font-weight: 950;
+        }
+
+        .rubric-track {
+          height: 11px;
+          border-radius: 999px;
+          overflow: hidden;
+          background: #e2e8f0;
+        }
+
+        .rubric-track i {
+          display: block;
+          height: 100%;
+          border-radius: 999px;
+          transition: width .25s ease;
+        }
+
+        .briefing-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          margin: 16px 0 18px;
+        }
+
+        .briefing-card {
+          position: relative;
+          overflow: hidden;
+          border-radius: 28px;
+          padding: 20px;
+          background: rgba(255,255,255,.9);
+          border: 1px solid rgba(148,163,184,.22);
+          box-shadow: 0 18px 50px rgba(15,23,42,.08);
+        }
+
+        .briefing-card::before {
+          content: "";
+          position: absolute;
+          inset-inline-start: -70px;
+          top: -70px;
+          width: 170px;
+          height: 170px;
+          border-radius: 999px;
+          background: rgba(79,70,229,.12);
+        }
+
+        .domain-brief::before {
+          background: rgba(245,158,11,.16);
+        }
+
+        .briefing-head {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 14px;
+        }
+
+        .briefing-head span {
+          display: inline-flex;
+          padding: 7px 11px;
+          border-radius: 999px;
+          color: #3730a3;
+          background: #eef2ff;
+          font-size: 11px;
+          font-weight: 950;
+        }
+
+        .domain-brief .briefing-head span {
+          color: #92400e;
+          background: #fffbeb;
+        }
+
+        .briefing-head strong {
+          color: #0f172a;
+          font-size: 20px;
+          font-weight: 950;
+        }
+
+        .briefing-card p {
+          position: relative;
+          z-index: 1;
+          margin: 0;
+          color: #334155;
+          font-size: 14px;
+          line-height: 2.05;
+          font-weight: 750;
+        }
+
+        .briefing-focus {
+          position: relative;
+          z-index: 1;
+          margin-top: 14px;
+          padding: 14px;
+          border-radius: 20px;
+          background: #f8fafc;
+          border: 1px solid rgba(148,163,184,.18);
+        }
+
+        .briefing-focus b {
+          display: block;
+          margin-bottom: 8px;
+          color: #0f172a;
+          font-size: 13px;
+          font-weight: 950;
+        }
+
+        .briefing-note {
+          position: relative;
+          z-index: 1;
+          margin-top: 12px;
+          padding: 12px 14px;
+          border-radius: 18px;
+          color: #312e81;
+          background: #eef2ff;
+          border: 1px solid rgba(79,70,229,.16);
+          font-size: 13px;
+          line-height: 1.9;
+          font-weight: 850;
+        }
+
+        .full-card {
+          grid-column: 1 / -1;
+        }
         @media (max-width: 1120px) {
           .hero-inner,
           .home-grid,
@@ -2466,16 +2936,40 @@ export default function Simulation() {
             </div>
 
             {casePanel === "summary" && (
-              <div className="grid-2">
-                <div className="card">
-                  <h3>تعقيد الحالة</h3>
-                  <p>{scenario.complexityNote}</p>
-                  <p><strong>الالتواء المهني:</strong> {scenario.level.twist}</p>
+              <div className="case-summary-layout">
+                <div className="diagnostic-story">
+                  <article className="card story-card">
+                    <span>السياق التشخيصي</span>
+                    <h3>ما الذي يحدث؟</h3>
+                    <p>{scenario.situation}</p>
+                  </article>
+
+                  <article className="card story-card">
+                    <span>الروايات المتنافسة</span>
+                    <h3>لماذا لا يكفي تفسير واحد؟</h3>
+                    <ul>
+                      <li>{scenario.diagnosticBrief.officialNarrative}</li>
+                      <li>{scenario.diagnosticBrief.employeeNarrative}</li>
+                      <li>{scenario.diagnosticBrief.politicalNarrative}</li>
+                    </ul>
+                  </article>
+
+                  <article className="card story-card">
+                    <span>مطلوبك المهني</span>
+                    <h3>سؤال العمل الاستشاري</h3>
+                    <p>{scenario.boardQuestion}</p>
+                  </article>
                 </div>
 
-                <div className="card">
-                  <h3>سؤال القيادة</h3>
-                  <p>{scenario.boardQuestion}</p>
+                <div className="diagnostic-side">
+                  <article className="card story-card accent-card">
+                    <span>التعقيد</span>
+                    <h3>{scenario.level.name}</h3>
+                    <p>{scenario.complexityNote}</p>
+                    <p><strong>نقطة الانتباه:</strong> {scenario.level.twist}</p>
+                  </article>
+
+                  <DifficultyRubric dimensions={scenario.difficultyDimensions} />
                 </div>
               </div>
             )}
@@ -2503,6 +2997,15 @@ export default function Simulation() {
                 </div>
 
                 <div className="card">
+                  <h3>البيانات الناقصة</h3>
+                  <ul>
+                    {scenario.missingData.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="card full-card">
                   <h3>الخطر الأخلاقي</h3>
                   <p>{scenario.ethicalRisk}</p>
                 </div>
@@ -2717,7 +3220,7 @@ export default function Simulation() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="ثقافة، صلاحيات، أداء، تعلم..."
+                  placeholder="ابحث بالمجال أو رقم الحالة مثل 127"
                 />
               </div>
 
@@ -2745,6 +3248,46 @@ export default function Simulation() {
                 </select>
               </div>
             </div>
+
+            {(selectedLevelMeta || selectedCategoryMeta) && (
+              <div className="briefing-grid">
+                {selectedLevelMeta && (
+                  <article className="briefing-card level-brief">
+                    <div className="briefing-head">
+                      <span>نبذة المستوى</span>
+                      <strong>{selectedLevelMeta.name}</strong>
+                    </div>
+
+                    <p>{selectedLevelMeta.description}</p>
+
+                    <div className="briefing-focus">
+                      <b>ما المطلوب منك؟</b>
+                      <p>{selectedLevelMeta.practice}</p>
+                    </div>
+
+                    <div className="briefing-note">
+                      {selectedLevelMeta.learnerPrompt}
+                    </div>
+                  </article>
+                )}
+
+                {selectedCategoryMeta && (
+                  <article className="briefing-card domain-brief">
+                    <div className="briefing-head">
+                      <span>نبذة المجال</span>
+                      <strong>{selectedCategoryMeta.name}</strong>
+                    </div>
+
+                    <p>{selectedCategoryMeta.description}</p>
+
+                    <div className="briefing-focus">
+                      <b>أمثلة ما ستواجهه</b>
+                      <p>{selectedCategoryMeta.examples}</p>
+                    </div>
+                  </article>
+                )}
+              </div>
+            )}
 
             <div className="scenario-list">
               {filtered.slice(0, 60).map((item) => (
