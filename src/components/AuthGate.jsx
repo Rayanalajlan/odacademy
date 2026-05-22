@@ -69,6 +69,267 @@ const FAQ = [
   }
 ];
 
+
+const LESSON_SAMPLES = [
+  {
+    title: "لماذا لا تبدأ من الحل؟",
+    intro:
+      "في التطوير التنظيمي، المشكلة التي تسمعها أولًا غالبًا ليست المشكلة التي يجب أن تعالجها أولًا. عندما يقول المدير: نحتاج ورشة التزام، فقد يكون يصف علاجًا يريده، لا عرضًا تم تشخيصه.",
+    cards: [
+      {
+        label: "01",
+        title: "العرض الظاهر",
+        text: "انخفاض الالتزام، تأخر التسليم، مقاومة مبادرة، أو دوران وظيفي."
+      },
+      {
+        label: "02",
+        title: "النمط المتكرر",
+        text: "هل يحدث في فريق واحد، أم يتكرر مع كل مبادرة أو كل قائد؟"
+      },
+      {
+        label: "03",
+        title: "الفرضية المهنية",
+        text: "قد يكون السبب في الأدوار، القيادة، الحوافز، الثقة، أو ضغط العمل."
+      }
+    ],
+    takeaway:
+      "الفكرة العملية: لا تسأل: ما الحل المناسب؟ قبل أن تسأل: ما الذي يجعل هذا السلوك منطقيًا داخل النظام؟ هنا يبدأ الفرق بين منفذ حلول وممارس تطوير تنظيمي.",
+    exerciseTitle: "تمرين سريع",
+    exercise:
+      "اكتب جملة تشخيصية واحدة: يبدو أن العرض هو ضعف الالتزام، لكن الفرضية الأولية أن المشكلة مرتبطة بوضوح الأولويات وحقوق القرار، وسأتحقق منها عبر مقابلات قصيرة وقراءة مؤشرات التسليم."
+  },
+  {
+    title: "كيف تفرّق بين العرض والسبب الجذري؟",
+    intro:
+      "ليس كل رقم منخفض يعني أن المشكلة في الموظفين. انخفاض الإنتاجية قد يكون نتيجة تداخل صلاحيات، أو هدف غامض، أو أداة عمل سيئة، أو قيادة لا تعطي تغذية راجعة واضحة.",
+    cards: [
+      {
+        label: "01",
+        title: "اسأل عن المكان",
+        text: "هل يظهر العرض في كل المنظمة أم في إدارة محددة؟ المكان يكشف طبيعة السبب."
+      },
+      {
+        label: "02",
+        title: "اسأل عن التوقيت",
+        text: "متى بدأ العرض؟ بعد تغيير قائد؟ بعد نظام جديد؟ بعد تعديل حوافز؟"
+      },
+      {
+        label: "03",
+        title: "اسأل عن المستفيد والمتضرر",
+        text: "من يرتاح لبقاء الوضع كما هو؟ ومن يدفع ثمن الخلل؟"
+      }
+    ],
+    takeaway:
+      "الفكرة العملية: السبب الجذري ليس أعمق إجابة تسمعها، بل أكثر فرضية تفسّر النمط وتتأكد منها البيانات.",
+    exerciseTitle: "تحدي مصغر",
+    exercise:
+      "اختر مشكلة في بيئة عملك، واكتب: العرض الظاهر، من يتأثر به، متى يظهر، وما أول دليل تحتاجه قبل أن تقترح حلا."
+  },
+  {
+    title: "التعاقد قبل التشخيص",
+    intro:
+      "أول خطوة مهنية ليست جمع البيانات، بل ضبط العلاقة: من العميل الحقيقي؟ ما حدود السرية؟ ما القرار الذي سيتأثر بالتشخيص؟ وما الذي لن نتدخل فيه؟",
+    cards: [
+      {
+        label: "01",
+        title: "العميل الحقيقي",
+        text: "قد يكون طالب الخدمة مديرًا، لكن المتأثر الحقيقي فريق كامل أو إدارة أخرى."
+      },
+      {
+        label: "02",
+        title: "حدود السرية",
+        text: "لا يبدأ التشخيص الجاد دون اتفاق واضح حول ما سيُشارك وما سيبقى مجهول المصدر."
+      },
+      {
+        label: "03",
+        title: "قرار ما بعد التشخيص",
+        text: "إذا لم يكن هناك استعداد لاستخدام النتائج، سيتحول التشخيص إلى نشاط بلا أثر."
+      }
+    ],
+    takeaway:
+      "الفكرة العملية: التعاقد يحميك من أن تُستخدم كمنفذ لرواية طرف واحد داخل النظام.",
+    exerciseTitle: "سؤال ذكي قبل البدء",
+    exercise:
+      "قبل قبول أي طلب تدخل، اسأل: ما القرار الذي تريدون اتخاذه بعد التشخيص؟ ومن يجب أن يكون حاضرًا في التعاقد حتى لا نسمع رواية واحدة فقط؟"
+  }
+];
+
+const SIMULATION_SAMPLES = [
+  {
+    title: "اجتماع عاجل قبل مبادرة تغيير",
+    context:
+      "وصلتك رسالة من مدير إدارة: عندنا مقاومة عالية لمبادرة التحول. نحتاج ورشة تحفيزية الأسبوع القادم. في المقابل، يخبرك أحد المشرفين أن الفريق لا يقاوم التغيير نفسه، بل لا يفهم لماذا تغيرت الأولويات ثلاث مرات خلال شهر واحد.",
+    signals: [
+      {
+        label: "المعطى الأول",
+        title: "الإدارة ترى مقاومة",
+        text: "اللغة الرسمية تصف الناس بأنهم غير متعاونين."
+      },
+      {
+        label: "المعطى الثاني",
+        title: "الموظفون يرون غموضًا",
+        text: "الحديث غير الرسمي يدور حول تضارب الأولويات."
+      },
+      {
+        label: "التوتر التشخيصي",
+        title: "هل المشكلة دافعية أم تصميم؟",
+        text: "الإجابة تحدد هل نحتاج ورشة أم إعادة تعاقد وتشخيص."
+      }
+    ],
+    options: [
+      {
+        id: "a",
+        title: "تنفيذ ورشة تحفيزية مباشرة",
+        feedback:
+          "هذا خيار سريع ومريح للإدارة، لكنه يقفز فوق التشخيص وقد يعالج العرض لا السبب."
+      },
+      {
+        id: "b",
+        title: "إعادة التعاقد وطلب بيانات قبل التدخل",
+        feedback:
+          "صحيح. تبدأ بتحديد السؤال التشخيصي، وتقابل عينات من الأطراف، وتراجع تغيّر الأولويات قبل تصميم أي ورشة."
+      },
+      {
+        id: "c",
+        title: "إرسال استبيان رضا عام للجميع",
+        feedback:
+          "قد يعطي مؤشرات عامة، لكنه لا يكفي وحده لفهم تضارب الروايات وسياق المبادرة."
+      }
+    ],
+    correctOptionId: "b"
+  },
+  {
+    title: "دوران مرتفع في فريق واحد",
+    context:
+      "ارتفع خروج الموظفين في فريق خدمة العملاء خلال شهرين. المدير يقول: الجيل الجديد لا يتحمل الضغط. بينما بيانات الموارد البشرية تظهر أن المغادرين كانوا الأعلى أداءً خلال آخر تقييمين.",
+    signals: [
+      {
+        label: "المعطى الأول",
+        title: "خروج أصحاب أداء عال",
+        text: "الخروج ليس عشوائيًا، بل يمس أصحاب نتائج قوية."
+      },
+      {
+        label: "المعطى الثاني",
+        title: "تفسير قيادي جاهز",
+        text: "المدير يفسر المشكلة كسلوك فردي لا كنمط داخل النظام."
+      },
+      {
+        label: "التوتر التشخيصي",
+        title: "هل المشكلة تحمل ضغط أم عدالة عمل؟",
+        text: "قد يكون الخلل في الحمل، الصلاحيات، التقدير، أو نمط القيادة."
+      }
+    ],
+    options: [
+      {
+        id: "a",
+        title: "اعتماد مكافأة مالية عاجلة للفريق",
+        feedback:
+          "قد يقلل الألم مؤقتًا، لكنه لا يفسر لماذا يغادر أصحاب الأداء العالي تحديدًا."
+      },
+      {
+        id: "b",
+        title: "مقابلات خروج وتحليل حمل العمل ونمط القيادة",
+        feedback:
+          "صحيح. هذا يجمع بيانات من مصادر متعددة قبل الحكم على السبب."
+      },
+      {
+        id: "c",
+        title: "تدريب الموظفين على إدارة الضغط",
+        feedback:
+          "قد يفيد لاحقًا، لكنه يفترض أن المشكلة في قدرة الموظفين قبل اختبار الفرضية."
+      }
+    ],
+    correctOptionId: "b"
+  },
+  {
+    title: "نظام أداء جديد بلا ثقة",
+    context:
+      "أطلقت الشركة نموذج تقييم أداء جديد. بعد شهر، بدأ الموظفون يكتبون أهدافًا سهلة جدًا. الإدارة ترى ذلك ضعف طموح، والموظفون يقولون إن التقييم سيستخدم ضدهم في المكافآت.",
+    signals: [
+      {
+        label: "المعطى الأول",
+        title: "أهداف سهلة",
+        text: "السلوك الظاهر هو خفض مستوى الطموح في الأهداف."
+      },
+      {
+        label: "المعطى الثاني",
+        title: "خوف من الاستخدام",
+        text: "المشكلة قد تكون في الثقة والرسائل لا في النموذج نفسه."
+      },
+      {
+        label: "التوتر التشخيصي",
+        title: "هل الخلل في الأداة أم في المناخ؟",
+        text: "النموذج الجيد يفشل إذا ارتبط بالعقاب أو الغموض."
+      }
+    ],
+    options: [
+      {
+        id: "a",
+        title: "إجبار الجميع على رفع الأهداف بنسبة محددة",
+        feedback:
+          "هذا يعالج الرقم لا الثقة، وقد يزيد التحايل على النظام."
+      },
+      {
+        id: "b",
+        title: "مراجعة رسائل التطبيق وربط التقييم بالتعلم والحوكمة",
+        feedback:
+          "صحيح. يجب معالجة الثقة وطريقة الاستخدام قبل تعديل الأهداف نفسها."
+      },
+      {
+        id: "c",
+        title: "إلغاء النموذج والعودة للنظام القديم",
+        feedback:
+          "قد يكون مبكرًا؛ لم نختبر بعد هل الخلل في التصميم أم في طريقة الإطلاق."
+      }
+    ],
+    correctOptionId: "b"
+  },
+  {
+    title: "صراع بين الموارد والعمليات",
+    context:
+      "فريق العمليات يشتكي أن الموارد البشرية تؤخر التوظيف، والموارد البشرية تؤكد أن العمليات تغير المتطلبات في كل مقابلة. الرئيس التنفيذي يريد تحديد الطرف المقصر بسرعة.",
+    signals: [
+      {
+        label: "المعطى الأول",
+        title: "اتهام متبادل",
+        text: "كل طرف يملك رواية تجعل الطرف الآخر سبب الخلل."
+      },
+      {
+        label: "المعطى الثاني",
+        title: "متطلبات متغيرة",
+        text: "قد يكون الخلل في تعريف الدور أو حقوق القرار لا في سرعة التوظيف فقط."
+      },
+      {
+        label: "التوتر التشخيصي",
+        title: "هل المشكلة أداء أم تصميم عملية؟",
+        text: "قبل لوم طرف، افهم أين يتغير القرار ومن يملك اعتماده."
+      }
+    ],
+    options: [
+      {
+        id: "a",
+        title: "إصدار تقرير يحدد الطرف المتسبب في التأخير",
+        feedback:
+          "هذا قد يرضي طلبًا سريعًا، لكنه يزيد الصراع إذا لم نفهم تصميم العملية."
+      },
+      {
+        id: "b",
+        title: "رسم رحلة التوظيف وتحديد نقاط تغيير المتطلبات وحقوق القرار",
+        feedback:
+          "صحيح. هذا يحول الاتهام إلى خريطة عملية قابلة للتحسين."
+      },
+      {
+        id: "c",
+        title: "رفع عدد موظفي الاستقطاب لتسريع العمل",
+        feedback:
+          "قد لا يحل المشكلة إذا كان التأخير ناتجًا عن غموض الدور وتغير المتطلبات."
+      }
+    ],
+    correctOptionId: "b"
+  }
+];
+
+
 const DEFAULT_STATS = {
   total_joined: 0,
   active_now: 0,
@@ -119,7 +380,7 @@ export default function AuthGate({
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState(DEFAULT_STATS);
   const [statsReady, setStatsReady] = useState(false);
-  const [sampleModal, setSampleModal] = useState("");
+  const [activeSample, setActiveSample] = useState({ type: "", index: 0, selectedOption: "" });
   const [openFaq, setOpenFaq] = useState("هل الرحلة مجانية؟");
 
   const passwordHint = useMemo(() => passwordIssue(password), [password]);
@@ -158,6 +419,36 @@ export default function AuthGate({
   async function touchActivity() {
     if (!isSupabaseConfigured || !supabase) return;
     await supabase.rpc("touch_user_activity");
+  }
+
+
+  function openSample(type) {
+    const bank = type === "lesson" ? LESSON_SAMPLES : SIMULATION_SAMPLES;
+
+    setActiveSample((current) => {
+      let nextIndex = Math.floor(Math.random() * bank.length);
+
+      if (bank.length > 1 && current.type === type && current.index === nextIndex) {
+        nextIndex = (nextIndex + 1) % bank.length;
+      }
+
+      return {
+        type,
+        index: nextIndex,
+        selectedOption: ""
+      };
+    });
+  }
+
+  function closeSample() {
+    setActiveSample({ type: "", index: 0, selectedOption: "" });
+  }
+
+  function chooseSimulationOption(optionId) {
+    setActiveSample((current) => ({
+      ...current,
+      selectedOption: optionId
+    }));
   }
 
   function showNotice(message) {
@@ -355,6 +646,13 @@ export default function AuthGate({
     localStorage.setItem("od_demo_name", demoName);
     onEnter?.({ name: demoName, demo: true });
   }
+
+
+  const activeLesson =
+    activeSample.type === "lesson" ? LESSON_SAMPLES[activeSample.index] : null;
+
+  const activeSimulation =
+    activeSample.type === "simulation" ? SIMULATION_SAMPLES[activeSample.index] : null;
 
   return (
     <main className="public-gate" dir="rtl">
@@ -987,11 +1285,21 @@ export default function AuthGate({
         }
 
         .simulation-choice {
+          width: 100%;
           border-radius: 20px;
           padding: 14px;
           margin-top: 10px;
           background: #fff;
           border: 1px solid rgba(148,163,184,.24);
+          text-align: right;
+          font-family: inherit;
+          cursor: pointer;
+          transition: .18s ease;
+        }
+
+        .simulation-choice:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 14px 32px rgba(15,23,42,.08);
         }
 
         .simulation-choice.correct {
@@ -1002,6 +1310,11 @@ export default function AuthGate({
         .simulation-choice.warning {
           border-color: rgba(245,158,11,.45);
           background: #fffbeb;
+        }
+
+        .simulation-choice.wrong {
+          border-color: rgba(244,63,94,.48);
+          background: #fff1f2;
         }
 
         .simulation-choice strong {
@@ -1025,6 +1338,18 @@ export default function AuthGate({
           .sample-modal-grid {
             grid-template-columns: 1fr;
           }
+        }
+
+        .simulation-feedback {
+          margin-top: 14px;
+          border-radius: 20px;
+          padding: 14px;
+          background: #f8fafc;
+          border: 1px solid rgba(148,163,184,.22);
+          color: #334155;
+          font-size: 13px;
+          line-height: 1.9;
+          font-weight: 850;
         }
 
         .modal-actions {
@@ -1316,7 +1641,7 @@ export default function AuthGate({
           <div className="section-head">
             <div>
               <h2>عينة مجانية من التجربة</h2>
-              <p>جرّب الفرق بين قراءة محتوى عادي، وبين تفكير استشاري يقودك من العرض إلى الفرضية والتدخل.</p>
+              <p>كل نقرة تفتح عينة مختلفة: مرة درس تشخيصي، ومرة موقف محاكاة تختار فيه إجابتك وترى التصحيح فورًا.</p>
             </div>
           </div>
 
@@ -1333,7 +1658,7 @@ export default function AuthGate({
                 <li>إطار تشخيصي مختصر.</li>
                 <li>سؤال تطبيقي قبل الانتقال للحل.</li>
               </ul>
-              <button className="sample-button" type="button" onClick={() => setSampleModal("lesson")}>
+              <button className="sample-button" type="button" onClick={() => openSample("lesson")}>
                 فتح الدرس التجريبي
               </button>
             </div>
@@ -1350,7 +1675,7 @@ export default function AuthGate({
                 <li>ثلاثة اختيارات غير مفضوحة.</li>
                 <li>تصحيح فوري يوضح منطق الإجابة.</li>
               </ul>
-              <button className="sample-button" type="button" onClick={() => setSampleModal("simulation")}>
+              <button className="sample-button" type="button" onClick={() => openSample("simulation")}>
                 تجربة الموقف
               </button>
             </div>
@@ -1473,120 +1798,104 @@ export default function AuthGate({
           <span>© 2026 — جميع الحقوق محفوظة</span>
         </footer>
       </div>
-
-      {sampleModal && (
+      {activeSample.type && (
         <div
           className="modal-backdrop"
           role="dialog"
           aria-modal="true"
-          aria-label={sampleModal === "lesson" ? "درس تجريبي" : "محاكاة تجريبية"}
+          aria-label={activeSample.type === "lesson" ? "درس تجريبي" : "محاكاة تجريبية"}
         >
           <div className="sample-modal">
-            {sampleModal === "lesson" ? (
+            {activeLesson && (
               <>
-                <h2>درس تجريبي: لماذا لا تبدأ من الحل؟</h2>
+                <h2>درس تجريبي: {activeLesson.title}</h2>
 
-                <p>
-                  في التطوير التنظيمي، المشكلة التي تسمعها أولًا غالبًا ليست
-                  المشكلة التي يجب أن تعالجها أولًا. عندما يقول المدير: "نحتاج
-                  ورشة التزام"، فقد يكون يصف علاجًا يريده، لا عرضًا تم تشخيصه.
-                </p>
+                <p>{activeLesson.intro}</p>
 
                 <div className="sample-modal-grid">
-                  <div className="sample-modal-card">
-                    <b>01</b>
-                    <strong>العرض الظاهر</strong>
-                    <span>انخفاض الالتزام، تأخر التسليم، مقاومة مبادرة، أو دوران وظيفي.</span>
-                  </div>
-
-                  <div className="sample-modal-card">
-                    <b>02</b>
-                    <strong>النمط المتكرر</strong>
-                    <span>هل يحدث في فريق واحد، أم يتكرر مع كل مبادرة أو كل قائد؟</span>
-                  </div>
-
-                  <div className="sample-modal-card">
-                    <b>03</b>
-                    <strong>الفرضية المهنية</strong>
-                    <span>قد يكون السبب في الأدوار، القيادة، الحوافز، الثقة، أو ضغط العمل.</span>
-                  </div>
+                  {activeLesson.cards.map((card) => (
+                    <div className="sample-modal-card" key={card.label}>
+                      <b>{card.label}</b>
+                      <strong>{card.title}</strong>
+                      <span>{card.text}</span>
+                    </div>
+                  ))}
                 </div>
 
-                <p>
-                  الفكرة العملية: لا تسأل "ما الحل المناسب؟" قبل أن تسأل:
-                  "ما الذي يجعل هذا السلوك منطقيًا داخل النظام؟" هنا يبدأ
-                  الفرق بين منفذ حلول وممارس تطوير تنظيمي.
-                </p>
+                <p>{activeLesson.takeaway}</p>
 
                 <div className="sample-modal-card">
-                  <b>تمرين سريع</b>
-                  <strong>قبل أي تدخل، اكتب جملة تشخيصية واحدة:</strong>
-                  <span>
-                    يبدو أن العرض هو ضعف الالتزام، لكن الفرضية الأولية أن المشكلة
-                    مرتبطة بوضوح الأولويات وحقوق القرار، وسأتحقق منها عبر مقابلات
-                    قصيرة وقراءة مؤشرات التسليم.
-                  </span>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2>محاكاة تجريبية: اجتماع عاجل قبل مبادرة تغيير</h2>
-
-                <p>
-                  وصلتك رسالة من مدير إدارة: "عندنا مقاومة عالية لمبادرة التحول.
-                  نحتاج ورشة تحفيزية الأسبوع القادم." في المقابل، يخبرك أحد
-                  المشرفين أن الفريق لا يقاوم التغيير نفسه، بل لا يفهم لماذا
-                  تغيرت الأولويات ثلاث مرات خلال شهر واحد.
-                </p>
-
-                <div className="sample-modal-grid">
-                  <div className="sample-modal-card">
-                    <b>المعطى الأول</b>
-                    <strong>الإدارة ترى مقاومة</strong>
-                    <span>اللغة الرسمية تصف الناس بأنهم غير متعاونين.</span>
-                  </div>
-
-                  <div className="sample-modal-card">
-                    <b>المعطى الثاني</b>
-                    <strong>الموظفون يرون غموضًا</strong>
-                    <span>الحديث غير الرسمي يدور حول تضارب الأولويات.</span>
-                  </div>
-
-                  <div className="sample-modal-card">
-                    <b>التوتر التشخيصي</b>
-                    <strong>هل المشكلة دافعية أم تصميم؟</strong>
-                    <span>الإجابة تحدد هل نحتاج ورشة أم إعادة تعاقد وتشخيص.</span>
-                  </div>
-                </div>
-
-                <div className="simulation-choice warning">
-                  <strong>الخيار أ: تنفيذ ورشة تحفيزية مباشرة</strong>
-                  <span>
-                    يبدو سريعًا ومريحًا للإدارة، لكنه يقفز فوق التشخيص وقد يعالج
-                    العرض لا السبب.
-                  </span>
-                </div>
-
-                <div className="simulation-choice correct">
-                  <strong>الخيار ب: إعادة التعاقد وطلب بيانات قبل التدخل</strong>
-                  <span>
-                    الأقرب مهنيًا: تحدد السؤال التشخيصي، تقابل عينات من الأطراف،
-                    وتراجع تغيّر الأولويات قبل تصميم أي ورشة.
-                  </span>
-                </div>
-
-                <div className="simulation-choice warning">
-                  <strong>الخيار ج: إرسال استبيان رضا عام للجميع</strong>
-                  <span>
-                    قد يعطي مؤشرات عامة، لكنه لا يكفي وحده لفهم تضارب الروايات
-                    وسياق المبادرة.
-                  </span>
+                  <b>{activeLesson.exerciseTitle}</b>
+                  <strong>طبّق الفكرة قبل أن تغلق النافذة:</strong>
+                  <span>{activeLesson.exercise}</span>
                 </div>
               </>
             )}
 
+            {activeSimulation && (
+              <>
+                <h2>محاكاة تجريبية: {activeSimulation.title}</h2>
+
+                <p>{activeSimulation.context}</p>
+
+                <div className="sample-modal-grid">
+                  {activeSimulation.signals.map((signal) => (
+                    <div className="sample-modal-card" key={signal.label}>
+                      <b>{signal.label}</b>
+                      <strong>{signal.title}</strong>
+                      <span>{signal.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p>
+                  اختر التصرف الأقرب مهنيًا. بعد اختيارك سيظهر لك التصحيح
+                  مباشرة داخل نفس النافذة.
+                </p>
+
+                {activeSimulation.options.map((option) => {
+                  const selected = activeSample.selectedOption === option.id;
+                  const revealed = Boolean(activeSample.selectedOption);
+                  const correct = option.id === activeSimulation.correctOptionId;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      className={`simulation-choice ${
+                        revealed && correct ? "correct" : ""
+                      } ${revealed && selected && !correct ? "wrong" : ""}`}
+                      onClick={() => chooseSimulationOption(option.id)}
+                    >
+                      <strong>{option.title}</strong>
+                      {revealed && (
+                        <span>
+                          {selected && correct
+                            ? "اختيارك صحيح. "
+                            : selected && !correct
+                              ? "اختيارك يحتاج مراجعة. "
+                              : correct
+                                ? "الإجابة الأقرب: "
+                                : ""}
+                          {option.feedback}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+
+                {activeSample.selectedOption && (
+                  <div className="simulation-feedback" role="status" aria-live="polite">
+                    {activeSample.selectedOption === activeSimulation.correctOptionId
+                      ? "ممتاز. أنت لم تنجذب للحل الأسرع، بل بدأت من التعاقد والتشخيص قبل تصميم التدخل."
+                      : "الفكرة ليست اختيار الحل الأجمل، بل اختيار الخطوة التي تحمي التشخيص من القفز إلى تفسير واحد."}
+                  </div>
+                )}
+              </>
+            )}
+
             <div className="modal-actions">
-              <button type="button" onClick={() => setSampleModal("")}>
+              <button type="button" onClick={() => closeSample()}>
                 إغلاق العينة
               </button>
             </div>
