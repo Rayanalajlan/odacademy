@@ -67,256 +67,65 @@ const DIFFICULTY_LEVELS = [
     name: "مبتدئ",
     intensity: 1,
     scoreLabel: "قراءة أولية",
-    description:
-      "تتعامل هنا مع حالة واضحة المعالم، يظهر فيها العرض التنظيمي بشكل مباشر داخل فريق أو قسم محدد. نطاق التأثير محدود، وعدد أصحاب المصلحة قليل، والبيانات المتاحة تكفي لبناء فرضية أولية دون الدخول في تعقيد سياسي أو مقاومة عالية.",
-    practice:
-      "مهمتك أن تحدد المشكلة المباشرة، تميزها عن الانطباع العام، تبني فرضية أولية قابلة للاختبار، تختار أداة جمع بيانات بسيطة، ثم تقترح تدخلًا محدودًا وتقيس أثره القريب مع الالتزام بمبدأ مهني أساسي مثل السرية.",
-    learnerPrompt:
-      "ركّز على عادة التشخيص قبل الحل: ما العرض؟ ما الفرضية الأولية؟ وما أقل بيانات كافية للتحقق؟",
-    riskNote:
-      "الخطر هنا أن تتعامل مع الحالة كإجراء سريع فقط، فتتجاهل أول سؤال مهني: هل ما أراه سبب أم مجرد عرض؟",
-    twist: "الحل المباشر يبدو مغريًا، لكنه قد يخفي عرضًا لم تُختبر أسبابه بعد.",
-    dimensions: {
-      problemAmbiguity: 1,
-      stakeholders: 1,
-      dataComplexity: 1,
-      impactScope: 1,
-      interventionSensitivity: 1,
-      measurementDifficulty: 1,
-      ethicalSensitivity: 1
-    }
+    description: "تواجه هنا حالة مباشرة نسبيًا: العرض واضح، البيانات الأولية قليلة لكنها مفيدة، وأصحاب المصلحة محدودون. الهدف ليس الإبهار، بل تعلّم كيف تبدأ التشخيص بطريقة منضبطة بدل القفز إلى الحل.",
+    practice: "حدّد المشكلة المباشرة، وابنِ فرضية أولية، واختر أداة جمع بيانات بسيطة، ثم اقترح تدخلاً محدودًا يمكن قياس أثره القريب مع مراعاة مبدأ أخلاقي أساسي مثل السرية.",
+    learnerPrompt: "ابدأ بالسؤال الأبسط والأهم: ما الذي أراه فعلًا؟ وهل هو سبب أم مجرد عرض ظاهر؟",
+    twist: "الإغراء هنا أن تختزل الحالة في تفسير واحد سريع لأن العرض يبدو واضحًا من البداية.",
+    dimensions: { ambiguity: 1, stakeholders: 1, data: 1, scope: 1, intervention: 1, measurement: 1, ethics: 1 }
   },
   {
     id: "basic",
     name: "أساسي",
     intensity: 2,
-    scoreLabel: "تمييز السبب عن العرض",
-    description:
-      "تدخل هنا إلى حالة لها أكثر من تفسير محتمل. الأعراض متداخلة، والبيانات موجودة لكنها تحتاج إلى فرز وربط. قد يبدو السبب واضحًا في البداية، لكن القراءة المهنية تتطلب اختبار أكثر من فرضية قبل اختيار التدخل.",
-    practice:
-      "مهمتك أن تفرّق بين العرض والسبب الجذري، تحدد البيانات التي تثبت أو تنفي الفرضيات، تقارن بين تدخلين محتملين، ثم تختار مؤشر أداء مباشرًا يوضح هل حدث تغير فعلي أم مجرد نشاط إضافي.",
-    learnerPrompt:
-      "لا تكتفِ بأول تفسير مقنع. اسأل: ما الفرضيات البديلة؟ وما البيانات التي ستجعلني أغيّر رأيي؟",
-    riskNote:
-      "الخطر هنا أن تختار حلًا صحيحًا شكليًا لكنه يعالج العرض، لا السبب الذي يعيد إنتاج المشكلة.",
-    twist: "كل تفسير يبدو معقولًا، لكن ليس كل تفسير يصلح أن يكون سببًا جذريًا.",
-    dimensions: {
-      problemAmbiguity: 2,
-      stakeholders: 2,
-      dataComplexity: 2,
-      impactScope: 2,
-      interventionSensitivity: 2,
-      measurementDifficulty: 2,
-      ethicalSensitivity: 2
-    }
+    scoreLabel: "تمييز السبب",
+    description: "الحالة هنا لا تتوقف عند عرض واحد؛ بل تظهر فيها أعراض متداخلة مع أكثر من تفسير محتمل. البيانات متوفرة لكن تحتاج إلى فرز مهني بسيط حتى لا تختلط المؤشرات بالانطباعات.",
+    practice: "فرّق بين العرض والسبب الجذري، واطلب بيانات محددة لاختبار فرضيات متعددة، ثم قارن بين خيارين للتدخل واختر الأنسب وحدد مؤشر أداء مباشرًا يوضح هل حدث تغير فعلي أم لا.",
+    learnerPrompt: "لا تركن إلى أول تفسير يبدو منطقيًا. اسأل نفسك دائمًا: ما الفرضية البديلة؟",
+    twist: "الخطر هنا أن تختار تدخلاً يبدو صحيحًا شكليًا لكنه يعالج السطح لا الجذر.",
+    dimensions: { ambiguity: 2, stakeholders: 2, data: 2, scope: 2, intervention: 2, measurement: 2, ethics: 2 }
   },
   {
     id: "intermediate",
     name: "متوسط",
     intensity: 3,
     scoreLabel: "تحليل التناقضات",
-    description:
-      "تواجه هنا حالة تتداخل فيها العلاقات بين الفرق أو الإدارات، وتظهر فجوة بين ما تقوله التصريحات الرسمية وما يعيشه الناس في العمل اليومي. البيانات ليست ناقصة فقط؛ بعضها متناقض، وكل طرف يملك جزءًا من الحقيقة.",
-    practice:
-      "مهمتك أن تبني فرضيات متعددة ومتقاطعة، تحلل الروايات المتعارضة، تفكك الفجوات بين التصميم والممارسة، وتقارن بين تدخل بشري وتدخل هيكلي قبل دمجهما في مسار واحد قابل للقياس على المدى المتوسط.",
-    learnerPrompt:
-      "اقرأ التناقض باعتباره مادة تشخيصية لا إرباكًا: لماذا يرى كل طرف المشكلة من زاوية مختلفة؟ وما التصميم الذي يجعل هذا التناقض يتكرر؟",
-    riskNote:
-      "الخطر هنا أن تنحاز للرواية الأعلى صوتًا أو الأكثر سلطة، فتفقد القدرة على رؤية النمط النظامي خلف الصراع.",
-    twist: "التصريحات الرسمية تبدو مطمئنة، لكن التجربة اليومية تكشف نمطًا مختلفًا.",
-    dimensions: {
-      problemAmbiguity: 3,
-      stakeholders: 3,
-      dataComplexity: 3,
-      impactScope: 3,
-      interventionSensitivity: 3,
-      measurementDifficulty: 3,
-      ethicalSensitivity: 3
-    }
+    description: "هنا تدخل إلى حالة يظهر فيها تعارض أفقي أو عمودي بين الأطراف، مع فجوة واضحة بين الخطاب الرسمي والتجربة الفعلية داخل العمل. بعض البيانات متناقض، وبعضها صحيح لكنه ناقص السياق.",
+    practice: "ابنِ فرضيات متعددة ومتقاطعة، وحلّل الروايات المتعارضة، وفكّك الفجوات بين التصميم والممارسة، ثم قارن بين تدخل بشري وتدخل هيكلي وادمجهما في مسار واحد يمكن قياس أثره على المدى المتوسط.",
+    learnerPrompt: "تعامل مع التناقض على أنه مادة تشخيصية ثمينة، لا على أنه إرباك يجب التخلص منه بسرعة.",
+    twist: "الخطأ الأكثر شيوعًا هنا هو الانحياز للرواية الأعلى صوتًا أو الأقرب إلى السلطة.",
+    dimensions: { ambiguity: 3, stakeholders: 3, data: 3, scope: 3, intervention: 3, measurement: 3, ethics: 3 }
   },
   {
     id: "advanced",
     name: "متقدم",
     intensity: 4,
     scoreLabel: "تدخل نظامي",
-    description:
-      "تتعامل هنا مع مشكلة نظامية تتجاوز فريقًا أو إدارة واحدة. الأثر ممتد، والمقاومة حاضرة، والمصالح متداخلة بين القيادة العليا والوسطى. أي تدخل منفرد قد يعطي نتيجة مؤقتة ثم يعود النظام إلى سلوكه القديم.",
-    practice:
-      "مهمتك أن تصمم تدخلًا متعدد المراحل يجمع بين الهيكل والثقافة والقيادة والقياس، وتضع خطة واضحة لإدارة مقاومة التغيير، ثم تبني نموذج قياس قبل وبعد يحمي التشخيص من التسييس أو التجميل.",
-    learnerPrompt:
-      "فكّر كنظام: ما البنية التي تنتج السلوك؟ ما مصالح الأطراف؟ وما التدخل الذي يستطيع النظام حمله بعد خروجك؟",
-    riskNote:
-      "الخطر هنا أن تنفذ مبادرة قوية في ظاهرها لكنها لا تغيّر حقوق القرار أو الحوافز أو السلوك القيادي.",
-    twist: "التدخل الفردي سيبدو عمليًا، لكنه لن يصمد إذا بقيت البنية القديمة تنتج السلوك نفسه.",
-    dimensions: {
-      problemAmbiguity: 4,
-      stakeholders: 4,
-      dataComplexity: 4,
-      impactScope: 4,
-      interventionSensitivity: 4,
-      measurementDifficulty: 4,
-      ethicalSensitivity: 4
-    }
+    description: "تتعامل هنا مع مشكلة نظامية تمتد عبر المنظمة، ويظهر معها قدر معتبر من مقاومة التغيير وتداخل المصالح بين القيادات الوسطى والعليا. التدخل الأحادي غالبًا سيعطي أثرًا محدودًا أو مؤقتًا.",
+    practice: "صمّم تدخلاً متعدد المراحل يجمع بين الهيكل والثقافة والقيادة، وضع خطة لإدارة مقاومة التغيير، ثم ابنِ نموذج قياس قبل وبعد يوضح الأثر ويحمي النتائج من التجميل أو التسييس.",
+    learnerPrompt: "فكّر كنظام: ما البنية التي تعيد إنتاج السلوك؟ وما الشروط التي يجب أن تتغير لكي يصمد التدخل؟",
+    twist: "التحدي الحقيقي هنا ليس إنتاج توصية ذكية فقط، بل تصميم تدخل يستطيع النظام حمله بعد خروجك.",
+    dimensions: { ambiguity: 4, stakeholders: 4, data: 4, scope: 4, intervention: 4, measurement: 4, ethics: 4 }
   },
   {
     id: "expert",
     name: "خبير",
     intensity: 5,
-    scoreLabel: "حكم استشاري تحت ضغط",
-    description:
-      "تدخل هنا إلى حالة عالية الغموض، لا تظهر فيها المشكلة كعرض واحد واضح، بل كتدهور عام في الثقة أو الأداء أو التركيز الاستراتيجي. أصحاب المصلحة كثر، المصالح متعارضة، والضغط السياسي والأخلاقي حاضر بقوة.",
-    practice:
-      "مهمتك أن تدير العلاقة الاستشارية مع أصحاب قرار مؤثرين، توازن بين المصالح دون التنازل عن نزاهة التشخيص، تحمي سرية المشاركين، وتبني قراءة بعيدة المدى للأثر التنظيمي والقيمة المتحققة.",
-    learnerPrompt:
-      "هنا لا يكفي أن تعرف الحل. المطلوب أن تحمي المهنة: من هو العميل الحقيقي؟ ما حدود السرية؟ وما الحقيقة التي يجب قولها دون تهور؟",
-    riskNote:
-      "الخطر هنا أن يتحول التشخيص إلى أداة لإثبات موقف مسبق أو معاقبة طرف، بدل أن يكون وسيلة لتحسين النظام.",
-    twist: "الطلب المعلن يبدو إداريًا، لكن القرار الحقيقي يمس الثقة والسلطة والشرعية داخل المنظمة.",
-    dimensions: {
-      problemAmbiguity: 5,
-      stakeholders: 5,
-      dataComplexity: 5,
-      impactScope: 5,
-      interventionSensitivity: 5,
-      measurementDifficulty: 5,
-      ethicalSensitivity: 5
-    }
+    scoreLabel: "حكم مهني تحت ضغط",
+    description: "هذه حالات عالية الغموض والحساسية: المشكلة لا تظهر كعرض واحد واضح، بل كتدهور عام أو تشظٍ في الأولويات، مع صراعات سياسية ومخاطر أخلاقية وأثر استراتيجي بعيد المدى.",
+    practice: "أدِر العلاقة الاستشارية المعقدة مع أصحاب قرار مؤثرين، ووازن بين المصالح المتناقضة دون التنازل عن نزاهة التشخيص، واحمِ أخلاقيات المهنة، ثم قِس الأثر التنظيمي بعيد المدى والقيمة المتحققة من التدخل.",
+    learnerPrompt: "هنا لا يكفي أن تعرف الحل؛ المطلوب أن تحمي المهنة وتحافظ على نزاهة الحكم تحت الضغط.",
+    twist: "أكبر خطر في هذه الحالات أن يتحول التشخيص إلى أداة لإثبات موقف مسبق أو تصفية طرف آخر.",
+    dimensions: { ambiguity: 5, stakeholders: 5, data: 5, scope: 5, intervention: 5, measurement: 5, ethics: 5 }
   }
 ];
 
 const ARCHETYPES = [
-  {
-    id: "contracting-diagnosis",
-    name: "التعاقد والتشخيص",
-    color: "#4f46e5",
-    lens: "نطاق العمل والعميل الحقيقي والبيانات والسرية",
-    description:
-      "مشكلات تحديد نطاق العمل، العميل الحقيقي، جمع البيانات، السرية، وتحليل الفجوات التنظيمية.",
-    examples:
-      "تعاقد غير واضح، راعٍ يريد تأكيد رأيه، عينة بيانات منحازة، خوف من الإفصاح، أو حدود سرية غير متفق عليها.",
-    goodFrame:
-      "إعادة صياغة الطلب كمسألة تعاقد وتشخيص: من العميل الحقيقي؟ ما حدود السرية؟ وما السؤال التنظيمي الذي يجب فحصه قبل أي توصية؟",
-    bestHypothesis:
-      "الخلل ليس في غياب الحل، بل في غموض نطاق التشخيص واختلاط توقعات الراعي مع احتياجات النظام.",
-    bestData:
-      "مقابلات دخول منفصلة، خريطة أصحاب المصلحة، مراجعة الطلب الأصلي، تحديد حدود استخدام البيانات، وعينة بيانات من مستويات مختلفة.",
-    bestIntervention:
-      "إعادة ضبط التعاقد التشخيصي، تعريف العميل الحقيقي، توثيق حدود السرية، وبناء خطة بيانات متعددة المصادر.",
-    bestMetric:
-      "وضوح نطاق العمل، قبول الأطراف بخطة التشخيص، وتوفر بيانات كافية قبل الانتقال للتدخل.",
-    bestEthic:
-      "حماية السرية وعدم قبول استخدام التشخيص لإثبات رأي مسبق أو استهداف طرف محدد."
-  },
-  {
-    id: "structures-processes",
-    name: "الهياكل والعمليات",
-    color: "#f59e0b",
-    lens: "الصلاحيات والحوكمة وتدفق العمل ونقاط القرار",
-    description:
-      "مشكلات تداخل الصلاحيات، بطء اتخاذ القرار، ازدواجية العمل، الاختناقات، وضعف الحوكمة.",
-    examples:
-      "تأخر قرارات، ازدواجية بين الإدارات، تصعيد دائم، عملية بطيئة، اجتماعات كثيرة بلا قرار، أو صلاحيات غير محسومة.",
-    goodFrame:
-      "إعادة صياغة العرض كخلل محتمل في تصميم العمل: أين يتعطل القرار؟ من يملك الصلاحية؟ وما نقطة التسليم التي تعيد إنتاج التأخير؟",
-    bestHypothesis:
-      "السبب الجذري في تداخل الصلاحيات ونقاط القرار والاعتماد المتبادل غير المصمم، لا في ضعف التزام الأفراد فقط.",
-    bestData:
-      "تحليل قرارات فعلية، رسم مسار العملية، قياس زمن الدورة، مراجعة الصلاحيات، وملاحظة اجتماع قرار حقيقي.",
-    bestIntervention:
-      "إعادة تصميم نقاط القرار والتسليم، تحديث مصفوفة المسؤوليات، وتبسيط الحوكمة بما يربط الصلاحية بالمخرجات.",
-    bestMetric:
-      "انخفاض زمن القرار، تراجع التصعيدات غير الضرورية، وتحسن جودة التسليم بين الإدارات.",
-    bestEthic:
-      "عرض الخلل كنمط تصميمي لا كإدانة لأشخاص، ومنع استخدام بيانات العملية لمحاسبة طرف قبل إصلاح البنية."
-  },
-  {
-    id: "culture-climate-change",
-    name: "الثقافة والمناخ والتغيير",
-    color: "#7c3aed",
-    lens: "الثقة والصمت التنظيمي ومقاومة التغيير والسلوك اليومي",
-    description:
-      "مشكلات ثقافة اللوم، ضعف الثقة، مقاومة التغيير، الصمت التنظيمي، وبيئات العمل غير الصحية.",
-    examples:
-      "خوف من رفع الأخبار السيئة، مقاومة مبادرة جديدة، تجميل الواقع، صمت في الاجتماعات، أو ثقافة لوم بعد الأخطاء.",
-    goodFrame:
-      "إعادة صياغة المشكلة كثقافة تشغيل يومية: ما السلوك الذي أصبح آمنًا؟ وما الذي يعاقبه النظام حتى لو ادعى عكس ذلك؟",
-    bestHypothesis:
-      "السلوك الظاهر ناتج عن افتراضات ومكافآت واستجابات قيادية تجعل الصمت أو المقاومة أكثر أمانًا من الصراحة والتجربة.",
-    bestData:
-      "مقابلات آمنة، تحليل لحظات الحقيقة، سجل المخاطر، ملاحظة استجابة القيادة، وقياس ثقة الموظفين في رفع المشكلات.",
-    bestIntervention:
-      "تدخل ثقافي سلوكي يغير استجابة القيادة، يبني أمانًا نفسيًا، ويحول التغيير من إعلان إلى ممارسة مدعومة.",
-    bestMetric:
-      "ارتفاع الإفصاح المبكر عن المخاطر، تحسن الثقة، انخفاض المفاجآت المتأخرة، واستمرار السلوك الجديد بعد فترة المتابعة.",
-    bestEthic:
-      "عدم وعد المشاركين بسرية مطلقة غير قابلة للحماية، وعرض النتائج مجمعة دون كشف أصحاب الأقوال."
-  },
-  {
-    id: "leadership-teams",
-    name: "القيادة والفرق",
-    color: "#e11d48",
-    lens: "الصراع والمساءلة والتعاون والسلامة النفسية",
-    description:
-      "مشكلات الصراع بين القادة، تفكك الفرق، ضعف التعاون، غياب المساءلة، وانخفاض السلامة النفسية.",
-    examples:
-      "صراع بين قائدين، فريق لا يتعاون، اجتماعات دفاعية، غياب مساءلة، قرارات فردية، أو فريق يخفي الأخطاء خوفًا من اللوم.",
-    goodFrame:
-      "إعادة صياغة الصراع كسلوك قيادة وفريق: كيف تؤثر السلطة والمساءلة والأمان النفسي في طريقة العمل المشترك؟",
-    bestHypothesis:
-      "الصراع الظاهر يخفي نمطًا في القيادة والمساءلة والتعاون، حيث تحمي الأطراف مواقعها بدل حل المشكلة المشتركة.",
-    bestData:
-      "ملاحظة اجتماعات، مقابلات مع أعضاء الفريق، تحليل قرارات مشتركة، فحص مؤشرات المساءلة، وقياس الأمان النفسي.",
-    bestIntervention:
-      "تدخل فريق وقيادة يوضح قواعد القرار والمساءلة، يبني اتفاق عمل، ويغير سلوك القادة في لحظات الضغط.",
-    bestMetric:
-      "تحسن جودة القرارات المشتركة، انخفاض اللوم، ارتفاع الإفصاح عن المخاطر، وزيادة الالتزام بما يُتفق عليه.",
-    bestEthic:
-      "عدم تحويل التشخيص إلى محاكمة لقائد أو فريق، وحماية الأصوات الأقل قوة أثناء جمع البيانات."
-  },
-  {
-    id: "talent-capabilities",
-    name: "المواهب والقدرات",
-    color: "#10b981",
-    lens: "الأداء والتعلم والتعاقب وفجوات المهارات",
-    description:
-      "مشكلات تقييم الأداء، التغذية الراجعة، التعاقب الوظيفي، فجوات المهارات، وضعف أثر التعلم.",
-    examples:
-      "تقييم أداء شكلي، ضعف تغذية راجعة، برامج تعلم بلا أثر، فجوات مهارية، تعاقب وظيفي غير موثوق، أو ترقية لا ترتبط بالقدرة الفعلية.",
-    goodFrame:
-      "إعادة صياغة المشكلة كمنظومة قدرة: هل يترجم النظام الأداء والتعلم والتغذية الراجعة إلى سلوك ومهارة وقرار؟",
-    bestHypothesis:
-      "الخلل في ربط الأداء والتعلم بالقدرة الفعلية، حيث تُدار النماذج والبرامج أكثر مما تُدار السلوكيات والمهارات.",
-    bestData:
-      "عينة أهداف وتقييمات، مقابلات أداء، تحليل فجوات مهارية، نتائج تعلم مطبقة، ومراجعة قرارات التعاقب والترقية.",
-    bestIntervention:
-      "تحسين جودة محادثات الأداء، ربط التعلم بالتطبيق، بناء مصفوفة قدرات، وتفعيل تعاقب وظيفي مبني على أدلة.",
-    bestMetric:
-      "تحسن جودة التغذية الراجعة، زيادة تطبيق المهارات، انخفاض مفاجآت الأداء، ووضوح جاهزية الخلفاء للأدوار الحرجة.",
-    bestEthic:
-      "عدم استخدام بيانات القدرة لمعاقبة الموظفين قبل إصلاح عدالة النظام وتدريب المديرين على التقييم والتغذية الراجعة."
-  },
-  {
-    id: "strategy-transformation",
-    name: "الاستراتيجية والتحول",
-    color: "#0ea5e9",
-    lens: "المواءمة والتركيز الاستراتيجي والتحولات الكبرى",
-    description:
-      "مشكلات تشتت المبادرات، ضعف المواءمة، التحولات الكبرى، الاندماج والاستحواذ، وفقدان التركيز الاستراتيجي.",
-    examples:
-      "مبادرات كثيرة بلا أثر، تحول رقمي غير متبنّى، اندماج متعثر، أهداف متضاربة، أو فقدان تركيز بين الاستراتيجية والتنفيذ.",
-    goodFrame:
-      "إعادة صياغة الحالة كفجوة مواءمة: كيف تتحول الاستراتيجية إلى أولويات وقرارات وسلوك يومي قابل للقياس؟",
-    bestHypothesis:
-      "التدهور ناتج عن ضعف المواءمة بين التوجه الاستراتيجي ونموذج التشغيل والقدرة التنفيذية، لا عن نقص المبادرات.",
-    bestData:
-      "خريطة المبادرات، تحليل الأولويات، مقابلات قيادة، مؤشرات تبني التحول، مراجعة نموذج التشغيل، وقياس وضوح الاتجاه لدى الفرق.",
-    bestIntervention:
-      "إعادة مواءمة المبادرات مع الأولويات، ضبط حوكمة التحول، بناء خريطة قدرة، وإيقاف الأنشطة التي لا تخدم التوجه.",
-    bestMetric:
-      "انخفاض تشتت المبادرات، تحسن سرعة القرار، وضوح الأولويات، وارتفاع أثر التحول على نتائج تنظيمية محددة.",
-    bestEthic:
-      "عدم تزيين نتائج التحول لإرضاء القيادة، وعدم إخفاء المخاطر التي تمس قدرة المنظمة على التنفيذ."
-  }
+  { id: "contract-diagnosis", name: "التعاقد والتشخيص", color: "#6366f1", lens: "نطاق العمل والعميل الحقيقي ومنهج التشخيص", description: "مشكلات تحديد نطاق العمل، العميل الحقيقي، جمع البيانات، السرية، وتحليل الفجوات التنظيمية.", examples: "طلب تشخيص سريع بلا حدود واضحة، عميل ظاهر يختلف عن العميل الحقيقي، أو التباس في حدود السرية واستخدام البيانات.", centerLabel: "ضبابية التعاقد", goodFrame: "إعادة صياغة الطلب كمسألة تعاقد وتشخيص: من هو العميل الحقيقي؟ وما حدود العمل؟ وما الأسئلة التي يجب التحقق منها قبل التوصية؟", bestHypothesis: "الخلل المركزي ليس في غياب الحلول، بل في غموض التعاقد وتضارب توقعات الأطراف حول الغرض من التشخيص وحدود استخدام نتائجه.", bestData: "مراجعة طلب العميل، مقابلات تعاقدية مع الراعي والأطراف المتأثرة، تحليل حدود السرية، وتحديد فجوات الأسئلة التشخيصية قبل جمع بيانات موسعة.", bestIntervention: "إعادة ضبط التعاقد المهني، وتوضيح العميل الحقيقي والنطاق والمخرجات، ثم بناء خطة تشخيص متعددة المصادر قبل أي تدخل لاحق.", bestMetric: "وضوح النطاق، وانخفاض تغيّر التوقعات أثناء العمل، وارتفاع جودة البيانات التي تُجمع وفق غرض تشخيصي محدد.", bestEthic: "حماية المشاركين من استخدام الإفادات خارج غرض التشخيص، وتوضيح حدود السرية والاطلاع منذ البداية." },
+  { id: "structures-processes", name: "الهياكل والعمليات", color: "#0f766e", lens: "التصميم التنظيمي وتدفق العمل والحوكمة", description: "مشكلات تداخل الصلاحيات، بطء اتخاذ القرار، ازدواجية العمل، الاختناقات، وضعف الحوكمة.", examples: "تكرار العمل بين وحدتين، بطء اعتماد القرارات، تضارب الصلاحيات، أو اختناق مستمر في مسار تشغيلي حرج.", centerLabel: "اختناق التصميم", goodFrame: "إعادة صياغة المشكلة كخلل محتمل في التصميم: حقوق القرار، نقاط التسليم، تدفق العمل، والحوكمة؛ لا كضعف جهد الأفراد فقط.", bestHypothesis: "السبب الأعمق يتمثل في تصميم هيكلي وتشغيلي يعيد إنتاج التأخر والتداخل بسبب غموض القرار وتكرار الأدوار والاختناقات.", bestData: "تحليل عمليات فعلية، رسم نقاط التسليم، مراجعة الصلاحيات، قياس زمن الدورة وإعادة العمل، وملاحظة اجتماعات القرار.", bestIntervention: "إعادة تصميم نقاط القرار وتوزيع الصلاحيات وتبسيط العملية الحرجة مع حوكمة واضحة للمسؤوليات والتسليمات.", bestMetric: "انخفاض زمن الدورة، وتراجع إعادة العمل، وتحسن حسم القرارات العابرة للوحدات.", bestEthic: "تجنّب تحميل الأفراد أخطاء التصميم، وعرض النتائج كنمط تنظيمي يحتاج إصلاحًا لا كإدانة شخصية." },
+  { id: "culture-climate-change", name: "الثقافة والمناخ والتغيير", color: "#7c3aed", lens: "الثقافة التنظيمية والمناخ النفسي وتبنّي التغيير", description: "مشكلات ثقافة اللوم، ضعف الثقة، مقاومة التغيير، الصمت التنظيمي، وبيئات العمل غير الصحية.", examples: "رفض صامت لمبادرة جديدة، خوف من رفع الأخبار السيئة، انتشار اللوم، أو بيئة تجعل الناس يخفون الحقيقة.", centerLabel: "دورة المقاومة", goodFrame: "إعادة صياغة الظاهرة كمنظومة ثقافية وسلوكية: كيف تُكافأ الطاعة الصامتة؟ وكيف تُعاقب الصراحة؟ وما الذي يجعل التغيير يبدو تهديدًا؟", bestHypothesis: "المشكلة نتاج ثقافة ومناخ يعززان الحذر والامتثال الشكلي، ويجعلان التغيير يُستقبل كتهديد لا كفرصة تعلم.", bestData: "مقابلات آمنة، تحليل لحظات الحقيقة، مراجعة رسائل القيادة، قياس المناخ والثقة، وملاحظة استجابة القادة للاعتراض والأخبار الصعبة.", bestIntervention: "تدخل ثقافي سلوكي يغيّر استجابات القيادة، ويؤسس ممارسات أمان نفسي، ويعالج تبني التغيير عبر تجارب صغيرة وحوار منظم.", bestMetric: "ارتفاع الإبلاغ المبكر، وتحسن مناخ الثقة، وانخفاض مقاومة التغيير الصامتة، واستمرار السلوك الجديد بعد فترة المتابعة.", bestEthic: "حماية سرية المشاركين وعدم كشف رواياتهم الفردية، وتجنّب استخدام نتائج المناخ لمعاقبة المعترضين." },
+  { id: "leadership-teams", name: "القيادة والفرق", color: "#dc2626", lens: "فاعلية القيادة والتعاون والأمان النفسي داخل الفرق", description: "مشكلات الصراع بين القادة، تفكك الفرق، ضعف التعاون، غياب المساءلة، وانخفاض السلامة النفسية.", examples: "خلافات مزمنة بين مديرين، فريق غير منسجم، غياب المساءلة المشتركة، أو قرارات تُتخذ خارج الفريق ثم تُفرض عليه.", centerLabel: "انقسام القيادة", goodFrame: "إعادة صياغة المشكلة بوصفها فجوة في قيادة الفريق والعلاقات بين القادة: كيف تتوزع السلطة؟ وكيف تُدار الخلافات؟ وما الرسائل السلوكية التي يتلقاها الفريق؟", bestHypothesis: "الأعراض الظاهرة تخفي خللًا في نمط القيادة والتنسيق والمساءلة، ما يولّد صراعًا متكررًا وضعف تعاون وسلامة نفسية هشة.", bestData: "مقابلات مع القادة والأعضاء، ملاحظة اجتماعات الفريق، تحليل مسارات التصعيد، وقياس الثقة والتعاون والمساءلة.", bestIntervention: "تدخل يجمع بين مواءمة القيادة، واتفاقات فريق واضحة، وآليات مساءلة وتغذية راجعة، مع دعم سلوكي للقادة في المواقف الحرجة.", bestMetric: "تحسن التعاون بين القادة، وانخفاض التصعيدات الشخصية، وارتفاع وضوح المساءلة وجودة العمل الجماعي.", bestEthic: "تقديم تغذية راجعة تحفظ الكرامة ولا تحول التشخيص إلى إحراج علني أو تصفية حسابات." },
+  { id: "talent-capabilities", name: "المواهب والقدرات", color: "#2563eb", lens: "الأداء والتعلم والتعاقب وفجوات المهارات", description: "مشكلات تقييم الأداء، التغذية الراجعة، التعاقب الوظيفي، فجوات المهارات، وضعف أثر التعلم.", examples: "نظام أداء شكلي، تغذية راجعة متأخرة، تعلم بلا أثر ظاهر، ضعف جاهزية البدلاء، أو فجوات مهارية تتكرر دون معالجة.", centerLabel: "فجوة القدرة", goodFrame: "إعادة صياغة المشكلة كفجوة بين ما تتطلبه الأدوار وما يبنيه النظام من أداء وتعلم وقدرات، لا كضعف شخصي مجرد.", bestHypothesis: "الخلل الأساسي هو أن أنظمة الأداء والتعلم وبناء القدرات تعمل شكليًا ولا تغذي السلوك أو الجاهزية أو جودة القرارات داخل العمل.", bestData: "عينة من محادثات الأداء، مراجعة خطط التعلم، تحليل فجوات المهارات، مقابلات مع المديرين والموظفين، وبيانات التعاقب والجاهزية.", bestIntervention: "إعادة تصميم حوارات الأداء والتغذية الراجعة، وربط التعلم بسياق العمل، وتقوية خطط الجاهزية والتعاقب حول القدرات الحرجة.", bestMetric: "تحسن جودة محادثات الأداء، وانخفاض فجوات المهارات الحرجة، وارتفاع جاهزية المواهب، وظهور أثر للتعلم في السلوك والعمل.", bestEthic: "عدم استخدام بيانات الأداء أو التقييمات الجديدة لمحاسبة غير عادلة قبل تأهيل المديرين وضبط معايير العدالة." },
+  { id: "strategy-transformation", name: "الاستراتيجية والتحول", color: "#ea580c", lens: "المواءمة الاستراتيجية والتحولات الكبرى", description: "مشكلات تشتت المبادرات، ضعف المواءمة، التحولات الكبرى، الاندماج والاستحواذ، وفقدان التركيز الاستراتيجي.", examples: "مبادرات كثيرة بلا ترابط، تحول رقمي متعثر، اندماج يفتقد المواءمة، أو استراتيجية معلنة لا تظهر في التشغيل اليومي.", centerLabel: "فجوة المواءمة", goodFrame: "إعادة صياغة الظاهرة كفجوة بين التوجه الاستراتيجي ونموذج التشغيل والحوكمة والأولويات اليومية، لا كضعف تنفيذ معزول فقط.", bestHypothesis: "المشكلة الأعمق هي غياب المواءمة بين الاستراتيجية والمبادرات ونموذج التشغيل، ما يبدد الجهد ويشتت الانتباه ويضعف الأثر.", bestData: "تحليل المحفظة الحالية للمبادرات، مراجعة أولويات القيادة، مقابلات حول التوجه الاستراتيجي، وتتبع كيف تُترجم القرارات الاستراتيجية في العمل اليومي.", bestIntervention: "إعادة مواءمة المبادرات والحوكمة والأدوار مع التوجه الاستراتيجي، وتحديد أولويات واضحة ومسار تحول متدرج قابل للمتابعة.", bestMetric: "ارتفاع وضوح الأولويات، وانخفاض تشتت المبادرات، وتحسن الارتباط بين القرارات اليومية والأهداف الاستراتيجية.", bestEthic: "عدم تجميل نتائج التحول لإرضاء القيادة، والتمييز بين الإنجاز الشكلي والقيمة الفعلية المتحققة." }
 ];
 
 const INDUSTRIES = [
@@ -663,54 +472,12 @@ function safeWriteNumber(key, value) {
   }
 }
 
-
-function getDimensionValue(level, key, offset = 0) {
-  const base = Number(level?.dimensions?.[key] || level?.intensity || 1);
-  return Math.max(1, Math.min(5, base + offset));
-}
-
-function buildDifficultyDimensions(level, archetype, index) {
-  const fieldPressure = archetype.id === "strategy-transformation" || archetype.id === "culture-climate-change" ? 1 : 0;
-  const dataPressure = archetype.id === "talent-capabilities" || archetype.id === "structures-processes" ? 1 : 0;
-  const ethicalPressure = archetype.id === "contracting-diagnosis" || archetype.id === "leadership-teams" ? 1 : 0;
-
-  return [
-    { label: "غموض المشكلة", value: getDimensionValue(level, "problemAmbiguity", index % 3 === 0 ? 1 : 0) },
-    { label: "عدد أصحاب المصلحة", value: getDimensionValue(level, "stakeholders", fieldPressure) },
-    { label: "تعقيد البيانات", value: getDimensionValue(level, "dataComplexity", dataPressure) },
-    { label: "نطاق الأثر", value: getDimensionValue(level, "impactScope", fieldPressure) },
-    { label: "حساسية التدخل", value: getDimensionValue(level, "interventionSensitivity", index % 4 === 0 ? 1 : 0) },
-    { label: "صعوبة القياس", value: getDimensionValue(level, "measurementDifficulty", dataPressure) },
-    { label: "الحساسية الأخلاقية", value: getDimensionValue(level, "ethicalSensitivity", ethicalPressure) }
-  ];
-}
-
-function getDifficultyColor(value) {
-  if (value <= 1) return "#10b981";
-  if (value === 2) return "#84cc16";
-  if (value === 3) return "#f59e0b";
-  if (value === 4) return "#f97316";
-  return "#ef4444";
-}
-
-function getDifficultyLabel(value) {
-  if (value <= 1) return "منخفض";
-  if (value === 2) return "محدود";
-  if (value === 3) return "متوسط";
-  if (value === 4) return "مرتفع";
-  return "حرج";
-}
-
-function extractCaseDigits(value) {
-  return String(value || "").replace(/[٠-٩]/g, (digit) => "٠١٢٣٤٥٦٧٨٩".indexOf(digit)).replace(/\D/g, "");
-}
-
 function buildScenarioBank() {
   const bank = [];
 
   for (let i = 0; i < 350; i += 1) {
-    const archetype = pick(ARCHETYPES, i);
-    const level = DIFFICULTY_LEVELS[Math.min(DIFFICULTY_LEVELS.length - 1, Math.floor(i / 70))];
+    const level = DIFFICULTY_LEVELS[i % DIFFICULTY_LEVELS.length];
+    const archetype = ARCHETYPES[(i * 5) % ARCHETYPES.length];
     const industry = pick(INDUSTRIES, i * 7);
     const size = pick(ORG_SIZES, i * 11);
     const trigger = pick(TRIGGERS, i * 13);
@@ -725,33 +492,26 @@ function buildScenarioBank() {
     const reference = pick(REFERENCES, i * 47);
 
     const caseNumber = String(i + 1).padStart(3, "0");
-    const difficultyDimensions = buildDifficultyDimensions(level, archetype, i);
+    const centralStory = archetype.centerLabel;
+    const caseTag = `${archetype.name} · ${level.name}`;
 
-    const directSymptom = `${trigger} داخل ${industry}، مع اتساع أثره تدريجيًا على جودة العمل وثقة الأطراف.`;
-    const officialNarrative = level.intensity <= 2
-      ? "الرواية الرسمية تميل إلى تفسير المشكلة كضعف التزام أو نقص متابعة."
-      : "الرواية الرسمية تبدو متماسكة ظاهريًا، لكنها لا تفسر تكرار النمط ولا اختلاف تجربة الأطراف.";
-    const employeeNarrative = level.intensity >= 3
-      ? "الموظفون يصفون واقعًا مختلفًا؛ المشكلة بالنسبة لهم مرتبطة بطريقة اتخاذ القرار وتوزيع الصلاحيات واستجابة القيادة."
-      : "الموظفون يلمحون إلى أن بعض تفاصيل العمل اليومية لا تظهر في التقارير الرسمية.";
-    const politicalNarrative = level.intensity >= 4
-      ? "بعض الأطراف تحاول دفع التشخيص نحو تفسير يخدم موقعها أو يحمي قرارًا سابقًا."
-      : "لا تظهر حساسية سياسية عالية، لكن أي تشخيص غير دقيق قد يوجّه التدخل إلى المكان الخطأ.";
+    const complexityNote = `${level.description} ${level.practice}`;
+    const ethicalPressure =
+      level.intensity >= 4
+        ? `الحساسية الأخلاقية مرتفعة في هذه الحالة؛ لأن ${pressure} قد يدفع بعض الأطراف لاستخدام نتائج التشخيص سياسيًا أو انتقائيًا.`
+        : `توجد حساسية أخلاقية يجب الانتباه لها، لكنها ما تزال قابلة للضبط إذا وُضّحت حدود السرية واستخدام البيانات منذ البداية.`;
 
-    const situation = `أنت تعمل مع ${industry} بحجم ${size}. ظهر عرض تنظيمي واضح: ${trigger}. في البداية يبدو الأمر كخلل تشغيلي يمكن التعامل معه بسرعة، لكن قراءة المجال تكشف أنه يقع ضمن ${archetype.name}. المطلوب ليس إصدار حكم سريع، بل بناء تشخيص يوضح ما الذي يجعل هذا النمط يتكرر داخل العمل.`;
-
-    const complexityNote = `${level.description} في هذه الحالة، لا يكفي أن تسأل: ما الحل؟ بل تحتاج إلى قراءة العلاقة بين المجال، مستوى التعقيد، أصحاب المصلحة، ونوعية البيانات المتاحة قبل اختيار التدخل.`;
-
-    const boardQuestion = `${level.practice} السؤال المهني هنا: كيف تقود تشخيصًا يحترم الواقع، يختبر الفرضيات، ويحمي المشاركين من استخدام البيانات خارج غرض التطوير؟`;
-
-    const ethicalRisk = `${level.riskNote} الضغط الحالي: ${pressure}. لذلك يجب أن تكون حدود السرية واستخدام البيانات واضحة قبل جمع أي إفادات حساسة.`;
-
-    const decisionMoment = "لحظة القرار: هل تتعامل مع العرض كما قُدّم لك، أم تعيد بناءه كفرضيات قابلة للاختبار قبل أن تختار التدخل؟";
+    const boardQuestion =
+      level.intensity >= 4
+        ? `المطلوب منك ليس فقط اقتراح تدخل، بل بناء حكم مهني متماسك: كيف ستقرأ التعقيد؟ وكيف ستمنع أن يتحول التشخيص إلى أداة ضغط أو تبرير؟`
+        : `المطلوب منك أن تقرأ الحالة مهنيًا: ما التأطير الصحيح؟ ما الفرضية الأقوى؟ ما البيانات الأنسب؟ وما التدخل الأكثر اتساقًا مع الواقع؟`;
 
     bank.push({
       id: `حالة-${caseNumber}`,
       caseNumber,
-      title: `${archetype.name} في ${industry}`,
+      numericId: i + 1,
+      title: `${archetype.name} داخل ${industry}`,
+      subtitle: caseTag,
       archetype,
       level,
       category: archetype.id,
@@ -767,62 +527,19 @@ function buildScenarioBank() {
       trap,
       deliverable,
       reference,
-      situation,
+      situation: `تعمل على حالة داخل ${industry} بحجم ${size}. العرض الظاهر الآن هو: ${trigger}. إلا أن القراءة المهنية الأولية تشير إلى أن ما يحدث لا يمكن تفسيره كضعف فردي فقط، بل قد يرتبط بـ ${archetype.description}`,
       complexityNote,
       boardQuestion,
       hiddenDynamic: archetype.bestHypothesis,
-      ethicalRisk,
-      decisionMoment,
-      diagnosticBrief: {
-        directSymptom,
-        officialNarrative,
-        employeeNarrative,
-        politicalNarrative,
-        professionalQuestion: level.learnerPrompt
-      },
-      difficultyDimensions,
-      correct: {
-        frame: archetype.goodFrame,
-        hypothesis: archetype.bestHypothesis,
-        data: archetype.bestData,
-        intervention: archetype.bestIntervention,
-        metric: archetype.bestMetric,
-        ethic: archetype.bestEthic
-      },
-      dataNeeded: [
-        mainSignal,
-        secondarySignal,
-        thirdSignal,
-        fourthSignal,
-        "مقابلات مع أصحاب مصلحة من مستويات مختلفة",
-        "ملاحظة لحظة عمل حقيقية لا الاكتفاء بالتصريحات",
-        "مراجعة مؤشر سلوكي ومؤشر أثر"
-      ],
-      missingData: [
-        "ما الذي يحدث في لحظة العمل لا في العرض الرسمي فقط؟",
-        "كيف تختلف رواية القيادة عن رواية من ينفذون العمل؟",
-        "ما القرار أو الحافز الذي يجعل النمط يستمر؟"
-      ],
-      mistakes: [
-        trap,
-        "تفسير العرض كسبب جذري",
-        "الاعتماد على رأي صاحب السلطة وحده",
-        "تصميم تدخل لا يستطيع النظام حمله بعد خروج الممارس"
-      ],
-      successMeasures: [
-        archetype.bestMetric,
-        "وضوح السلوك الجديد المطلوب",
-        "نقل الملكية إلى مالك داخلي",
-        "وجود مؤشر تبنّي ومؤشر أثر",
-        "انخفاض الاعتماد على التدخل الخارجي"
-      ],
-      causalMap: [
-        { label: "العرض الظاهر", text: directSymptom, color: "#f59e0b" },
-        { label: "نمط التكرار", text: archetype.bestHypothesis, color: archetype.color },
-        { label: "عامل الضغط", text: pressure, color: "#e11d48" },
-        { label: "الفجوة التشخيصية", text: level.learnerPrompt, color: "#7c3aed" },
-        { label: "المخرج المهني", text: deliverable, color: "#10b981" }
-      ]
+      ethicalRisk: `${ethicalPressure} وتحديدًا لأن ${archetype.examples}`,
+      decisionMoment: `لحظة القرار في هذه الحالة: هل تنجرف مع التفسير السهل، أم تعيد صياغة المسألة كتشخيص مهني يختبر الفرضيات ويبني تدخلًا قابلًا للقياس والاستدامة؟`,
+      centralStory,
+      causalRead: `تجمع هذه الخريطة بين المدخلات الضاغطة والنمط المتكرر لتوضح كيف تتكون ${centralStory} داخل النظام، ثم كيف ينبغي أن تتحول إلى مخرج مهني لا إلى استجابة متسرعة.`,
+      correct: { frame: archetype.goodFrame, hypothesis: archetype.bestHypothesis, data: archetype.bestData, intervention: archetype.bestIntervention, metric: archetype.bestMetric, ethic: archetype.bestEthic },
+      dataNeeded: [mainSignal, secondarySignal, thirdSignal, fourthSignal, "مقابلات مع أصحاب مصلحة من مستويات مختلفة", "ملاحظة موقف عمل حقيقي لا الاكتفاء بالتصريحات", "ربط مؤشر سلوكي بمؤشر أثر واضح"],
+      mistakes: [trap, "الخلط بين العرض والسبب الجذري", "الاعتماد على رواية صاحب السلطة وحده", "اقتراح تدخل لا يستطيع النظام حمله بعد انتهاء الدعم الخارجي"],
+      successMeasures: [archetype.bestMetric, "وضوح السلوك الجديد المطلوب من الأطراف المعنية", "نقل الملكية إلى مالك داخلي واضح", "وجود مؤشر تبنٍّ ومؤشر أثر معًا", "استمرار الأثر دون اعتماد دائم على التدخل الخارجي"],
+      mapItems: { visible: trigger, pressure, pattern: archetype.bestHypothesis, gap: `الفجوة الجوهرية هنا أن ${level.learnerPrompt}`, output: deliverable, centerTitle: centralStory, centerText: archetype.goodFrame }
     });
   }
 
@@ -1094,7 +811,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
         <div class="box"><b>الصعوبة</b><span>${escapeReportHtml(scenario.level.name)}</span></div>
         <div class="box"><b>المرجع</b><span>${safeReference}</span></div>
       </div>
-      <div class="footer"><span>محاكاة هندسة التطوير التنظيمي</span><span>صنع بواسطة ريان العجلان</span></div>
+      <div class="footer"><span>OD Engineering Simulation</span><span>صنع بواسطة ريان العجلان</span></div>
     </section>
 
     <section class="slide">
@@ -1223,17 +940,17 @@ function MasteryCard({ title, value, subtitle, color }) {
 }
 
 function ScenarioMap({ scenario }) {
-  const nodes = scenario.causalMap || [
-    { label: "العرض الظاهر", text: scenario.trigger, color: "#f59e0b" },
-    { label: "النمط المتكرر", text: scenario.hiddenDynamic, color: scenario.archetype.color },
-    { label: "عامل الضغط", text: scenario.pressure, color: "#e11d48" },
-    { label: "المخرج المهني", text: scenario.deliverable, color: "#10b981" }
+  const nodes = [
+    { label: "العرض", text: scenario.trigger, color: "#f59e0b" },
+    { label: "النمط", text: scenario.hiddenDynamic, color: scenario.archetype.color },
+    { label: "الضغط", text: scenario.pressure, color: "#e11d48" },
+    { label: "المخرج", text: scenario.deliverable, color: "#10b981" }
   ];
 
   return (
     <div className="scenario-map">
       {nodes.map((node, index) => (
-        <div className="scenario-node" key={`${node.label}-${index}`} style={{ "--node": node.color }}>
+        <div className="scenario-node" key={node.label} style={{ "--node": node.color }}>
           <b>{index + 1}</b>
           <span>{node.label}</span>
           <p>{node.text}</p>
@@ -1243,145 +960,94 @@ function ScenarioMap({ scenario }) {
   );
 }
 
-function wrapCausalText(value, maxWords = 18) {
-  const words = String(value || "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .filter(Boolean);
-
-  if (words.length <= maxWords) return words.join(" ");
-  return `${words.slice(0, maxWords).join(" ")}…`;
+function extractCaseQuery(raw) {
+  const trimmed = String(raw || "").trim();
+  if (!trimmed) return "";
+  const match = trimmed.match(/(\d{1,3})/);
+  return match ? String(Number(match[1])) : "";
 }
 
-function CausalLoop({ scenario }) {
-  const color = scenario.archetype.color || "#4f46e5";
-  const intensity = scenario.level.intensity || 1;
-  const nodes = scenario.causalMap || [
-    { label: "العرض الظاهر", text: scenario.trigger, color: "#f59e0b" },
-    { label: "النمط المتكرر", text: scenario.hiddenDynamic, color },
-    { label: "عامل الضغط", text: scenario.pressure, color: "#e11d48" },
-    { label: "الفجوة التشخيصية", text: scenario.level?.learnerPrompt || "فرضية تحتاج اختبارًا", color: "#7c3aed" },
-    { label: "المخرج المهني", text: scenario.deliverable, color: "#10b981" }
-  ];
+function matchesScenarioQuery(item, rawQuery) {
+  const q = String(rawQuery || "").trim();
+  if (!q) return true;
+  const numericQuery = extractCaseQuery(q);
+  if (numericQuery) {
+    const numericId = String(item.numericId);
+    if (numericQuery === numericId || item.caseNumber === numericQuery.padStart(3, "0") || item.id.includes(numericQuery)) return true;
+  }
+  return item.title.includes(q) || item.subtitle.includes(q) || item.industry.includes(q) || item.trigger.includes(q) || item.archetype.name.includes(q) || item.level.name.includes(q) || item.reference.title.includes(q) || item.situation.includes(q) || item.hiddenDynamic.includes(q) || item.centralStory.includes(q);
+}
 
-  const variant = hashString(`${scenario.id}-${scenario.category}-${scenario.level.id}`) % 6;
-  const visibleNodeCount = intensity >= 4 ? 5 : 4;
-  const visibleNodes = nodes.slice(0, visibleNodeCount);
-
-  const variants = [
-    {
-      name: "حلقة تشخيصية",
-      className: "visual-ring",
-      center: "النمط الذي يعيد إنتاج المشكلة",
-      insight: "تقرأ الخريطة هنا كيف يتحول العرض الظاهر إلى دورة متكررة عندما تبقى البنية والضغط والتدخلات السريعة دون معالجة."
-    },
-    {
-      name: "سلسلة قرار",
-      className: "visual-chain",
-      center: "نقطة القرار التي تغيّر المسار",
-      insight: "توضح الخريطة كيف تنتقل الحالة من عرض أولي إلى قرارات متتابعة؛ كل قرار غير محسوم يرفع تكلفة القرار التالي."
-    },
-    {
-      name: "تعارض روايات",
-      className: "visual-tension",
-      center: "الروايات المتعارضة",
-      insight: "تجعل الخريطة اختلاف الروايات مادة تشخيصية؛ فكل طرف يرى جزءًا من النظام، والمطلوب تفسير التناقض لا اختيار رواية واحدة."
-    },
-    {
-      name: "ضغط نظامي",
-      className: "visual-pressure",
-      center: "القوى التي تضغط على السلوك",
-      insight: "تكشف الخريطة كيف يدفع النظام الأفراد إلى تكرار السلوك نفسه حتى لو تغيّرت النوايا أو صدرت تعليمات جديدة."
-    },
-    {
-      name: "مركز ونفوذ",
-      className: "visual-hub",
-      center: "مركز النفوذ والاعتماد المتبادل",
-      insight: "توضح الخريطة أين تتجمع السلطة، وأين يتعطل القرار، وكيف تتحول العلاقات غير المصممة إلى اختناق تنظيمي."
-    },
-    {
-      name: "تعلم راجع",
-      className: "visual-learning",
-      center: "هل يتحول الحدث إلى تعلم؟",
-      insight: "تربط الخريطة بين الحدث والتعلم المؤسسي: هل يتحول ما حدث إلى تعديل في النظام أم يعود كحادثة جديدة؟"
-    }
-  ];
-
-  const selected = variants[variant];
-
+function BriefingCards({ levelItem, categoryItem }) {
+  if (!levelItem && !categoryItem) return null;
   return (
-    <div className={`causal-loop causal-loop-visual ${selected.className}`} style={{ "--loop": color }}>
-      <div className="causal-loop-top">
-        <div>
-          <span>الخريطة السببية</span>
-          <strong>{selected.name}</strong>
+    <div className="briefing-grid">
+      {levelItem && (
+        <div className="briefing-card">
+          <div className="briefing-head">
+            <strong>{levelItem.name}</strong>
+            <span>نبذة المستوى</span>
+          </div>
+          <p>{levelItem.description}</p>
+          <div className="briefing-focus">
+            <b>ما المتوقع منك في هذا المستوى؟</b>
+            <p>{levelItem.practice}</p>
+          </div>
+          <div className="briefing-note">{levelItem.learnerPrompt}</div>
         </div>
-        <small>{scenario.level.name} · {scenario.archetype.name}</small>
-      </div>
-
-      <div className="causal-canvas" aria-label="رسم سببي يوضح علاقة العرض بالنمط والضغط والمخرج المهني">
-        <div className="causal-spokes" aria-hidden="true">
-          <i className="spoke spoke-one" />
-          <i className="spoke spoke-two" />
-          <i className="spoke spoke-three" />
-          <i className="spoke spoke-four" />
-          {visibleNodes.length > 4 && <i className="spoke spoke-five" />}
+      )}
+      {categoryItem && (
+        <div className="briefing-card domain-card">
+          <div className="briefing-head">
+            <strong>{categoryItem.name}</strong>
+            <span>نبذة المجال</span>
+          </div>
+          <p>{categoryItem.description}</p>
+          <div className="briefing-focus">
+            <b>أمثلة لما قد تواجهه</b>
+            <p>{categoryItem.examples}</p>
+          </div>
+          <div className="briefing-note">العدسة المقترحة لقراءة هذا المجال: {categoryItem.lens}.</div>
         </div>
-
-        <div className="causal-center-node">
-          <span>المركز</span>
-          <strong>{selected.center}</strong>
-        </div>
-
-        {visibleNodes.map((node, index) => (
-          <article
-            className={`causal-visual-node causal-node-${index + 1}`}
-            key={`${node.label}-${index}`}
-            style={{ "--node": node.color }}
-          >
-            <div className="causal-node-badge">{index + 1}</div>
-            <div>
-              <strong>{node.label}</strong>
-              <p>{node.text}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <div className="causal-loop-insight">
-        <b>قراءة الخريطة</b>
-        <p>{selected.insight}</p>
-      </div>
+      )}
     </div>
   );
 }
 
-function DifficultyRubric({ dimensions }) {
+function renderBentoNodeTitle(number, title, tone) {
   return (
-    <div className="difficulty-rubric">
-      <div className="rubric-title">
-        <span>معايير الصعوبة</span>
-        <strong>قراءة مركبة لتعقيد الحالة</strong>
+    <div className="bento-title-row">
+      <span className={`node-badge ${tone}`}>{number}</span>
+      <h4>{title}</h4>
+    </div>
+  );
+}
+
+function CausalLoop({ scenario }) {
+  const items = scenario.mapItems;
+  return (
+    <div className="causal-loop bento-causal">
+      <div className="causal-meta-line">
+        <span className="causal-chip">الخريطة السببية</span>
+        <b>{scenario.centralStory}</b>
       </div>
-
-      {(dimensions || []).map((dimension) => (
-        <div className="rubric-row" key={dimension.label}>
-          <div className="rubric-info">
-            <span>{dimension.label}</span>
-            <b>{getDifficultyLabel(dimension.value)} · {dimension.value}/5</b>
-          </div>
-
-          <div className="rubric-track">
-            <i
-              style={{
-                width: `${(dimension.value / 5) * 100}%`,
-                background: getDifficultyColor(dimension.value)
-              }}
-            />
-          </div>
-        </div>
-      ))}
+      <div className="causal-tree">
+        <svg className="causal-connectors" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
+          <defs><marker id="causalArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L0,10 L10,5 z" fill="#c7c9f8" /></marker></defs>
+          <path d="M250 130 C330 130, 360 170, 500 245" />
+          <path d="M750 130 C670 130, 640 170, 500 245" />
+          <path d="M500 370 C500 410, 310 430, 250 490" />
+          <path d="M500 370 C500 410, 500 430, 500 490" className="soft" />
+          <path d="M500 370 C500 410, 690 430, 750 490" />
+        </svg>
+        <div className="tree-card tree-top-left">{renderBentoNodeTitle("1", "العرض الظاهر", "warning")}<p>{items.visible}</p></div>
+        <div className="tree-card tree-top-right danger">{renderBentoNodeTitle("2", "عامل الضغط", "danger")}<p>{items.pressure}</p></div>
+        <div className="tree-card tree-center main-center"><span className="center-kicker">المحور</span><h3>{items.centerTitle}</h3><p>{items.centerText}</p></div>
+        <div className="tree-card tree-bottom-left">{renderBentoNodeTitle("3", "نمط التكرار", "neutral")}<p>{items.pattern}</p></div>
+        <div className="tree-card tree-bottom-center info">{renderBentoNodeTitle("4", "الفجوة التشخيصية", "violet")}<p>{items.gap}</p></div>
+        <div className="tree-card tree-bottom-right success">{renderBentoNodeTitle("5", "المخرج المهني", "success")}<p>{items.output}</p></div>
+      </div>
+      <div className="causal-reading-box"><h4>قراءة الخريطة</h4><p>{scenario.causalRead}</p></div>
     </div>
   );
 }
@@ -1474,28 +1140,9 @@ export default function Simulation() {
 
   const filtered = useMemo(() => {
     return scenarioBank.filter((item) => {
-      const q = query.trim();
-      const caseDigits = extractCaseDigits(q);
-      const matchesCaseNumber =
-        Boolean(caseDigits) &&
-        (item.caseNumber === caseDigits.padStart(3, "0") ||
-          String(Number(item.caseNumber)) === String(Number(caseDigits)) ||
-          item.id.includes(caseDigits.padStart(3, "0")));
-
-      const matchesQuery =
-        !q ||
-        matchesCaseNumber ||
-        item.title.includes(q) ||
-        item.industry.includes(q) ||
-        item.trigger.includes(q) ||
-        item.archetype.name.includes(q) ||
-        item.archetype.description.includes(q) ||
-        item.level.name.includes(q) ||
-        item.reference.title.includes(q);
-
+      const matchesQuery = matchesScenarioQuery(item, query);
       const matchesCategory = category === "all" || item.category === category;
       const matchesLevel = level === "all" || item.level.id === level;
-
       return matchesQuery && matchesCategory && matchesLevel;
     });
   }, [scenarioBank, query, category, level]);
@@ -1518,13 +1165,8 @@ export default function Simulation() {
     }));
   }, [scenarioBank]);
 
-  const selectedLevelMeta = useMemo(() => {
-    return level === "all" ? null : levelStats.find((item) => item.id === level) || null;
-  }, [level, levelStats]);
-
-  const selectedCategoryMeta = useMemo(() => {
-    return category === "all" ? null : categoryStats.find((item) => item.id === category) || null;
-  }, [category, categoryStats]);
+  const selectedLevelItem = useMemo(() => DIFFICULTY_LEVELS.find((item) => item.id === level) || null, [level]);
+  const selectedCategoryItem = useMemo(() => ARCHETYPES.find((item) => item.id === category) || null, [category]);
 
   const choiceSets = useMemo(() => {
     return {
@@ -2151,6 +1793,37 @@ export default function Simulation() {
           font-weight: 750;
         }
 
+
+        .briefing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0 18px; direction: rtl; }
+        .briefing-card { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; background: radial-gradient(circle at top right, rgba(99,102,241,.12), transparent 28%), radial-gradient(circle at bottom left, rgba(245,158,11,.10), transparent 30%), #ffffff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 18px 46px rgba(15,23,42,.06); direction: rtl; text-align: right; }
+        .briefing-card.domain-card { background: radial-gradient(circle at top right, rgba(99,102,241,.10), transparent 28%), radial-gradient(circle at bottom left, rgba(148,163,184,.14), transparent 34%), #ffffff; }
+        .briefing-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; direction: rtl; text-align: right; margin-bottom: 12px; }
+        .briefing-head strong { color: #0f172a; font-size: 24px; font-weight: 950; }
+        .briefing-head span { display: inline-flex; align-items: center; justify-content: center; width: fit-content; padding: 7px 12px; border-radius: 999px; background: #eef2ff; color: #4338ca; border: 1px solid rgba(99,102,241,.18); font-size: 11px; font-weight: 950; white-space: nowrap; }
+        .briefing-card p { margin: 0; color: #475569; font-size: 14px; line-height: 2.05; font-weight: 760; direction: rtl; text-align: right; }
+        .briefing-focus { margin-top: 14px; padding: 14px; border-radius: 20px; background: #f8fafc; border: 1px solid rgba(226,232,240,.95); }
+        .briefing-focus b { display: block; color: #0f172a; font-size: 13px; font-weight: 950; margin-bottom: 8px; }
+        .briefing-note { margin-top: 12px; padding: 12px 14px; border-radius: 18px; background: #eef2ff; color: #312e81; border: 1px solid rgba(99,102,241,.15); font-size: 13px; line-height: 1.95; font-weight: 850; }
+        .bento-causal { border-radius: 30px; background: radial-gradient(circle at top right, rgba(99,102,241,.08), transparent 26%), radial-gradient(circle at bottom left, rgba(245,158,11,.08), transparent 24%), #f8fafc; border: 1px solid rgba(226,232,240,.95); padding: 18px; overflow: hidden; }
+        .causal-meta-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+        .causal-chip { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: #eef2ff; color: #4338ca; font-size: 11px; font-weight: 950; border: 1px solid rgba(99,102,241,.18); }
+        .causal-meta-line b { color: #111827; font-size: 30px; font-weight: 950; }
+        .causal-tree { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; min-height: 690px; padding: 8px 0; }
+        .causal-connectors { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .causal-connectors path { fill: none; stroke: #c7c9f8; stroke-width: 3; marker-end: url(#causalArrow); opacity: .95; }
+        .causal-connectors path.soft { stroke: #d7dbea; stroke-dasharray: 7 7; }
+        .tree-card { position: relative; z-index: 1; border-radius: 28px; padding: 18px; background: #ffffff; border: 1px solid rgba(226,232,240,.95); box-shadow: 0 16px 40px rgba(15,23,42,.06); min-height: 150px; }
+        .tree-card p { margin: 0; color: #475569; font-size: 14px; line-height: 2.02; font-weight: 760; }
+        .tree-top-left { grid-column: 1 / span 4; grid-row: 1; } .tree-top-right { grid-column: 9 / span 4; grid-row: 1; } .tree-center { grid-column: 4 / span 6; grid-row: 2; min-height: 220px; } .tree-bottom-left { grid-column: 1 / span 4; grid-row: 3; } .tree-bottom-center { grid-column: 5 / span 4; grid-row: 3; } .tree-bottom-right { grid-column: 9 / span 4; grid-row: 3; }
+        .tree-card.success { border-color: rgba(110,231,183,.9); } .tree-card.info { border-color: rgba(199,210,254,.95); } .tree-card.danger { border-color: rgba(254,205,211,.95); }
+        .bento-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; } .bento-title-row h4 { margin: 0; color: #0f172a; font-size: 20px; line-height: 1.35; font-weight: 950; }
+        .node-badge { width: 30px; height: 30px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 950; flex: 0 0 auto; }
+        .node-badge.warning { background: #f59e0b; } .node-badge.danger { background: #ef4444; } .node-badge.success { background: #10b981; } .node-badge.violet { background: #8b5cf6; } .node-badge.neutral { background: #64748b; }
+        .main-center { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, rgba(250,250,255,.98), rgba(241,245,249,.96)), #fff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 22px 60px rgba(99,102,241,.10); padding: 26px; }
+        .center-kicker { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: rgba(79,70,229,.08); color: #4338ca; font-size: 11px; font-weight: 950; margin-bottom: 14px; }
+        .main-center h3 { margin: 0 0 12px; color: #111827; font-size: 36px; line-height: 1.22; font-weight: 950; } .main-center p { max-width: 92%; color: #475569; font-size: 14px; line-height: 2.05; }
+        .causal-reading-box { margin-top: 14px; border-radius: 24px; padding: 16px 18px; background: #eef2ff; border: 1px solid rgba(199,210,254,.9); } .causal-reading-box h4 { margin: 0 0 8px; color: #3730a3; font-size: 16px; font-weight: 950; } .causal-reading-box p { margin: 0; color: #334155; font-size: 14px; line-height: 2; font-weight: 760; }
+
         .causal-loop {
           border-radius: 28px;
           background:
@@ -2160,41 +1833,7 @@ export default function Simulation() {
           padding: 12px;
         }
 
-        .causal-loop svg {
-          width: 100%;
-          height: auto;
-          color: var(--loop, #4f46e5);
-        }
-
-        .causal-loop path {
-          fill: none;
-          stroke: currentColor;
-          stroke-width: 3;
-          opacity: .62;
-        }
-
-        .causal-loop path.dashed {
-          stroke-dasharray: 8 8;
-          opacity: .35;
-        }
-
-        .causal-loop circle {
-          fill: white;
-          stroke: #c7d2fe;
-          stroke-width: 3;
-        }
-
-        .causal-loop circle.secondary {
-          stroke: #fde68a;
-          fill: #fffbeb;
-        }
-
-        .causal-loop text {
-          text-anchor: middle;
-          font-size: 12px;
-          font-weight: 900;
-          fill: #0f172a;
-        }
+        .causal-loop svg { width: 100%; height: auto; }
 
         .decision-shell {
           border-radius: 34px;
@@ -2570,288 +2209,13 @@ export default function Simulation() {
           font-weight: 750;
         }
 
-
-
-        .case-summary-layout {
-          display: grid;
-          grid-template-columns: 1.2fr .8fr;
-          gap: 14px;
-          align-items: start;
-          margin-top: 14px;
-        }
-
-        .diagnostic-story {
-          display: grid;
-          gap: 14px;
-        }
-
-        .diagnostic-side {
-          display: grid;
-          gap: 14px;
-        }
-
-        .story-card {
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 16px 42px rgba(15,23,42,.06);
-        }
-
-        .story-card::before {
-          content: "";
-          position: absolute;
-          width: 150px;
-          height: 150px;
-          border-radius: 999px;
-          left: -80px;
-          top: -80px;
-          background: rgba(79,70,229,.10);
-        }
-
-        .story-card > * {
-          position: relative;
-          z-index: 1;
-        }
-
-        .story-card span {
-          display: inline-flex;
-          margin-bottom: 8px;
-          padding: 7px 11px;
-          border-radius: 999px;
-          color: #3730a3;
-          background: #eef2ff;
-          font-size: 11px;
-          font-weight: 950;
-        }
-
-        .accent-card::before {
-          background: rgba(245,158,11,.18);
-        }
-
-        .difficulty-rubric {
-          border-radius: 28px;
-          padding: 20px;
-          background: rgba(255,255,255,.92);
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 18px 50px rgba(15,23,42,.08);
-        }
-
-        .rubric-title {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-
-        .rubric-title span {
-          display: inline-flex;
-          padding: 7px 12px;
-          border-radius: 999px;
-          color: #92400e;
-          background: #fffbeb;
-          font-size: 11px;
-          font-weight: 950;
-        }
-
-        .rubric-title strong {
-          color: #0f172a;
-          font-size: 16px;
-          font-weight: 950;
-        }
-
-        .rubric-row {
-          display: grid;
-          gap: 8px;
-          margin-bottom: 13px;
-        }
-
-        .rubric-row:last-child {
-          margin-bottom: 0;
-        }
-
-        .rubric-info {
-          display: flex;
-          justify-content: space-between;
-          gap: 12px;
-          color: #334155;
-          font-size: 13px;
-          font-weight: 900;
-        }
-
-        .rubric-info b {
-          color: #0f172a;
-          font-weight: 950;
-        }
-
-        .rubric-track {
-          height: 11px;
-          border-radius: 999px;
-          overflow: hidden;
-          background: #e2e8f0;
-        }
-
-        .rubric-track i {
-          display: block;
-          height: 100%;
-          border-radius: 999px;
-          transition: width .25s ease;
-        }
-
-        .briefing-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
-          margin: 18px 0 20px;
-        }
-
-        .briefing-card {
-          position: relative;
-          overflow: hidden;
-          border-radius: 34px;
-          padding: 0;
-          background:
-            radial-gradient(circle at 12% 18%, rgba(255,255,255,.68), transparent 34%),
-            linear-gradient(135deg, rgba(15,23,42,.96), rgba(30,41,59,.92));
-          color: white;
-          border: 1px solid rgba(255,255,255,.16);
-          box-shadow: 0 24px 70px rgba(15,23,42,.16);
-        }
-
-        .domain-brief {
-          background:
-            radial-gradient(circle at 12% 18%, rgba(255,255,255,.62), transparent 34%),
-            linear-gradient(135deg, rgba(120,53,15,.95), rgba(146,64,14,.90));
-        }
-
-        .briefing-card::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
-          background-size: 38px 38px;
-          opacity: .48;
-          transform: rotate(-4deg) scale(1.12);
-        }
-
-        .briefing-card::after {
-          content: "";
-          position: absolute;
-          inset-inline-start: 0;
-          top: 0;
-          bottom: 0;
-          width: 7px;
-          background: linear-gradient(180deg, #c7d2fe, #fbbf24, #10b981);
-        }
-
-        .briefing-head {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 18px 20px 0;
-          margin-bottom: 14px;
-        }
-
-        .briefing-head span {
-          display: inline-flex;
-          padding: 8px 12px;
-          border-radius: 999px;
-          color: #fde68a;
-          background: rgba(255,255,255,.10);
-          border: 1px solid rgba(255,255,255,.16);
-          font-size: 11px;
-          font-weight: 950;
-        }
-
-        .domain-brief .briefing-head span {
-          color: #ffedd5;
-          background: rgba(255,255,255,.12);
-        }
-
-        .briefing-head strong {
-          color: #ffffff;
-          font-size: 24px;
-          line-height: 1.2;
-          font-weight: 950;
-        }
-
-        .briefing-card > p {
-          position: relative;
-          z-index: 1;
-          margin: 0;
-          padding: 0 20px 18px;
-          color: rgba(226,232,240,.92);
-          font-size: 14px;
-          line-height: 2.05;
-          font-weight: 750;
-        }
-
-        .briefing-focus {
-          position: relative;
-          z-index: 1;
-          margin: 0 20px 18px;
-          padding: 16px;
-          border-radius: 24px;
-          background: rgba(255,255,255,.10);
-          border: 1px solid rgba(255,255,255,.14);
-          backdrop-filter: blur(10px);
-        }
-
-        .briefing-focus b {
-          display: block;
-          margin-bottom: 8px;
-          color: #fde68a;
-          font-size: 13px;
-          font-weight: 950;
-        }
-
-        .briefing-focus p {
-          margin: 0;
-          color: rgba(255,255,255,.88);
-          font-size: 13px;
-          line-height: 1.95;
-          font-weight: 800;
-        }
-
-        .briefing-note {
-          position: relative;
-          z-index: 1;
-          margin: 0 20px 20px;
-          padding: 13px 15px;
-          border-radius: 20px;
-          color: #111827;
-          background: linear-gradient(135deg, #fde68a, #fbbf24);
-          border: 1px solid rgba(255,255,255,.18);
-          font-size: 13px;
-          line-height: 1.9;
-          font-weight: 900;
-          box-shadow: 0 14px 32px rgba(245,158,11,.18);
-        }
-
-        .causal-loop-label {
-          display: inline-flex;
-          margin: 2px 0 10px;
-          padding: 7px 12px;
-          border-radius: 999px;
-          color: #312e81;
-          background: #eef2ff;
-          font-size: 11px;
-          font-weight: 950;
-        }
-
-        .full-card {
-          grid-column: 1 / -1;
-        }
         @media (max-width: 1120px) {
           .hero-inner,
           .home-grid,
           .grid-2,
           .grid-3,
-          .filters {
+          .filters,
+          .briefing-grid {
             grid-template-columns: 1fr;
           }
 
@@ -2859,6 +2223,25 @@ export default function Simulation() {
           .scenario-list,
           .mastery-grid {
             grid-template-columns: repeat(2, 1fr);
+          }
+
+          .causal-tree {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            min-height: auto;
+          }
+
+          .tree-top-left,
+          .tree-top-right,
+          .tree-center,
+          .tree-bottom-left,
+          .tree-bottom-center,
+          .tree-bottom-right {
+            grid-column: auto;
+            grid-row: auto;
+          }
+
+          .causal-connectors {
+            display: none;
           }
         }
 
@@ -2875,13 +2258,23 @@ export default function Simulation() {
           .hero-metrics,
           .scenario-map,
           .scenario-list,
-          .mastery-grid {
+          .mastery-grid,
+          .causal-tree {
             grid-template-columns: 1fr;
           }
 
           .page-head,
-          .decision-top {
+          .decision-top,
+          .causal-meta-line {
             display: grid;
+          }
+
+          .causal-meta-line b {
+            font-size: 22px;
+          }
+
+          .main-center h3 {
+            font-size: 28px;
           }
 
           .score-orb {
@@ -2893,750 +2286,6 @@ export default function Simulation() {
             grid-template-columns: 1fr;
           }
         }
-
-
-        /* تحديث ألوان واتجاه نبذة المستوى والمجال لتتسق مع هوية الموقع */
-        .briefing-grid,
-        .briefing-card,
-        .level-brief,
-        .domain-brief,
-        .filter-briefing,
-        .selected-filter-briefing,
-        .explorer-briefing,
-        .level-summary-card,
-        .domain-summary-card {
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        .briefing-grid,
-        .filter-briefing,
-        .selected-filter-briefing,
-        .explorer-briefing {
-          display: grid !important;
-          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-          gap: 16px !important;
-          margin: 16px 0 20px !important;
-        }
-
-        .briefing-card,
-        .level-brief,
-        .domain-brief,
-        .level-summary-card,
-        .domain-summary-card {
-          position: relative !important;
-          overflow: hidden !important;
-          border-radius: 30px !important;
-          padding: 22px !important;
-          color: #0f172a !important;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.13), transparent 34%),
-            radial-gradient(circle at 0% 100%, rgba(245,158,11,.12), transparent 30%),
-            linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,250,252,.92)) !important;
-          border: 1px solid rgba(148,163,184,.22) !important;
-          box-shadow: 0 18px 55px rgba(15,23,42,.08) !important;
-          backdrop-filter: blur(16px) !important;
-        }
-
-        .briefing-card::before,
-        .level-brief::before,
-        .domain-brief::before,
-        .level-summary-card::before,
-        .domain-summary-card::before {
-          content: "" !important;
-          position: absolute !important;
-          top: -78px !important;
-          right: -78px !important;
-          width: 190px !important;
-          height: 190px !important;
-          border-radius: 999px !important;
-          background: linear-gradient(135deg, rgba(79,70,229,.18), rgba(245,158,11,.12)) !important;
-          pointer-events: none !important;
-        }
-
-        .briefing-card::after,
-        .level-brief::after,
-        .domain-brief::after,
-        .level-summary-card::after,
-        .domain-summary-card::after {
-          content: "" !important;
-          position: absolute !important;
-          bottom: -90px !important;
-          left: -90px !important;
-          width: 210px !important;
-          height: 210px !important;
-          border-radius: 999px !important;
-          background: rgba(16,185,129,.10) !important;
-          pointer-events: none !important;
-        }
-
-        .briefing-head,
-        .briefing-card-header,
-        .summary-card-head {
-          position: relative !important;
-          z-index: 1 !important;
-          display: flex !important;
-          flex-direction: row !important;
-          align-items: center !important;
-          justify-content: space-between !important;
-          gap: 12px !important;
-          padding: 0 !important;
-          margin: 0 0 14px !important;
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        .briefing-head span,
-        .briefing-card-header span,
-        .summary-card-head span {
-          display: inline-flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          width: fit-content !important;
-          padding: 7px 12px !important;
-          border-radius: 999px !important;
-          color: #3730a3 !important;
-          background: #eef2ff !important;
-          border: 1px solid rgba(79,70,229,.14) !important;
-          font-size: 11px !important;
-          font-weight: 950 !important;
-          white-space: nowrap !important;
-        }
-
-        .domain-brief .briefing-head span,
-        .domain-summary-card .summary-card-head span {
-          color: #92400e !important;
-          background: #fffbeb !important;
-          border-color: rgba(245,158,11,.20) !important;
-        }
-
-        .briefing-head strong,
-        .briefing-card-header strong,
-        .summary-card-head strong {
-          color: #0f172a !important;
-          font-size: 21px !important;
-          line-height: 1.4 !important;
-          font-weight: 950 !important;
-          text-align: right !important;
-        }
-
-        .briefing-card p,
-        .level-brief p,
-        .domain-brief p,
-        .level-summary-card p,
-        .domain-summary-card p {
-          position: relative !important;
-          z-index: 1 !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          color: #334155 !important;
-          font-size: 14px !important;
-          line-height: 2.05 !important;
-          font-weight: 750 !important;
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        .briefing-focus,
-        .briefing-note,
-        .summary-card-focus,
-        .summary-card-note {
-          position: relative !important;
-          z-index: 1 !important;
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        .briefing-focus,
-        .summary-card-focus {
-          margin-top: 14px !important;
-          padding: 14px 16px !important;
-          border-radius: 20px !important;
-          background: rgba(248,250,252,.92) !important;
-          border: 1px solid rgba(148,163,184,.18) !important;
-        }
-
-        .briefing-focus b,
-        .summary-card-focus b {
-          display: block !important;
-          margin-bottom: 8px !important;
-          color: #0f172a !important;
-          font-size: 13px !important;
-          line-height: 1.8 !important;
-          font-weight: 950 !important;
-          text-align: right !important;
-        }
-
-        .briefing-note,
-        .summary-card-note {
-          margin-top: 12px !important;
-          padding: 12px 14px !important;
-          border-radius: 18px !important;
-          color: #312e81 !important;
-          background: rgba(238,242,255,.92) !important;
-          border: 1px solid rgba(79,70,229,.16) !important;
-          font-size: 13px !important;
-          line-height: 1.95 !important;
-          font-weight: 850 !important;
-        }
-
-        .briefing-card *,
-        .level-brief *,
-        .domain-brief *,
-        .filter-briefing *,
-        .selected-filter-briefing *,
-        .explorer-briefing *,
-        .level-summary-card *,
-        .domain-summary-card * {
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        /* خريطة سببية كاملة النصوص؛ لا تقص الكلمات كما كان يحدث مع SVG text */
-        .causal-loop-cards {
-          direction: rtl !important;
-          text-align: right !important;
-          border-radius: 28px !important;
-          padding: 18px !important;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 32%),
-            linear-gradient(135deg, rgba(255,255,255,.94), rgba(248,250,252,.88)) !important;
-          border: 1px solid rgba(148,163,184,.22) !important;
-        }
-
-        .causal-network {
-          position: relative;
-          display: grid;
-          gap: 14px;
-          margin-top: 14px;
-        }
-
-        .causal-loop-cards.loop-ring .causal-network {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .causal-loop-cards.loop-chain .causal-network {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-
-        .causal-loop-cards.loop-tension .causal-network,
-        .causal-loop-cards.loop-pressure .causal-network,
-        .causal-loop-cards.loop-hub .causal-network,
-        .causal-loop-cards.loop-learning .causal-network {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .causal-card-node {
-          position: relative;
-          min-height: 128px;
-          display: grid;
-          grid-template-columns: 44px 1fr;
-          gap: 12px;
-          align-items: start;
-          border-radius: 22px;
-          padding: 15px;
-          background: #ffffff;
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 12px 34px rgba(15,23,42,.06);
-          overflow: hidden;
-        }
-
-        .causal-card-node::before {
-          content: "";
-          position: absolute;
-          inset-inline-start: 0;
-          top: 0;
-          bottom: 0;
-          width: 6px;
-          background: var(--node, var(--loop));
-        }
-
-        .causal-node-index {
-          width: 40px;
-          height: 40px;
-          display: grid;
-          place-items: center;
-          border-radius: 16px;
-          color: #fff;
-          background: var(--node, var(--loop));
-          font-weight: 950;
-        }
-
-        .causal-card-node strong {
-          display: block;
-          color: #0f172a;
-          font-size: 14px;
-          line-height: 1.7;
-          font-weight: 950;
-          margin-bottom: 5px;
-        }
-
-        .causal-card-node p {
-          margin: 0;
-          color: #475569;
-          font-size: 12px;
-          line-height: 1.85;
-          font-weight: 750;
-          overflow-wrap: anywhere;
-          word-break: normal;
-        }
-
-        .causal-loop-insight {
-          margin-top: 14px;
-          padding: 14px 16px;
-          border-radius: 20px;
-          background: #eef2ff;
-          border: 1px solid rgba(79,70,229,.16);
-        }
-
-        .causal-loop-insight b {
-          display: block;
-          color: #312e81;
-          font-size: 13px;
-          font-weight: 950;
-          margin-bottom: 6px;
-        }
-
-        .causal-loop-insight p {
-          margin: 0;
-          color: #334155;
-          font-size: 13px;
-          line-height: 1.9;
-          font-weight: 800;
-        }
-
-
-        /* تحسين نهائي: ألوان النبذة واتجاهها كعناصر عربية متناسقة مع هوية الموقع */
-        .briefing-grid {
-          direction: rtl !important;
-          text-align: right !important;
-          display: grid !important;
-          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-          gap: 16px !important;
-          margin: 18px 0 22px !important;
-        }
-
-        .briefing-card,
-        .level-brief,
-        .domain-brief {
-          direction: rtl !important;
-          text-align: right !important;
-          position: relative !important;
-          overflow: hidden !important;
-          border-radius: 30px !important;
-          padding: 22px !important;
-          color: #0f172a !important;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(79, 70, 229, 0.12), transparent 34%),
-            radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.12), transparent 30%),
-            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92)) !important;
-          border: 1px solid rgba(148, 163, 184, 0.24) !important;
-          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08) !important;
-          backdrop-filter: blur(16px) !important;
-        }
-
-        .domain-brief {
-          background:
-            radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.14), transparent 34%),
-            radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.10), transparent 30%),
-            linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 251, 235, 0.72)) !important;
-        }
-
-        .briefing-card::before,
-        .level-brief::before,
-        .domain-brief::before {
-          content: "" !important;
-          position: absolute !important;
-          top: -72px !important;
-          right: -72px !important;
-          width: 180px !important;
-          height: 180px !important;
-          border-radius: 999px !important;
-          background: linear-gradient(135deg, rgba(79, 70, 229, 0.16), rgba(245, 158, 11, 0.12)) !important;
-          pointer-events: none !important;
-        }
-
-        .briefing-card::after,
-        .level-brief::after,
-        .domain-brief::after {
-          content: "" !important;
-          position: absolute !important;
-          bottom: -84px !important;
-          left: -84px !important;
-          width: 190px !important;
-          height: 190px !important;
-          border-radius: 999px !important;
-          background: rgba(16, 185, 129, 0.10) !important;
-          pointer-events: none !important;
-        }
-
-        .briefing-head {
-          position: relative !important;
-          z-index: 1 !important;
-          direction: rtl !important;
-          text-align: right !important;
-          display: flex !important;
-          flex-direction: row-reverse !important;
-          align-items: center !important;
-          justify-content: space-between !important;
-          gap: 14px !important;
-          padding: 0 !important;
-          margin: 0 0 14px !important;
-        }
-
-        .briefing-head span {
-          display: inline-flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          width: fit-content !important;
-          padding: 7px 12px !important;
-          border-radius: 999px !important;
-          color: #3730a3 !important;
-          background: #eef2ff !important;
-          border: 1px solid rgba(79, 70, 229, 0.12) !important;
-          font-size: 11px !important;
-          font-weight: 950 !important;
-          white-space: nowrap !important;
-        }
-
-        .domain-brief .briefing-head span {
-          color: #92400e !important;
-          background: #fffbeb !important;
-          border-color: rgba(245, 158, 11, 0.18) !important;
-        }
-
-        .briefing-head strong {
-          color: #0f172a !important;
-          font-size: 23px !important;
-          line-height: 1.35 !important;
-          font-weight: 950 !important;
-          text-align: right !important;
-        }
-
-        .briefing-card > p,
-        .briefing-focus p,
-        .briefing-note {
-          direction: rtl !important;
-          text-align: right !important;
-        }
-
-        .briefing-card > p {
-          position: relative !important;
-          z-index: 1 !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          color: #334155 !important;
-          font-size: 14px !important;
-          line-height: 2.05 !important;
-          font-weight: 750 !important;
-        }
-
-        .briefing-focus {
-          position: relative !important;
-          z-index: 1 !important;
-          margin: 14px 0 0 !important;
-          padding: 14px 16px !important;
-          border-radius: 20px !important;
-          background: rgba(248, 250, 252, 0.92) !important;
-          border: 1px solid rgba(148, 163, 184, 0.18) !important;
-          backdrop-filter: none !important;
-        }
-
-        .briefing-focus b {
-          display: block !important;
-          margin-bottom: 8px !important;
-          color: #0f172a !important;
-          font-size: 13px !important;
-          line-height: 1.8 !important;
-          font-weight: 950 !important;
-          text-align: right !important;
-        }
-
-        .briefing-focus p {
-          margin: 0 !important;
-          color: #475569 !important;
-          font-size: 13px !important;
-          line-height: 1.95 !important;
-          font-weight: 800 !important;
-        }
-
-        .briefing-note {
-          position: relative !important;
-          z-index: 1 !important;
-          margin: 12px 0 0 !important;
-          padding: 12px 14px !important;
-          border-radius: 18px !important;
-          color: #312e81 !important;
-          background: rgba(238, 242, 255, 0.92) !important;
-          border: 1px solid rgba(79, 70, 229, 0.16) !important;
-          font-size: 13px !important;
-          line-height: 1.95 !important;
-          font-weight: 850 !important;
-          box-shadow: none !important;
-        }
-
-        /* خريطة سببية مرسومة بصريًا بدل بطاقات جامدة */
-        .causal-loop-visual {
-          direction: rtl !important;
-          text-align: right !important;
-          position: relative !important;
-          overflow: hidden !important;
-          border-radius: 32px !important;
-          padding: 22px !important;
-          background:
-            radial-gradient(circle at 90% 8%, rgba(79,70,229,.14), transparent 31%),
-            radial-gradient(circle at 10% 92%, rgba(245,158,11,.14), transparent 28%),
-            linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,250,252,.90)) !important;
-          border: 1px solid rgba(148,163,184,.24) !important;
-          box-shadow: 0 20px 60px rgba(15,23,42,.08) !important;
-        }
-
-        .causal-loop-top {
-          position: relative !important;
-          z-index: 2 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: space-between !important;
-          gap: 14px !important;
-          margin-bottom: 18px !important;
-        }
-
-        .causal-loop-top span {
-          display: inline-flex !important;
-          width: fit-content !important;
-          padding: 7px 12px !important;
-          border-radius: 999px !important;
-          color: #3730a3 !important;
-          background: #eef2ff !important;
-          border: 1px solid rgba(79,70,229,.13) !important;
-          font-size: 11px !important;
-          font-weight: 950 !important;
-          margin-bottom: 7px !important;
-        }
-
-        .causal-loop-top strong {
-          display: block !important;
-          color: #0f172a !important;
-          font-size: 22px !important;
-          line-height: 1.35 !important;
-          font-weight: 950 !important;
-        }
-
-        .causal-loop-top small {
-          color: #64748b !important;
-          background: #f8fafc !important;
-          border: 1px solid rgba(148,163,184,.18) !important;
-          border-radius: 999px !important;
-          padding: 8px 12px !important;
-          font-size: 11px !important;
-          font-weight: 900 !important;
-          white-space: nowrap !important;
-        }
-
-        .causal-canvas {
-          position: relative !important;
-          min-height: 470px !important;
-          display: grid !important;
-          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-          grid-template-rows: repeat(3, minmax(120px, auto)) !important;
-          grid-template-areas:
-            "node1 center node2"
-            "node3 center node4"
-            ". node5 ." !important;
-          gap: 20px !important;
-          align-items: center !important;
-        }
-
-        .causal-spokes {
-          position: absolute !important;
-          inset: 18px !important;
-          pointer-events: none !important;
-          z-index: 0 !important;
-        }
-
-        .spoke {
-          position: absolute !important;
-          top: 50% !important;
-          left: 50% !important;
-          width: 38% !important;
-          height: 3px !important;
-          transform-origin: right center !important;
-          border-radius: 999px !important;
-          background: linear-gradient(90deg, rgba(79,70,229,.02), rgba(79,70,229,.26), rgba(245,158,11,.25)) !important;
-        }
-
-        .spoke::after {
-          content: "" !important;
-          position: absolute !important;
-          left: -2px !important;
-          top: 50% !important;
-          width: 10px !important;
-          height: 10px !important;
-          border-radius: 999px !important;
-          background: var(--loop, #4f46e5) !important;
-          transform: translateY(-50%) !important;
-          box-shadow: 0 0 0 5px rgba(79,70,229,.08) !important;
-        }
-
-        .spoke-one { transform: translate(-100%, -50%) rotate(28deg) !important; }
-        .spoke-two { transform: translate(-5%, -50%) rotate(152deg) !important; }
-        .spoke-three { transform: translate(-98%, -50%) rotate(-28deg) !important; }
-        .spoke-four { transform: translate(-5%, -50%) rotate(-152deg) !important; }
-        .spoke-five { width: 26% !important; transform: translate(-50%, 110px) rotate(90deg) !important; }
-
-        .causal-center-node {
-          grid-area: center !important;
-          justify-self: center !important;
-          align-self: center !important;
-          position: relative !important;
-          z-index: 2 !important;
-          width: min(100%, 250px) !important;
-          min-height: 190px !important;
-          display: grid !important;
-          place-items: center !important;
-          text-align: center !important;
-          border-radius: 36px !important;
-          padding: 22px !important;
-          color: white !important;
-          background:
-            radial-gradient(circle at 30% 20%, rgba(255,255,255,.22), transparent 30%),
-            linear-gradient(135deg, var(--loop, #4f46e5), #0f172a) !important;
-          box-shadow: 0 24px 70px rgba(15,23,42,.18) !important;
-        }
-
-        .causal-center-node span {
-          display: inline-flex !important;
-          padding: 7px 11px !important;
-          border-radius: 999px !important;
-          background: rgba(255,255,255,.14) !important;
-          color: #fde68a !important;
-          font-size: 11px !important;
-          font-weight: 950 !important;
-          margin-bottom: 10px !important;
-        }
-
-        .causal-center-node strong {
-          color: white !important;
-          font-size: 17px !important;
-          line-height: 1.8 !important;
-          font-weight: 950 !important;
-        }
-
-        .causal-visual-node {
-          position: relative !important;
-          z-index: 2 !important;
-          display: grid !important;
-          grid-template-columns: 42px 1fr !important;
-          gap: 12px !important;
-          align-items: start !important;
-          min-height: 130px !important;
-          border-radius: 24px !important;
-          padding: 16px !important;
-          background: #ffffff !important;
-          border: 1px solid rgba(148,163,184,.22) !important;
-          box-shadow: 0 14px 38px rgba(15,23,42,.07) !important;
-        }
-
-        .causal-node-1 { grid-area: node1 !important; }
-        .causal-node-2 { grid-area: node2 !important; }
-        .causal-node-3 { grid-area: node3 !important; }
-        .causal-node-4 { grid-area: node4 !important; }
-        .causal-node-5 { grid-area: node5 !important; }
-
-        .causal-node-badge {
-          width: 40px !important;
-          height: 40px !important;
-          display: grid !important;
-          place-items: center !important;
-          border-radius: 16px !important;
-          color: #fff !important;
-          background: var(--node, var(--loop)) !important;
-          font-size: 14px !important;
-          font-weight: 950 !important;
-          box-shadow: 0 12px 26px rgba(15,23,42,.14) !important;
-        }
-
-        .causal-visual-node strong {
-          display: block !important;
-          color: #0f172a !important;
-          font-size: 14px !important;
-          line-height: 1.7 !important;
-          font-weight: 950 !important;
-          margin-bottom: 5px !important;
-        }
-
-        .causal-visual-node p {
-          margin: 0 !important;
-          color: #475569 !important;
-          font-size: 12px !important;
-          line-height: 1.85 !important;
-          font-weight: 750 !important;
-          overflow-wrap: anywhere !important;
-          word-break: normal !important;
-        }
-
-        .visual-chain .causal-canvas {
-          grid-template-areas:
-            "node1 node2 center"
-            "node3 center node4"
-            ". node5 ." !important;
-        }
-
-        .visual-tension .causal-canvas,
-        .visual-pressure .causal-canvas {
-          grid-template-areas:
-            "node1 center node2"
-            "node3 center node4"
-            "node5 center ." !important;
-        }
-
-        .visual-hub .causal-canvas {
-          grid-template-areas:
-            "node1 node2 node3"
-            ". center ."
-            "node4 node5 ." !important;
-        }
-
-        .visual-learning .causal-canvas {
-          grid-template-areas:
-            "center node1 node2"
-            "node5 center node3"
-            ". node4 ." !important;
-        }
-
-        @media (max-width: 980px) {
-          .causal-canvas {
-            min-height: auto !important;
-            grid-template-columns: 1fr !important;
-            grid-template-areas: none !important;
-          }
-
-          .causal-center-node,
-          .causal-visual-node {
-            grid-area: auto !important;
-            width: 100% !important;
-          }
-
-          .causal-spokes {
-            display: none !important;
-          }
-        }
-
-        @media (max-width: 850px) {
-          .briefing-grid,
-          .filter-briefing,
-          .selected-filter-briefing,
-          .explorer-briefing,
-          .causal-loop-cards.loop-ring .causal-network,
-          .causal-loop-cards.loop-chain .causal-network,
-          .causal-loop-cards.loop-tension .causal-network,
-          .causal-loop-cards.loop-pressure .causal-network,
-          .causal-loop-cards.loop-hub .causal-network,
-          .causal-loop-cards.loop-learning .causal-network {
-            grid-template-columns: 1fr !important;
-          }
-        }
-
       `}</style>
 
       <div className="sim-wrap">
@@ -3764,52 +2413,25 @@ export default function Simulation() {
             </div>
 
             {casePanel === "summary" && (
-              <div className="case-summary-layout">
-                <div className="diagnostic-story">
-                  <article className="card story-card">
-                    <span>السياق التشخيصي</span>
-                    <h3>ما الذي يحدث؟</h3>
-                    <p>{scenario.situation}</p>
-                  </article>
-
-                  <article className="card story-card">
-                    <span>الروايات المتنافسة</span>
-                    <h3>لماذا لا يكفي تفسير واحد؟</h3>
-                    <ul>
-                      <li>{scenario.diagnosticBrief.officialNarrative}</li>
-                      <li>{scenario.diagnosticBrief.employeeNarrative}</li>
-                      <li>{scenario.diagnosticBrief.politicalNarrative}</li>
-                    </ul>
-                  </article>
-
-                  <article className="card story-card">
-                    <span>مطلوبك المهني</span>
-                    <h3>سؤال العمل الاستشاري</h3>
-                    <p>{scenario.boardQuestion}</p>
-                  </article>
+              <div className="grid-2">
+                <div className="card">
+                  <h3>تعقيد الحالة</h3>
+                  <p>{scenario.complexityNote}</p>
+                  <p><strong>الالتواء المهني:</strong> {scenario.level.twist}</p>
                 </div>
 
-                <div className="diagnostic-side">
-                  <article className="card story-card accent-card">
-                    <span>التعقيد</span>
-                    <h3>{scenario.level.name}</h3>
-                    <p>{scenario.complexityNote}</p>
-                    <p><strong>نقطة الانتباه:</strong> {scenario.level.twist}</p>
-                  </article>
-
-                  <DifficultyRubric dimensions={scenario.difficultyDimensions} />
+                <div className="card">
+                  <h3>سؤال القيادة</h3>
+                  <p>{scenario.boardQuestion}</p>
                 </div>
               </div>
             )}
 
             {casePanel === "map" && (
-              <>
-                <ScenarioMap scenario={scenario} />
-                <div className="card" style={{ marginTop: 14 }}>
-                  <h3>خريطة سببية مبسطة</h3>
-                  <CausalLoop scenario={scenario} />
-                </div>
-              </>
+              <div className="card">
+                <h3>الخريطة السببية</h3>
+                <CausalLoop scenario={scenario} />
+              </div>
             )}
 
             {casePanel === "data" && (
@@ -3825,15 +2447,6 @@ export default function Simulation() {
                 </div>
 
                 <div className="card">
-                  <h3>البيانات الناقصة</h3>
-                  <ul>
-                    {scenario.missingData.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="card full-card">
                   <h3>الخطر الأخلاقي</h3>
                   <p>{scenario.ethicalRisk}</p>
                 </div>
@@ -4048,7 +2661,7 @@ export default function Simulation() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="ابحث بالمجال أو رقم الحالة مثل 127"
+                  placeholder="ابحث بكلمة مفتاحية أو برقم الحالة مثل: 127"
                 />
               </div>
 
@@ -4077,45 +2690,7 @@ export default function Simulation() {
               </div>
             </div>
 
-            {(selectedLevelMeta || selectedCategoryMeta) && (
-              <div className="briefing-grid">
-                {selectedLevelMeta && (
-                  <article className="briefing-card level-brief">
-                    <div className="briefing-head">
-                      <span>نبذة المستوى</span>
-                      <strong>{selectedLevelMeta.name}</strong>
-                    </div>
-
-                    <p>{selectedLevelMeta.description}</p>
-
-                    <div className="briefing-focus">
-                      <b>ما المطلوب منك؟</b>
-                      <p>{selectedLevelMeta.practice}</p>
-                    </div>
-
-                    <div className="briefing-note">
-                      {selectedLevelMeta.learnerPrompt}
-                    </div>
-                  </article>
-                )}
-
-                {selectedCategoryMeta && (
-                  <article className="briefing-card domain-brief">
-                    <div className="briefing-head">
-                      <span>نبذة المجال</span>
-                      <strong>{selectedCategoryMeta.name}</strong>
-                    </div>
-
-                    <p>{selectedCategoryMeta.description}</p>
-
-                    <div className="briefing-focus">
-                      <b>أمثلة ما ستواجهه</b>
-                      <p>{selectedCategoryMeta.examples}</p>
-                    </div>
-                  </article>
-                )}
-              </div>
-            )}
+            <BriefingCards levelItem={selectedLevelItem} categoryItem={selectedCategoryItem} />
 
             <div className="scenario-list">
               {filtered.slice(0, 60).map((item) => (
