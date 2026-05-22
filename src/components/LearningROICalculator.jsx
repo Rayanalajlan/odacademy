@@ -5,11 +5,10 @@ const DEFAULT_INFLATION_RATE = 0.019;
 
 /*
   حاسبة العائد من التعلم
-  الفكرة الجديدة:
-  - التعلم مجاني، لذلك لا نحسب "استرداد تكلفة دورة".
-  - نحسب "قيمة التعلم المجاني" بوصفها فرصة مهنية محافظة:
-    موقعك من السوق + تقدمك الفعلي + سنوات خبرتك + قوة تطبيقك.
-  - الأداة تقديرية وليست وعدًا وظيفيًا.
+  نسخة مبتكرة ومجانية:
+  - لا توجد تكلفة برنامج لأن المنصة مجانية.
+  - تقيس قيمة التعلم من خلال: التقدم الفعلي + سنوات الخبرة + عمق التطبيق + بيئة السوق المستهدفة.
+  - تعرض قراءة محافظة، لا وعدا وظيفيا.
 */
 
 const TRACKS = {
@@ -17,34 +16,46 @@ const TRACKS = {
     title: "خريج جديد / باحث عن عمل",
     shortTitle: "بداية المسار",
     description:
-      "تقيس الحاسبة هنا جدوى دخولك لمسار الموارد البشرية من نقطة البداية، مع قراءة محافظة لموقعك المتوقع عند بناء أساس مهني منظم.",
+      "تقرأ الحاسبة هنا قيمة بناء الأساس المهني من نقطة البداية: لغة الموارد البشرية، فهم الأدوار، وتحسين جاهزية الدخول للمقابلات.",
     baseRange: { low: 6000, mid: 7500, high: 9000 },
-    experienceMode: "entry",
     directIncreaseAllowed: true,
-    insight:
-      "أنت لا تدفع رسومًا للتعلم، لذلك القيمة هنا تظهر في تقليل التخبط، بناء لغة مهنية، وتحسين جاهزيتك للمنافسة على وظائف البداية."
+    mainValue: "تقليل التشتت وبناء بداية مهنية أوضح"
   },
   practitioner: {
     title: "ممارس موارد بشرية يريد التطوير والترقية",
     shortTitle: "تطوير داخل المجال",
     description:
-      "تقيس الحاسبة هنا كيف يلتقي تقدمك في الرحلة مع خبرتك الحالية داخل الموارد البشرية، لتقدير موقعك المحافظ داخل نطاقات السوق.",
+      "تقرأ الحاسبة أثر تقدمك وخبرتك وتطبيقك على انتقالك من ممارسة تشغيلية إلى حكم مهني أكثر نضجا داخل الموارد البشرية.",
     baseRange: { low: 9000, mid: 12000, high: 15000 },
-    experienceMode: "hr",
     directIncreaseAllowed: true,
-    insight:
-      "لأنك داخل المجال أصلًا، فإن العائد المحتمل يظهر في رفع جودة حكمك المهني ودعم انتقالك إلى نطاق أفضل عند توفر الخبرة والتطبيق."
+    mainValue: "رفع جودة الحكم المهني ودعم فرص الترقية"
   },
   careerShift: {
     title: "أعمل في مجال آخر وأريد تغيير مساري المهني",
     shortTitle: "تغيير المسار",
     description:
-      "تقيس الحاسبة هنا قيمة الانتقال الذكي إلى الموارد البشرية، دون افتراض زيادة مباشرة فوق راتبك الحالي في مجالك القديم.",
+      "تقرأ الحاسبة قيمة الانتقال الذكي دون افتراض زيادة فورية فوق راتبك الحالي في مجالك القديم.",
     baseRange: { low: 7000, mid: 8250, high: 9500 },
-    experienceMode: "transfer",
     directIncreaseAllowed: false,
-    insight:
-      "إذا كان راتبك الحالي أعلى من نطاق البداية في الموارد البشرية، فالعائد ليس زيادة فورية؛ بل بناء مسار جديد بوعي وتقليل زمن التخبط."
+    mainValue: "اختصار التخبط وبناء مسار جديد بوعي"
+  }
+};
+
+const MARKET_CONTEXTS = {
+  conservative: {
+    title: "جهة صغيرة أو بداية محافظة",
+    multiplier: 0.92,
+    text: "قراءة حذرة تناسب البدايات أو الجهات ذات الميزانيات المحدودة."
+  },
+  balanced: {
+    title: "سوق متوازن",
+    multiplier: 1,
+    text: "قراءة وسطية محافظة تناسب أغلب الفرص المهنية."
+  },
+  competitive: {
+    title: "جهة كبرى أو سوق تنافسي",
+    multiplier: 1.12,
+    text: "قراءة أعلى قليلا، لكنها تظل مشروطة بجودة الخبرة والمقابلة والتطبيق."
   }
 };
 
@@ -52,79 +63,140 @@ const APPLICATION_LEVELS = [
   {
     value: 1,
     title: "أقرأ فقط",
-    description: "تستهلك المحتوى دون تطبيق واضح.",
-    multiplier: 0.62
+    short: "استهلاك",
+    description: "تتعرف على المفاهيم دون تحويلها إلى ممارسة.",
+    multiplier: 0.62,
+    icon: "قراءة"
   },
   {
     value: 2,
-    title: "أدوّن وألخص",
-    description: "تحول التعلم إلى ملاحظات منظمة.",
-    multiplier: 0.76
+    title: "أدون وألخص",
+    short: "تنظيم",
+    description: "تحول التعلم إلى ملاحظات ولغة مهنية مرتبة.",
+    multiplier: 0.76,
+    icon: "تدوين"
   },
   {
     value: 3,
     title: "أحلل حالات",
-    description: "تطبق المفاهيم على حالات واقعية أو محاكاة.",
-    multiplier: 0.9
+    short: "تحليل",
+    description: "تستخدم المفاهيم في قراءة مواقف ومشكلات حقيقية.",
+    multiplier: 0.9,
+    icon: "تحليل"
   },
   {
     value: 4,
     title: "أبني نماذج عمل",
-    description: "تخرج من التعلم بأدوات وقوالب قابلة للاستخدام.",
-    multiplier: 1
+    short: "إنتاج",
+    description: "تخرج من التعلم بقوالب وأدوات قابلة للاستخدام.",
+    multiplier: 1,
+    icon: "نماذج"
   },
   {
     value: 5,
-    title: "أطبق وأوثّق الأثر",
-    description: "تربط التعلم بمخرجات وسلوك وقرارات قابلة للقياس.",
-    multiplier: 1.12
+    title: "أطبق وأوثق الأثر",
+    short: "أثر",
+    description: "تربط التعلم بسلوك وقرار ونتيجة قابلة للقياس.",
+    multiplier: 1.12,
+    icon: "أثر"
   }
 ];
 
 const SOURCES = [
   {
     name: "الهيئة العامة للإحصاء",
-    type: "أجور وسوق عمل وتضخم",
+    type: "المرجع الرسمي للإحصاءات في السعودية",
+    year: "2025 - 2026",
     url: "https://www.stats.gov.sa"
+  },
+  {
+    name: "نشرة سوق العمل من الهيئة العامة للإحصاء",
+    type: "مؤشرات العمل والأجور والبطالة",
+    year: "2025",
+    url: "https://www.stats.gov.sa/documents/d/guest/labor-market-statistics-q2-2025-en"
+  },
+  {
+    name: "مؤشر أسعار المستهلك من الهيئة العامة للإحصاء",
+    type: "تضخم وقيمة حقيقية للدخل",
+    year: "2025",
+    url: "https://www.stats.gov.sa/en/w/news/116"
   },
   {
     name: "منصة البيانات السعودية",
     type: "مؤشرات وطنية مساندة",
+    year: "2025 - 2026",
     url: "https://datasaudi.sa"
   },
   {
     name: "وزارة الموارد البشرية والتنمية الاجتماعية",
     type: "تنظيمات العمل والتوطين",
+    year: "2025 - 2026",
     url: "https://hrsd.gov.sa"
   },
   {
+    name: "منصة قوى",
+    type: "منصة رسمية للعقود والعمل والخدمات",
+    year: "2025 - 2026",
+    url: "https://www.qiwa.sa"
+  },
+  {
     name: "قرار احتساب السعودي في نطاقات",
-    type: "حد تنظيمي مرجعي",
+    type: "حد تنظيمي مرجعي لا يعبر وحده عن راتب السوق",
+    year: "مرجع تنظيمي",
     url: "https://www.spa.gov.sa/2160616"
   },
   {
-    name: "Cooper Fitch Salary Guide",
-    type: "نطاقات رواتب سوقية",
+    name: "Cooper Fitch KSA Salary Guide",
+    type: "دليل رواتب السعودية",
+    year: "2026",
+    url: "https://cooperfitch.ae/2026-ksa-salary-guide/"
+  },
+  {
+    name: "Cooper Fitch Saudi Arabia Salary Guide",
+    type: "منهجية وتعويضات وسوق السعودية",
+    year: "سنوي",
     url: "https://cooperfitch.ae/salary-guides/kingdom-of-saudi-arabia/"
   },
   {
     name: "Hays Saudi Arabia Salary Guide",
-    type: "مؤشرات رواتب وتوظيف",
+    type: "أكثر من 200 دور ومؤشرات توظيف",
+    year: "2026",
     url: "https://www.hays.ae/salary-guide/saudi-arabia-salary-guide"
   },
   {
     name: "Robert Walters Saudi Arabia Salary Survey",
-    type: "استطلاع رواتب مهني",
+    type: "استطلاع رواتب واتجاهات مهنية",
+    year: "2026",
     url: "https://www.robertwalters.ae/our-services/saudi-arabia-salary-survey.html"
   },
   {
-    name: "Mercer Compensation & Benefits Survey",
-    type: "تعويضات ومزايا ومقارنة سوقية",
+    name: "Mercer Total Remuneration Survey",
+    type: "تعويضات ومزايا ومقارنات سوقية",
+    year: "2025 - 2026",
     url: "https://www.mercer.com/en-sa/insights/events/mercer-compensation-and-benefits-survey/"
   },
   {
+    name: "Mercer Global Compensation Data",
+    type: "قاعدة بيانات عالمية للتعويضات والمزايا",
+    year: "2025 - 2026",
+    url: "https://www.mercer.com/en-sa/solutions/talent-and-rewards/rewards-strategy/global-compensation-and-benefits-data/"
+  },
+  {
+    name: "Michael Page Saudi Arabia Jobs and Salary Guide",
+    type: "سوق التوظيف وروابط أدلة الرواتب",
+    year: "2026",
+    url: "https://www.michaelpage.ae/jobs/saudi-arabia"
+  },
+  {
+    name: "CIPD Learning and Development",
+    type: "أثر التعلم والتطوير على المهنة",
+    year: "2025",
+    url: "https://www.cipd.org/en/knowledge/factsheets/strategy-development-factsheet/"
+  },
+  {
     name: "SHRM Certification",
-    type: "مرجعية مهنية للموارد البشرية",
+    type: "مرجعية مهنية في الموارد البشرية",
+    year: "2025 - 2026",
     url: "https://www.shrm.org/credentials/certification"
   }
 ];
@@ -157,7 +229,8 @@ function getExperienceStage(years) {
     return {
       label: "بداية مهنية",
       factor: 0.86,
-      description: "خبرتك ما زالت في بدايتها، لذلك تقرأ الحاسبة النطاق بحذر أكبر."
+      score: 10,
+      description: "خبرتك ما زالت في البداية، لذلك تقرأ الحاسبة النطاق بحذر أكبر."
     };
   }
 
@@ -165,7 +238,8 @@ function getExperienceStage(years) {
     return {
       label: "خبرة ناشئة",
       factor: 0.95,
-      description: "لديك بداية خبرة تساعدك على فهم بيئة العمل، لكن ما زالت تحتاج إلى توثيق وتطبيق."
+      score: 15,
+      description: "لديك بداية خبرة تساعدك على فهم بيئة العمل، لكنها تحتاج إلى توثيق وتطبيق."
     };
   }
 
@@ -173,7 +247,8 @@ function getExperienceStage(years) {
     return {
       label: "خبرة متوسطة",
       factor: 1.08,
-      description: "خبرتك تعطيك قدرة أفضل على ربط التعلم بسياقات العمل ومشكلات المنظمات."
+      score: 20,
+      description: "خبرتك تساعدك على ربط التعلم بسياقات العمل ومشكلات المنظمات."
     };
   }
 
@@ -181,23 +256,25 @@ function getExperienceStage(years) {
     return {
       label: "خبرة ناضجة",
       factor: 1.2,
+      score: 23,
       description: "لديك رصيد مهني يساعدك على تحويل التعلم إلى أحكام أعمق ومخرجات أقوى."
     };
   }
 
   return {
-    label: "خبرة قيادية / ممتدة",
+    label: "خبرة قيادية أو ممتدة",
     factor: 1.32,
-    description: "خبرتك الكبيرة قد تجعل أثر التعلم أكبر إذا ربطته بالتشخيص والقيادة وصناعة القرار."
+    score: 25,
+    description: "خبرتك الكبيرة تجعل أثر التعلم أعلى عندما تربطه بالتشخيص والقيادة وصناعة القرار."
   };
 }
 
 function getPositionLabel(currentSalary, range) {
   if (currentSalary <= 0) {
     return {
-      label: "لا يوجد دخل حالي مدخل",
+      label: "نقطة بداية",
       tone: "neutral",
-      text: "ستُقرأ النتيجة باعتبارك في نقطة بداية أو انتقال، وليس كمقارنة مباشرة مع راتب قائم."
+      text: "ستقرأ النتيجة باعتبارك في بداية أو انتقال، وليس كمقارنة مباشرة مع راتب قائم."
     };
   }
 
@@ -205,7 +282,7 @@ function getPositionLabel(currentSalary, range) {
     return {
       label: "أقل من النطاق المحافظ",
       tone: "positive",
-      text: "توجد فجوة واضحة بين وضعك الحالي والحد الأدنى المحافظ للنطاق المستهدف، لذلك قد يظهر أثر التعلم ماليًا بشكل أوضح."
+      text: "توجد فجوة واضحة بين وضعك الحالي والحد الأدنى المحافظ للنطاق المستهدف."
     };
   }
 
@@ -213,39 +290,67 @@ function getPositionLabel(currentSalary, range) {
     return {
       label: "داخل النطاق السوقي",
       tone: "balanced",
-      text: "أنت داخل النطاق المتوقع تقريبًا. العائد هنا يعتمد على انتقالك داخل النطاق، لا على مجرد دخول المجال."
+      text: "أنت داخل النطاق المتوقع تقريبا، والعائد يعتمد على انتقالك داخل النطاق لا مجرد دخوله."
     };
   }
 
   return {
     label: "أعلى من النطاق المحافظ",
     tone: "caution",
-    text: "راتبك الحالي أعلى من النطاق المحافظ لهذا المسار؛ لذلك لا يصح تقديم النتيجة كزيادة مباشرة."
+    text: "راتبك الحالي أعلى من النطاق المحافظ، لذلك لا يصح تقديم النتيجة كزيادة مباشرة."
   };
 }
 
-function getCommitmentMessage(days, readiness) {
+function getCommitmentMessage(days) {
   if (days < 30) {
-    return "التزامك الحالي يعطيك لمحة تأسيسية، لكنه غير كافٍ لبناء جاهزية مهنية مؤثرة.";
+    return "تقدمك الحالي يعطي لمحة تأسيسية، لكنه لا يكفي وحده لصناعة نقلة مهنية واضحة.";
   }
 
   if (days < 90) {
-    return "التزامك جيد كبداية، لكنه يحتاج استمرارًا حتى يظهر أثر أقوى في اللغة المهنية والحكم الاستشاري.";
+    return "تقدمك جيد كبداية، لكنه يحتاج استمرار حتى يظهر أثر أقوى في اللغة المهنية والحكم الاستشاري.";
   }
 
   if (days < 180) {
-    return "أنت في منطقة جدية؛ كلما اقتربت من إتمام الرحلة زادت موثوقية الأثر المهني المتوقع.";
+    return "أنت في منطقة جدية. الاقتراب من إتمام الرحلة يزيد موثوقية الأثر المهني المتوقع.";
   }
 
-  return "أكملت عامل الالتزام الكامل؛ هذا يعطي أعلى جاهزية تعليمية داخل هذه الحاسبة.";
+  return "أكملت عامل الالتزام الكامل. هذه أعلى جاهزية تعليمية داخل الحاسبة.";
 }
 
 function getReadinessLabel(score) {
-  if (score >= 85) return "جاهزية عالية";
-  if (score >= 68) return "جاهزية جيدة";
-  if (score >= 50) return "جاهزية نامية";
-  if (score >= 30) return "جاهزية أولية";
+  if (score >= 86) return "جاهزية عالية";
+  if (score >= 70) return "جاهزية قوية";
+  if (score >= 54) return "جاهزية نامية";
+  if (score >= 36) return "جاهزية أولية";
   return "جاهزية محدودة";
+}
+
+function getNextMove(score, track, applicationLevel) {
+  if (score < 36) {
+    return "ابدأ بتثبيت الأساس: أكمل أول شهر، واكتب ملخصا عمليا بعد كل درس، ولا تتعجل مقارنة نفسك بالسوق.";
+  }
+
+  if (score < 54) {
+    return "انتقل من القراءة إلى التحليل: اختر حالة من المحاكاة يوميا، واكتب فرضية وبيانات وتدخل ومؤشر أثر.";
+  }
+
+  if (score < 70) {
+    return "ابن ملفا مهنيا صغيرا: وصف وظيفي، نموذج تشخيص، مصفوفة صلاحيات، ومؤشر قياس أثر.";
+  }
+
+  if (score < 86) {
+    return "حول التعلم إلى دليل عمل: اربط كل مفهوم بمشكلة واقعية، وجهز أمثلة مقابلات من تطبيقك الشخصي.";
+  }
+
+  if (track === "careerShift") {
+    return "جهز قصة انتقالك المهني: لماذا الموارد البشرية؟ ما القيمة المنقولة من خبرتك السابقة؟ وما أول دور تستهدفه؟";
+  }
+
+  if (applicationLevel < 5) {
+    return "للوصول إلى أثر أعلى، وثق تطبيقاتك: ما المشكلة؟ ما الفرضية؟ ما التدخل؟ وما تغير بعده؟";
+  }
+
+  return "جاهزيتك قوية. ركز الآن على السيرة المهنية، محاكاة المقابلات، وتوثيق مشاريع صغيرة تثبت فهمك.";
 }
 
 export default function LearningROICalculator({
@@ -259,10 +364,13 @@ export default function LearningROICalculator({
   const [yearsOfExperience, setYearsOfExperience] = useState(2);
   const [currentSalary, setCurrentSalary] = useState(8000);
   const [applicationLevel, setApplicationLevel] = useState(3);
+  const [marketContext, setMarketContext] = useState("balanced");
   const [useActualProgress, setUseActualProgress] = useState(true);
   const [scenarioDays, setScenarioDays] = useState(actualCompletedDays || 30);
+  const [showSources, setShowSources] = useState(false);
 
   const activeTrack = TRACKS[track];
+  const activeMarket = MARKET_CONTEXTS[marketContext];
   const activeApplication =
     APPLICATION_LEVELS.find((item) => item.value === Number(applicationLevel)) ||
     APPLICATION_LEVELS[2];
@@ -277,9 +385,23 @@ export default function LearningROICalculator({
     const applicationFactor = activeApplication.multiplier;
     const rawRange = activeTrack.baseRange;
 
-    const adjustedLow = rawRange.low * experienceStage.factor * (0.78 + progressFactor * 0.22);
-    const adjustedMid = rawRange.mid * experienceStage.factor * (0.82 + progressFactor * 0.18) * applicationFactor;
-    const adjustedHigh = rawRange.high * experienceStage.factor * (0.84 + progressFactor * 0.16) * applicationFactor;
+    const progressLift = 0.74 + progressFactor * 0.26;
+    const marketFactor = activeMarket.multiplier;
+
+    const adjustedLow =
+      rawRange.low * experienceStage.factor * progressLift * marketFactor;
+    const adjustedMid =
+      rawRange.mid *
+      experienceStage.factor *
+      (0.8 + progressFactor * 0.2) *
+      applicationFactor *
+      marketFactor;
+    const adjustedHigh =
+      rawRange.high *
+      experienceStage.factor *
+      (0.82 + progressFactor * 0.18) *
+      applicationFactor *
+      marketFactor;
 
     const inflationFactor = 1 + DEFAULT_INFLATION_RATE;
 
@@ -303,10 +425,11 @@ export default function LearningROICalculator({
       high: realHigh
     });
 
-    const progressScore = progressFactor * 45;
-    const experienceScore = Math.min(25, experienceStage.factor * 18);
-    const applicationScore = (applicationLevel / 5) * 20;
+    const progressScore = progressFactor * 42;
+    const experienceScore = experienceStage.score;
+    const applicationScore = (Number(applicationLevel) / 5) * 23;
     const marketScore = current <= realHigh ? 10 : 5;
+
     const readinessScore = Math.round(
       clamp(progressScore + experienceScore + applicationScore + marketScore, 0, 100)
     );
@@ -316,6 +439,7 @@ export default function LearningROICalculator({
       readinessPercent: Math.round(progressFactor * 100),
       readinessScore,
       readinessLabel: getReadinessLabel(readinessScore),
+      nextMove: getNextMove(readinessScore, track, Number(applicationLevel)),
       experienceStage,
       nominalLow: adjustedLow,
       nominalMid: adjustedMid,
@@ -327,10 +451,11 @@ export default function LearningROICalculator({
       annualOpportunity: monthlyOpportunity * 12,
       mode,
       position,
-      commitmentMessage: getCommitmentMessage(effectiveDays, progressFactor)
+      commitmentMessage: getCommitmentMessage(effectiveDays)
     };
   }, [
     activeApplication,
+    activeMarket,
     activeTrack,
     applicationLevel,
     currentSalary,
@@ -348,34 +473,35 @@ export default function LearningROICalculator({
           padding: 34px 16px 70px;
           color: #0f172a;
           background:
-            radial-gradient(circle at 10% 10%, rgba(79,70,229,.16), transparent 30%),
-            radial-gradient(circle at 92% 18%, rgba(245,158,11,.16), transparent 28%),
+            radial-gradient(circle at 10% 10%, rgba(79,70,229,.12), transparent 30%),
+            radial-gradient(circle at 94% 14%, rgba(245,158,11,.13), transparent 28%),
+            radial-gradient(circle at 48% 96%, rgba(16,185,129,.10), transparent 34%),
             linear-gradient(135deg, #f8fafc 0%, #eef2ff 54%, #fff7ed 100%);
         }
 
         .roi-wrap {
-          width: min(1180px, 100%);
+          width: min(1200px, 100%);
           margin: 0 auto;
         }
 
         .roi-hero {
           position: relative;
           overflow: hidden;
-          border-radius: 38px;
+          border-radius: 42px;
           padding: 34px;
           color: white;
           background:
             radial-gradient(circle at 15% 18%, rgba(129,140,248,.26), transparent 32%),
-            radial-gradient(circle at 85% 15%, rgba(245,158,11,.18), transparent 30%),
+            radial-gradient(circle at 85% 15%, rgba(245,158,11,.17), transparent 30%),
             linear-gradient(135deg, #0f172a, #1e1b4b 58%, #312e81);
-          box-shadow: 0 26px 80px rgba(15, 23, 42, 0.22);
+          box-shadow: 0 26px 80px rgba(15, 23, 42, 0.20);
         }
 
         .roi-hero::before {
           content: "";
           position: absolute;
           inset: -60px;
-          opacity: .34;
+          opacity: .30;
           background-image:
             linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
@@ -387,7 +513,7 @@ export default function LearningROICalculator({
           position: relative;
           z-index: 1;
           display: grid;
-          grid-template-columns: 1.15fr .85fr;
+          grid-template-columns: 1.12fr .88fr;
           gap: 24px;
           align-items: center;
         }
@@ -406,9 +532,11 @@ export default function LearningROICalculator({
         .roi-hero h1 {
           margin: 16px 0 12px;
           font-size: clamp(34px, 5vw, 64px);
-          line-height: 1.1;
+          line-height: 1.16;
           font-weight: 950;
-          letter-spacing: -1.2px;
+          letter-spacing: -1.1px;
+          padding-top: 4px;
+          overflow: visible;
         }
 
         .roi-hero h1 span {
@@ -417,6 +545,7 @@ export default function LearningROICalculator({
           background: linear-gradient(90deg, #fff, #c7d2fe, #fde68a);
           -webkit-background-clip: text;
           background-clip: text;
+          padding-top: 3px;
         }
 
         .roi-hero p {
@@ -428,44 +557,57 @@ export default function LearningROICalculator({
           font-weight: 750;
         }
 
-        .roi-progress-card {
-          border-radius: 30px;
-          padding: 22px;
-          background: rgba(255,255,255,.10);
-          border: 1px solid rgba(255,255,255,.16);
-          backdrop-filter: blur(16px);
+        .roi-orbit {
+          display: grid;
+          place-items: center;
+          min-height: 310px;
         }
 
-        .roi-progress-card span {
-          display: block;
-          color: #cbd5e1;
+        .roi-orbit-card {
+          position: relative;
+          width: min(300px, 100%);
+          aspect-ratio: 1;
+          border-radius: 999px;
+          display: grid;
+          place-items: center;
+          background:
+            conic-gradient(#10b981 ${result.readinessScore * 3.6}deg, rgba(255,255,255,.13) 0deg);
+          box-shadow:
+            inset 0 0 0 15px rgba(15,23,42,.42),
+            0 24px 70px rgba(0,0,0,.20);
+        }
+
+        .roi-orbit-inner {
+          width: 205px;
+          height: 205px;
+          border-radius: 999px;
+          display: grid;
+          place-items: center;
+          text-align: center;
+          background: #0f172a;
+          border: 1px solid rgba(255,255,255,.14);
+          padding: 18px;
+        }
+
+        .roi-orbit-inner span {
+          color: #94a3b8;
           font-size: 12px;
           font-weight: 900;
-          margin-bottom: 10px;
         }
 
-        .roi-progress-card strong {
+        .roi-orbit-inner strong {
           display: block;
           color: #fff;
-          font-size: 42px;
+          font-size: 48px;
           line-height: 1;
           font-weight: 950;
+          margin: 8px 0;
         }
 
-        .roi-progress-track {
-          height: 13px;
-          border-radius: 999px;
-          background: rgba(255,255,255,.14);
-          overflow: hidden;
-          margin-top: 16px;
-        }
-
-        .roi-progress-track i {
-          display: block;
-          height: 100%;
-          border-radius: 999px;
-          width: ${result.readinessPercent}%;
-          background: linear-gradient(90deg, #fbbf24, #10b981);
+        .roi-orbit-inner b {
+          color: #fde68a;
+          font-size: 13px;
+          font-weight: 950;
         }
 
         .roi-grid {
@@ -584,6 +726,7 @@ export default function LearningROICalculator({
           font-size: 11px;
           font-weight: 950;
           line-height: 1.5;
+          min-height: 58px;
         }
 
         .application-pill.active {
@@ -646,7 +789,7 @@ export default function LearningROICalculator({
           z-index: 1;
           display: block;
           color: #0f172a;
-          font-size: 22px;
+          font-size: 21px;
           line-height: 1.35;
           font-weight: 950;
         }
@@ -657,7 +800,49 @@ export default function LearningROICalculator({
           margin: 9px 0 0;
           color: #64748b;
           font-size: 12px;
-          line-height: 1.8;
+          line-height: 1.85;
+          font-weight: 750;
+        }
+
+        .value-map {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .value-step {
+          border-radius: 22px;
+          padding: 15px;
+          background: #f8fafc;
+          border: 1px solid rgba(148,163,184,.20);
+        }
+
+        .value-step b {
+          display: inline-flex;
+          padding: 5px 9px;
+          border-radius: 999px;
+          color: white;
+          background: #4f46e5;
+          margin-bottom: 8px;
+          font-size: 11px;
+          line-height: 1;
+        }
+
+        .value-step strong {
+          display: block;
+          color: #0f172a;
+          font-size: 13px;
+          font-weight: 950;
+          line-height: 1.6;
+        }
+
+        .value-step span {
+          display: block;
+          margin-top: 5px;
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.75;
           font-weight: 750;
         }
 
@@ -667,7 +852,7 @@ export default function LearningROICalculator({
           padding: 18px;
           color: #1e293b;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.11), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 34%),
             #ffffff;
           border: 1px solid rgba(148,163,184,.22);
         }
@@ -687,59 +872,33 @@ export default function LearningROICalculator({
           font-weight: 800;
         }
 
-        .impact-path {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 10px;
-          margin-top: 14px;
-        }
-
-        .impact-step {
-          border-radius: 20px;
-          padding: 14px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.20);
-        }
-
-        .impact-step b {
-          display: inline-flex;
-          width: 26px;
-          height: 26px;
-          align-items: center;
-          justify-content: center;
-          border-radius: 999px;
-          color: white;
-          background: #4f46e5;
-          margin-bottom: 8px;
-          font-size: 12px;
-        }
-
-        .impact-step strong {
-          display: block;
-          color: #0f172a;
-          font-size: 13px;
-          font-weight: 950;
-          line-height: 1.6;
-        }
-
-        .impact-step span {
-          display: block;
-          margin-top: 5px;
-          color: #64748b;
-          font-size: 11px;
-          line-height: 1.7;
-          font-weight: 750;
-        }
-
         .roi-sources {
           margin-top: 18px;
         }
 
+        .roi-sources-toggle {
+          display: flex;
+          justify-content: center;
+          margin-top: 14px;
+        }
+
+        .roi-sources-toggle button {
+          border: 0;
+          cursor: pointer;
+          border-radius: 18px;
+          padding: 12px 16px;
+          color: #fff;
+          background: #0f172a;
+          font-family: inherit;
+          font-size: 12px;
+          font-weight: 950;
+        }
+
         .roi-sources-grid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 10px;
-          margin-top: 12px;
+          margin-top: 14px;
         }
 
         .roi-source {
@@ -773,6 +932,17 @@ export default function LearningROICalculator({
           font-weight: 750;
         }
 
+        .roi-source small {
+          display: inline-flex;
+          margin-top: 8px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          color: #3730a3;
+          background: #eef2ff;
+          font-size: 10px;
+          font-weight: 950;
+        }
+
         .roi-disclaimer {
           margin-top: 16px;
           border-radius: 24px;
@@ -785,12 +955,12 @@ export default function LearningROICalculator({
           font-weight: 850;
         }
 
-        @media (max-width: 920px) {
+        @media (max-width: 980px) {
           .roi-hero-inner,
           .roi-grid,
           .roi-result-grid,
           .roi-sources-grid,
-          .impact-path {
+          .value-map {
             grid-template-columns: 1fr;
           }
 
@@ -813,6 +983,15 @@ export default function LearningROICalculator({
           .roi-switch {
             grid-template-columns: 1fr;
           }
+
+          .roi-orbit-card {
+            width: 240px;
+          }
+
+          .roi-orbit-inner {
+            width: 165px;
+            height: 165px;
+          }
         }
       `}</style>
 
@@ -823,28 +1002,25 @@ export default function LearningROICalculator({
               <span className="roi-kicker">حاسبة العائد من التعلم</span>
 
               <h1>
-                تعلّم مجاني
-                <span>وقيمة مهنية تُقاس بذكاء</span>
+                التعلم مجاني
+                <span>لكن قيمته المهنية تقرأ بذكاء</span>
               </h1>
 
               <p>
-                هذه الأداة لا تحسب استرداد رسوم؛ لأن التعلم هنا مجاني. بدلًا من
-                ذلك، تقرأ أثر تقدمك، سنوات خبرتك، ومستوى تطبيقك على جاهزيتك
-                المهنية وموقعك المحافظ داخل سوق الموارد البشرية.
+                هذه الأداة لا تحسب استرداد رسوم. تقرأ أثر تقدمك الفعلي، وخبرتك،
+                وعمق تطبيقك، وبيئة السوق المستهدفة؛ ثم تعطيك قراءة محافظة لموقعك
+                المهني دون وعود مبالغ فيها.
               </p>
             </div>
 
-            <div className="roi-progress-card">
-              <span>تقدمك الفعلي داخل الرحلة التعليمية</span>
-              <strong>
-                {formatNumber(actualCompletedDays)} / {formatNumber(safeTotalDays)}
-              </strong>
-              <div className="roi-progress-track">
-                <i />
+            <div className="roi-orbit" aria-label="مؤشر الجاهزية المهنية">
+              <div className="roi-orbit-card">
+                <div className="roi-orbit-inner">
+                  <span>مؤشر الجاهزية</span>
+                  <strong>{result.readinessScore}%</strong>
+                  <b>{result.readinessLabel}</b>
+                </div>
               </div>
-              <span style={{ marginTop: 12 }}>
-                جاهزية التقدم الحالي: {result.readinessPercent}%
-              </span>
             </div>
           </div>
         </header>
@@ -853,8 +1029,8 @@ export default function LearningROICalculator({
           <aside className="roi-panel">
             <h2>مدخلات القراءة</h2>
             <p>
-              عدّل القيم حسب وضعك. لا توجد تكلفة برنامج هنا؛ الحاسبة تقيس قيمة
-              التعلم المجاني عندما يتحول إلى تقدم وخبرة وتطبيق.
+              عدل القيم حسب وضعك. كل تغيير يظهر أثره مباشرة في مؤشر الجاهزية
+              ونطاق السوق المحافظ.
             </p>
 
             <div className="roi-field">
@@ -891,6 +1067,20 @@ export default function LearningROICalculator({
             </div>
 
             <div className="roi-field">
+              <label>بيئة السوق المستهدفة</label>
+              <select
+                value={marketContext}
+                onChange={(event) => setMarketContext(event.target.value)}
+              >
+                {Object.entries(MARKET_CONTEXTS).map(([key, item]) => (
+                  <option key={key} value={key}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="roi-field">
               <label>كيف تطبق ما تتعلمه؟</label>
               <div className="application-grid">
                 {APPLICATION_LEVELS.map((item) => (
@@ -903,7 +1093,7 @@ export default function LearningROICalculator({
                     onClick={() => setApplicationLevel(item.value)}
                     title={item.description}
                   >
-                    {item.title}
+                    {item.short}
                   </button>
                 ))}
               </div>
@@ -915,7 +1105,7 @@ export default function LearningROICalculator({
                 className={useActualProgress ? "active" : ""}
                 onClick={() => setUseActualProgress(true)}
               >
-                استخدم تقدمي الفعلي
+                تقدمي الفعلي
               </button>
 
               <button
@@ -923,7 +1113,7 @@ export default function LearningROICalculator({
                 className={!useActualProgress ? "active" : ""}
                 onClick={() => setUseActualProgress(false)}
               >
-                جرّب سيناريو التزام
+                سيناريو افتراضي
               </button>
             </div>
 
@@ -950,14 +1140,16 @@ export default function LearningROICalculator({
           <main className="roi-panel">
             <h2>قراءة النتيجة</h2>
             <p>
-              القراءة تقديرية ومحافظة، وتخصم أثر تضخم افتراضي قدره{" "}
-              {(DEFAULT_INFLATION_RATE * 100).toFixed(1)}% من القيمة السوقية.
+              القراءة محافظة، وتستخدم تضخما افتراضيا قدره{" "}
+              {(DEFAULT_INFLATION_RATE * 100).toFixed(1)}% لعرض القيمة الحقيقية.
             </p>
 
             <div className="roi-result-grid">
               <div className="roi-result-card">
-                <span>مؤشر الجاهزية المهنية</span>
-                <strong>{result.readinessScore}% · {result.readinessLabel}</strong>
+                <span>تقدم الرحلة</span>
+                <strong>
+                  {formatNumber(effectiveDays)} / {formatNumber(safeTotalDays)}
+                </strong>
                 <p>{result.commitmentMessage}</p>
               </div>
 
@@ -972,7 +1164,7 @@ export default function LearningROICalculator({
                 <strong>
                   {formatCurrency(result.realLow)} - {formatCurrency(result.realHigh)}
                 </strong>
-                <p>نطاق تقديري بعد أثر التضخم، وليس وعدًا وظيفيًا.</p>
+                <p>نطاق تقديري بعد أثر التضخم، وليس ضمانا للدخل.</p>
               </div>
 
               <div className="roi-result-card">
@@ -984,9 +1176,7 @@ export default function LearningROICalculator({
               <div className="roi-result-card green">
                 <span>فرصة التحسن الشهرية المحافظة</span>
                 <strong>{formatCurrency(result.monthlyOpportunity)}</strong>
-                <p>
-                  تظهر فقط عندما يكون الراتب الحالي أقل من الحد المحافظ للنطاق.
-                </p>
+                <p>تظهر عندما يكون الراتب الحالي أقل من الحد المحافظ للنطاق.</p>
               </div>
 
               <div className="roi-result-card red">
@@ -996,9 +1186,7 @@ export default function LearningROICalculator({
                     ? formatCurrency(result.annualOpportunity)
                     : "قيمة غير مالية مباشرة"}
                 </strong>
-                <p>
-                  لأن التعلم مجاني، لا نحسب استرداد تكلفة، بل نقرأ فرصة التحسن أو تقليل التخبط.
-                </p>
+                <p>القيمة قد تكون مالية، أو مهنية مثل تقليل التخبط ورفع الجاهزية.</p>
               </div>
             </div>
 
@@ -1007,33 +1195,38 @@ export default function LearningROICalculator({
               <p>
                 {track === "careerShift" && result.mode === "career-shift-non-direct"
                   ? "بما أنك قادم من مجال آخر وراتبك الحالي أعلى من نطاق الدخول المحافظ في الموارد البشرية، فالعائد المالي المباشر ليس القراءة الصحيحة. القيمة هنا في بناء مسار جديد بوعي، واختصار التخبط، ورفع جاهزيتك للمنافسة على بداية صحيحة."
-                  : activeTrack.insight}
+                  : activeTrack.mainValue + ". " + activeTrack.description}
               </p>
             </div>
 
             <div className="roi-reading">
-              <h3>مسار الأثر داخل الأداة</h3>
-              <div className="impact-path">
-                <div className="impact-step">
-                  <b>1</b>
+              <h3>حركة واحدة ترفع نتيجتك</h3>
+              <p>{result.nextMove}</p>
+            </div>
+
+            <div className="roi-reading">
+              <h3>خريطة القيمة</h3>
+              <div className="value-map">
+                <div className="value-step">
+                  <b>01</b>
                   <strong>تقدم فعلي</strong>
                   <span>{formatNumber(effectiveDays)} يوم من أصل {formatNumber(safeTotalDays)}</span>
                 </div>
 
-                <div className="impact-step">
-                  <b>2</b>
-                  <strong>خبرة وتطبيق</strong>
-                  <span>{result.experienceStage.label} · {activeApplication.title}</span>
+                <div className="value-step">
+                  <b>02</b>
+                  <strong>خبرة وسياق</strong>
+                  <span>{result.experienceStage.label} · {activeMarket.title}</span>
                 </div>
 
-                <div className="impact-step">
-                  <b>3</b>
-                  <strong>جاهزية مهنية</strong>
-                  <span>{result.readinessScore}% · {result.readinessLabel}</span>
+                <div className="value-step">
+                  <b>03</b>
+                  <strong>تطبيق عملي</strong>
+                  <span>{activeApplication.title}</span>
                 </div>
 
-                <div className="impact-step">
-                  <b>4</b>
+                <div className="value-step">
+                  <b>04</b>
                   <strong>قراءة سوقية</strong>
                   <span>{result.position.label}</span>
                 </div>
@@ -1045,28 +1238,37 @@ export default function LearningROICalculator({
         <section className="roi-panel roi-sources">
           <h2>منهجية الحاسبة ومصادر البيانات</h2>
           <p>
-            اعتمدت الأداة على نطاقات محافظة قابلة للتحديث، وعلى مصادر رسمية
-            وسوقية متعددة. راجع هذه المصادر دوريًا قبل تثبيت أي نطاقات نهائية.
+            هذه المصادر لا تعني أن الأرقام وعد نهائي، لكنها تجعل القراءة أقرب
+            إلى السوق وأكثر تحفظا. آخر تحديث منهجي مستهدف: 2025 - 2026.
           </p>
 
-          <div className="roi-sources-grid">
-            {SOURCES.map((source) => (
-              <a
-                className="roi-source"
-                key={source.name}
-                href={source.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <strong>{source.name}</strong>
-                <span>{source.type}</span>
-              </a>
-            ))}
+          <div className="roi-sources-toggle">
+            <button type="button" onClick={() => setShowSources((value) => !value)}>
+              {showSources ? "إخفاء المراجع" : "عرض المراجع الموسعة"}
+            </button>
           </div>
 
+          {showSources && (
+            <div className="roi-sources-grid">
+              {SOURCES.map((source) => (
+                <a
+                  className="roi-source"
+                  key={source.name}
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <strong>{source.name}</strong>
+                  <span>{source.type}</span>
+                  <small>{source.year}</small>
+                </a>
+              ))}
+            </div>
+          )}
+
           <div className="roi-disclaimer">
-            تنويه: هذه الحاسبة أداة تقديرية محافظة، ولا تمثل وعدًا وظيفيًا أو
-            ضمانًا للدخل. النتائج الفعلية تتأثر بتوفيق الله، ثم المدينة، نوع
+            تنويه: هذه الحاسبة أداة تقديرية محافظة، ولا تمثل وعدا وظيفيا أو
+            ضمانا للدخل. النتائج الفعلية تتأثر بتوفيق الله، ثم المدينة، نوع
             الجهة، سنوات الخبرة، جودة السيرة الذاتية، المقابلات، مستوى التطبيق،
             والظروف السوقية وقت التقديم.
           </div>
