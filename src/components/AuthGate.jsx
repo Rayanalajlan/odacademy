@@ -72,8 +72,7 @@ const FAQ = [
 const DEFAULT_STATS = {
   total_joined: 0,
   active_now: 0,
-  completed_count: 0,
-  remaining_seats: 0
+  completed_count: 0
 };
 
 function normalizeEmail(value) {
@@ -98,17 +97,24 @@ function normalizeStats(payload) {
   return {
     total_joined: Number(row?.total_joined || 0),
     active_now: Number(row?.active_now || 0),
-    completed_count: Number(row?.completed_count || 0),
-    remaining_seats: Number(row?.remaining_seats || 0)
+    completed_count: Number(row?.completed_count || 0)
   };
 }
 
-export default function AuthGate({ onEnter, onAuthenticated }) {
-  const [mode, setMode] = useState("signin");
+export default function AuthGate({
+  onEnter,
+  onAuthenticated,
+  recoveryMode = false,
+  onPasswordUpdated
+}) {
+  const [mode, setMode] = useState(recoveryMode ? "recover" : "signin");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState(DEFAULT_STATS);
@@ -117,6 +123,11 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
   const [openFaq, setOpenFaq] = useState("هل الرحلة مجانية؟");
 
   const passwordHint = useMemo(() => passwordIssue(password), [password]);
+  const recoveryPasswordHint = useMemo(() => passwordIssue(newPassword), [newPassword]);
+
+  useEffect(() => {
+    setMode(recoveryMode ? "recover" : "signin");
+  }, [recoveryMode]);
 
   async function loadPublicStats() {
     if (!isSupabaseConfigured || !supabase) {
@@ -157,15 +168,111 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
     setMode(nextMode);
     setNotice("");
     setPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
 
     if (nextMode === "signin") {
       setFullName("");
     }
   }
 
+  async function handleForgotPassword() {
+    setNotice("");
+
+    if (!isSupabaseConfigured || !supabase) {
+      showNotice("استعادة كلمة المرور تحتاج تفعيل Supabase.");
+      return;
+    }
+
+    const cleanEmail = normalizeEmail(email);
+
+    if (!cleanEmail) {
+      showNotice("اكتب بريدك الإلكتروني أولًا، ثم اضغط نسيت كلمة المرور.");
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const redirectTo = `${window.location.origin}/?reset_password=true`;
+
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+        redirectTo
+      });
+
+      if (error) throw error;
+
+      showNotice("أرسلنا رابط استعادة كلمة المرور إلى بريدك. افتح الرابط ثم اكتب كلمة مرور جديدة.");
+    } catch (error) {
+      showNotice(error?.message || "تعذر إرسال رابط استعادة كلمة المرور.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleRecoverySubmit(event) {
+    event.preventDefault();
+    setNotice("");
+
+    const issue = passwordIssue(newPassword);
+    if (issue) {
+      showNotice(issue);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      showNotice("كلمتا المرور غير متطابقتين.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      showNotice("تحديث كلمة المرور يحتاج تفعيل Supabase.");
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      const { data } = await supabase.auth.getSession();
+      await touchActivity();
+
+      showNotice("تم تحديث كلمة المرور بنجاح.");
+
+      window.history.replaceState({}, document.title, window.location.origin + "/");
+
+      onPasswordUpdated?.(data?.session || null);
+
+      if (data?.session) {
+        onEnter?.({
+          session: data.session,
+          name:
+            data.session?.user?.user_metadata?.full_name ||
+            data.session?.user?.email ||
+            "زميل المهنة"
+        });
+        onAuthenticated?.(data.session);
+      }
+    } catch (error) {
+      showNotice(error?.message || "تعذر تحديث كلمة المرور.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setNotice("");
+
+    if (mode === "recover") {
+      await handleRecoverySubmit(event);
+      return;
+    }
 
     const cleanEmail = normalizeEmail(email);
     const cleanName = fullName.trim();
@@ -178,7 +285,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
     }
 
     if (mode === "signup" && !cleanName) {
-      showNotice("اكتب الاسم الذي تريد ظهوره داخل المنصة.");
+      showNotice("اكتب اسمك كما تحب أن تراه في شهادتك.");
       return;
     }
 
@@ -347,6 +454,14 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           background: linear-gradient(135deg, #4f46e5, #312e81);
         }
 
+        .auth-title {
+          margin: 0 0 16px;
+          color: #0f172a;
+          font-size: 22px;
+          line-height: 1.5;
+          font-weight: 950;
+        }
+
         .auth-field {
           margin-bottom: 12px;
         }
@@ -402,6 +517,18 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           font-size: 11px;
           line-height: 1.7;
           font-weight: 700;
+        }
+
+        .forgot-button {
+          border: 0;
+          background: transparent;
+          color: #4f46e5;
+          font-family: inherit;
+          font-size: 12px;
+          font-weight: 950;
+          cursor: pointer;
+          padding: 5px 0 0;
+          text-align: right;
         }
 
         .auth-notice {
@@ -475,7 +602,7 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
 
         .counter-grid {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
         }
 
@@ -688,6 +815,21 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
           font-weight: 750;
         }
 
+        .public-footer {
+          margin-top: 18px;
+          text-align: center;
+          color: #475569;
+          line-height: 1.9;
+          font-size: 13px;
+          font-weight: 850;
+        }
+
+        .public-footer span {
+          display: block;
+          color: #94a3b8;
+          margin-top: 4px;
+        }
+
         .modal-backdrop {
           position: fixed;
           inset: 0;
@@ -768,39 +910,85 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
             </p>
           </div>
 
-          <form className="auth-card" onSubmit={handleSubmit}>
-            <div className="auth-tabs">
-              <button
-                type="button"
-                className={mode === "signin" ? "active" : ""}
-                onClick={() => switchMode("signin")}
-              >
-                دخول
-              </button>
-              <button
-                type="button"
-                className={mode === "signup" ? "active" : ""}
-                onClick={() => switchMode("signup")}
-              >
-                تسجيل جديد
-              </button>
-            </div>
+          <form className="auth-card" onSubmit={mode === "recover" ? handleRecoverySubmit : handleSubmit}>
+            {mode !== "recover" && (
+              <div className="auth-tabs">
+                <button
+                  type="button"
+                  className={mode === "signin" ? "active" : ""}
+                  onClick={() => switchMode("signin")}
+                >
+                  دخول
+                </button>
+                <button
+                  type="button"
+                  className={mode === "signup" ? "active" : ""}
+                  onClick={() => switchMode("signup")}
+                >
+                  تسجيل جديد
+                </button>
+              </div>
+            )}
+
+            {mode === "recover" && (
+              <>
+                <h2 className="auth-title">تعيين كلمة مرور جديدة</h2>
+
+                <div className="auth-field">
+                  <label htmlFor="newPassword">كلمة المرور الجديدة</label>
+                  <div className="password-row">
+                    <input
+                      id="newPassword"
+                      type={showNewPassword ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(event) => setNewPassword(event.target.value)}
+                      placeholder="8 أحرف على الأقل وفيها حرف ورقم"
+                      autoComplete="new-password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      aria-label={showNewPassword ? "إخفاء كلمة المرور الجديدة" : "إظهار كلمة المرور الجديدة"}
+                      aria-pressed={showNewPassword}
+                      onClick={() => setShowNewPassword((value) => !value)}
+                    >
+                      {showNewPassword ? "إخفاء" : "إظهار"}
+                    </button>
+                  </div>
+                  <span className="hint">{recoveryPasswordHint || "كلمة المرور مناسبة."}</span>
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="confirmPassword">تأكيد كلمة المرور الجديدة</label>
+                  <input
+                    id="confirmPassword"
+                    type={showNewPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    placeholder="أعد كتابة كلمة المرور"
+                    autoComplete="new-password"
+                    required
+                  />
+                </div>
+              </>
+            )}
 
             {mode === "signup" && (
               <div className="auth-field">
-                <label htmlFor="fullName">الاسم</label>
+                <label htmlFor="fullName">اكتب اسمك كما تحب أن تراه في شهادتك</label>
                 <input
                   id="fullName"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  placeholder="اكتب اسمك"
+                  placeholder="اكتب الاسم هنا"
                   autoComplete="name"
                   required
                 />
               </div>
             )}
 
-            {isSupabaseConfigured && (
+            {mode !== "recover" && isSupabaseConfigured && (
               <>
                 <div className="auth-field">
                   <label htmlFor="email">البريد الإلكتروني</label>
@@ -809,7 +997,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
                     type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    onBlur={(event) => setEmail(normalizeEmail(event.target.value))}
                     placeholder="example@email.com"
                     autoComplete="email"
                     required
@@ -838,10 +1025,22 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
                       {showPassword ? "إخفاء" : "إظهار"}
                     </button>
                   </div>
+
                   {mode === "signup" && (
                     <span className="hint">
                       {passwordHint || "كلمة المرور مناسبة."}
                     </span>
+                  )}
+
+                  {mode === "signin" && (
+                    <button
+                      type="button"
+                      className="forgot-button"
+                      onClick={handleForgotPassword}
+                      disabled={busy}
+                    >
+                      نسيت كلمة المرور؟
+                    </button>
                   )}
                 </div>
               </>
@@ -855,10 +1054,22 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
 
             <div className="auth-actions">
               <button className="auth-primary" type="submit" disabled={busy}>
-                {busy ? "جار المعالجة..." : mode === "signin" ? "دخول إلى الرحلة" : "إنشاء حساب"}
+                {busy
+                  ? "جار المعالجة..."
+                  : mode === "recover"
+                    ? "تحديث كلمة المرور"
+                    : mode === "signin"
+                      ? "دخول إلى الرحلة"
+                      : "إنشاء حساب"}
               </button>
 
-              {!isSupabaseConfigured && (
+              {mode === "recover" && (
+                <button className="auth-ghost" type="button" onClick={() => switchMode("signin")}>
+                  العودة لتسجيل الدخول
+                </button>
+              )}
+
+              {!isSupabaseConfigured && mode !== "recover" && (
                 <button className="auth-ghost" type="button" onClick={enterDemo}>
                   دخول تجريبي
                 </button>
@@ -887,10 +1098,6 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
             <div className="counter-card">
               <strong>{statsReady ? formatNumber(stats.completed_count) : "..."}</strong>
               <span>أتموا الـ 180 يوما بنجاح</span>
-            </div>
-            <div className="counter-card">
-              <strong>{statsReady ? formatNumber(stats.remaining_seats) : "..."}</strong>
-              <span>مقعدا متبقيا في دفعة الشهر الحالي</span>
             </div>
           </div>
         </section>
@@ -1057,6 +1264,11 @@ export default function AuthGate({ onEnter, onAuthenticated }) {
             </div>
           </div>
         </section>
+
+        <footer className="public-footer">
+          صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
+          <span>© 2026 — جميع الحقوق محفوظة</span>
+        </footer>
       </div>
 
       {sampleOpen && (

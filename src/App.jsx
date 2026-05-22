@@ -18,10 +18,7 @@ const pages = [
   { id: "radar", label: "رادار الأداء" },
   { id: "simulation", label: "المحاكاة" },
   { id: "ai-mentor", label: "الموجه الذكي" },
-
-  // القسم الجديد
   { id: "learning-roi", label: "حاسبة العائد من التعلم" },
-
   { id: "mastery", label: "وثيقة الإتقان" },
   { id: "about", label: "عن ريان" }
 ];
@@ -68,6 +65,19 @@ async function readProgressRows() {
   return loader();
 }
 
+function isPasswordRecoveryUrl() {
+  if (typeof window === "undefined") return false;
+
+  const search = window.location.search || "";
+  const hash = window.location.hash || "";
+
+  return (
+    search.includes("reset_password=true") ||
+    search.includes("type=recovery") ||
+    hash.includes("type=recovery")
+  );
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
@@ -79,6 +89,7 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
   const [notice, setNotice] = useState("");
+  const [passwordRecoveryMode, setPasswordRecoveryMode] = useState(isPasswordRecoveryUrl);
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -134,6 +145,10 @@ export default function App() {
             if (data?.session?.user) {
               setUserName(getDisplayName(data.session));
             }
+
+            if (isPasswordRecoveryUrl()) {
+              setPasswordRecoveryMode(true);
+            }
           }
         } else {
           const localName = localStorage.getItem("od_demo_name");
@@ -144,7 +159,7 @@ export default function App() {
           }
         }
 
-        if (mounted) {
+        if (mounted && !isPasswordRecoveryUrl()) {
           await loadProgressSafely({ showLoader: false });
         }
       } catch (error) {
@@ -166,8 +181,14 @@ export default function App() {
 
     if (isSupabaseConfigured && supabase) {
       const { data } = supabase.auth.onAuthStateChange(
-        (_event, nextSession) => {
+        (event, nextSession) => {
           if (!mounted) return;
+
+          if (event === "PASSWORD_RECOVERY") {
+            setSession(nextSession || null);
+            setPasswordRecoveryMode(true);
+            return;
+          }
 
           setSession(nextSession || null);
 
@@ -175,7 +196,9 @@ export default function App() {
             setUserName(getDisplayName(nextSession));
           }
 
-          loadProgressSafely({ showLoader: true });
+          if (!passwordRecoveryMode) {
+            loadProgressSafely({ showLoader: true });
+          }
         }
       );
 
@@ -221,6 +244,17 @@ export default function App() {
     });
   }
 
+  function handlePasswordUpdated(nextSession) {
+    setPasswordRecoveryMode(false);
+
+    if (nextSession) {
+      handleEnter({
+        session: nextSession,
+        name: getDisplayName(nextSession)
+      });
+    }
+  }
+
   async function handleSignOut() {
     try {
       if (isSupabaseConfigured && supabase && session) {
@@ -247,6 +281,17 @@ export default function App() {
       <div className="boot-screen">
         جارٍ تجهيز مختبر التطوير التنظيمي...
       </div>
+    );
+  }
+
+  if (passwordRecoveryMode) {
+    return (
+      <AuthGate
+        recoveryMode
+        onEnter={handleEnter}
+        onAuthenticated={handleAuthenticatedFromOldAuthGate}
+        onPasswordUpdated={handlePasswordUpdated}
+      />
     );
   }
 
