@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
 import LessonNotesPanel from "./LessonNotesPanel";
+import CourseSearch from "./CourseSearch";
 
 const stateLabels = {
   locked: "مقفل",
@@ -880,6 +881,48 @@ export default function CourseJourney({
     setSelectedDayIndex(nextPoint.day.dayIndex);
     setStage("lesson");
     setNotice("");
+  }
+
+  function jumpToSearchResult(result) {
+    if (!result) return;
+
+    const targetMonth = course.find((month) => month.monthIndex === result.monthIndex);
+    const targetWeek = targetMonth?.weeks?.find((week) => week.weekIndex === result.weekIndex);
+    const targetDay = targetWeek?.days?.find((day) => day.dayIndex === result.dayIndex);
+
+    if (!targetMonth || !targetWeek || !targetDay) {
+      setNotice("لم أستطع العثور على هذه النتيجة داخل خريطة الرحلة.");
+      return;
+    }
+
+    setSelectedMonthIndex(targetMonth.monthIndex);
+    setSelectedWeekIndex(targetWeek.weekIndex);
+    setSelectedDayIndex(targetDay.dayIndex);
+
+    if (!isMonthUnlocked(targetMonth)) {
+      setStage("months");
+      setNotice("هذه النتيجة ضمن شهر لم يُفتح بعد. أكمل الشهر السابق أولًا.");
+      return;
+    }
+
+    if (!isWeekUnlocked(targetWeek, targetMonth)) {
+      setStage("weeks");
+      setNotice("هذه النتيجة ضمن أسبوع لم يُفتح بعد. أكمل الأسبوع السابق أولًا.");
+      return;
+    }
+
+    if (!isDayUnlocked(targetDay, targetWeek, targetMonth)) {
+      setStage("days");
+      setNotice("هذه النتيجة ضمن يوم لم يُفتح بعد. أكمل اليوم السابق أولًا.");
+      return;
+    }
+
+    setStage("lesson");
+    setNotice("");
+    window.requestAnimationFrame(() => {
+      const lessonElement = document.querySelector(".jl-reader");
+      lessonElement?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    });
   }
 
   async function completeCurrentDay() {
@@ -1985,6 +2028,12 @@ export default function CourseJourney({
             help={`${weekCompletedDays} من ${weekTotalDays} أيام`}
           />
         </section>
+
+        <CourseSearch
+          course={course}
+          onJump={jumpToSearchResult}
+          placeholder="ابحث عن RACI، الثقافة، التغيير، الوصف الوظيفي، قياس الأثر..."
+        />
 
         <div className="jl-top-actions">
           <div className="jl-breadcrumbs">
