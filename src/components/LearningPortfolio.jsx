@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchLearningPortfolioData } from "../lib/learningPortfolioService";
+import PortfolioExportReport from "./PortfolioExportReport";
 
 function formatDate(value) {
   if (!value) return "غير محدد";
@@ -47,6 +48,7 @@ export default function LearningPortfolio({
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState("");
+  const [reportOpen, setReportOpen] = useState(false);
 
   async function loadPortfolio() {
     setLoading(true);
@@ -248,6 +250,14 @@ export default function LearningPortfolio({
         .portfolio-button.dark {
           color: #fff;
           background: #0f172a;
+        }
+
+        .portfolio-button.export {
+          color: #fff;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(245,158,11,.24), transparent 35%),
+            linear-gradient(135deg, #047857, #064e3b);
+          box-shadow: 0 18px 38px rgba(16,185,129,.22);
         }
 
         .portfolio-stats {
@@ -493,6 +503,13 @@ export default function LearningPortfolio({
               <button type="button" className="portfolio-button soft" onClick={() => go("mastery")}>
                 وثيقة الإتقان
               </button>
+              <button
+                type="button"
+                className="portfolio-button export"
+                onClick={() => setReportOpen(true)}
+              >
+                تصدير تقرير ملفي التعليمي
+              </button>
             </div>
           </div>
 
@@ -508,6 +525,17 @@ export default function LearningPortfolio({
       </section>
 
       {notice ? <div className="portfolio-notice">{notice}</div> : null}
+
+      {reportOpen && (
+        <PortfolioExportReport
+          userName={userName}
+          generatedAt={new Date().toISOString()}
+          data={data}
+          summary={summary}
+          loading={loading}
+          onClose={() => setReportOpen(false)}
+        />
+      )}
 
       <section className="portfolio-stats" aria-label="ملخص الملف التعليمي">
         <div className="portfolio-stat">
