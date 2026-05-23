@@ -42,6 +42,31 @@ export async function getRecentLessonNotes(limit = 6) {
   return data || [];
 }
 
+async function logNoteSavedEvent({ monthIndex, weekIndex, dayIndex }) {
+  if (!isSupabaseConfigured || !supabase) return;
+
+  try {
+    const { error } = await supabase.rpc("log_learning_event", {
+      event_type_text: "note_saved",
+      event_title: "حفظت ملاحظة على درس",
+      event_description: `الشهر ${monthIndex} · الأسبوع ${weekIndex} · اليوم ${dayIndex}`,
+      entity_type_text: "lesson",
+      entity_id_text: `${monthIndex}-${weekIndex}-${dayIndex}`,
+      event_metadata: {
+        monthIndex,
+        weekIndex,
+        dayIndex
+      }
+    });
+
+    if (error) {
+      console.warn("لم يتم تسجيل نشاط حفظ الملاحظة:", error.message);
+    }
+  } catch (error) {
+    console.warn("لم يتم تسجيل نشاط حفظ الملاحظة:", error?.message || error);
+  }
+}
+
 export async function saveLessonNote({
   monthIndex,
   weekIndex,
@@ -89,18 +114,12 @@ export async function saveLessonNote({
 
   if (error) throw error;
 
-  await supabase.rpc("log_learning_event", {
-    event_type_text: "note_saved",
-    event_title: "حفظت ملاحظة على درس",
-    event_description: `الشهر ${monthIndex} · الأسبوع ${weekIndex} · اليوم ${dayIndex}`,
-    entity_type_text: "lesson",
-    entity_id_text: `${monthIndex}-${weekIndex}-${dayIndex}`,
-    event_metadata: {
-      monthIndex,
-      weekIndex,
-      dayIndex
-    }
-  }).catch(() => null);
+  // تسجيل النشاط اختياري؛ لا يجب أن يفشل حفظ الملاحظة لو كانت دالة السجل غير موجودة أو غير مفعلة.
+  await logNoteSavedEvent({
+    monthIndex,
+    weekIndex,
+    dayIndex
+  });
 
   return data;
 }
