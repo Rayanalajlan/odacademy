@@ -27,6 +27,7 @@ const RadarAssessment = lazy(() => import("./components/RadarAssessment"));
 const SimulationLab = lazy(() => import("./components/SimulationLab"));
 const AiMentor = lazy(() => import("./components/AiMentor"));
 const LearningROICalculator = lazy(() => import("./components/LearningROICalculator"));
+const LearningPortfolio = lazy(() => import("./components/LearningPortfolio"));
 const MasteryCertificate = lazy(() => import("./components/MasteryCertificate"));
 const AboutRayan = lazy(() => import("./components/AboutRayan"));
 const VerifyCertificate = lazy(() => import("./components/VerifyCertificate"));
@@ -34,6 +35,7 @@ const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
+  { id: "portfolio", label: "ملفي التعليمي" },
   { id: "journey", label: "رحلتك التعليمية" },
   { id: "radar", label: "رادار الأداء" },
   { id: "simulation", label: "المحاكاة" },
@@ -741,6 +743,16 @@ export default function App() {
           <LearningROICalculator
             completedDays={completedDays}
             totalDays={totalJourneyDays}
+          />
+        )}
+
+        {activePage === "portfolio" && (
+          <LearningPortfolio
+            userName={displayName}
+            completedDays={completedDays}
+            totalDays={totalJourneyDays}
+            setActivePage={navigate}
+            onResumeJourney={resumeJourneyFromLastPoint}
           />
         )}
 
