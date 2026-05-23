@@ -11,6 +11,7 @@ import AiMentor from "./components/AiMentor";
 import LearningROICalculator from "./components/LearningROICalculator";
 import MasteryCertificate from "./components/MasteryCertificate";
 import AboutRayan from "./components/AboutRayan";
+import LearnerProfileCenter from "./components/LearnerProfileCenter";
 
 const pages = [
   { id: "home", label: "الرئيسية" },
@@ -36,7 +37,7 @@ function getDisplayName(session, fallbackName) {
     session?.user?.user_metadata?.full_name ||
     session?.user?.email ||
     localStorage.getItem("od_demo_name") ||
-    "زميل المهنة"
+    "متدرب"
   );
 }
 
@@ -65,19 +66,6 @@ async function readProgressRows() {
   return loader();
 }
 
-function isPasswordRecoveryUrl() {
-  if (typeof window === "undefined") return false;
-
-  const search = window.location.search || "";
-  const hash = window.location.hash || "";
-
-  return (
-    search.includes("reset_password=true") ||
-    search.includes("type=recovery") ||
-    hash.includes("type=recovery")
-  );
-}
-
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
@@ -89,7 +77,6 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
   const [notice, setNotice] = useState("");
-  const [passwordRecoveryMode, setPasswordRecoveryMode] = useState(isPasswordRecoveryUrl);
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -145,10 +132,6 @@ export default function App() {
             if (data?.session?.user) {
               setUserName(getDisplayName(data.session));
             }
-
-            if (isPasswordRecoveryUrl()) {
-              setPasswordRecoveryMode(true);
-            }
           }
         } else {
           const localName = localStorage.getItem("od_demo_name");
@@ -159,7 +142,7 @@ export default function App() {
           }
         }
 
-        if (mounted && !isPasswordRecoveryUrl()) {
+        if (mounted) {
           await loadProgressSafely({ showLoader: false });
         }
       } catch (error) {
@@ -181,14 +164,8 @@ export default function App() {
 
     if (isSupabaseConfigured && supabase) {
       const { data } = supabase.auth.onAuthStateChange(
-        (event, nextSession) => {
+        (_event, nextSession) => {
           if (!mounted) return;
-
-          if (event === "PASSWORD_RECOVERY") {
-            setSession(nextSession || null);
-            setPasswordRecoveryMode(true);
-            return;
-          }
 
           setSession(nextSession || null);
 
@@ -196,9 +173,7 @@ export default function App() {
             setUserName(getDisplayName(nextSession));
           }
 
-          if (!passwordRecoveryMode) {
-            loadProgressSafely({ showLoader: true });
-          }
+          loadProgressSafely({ showLoader: true });
         }
       );
 
@@ -229,7 +204,7 @@ export default function App() {
 
     if (demo) {
       setDemoMode(true);
-      localStorage.setItem("od_demo_name", nextName || "زميل المهنة");
+      localStorage.setItem("od_demo_name", nextName || "متدرب");
     }
 
     setActivePage("home");
@@ -242,17 +217,6 @@ export default function App() {
       session: nextSession,
       name: getDisplayName(nextSession)
     });
-  }
-
-  function handlePasswordUpdated(nextSession) {
-    setPasswordRecoveryMode(false);
-
-    if (nextSession) {
-      handleEnter({
-        session: nextSession,
-        name: getDisplayName(nextSession)
-      });
-    }
   }
 
   async function handleSignOut() {
@@ -284,17 +248,6 @@ export default function App() {
     );
   }
 
-  if (passwordRecoveryMode) {
-    return (
-      <AuthGate
-        recoveryMode
-        onEnter={handleEnter}
-        onAuthenticated={handleAuthenticatedFromOldAuthGate}
-        onPasswordUpdated={handlePasswordUpdated}
-      />
-    );
-  }
-
   if (!authenticated) {
     return (
       <AuthGate
@@ -310,7 +263,7 @@ export default function App() {
     <div className="site-frame">
       <style>{`
         /*
-          إصلاح حجم شعار ريان في الهيدر وبعض البطاقات الصغيرة.
+          إصلاح حجم الشعار في الهيدر وبعض البطاقات الصغيرة.
           لا يؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
         */
 
@@ -384,7 +337,7 @@ export default function App() {
           <div className="brand-mark image-mark">
             <img
               src={BRAND_LOGO_SRC}
-              alt="شعار ريان العجلان"
+              alt="شعار المنصة"
               className="brand-logo-image"
             />
           </div>
@@ -418,6 +371,15 @@ export default function App() {
       </header>
 
       {notice && <div className="global-notice">{notice}</div>}
+
+      <LearnerProfileCenter
+        session={session}
+        userName={displayName}
+        completedDays={completedDays}
+        totalDays={totalJourneyDays}
+        setActivePage={navigate}
+        onSignOut={handleSignOut}
+      />
 
       {activePage === "home" && (
         <Home
