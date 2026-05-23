@@ -1,0 +1,10 @@
+OD Academy - Phase 30 Build Stability & Lockfile Fix
+
+Files:
+- package.json
+- package-lock.json
+- wrangler.toml
+- vite.config.js
+- scripts/30_verify_build_stability.cjs
+- README_AR.md
+- MANIFEST.txt
