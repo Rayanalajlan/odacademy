@@ -1,44 +1,39 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
 
-function normalizeEmail(value = "") {
-  return String(value || "").trim().toLowerCase();
-}
-
-export async function requestEmailChange(newEmail) {
+export async function updateAccountEmail(newEmail) {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error("Supabase غير مفعّل.");
   }
 
-  const email = normalizeEmail(newEmail);
+  const cleanEmail = String(newEmail || "").trim().toLowerCase();
 
-  if (!email || !email.includes("@")) {
+  if (!cleanEmail || !cleanEmail.includes("@")) {
     throw new Error("اكتب بريدًا إلكترونيًا صحيحًا.");
   }
 
-  const { data, error } = await supabase.auth.updateUser({ email });
+  const { data, error } = await supabase.auth.updateUser({
+    email: cleanEmail
+  });
 
   if (error) throw error;
 
   return data;
 }
 
-export async function updateAccountPassword({ password, confirmPassword }) {
+export async function updateAccountPassword(newPassword) {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error("Supabase غير مفعّل.");
   }
 
-  const cleanPassword = String(password || "");
-  const cleanConfirm = String(confirmPassword || "");
+  const password = String(newPassword || "");
 
-  if (cleanPassword.length < 8) {
+  if (password.length < 8) {
     throw new Error("كلمة المرور يجب ألا تقل عن 8 أحرف.");
   }
 
-  if (cleanPassword !== cleanConfirm) {
-    throw new Error("كلمتا المرور غير متطابقتين.");
-  }
-
-  const { data, error } = await supabase.auth.updateUser({ password: cleanPassword });
+  const { data, error } = await supabase.auth.updateUser({
+    password
+  });
 
   if (error) throw error;
 

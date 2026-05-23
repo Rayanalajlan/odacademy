@@ -1,152 +1,509 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
+import { getRecentLessonNotes } from "./lessonNotesService";
+import { getLearningTimeSummary } from "./learningTimeService";
+import { getNotifications } from "./notificationsService";
+import { getUserBadges } from "./badgesService";
 
-export const PROFILE_TOTAL_DAYS = 180;
-export const HOURS_PER_DAY = 4;
+const DEFAULT_RADAR = [
+  { label: "التفكير التشخيصي", score: null },
+  { label: "تصميم التدخل", score: null },
+  { label: "قيادة التغيير", score: null },
+  { label: "قياس الأثر", score: null },
+  { label: "الحكم المهني", score: null }
+];
 
-export function calculateLearningRank(completedDays = 0) {
-  const days = Number(completedDays || 0);
-  if (days >= 180) return { title: "متقن الرحلة", subtitle: "أكمل مسار الإتقان كاملًا", nextTitle: "تفعيل وثيقة الإتقان", nextIn: 0 };
-  if (days >= 150) return { title: "ممارس أثر", subtitle: "يربط الممارسة بالقياس والاستدامة", nextTitle: "متقن الرحلة", nextIn: 180 - days };
-  if (days >= 90) return { title: "مصمم تدخلات", subtitle: "يحوّل التشخيص إلى تدخل قابل للتنفيذ", nextTitle: "ممارس أثر", nextIn: 150 - days };
-  if (days >= 30) return { title: "محلل تشخيصي", subtitle: "يميز العرض عن السبب ويبني فرضيات", nextTitle: "مصمم تدخلات", nextIn: 90 - days };
-  if (days >= 7) return { title: "قارئ المنظمة", subtitle: "بدأ يقرأ المنظمة كنظام", nextTitle: "محلل تشخيصي", nextIn: 30 - days };
-  return { title: "مستكشف OD", subtitle: "في بداية بناء اللغة والمنهجية", nextTitle: "قارئ المنظمة", nextIn: Math.max(0, 7 - days) };
-}
-
-export function formatProfileDate(value) {
-  if (!value) return "غير متوفر";
-  return new Intl.DateTimeFormat("ar-SA", { dateStyle: "medium", timeZone: "Asia/Riyadh" }).format(new Date(value));
-}
-
-function uniqueCompletedDays(rows = []) {
-  return new Set(rows.filter((r) => r.status === "completed").map((r) => `${r.month_index}-${r.week_index}-${r.day_index}`)).size;
-}
-
-export function calculateStreak(rows = []) {
-  const dates = Array.from(new Set(rows
-    .filter((r) => r.status === "completed")
-    .map((r) => r.completed_at || r.updated_at || r.created_at)
-    .filter(Boolean)
-    .map((v) => new Date(v).toISOString().slice(0, 10))));
-  if (!dates.length) return 0;
-  const set = new Set(dates);
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  let streak = 0;
-  for (let i = 0; i < 365; i += 1) {
-    const key = d.toISOString().slice(0, 10);
-    if (set.has(key)) {
-      streak += 1;
-      d.setDate(d.getDate() - 1);
-      continue;
-    }
-    if (i === 0) {
-      d.setDate(d.getDate() - 1);
-      continue;
-    }
-    break;
+const RANKS = [
+  {
+    title: "مستكشف OD",
+    subtitle: "بدأت الرحلة",
+    minDays: 0,
+    nextTitle: "قارئ المنظمة",
+    nextAt: 7
+  },
+  {
+    title: "قارئ المنظمة",
+    subtitle: "أكملت أول أسبوع",
+    minDays: 7,
+    nextTitle: "محلل تشخيصي",
+    nextAt: 30
+  },
+  {
+    title: "محلل تشخيصي",
+    subtitle: "أكملت الشهر الأول",
+    minDays: 30,
+    nextTitle: "مصمم تدخلات",
+    nextAt: 90
+  },
+  {
+    title: "مصمم تدخلات",
+    subtitle: "دخلت عمق تصميم التدخل",
+    minDays: 90,
+    nextTitle: "ممارس أثر",
+    nextAt: 150
+  },
+  {
+    title: "ممارس أثر",
+    subtitle: "تربط التعلم بالقياس والاستدامة",
+    minDays: 150,
+    nextTitle: "متقن الرحلة",
+    nextAt: 180
+  },
+  {
+    title: "متقن الرحلة",
+    subtitle: "أكملت رحلة الإتقان",
+    minDays: 180,
+    nextTitle: null,
+    nextAt: null
   }
-  return streak;
+];
+
+function safeNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function radarItems(latestRadar) {
-  const r = latestRadar?.result || {};
-  const s = r.scores || r.dimensions || r.axes || r.radar || {};
-  const items = [
-    ["التفكير التشخيصي", s.diagnosticThinking ?? s.diagnosis ?? s["التفكير التشخيصي"]],
-    ["تصميم التدخل", s.interventionDesign ?? s.intervention ?? s["تصميم التدخل"]],
-    ["قيادة التغيير", s.changeLeadership ?? s.change ?? s["قيادة التغيير"]],
-    ["قياس الأثر", s.impactMeasurement ?? s.impact ?? s["قياس الأثر"]],
-    ["الحكم المهني", s.professionalJudgment ?? s.judgment ?? s["الحكم المهني"]]
-  ];
-  return items.map(([label, score]) => ({ label, score: Number.isFinite(Number(score)) ? Math.max(0, Math.min(100, Number(score))) : null }));
-}
-
-function achievements({ completedDays, simulationCount, mentorMessagesCount, hoursCounted, certificateStatus }) {
-  return [
-    { key: "first_week", title: "أكمل أول أسبوع", status: completedDays >= 7 ? "مكتمل" : "قيد التقدم", value: Math.min(completedDays, 7), target: 7 },
-    { key: "first_month", title: "أنهى الشهر الأول", status: completedDays >= 30 ? "مكتمل" : "قيد التقدم", value: Math.min(completedDays, 30), target: 30 },
-    { key: "first_simulation", title: "جرّب أول محاكاة", status: simulationCount >= 1 ? "مكتمل" : "قيد التقدم", value: Math.min(simulationCount, 1), target: 1 },
-    { key: "mentor_5", title: "استخدم الموجه الذكي 5 مرات", status: mentorMessagesCount >= 5 ? "مكتمل" : "قيد التقدم", value: Math.min(mentorMessagesCount, 5), target: 5 },
-    { key: "learning_25h", title: "أتم 25 ساعة تعلم", status: hoursCounted >= 25 ? "مكتمل" : "قيد التقدم", value: Math.min(hoursCounted, 25), target: 25 },
-    { key: "mastery_doc", title: "وثيقة الإتقان", status: certificateStatus === "ready" || certificateStatus === "issued" ? "جاهزة" : "مقفلة", value: certificateStatus === "ready" || certificateStatus === "issued" ? 1 : 0, target: 1 }
-  ];
-}
-
-function recentActivity({ progressRows, latestRadar, latestSimulation, latestMentorSession, events }) {
-  const items = [];
-  for (const e of events || []) items.push({ title: e.title, description: e.description || "نشاط محفوظ", time: e.created_at });
-  const latestProgress = [...(progressRows || [])].filter((r) => r.status === "completed").sort((a, b) => new Date(b.completed_at || b.updated_at || b.created_at) - new Date(a.completed_at || a.updated_at || a.created_at))[0];
-  if (latestProgress) items.push({ title: "أكملت درسًا في الرحلة التعليمية", description: `الشهر ${latestProgress.month_index} · الأسبوع ${latestProgress.week_index} · اليوم ${latestProgress.day_index}`, time: latestProgress.completed_at || latestProgress.updated_at || latestProgress.created_at });
-  if (latestRadar) items.push({ title: "حدّثت رادار الجدارات", description: latestRadar.level ? `المستوى: ${latestRadar.level}` : "محاولة رادار محفوظة", time: latestRadar.created_at });
-  if (latestSimulation) items.push({ title: "أجريت محاكاة تطبيقية", description: latestSimulation.case_title || latestSimulation.case_id || "محاولة محاكاة", time: latestSimulation.created_at });
-  if (latestMentorSession) items.push({ title: "استخدمت الموجه الذكي", description: latestMentorSession.title || "جلسة موجه محفوظة", time: latestMentorSession.updated_at || latestMentorSession.created_at });
-  return items.filter((i) => i.time).sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 8);
-}
-
-export async function fetchProfileCenterData({ fallbackName = "", completedDaysFallback = 0, totalDays = PROFILE_TOTAL_DAYS } = {}) {
-  if (!isSupabaseConfigured || !supabase) {
-    const completedDays = Number(completedDaysFallback || 0);
-    const hoursCounted = completedDays * HOURS_PER_DAY;
-    return { source: "local", profile: { certificate_name: fallbackName, full_name: fallbackName, email: "" }, completedDays, totalDays, progressPercent: Math.round((completedDays / totalDays) * 100), hoursCounted, streak: 0, rank: calculateLearningRank(completedDays), radar: radarItems(null), achievements: achievements({ completedDays, simulationCount: 0, mentorMessagesCount: 0, hoursCounted, certificateStatus: "locked" }), recentActivity: [], mastery: null, counts: { simulations: 0, mentorMessages: 0, quizzes: 0 } };
-  }
-
-  const { data: userResult, error: userError } = await supabase.auth.getUser();
-  if (userError || !userResult?.user) throw userError || new Error("لا يوجد مستخدم مسجل الدخول.");
-  const user = userResult.user;
-
-  await supabase.rpc("touch_user_activity", { page_name: "profile-center", user_agent_text: typeof navigator !== "undefined" ? navigator.userAgent : null }).catch(() => null);
-
-  let { data: profile } = await supabase.from("user_profiles").select("*").eq("id", user.id).maybeSingle();
-  if (!profile) {
-    const fallbackProfile = { id: user.id, email: user.email, full_name: user.user_metadata?.full_name || fallbackName || "", certificate_name: user.user_metadata?.full_name || fallbackName || "" };
-    const { data: insertedProfile } = await supabase.from("user_profiles").upsert(fallbackProfile, { onConflict: "id" }).select("*").maybeSingle();
-    profile = insertedProfile || fallbackProfile;
-  }
-
-  const [progressResult, radarResult, simResult, simCountResult, mentorSessionResult, mentorCountResult, quizCountResult, masteryResult, eventsResult] = await Promise.all([
-    supabase.from("user_progress").select("month_index, week_index, day_index, status, score, completed_at, updated_at, created_at").eq("user_id", user.id),
-    supabase.from("radar_attempts").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
-    supabase.from("simulation_attempts").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
-    supabase.from("simulation_attempts").select("id", { count: "exact", head: true }).eq("user_id", user.id),
-    supabase.from("ai_mentor_sessions").select("*").eq("user_id", user.id).order("updated_at", { ascending: false }).limit(1).maybeSingle(),
-    supabase.from("ai_mentor_messages").select("id", { count: "exact", head: true }).eq("user_id", user.id).eq("role", "user"),
-    supabase.from("quiz_attempts").select("id", { count: "exact", head: true }).eq("user_id", user.id),
-    supabase.from("mastery_certificates").select("*").eq("user_id", user.id).maybeSingle(),
-    supabase.from("user_learning_events").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(8)
-  ]);
-
-  const progressRows = progressResult.data || [];
-  const completedDays = uniqueCompletedDays(progressRows) || Number(completedDaysFallback || 0);
-  const progressPercent = Math.min(100, Math.round((completedDays / totalDays) * 100));
-  const hoursCounted = completedDays * HOURS_PER_DAY;
-  const simulationCount = simCountResult.count || 0;
-  const mentorMessagesCount = mentorCountResult.count || 0;
-  const mastery = masteryResult.data || null;
+function getRank(completedDays) {
+  const days = safeNumber(completedDays);
+  const current = [...RANKS].reverse().find((rank) => days >= rank.minDays) || RANKS[0];
 
   return {
-    source: "supabase",
-    user,
-    profile: { ...profile, email: profile?.email || user.email || "", full_name: profile?.full_name || user.user_metadata?.full_name || fallbackName || "", certificate_name: profile?.certificate_name || profile?.full_name || fallbackName || "" },
-    completedDays,
-    totalDays,
-    progressPercent,
-    hoursCounted,
-    streak: calculateStreak(progressRows),
-    rank: calculateLearningRank(completedDays),
-    radar: radarItems(radarResult.data || null),
-    achievements: achievements({ completedDays, simulationCount, mentorMessagesCount, hoursCounted, certificateStatus: mastery?.status || "locked" }),
-    recentActivity: recentActivity({ progressRows, latestRadar: radarResult.data || null, latestSimulation: simResult.data || null, latestMentorSession: mentorSessionResult.data || null, events: eventsResult.data || [] }),
-    mastery,
-    counts: { simulations: simulationCount, mentorMessages: mentorMessagesCount, quizzes: quizCountResult.count || 0 }
+    ...current,
+    nextIn: current.nextAt ? Math.max(0, current.nextAt - days) : 0
   };
 }
 
-export async function updateProfileCenter(profilePatch = {}) {
-  if (!isSupabaseConfigured || !supabase) return { ok: false, error: "Supabase غير مفعّل." };
-  const { data: userResult, error: userError } = await supabase.auth.getUser();
-  if (userError || !userResult?.user) throw userError || new Error("لا يوجد مستخدم مسجل الدخول.");
-  const { data, error } = await supabase.from("user_profiles").upsert({ id: userResult.user.id, ...profilePatch }, { onConflict: "id" }).select("*").maybeSingle();
-  if (error) throw error;
+function buildAchievements({
+  completedDays,
+  hoursCounted,
+  simulationsCount,
+  mentorSessionsCount,
+  notesCount,
+  totalDays
+}) {
+  return [
+    {
+      key: "first_week",
+      title: "أكمل أول أسبوع",
+      status: completedDays >= 7 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(completedDays, 7),
+      target: 7
+    },
+    {
+      key: "first_month",
+      title: "أنهى الشهر الأول",
+      status: completedDays >= 30 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(completedDays, 30),
+      target: 30
+    },
+    {
+      key: "first_simulation",
+      title: "جرّب أول محاكاة",
+      status: simulationsCount >= 1 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(simulationsCount, 1),
+      target: 1
+    },
+    {
+      key: "mentor_practice",
+      title: "استخدم الموجه الذكي 5 مرات",
+      status: mentorSessionsCount >= 5 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(mentorSessionsCount, 5),
+      target: 5
+    },
+    {
+      key: "notes_habit",
+      title: "حفظ 5 ملاحظات مهنية",
+      status: notesCount >= 5 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(notesCount, 5),
+      target: 5
+    },
+    {
+      key: "learning_time",
+      title: "أتم 25 ساعة تعلم",
+      status: hoursCounted >= 25 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(Math.round(hoursCounted), 25),
+      target: 25
+    },
+    {
+      key: "mastery_certificate",
+      title: "حصل على وثيقة الإتقان",
+      status: completedDays >= totalDays ? "جاهزة" : "مقفل",
+      value: Math.min(completedDays, totalDays),
+      target: totalDays
+    }
+  ];
+}
+
+function mapLearningEvents(events = []) {
+  return events.map((event) => ({
+    title: event.event_title || event.title || "نشاط تعليمي",
+    description: event.event_description || event.description || "",
+    time: event.created_at
+  }));
+}
+
+function mapNotesAsActivity(notes = []) {
+  return notes.map((note) => ({
+    title: note.note_title || "ملاحظة محفوظة",
+    description: `الشهر ${note.month_index} · الأسبوع ${note.week_index} · اليوم ${note.day_index}`,
+    time: note.updated_at || note.created_at
+  }));
+}
+
+async function getCurrentUser() {
+  if (!isSupabaseConfigured || !supabase) return null;
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.warn("تعذر قراءة المستخدم:", error.message);
+    return null;
+  }
+
+  return data?.user || null;
+}
+
+async function getProfile(userId) {
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .select("*")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("تعذر قراءة ملف المتدرب:", error.message);
+    return null;
+  }
+
   return data;
+}
+
+async function getProgressCount(userId) {
+  const { count, error } = await supabase
+    .from("user_progress")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("status", "completed");
+
+  if (error) {
+    console.warn("تعذر حساب التقدم:", error.message);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+async function getRadar(userId) {
+  const { data, error } = await supabase
+    .from("radar_attempts")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (error) {
+    console.warn("تعذر قراءة الرادار:", error.message);
+    return DEFAULT_RADAR;
+  }
+
+  const latest = data?.[0];
+
+  if (!latest?.result) return DEFAULT_RADAR;
+
+  const result = latest.result;
+
+  if (Array.isArray(result.axes)) {
+    return result.axes.map((axis) => ({
+      label: axis.label || axis.name || "محور",
+      score: axis.score ?? axis.value ?? null
+    }));
+  }
+
+  const possible = [
+    ["diagnostic", "التفكير التشخيصي"],
+    ["intervention", "تصميم التدخل"],
+    ["change", "قيادة التغيير"],
+    ["impact", "قياس الأثر"],
+    ["judgment", "الحكم المهني"]
+  ];
+
+  return possible.map(([key, label]) => ({
+    label,
+    score: result[key] ?? result.scores?.[key] ?? null
+  }));
+}
+
+async function getCounts(userId) {
+  const [simulations, mentorSessions, notes] = await Promise.all([
+    supabase
+      .from("simulation_attempts")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId),
+    supabase
+      .from("ai_mentor_sessions")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId),
+    supabase
+      .from("lesson_notes")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+  ]);
+
+  return {
+    simulationsCount: simulations.count || 0,
+    mentorSessionsCount: mentorSessions.count || 0,
+    notesCount: notes.count || 0
+  };
+}
+
+async function getMastery(userId) {
+  const { data, error } = await supabase
+    .from("mastery_certificates")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("تعذر قراءة وثيقة الإتقان:", error.message);
+    return null;
+  }
+
+  return data;
+}
+
+async function getRecentEvents() {
+  const { data, error } = await supabase
+    .from("user_learning_events")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(6);
+
+  if (error) {
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function fetchProfileCenterData({
+  fallbackName = "",
+  completedDaysFallback = 0,
+  totalDays = 180
+} = {}) {
+  if (!isSupabaseConfigured || !supabase) {
+    const completedDays = safeNumber(completedDaysFallback);
+    const hoursCounted = Math.round((completedDays * 4) * 10) / 10;
+
+    return {
+      profile: {
+        full_name: fallbackName,
+        certificate_name: fallbackName,
+        email: "",
+        professional_goal: "",
+        professional_track: ""
+      },
+      completedDays,
+      progressPercent: Math.round((completedDays / totalDays) * 100),
+      hoursCounted,
+      streak: 0,
+      rank: getRank(completedDays),
+      radar: DEFAULT_RADAR,
+      achievements: buildAchievements({
+        completedDays,
+        hoursCounted,
+        simulationsCount: 0,
+        mentorSessionsCount: 0,
+        notesCount: 0,
+        totalDays
+      }),
+      recentActivity: [],
+      recentNotes: [],
+      badges: [],
+      notifications: [],
+      mastery: null
+    };
+  }
+
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const [
+    profile,
+    completedDaysFromDb,
+    learningTime,
+    radar,
+    counts,
+    mastery,
+    recentEvents,
+    recentNotes,
+    badges,
+    notifications
+  ] = await Promise.all([
+    getProfile(user.id),
+    getProgressCount(user.id),
+    getLearningTimeSummary(),
+    getRadar(user.id),
+    getCounts(user.id),
+    getMastery(user.id),
+    getRecentEvents(),
+    getRecentLessonNotes(6),
+    getUserBadges(),
+    getNotifications(8)
+  ]);
+
+  const completedDays = Math.max(
+    safeNumber(completedDaysFallback),
+    safeNumber(completedDaysFromDb)
+  );
+  const seconds = safeNumber(learningTime?.total_seconds);
+  const hoursCounted =
+    seconds > 0
+      ? Math.round((seconds / 3600) * 10) / 10
+      : Math.round((completedDays * 4) * 10) / 10;
+  const progressPercent = totalDays ? Math.round((completedDays / totalDays) * 100) : 0;
+
+  const recentActivity = [
+    ...mapLearningEvents(recentEvents),
+    ...mapNotesAsActivity(recentNotes)
+  ]
+    .sort((a, b) => new Date(b.time || 0) - new Date(a.time || 0))
+    .slice(0, 8);
+
+  return {
+    profile: profile || {
+      email: user.email,
+      full_name: fallbackName,
+      certificate_name: fallbackName
+    },
+    completedDays,
+    progressPercent,
+    hoursCounted,
+    streak: calculateStreakFromDailyLog(learningTime?.daily_log),
+    rank: getRank(completedDays),
+    radar,
+    achievements: buildAchievements({
+      completedDays,
+      hoursCounted,
+      simulationsCount: counts.simulationsCount,
+      mentorSessionsCount: counts.mentorSessionsCount,
+      notesCount: counts.notesCount,
+      totalDays
+    }),
+    recentActivity,
+    recentNotes,
+    badges,
+    notifications,
+    mastery,
+    learningTime
+  };
+}
+
+export async function updateProfileCenter(payload = {}) {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error("Supabase غير مفعّل.");
+  }
+
+  const user = await getCurrentUser();
+
+  if (!user?.id) {
+    throw new Error("يلزم تسجيل الدخول لتعديل الملف.");
+  }
+
+  const profilePayload = {
+    id: user.id,
+    certificate_name: payload.certificate_name || null,
+    full_name: payload.full_name || payload.certificate_name || null,
+    display_name: payload.display_name || payload.certificate_name || payload.full_name || null,
+    professional_goal: payload.professional_goal || null,
+    professional_track: payload.professional_track || null,
+    experience_level: payload.experience_level || null,
+    city: payload.city || null,
+    country: payload.country || null,
+    profile_completed_at: new Date().toISOString()
+  };
+
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .upsert(profilePayload, { onConflict: "id" })
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export function formatProfileDate(value) {
+  if (!value) return "غير محدد";
+
+  try {
+    return new Intl.DateTimeFormat("ar-SA", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }).format(new Date(value));
+  } catch {
+    return "غير محدد";
+  }
+}
+
+export function formatProfileDateTime(value) {
+  if (!value) return "غير محدد";
+
+  try {
+    return new Intl.DateTimeFormat("ar-SA", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date(value));
+  } catch {
+    return "غير محدد";
+  }
+}
+
+export function formatLearningHours(hours) {
+  const value = Number(hours || 0);
+
+  if (value < 1) return "أقل من ساعة";
+
+  if (value < 2) return "ساعة تقريبًا";
+
+  return `${Math.round(value * 10) / 10} ساعة`;
+}
+
+export function formatSecondsToHours(seconds) {
+  return formatLearningHours(Number(seconds || 0) / 3600);
+}
+
+function calculateStreakFromDailyLog(dailyLog) {
+  if (!dailyLog || typeof dailyLog !== "object") return 0;
+
+  const days = Object.entries(dailyLog)
+    .filter(([, seconds]) => Number(seconds || 0) > 0)
+    .map(([date]) => date)
+    .sort();
+
+  if (!days.length) return 0;
+
+  let streak = 0;
+  const today = new Date();
+
+  for (let index = 0; index < 365; index += 1) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - index);
+
+    const key = d.toISOString().slice(0, 10);
+
+    if (days.includes(key)) {
+      streak += 1;
+    } else if (index > 0) {
+      break;
+    }
+  }
+
+  return streak;
 }
