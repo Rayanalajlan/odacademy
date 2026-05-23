@@ -20,6 +20,7 @@ const AiMentor = lazy(() => import("./components/AiMentor"));
 const LearningROICalculator = lazy(() => import("./components/LearningROICalculator"));
 const MasteryCertificate = lazy(() => import("./components/MasteryCertificate"));
 const AboutRayan = lazy(() => import("./components/AboutRayan"));
+const VerifyCertificate = lazy(() => import("./components/VerifyCertificate"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
@@ -34,6 +35,20 @@ const pages = [
 
 const BOOT_TIMEOUT_MS = 8000;
 const BRAND_LOGO_SRC = "/rayan-logo.png";
+
+
+function getVerificationSlugFromLocation() {
+  if (typeof window === "undefined") return "";
+
+  const path = window.location.pathname || "";
+
+  if (path.startsWith("/verify/")) {
+    return decodeURIComponent(path.replace("/verify/", "").split("/")[0] || "");
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return params.get("verify") || "";
+}
 
 function progressKey(row) {
   return `${row.month_index}-${row.week_index}-${row.day_index}`;
@@ -94,6 +109,7 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
   const [notice, setNotice] = useState("");
+  const verificationSlug = getVerificationSlugFromLocation();
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -277,6 +293,15 @@ export default function App() {
   function navigate(pageId) {
     setActivePage(pageId);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+
+  if (verificationSlug) {
+    return (
+      <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
+        <VerifyCertificate slug={verificationSlug} />
+      </Suspense>
+    );
   }
 
   if (booting) {

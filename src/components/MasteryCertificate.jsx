@@ -1,5 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "../data/courseContent";
+import {
+  buildVerificationUrl,
+  copyTextSafely,
+  getOrCreateMasteryCertificate
+} from "../lib/masteryCertificateService";
 
 function clampNumber(value, min, max) {
   const numeric = Number(value || 0);
@@ -27,6 +32,10 @@ export default function MasteryCertificate({
   setActivePage
 }) {
   const [copied, setCopied] = useState(false);
+  const [verificationCopied, setVerificationCopied] = useState(false);
+  const [certificateRecord, setCertificateRecord] = useState(null);
+  const [certificateLoading, setCertificateLoading] = useState(false);
+  const [certificateError, setCertificateError] = useState("");
 
   const totalDays = COURSE_TOTALS?.totalDays || 180;
   const safeCompletedDays = clampNumber(completedDays, 0, totalDays);
@@ -36,8 +45,19 @@ export default function MasteryCertificate({
   const totalHours = totalDays * 4;
   const isUnlocked = safeCompletedDays >= totalDays;
 
-  const learnerName = userName?.trim() || "زميل المهنة";
-  const certificateId = buildCertificateId(learnerName, safeCompletedDays);
+  const learnerName = userName?.trim() || "متدرب";
+  const fallbackCertificateId = buildCertificateId(learnerName, safeCompletedDays);
+  const certificateCode = certificateRecord?.certificate_code || fallbackCertificateId;
+  const verificationSlug =
+    certificateRecord?.verification_slug ||
+    certificateCode.toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/gi, "-").replace(/^-+|-+$/g, "");
+  const verificationUrl = buildVerificationUrl(verificationSlug);
+  const verificationEnabled = Boolean(
+    certificateRecord?.verification_enabled &&
+    certificateRecord?.status === "issued"
+  );
+  const certificateStatus =
+    certificateRecord?.status || (isUnlocked ? "issued" : "locked");
 
   const completionDate = useMemo(() => {
     return new Intl.DateTimeFormat("ar-SA", {
@@ -46,6 +66,38 @@ export default function MasteryCertificate({
       day: "numeric"
     }).format(new Date());
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    async function syncCertificate() {
+      setCertificateLoading(true);
+      setCertificateError("");
+
+      try {
+        const record = await getOrCreateMasteryCertificate({
+          userName: learnerName,
+          completedDays: safeCompletedDays,
+          totalDays,
+          isUnlocked
+        });
+
+        if (active) setCertificateRecord(record);
+      } catch (error) {
+        console.warn("تعذر مزامنة وثيقة الإتقان:", error);
+        if (active) setCertificateError(error?.message || "تعذر مزامنة بيانات الوثيقة.");
+      } finally {
+        if (active) setCertificateLoading(false);
+      }
+    }
+
+    syncCertificate();
+
+    return () => {
+      active = false;
+    };
+  }, [learnerName, safeCompletedDays, totalDays, isUnlocked]);
+
 
   const linkedInPost = useMemo(() => {
     return `أتممت بحمد الله رحلة معرفية امتدت 6 أشهر في هندسة التطوير التنظيمي OD، عبر مسار مكثف جمع بين التشخيص التنظيمي، تصميم الهياكل والأدوار، قيادة التغيير، الثقافة التنظيمية، التعلم المؤسسي، قياس الأثر، واستدامة تدخلات التطوير التنظيمي.
@@ -75,6 +127,18 @@ export default function MasteryCertificate({
       alert("لم يتم النسخ تلقائيًا. انسخ النص يدويًا من مربع المشاركة.");
     }
   }
+
+  async function copyVerificationLink() {
+    const ok = await copyTextSafely(verificationUrl);
+
+    if (ok) {
+      setVerificationCopied(true);
+      setTimeout(() => setVerificationCopied(false), 2500);
+    } else {
+      alert("لم يتم نسخ رابط التحقق تلقائيًا. انسخه يدويًا من البطاقة.");
+    }
+  }
+
 
   function shareOnLinkedIn() {
     copyLinkedInPost();
@@ -641,10 +705,109 @@ export default function MasteryCertificate({
           box-shadow: 0 0 0 4px rgba(79,70,229,0.08);
         }
 
+        .certificate-verification-panel {
+          margin: 22px 0;
+          border-radius: 30px;
+          padding: 22px;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 35%),
+            #ffffff;
+          border: 1px solid rgba(148, 163, 184, 0.22);
+          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
+        }
+
+        .certificate-verification-grid {
+          display: grid;
+          grid-template-columns: 1.1fr .9fr;
+          gap: 14px;
+          align-items: stretch;
+        }
+
+        .certificate-verification-card {
+          border-radius: 22px;
+          padding: 16px;
+          background: #f8fafc;
+          border: 1px solid rgba(148,163,184,.18);
+        }
+
+        .certificate-verification-card span {
+          display: block;
+          color: #64748b;
+          font-size: 12px;
+          font-weight: 850;
+          margin-bottom: 7px;
+        }
+
+        .certificate-verification-card strong {
+          display: block;
+          color: #0f172a;
+          font-size: 15px;
+          line-height: 1.8;
+          font-weight: 950;
+          word-break: break-word;
+        }
+
+        .certificate-verification-card small {
+          display: block;
+          margin-top: 8px;
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.8;
+          font-weight: 760;
+        }
+
+        .certificate-verification-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .verify-state {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          width: fit-content;
+          padding: 8px 12px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 950;
+        }
+
+        .verify-state.enabled {
+          background: #ecfdf5;
+          color: #065f46;
+          border: 1px solid rgba(16,185,129,.25);
+        }
+
+        .verify-state.locked {
+          background: #f1f5f9;
+          color: #475569;
+          border: 1px solid rgba(148,163,184,.25);
+        }
+
+        .certificate-verify-line {
+          margin-top: 14px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(255,255,255,.12);
+          color: #cbd5e1;
+          font-size: 11px;
+          line-height: 1.8;
+          font-weight: 800;
+          word-break: break-word;
+        }
+
+        .certificate-verify-line strong {
+          color: #fbbf24;
+          display: inline;
+          margin: 0;
+        }
+
         @media (max-width: 850px) {
           .mastery-hero-content,
           .mastery-lock-grid,
-          .certificate-footer {
+          .certificate-footer,
+          .certificate-verification-grid {
             grid-template-columns: 1fr;
           }
 
@@ -732,6 +895,42 @@ export default function MasteryCertificate({
           </div>
         </div>
 
+        <section className="certificate-verification-panel mastery-no-print" aria-label="بيانات التحقق من الوثيقة">
+          <div className="certificate-verification-grid">
+            <div className="certificate-verification-card">
+              <span>رقم الوثيقة</span>
+              <strong>{certificateCode}</strong>
+              <small>
+                {certificateLoading
+                  ? "جارٍ مزامنة رقم الوثيقة مع قاعدة البيانات..."
+                  : certificateError || "يرتبط هذا الرقم بإنجازك الفعلي داخل الرحلة."}
+              </small>
+            </div>
+
+            <div className="certificate-verification-card">
+              <span>حالة التحقق العام</span>
+              <strong>
+                <i className={`verify-state ${verificationEnabled ? "enabled" : "locked"}`}>
+                  {verificationEnabled ? "مفعّل بعد الإكمال" : "غير مفعّل قبل الإكمال"}
+                </i>
+              </strong>
+              <small>
+                {isUnlocked
+                  ? "يمكن مشاركة رابط التحقق بعد صدور الوثيقة."
+                  : "سيظهر رابط التحقق بعد إكمال جميع أيام الرحلة."}
+              </small>
+
+              {isUnlocked && (
+                <div className="certificate-verification-actions">
+                  <button type="button" className="mastery-button ghost" onClick={copyVerificationLink}>
+                    {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
         {!isUnlocked && (
           <div className="mastery-lock mastery-no-print">
             <div className="mastery-lock-grid">
@@ -776,8 +975,13 @@ export default function MasteryCertificate({
                     </div>
 
                     <div className="certificate-code">
-                      <strong>رمز الوثيقة: {certificateId}</strong>
+                      <strong>رقم الوثيقة: {certificateCode}</strong>
                       <span>تاريخ الإتمام: {completionDate}</span>
+                      <div className="certificate-verify-line">
+                        حالة التحقق: <strong>{verificationEnabled ? "مفعّل" : "قيد التفعيل"}</strong>
+                        <br />
+                        {verificationEnabled ? verificationUrl : "يُفعّل الرابط عند صدور الوثيقة."}
+                      </div>
                     </div>
                   </div>
 
@@ -837,6 +1041,10 @@ export default function MasteryCertificate({
               <div className="mastery-actions mastery-no-print">
                 <button className="mastery-button dark" onClick={printCertificate}>
                   طباعة الوثيقة / حفظ PDF 🖨️
+                </button>
+
+                <button className="mastery-button ghost" onClick={copyVerificationLink}>
+                  {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyLinkedInPost}>
