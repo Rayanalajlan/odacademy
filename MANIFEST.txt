@@ -1,10 +1,10 @@
-OD Academy - Phase 30 Build Stability & Lockfile Fix
+OD Academy - Phase 30 Hotfix Bun Stability
 
 Files:
 - package.json
 - package-lock.json
 - wrangler.toml
 - vite.config.js
-- scripts/30_verify_build_stability.cjs
+- scripts/30_verify_bun_hotfix.cjs
 - README_AR.md
 - MANIFEST.txt
