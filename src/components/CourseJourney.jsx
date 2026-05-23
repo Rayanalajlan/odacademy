@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
+import LessonNotesPanel from "./LessonNotesPanel";
 
 const stateLabels = {
   locked: "مقفل",
@@ -2173,6 +2174,13 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
                 )}
 
                 <RichLesson text={preparedLesson.lessonText} />
+
+                <LessonNotesPanel
+                  monthIndex={selectedDay.monthIndex}
+                  weekIndex={selectedDay.weekIndex}
+                  dayIndex={selectedDay.dayIndex}
+                  title="ملاحظتك المهنية على هذا اليوم"
+                />
 
                 <QuizPanel
                   day={selectedDay}
