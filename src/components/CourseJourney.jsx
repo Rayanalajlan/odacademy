@@ -636,7 +636,12 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   );
 }
 
-export default function CourseJourney({ progressRows = [], setProgressRows = () => {}, loading = false }) {
+export default function CourseJourney({
+  progressRows = [],
+  setProgressRows = () => {},
+  loading = false,
+  resumeRequest = 0
+}) {
   const course = useMemo(() => normalizeCourse(rawCourseMap), []);
   const [stage, setStage] = useState("months");
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(1);
@@ -813,6 +818,13 @@ export default function CourseJourney({ progressRows = [], setProgressRows = () 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course.length, progressRows.length]);
+
+  useEffect(() => {
+    if (!resumeRequest || loading || !course.length) return;
+
+    openNextPoint();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resumeRequest, loading, course.length, progressRows.length]);
 
   useEffect(() => {
     if (stage !== "lesson") return;

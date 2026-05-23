@@ -40,6 +40,7 @@ export default function LearnerProfileCenter({
   completedDays = 0,
   totalDays = 180,
   setActivePage,
+  onResumeJourney,
   onSignOut
 }) {
   const [data, setData] = useState(null);
@@ -222,6 +223,23 @@ export default function LearnerProfileCenter({
       setFullOpen(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  }
+
+  function resumeJourney() {
+    if (Number(data?.completedDays || completedDays) >= totalDays) {
+      navigate("mastery");
+      return;
+    }
+
+    if (typeof onResumeJourney === "function") {
+      onResumeJourney();
+      setDrawerOpen(false);
+      setFullOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    navigate("journey");
   }
 
   function openDrawer() {
@@ -1057,7 +1075,7 @@ export default function LearnerProfileCenter({
           <button type="button" className="profile-button myfile" onClick={openDrawer}>
             ملفي
           </button>
-          <button type="button" className="profile-button soft" onClick={() => navigate("journey")}>
+          <button type="button" className="profile-button soft" onClick={resumeJourney}>
             {nextActionLabel}
           </button>
         </div>
@@ -1120,7 +1138,7 @@ export default function LearnerProfileCenter({
               </p>
 
               <div className="quick-links">
-                <button type="button" onClick={() => navigate("journey")}>متابعة الرحلة</button>
+                <button type="button" onClick={resumeJourney}>متابعة الرحلة</button>
                 <button type="button" onClick={() => navigate("mastery")}>وثيقة الإتقان</button>
                 <button type="button" className="important" onClick={openEditDirectly}>تعديل البيانات</button>
                 <button type="button" onClick={openFullProfile}>عرض الملف الكامل</button>

@@ -10,6 +10,7 @@ import NotificationsCenter from "./components/NotificationsCenter";
 import BadgesStrip from "./components/BadgesStrip";
 import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
+import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 
 const TOTAL_JOURNEY_DAYS = 180;
 
@@ -21,6 +22,7 @@ const LearningROICalculator = lazy(() => import("./components/LearningROICalcula
 const MasteryCertificate = lazy(() => import("./components/MasteryCertificate"));
 const AboutRayan = lazy(() => import("./components/AboutRayan"));
 const VerifyCertificate = lazy(() => import("./components/VerifyCertificate"));
+const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
@@ -109,6 +111,8 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
   const [notice, setNotice] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [resumeJourneyRequest, setResumeJourneyRequest] = useState(0);
   const verificationSlug = getVerificationSlugFromLocation();
 
   const completedDays = useMemo(() => {
@@ -246,6 +250,31 @@ export default function App() {
     });
   }, [session?.user?.id, completedDays]);
 
+
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function checkAdmin() {
+      if (!session?.user?.id || demoMode) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const allowed = await isCurrentUserAdmin();
+
+      if (mounted) {
+        setIsAdmin(Boolean(allowed));
+      }
+    }
+
+    checkAdmin();
+
+    return () => {
+      mounted = false;
+    };
+  }, [session?.user?.id, demoMode]);
+
   function handleEnter({ session: nextSession, name, demo } = {}) {
     if (nextSession) {
       setSession(nextSession);
@@ -288,10 +317,17 @@ export default function App() {
     localStorage.removeItem("od_demo_name");
     setUserName("");
     setActivePage("home");
+    setIsAdmin(false);
   }
 
   function navigate(pageId) {
     setActivePage(pageId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function resumeJourneyFromLastPoint() {
+    setActivePage("journey");
+    setResumeJourneyRequest((current) => current + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -322,6 +358,9 @@ export default function App() {
   }
 
   const displayName = getDisplayName(session, userName);
+  const visiblePages = isAdmin
+    ? [...pages, { id: "admin", label: "لوحة الإدارة" }]
+    : pages;
 
   return (
     <div className="site-frame">
@@ -448,7 +487,7 @@ export default function App() {
         </div>
 
         <nav className="main-nav" aria-label="أقسام المنصة">
-          {pages.map((page) => (
+          {visiblePages.map((page) => (
             <button
               key={page.id}
               type="button"
@@ -479,6 +518,7 @@ export default function App() {
         completedDays={completedDays}
         totalDays={totalJourneyDays}
         setActivePage={navigate}
+        onResumeJourney={resumeJourneyFromLastPoint}
         onSignOut={handleSignOut}
       />
 
@@ -499,6 +539,7 @@ export default function App() {
             progressRows={progressRows}
             setProgressRows={setProgressRows}
             loading={loadingProgress}
+            resumeRequest={resumeJourneyRequest}
           />
         )}
 
@@ -522,6 +563,8 @@ export default function App() {
             setActivePage={navigate}
           />
         )}
+
+        {activePage === "admin" && <AdminDashboard />}
 
         {activePage === "about" && <AboutRayan />}
       </Suspense>
