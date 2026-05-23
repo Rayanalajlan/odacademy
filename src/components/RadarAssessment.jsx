@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap } from "../data/courseContent";
 import { loadUserProgress } from "../lib/progressService";
+import { loadRadarAssessmentHistory, saveRadarAssessmentResult } from "../lib/radarAssessmentService";
 
 const ASSESSMENT_STORAGE_KEY = "odacademy_radar_pre_assessment_v3";
 const ASSESSMENT_DRAFT_KEY = "odacademy_radar_pre_assessment_draft_v3";
@@ -829,6 +830,71 @@ function ScoreBars({ values, title, notes = [] }) {
   );
 }
 
+function averageScore(values = []) {
+  const safeValues = safeArray(values).map((value) => clamp(safeNumber(value, 0), 0, 5));
+  if (!safeValues.length) return 0;
+
+  const average = safeValues.reduce((sum, value) => sum + value, 0) / safeValues.length;
+  return Math.round(average * 10) / 10;
+}
+
+function formatArabicDate(value) {
+  if (!value) return "غير محدد";
+
+  try {
+    return new Intl.DateTimeFormat("ar-SA", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(new Date(value));
+  } catch {
+    return "غير محدد";
+  }
+}
+
+function SaveNotice({ state }) {
+  if (!state?.message) return null;
+
+  return (
+    <div className={`radar-save-notice ${state.type === "error" ? "error" : "success"}`} role="status">
+      {state.message}
+    </div>
+  );
+}
+
+function RadarHistoryPanel({ items = [], loading = false, title = "سجل تقييماتي السابقة" }) {
+  return (
+    <div className="radar-history-panel">
+      <div className="radar-history-head">
+        <h3>{title}</h3>
+        {loading ? <span>جارٍ التحميل...</span> : <span>{items.length} نتيجة</span>}
+      </div>
+
+      {!loading && !items.length ? (
+        <p className="radar-history-empty">
+          لا توجد نتائج محفوظة بعد. اضغط زر حفظ النتيجة ليظهر السجل هنا.
+        </p>
+      ) : null}
+
+      <div className="radar-history-list">
+        {items.map((item) => {
+          const score = safeNumber(item.overall_score ?? item.overallScore, 0);
+          const typeLabel = item.assessment_type === "learning_radar" ? "رادار الرحلة" : "اختبار قبلي";
+
+          return (
+            <article className="radar-history-item" key={item.id}>
+              <div>
+                <strong>{item.assessment_title || typeLabel}</strong>
+                <span>{formatArabicDate(item.created_at || item.createdAt)}</span>
+              </div>
+              <b>{score}/5</b>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function PreAssessmentPanel({ setActivePage }) {
   const [runSeed, setRunSeed] = useState(() => {
     const draft = readJsonStorage(ASSESSMENT_DRAFT_KEY, null);
@@ -853,6 +919,9 @@ function PreAssessmentPanel({ setActivePage }) {
   });
 
   const [savedResult, setSavedResult] = useState(() => readJsonStorage(ASSESSMENT_STORAGE_KEY, null));
+  const [saveState, setSaveState] = useState({ type: "idle", message: "", loading: false });
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   const done = started && index >= questions.length;
 
@@ -862,6 +931,29 @@ function PreAssessmentPanel({ setActivePage }) {
     if (!done) return savedResult;
     return calculatePreAssessmentResult(answers);
   }, [answers, done, savedResult]);
+
+  async function refreshHistory() {
+    setHistoryLoading(true);
+
+    try {
+      const rows = await loadRadarAssessmentHistory({
+        assessmentType: "pre_assessment",
+        limit: 6
+      });
+
+      setHistory(rows);
+    } catch (historyError) {
+      // لا نوقف الرادار إذا تعذر تحميل السجل، لأن حفظ النتيجة المحلي ما زال يعمل.
+      console.warn("Unable to load radar pre-assessment history:", historyError);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    refreshHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     writeJsonStorage(ASSESSMENT_DRAFT_KEY, {
@@ -880,12 +972,61 @@ function PreAssessmentPanel({ setActivePage }) {
     setSavedResult(nextResult);
   }, [answers, done]);
 
+  async function savePreAssessmentResult(targetResult) {
+    if (!targetResult?.values?.length) {
+      setSaveState({
+        type: "error",
+        message: "لا توجد نتيجة جاهزة للحفظ بعد.",
+        loading: false
+      });
+      return;
+    }
+
+    setSaveState({
+      type: "idle",
+      message: "",
+      loading: true
+    });
+
+    try {
+      await saveRadarAssessmentResult({
+        assessmentType: "pre_assessment",
+        assessmentTitle: "الاختبار القبلي لرادار الجدارات",
+        scores: targetResult.values,
+        overallScore: targetResult.overall,
+        notes: targetResult.values.map((value, valueIndex) => recommendationFor(valueIndex, value)),
+        metadata: {
+          source: "RadarAssessment",
+          version: "v3",
+          completedAt: targetResult.completedAt,
+          answeredQuestions: answers.length || preAssessmentQuestions.length,
+          runSeed
+        }
+      });
+
+      setSaveState({
+        type: "success",
+        message: "تم حفظ نتيجة الاختبار القبلي في حسابك.",
+        loading: false
+      });
+
+      refreshHistory();
+    } catch (saveError) {
+      setSaveState({
+        type: "error",
+        message: saveError?.message || "تعذر حفظ النتيجة الآن.",
+        loading: false
+      });
+    }
+  }
+
   function startNew() {
     const seed = String(Date.now());
     setRunSeed(seed);
     setStarted(true);
     setIndex(0);
     setAnswers([]);
+    setSaveState({ type: "idle", message: "", loading: false });
     writeJsonStorage(ASSESSMENT_DRAFT_KEY, {
       started: true,
       index: 0,
@@ -910,6 +1051,7 @@ function PreAssessmentPanel({ setActivePage }) {
     setIndex(0);
     setAnswers([]);
     setSavedResult(null);
+    setSaveState({ type: "idle", message: "", loading: false });
   }
 
   function selectOption(option) {
@@ -939,14 +1081,24 @@ function PreAssessmentPanel({ setActivePage }) {
           </p>
           <div className="radar-actions">
             <button type="button" className="primary-button" onClick={continueDraft}>عرض النتيجة</button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => savePreAssessmentResult(savedResult)}
+              disabled={saveState.loading}
+            >
+              {saveState.loading ? "جارٍ الحفظ..." : "حفظ النتيجة في حسابي"}
+            </button>
             <button type="button" className="secondary-button" onClick={startNew}>إعادة الاختبار من جديد</button>
             <button type="button" className="secondary-button danger" onClick={resetAssessment}>مسح النتيجة</button>
           </div>
+          <SaveNotice state={saveState} />
         </div>
 
         <div className="radar-card">
           <RadarSvg values={savedResult.values} title="نتيجة الاختبار القبلي" />
           <ScoreBars values={savedResult.values} title="تفصيل النتيجة" notes={notes} />
+          <RadarHistoryPanel items={history} loading={historyLoading} />
         </div>
       </div>
     );
@@ -1003,14 +1155,24 @@ function PreAssessmentPanel({ setActivePage }) {
           </div>
           <div className="radar-actions">
             <button type="button" className="primary-button" onClick={() => setActivePage?.("journey")}>اذهب للرحلة التعليمية</button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => savePreAssessmentResult(result)}
+              disabled={saveState.loading}
+            >
+              {saveState.loading ? "جارٍ الحفظ..." : "حفظ النتيجة في حسابي"}
+            </button>
             <button type="button" className="secondary-button" onClick={startNew}>إعادة الاختبار</button>
             <button type="button" className="secondary-button danger" onClick={resetAssessment}>مسح النتيجة</button>
           </div>
+          <SaveNotice state={saveState} />
         </div>
 
         <div className="radar-card">
           <RadarSvg values={result.values} title="نتيجة الاختبار القبلي" />
           <ScoreBars values={result.values} title="تفصيل النتيجة" notes={notes} />
+          <RadarHistoryPanel items={history} loading={historyLoading} />
         </div>
       </div>
     );
@@ -1052,6 +1214,9 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
   const [progressRows, setProgressRows] = useState(() => normalizeProgressRows(progressRowsProp));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [saveState, setSaveState] = useState({ type: "idle", message: "", loading: false });
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const preResult = readJsonStorage(ASSESSMENT_STORAGE_KEY, null);
 
   useEffect(() => {
@@ -1059,6 +1224,23 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
       setProgressRows(normalizeProgressRows(progressRowsProp));
     }
   }, [progressRowsProp]);
+
+  async function refreshHistory() {
+    setHistoryLoading(true);
+
+    try {
+      const rows = await loadRadarAssessmentHistory({
+        assessmentType: "learning_radar",
+        limit: 6
+      });
+
+      setHistory(rows);
+    } catch (historyError) {
+      console.warn("Unable to load learning radar history:", historyError);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }
 
   async function refreshProgress() {
     setLoading(true);
@@ -1076,12 +1258,15 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
 
   useEffect(() => {
     refreshProgress();
+    refreshHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const learningRadar = useMemo(() => {
     return calculateLearningRadar(course, progressRows);
   }, [course, progressRows]);
+
+  const learningOverall = useMemo(() => averageScore(learningRadar.values), [learningRadar.values]);
 
   const learningNotes = learningRadar.values.map((value, index) => {
     const total = learningRadar.totals[index] || 0;
@@ -1092,6 +1277,48 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
 
     return `تقدم الرحلة المرتبط بهذه الجدارة: ${completedEquivalent} من ${total} يوم/نقطة تعلم.`;
   });
+
+  async function saveLearningRadar() {
+    setSaveState({
+      type: "idle",
+      message: "",
+      loading: true
+    });
+
+    try {
+      await saveRadarAssessmentResult({
+        assessmentType: "learning_radar",
+        assessmentTitle: "رادار الرحلة التعليمية",
+        scores: learningRadar.values,
+        overallScore: learningOverall,
+        notes: learningNotes,
+        metadata: {
+          source: "RadarAssessment",
+          version: "v1",
+          completedDays: learningRadar.completedDays,
+          openedDays: learningRadar.openedDays,
+          totalDays: learningRadar.totalDays,
+          progressPercentage: Math.round(learningRadar.progressPercentage * 10) / 10,
+          totals: learningRadar.totals,
+          points: learningRadar.points
+        }
+      });
+
+      setSaveState({
+        type: "success",
+        message: "تم حفظ رادار الرحلة التعليمية في حسابك.",
+        loading: false
+      });
+
+      refreshHistory();
+    } catch (saveError) {
+      setSaveState({
+        type: "error",
+        message: saveError?.message || "تعذر حفظ رادار الرحلة الآن.",
+        loading: false
+      });
+    }
+  }
 
   return (
     <div className="radar-two-columns">
@@ -1105,14 +1332,24 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
         <div className="radar-summary-box">
           <span>إنجاز الرحلة</span>
           <strong>{arabicPercent(learningRadar.progressPercentage)}</strong>
-          <small>{learningRadar.completedDays} من {learningRadar.totalDays} يومًا مكتملًا</small>
+          <small>{learningRadar.completedDays} من {learningRadar.totalDays} يومًا مكتملًا · متوسط الرادار {learningOverall}/5</small>
         </div>
 
         <div className="radar-actions">
           <button type="button" className="primary-button" onClick={refreshProgress} disabled={loading}>
             {loading ? "جارٍ التحديث..." : "تحديث الرادار من الرحلة"}
           </button>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={saveLearningRadar}
+            disabled={saveState.loading}
+          >
+            {saveState.loading ? "جارٍ الحفظ..." : "حفظ الرادار في حسابي"}
+          </button>
         </div>
+
+        <SaveNotice state={saveState} />
 
         {error && <div className="radar-warning">{error}</div>}
 
@@ -1129,6 +1366,7 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
           title="رادار الأداء المرتبط بالرحلة التعليمية"
         />
         <ScoreBars values={learningRadar.values} title="تفصيل رادار الرحلة" notes={learningNotes} />
+        <RadarHistoryPanel items={history} loading={historyLoading} />
       </div>
     </div>
   );
@@ -1601,6 +1839,104 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           font-size:11px;
           line-height:1.7;
           font-weight:750;
+        }
+
+
+        .radar-save-notice {
+          margin-top:14px;
+          border-radius:18px;
+          padding:13px 15px;
+          font-size:12px;
+          font-weight:900;
+          line-height:1.8;
+          border:1px solid rgba(255,255,255,.16);
+        }
+
+        .radar-save-notice.success {
+          background:rgba(16,185,129,.16);
+          color:#d1fae5;
+        }
+
+        .radar-save-notice.error {
+          background:rgba(239,68,68,.16);
+          color:#fecaca;
+        }
+
+        .radar-history-panel {
+          margin-top:22px;
+          border-top:1px solid rgba(148,163,184,.22);
+          padding-top:18px;
+        }
+
+        .radar-history-head {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:10px;
+          margin-bottom:12px;
+        }
+
+        .radar-history-head h3 {
+          margin:0;
+          font-size:18px;
+        }
+
+        .radar-history-head span {
+          border-radius:999px;
+          padding:6px 10px;
+          background:#eef2ff;
+          color:#3730a3;
+          font-size:11px;
+          font-weight:950;
+        }
+
+        .radar-history-empty {
+          margin:0;
+          color:#64748b;
+          font-size:12px;
+          line-height:1.9;
+          font-weight:750;
+        }
+
+        .radar-history-list {
+          display:grid;
+          gap:10px;
+        }
+
+        .radar-history-item {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:12px;
+          border-radius:18px;
+          padding:12px;
+          background:#f8fafc;
+          border:1px solid rgba(148,163,184,.18);
+        }
+
+        .radar-history-item strong {
+          display:block;
+          color:#0f172a;
+          font-size:12px;
+          font-weight:950;
+          margin-bottom:4px;
+        }
+
+        .radar-history-item span {
+          display:block;
+          color:#64748b;
+          font-size:11px;
+          font-weight:750;
+        }
+
+        .radar-history-item b {
+          flex:0 0 auto;
+          border-radius:14px;
+          padding:8px 10px;
+          background:#eef2ff;
+          color:#3730a3;
+          font-size:12px;
+          font-weight:950;
         }
 
         @media (max-width:980px) {
