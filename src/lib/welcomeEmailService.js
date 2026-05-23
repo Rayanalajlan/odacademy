@@ -4,11 +4,13 @@ const STORAGE_PREFIX = "odacademy_welcome_email_checked";
 const IN_FLIGHT = new Set();
 
 export async function sendWelcomeEmailOnce() {
-  if (!isSupabaseConfigured || !supabase) return {
-    ok: false,
-    skipped: true,
-    reason: "supabase_not_configured"
-  };
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: "supabase_not_configured"
+    };
+  }
 
   const { data, error } = await supabase.auth.getSession();
 
@@ -25,11 +27,13 @@ export async function sendWelcomeEmailOnce() {
   const accessToken = session?.access_token;
   const userId = session?.user?.id;
 
-  if (!accessToken || !userId) return {
-    ok: false,
-    skipped: true,
-    reason: "no_active_session"
-  };
+  if (!accessToken || !userId) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: "no_active_session"
+    };
+  }
 
   const storageKey = `${STORAGE_PREFIX}_${userId}`;
 
@@ -59,7 +63,6 @@ export async function sendWelcomeEmailOnce() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        language: navigator.language || "",
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh",
         userAgent: navigator.userAgent || ""
       })
