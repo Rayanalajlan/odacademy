@@ -1,9 +1,10 @@
 /*
+  X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: DENY
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=()
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in https://generativelanguage.googleapis.com https://api.brevo.com; upgrade-insecure-requests
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://generativelanguage.googleapis.com https://api.brevo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
@@ -14,29 +15,5 @@
 /*.css
   Cache-Control: public, max-age=31536000, immutable
 
-/favicon.ico
-  Cache-Control: public, max-age=2592000
-
-/favicon.png
-  Cache-Control: public, max-age=2592000
-
-/icon-192.png
-  Cache-Control: public, max-age=2592000
-
-/icon-512.png
-  Cache-Control: public, max-age=2592000
-
-/og-image.png
-  Cache-Control: public, max-age=2592000
-
-/robots.txt
-  Cache-Control: public, max-age=86400
-
-/sitemap.xml
-  Cache-Control: public, max-age=86400
-
-/manifest.webmanifest
-  Cache-Control: public, max-age=86400
-
-/
+/index.html
   Cache-Control: public, max-age=0, must-revalidate

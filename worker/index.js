@@ -4,87 +4,263 @@
 // ثم يمرر باقي الطلبات إلى ملفات React المبنية داخل dist عبر env.ASSETS.
 
 const AI_SYSTEM_INSTRUCTION = `
-أنت خبير رفيع في الموارد البشرية والتطوير التنظيمي وبناء أدوات العمل المؤسسي.
+أنت مستشار أول وعرّاب خبير في هندسة التطوير التنظيمي (Organization Development).
 
-شخصيتك المهنية:
-- عميق، منظم، متخصص، وواضح.
-- لا تكثر من التحيات أو النداءات.
-- لا تبدأ كل رد بسؤال.
-- لا تستخدم عبارات فضفاضة أو درامية.
-- لا تكرر أن الحالة تحتاج تفاصيل إذا كان بالإمكان تقديم إطار عام.
-- لا تستخدم مصطلحات أجنبية إلا عند الحاجة، ومعها شرح عربي مختصر.
+تتحدث بالعربية المهنية القريبة من العامية السعودية الرصينة، بأسلوب ذكي وفخم دون مبالغة.
+استخدم عبارات مناسبة مثل:
+- يا زميل المهنة
+- خلنا نفككها
+- وش العرض؟
+- وش النمط؟
+- وش الفرضيات اللي بنيت عليها؟
 
-قاعدة مهمة:
-إذا طلب المستخدم خطوات عامة أو قالبًا أو طريقة بناء شيء، أعطه الإجابة مباشرة بمنهجية كاملة، ثم اختم بسؤالين فقط للتخصيص.
-إذا طلب تشخيص حالة، ابدأ بتحليل منظم ثم اسأل عن البيانات الناقصة.
-إذا طلب مراجعة، أعطه نقاط قوة وثغرات ونسخة محسنة.
+مهمتك هي توجيه المتدربين والممارسين باستخدام الطريقة السقراطية الذكية.
 
-بنية الرد المفضلة:
-1. قراءة الطلب في سطر واحد.
-2. الإطار المنهجي.
-3. خطوات التنفيذ.
-4. قالب أو مثال تطبيقي عند الحاجة.
-5. أخطاء شائعة أو مخاطر.
-6. مؤشرات جودة أو قياس أثر.
-7. سؤالان فقط لتخصيص الرد.
-
-تعليمات خاصة للوصف الوظيفي:
-عند سؤال المستخدم عن بناء وصف وظيفي لأي دور، أعطه مباشرة:
-- الهدف من الدور.
-- موقع الدور في الهيكل وخط التقرير.
-- المخرجات الرئيسية.
-- المسؤوليات اليومية والدورية والاستراتيجية.
-- الصلاحيات وحدود القرار.
-- العلاقات الداخلية والخارجية.
-- مؤشرات الأداء.
-- الكفاءات السلوكية والفنية.
-- المؤهلات والخبرة.
-- قالب جاهز قابل للتعبئة.
-- قائمة فحص الجودة.
-ثم اسأل عن اسم الدور والقطاع لتخصيص النسخة.
-
-تعليمات خاصة بالتطوير التنظيمي:
-عند تحليل مشكلة تنظيمية استخدم:
-العرض الظاهر، النمط المتكرر، أصحاب المصلحة، الفرضيات، البيانات المطلوبة، التدخلات الممكنة، مخاطر التنفيذ، ومؤشرات الأثر.
-
-تعليمات خاصة بالأداء:
-لا تختزل ضعف الأداء في الموظف فقط. افحص وضوح الهدف، الموارد، الصلاحيات، التغذية الراجعة، عبء العمل، الحوافز، والقيادة.
-
-تعليمات خاصة بالتغيير:
-افحص سبب التغيير، أصحاب المصلحة، الرسائل، المقاومة، القدرات المطلوبة، خطة التبني، ومؤشرات الاستدامة.
-
-الأسلوب:
-اكتب بعربية مهنية قوية، منظمة بعناوين، وجمل واضحة. اجعل الرد مفيدًا من أول مرة.
+قواعدك:
+1. لا تعطِ حلولًا جاهزة مباشرة.
+2. ساعد المستخدم خطوة بخطوة على تفكيك:
+   العرض → النمط → الفرضيات → البيانات المطلوبة → التدخل → قياس الأثر.
+3. اربط إجاباتك بمبادئ التطوير التنظيمي:
+   التفكير النظمي، الدخول والتعاقد، التشخيص متعدد المصادر، قيادة التغيير، الثقافة، التعلم المؤسسي، والاستدامة.
+4. اجعل ردك عمليًا ومباشرًا، لكن لا تختصر لدرجة تفقد العمق.
+5. عندما يكون سؤال المستخدم عامًا، اسأله سؤالين تشخيصيين قبل اقتراح المسار.
+6. عندما يطلب المستخدم مثالًا، أعطه مثالًا تطبيقيًا مختصرًا ثم اسأله كيف ينطبق على حالته.
+7. إذا سألك المستخدم عن بناء وصف وظيفي، وجّهه إلى فهم الغرض من الدور، موقعه في الهيكل، مخرجاته، صلاحياته، علاقاته، مؤشرات أدائه، ثم كفاءاته.
 `;
 
-const WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
+const DEFAULT_GEMINI_MODELS = [
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash",
+  "gemini-1.5-flash"
+];
 
-function corsHeaders() {
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://odacademy.rayansalajlan.workers.dev",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+];
+
+const MEMORY_RATE_LIMIT = new Map();
+
+function getAllowedOrigins(env) {
+  const configured = getEnvValue(env, "ALLOWED_ORIGINS", "CORS_ALLOWED_ORIGINS");
+
+  if (!configured) {
+    return DEFAULT_ALLOWED_ORIGINS;
+  }
+
+  return configured
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
+function normalizeOrigin(value) {
+  try {
+    const url = new URL(value);
+    return url.origin;
+  } catch {
+    return "";
+  }
+}
+
+function getRequestOrigin(request) {
+  return normalizeOrigin(request.headers.get("Origin") || "");
+}
+
+function getFallbackOrigin(request, env) {
+  const allowed = getAllowedOrigins(env);
+  const requestUrl = new URL(request.url);
+  const sameOrigin = `${requestUrl.protocol}//${requestUrl.host}`;
+
+  if (allowed.includes(sameOrigin)) {
+    return sameOrigin;
+  }
+
+  return allowed[0] || sameOrigin;
+}
+
+function isAllowedRequestOrigin(request, env) {
+  const origin = getRequestOrigin(request);
+
+  // الطلبات المباشرة من نفس الموقع أو السيرفر لا ترسل Origin دائمًا.
+  if (!origin) {
+    return true;
+  }
+
+  return getAllowedOrigins(env).includes(origin);
+}
+
+function corsHeaders(request, env, extraHeaders = {}) {
+  const origin = getRequestOrigin(request);
+  const fallbackOrigin = getFallbackOrigin(request, env);
+  const allowedOrigin = origin && isAllowedRequestOrigin(request, env) ? origin : fallbackOrigin;
+
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Max-Age": "86400"
+    "Access-Control-Max-Age": "86400",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    ...extraHeaders
   };
 }
 
-function jsonResponse(payload, status = 200, extraHeaders = {}) {
+function jsonResponse(payload, status = 200, request = new Request("https://odacademy.local"), env = {}, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      ...corsHeaders(),
-      ...extraHeaders,
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store"
+      ...corsHeaders(request, env, extraHeaders),
+      "Content-Type": "application/json; charset=utf-8"
     }
   });
 }
 
-function emptyResponse(status = 204) {
+function emptyResponse(status = 204, request = new Request("https://odacademy.local"), env = {}, extraHeaders = {}) {
   return new Response(null, {
     status,
-    headers: corsHeaders()
+    headers: corsHeaders(request, env, extraHeaders)
   });
+}
+
+function forbiddenOriginResponse(request, env) {
+  return jsonResponse(
+    {
+      ok: false,
+      error: "هذا الطلب غير مسموح من هذا النطاق."
+    },
+    403,
+    request,
+    env
+  );
+}
+
+async function sha256Hex(value) {
+  const bytes = new TextEncoder().encode(String(value || ""));
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function buildRateLimitKey(request, routeName) {
+  const ip =
+    request.headers.get("CF-Connecting-IP") ||
+    request.headers.get("X-Forwarded-For") ||
+    "unknown-ip";
+  const country = request.headers.get("CF-IPCountry") || "xx";
+  const userAgent = request.headers.get("User-Agent") || "unknown-agent";
+  const authHeader = request.headers.get("Authorization") || "";
+
+  // لا نخزن التوكن نفسه، فقط بصمة قصيرة منه إن وجد.
+  const identitySource = authHeader
+    ? `auth:${authHeader.slice(0, 80)}`
+    : `ip:${ip}:${country}:${userAgent.slice(0, 120)}`;
+
+  const hash = await sha256Hex(identitySource);
+
+  return `rate:${routeName}:${hash}`;
+}
+
+async function checkRateLimit({
+  request,
+  env,
+  routeName,
+  limitPerMinute = 20,
+  windowSeconds = 60
+}) {
+  const safeLimit = Math.max(1, Number(limitPerMinute || 20));
+  const safeWindow = Math.max(10, Number(windowSeconds || 60));
+  const key = await buildRateLimitKey(request, routeName);
+  const now = Date.now();
+
+  if (env?.RATE_LIMIT_KV) {
+    const current = await env.RATE_LIMIT_KV.get(key, { type: "json" });
+    const record =
+      current && Number(current.resetAt) > now
+        ? current
+        : {
+            count: 0,
+            resetAt: now + safeWindow * 1000
+          };
+
+    if (record.count >= safeLimit) {
+      return {
+        allowed: false,
+        remaining: 0,
+        retryAfter: Math.max(1, Math.ceil((record.resetAt - now) / 1000))
+      };
+    }
+
+    const nextRecord = {
+      count: record.count + 1,
+      resetAt: record.resetAt
+    };
+
+    await env.RATE_LIMIT_KV.put(key, JSON.stringify(nextRecord), {
+      expirationTtl: safeWindow + 10
+    });
+
+    return {
+      allowed: true,
+      remaining: Math.max(0, safeLimit - nextRecord.count),
+      retryAfter: Math.max(1, Math.ceil((record.resetAt - now) / 1000))
+    };
+  }
+
+  // fallback مؤقت إذا لم تضف KV Binding بعد. ليس بديلًا دائمًا عن KV.
+  const record = MEMORY_RATE_LIMIT.get(key);
+
+  if (!record || record.resetAt <= now) {
+    MEMORY_RATE_LIMIT.set(key, {
+      count: 1,
+      resetAt: now + safeWindow * 1000
+    });
+
+    return {
+      allowed: true,
+      remaining: safeLimit - 1,
+      retryAfter: safeWindow
+    };
+  }
+
+  if (record.count >= safeLimit) {
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfter: Math.max(1, Math.ceil((record.resetAt - now) / 1000))
+    };
+  }
+
+  record.count += 1;
+  MEMORY_RATE_LIMIT.set(key, record);
+
+  return {
+    allowed: true,
+    remaining: Math.max(0, safeLimit - record.count),
+    retryAfter: Math.max(1, Math.ceil((record.resetAt - now) / 1000))
+  };
+}
+
+function rateLimitResponse(request, env, retryAfter) {
+  return jsonResponse(
+    {
+      ok: false,
+      error:
+        "الموجه عليه ضغط عالي الآن. خذ لك نفس دقيقة وارجع جرّب، بنكون جاهزين لك بإذن الله.",
+      retryAfter
+    },
+    429,
+    request,
+    env,
+    {
+      "Retry-After": String(retryAfter)
+    }
+  );
 }
 
 function getEnvValue(env, ...names) {
@@ -114,96 +290,141 @@ function cleanUserMessage(value) {
     .slice(0, 7000);
 }
 
+function extractGeminiText(data) {
+  const parts = data?.candidates?.[0]?.content?.parts;
 
+  if (!Array.isArray(parts)) {
+    return "";
+  }
 
-function normalizeAiText(result) {
-  return (
-    result?.response ||
-    result?.result?.response ||
-    result?.text ||
-    result?.answer ||
-    ""
-  ).trim();
+  return parts
+    .map((part) => part?.text || "")
+    .filter(Boolean)
+    .join("\n")
+    .trim();
 }
 
-function isQuotaError(error) {
-  const message = String(error?.message || error || "").toLowerCase();
+function buildGeminiModelList(env) {
+  const configuredModel = getEnvValue(env, "GEMINI_MODEL");
 
-  return (
-    message.includes("quota") ||
-    message.includes("limit") ||
-    message.includes("neurons") ||
-    message.includes("allocation") ||
-    message.includes("account limited") ||
-    message.includes("429") ||
-    message.includes("3036")
-  );
+  if (configuredModel) {
+    return [
+      configuredModel,
+      ...DEFAULT_GEMINI_MODELS.filter((model) => model !== configuredModel)
+    ];
+  }
+
+  return DEFAULT_GEMINI_MODELS;
 }
 
-function getNextResetAtUtc() {
-  const now = new Date();
+async function callGeminiOnce({ apiKey, model, message }) {
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+    model
+  )}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-  return new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate() + 1,
-      0,
-      5,
-      0
-    )
-  ).toISOString();
-}
-
-function getFriendlyQuotaMessage() {
-  return "وصل الموجه إلى حد التشغيل المتاح مؤقتًا. المحادثة محفوظة، ارجع بعد تجدد الحصة وسنكمل من نفس النقطة.";
-}
-
-function safeHistory(value) {
-  if (!Array.isArray(value)) return [];
-
-  return value
-    .slice(-8)
-    .filter((item) => item && item.content && item.role)
-    .map((item) => ({
-      role: item.role === "user" ? "user" : "assistant",
-      content: String(item.content).slice(0, 1200)
-    }));
-}
-
-async function runWorkersAi({ env, message, lens, history }) {
-  const lensText = lens ? `وضع العمل المختار داخل الواجهة: ${lens}\n\n` : "";
-
-  return env.AI.run(WORKERS_AI_MODEL, {
-    messages: [
-      {
-        role: "system",
-        content: AI_SYSTEM_INSTRUCTION
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      systemInstruction: {
+        parts: [
+          {
+            text: AI_SYSTEM_INSTRUCTION
+          }
+        ]
       },
-      ...safeHistory(history),
-      {
-        role: "user",
-        content: `${lensText}الحالة أو السؤال:\n${message}`
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: message
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.72,
+        topP: 0.9,
+        maxOutputTokens: 1400
       }
-    ],
-    max_tokens: 1100,
-    temperature: 0.55
+    })
   });
+
+  const data = await safeJson(response);
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      model,
+      error:
+        data?.error?.message ||
+        data?.message ||
+        `تعذر الاتصال بنموذج Gemini: ${model}`
+    };
+  }
+
+  const text = extractGeminiText(data);
+
+  return {
+    ok: true,
+    model,
+    text:
+      text ||
+      "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
+  };
+}
+
+async function callGeminiWithFallbacks({ apiKey, env, message }) {
+  const models = buildGeminiModelList(env);
+  const errors = [];
+
+  for (const model of models) {
+    const result = await callGeminiOnce({
+      apiKey,
+      model,
+      message
+    });
+
+    if (result.ok) {
+      return result;
+    }
+
+    errors.push(`${model}: ${result.error}`);
+
+    // هذه الأخطاء قد تكون بسبب نموذج غير متاح أو ضغط أو تغيير اسم النموذج.
+    // لذلك نجرّب النموذج التالي.
+    if (![400, 404, 429, 500, 502, 503].includes(result.status)) {
+      break;
+    }
+  }
+
+  return {
+    ok: false,
+    status: 502,
+    error:
+      errors.join(" | ") ||
+      "تعذر الاتصال بالموجه الذكي عبر النماذج المتاحة."
+  };
 }
 
 async function handleMentorRequest(request, env) {
   if (request.method === "OPTIONS") {
-    return emptyResponse();
+    return emptyResponse(204, request, env);
   }
 
+  // اختبار سريع من المتصفح:
+  // افتح /api/mentor
+  // إذا ظهر هذا الرد، فالمسار يعمل.
   if (request.method === "GET") {
     return jsonResponse({
       ok: true,
       service: "odacademy-ai-mentor",
-      provider: "Cloudflare Workers AI",
-      model: WORKERS_AI_MODEL,
-      aiBinding: Boolean(env?.AI),
-      expectedMethod: "POST"
+      message:
+        "الموجه الذكي متصل على مستوى Cloudflare Worker. أرسل POST لاستخدامه."
     });
   }
 
@@ -213,16 +434,32 @@ async function handleMentorRequest(request, env) {
         ok: false,
         error: `طريقة الطلب ${request.method} غير مدعومة. استخدم POST.`
       },
-      405
+      405,
+      request,
+      env
     );
   }
 
-  if (!env?.AI) {
+  const rateLimit = await checkRateLimit({
+    request,
+    env,
+    routeName: "mentor",
+    limitPerMinute: Number(getEnvValue(env, "MENTOR_RATE_LIMIT_PER_MINUTE")) || 20,
+    windowSeconds: 60
+  });
+
+  if (!rateLimit.allowed) {
+    return rateLimitResponse(request, env, rateLimit.retryAfter);
+  }
+
+  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+
+  if (!apiKey) {
     return jsonResponse(
       {
         ok: false,
         error:
-          "Workers AI غير مفعّل. أضف Binding باسم AI من إعدادات Cloudflare ثم أعد النشر."
+          "مفتاح GEMINI_API_KEY غير موجود في متغيرات Cloudflare. أضفه كـ Secret / Encrypted ثم أعد النشر."
       },
       500
     );
@@ -230,8 +467,6 @@ async function handleMentorRequest(request, env) {
 
   const body = await request.json().catch(() => ({}));
   const message = cleanUserMessage(body?.message);
-  const lens = String(body?.modeTitle || body?.mode || body?.lens || "").trim().slice(0, 120);
-  const history = body?.history;
 
   if (!message) {
     return jsonResponse(
@@ -243,65 +478,27 @@ async function handleMentorRequest(request, env) {
     );
   }
 
-  try {
-    const result = await runWorkersAi({
-      env,
-      message,
-      lens,
-      history
-    });
+  const result = await callGeminiWithFallbacks({
+    apiKey,
+    env,
+    message
+  });
 
-    const answer = normalizeAiText(result);
-
-    if (!answer) {
-      return jsonResponse(
-        {
-          ok: false,
-          error:
-            "وصل رد فارغ من الموجه الذكي. أعد صياغة السؤال بتفاصيل أكثر وحاول مرة أخرى."
-        },
-        502
-      );
-    }
-
-    return jsonResponse({
-      ok: true,
-      provider: "cloudflare-workers-ai",
-      model: WORKERS_AI_MODEL,
-      answer,
-      text: answer
-    });
-  } catch (error) {
-    if (isQuotaError(error)) {
-      const resetAt = getNextResetAtUtc();
-      const retryAfterSeconds = Math.max(
-        60,
-        Math.floor((new Date(resetAt).getTime() - Date.now()) / 1000)
-      );
-
-      return jsonResponse(
-        {
-          ok: false,
-          code: "AI_QUOTA_EXCEEDED",
-          message: getFriendlyQuotaMessage(),
-          resetAt,
-          retryAfterSeconds
-        },
-        429,
-        {
-          "Retry-After": String(retryAfterSeconds)
-        }
-      );
-    }
-
+  if (!result.ok) {
     return jsonResponse(
       {
         ok: false,
-        error: error?.message || "حدث خطأ غير متوقع في خادم الموجه الذكي."
+        error: result.error
       },
-      500
+      result.status || 502
     );
   }
+
+  return jsonResponse({
+    ok: true,
+    model: result.model,
+    text: result.text
+  });
 }
 
 /* -------------------------------------------------------
@@ -506,7 +703,7 @@ async function sendEmailWithBrevo({
 
 async function handleLoginNoticeRequest(request, env) {
   if (request.method === "OPTIONS") {
-    return emptyResponse();
+    return emptyResponse(204, request, env);
   }
 
   if (request.method === "GET") {
@@ -523,8 +720,22 @@ async function handleLoginNoticeRequest(request, env) {
         ok: false,
         error: `طريقة الطلب ${request.method} غير مدعومة. استخدم POST.`
       },
-      405
+      405,
+      request,
+      env
     );
+  }
+
+  const emailRateLimit = await checkRateLimit({
+    request,
+    env,
+    routeName: "login-notice",
+    limitPerMinute: Number(getEnvValue(env, "EMAIL_RATE_LIMIT_PER_MINUTE")) || 3,
+    windowSeconds: 60
+  });
+
+  if (!emailRateLimit.allowed) {
+    return rateLimitResponse(request, env, emailRateLimit.retryAfter);
   }
 
   const authHeader = request.headers.get("Authorization") || "";
@@ -814,6 +1025,7 @@ async function updateWelcomeStatus({
 
   if (!response.ok) {
     const details = await response.text().catch(() => "");
+
     return {
       ok: false,
       status: response.status,
@@ -869,15 +1081,20 @@ async function fetchUserProfileForWelcome({
 
 async function handleWelcomeEmailRequest(request, env) {
   if (request.method === "OPTIONS") {
-    return emptyResponse();
+    return emptyResponse(204, request, env);
   }
 
   if (request.method === "GET") {
-    return jsonResponse({
-      ok: true,
-      service: "odacademy-welcome-email",
-      message: "خدمة إيميل الترحيب متصلة. أرسل POST بعد تسجيل الدخول."
-    });
+    return jsonResponse(
+      {
+        ok: true,
+        service: "odacademy-welcome-email",
+        message: "خدمة إيميل الترحيب متصلة. أرسل POST بعد تسجيل الدخول."
+      },
+      200,
+      request,
+      env
+    );
   }
 
   if (request.method !== "POST") {
@@ -886,40 +1103,38 @@ async function handleWelcomeEmailRequest(request, env) {
         ok: false,
         error: `طريقة الطلب ${request.method} غير مدعومة. استخدم POST.`
       },
-      405
+      405,
+      request,
+      env
     );
+  }
+
+  const emailRateLimit = await checkRateLimit({
+    request,
+    env,
+    routeName: "welcome-email",
+    limitPerMinute: Number(getEnvValue(env, "EMAIL_RATE_LIMIT_PER_MINUTE")) || 3,
+    windowSeconds: 60
+  });
+
+  if (!emailRateLimit.allowed) {
+    return rateLimitResponse(request, env, emailRateLimit.retryAfter);
   }
 
   const authHeader = request.headers.get("Authorization") || "";
 
   if (!authHeader.startsWith("Bearer ")) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Missing authorization token"
-      },
-      401
-    );
+    return jsonResponse({ ok: false, error: "Missing authorization token" }, 401, request, env);
   }
 
   const accessToken = authHeader.replace("Bearer ", "").trim();
 
   if (!accessToken) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Empty authorization token"
-      },
-      401
-    );
+    return jsonResponse({ ok: false, error: "Empty authorization token" }, 401, request, env);
   }
 
   const supabaseUrl = getEnvValue(env, "SUPABASE_URL", "VITE_SUPABASE_URL");
-  const supabaseAnonKey = getEnvValue(
-    env,
-    "SUPABASE_ANON_KEY",
-    "VITE_SUPABASE_ANON_KEY"
-  );
+  const supabaseAnonKey = getEnvValue(env, "SUPABASE_ANON_KEY", "VITE_SUPABASE_ANON_KEY");
   const brevoApiKey = getEnvValue(env, "BREVO_API_KEY");
   const senderEmail = getEnvValue(env, "BREVO_SENDER_EMAIL");
   const senderName = getEnvValue(env, "BREVO_SENDER_NAME") || "OD Academy";
@@ -928,23 +1143,11 @@ async function handleWelcomeEmailRequest(request, env) {
     "https://odacademy.rayansalajlan.workers.dev";
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Missing Supabase environment variables"
-      },
-      500
-    );
+    return jsonResponse({ ok: false, error: "Missing Supabase environment variables" }, 500, request, env);
   }
 
   if (!brevoApiKey || !senderEmail) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Missing Brevo environment variables"
-      },
-      500
-    );
+    return jsonResponse({ ok: false, error: "Missing Brevo environment variables" }, 500, request, env);
   }
 
   const userResult = await getSupabaseUser({
@@ -959,20 +1162,16 @@ async function handleWelcomeEmailRequest(request, env) {
         ok: false,
         error: userResult.error || "Invalid Supabase session"
       },
-      userResult.status || 401
+      userResult.status || 401,
+      request,
+      env
     );
   }
 
   const user = userResult.user;
 
   if (!user?.id || !user?.email) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "User data is incomplete"
-      },
-      400
-    );
+    return jsonResponse({ ok: false, error: "User data is incomplete" }, 400, request, env);
   }
 
   const profileResult = await fetchUserProfileForWelcome({
@@ -985,11 +1184,16 @@ async function handleWelcomeEmailRequest(request, env) {
   const profile = profileResult.ok ? profileResult.profile : null;
 
   if (profile?.welcome_email_sent_at) {
-    return jsonResponse({
-      ok: true,
-      skipped: true,
-      reason: "welcome_email_already_sent"
-    });
+    return jsonResponse(
+      {
+        ok: true,
+        skipped: true,
+        reason: "welcome_email_already_sent"
+      },
+      200,
+      request,
+      env
+    );
   }
 
   await updateWelcomeStatus({
@@ -1044,7 +1248,9 @@ async function handleWelcomeEmailRequest(request, env) {
         error: "Brevo email provider failed",
         details: emailResult.details
       },
-      502
+      502,
+      request,
+      env
     );
   }
 
@@ -1061,17 +1267,27 @@ async function handleWelcomeEmailRequest(request, env) {
     }
   });
 
-  return jsonResponse({
-    ok: true,
-    provider: "brevo",
-    sent: true
-  });
+  return jsonResponse(
+    {
+      ok: true,
+      provider: "brevo",
+      sent: true
+    },
+    200,
+    request,
+    env
+  );
 }
+
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const pathname = url.pathname.replace(/\/+$/, "") || "/";
+
+    if (pathname.startsWith("/api/") && !isAllowedRequestOrigin(request, env)) {
+      return forbiddenOriginResponse(request, env);
+    }
 
     if (pathname === "/api/mentor") {
       return handleMentorRequest(request, env);
