@@ -649,7 +649,7 @@ export default function AiMentor() {
           border-radius: 22px;
           padding: 13px;
           display: grid;
-          grid-template-columns: auto 1fr;
+          grid-template-columns: 42px minmax(0, 1fr);
           gap: 10px;
           align-items: center;
           background: #fff;
@@ -658,6 +658,7 @@ export default function AiMentor() {
           text-align: right;
           font-family: inherit;
           transition: .18s ease;
+          overflow: hidden;
         }
 
         .mode-button:hover {
@@ -673,15 +674,35 @@ export default function AiMentor() {
         }
 
         .mode-badge {
-          width: 38px;
-          height: 38px;
-          border-radius: 14px;
-          display: grid;
-          place-items: center;
-          color: white;
+          width: 42px;
+          height: 42px;
+          min-width: 42px;
+          max-width: 42px;
+          min-height: 42px;
+          max-height: 42px;
+          flex: 0 0 42px;
+          border-radius: 16px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
           background: linear-gradient(135deg, #4f46e5, #312e81);
           font-size: 12px;
+          line-height: 1;
           font-weight: 950;
+          letter-spacing: 0;
+          direction: ltr;
+          unicode-bidi: isolate;
+          white-space: nowrap;
+          overflow: hidden;
+          box-sizing: border-box;
+          font-family: Arial, sans-serif;
+        }
+
+        .mode-copy {
+          min-width: 0;
+          display: block;
+          overflow: hidden;
         }
 
         .mode-button strong {
@@ -697,6 +718,16 @@ export default function AiMentor() {
           font-size: 11px;
           line-height: 1.65;
           font-weight: 750;
+        }
+
+
+        .mode-copy > span {
+          display: block;
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.65;
+          font-weight: 750;
+          overflow-wrap: anywhere;
         }
 
         .chat-panel {
@@ -1089,7 +1120,7 @@ export default function AiMentor() {
                   onClick={() => setMode(mode.id)}
                 >
                   <span className="mode-badge">{mode.badge}</span>
-                  <span>
+                  <span className="mode-copy">
                     <strong>{mode.title}</strong>
                     <span>{mode.subtitle}</span>
                   </span>
