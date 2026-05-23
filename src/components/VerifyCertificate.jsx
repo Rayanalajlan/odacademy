@@ -21,7 +21,7 @@ export default function VerifyCertificate({ slug }) {
         if (data) {
           setRecord(data);
         } else {
-          setError("لم يتم العثور على وثيقة مفعّلة بهذا الرقم.");
+          setError("لم يتم العثور على وثيقة أو شهادة مفعّلة بهذا الرقم.");
         }
       } catch (err) {
         if (active) setError(err?.message || "تعذر التحقق من الوثيقة.");
@@ -36,6 +36,18 @@ export default function VerifyCertificate({ slug }) {
       active = false;
     };
   }, [slug]);
+
+  const isMonthly =
+    record?.certificate_type === "monthly" ||
+    Number.isFinite(Number(record?.month_number));
+
+  const certificateTitle = isMonthly
+    ? "شهادة إنجاز شهرية موثّقة"
+    : "وثيقة إتقان موثّقة";
+
+  const certificateDescription = isMonthly
+    ? "تم العثور على شهادة شهرية مفعّلة وصادرة بعد إكمال محطة شهرية من رحلة التطوير التنظيمي."
+    : "تم العثور على وثيقة مفعّلة وصادرة بعد إكمال رحلة التطوير التنظيمي.";
 
   return (
     <main className="verify-page" dir="rtl">
@@ -54,7 +66,7 @@ export default function VerifyCertificate({ slug }) {
         }
 
         .verify-card {
-          width: min(760px, 100%);
+          width: min(820px, 100%);
           border-radius: 34px;
           padding: 28px;
           background: rgba(255,255,255,.94);
@@ -184,10 +196,8 @@ export default function VerifyCertificate({ slug }) {
         ) : record ? (
           <>
             <div className="verify-mark">✓</div>
-            <h1>وثيقة إتقان موثّقة</h1>
-            <p>
-              تم العثور على وثيقة مفعّلة وصادرة بعد إكمال رحلة التطوير التنظيمي.
-            </p>
+            <h1>{certificateTitle}</h1>
+            <p>{certificateDescription}</p>
 
             <span className="verify-state">صالحة ومفعّلة</span>
 
@@ -196,14 +206,36 @@ export default function VerifyCertificate({ slug }) {
                 <span>رقم الوثيقة</span>
                 <strong>{record.certificate_code}</strong>
               </div>
+
               <div className="verify-field">
                 <span>اسم المتدرب</span>
                 <strong>{record.certificate_name}</strong>
               </div>
+
+              {isMonthly ? (
+                <>
+                  <div className="verify-field">
+                    <span>نوع الشهادة</span>
+                    <strong>شهادة شهرية · الشهر {record.month_number}</strong>
+                  </div>
+
+                  <div className="verify-field">
+                    <span>عنوان الشهر</span>
+                    <strong>{record.month_title || "إنجاز شهري في رحلة OD"}</strong>
+                  </div>
+                </>
+              ) : (
+                <div className="verify-field">
+                  <span>نوع الوثيقة</span>
+                  <strong>وثيقة إتقان نهائية</strong>
+                </div>
+              )}
+
               <div className="verify-field">
                 <span>الأيام المكتملة</span>
                 <strong>{record.completed_days} / {record.total_days}</strong>
               </div>
+
               <div className="verify-field">
                 <span>تاريخ الإصدار</span>
                 <strong>

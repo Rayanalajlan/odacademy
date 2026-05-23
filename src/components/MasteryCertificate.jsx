@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "../data/courseContent";
+import MonthlyCertificates from "./MonthlyCertificates";
 import {
   buildVerificationUrl,
   copyTextSafely,
@@ -894,6 +895,13 @@ export default function MasteryCertificate({
             <strong>{isUnlocked ? "مفتوحة" : "مقفلة"}</strong>
           </div>
         </div>
+
+        {/* Phase 22: شهادات الإنجاز الشهرية قبل وثيقة الإتقان النهائية */}
+        <MonthlyCertificates
+          userName={learnerName}
+          completedDays={safeCompletedDays}
+          totalDays={totalDays}
+        />
 
         <section className="certificate-verification-panel mastery-no-print" aria-label="بيانات التحقق من الوثيقة">
           <div className="certificate-verification-grid">
