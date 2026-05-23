@@ -12,6 +12,7 @@ import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
 import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 import OnboardingFlow from "./components/OnboardingFlow";
+import MobileNavigation from "./components/MobileNavigation";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -114,6 +115,7 @@ export default function App() {
     localStorage.getItem("od_demo_name") || ""
   );
   const [activePage, setActivePage] = useState("home");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [progressRows, setProgressRows] = useState([]);
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [booting, setBooting] = useState(true);
@@ -362,6 +364,7 @@ export default function App() {
       console.warn("تعذر تسجيل الخروج من Supabase:", error);
     }
 
+    setMobileNavOpen(false);
     setSession(null);
     setDemoMode(false);
     localStorage.removeItem("od_demo_name");
@@ -371,11 +374,13 @@ export default function App() {
   }
 
   function navigate(pageId) {
+    setMobileNavOpen(false);
     setActivePage(pageId);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function resumeJourneyFromLastPoint() {
+    setMobileNavOpen(false);
     setActivePage("journey");
     setResumeJourneyRequest((current) => current + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -457,6 +462,70 @@ export default function App() {
           لا يؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
         */
 
+
+
+        .mobile-menu-button {
+          display: none;
+          border: 0;
+          cursor: pointer;
+          min-height: 44px;
+          border-radius: 16px;
+          padding: 0 14px;
+          color: #ffffff;
+          background: linear-gradient(135deg, #4f46e5, #312e81);
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 950;
+          box-shadow: 0 14px 30px rgba(79,70,229,.20);
+        }
+
+        .mobile-menu-button span {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .mobile-menu-button span::before {
+          content: "☰";
+          font-size: 18px;
+          line-height: 1;
+        }
+
+        @media (max-width: 980px) {
+          .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 70;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+          }
+
+          .main-nav {
+            display: none !important;
+          }
+
+          .mobile-menu-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .site-header > .logout-button {
+            display: none !important;
+          }
+
+          .site-header .brand {
+            min-width: 0;
+          }
+
+          .site-header .brand strong,
+          .site-header .brand span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 170px;
+          }
+        }
 
         .page-loader {
           width: min(1180px, calc(100% - 28px));
@@ -572,6 +641,16 @@ export default function App() {
           </div>
         </div>
 
+        <button
+          type="button"
+          className="mobile-menu-button"
+          aria-label={mobileNavOpen ? "إغلاق قائمة الجوال" : "فتح قائمة الجوال"}
+          aria-expanded={mobileNavOpen}
+          onClick={() => setMobileNavOpen((open) => !open)}
+        >
+          <span>{mobileNavOpen ? "إغلاق" : "القائمة"}</span>
+        </button>
+
         <nav className="main-nav" aria-label="أقسام المنصة">
           {visiblePages.map((page) => (
             <button
@@ -595,6 +674,19 @@ export default function App() {
           خروج
         </button>
       </header>
+
+      <MobileNavigation
+        open={mobileNavOpen}
+        pages={visiblePages}
+        activePage={activePage}
+        userName={displayName}
+        completedDays={completedDays}
+        totalDays={totalJourneyDays}
+        onNavigate={navigate}
+        onClose={() => setMobileNavOpen(false)}
+        onResumeJourney={resumeJourneyFromLastPoint}
+        onSignOut={handleSignOut}
+      />
 
       {notice && <div className="global-notice">{notice}</div>}
 
