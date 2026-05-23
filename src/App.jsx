@@ -11,6 +11,13 @@ import BadgesStrip from "./components/BadgesStrip";
 import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
 import { isCurrentUserAdmin } from "./lib/adminDashboardService";
+import OnboardingFlow from "./components/OnboardingFlow";
+import {
+  completeLocalOnboarding,
+  completeOnboarding,
+  getLocalOnboardingState,
+  getOnboardingState
+} from "./lib/onboardingService";
 
 const TOTAL_JOURNEY_DAYS = 180;
 
@@ -113,6 +120,8 @@ export default function App() {
   const [notice, setNotice] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [resumeJourneyRequest, setResumeJourneyRequest] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [checkingOnboarding, setCheckingOnboarding] = useState(false);
   const verificationSlug = getVerificationSlugFromLocation();
 
   const completedDays = useMemo(() => {
@@ -275,6 +284,47 @@ export default function App() {
     };
   }, [session?.user?.id, demoMode]);
 
+  useEffect(() => {
+    if (booting || !authenticated) {
+      setShowOnboarding(false);
+      return;
+    }
+
+    let mounted = true;
+
+    async function checkOnboarding() {
+      setCheckingOnboarding(true);
+
+      try {
+        const state =
+          demoMode || !session?.user?.id
+            ? getLocalOnboardingState(demoMode ? "demo" : "guest")
+            : await getOnboardingState();
+
+        if (mounted) {
+          setShowOnboarding(!state?.has_completed);
+        }
+      } catch (error) {
+        console.warn("تعذر قراءة حالة الترحيب الذكي:", error);
+
+        if (mounted) {
+          // إذا فشل الفحص لا نوقف المستخدم؛ نعرض الترحيب مرة واحدة كخيار آمن.
+          setShowOnboarding(true);
+        }
+      } finally {
+        if (mounted) {
+          setCheckingOnboarding(false);
+        }
+      }
+    }
+
+    checkOnboarding();
+
+    return () => {
+      mounted = false;
+    };
+  }, [authenticated, booting, demoMode, session?.user?.id]);
+
   function handleEnter({ session: nextSession, name, demo } = {}) {
     if (nextSession) {
       setSession(nextSession);
@@ -329,6 +379,42 @@ export default function App() {
     setActivePage("journey");
     setResumeJourneyRequest((current) => current + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function handleOnboardingComplete(preferredStart = "later") {
+    const normalizedStart = preferredStart || "later";
+
+    try {
+      if (demoMode || !session?.user?.id) {
+        completeLocalOnboarding({
+          userKey: demoMode ? "demo" : "guest",
+          preferredStart: normalizedStart
+        });
+      } else {
+        await completeOnboarding({
+          preferredStart: normalizedStart
+        });
+      }
+    } catch (error) {
+      console.warn("تعذر حفظ حالة الترحيب الذكي:", error);
+      setNotice("تم تجاوز شاشة الترحيب، لكن تعذر حفظ حالتها في السحابة مؤقتًا.");
+    }
+
+    setShowOnboarding(false);
+
+    if (normalizedStart === "pre-assessment") {
+      navigate("radar");
+      return;
+    }
+
+    if (normalizedStart === "journey") {
+      resumeJourneyFromLastPoint();
+      return;
+    }
+
+    if (normalizedStart === "home") {
+      navigate("home");
+    }
   }
 
 
@@ -523,6 +609,16 @@ export default function App() {
       />
 
       <BadgesStrip completedDays={completedDays} />
+
+      {showOnboarding && (
+        <OnboardingFlow
+          userName={displayName}
+          completedDays={completedDays}
+          totalDays={totalJourneyDays}
+          loading={checkingOnboarding}
+          onComplete={handleOnboardingComplete}
+        />
+      )}
 
       {activePage === "home" && (
         <Home
