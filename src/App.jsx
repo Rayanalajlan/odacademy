@@ -5,6 +5,11 @@ import AuthGate from "./components/AuthGate";
 import Home from "./components/Home";
 import LearnerProfileCenter from "./components/LearnerProfileCenter";
 import { sendWelcomeEmailOnce } from "./lib/welcomeEmailService";
+import LearningTimeTracker from "./components/LearningTimeTracker";
+import NotificationsCenter from "./components/NotificationsCenter";
+import BadgesStrip from "./components/BadgesStrip";
+import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
+import { syncProgressBadge } from "./lib/badgesService";
 
 const TOTAL_JOURNEY_DAYS = 180;
 
@@ -212,6 +217,19 @@ export default function App() {
     });
   }, [session?.user?.id]);
 
+
+  useEffect(() => {
+    if (!session?.user?.id) return;
+
+    syncProgressBadge(completedDays).catch((error) => {
+      console.warn("تعذر مزامنة الشارة:", error);
+    });
+
+    maybeCreateMilestoneNotification(completedDays).catch((error) => {
+      console.warn("تعذر إنشاء إشعار المرحلة:", error);
+    });
+  }, [session?.user?.id, completedDays]);
+
   function handleEnter({ session: nextSession, name, demo } = {}) {
     if (nextSession) {
       setSession(nextSession);
@@ -282,6 +300,7 @@ export default function App() {
 
   return (
     <div className="site-frame">
+      <LearningTimeTracker activePage={activePage} />
       <style>{`
         /*
           إصلاح حجم الشعار في الهيدر وبعض البطاقات الصغيرة.
@@ -416,6 +435,8 @@ export default function App() {
           ))}
         </nav>
 
+        <NotificationsCenter setActivePage={navigate} />
+
         <button
           type="button"
           className="logout-button"
@@ -435,6 +456,8 @@ export default function App() {
         setActivePage={navigate}
         onSignOut={handleSignOut}
       />
+
+      <BadgesStrip completedDays={completedDays} />
 
       {activePage === "home" && (
         <Home
