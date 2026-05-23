@@ -1,10 +1,11 @@
-OD Academy - Phase 30 Hotfix Bun Stability
+OD Academy - Phase 30 Final Fix
 
 Files:
 - package.json
-- package-lock.json
-- wrangler.toml
-- vite.config.js
-- scripts/30_verify_bun_hotfix.cjs
+- scripts/30_remove_npm_lock.cjs
+- scripts/30_verify_final_fix.cjs
 - README_AR.md
 - MANIFEST.txt
+
+Important:
+- Delete package-lock.json from project root and commit the deletion.
