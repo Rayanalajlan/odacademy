@@ -1,6 +1,6 @@
 name = "odacademy"
 main = "worker/index.js"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-05-23"
 
 [assets]
 directory = "./dist"
@@ -8,3 +8,16 @@ binding = "ASSETS"
 
 [ai]
 binding = "AI"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "3d594a4fe626455ab1ff8bd48cbbfdd4"
+
+[vars]
+ALLOWED_ORIGINS = "https://odacademy.rayansalajlan.workers.dev"
+BREVO_SENDER_EMAIL = "rayan.al.ajlan123@gmail.com"
+BREVO_SENDER_NAME = "OD Academy"
+SITE_URL = "https://odacademy.rayansalajlan.workers.dev"
+VITE_SUPABASE_URL = "https://vajfguzaylvddcyywmco.supabase.co"
+MENTOR_RATE_LIMIT_PER_MINUTE = "20"
+EMAIL_RATE_LIMIT_PER_MINUTE = "3"

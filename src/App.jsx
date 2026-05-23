@@ -64,10 +64,10 @@ function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
 async function readProgressRows() {
   const loader =
     progressService.loadUserProgress ||
-    progressService.fetchUserProgress ||
-    progressService.default;
+    progressService.fetchUserProgress;
 
   if (typeof loader !== "function") {
+    console.warn("لم يتم العثور على دالة تحميل التقدم داخل progressService.");
     return [];
   }
 
