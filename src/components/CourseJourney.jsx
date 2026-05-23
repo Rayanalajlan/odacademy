@@ -4,6 +4,7 @@ import { markDayOpened, updateUserProgress } from "../lib/progressService";
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
 import SavedLessonsPanel from "./SavedLessonsPanel";
+import WeeklyReflectionPanel from "./WeeklyReflectionPanel";
 import {
   deleteLessonBookmarkByLocation,
   listLessonBookmarks,
@@ -2166,6 +2167,15 @@ export default function CourseJourney({
           loading={bookmarksLoading}
           onRefresh={loadBookmarksSafely}
           onJump={jumpToBookmark}
+        />
+
+        <WeeklyReflectionPanel
+          monthIndex={selectedMonth?.monthIndex}
+          weekIndex={selectedWeek?.weekIndex}
+          monthTitle={selectedMonth?.title}
+          weekTitle={selectedWeek?.title}
+          completedDaysInWeek={weekCompletedDays}
+          totalDaysInWeek={weekTotalDays}
         />
 
         <div className="jl-top-actions">

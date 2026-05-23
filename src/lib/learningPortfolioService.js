@@ -1,4 +1,5 @@
 import { listLessonBookmarks } from "./lessonBookmarkService";
+import { listWeeklyReflections } from "./weeklyReflectionService";
 import { getRecentLessonNotes } from "./lessonNotesService";
 import { loadRadarAssessmentHistory } from "./radarAssessmentService";
 import {
@@ -26,6 +27,22 @@ function normalizeNotes(rows = []) {
     note_title: row.note_title || "ملاحظة محفوظة",
     note: row.note || "",
     is_pinned: Boolean(row.is_pinned),
+    updated_at: row.updated_at || row.created_at || null
+  }));
+}
+
+function normalizeWeeklyReflections(rows = []) {
+  return rows.map((row) => ({
+    id: row.id,
+    month_index: Number(row.month_index || 0),
+    week_index: Number(row.week_index || 0),
+    week_title: row.week_title || "",
+    key_learning: row.key_learning || "",
+    observed_pattern: row.observed_pattern || "",
+    application_idea: row.application_idea || "",
+    next_action: row.next_action || "",
+    confidence_score: Number(row.confidence_score || 0),
+    status: row.status || "draft",
     updated_at: row.updated_at || row.created_at || null
   }));
 }
@@ -60,10 +77,11 @@ export async function fetchLearningPortfolioData({
 } = {}) {
   const progressPercent = percent(completedDays, totalDays);
 
-  const [bookmarksResult, notesResult, radarResult, certificatesResult] =
+  const [bookmarksResult, notesResult, weeklyReflectionsResult, radarResult, certificatesResult] =
     await Promise.allSettled([
       listLessonBookmarks(),
       getRecentLessonNotes(12),
+      listWeeklyReflections({ limit: 8 }),
       loadRadarAssessmentHistory({ limit: 6 }),
       getOrCreateMonthlyCertificates({
         userName,
@@ -80,6 +98,11 @@ export async function fetchLearningPortfolioData({
   const notes =
     notesResult.status === "fulfilled" && Array.isArray(notesResult.value)
       ? normalizeNotes(notesResult.value)
+      : [];
+
+  const weeklyReflections =
+    weeklyReflectionsResult.status === "fulfilled" && Array.isArray(weeklyReflectionsResult.value)
+      ? normalizeWeeklyReflections(weeklyReflectionsResult.value)
       : [];
 
   const radarHistory =
@@ -115,6 +138,8 @@ export async function fetchLearningPortfolioData({
     bookmarks: bookmarks.slice(0, 8),
     notes: notes.slice(0, 8),
     pinnedNotes: pinnedNotes.slice(0, 6),
+    weeklyReflections: weeklyReflections.slice(0, 8),
+    latestWeeklyReflection: weeklyReflections[0] || null,
     radarHistory: radarHistory.slice(0, 6),
     latestRadar,
     monthlyCertificates,

@@ -590,6 +590,45 @@ export default function LearningPortfolio({
               </div>
             )}
           </section>
+
+          <section className="portfolio-section">
+            <div className="portfolio-section-head">
+              <div>
+                <h2>التأملات الأسبوعية وخطط التطبيق</h2>
+                <p>أثر التعلم الأسبوعي: فكرة، نمط تنظيمي، وخطوة تطبيق عملية.</p>
+              </div>
+              <span className="portfolio-mini-tag">{data?.weeklyReflections?.length || 0} تأمل</span>
+            </div>
+
+            {loading ? (
+              <div className="portfolio-empty">جارٍ تحميل التأملات الأسبوعية...</div>
+            ) : data?.weeklyReflections?.length ? (
+              <div className="portfolio-list">
+                {data.weeklyReflections.map((reflection) => (
+                  <div className="portfolio-row" key={reflection.id || `${reflection.month_index}-${reflection.week_index}`}>
+                    <small>
+                      الشهر {reflection.month_index} · الأسبوع {reflection.week_index}
+                      {reflection.updated_at ? ` · ${formatDate(reflection.updated_at)}` : ""}
+                    </small>
+                    <strong>{reflection.week_title || "تأمل أسبوعي"}</strong>
+                    {reflection.key_learning ? (
+                      <p><b>أهم فكرة:</b> {shortText(reflection.key_learning, 180)}</p>
+                    ) : null}
+                    {reflection.next_action ? (
+                      <p><b>الإجراء القادم:</b> {shortText(reflection.next_action, 180)}</p>
+                    ) : null}
+                    {reflection.confidence_score ? (
+                      <p>مستوى الثقة بالتطبيق: {reflection.confidence_score} / 5</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="portfolio-empty">
+                لا توجد تأملات أسبوعية بعد. افتح الرحلة واكتب تأمل الأسبوع وخطة التطبيق.
+              </div>
+            )}
+          </section>
         </div>
 
         <aside>
