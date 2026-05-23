@@ -9,6 +9,9 @@ binding = "ASSETS"
 [ai]
 binding = "AI"
 
+# مهم:
+# استبدل REPLACE_WITH_YOUR_KV_NAMESPACE_ID بمعرّف KV الحقيقي من:
+# Cloudflare > Storage & Databases > KV > odacademy_rate_limit > Settings
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "3d594a4fe626455ab1ff8bd48cbbfdd4"
