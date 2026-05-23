@@ -674,6 +674,400 @@ async function handleLoginNoticeRequest(request, env) {
   });
 }
 
+
+/* -------------------------------------------------------
+   welcome-email عبر Brevo
+   يرسل ترحيبًا واحدًا بعد أول دخول موثق، ثم يحفظ الحالة في Supabase.
+------------------------------------------------------- */
+
+function buildWelcomeEmail({
+  displayName,
+  siteUrl,
+  platformName = "OD Academy"
+}) {
+  const safeDisplayName = escapeHtml(displayName || "متدربنا العزيز");
+  const safeSiteUrl = escapeHtml(siteUrl || "https://odacademy.rayansalajlan.workers.dev");
+  const safePlatformName = escapeHtml(platformName);
+
+  const subject = "🎉 حيّاك الله في رحلة إتقان التطوير التنظيمي";
+
+  const text = `
+حيّاك الله يا ${displayName || "متدربنا العزيز"} 🌿
+
+سعدنا بانضمامك إلى رحلة إتقان التطوير التنظيمي.
+
+هذه ليست مجرد منصة محتوى، بل مساحة تدريب معرفي تساعدك على قراءة المنظمة قبل استعجال الحل:
+تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
+
+ابدأ رحلتك بهذه الخطوات:
+1. افتح رحلتك التعليمية وابدأ من اليوم الأول.
+2. حدّث ملفك التعليمي وحدد هدفك من الرحلة.
+3. جرّب رادار الأداء لتعرف أين تقف.
+4. استخدم الموجه الذكي عند مواجهة حالة أو سؤال مهني.
+5. اختبر قراراتك داخل المحاكاة.
+
+تذكّر: القيمة ليست في إنهاء الصفحات بسرعة، بل في بناء عين مهنية ترى النظام خلف المشكلة، والمعنى خلف السلوك.
+
+رابط المنصة:
+${siteUrl || "https://odacademy.rayansalajlan.workers.dev"}
+
+بانتظار أثر جميل تصنعه من هذه الرحلة ✨
+  `.trim();
+
+  const html = `
+  <div dir="rtl" style="margin:0;padding:0;background:#f8fafc;font-family:Tahoma,Arial,sans-serif;color:#0f172a;">
+    <div style="max-width:720px;margin:0 auto;padding:28px 16px;">
+      <div style="background:linear-gradient(135deg,#0f172a,#312e81);border-radius:30px;padding:30px;color:#ffffff;box-shadow:0 22px 60px rgba(15,23,42,.18);">
+        <div style="display:inline-block;background:rgba(245,158,11,.16);color:#fde68a;border:1px solid rgba(245,158,11,.28);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;">
+          ${safePlatformName} · بداية الرحلة 🌿
+        </div>
+
+        <h1 style="margin:18px 0 10px;font-size:30px;line-height:1.55;">
+          حيّاك الله يا ${safeDisplayName} 🎉
+        </h1>
+
+        <p style="margin:0;color:#dbeafe;font-size:16px;line-height:2;">
+          سعدنا بانضمامك إلى رحلة معرفية صُممت لتساعدك على فهم المنظمة قبل استعجال الحل:
+          تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
+        </p>
+      </div>
+
+      <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:26px;padding:24px;margin-top:16px;">
+        <h2 style="margin:0 0 14px;font-size:21px;color:#0f172a;">كيف تبدأ؟ 🚀</h2>
+
+        <div style="display:grid;gap:12px;">
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;">
+            <strong style="color:#312e81;">01 · ابدأ من اليوم الأول</strong>
+            <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">
+              لا تتعامل مع الرحلة كصفحات تُقرأ، بل كبوابات إتقان تتقدم فيها يومًا بعد يوم.
+            </p>
+          </div>
+
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;">
+            <strong style="color:#312e81;">02 · حدّث ملفك التعليمي ✍️</strong>
+            <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">
+              اكتب هدفك من الرحلة ليصبح تقدمك أكثر ارتباطًا بما تريد بناءه مهنيًا.
+            </p>
+          </div>
+
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;">
+            <strong style="color:#312e81;">03 · جرّب الرادار والمحاكاة 🧭</strong>
+            <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">
+              رادار الأداء يوضح أين تقف، والمحاكاة تختبر طريقة تفكيرك في مواقف تنظيمية واقعية.
+            </p>
+          </div>
+
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;">
+            <strong style="color:#312e81;">04 · استخدم الموجه الذكي عند الحاجة 💡</strong>
+            <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">
+              عندما تواجه سؤالًا أو حالة، اطلب منه بناء منهجية، تحليل موقف، أو تصميم تدخل.
+            </p>
+          </div>
+        </div>
+
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:22px;padding:18px;margin-top:18px;">
+          <h3 style="margin:0 0 8px;color:#78350f;font-size:18px;">رسالة صغيرة قبل الانطلاق ✨</h3>
+          <p style="margin:0;color:#78350f;font-size:15px;line-height:2;font-weight:700;">
+            القيمة ليست في إنهاء الصفحات بسرعة، بل في بناء عين مهنية ترى النظام خلف المشكلة، والمعنى خلف السلوك.
+          </p>
+        </div>
+
+        <a href="${safeSiteUrl}"
+           style="display:inline-block;margin-top:20px;padding:14px 22px;background:#312e81;color:#ffffff;text-decoration:none;border-radius:16px;font-weight:700;">
+          متابعة الرحلة الآن
+        </a>
+      </div>
+
+      <div style="text-align:center;color:#64748b;font-size:12px;line-height:1.8;margin-top:18px;">
+        هذه رسالة ترحيبية مرتبطة بإنشاء حسابك في منصة إتقان التطوير التنظيمي.
+        <br />
+        إن لم تكن أنت من أنشأ الحساب، يمكنك تجاهل هذه الرسالة.
+      </div>
+    </div>
+  </div>
+  `.trim();
+
+  return {
+    subject,
+    text,
+    html
+  };
+}
+
+async function updateWelcomeStatus({
+  supabaseUrl,
+  supabaseAnonKey,
+  accessToken,
+  userId,
+  patch
+}) {
+  const response = await fetch(`${supabaseUrl}/rest/v1/user_profiles?id=eq.${encodeURIComponent(userId)}`, {
+    method: "PATCH",
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal"
+    },
+    body: JSON.stringify(patch)
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => "");
+    return {
+      ok: false,
+      status: response.status,
+      details
+    };
+  }
+
+  return {
+    ok: true
+  };
+}
+
+async function fetchUserProfileForWelcome({
+  supabaseUrl,
+  supabaseAnonKey,
+  accessToken,
+  userId
+}) {
+  const select = [
+    "full_name",
+    "certificate_name",
+    "welcome_email_sent_at",
+    "welcome_email_status"
+  ].join(",");
+
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/user_profiles?id=eq.${encodeURIComponent(userId)}&select=${encodeURIComponent(select)}`,
+    {
+      method: "GET",
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json"
+      }
+    }
+  );
+
+  const data = await safeJson(response);
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      error: data?.message || data?.error || "Failed to read user profile"
+    };
+  }
+
+  return {
+    ok: true,
+    profile: Array.isArray(data) ? data[0] : null
+  };
+}
+
+async function handleWelcomeEmailRequest(request, env) {
+  if (request.method === "OPTIONS") {
+    return emptyResponse();
+  }
+
+  if (request.method === "GET") {
+    return jsonResponse({
+      ok: true,
+      service: "odacademy-welcome-email",
+      message: "خدمة إيميل الترحيب متصلة. أرسل POST بعد تسجيل الدخول."
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      {
+        ok: false,
+        error: `طريقة الطلب ${request.method} غير مدعومة. استخدم POST.`
+      },
+      405
+    );
+  }
+
+  const authHeader = request.headers.get("Authorization") || "";
+
+  if (!authHeader.startsWith("Bearer ")) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Missing authorization token"
+      },
+      401
+    );
+  }
+
+  const accessToken = authHeader.replace("Bearer ", "").trim();
+
+  if (!accessToken) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Empty authorization token"
+      },
+      401
+    );
+  }
+
+  const supabaseUrl = getEnvValue(env, "SUPABASE_URL", "VITE_SUPABASE_URL");
+  const supabaseAnonKey = getEnvValue(
+    env,
+    "SUPABASE_ANON_KEY",
+    "VITE_SUPABASE_ANON_KEY"
+  );
+  const brevoApiKey = getEnvValue(env, "BREVO_API_KEY");
+  const senderEmail = getEnvValue(env, "BREVO_SENDER_EMAIL");
+  const senderName = getEnvValue(env, "BREVO_SENDER_NAME") || "OD Academy";
+  const siteUrl =
+    getEnvValue(env, "SITE_URL", "PUBLIC_SITE_URL") ||
+    "https://odacademy.rayansalajlan.workers.dev";
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Missing Supabase environment variables"
+      },
+      500
+    );
+  }
+
+  if (!brevoApiKey || !senderEmail) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Missing Brevo environment variables"
+      },
+      500
+    );
+  }
+
+  const userResult = await getSupabaseUser({
+    supabaseUrl,
+    supabaseAnonKey,
+    accessToken
+  });
+
+  if (!userResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: userResult.error || "Invalid Supabase session"
+      },
+      userResult.status || 401
+    );
+  }
+
+  const user = userResult.user;
+
+  if (!user?.id || !user?.email) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "User data is incomplete"
+      },
+      400
+    );
+  }
+
+  const profileResult = await fetchUserProfileForWelcome({
+    supabaseUrl,
+    supabaseAnonKey,
+    accessToken,
+    userId: user.id
+  });
+
+  const profile = profileResult.ok ? profileResult.profile : null;
+
+  if (profile?.welcome_email_sent_at) {
+    return jsonResponse({
+      ok: true,
+      skipped: true,
+      reason: "welcome_email_already_sent"
+    });
+  }
+
+  await updateWelcomeStatus({
+    supabaseUrl,
+    supabaseAnonKey,
+    accessToken,
+    userId: user.id,
+    patch: {
+      welcome_email_status: "sending",
+      welcome_email_last_attempt_at: new Date().toISOString()
+    }
+  });
+
+  const displayName =
+    profile?.certificate_name ||
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    "متدربنا العزيز";
+
+  const emailContent = buildWelcomeEmail({
+    displayName,
+    siteUrl,
+    platformName: senderName || "OD Academy"
+  });
+
+  const emailResult = await sendEmailWithBrevo({
+    apiKey: brevoApiKey,
+    senderName,
+    senderEmail,
+    toEmail: user.email,
+    subject: emailContent.subject,
+    html: emailContent.html,
+    text: emailContent.text
+  });
+
+  if (!emailResult.ok) {
+    await updateWelcomeStatus({
+      supabaseUrl,
+      supabaseAnonKey,
+      accessToken,
+      userId: user.id,
+      patch: {
+        welcome_email_status: "failed",
+        welcome_email_error: JSON.stringify(emailResult.details || {}).slice(0, 700),
+        welcome_email_last_attempt_at: new Date().toISOString()
+      }
+    });
+
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Brevo email provider failed",
+        details: emailResult.details
+      },
+      502
+    );
+  }
+
+  await updateWelcomeStatus({
+    supabaseUrl,
+    supabaseAnonKey,
+    accessToken,
+    userId: user.id,
+    patch: {
+      welcome_email_sent_at: new Date().toISOString(),
+      welcome_email_status: "sent",
+      welcome_email_error: null,
+      welcome_email_last_attempt_at: new Date().toISOString()
+    }
+  });
+
+  return jsonResponse({
+    ok: true,
+    provider: "brevo",
+    sent: true
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -685,6 +1079,10 @@ export default {
 
     if (pathname === "/api/login-notice") {
       return handleLoginNoticeRequest(request, env);
+    }
+
+    if (pathname === "/api/welcome-email") {
+      return handleWelcomeEmailRequest(request, env);
     }
 
     // أي مسار غير API يذهب إلى ملفات الموقع.

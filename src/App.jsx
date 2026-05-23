@@ -12,6 +12,7 @@ import LearningROICalculator from "./components/LearningROICalculator";
 import MasteryCertificate from "./components/MasteryCertificate";
 import AboutRayan from "./components/AboutRayan";
 import LearnerProfileCenter from "./components/LearnerProfileCenter";
+import { sendWelcomeEmailOnce } from "./lib/welcomeEmailService";
 
 const pages = [
   { id: "home", label: "الرئيسية" },
@@ -190,6 +191,15 @@ export default function App() {
     // لا نضيف loadProgressSafely هنا حتى لا يدخل التطبيق في حلقة تحميل متكررة.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+  useEffect(() => {
+    if (!session?.user?.id) return;
+
+    sendWelcomeEmailOnce().catch((error) => {
+      console.warn("تعذر تشغيل إيميل الترحيب:", error);
+    });
+  }, [session?.user?.id]);
 
   function handleEnter({ session: nextSession, name, demo } = {}) {
     if (nextSession) {
