@@ -1,24 +1,34 @@
-# dependencies
+# Dependencies
 node_modules/
 
-# build
+# Build output
 dist/
-.wrangler/
-.dev.vars
-dev.vars
-*.local
+build/
 
-# logs
-*.log
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# OS/editor
-.DS_Store
-.vscode/*
-!.vscode/extensions.json
+# =========================================================
+# Phase 19 - Cloudflare / local secrets hardening
+# =========================================================
+# Wrangler local secret files. لا ترفعها إلى GitHub.
+.dev.vars
+.dev.vars.local
 
-# ملاحظة:
-# لا نضيف package-lock.json هنا حتى تستطيع حذفه من Git بوضوح عبر git rm.
-# المشروع حالياً يستخدم Bun على Cloudflare، ووجود package-lock.json جعل Cloudflare يستخدم npm clean-install.
+# Local-only overrides.
+*.local
+wrangler.toml.local
+
+# Cloudflare local build/cache output.
+.wrangler/
