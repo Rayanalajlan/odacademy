@@ -1,18 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
-import { COURSE_TOTALS } from "./data/courseContent";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "./lib/supabaseClient";
 import * as progressService from "./lib/progressService";
 import AuthGate from "./components/AuthGate";
 import Home from "./components/Home";
-import CourseJourney from "./components/CourseJourney";
-import RadarAssessment from "./components/RadarAssessment";
-import SimulationLab from "./components/SimulationLab";
-import AiMentor from "./components/AiMentor";
-import LearningROICalculator from "./components/LearningROICalculator";
-import MasteryCertificate from "./components/MasteryCertificate";
-import AboutRayan from "./components/AboutRayan";
 import LearnerProfileCenter from "./components/LearnerProfileCenter";
 import { sendWelcomeEmailOnce } from "./lib/welcomeEmailService";
+
+const TOTAL_JOURNEY_DAYS = 180;
+
+const CourseJourney = lazy(() => import("./components/CourseJourney"));
+const RadarAssessment = lazy(() => import("./components/RadarAssessment"));
+const SimulationLab = lazy(() => import("./components/SimulationLab"));
+const AiMentor = lazy(() => import("./components/AiMentor"));
+const LearningROICalculator = lazy(() => import("./components/LearningROICalculator"));
+const MasteryCertificate = lazy(() => import("./components/MasteryCertificate"));
+const AboutRayan = lazy(() => import("./components/AboutRayan"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
@@ -67,6 +69,15 @@ async function readProgressRows() {
   return loader();
 }
 
+function PageLoader({ label = "جارٍ تحميل القسم..." }) {
+  return (
+    <div className="page-loader" role="status" aria-live="polite">
+      <span className="page-loader-dot" aria-hidden="true" />
+      <span>{label}</span>
+    </div>
+  );
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [demoMode, setDemoMode] = useState(false);
@@ -89,7 +100,7 @@ export default function App() {
     return unique.size;
   }, [progressRows]);
 
-  const totalJourneyDays = COURSE_TOTALS?.totalDays || 180;
+  const totalJourneyDays = TOTAL_JOURNEY_DAYS;
 
   const authenticated = Boolean(
     session?.user || demoMode || (!isSupabaseConfigured && userName)
@@ -277,6 +288,40 @@ export default function App() {
           لا يؤثر على شعار قسم "عن ريان" الكبير لأنه يستخدم ar-logo-shell.
         */
 
+
+        .page-loader {
+          width: min(1180px, calc(100% - 28px));
+          margin: 18px auto;
+          min-height: 120px;
+          border-radius: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          color: #334155;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 35%),
+            #ffffff;
+          border: 1px solid rgba(148,163,184,.18);
+          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+          font-weight: 900;
+        }
+
+        .page-loader-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 999px;
+          background: #4f46e5;
+          box-shadow: 0 0 0 0 rgba(79,70,229,.40);
+          animation: odPulse 1.2s infinite;
+        }
+
+        @keyframes odPulse {
+          0% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(79,70,229,.40); }
+          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(79,70,229,0); }
+          100% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(79,70,229,0); }
+        }
+
         .brand .brand-mark,
         .brand .brand-mark.image-mark {
           width: 52px !important;
@@ -400,36 +445,38 @@ export default function App() {
         />
       )}
 
-      {activePage === "journey" && (
-        <CourseJourney
-          progressRows={progressRows}
-          setProgressRows={setProgressRows}
-          loading={loadingProgress}
-        />
-      )}
+      <Suspense fallback={<PageLoader />}>
+        {activePage === "journey" && (
+          <CourseJourney
+            progressRows={progressRows}
+            setProgressRows={setProgressRows}
+            loading={loadingProgress}
+          />
+        )}
 
-      {activePage === "radar" && <RadarAssessment setActivePage={navigate} />}
+        {activePage === "radar" && <RadarAssessment setActivePage={navigate} />}
 
-      {activePage === "simulation" && <SimulationLab />}
+        {activePage === "simulation" && <SimulationLab />}
 
-      {activePage === "ai-mentor" && <AiMentor />}
+        {activePage === "ai-mentor" && <AiMentor />}
 
-      {activePage === "learning-roi" && (
-        <LearningROICalculator
-          completedDays={completedDays}
-          totalDays={totalJourneyDays}
-        />
-      )}
+        {activePage === "learning-roi" && (
+          <LearningROICalculator
+            completedDays={completedDays}
+            totalDays={totalJourneyDays}
+          />
+        )}
 
-      {activePage === "mastery" && (
-        <MasteryCertificate
-          userName={displayName}
-          completedDays={completedDays}
-          setActivePage={navigate}
-        />
-      )}
+        {activePage === "mastery" && (
+          <MasteryCertificate
+            userName={displayName}
+            completedDays={completedDays}
+            setActivePage={navigate}
+          />
+        )}
 
-      {activePage === "about" && <AboutRayan />}
+        {activePage === "about" && <AboutRayan />}
+      </Suspense>
 
       <footer className="site-footer">
         <div>
