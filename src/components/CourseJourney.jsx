@@ -3,6 +3,12 @@ import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent"
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
+import SavedLessonsPanel from "./SavedLessonsPanel";
+import {
+  deleteLessonBookmarkByLocation,
+  listLessonBookmarks,
+  saveLessonBookmark
+} from "../lib/lessonBookmarkService";
 
 const stateLabels = {
   locked: "مقفل",
@@ -651,6 +657,10 @@ export default function CourseJourney({
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [quizPassedByDay, setQuizPassedByDay] = useState({});
+  const [lessonBookmarks, setLessonBookmarks] = useState([]);
+  const [bookmarksLoading, setBookmarksLoading] = useState(false);
+  const [bookmarkSaving, setBookmarkSaving] = useState(false);
+  const [bookmarkStatus, setBookmarkStatus] = useState("");
 
   const completedSet = useMemo(() => calculateCompletedSet(progressRows), [progressRows]);
 
@@ -669,6 +679,31 @@ export default function CourseJourney({
     () => prepareLesson(selectedDay || {}),
     [selectedDay?.id, selectedDay?.content, selectedDay?.quiz]
   );
+
+  const currentLessonPath = useMemo(() => {
+    return [selectedMonth?.title, selectedWeek?.title, selectedDay?.title]
+      .filter(Boolean)
+      .join(" ← ");
+  }, [selectedMonth?.title, selectedWeek?.title, selectedDay?.title]);
+
+  const currentLessonExcerpt = useMemo(() => {
+    return String(preparedLesson.lessonText || preparedLesson.fullText || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 220);
+  }, [preparedLesson.lessonText, preparedLesson.fullText]);
+
+  const currentBookmark = useMemo(() => {
+    if (!selectedDay) return null;
+
+    return lessonBookmarks.find((bookmark) => {
+      return (
+        Number(bookmark.month_index) === Number(selectedDay.monthIndex) &&
+        Number(bookmark.week_index) === Number(selectedDay.weekIndex) &&
+        Number(bookmark.day_index) === Number(selectedDay.dayIndex)
+      );
+    }) || null;
+  }, [lessonBookmarks, selectedDay]);
 
   // العدد الفعلي داخل المحتوى يبقى كما هو حتى لا ينكسر فتح الأسابيع والشهور.
   // أما العرض أمام المتدرب فيكون حسب الخطة المعتمدة: 6 أشهر × 30 يوم = 180 يومًا.
@@ -840,6 +875,11 @@ export default function CourseJourney({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stage, selectedDay?.id]);
 
+  useEffect(() => {
+    loadBookmarksSafely();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function handleMonthClick(month) {
     if (!isMonthUnlocked(month)) return;
 
@@ -923,6 +963,81 @@ export default function CourseJourney({
       const lessonElement = document.querySelector(".jl-reader");
       lessonElement?.scrollIntoView?.({ behavior: "smooth", block: "start" });
     });
+  }
+
+  async function loadBookmarksSafely() {
+    setBookmarksLoading(true);
+
+    try {
+      const rows = await listLessonBookmarks();
+      setLessonBookmarks(Array.isArray(rows) ? rows : []);
+    } catch (error) {
+      console.warn("تعذر تحميل الدروس المحفوظة:", error);
+    } finally {
+      setBookmarksLoading(false);
+    }
+  }
+
+  function jumpToBookmark(bookmark) {
+    jumpToSearchResult({
+      monthIndex: Number(bookmark?.month_index),
+      weekIndex: Number(bookmark?.week_index),
+      dayIndex: Number(bookmark?.day_index)
+    });
+  }
+
+  async function toggleCurrentBookmark() {
+    if (!selectedDay) return;
+
+    setBookmarkSaving(true);
+    setBookmarkStatus("");
+
+    try {
+      if (currentBookmark) {
+        await deleteLessonBookmarkByLocation({
+          monthIndex: selectedDay.monthIndex,
+          weekIndex: selectedDay.weekIndex,
+          dayIndex: selectedDay.dayIndex
+        });
+
+        setLessonBookmarks((current) => current.filter((bookmark) => {
+          return !(
+            Number(bookmark.month_index) === Number(selectedDay.monthIndex) &&
+            Number(bookmark.week_index) === Number(selectedDay.weekIndex) &&
+            Number(bookmark.day_index) === Number(selectedDay.dayIndex)
+          );
+        }));
+        setBookmarkStatus("تمت إزالة الدرس من المحفوظات.");
+        return;
+      }
+
+      const saved = await saveLessonBookmark({
+        monthIndex: selectedDay.monthIndex,
+        weekIndex: selectedDay.weekIndex,
+        dayIndex: selectedDay.dayIndex,
+        lessonTitle: selectedDay.title,
+        lessonPath: currentLessonPath,
+        excerpt: currentLessonExcerpt
+      });
+
+      setLessonBookmarks((current) => {
+        const filtered = current.filter((bookmark) => {
+          return !(
+            Number(bookmark.month_index) === Number(selectedDay.monthIndex) &&
+            Number(bookmark.week_index) === Number(selectedDay.weekIndex) &&
+            Number(bookmark.day_index) === Number(selectedDay.dayIndex)
+          );
+        });
+
+        return [saved, ...filtered];
+      });
+      setBookmarkStatus("تم حفظ الدرس في قائمتك.");
+    } catch (error) {
+      setBookmarkStatus(error?.message || "تعذر تحديث الدروس المحفوظة.");
+    } finally {
+      setBookmarkSaving(false);
+      window.setTimeout(() => setBookmarkStatus(""), 2600);
+    }
   }
 
   async function completeCurrentDay() {
@@ -1579,6 +1694,17 @@ export default function CourseJourney({
           margin-top:16px;
         }
 
+        .jl-bookmark-status {
+          border-radius: 16px;
+          padding: 10px 12px;
+          color: #e0e7ff;
+          background: rgba(255,255,255,.10);
+          border: 1px solid rgba(255,255,255,.16);
+          font-size: 11px;
+          line-height: 1.7;
+          font-weight: 850;
+        }
+
         .jl-complete {
           padding:14px 16px;
           border-radius:18px;
@@ -2035,6 +2161,13 @@ export default function CourseJourney({
           placeholder="ابحث عن RACI، الثقافة، التغيير، الوصف الوظيفي، قياس الأثر..."
         />
 
+        <SavedLessonsPanel
+          bookmarks={lessonBookmarks}
+          loading={bookmarksLoading}
+          onRefresh={loadBookmarksSafely}
+          onJump={jumpToBookmark}
+        />
+
         <div className="jl-top-actions">
           <div className="jl-breadcrumbs">
             <button type="button" className="jl-crumb" onClick={() => setStage("months")}>
@@ -2202,6 +2335,21 @@ export default function CourseJourney({
                 </p>
 
                 <div className="jl-lesson-actions">
+                  <button
+                    type="button"
+                    className="jl-ghost-btn"
+                    onClick={toggleCurrentBookmark}
+                    disabled={bookmarkSaving || currentDayState === "locked"}
+                  >
+                    {bookmarkSaving
+                      ? "جارٍ تحديث المحفوظات..."
+                      : currentBookmark
+                        ? "إزالة من الدروس المحفوظة ★"
+                        : "حفظ هذا الدرس ☆"}
+                  </button>
+
+                  {bookmarkStatus && <div className="jl-bookmark-status">{bookmarkStatus}</div>}
+
                   <button
                     type="button"
                     className="jl-complete"
