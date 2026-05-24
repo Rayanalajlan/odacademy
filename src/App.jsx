@@ -14,6 +14,7 @@ import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
 import ThemeToggle from "./components/ThemeToggle";
 import EducationalToolsMenu from "./components/EducationalToolsMenu";
+import TestimonialsMarquee from "./components/TestimonialsMarquee";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -185,13 +186,22 @@ export default function App() {
     if (showLoader) setLoadingProgress(true);
 
     try {
-      const rows = await withTimeout(readProgressRows(), "تحميل تقدمك");
+      // Phase 38:
+      // لا نضع timeout قصيرًا على تحميل التقدم؛ لأن هذا كان سبب ظهور رسالة
+      // "سيعمل الموقع من التخزين المحلي" رغم أن Supabase قد يكون فقط أبطأ من 8 ثوانٍ.
+      // خدمة progressService نفسها تعيد المحاولة وتزامن المحلي إلى السحابة.
+      const rows = await readProgressRows();
       setProgressRows(Array.isArray(rows) ? rows : []);
+      setNotice((current) =>
+        current === "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
+          ? ""
+          : current
+      );
     } catch (error) {
-      console.warn("تعذر تحميل التقدم:", error);
+      console.warn("تعذر تحميل التقدم السحابي:", error);
 
       setNotice(
-        "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
+        "تعذر الاتصال بقاعدة التقدم السحابية. لن يتم احتساب أي تقدم جديد حتى يعود الاتصال أو تُراجع إعدادات Supabase."
       );
     } finally {
       if (showLoader) setLoadingProgress(false);
@@ -779,12 +789,15 @@ export default function App() {
       )}
 
       {activePage === "home" && (
-        <Home
-          userName={displayName}
-          setActivePage={navigate}
-          completedDays={completedDays}
-          totalDays={totalJourneyDays}
-        />
+        <>
+          <Home
+            userName={displayName}
+            setActivePage={navigate}
+            completedDays={completedDays}
+            totalDays={totalJourneyDays}
+          />
+          <TestimonialsMarquee />
+        </>
       )}
 
       <Suspense fallback={<PageLoader />}>
