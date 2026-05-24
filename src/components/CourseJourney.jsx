@@ -4,7 +4,6 @@ import { markDayOpened, updateUserProgress } from "../lib/progressService";
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
 import SavedLessonsPanel from "./SavedLessonsPanel";
-import WeeklyReflectionPanel from "./WeeklyReflectionPanel";
 import {
   deleteLessonBookmarkByLocation,
   listLessonBookmarks,
@@ -397,7 +396,7 @@ function prepareLesson(day) {
   const parsedQuiz = parseQuizText(day, quizText);
 
   return {
-    // النص الكامل محفوظ كما هو من ملف courseContent، ويُعرض أيضًا في قسم "النص الأصلي الكامل".
+    // النص الكامل محفوظ داخليًا للمعالجة، ولا يُعرض للمتدرب كملف مصدر.
     fullText,
     lessonText,
     quizText,
@@ -469,17 +468,9 @@ function RichLesson({ text }) {
   );
 }
 
-function ExactSourcePanel({ text }) {
-  const source = safeText(text).trim();
-
-  if (!source) return null;
-
-  return (
-    <details className="jl-exact-source">
-      <summary>النص الأصلي الكامل لهذا اليوم كما هو في ملف المحتوى</summary>
-      <pre>{source}</pre>
-    </details>
-  );
+function ExactSourcePanel() {
+  // لا نعرض النص الخام للمتدرب؛ المحتوى يظهر فقط كدرس منسق.
+  return null;
 }
 
 function StatusMark({ state }) {
@@ -540,7 +531,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
           <>
             <p>
               يوجد اختبار في النص الأصلي، لكن لم أستطع تحويله تلقائيًا إلى أزرار اختيار.
-              اقرأ اختبار اليوم من قسم "النص الأصلي الكامل" ثم اضغط الزر التالي لتأكيد أنك أجبت عنه.
+              اقرأ اختبار اليوم من الدرس، ثم اضغط الزر التالي لتأكيد أنك أجبت عنه.
             </p>
             <button type="button" className="jl-quiz-submit" onClick={() => onPass(true)}>
               أجبت على اختبار اليوم من النص الأصلي
@@ -565,7 +556,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
       {total !== 3 && (
         <div className="jl-quiz-warning">
           تنبيه: المتوقع أن يحتوي اختبار كل يوم على 3 أسئلة. هذا اليوم ظهر فيه {total} سؤال/أسئلة بعد التحويل الآلي.
-          النص الأصلي الكامل ظاهر أسفل الدرس للمراجعة.
+          راجع الدرس مرة أخرى إذا احتجت قبل المتابعة.
         </div>
       )}
 
@@ -2169,15 +2160,6 @@ export default function CourseJourney({
           onJump={jumpToBookmark}
         />
 
-        <WeeklyReflectionPanel
-          monthIndex={selectedMonth?.monthIndex}
-          weekIndex={selectedWeek?.weekIndex}
-          monthTitle={selectedMonth?.title}
-          weekTitle={selectedWeek?.title}
-          completedDaysInWeek={weekCompletedDays}
-          totalDaysInWeek={weekTotalDays}
-        />
-
         <div className="jl-top-actions">
           <div className="jl-breadcrumbs">
             <button type="button" className="jl-crumb" onClick={() => setStage("months")}>
@@ -2413,7 +2395,6 @@ export default function CourseJourney({
                   }}
                 />
 
-                <ExactSourcePanel text={preparedLesson.fullText} />
               </article>
             </section>
           )}

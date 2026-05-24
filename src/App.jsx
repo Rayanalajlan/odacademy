@@ -7,13 +7,11 @@ import LearnerProfileCenter from "./components/LearnerProfileCenter";
 import { sendWelcomeEmailOnce } from "./lib/welcomeEmailService";
 import LearningTimeTracker from "./components/LearningTimeTracker";
 import NotificationsCenter from "./components/NotificationsCenter";
-import BadgesStrip from "./components/BadgesStrip";
 import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
 import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
-import ThemeToggle from "./components/ThemeToggle";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -61,6 +59,22 @@ function getVerificationSlugFromLocation() {
 
   const params = new URLSearchParams(window.location.search);
   return params.get("verify") || "";
+}
+
+function isPasswordRecoveryRequest() {
+  if (typeof window === "undefined") return false;
+
+  const path = window.location.pathname || "";
+  const search = window.location.search || "";
+  const hash = window.location.hash || "";
+
+  return (
+    path === "/reset-password" ||
+    search.includes("reset_password=true") ||
+    search.includes("type=recovery") ||
+    hash.includes("type=recovery") ||
+    hash.includes("access_token=")
+  );
 }
 
 function progressKey(row) {
@@ -128,6 +142,7 @@ export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [checkingOnboarding, setCheckingOnboarding] = useState(false);
   const verificationSlug = getVerificationSlugFromLocation();
+  const passwordRecoveryMode = isPasswordRecoveryRequest();
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -301,10 +316,14 @@ export default function App() {
       setCheckingOnboarding(true);
 
       try {
-        const state =
+        const localKey = session?.user?.id || (demoMode ? "demo" : "guest");
+        const localState = getLocalOnboardingState(localKey);
+        const cloudState =
           demoMode || !session?.user?.id
-            ? getLocalOnboardingState(demoMode ? "demo" : "guest")
+            ? null
             : await getOnboardingState();
+
+        const state = cloudState || localState;
 
         if (mounted) {
           setShowOnboarding(!state?.has_completed);
@@ -313,8 +332,9 @@ export default function App() {
         console.warn("تعذر قراءة حالة الترحيب الذكي:", error);
 
         if (mounted) {
-          // إذا فشل الفحص لا نوقف المستخدم؛ نعرض الترحيب مرة واحدة كخيار آمن.
-          setShowOnboarding(true);
+          const localKey = session?.user?.id || (demoMode ? "demo" : "guest");
+          const localState = getLocalOnboardingState(localKey);
+          setShowOnboarding(!localState?.has_completed);
         }
       } finally {
         if (mounted) {
@@ -391,21 +411,22 @@ export default function App() {
 
   async function handleOnboardingComplete(preferredStart = "later") {
     const normalizedStart = preferredStart || "later";
+    const localKey = session?.user?.id || (demoMode ? "demo" : "guest");
 
-    try {
-      if (demoMode || !session?.user?.id) {
-        completeLocalOnboarding({
-          userKey: demoMode ? "demo" : "guest",
-          preferredStart: normalizedStart
-        });
-      } else {
-        await completeOnboarding({
-          preferredStart: normalizedStart
-        });
-      }
-    } catch (error) {
-      console.warn("تعذر حفظ حالة الترحيب الذكي:", error);
-      setNotice("تم تجاوز شاشة الترحيب، لكن تعذر حفظ حالتها في السحابة مؤقتًا.");
+    // نحفظ الاختيار محليًا أولًا حتى لا تظهر شاشة الترحيب مرة أخرى
+    // حتى لو تعذر الحفظ السحابي مؤقتًا.
+    completeLocalOnboarding({
+      userKey: localKey,
+      preferredStart: normalizedStart
+    });
+
+    if (!demoMode && session?.user?.id) {
+      completeOnboarding({
+        preferredStart: normalizedStart
+      }).catch((error) => {
+        // لا نزعج المستخدم برسالة عامة؛ التخزين المحلي يكفي لمنع تكرار الشاشة.
+        console.warn("تعذر حفظ حالة الترحيب الذكي في السحابة:", error);
+      });
     }
 
     setShowOnboarding(false);
@@ -431,6 +452,17 @@ export default function App() {
       <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
         <VerifyCertificate slug={verificationSlug} />
       </Suspense>
+    );
+  }
+
+  if (passwordRecoveryMode) {
+    return (
+      <AuthGate
+        recoveryMode
+        onEnter={handleEnter}
+        onAuthenticated={handleAuthenticatedFromOldAuthGate}
+        onPasswordUpdated={handleAuthenticatedFromOldAuthGate}
+      />
     );
   }
 
@@ -667,8 +699,6 @@ export default function App() {
           ))}
         </nav>
 
-        <ThemeToggle />
-
         <NotificationsCenter setActivePage={navigate} />
 
         <button
@@ -704,8 +734,6 @@ export default function App() {
         onResumeJourney={resumeJourneyFromLastPoint}
         onSignOut={handleSignOut}
       />
-
-      <BadgesStrip completedDays={completedDays} />
 
       {showOnboarding && (
         <OnboardingFlow

@@ -336,7 +336,7 @@ export default function OnboardingFlow({
                 </div>
               </div>
               <p>
-                سنحفظ اختيار البداية حتى لا تظهر هذه الشاشة في كل دخول. تستطيع
+                يمكنك اختيار البداية أو إخفاء هذه الشاشة نهائيًا. سنحفظ اختيارك حتى لا تظهر في كل دخول. تستطيع
                 دائمًا الوصول لكل الأقسام من الشريط العلوي.
               </p>
             </aside>
@@ -404,7 +404,7 @@ export default function OnboardingFlow({
 
           <div className="onboarding-skip">
             <button type="button" onClick={() => choose("later")} disabled={disabled}>
-              تخطي الآن وعدم إظهار هذه الشاشة مرة أخرى
+              عدم إظهار الترحيب مجددًا
             </button>
           </div>
         </div>

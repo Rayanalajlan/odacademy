@@ -408,7 +408,7 @@ export default function AuthGate({
     setBusy(true);
 
     try {
-      const redirectTo = `${window.location.origin}/?reset_password=true`;
+      const redirectTo = `${window.location.origin}/reset-password`;
 
       const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
         redirectTo
@@ -416,7 +416,7 @@ export default function AuthGate({
 
       if (error) throw error;
 
-      showNotice("أرسلنا رابط استعادة كلمة المرور إلى بريدك. افتح الرابط ثم اكتب كلمة مرور جديدة.");
+      showNotice("أرسلنا رابط استعادة كلمة المرور إلى بريدك. افتح الرابط وسيظهر لك نموذج تعيين كلمة مرور جديدة.");
     } catch (error) {
       showNotice(error?.message || "تعذر إرسال رابط استعادة كلمة المرور.");
     } finally {
