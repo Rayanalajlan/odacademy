@@ -1,9 +1,85 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
 
-const STORAGE_PREFIX = "odacademy_welcome_email_checked";
+/**
+ * Phase 35 - Welcome email final fix
+ *
+ * مبدأ مهم:
+ * لا نعتبر الإيميل "انتهى" محليًا إلا إذا قال السيرفر:
+ * - sent = true
+ * - أو skipped بسبب welcome_email_already_sent
+ *
+ * استخدمنا v2 حتى نحاول الإرسال من جديد لمن كان عنده localStorage قديم منع المحاولة.
+ */
+const STORAGE_PREFIX = "odacademy_welcome_email_checked_v2";
 const IN_FLIGHT = new Set();
 
-export async function sendWelcomeEmailOnce() {
+function getTimezone() {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh";
+  } catch {
+    return "Asia/Riyadh";
+  }
+}
+
+function getUserAgent() {
+  try {
+    return navigator.userAgent || "";
+  } catch {
+    return "";
+  }
+}
+
+function markDone(storageKey, payload) {
+  try {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        done: true,
+        at: new Date().toISOString(),
+        reason: payload?.reason || (payload?.sent ? "sent" : "done")
+      })
+    );
+  } catch {
+    // لا نوقف الموقع بسبب التخزين المحلي.
+  }
+}
+
+function readDone(storageKey) {
+  try {
+    const raw = localStorage.getItem(storageKey);
+
+    if (!raw) return false;
+    if (raw === "done") return true;
+
+    const parsed = JSON.parse(raw);
+    return Boolean(parsed?.done);
+  } catch {
+    return false;
+  }
+}
+
+export async function checkWelcomeEmailHealth() {
+  try {
+    const response = await fetch("/api/welcome-email", {
+      method: "GET",
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    return await response.json().catch(() => ({
+      ok: false,
+      error: "invalid_health_response"
+    }));
+  } catch (error) {
+    return {
+      ok: false,
+      error: error?.message || "welcome_health_request_failed"
+    };
+  }
+}
+
+export async function sendWelcomeEmailOnce({ force = false } = {}) {
   if (!isSupabaseConfigured || !supabase) {
     return {
       ok: false,
@@ -19,7 +95,8 @@ export async function sendWelcomeEmailOnce() {
     return {
       ok: false,
       skipped: true,
-      reason: "session_error"
+      reason: "session_error",
+      details: error.message
     };
   }
 
@@ -37,7 +114,7 @@ export async function sendWelcomeEmailOnce() {
 
   const storageKey = `${STORAGE_PREFIX}_${userId}`;
 
-  if (localStorage.getItem(storageKey) === "done") {
+  if (!force && readDone(storageKey)) {
     return {
       ok: true,
       skipped: true,
@@ -60,28 +137,37 @@ export async function sendWelcomeEmailOnce() {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify({
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh",
-        userAgent: navigator.userAgent || ""
+        force,
+        timezone: getTimezone(),
+        userAgent: getUserAgent()
       })
     });
 
     const payload = await response.json().catch(() => ({}));
 
-    if (response.ok || payload?.skipped) {
-      localStorage.setItem(storageKey, "done");
+    const alreadySent =
+      payload?.skipped === true &&
+      payload?.reason === "welcome_email_already_sent";
+
+    if (payload?.sent === true || alreadySent) {
+      markDone(storageKey, payload);
       return payload;
     }
 
-    console.warn("تعذر إرسال إيميل الترحيب:", payload?.error || payload);
+    if (!response.ok) {
+      console.warn("تعذر إرسال إيميل الترحيب:", payload?.error || payload);
+      return {
+        ok: false,
+        error: payload?.error || "welcome_email_failed",
+        details: payload
+      };
+    }
 
-    return {
-      ok: false,
-      error: payload?.error || "welcome_email_failed",
-      details: payload
-    };
+    return payload;
   } catch (caughtError) {
     console.warn("تعذر الاتصال بخدمة إيميل الترحيب:", caughtError);
 

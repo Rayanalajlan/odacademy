@@ -836,6 +836,45 @@ async function updateUserProfile({ supabaseUrl, supabaseAnonKey, accessToken, us
   return { ok: true };
 }
 
+async function safeFetchUserProfile(args) {
+  const result = await fetchUserProfile(args);
+
+  if (!result.ok) {
+    console.warn("تعذر قراءة ملف المستخدم لإيميلات المنصة:", result.error || result.status);
+    return {
+      ok: false,
+      profile: null,
+      error: result.error,
+      status: result.status
+    };
+  }
+
+  return result;
+}
+
+async function safeUpdateUserProfile(args) {
+  const result = await updateUserProfile(args);
+
+  if (!result.ok) {
+    console.warn("تعذر تحديث ملف المستخدم لإيميلات المنصة:", result.details || result.status);
+  }
+
+  return result;
+}
+
+function getDisplayNameFromUserAndProfile(user, profile = {}) {
+  return (
+    profile?.display_name ||
+    profile?.certificate_name ||
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")?.[0] ||
+    "متدربنا العزيز"
+  );
+}
+
+
 function getAuthToken(request) {
   const authHeader = request.headers.get("Authorization") || "";
   if (!authHeader.startsWith("Bearer ")) return "";
@@ -899,7 +938,7 @@ async function handleLoginNoticeRequest(request, env) {
   const userResult = await getSupabaseUser({ supabaseUrl, supabaseAnonKey, accessToken });
   if (!userResult.ok) return jsonResponse({ ok: false, error: userResult.error }, userResult.status || 401, request, env);
 
-  const profileResult = await fetchUserProfile({
+  const profileResult = await safeFetchUserProfile({
     supabaseUrl,
     supabaseAnonKey,
     accessToken,
@@ -907,7 +946,7 @@ async function handleLoginNoticeRequest(request, env) {
   });
 
   const profile = profileResult.profile || {};
-  const displayName = profile.display_name || profile.certificate_name || profile.full_name || userResult.user?.user_metadata?.full_name || "متدربنا العزيز";
+  const displayName = getDisplayNameFromUserAndProfile(userResult.user, profile);
   const email = buildLoginEmail({ displayName, siteUrl });
 
   const sendResult = await sendEmailWithBrevo({
@@ -941,13 +980,25 @@ async function handleWelcomeEmailRequest(request, env) {
   if (request.method === "OPTIONS") return emptyResponse(request, env);
 
   if (request.method === "GET") {
+    const config = getRequiredEmailEnv(env);
+    const missing = [];
+
+    if (!config.supabaseUrl) missing.push("SUPABASE_URL أو VITE_SUPABASE_URL");
+    if (!config.supabaseAnonKey) missing.push("SUPABASE_ANON_KEY أو VITE_SUPABASE_ANON_KEY");
+    if (!config.brevoApiKey) missing.push("BREVO_API_KEY");
+    if (!config.senderEmail) missing.push("BREVO_SENDER_EMAIL");
+
     return jsonResponse(
       {
-        ok: true,
+        ok: missing.length === 0,
         service: "odacademy-welcome-email",
-        message: "خدمة إيميل الترحيب متصلة."
+        message: missing.length === 0
+          ? "خدمة إيميل الترحيب متصلة وجاهزة."
+          : "خدمة إيميل الترحيب متصلة لكن الإعدادات ناقصة.",
+        envReady: missing.length === 0,
+        missing
       },
-      200,
+      missing.length === 0 ? 200 : 500,
       request,
       env
     );
@@ -981,7 +1032,10 @@ async function handleWelcomeEmailRequest(request, env) {
   const userResult = await getSupabaseUser({ supabaseUrl, supabaseAnonKey, accessToken });
   if (!userResult.ok) return jsonResponse({ ok: false, error: userResult.error }, userResult.status || 401, request, env);
 
-  const profileResult = await fetchUserProfile({
+  const body = (await safeJson(request)) || {};
+  const force = body.force === true;
+
+  const profileResult = await safeFetchUserProfile({
     supabaseUrl,
     supabaseAnonKey,
     accessToken,
@@ -990,11 +1044,11 @@ async function handleWelcomeEmailRequest(request, env) {
 
   const profile = profileResult.profile || {};
 
-  if (profile.welcome_email_sent_at) {
+  if (!force && profile.welcome_email_sent_at) {
     return jsonResponse({ ok: true, skipped: true, reason: "welcome_email_already_sent" }, 200, request, env);
   }
 
-  await updateUserProfile({
+  await safeUpdateUserProfile({
     supabaseUrl,
     supabaseAnonKey,
     accessToken,
@@ -1005,7 +1059,7 @@ async function handleWelcomeEmailRequest(request, env) {
     }
   });
 
-  const displayName = profile.display_name || profile.certificate_name || profile.full_name || userResult.user?.user_metadata?.full_name || "متدربنا العزيز";
+  const displayName = getDisplayNameFromUserAndProfile(userResult.user, profile);
   const email = buildWelcomeEmail({ displayName, siteUrl, platformName: senderName });
 
   const sendResult = await sendEmailWithBrevo({
@@ -1020,7 +1074,7 @@ async function handleWelcomeEmailRequest(request, env) {
   });
 
   if (!sendResult.ok) {
-    await updateUserProfile({
+    await safeUpdateUserProfile({
       supabaseUrl,
       supabaseAnonKey,
       accessToken,
@@ -1044,7 +1098,7 @@ async function handleWelcomeEmailRequest(request, env) {
     );
   }
 
-  await updateUserProfile({
+  await safeUpdateUserProfile({
     supabaseUrl,
     supabaseAnonKey,
     accessToken,
