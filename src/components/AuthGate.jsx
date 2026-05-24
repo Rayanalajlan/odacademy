@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
+import VisitorTestimonialsMarquee from "./VisitorTestimonialsMarquee";
 
 const MONTHS = [
   {
@@ -1549,6 +1550,8 @@ export default function AuthGate({
             </div>
           </div>
         </section>
+
+        <VisitorTestimonialsMarquee />
 
         <section className="public-section">
           <div className="section-head">

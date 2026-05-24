@@ -14,7 +14,6 @@ import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
 import ThemeToggle from "./components/ThemeToggle";
 import EducationalToolsMenu from "./components/EducationalToolsMenu";
-import TestimonialsMarquee from "./components/TestimonialsMarquee";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -789,15 +788,12 @@ export default function App() {
       )}
 
       {activePage === "home" && (
-        <>
-          <Home
-            userName={displayName}
-            setActivePage={navigate}
-            completedDays={completedDays}
-            totalDays={totalJourneyDays}
-          />
-          <TestimonialsMarquee />
-        </>
+        <Home
+          userName={displayName}
+          setActivePage={navigate}
+          completedDays={completedDays}
+          totalDays={totalJourneyDays}
+        />
       )}
 
       <Suspense fallback={<PageLoader />}>
