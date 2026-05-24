@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Fragment, lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "./lib/supabaseClient";
 import * as progressService from "./lib/progressService";
 import AuthGate from "./components/AuthGate";
@@ -13,6 +13,7 @@ import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
 import ThemeToggle from "./components/ThemeToggle";
+import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -37,12 +38,31 @@ const pages = [
   { id: "home", label: "الرئيسية" },
   { id: "portfolio", label: "ملفي التعليمي" },
   { id: "journey", label: "رحلتك التعليمية" },
-  { id: "radar", label: "رادار الأداء" },
-  { id: "simulation", label: "المحاكاة" },
-  { id: "ai-mentor", label: "الموجه الذكي" },
-  { id: "learning-roi", label: "حاسبة العائد من التعلم" },
   { id: "mastery", label: "وثيقة الإتقان" },
   { id: "about", label: "عن ريان" }
+];
+
+const educationalToolPages = [
+  {
+    id: "radar",
+    label: "رادار الأداء",
+    description: "قياس جداراتك وبصمتك المهنية."
+  },
+  {
+    id: "simulation",
+    label: "المحاكاة",
+    description: "اختبر قراراتك في مواقف تنظيمية."
+  },
+  {
+    id: "ai-mentor",
+    label: "الموجه الذكي",
+    description: "اسأل واطلب تحليلًا أو قالبًا عمليًا."
+  },
+  {
+    id: "learning-roi",
+    label: "حاسبة العائد من التعلم",
+    description: "حوّل التقدم إلى أثر ووقت وقيمة."
+  }
 ];
 
 const BOOT_TIMEOUT_MS = 8000;
@@ -689,14 +709,23 @@ export default function App() {
 
         <nav className="main-nav" aria-label="أقسام المنصة">
           {visiblePages.map((page) => (
-            <button
-              key={page.id}
-              type="button"
-              className={activePage === page.id ? "active" : ""}
-              onClick={() => navigate(page.id)}
-            >
-              {page.label}
-            </button>
+            <Fragment key={page.id}>
+              {page.id === "mastery" && (
+                <EducationalToolsMenu
+                  toolPages={educationalToolPages}
+                  activePage={activePage}
+                  onNavigate={navigate}
+                />
+              )}
+
+              <button
+                type="button"
+                className={activePage === page.id ? "active" : ""}
+                onClick={() => navigate(page.id)}
+              >
+                {page.label}
+              </button>
+            </Fragment>
           ))}
         </nav>
 
@@ -716,6 +745,7 @@ export default function App() {
       <MobileNavigation
         open={mobileNavOpen}
         pages={visiblePages}
+        toolPages={educationalToolPages}
         activePage={activePage}
         userName={displayName}
         completedDays={completedDays}

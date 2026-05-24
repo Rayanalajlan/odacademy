@@ -13,6 +13,7 @@ function firstNameOf(value) {
 export default function MobileNavigation({
   open = false,
   pages = [],
+  toolPages = [],
   activePage = "home",
   userName = "متدرب",
   completedDays = 0,
@@ -32,6 +33,8 @@ export default function MobileNavigation({
       percent: Math.round((safeCompleted / safeTotal) * 100)
     };
   }, [completedDays, totalDays]);
+
+  const toolsActive = toolPages.some((page) => page.id === activePage);
 
   useEffect(() => {
     if (!open || typeof window === "undefined") return undefined;
@@ -234,6 +237,73 @@ export default function MobileNavigation({
           font-weight: 900;
         }
 
+        .mobile-tools-group {
+          border-radius: 22px;
+          padding: 11px;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 34%),
+            #f8fafc;
+          border: 1px solid rgba(148,163,184,.18);
+        }
+
+        .mobile-tools-group.active {
+          border-color: rgba(79,70,229,.32);
+          background: #eef2ff;
+        }
+
+        .mobile-tools-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+          padding: 0 3px;
+        }
+
+        .mobile-tools-title strong {
+          color: #0f172a;
+          font-size: 13px;
+          font-weight: 950;
+        }
+
+        .mobile-tools-title span {
+          color: #64748b;
+          font-size: 10px;
+          font-weight: 850;
+        }
+
+        .mobile-tool-button {
+          width: 100%;
+          border: 0;
+          cursor: pointer;
+          border-radius: 16px;
+          padding: 11px;
+          display: grid;
+          gap: 3px;
+          text-align: right;
+          font-family: inherit;
+          background: transparent;
+        }
+
+        .mobile-tool-button.active,
+        .mobile-tool-button:hover {
+          background: rgba(79,70,229,.10);
+        }
+
+        .mobile-tool-button strong {
+          color: #0f172a;
+          font-size: 12px;
+          line-height: 1.6;
+          font-weight: 950;
+        }
+
+        .mobile-tool-button span {
+          color: #64748b;
+          font-size: 10px;
+          line-height: 1.7;
+          font-weight: 760;
+        }
+
         .mobile-nav-bottom {
           display: grid;
           gap: 10px;
@@ -260,6 +330,27 @@ export default function MobileNavigation({
           line-height: 1.8;
           font-weight: 760;
           text-align: center;
+        }
+
+        body.od-theme-dark .mobile-tools-group {
+          background: rgba(30,41,59,.88) !important;
+          border-color: rgba(148,163,184,.24) !important;
+        }
+
+        body.od-theme-dark .mobile-tools-group.active,
+        body.od-theme-dark .mobile-tool-button.active,
+        body.od-theme-dark .mobile-tool-button:hover {
+          background: rgba(79,70,229,.22) !important;
+        }
+
+        body.od-theme-dark .mobile-tools-title strong,
+        body.od-theme-dark .mobile-tool-button strong {
+          color: #f8fafc !important;
+        }
+
+        body.od-theme-dark .mobile-tools-title span,
+        body.od-theme-dark .mobile-tool-button span {
+          color: #cbd5e1 !important;
         }
 
         @media (max-width: 980px) {
@@ -310,15 +401,17 @@ export default function MobileNavigation({
 
         <nav className="mobile-nav-list" aria-label="أقسام المنصة للجوال">
           {pages.map((page, index) => (
-            <button
+            <FragmentLike
+              keyValue={page.id}
               key={page.id}
-              type="button"
-              className={`mobile-nav-item ${activePage === page.id ? "active" : ""}`}
-              onClick={() => onNavigate?.(page.id)}
-            >
-              <span>{page.label}</span>
-              <small>{String(index + 1).padStart(2, "0")}</small>
-            </button>
+              showTools={page.id === "journey"}
+              toolsActive={toolsActive}
+              toolPages={toolPages}
+              activePage={activePage}
+              onNavigate={onNavigate}
+              page={page}
+              index={index}
+            />
           ))}
         </nav>
 
@@ -333,5 +426,49 @@ export default function MobileNavigation({
         </div>
       </aside>
     </div>
+  );
+}
+
+function FragmentLike({
+  showTools,
+  toolsActive,
+  toolPages,
+  activePage,
+  onNavigate,
+  page,
+  index
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        className={`mobile-nav-item ${activePage === page.id ? "active" : ""}`}
+        onClick={() => onNavigate?.(page.id)}
+      >
+        <span>{page.label}</span>
+        <small>{String(index + 1).padStart(2, "0")}</small>
+      </button>
+
+      {showTools && (
+        <div className={`mobile-tools-group ${toolsActive ? "active" : ""}`}>
+          <div className="mobile-tools-title">
+            <strong>الأدوات التعليمية</strong>
+            <span>قياس وتطبيق</span>
+          </div>
+
+          {toolPages.map((tool) => (
+            <button
+              key={tool.id}
+              type="button"
+              className={`mobile-tool-button ${activePage === tool.id ? "active" : ""}`}
+              onClick={() => onNavigate?.(tool.id)}
+            >
+              <strong>{tool.label}</strong>
+              <span>{tool.description}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
