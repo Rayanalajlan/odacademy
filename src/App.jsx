@@ -13,6 +13,7 @@ import { syncProgressBadge } from "./lib/badgesService";
 import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
+import ThemeToggle from "./components/ThemeToggle";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -665,6 +666,8 @@ export default function App() {
             </button>
           ))}
         </nav>
+
+        <ThemeToggle />
 
         <NotificationsCenter setActivePage={navigate} />
 
