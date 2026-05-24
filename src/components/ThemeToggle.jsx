@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  initializeTheme,
-  toggleTheme
-} from "../lib/themeService";
+import { initializeTheme, toggleTheme } from "../lib/themeService";
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState("light");
@@ -21,7 +18,6 @@ export default function ThemeToggle() {
     <>
       <style>{`
         .theme-toggle-button {
-          position: relative;
           border: 0;
           cursor: pointer;
           min-height: 44px;
@@ -48,13 +44,13 @@ export default function ThemeToggle() {
           box-shadow: 0 18px 38px rgba(79,70,229,.14);
         }
 
-        .theme-toggle-button .theme-toggle-label {
+        .theme-toggle-label {
           display: none;
           font-size: 12px;
           font-weight: 950;
         }
 
-        .theme-toggle-button .theme-toggle-icon {
+        .theme-toggle-icon {
           display: inline-grid;
           place-items: center;
           width: 24px;
@@ -70,18 +66,30 @@ export default function ThemeToggle() {
             #020617 !important;
         }
 
+        body.od-theme-dark #root,
         body.od-theme-dark .site-frame,
         body.od-theme-dark main,
+        body.od-theme-dark section,
+        body.od-theme-dark article,
+        body.od-theme-dark aside,
+        body.od-theme-dark .boot-screen {
+          color: #e5e7eb !important;
+        }
+
+        body.od-theme-dark .site-frame,
         body.od-theme-dark .boot-screen {
           background:
             radial-gradient(circle at 10% 0%, rgba(79,70,229,.14), transparent 28%),
             radial-gradient(circle at 90% 10%, rgba(16,185,129,.08), transparent 30%),
             #020617 !important;
-          color: #e5e7eb !important;
         }
 
         body.od-theme-dark .site-header,
+        body.od-theme-dark .site-footer,
         body.od-theme-dark .profile-strip,
+        body.od-theme-dark .profile-card,
+        body.od-theme-dark .profile-drawer,
+        body.od-theme-dark .profile-panel,
         body.od-theme-dark .portfolio-section,
         body.od-theme-dark .portfolio-stat,
         body.od-theme-dark .course-search-box,
@@ -90,7 +98,6 @@ export default function ThemeToggle() {
         body.od-theme-dark .monthly-certificates,
         body.od-theme-dark .page-loader,
         body.od-theme-dark .global-notice,
-        body.od-theme-dark .profile-card,
         body.od-theme-dark .mobile-nav-panel,
         body.od-theme-dark .onboarding-card,
         body.od-theme-dark .verify-card,
@@ -98,13 +105,15 @@ export default function ThemeToggle() {
         body.od-theme-dark .jl-card,
         body.od-theme-dark .jl-reader,
         body.od-theme-dark .jl-quiz,
-        body.od-theme-dark .jl-exact-source,
         body.od-theme-dark .radar-card,
         body.od-theme-dark .simulation-card,
         body.od-theme-dark .ai-mentor-card,
         body.od-theme-dark .od-card,
         body.od-theme-dark .home-card,
-        body.od-theme-dark .feature-card {
+        body.od-theme-dark .feature-card,
+        body.od-theme-dark [class*="card"],
+        body.od-theme-dark [class*="panel"],
+        body.od-theme-dark [class*="box"] {
           background:
             radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 32%),
             rgba(15, 23, 42, .94) !important;
@@ -113,54 +122,6 @@ export default function ThemeToggle() {
           color: #e5e7eb !important;
         }
 
-        body.od-theme-dark h1,
-        body.od-theme-dark h2,
-        body.od-theme-dark h3,
-        body.od-theme-dark h4,
-        body.od-theme-dark strong,
-        body.od-theme-dark b,
-        body.od-theme-dark .profile-name strong,
-        body.od-theme-dark .portfolio-row strong,
-        body.od-theme-dark .portfolio-stat strong,
-        body.od-theme-dark .portfolio-section h2,
-        body.od-theme-dark .saved-lesson-card strong,
-        body.od-theme-dark .course-search-result strong,
-        body.od-theme-dark .monthly-card h3,
-        body.od-theme-dark .verify-field strong,
-        body.od-theme-dark .report-row strong,
-        body.od-theme-dark .report-section h2 {
-          color: #f8fafc !important;
-        }
-
-        body.od-theme-dark p,
-        body.od-theme-dark span,
-        body.od-theme-dark small,
-        body.od-theme-dark label,
-        body.od-theme-dark .profile-name span,
-        body.od-theme-dark .portfolio-row p,
-        body.od-theme-dark .portfolio-section-head p,
-        body.od-theme-dark .course-search-title span,
-        body.od-theme-dark .saved-lessons-title span,
-        body.od-theme-dark .weekly-reflection-head p,
-        body.od-theme-dark .monthly-head p,
-        body.od-theme-dark .report-section > p {
-          color: #cbd5e1 !important;
-        }
-
-        body.od-theme-dark input,
-        body.od-theme-dark textarea,
-        body.od-theme-dark select {
-          background: rgba(2, 6, 23, .86) !important;
-          color: #f8fafc !important;
-          border-color: rgba(148,163,184,.32) !important;
-        }
-
-        body.od-theme-dark input::placeholder,
-        body.od-theme-dark textarea::placeholder {
-          color: #94a3b8 !important;
-        }
-
-        body.od-theme-dark button:not(.active):not(.portfolio-button.primary):not(.profile-button.primary):not(.theme-toggle-button):not(.logout-button):not(.mobile-menu-button),
         body.od-theme-dark .portfolio-row,
         body.od-theme-dark .portfolio-cert,
         body.od-theme-dark .report-row,
@@ -172,10 +133,45 @@ export default function ThemeToggle() {
         body.od-theme-dark .weekly-reflection-progress,
         body.od-theme-dark .monthly-card,
         body.od-theme-dark .verify-field,
-        body.od-theme-dark .report-stat {
-          background: rgba(30, 41, 59, .86) !important;
+        body.od-theme-dark .report-stat,
+        body.od-theme-dark .mobile-nav-item,
+        body.od-theme-dark .onboarding-step,
+        body.od-theme-dark [class*="item"],
+        body.od-theme-dark [class*="row"],
+        body.od-theme-dark [class*="stat"] {
+          background: rgba(30, 41, 59, .88) !important;
           border-color: rgba(148,163,184,.22) !important;
           color: #e5e7eb !important;
+        }
+
+        body.od-theme-dark h1,
+        body.od-theme-dark h2,
+        body.od-theme-dark h3,
+        body.od-theme-dark h4,
+        body.od-theme-dark strong,
+        body.od-theme-dark b {
+          color: #f8fafc !important;
+        }
+
+        body.od-theme-dark p,
+        body.od-theme-dark span,
+        body.od-theme-dark small,
+        body.od-theme-dark label,
+        body.od-theme-dark li {
+          color: #cbd5e1 !important;
+        }
+
+        body.od-theme-dark input,
+        body.od-theme-dark textarea,
+        body.od-theme-dark select {
+          background: rgba(2, 6, 23, .88) !important;
+          color: #f8fafc !important;
+          border-color: rgba(148,163,184,.34) !important;
+        }
+
+        body.od-theme-dark input::placeholder,
+        body.od-theme-dark textarea::placeholder {
+          color: #94a3b8 !important;
         }
 
         body.od-theme-dark .main-nav button {
@@ -187,6 +183,12 @@ export default function ThemeToggle() {
         body.od-theme-dark .main-nav button.active {
           color: #ffffff !important;
           background: linear-gradient(135deg, #4f46e5, #312e81) !important;
+        }
+
+        body.od-theme-dark button:not(.active):not(.portfolio-button.primary):not(.profile-button.primary):not(.theme-toggle-button):not(.logout-button):not(.mobile-menu-button) {
+          background: rgba(30, 41, 59, .88) !important;
+          border-color: rgba(148,163,184,.22) !important;
+          color: #e5e7eb !important;
         }
 
         body.od-theme-dark .logout-button {
@@ -216,7 +218,7 @@ export default function ThemeToggle() {
         }
 
         @media (min-width: 1180px) {
-          .theme-toggle-button .theme-toggle-label {
+          .theme-toggle-label {
             display: inline;
           }
 

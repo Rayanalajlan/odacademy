@@ -8,7 +8,6 @@ function safeWindow() {
 
 export function getStoredTheme() {
   const win = safeWindow();
-
   if (!win) return "light";
 
   try {
@@ -20,7 +19,6 @@ export function getStoredTheme() {
 
 export function applyTheme(theme = "light") {
   const win = safeWindow();
-
   if (!win?.document?.body) return "light";
 
   const normalized = theme === "dark" ? "dark" : "light";
@@ -43,7 +41,7 @@ export function saveTheme(theme = "light") {
   try {
     win.localStorage.setItem(THEME_KEY, normalized);
   } catch {
-    // لا نوقف الواجهة إذا منع المتصفح التخزين المحلي.
+    // اختيار بصري فقط؛ لا نوقف الموقع إذا منع المتصفح التخزين.
   }
 
   return normalized;
