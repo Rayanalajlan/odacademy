@@ -18,38 +18,53 @@ function normalizeText(value, fallback = "") {
   return String(value || fallback).trim();
 }
 
-function friendlySupabaseError(error) {
-  if (!error) return "حدث خطأ غير متوقع.";
+function buildFriendlyError(error, action = "تنفيذ العملية") {
+  if (!error) return `تعذر ${action} الآن. حاول مرة أخرى بعد لحظات.`;
 
-  if (error.code === "42501") {
-    return "تعذر الحفظ بسبب سياسات الأمان في Supabase. شغّل ملف SQL الخاص بمرحلة 21 أولًا.";
+  const code = String(error.code || "");
+  const message = String(error.message || "");
+
+  if (code === "42501" || message.toLowerCase().includes("row-level security")) {
+    return "تعذر حفظ البيانات بسبب إعدادات صلاحيات قاعدة البيانات. أعد تشغيل ملف إصلاح Supabase ثم جرّب مرة أخرى.";
   }
 
-  if (error.code === "23514") {
-    return "تعذر الحفظ لأن إحدى القيم لا تطابق شروط جدول رادار الأداء.";
+  if (code === "23514") {
+    return "تعذر الحفظ لأن إحدى القيم لا تطابق شروط قاعدة البيانات.";
   }
 
-  return error.message || "تعذر تنفيذ العملية الآن.";
+  if (code === "42P01") {
+    return "تعذر الحفظ لأن جدول البيانات غير موجود في Supabase. شغّل ملف إصلاح Supabase.";
+  }
+
+  if (code === "42703") {
+    return "تعذر الحفظ لأن بعض أعمدة قاعدة البيانات غير مكتملة. شغّل ملف إصلاح Supabase.";
+  }
+
+  if (code === "PGRST301" || message.toLowerCase().includes("jwt")) {
+    return "انتهت جلسة الدخول. سجّل خروجك ثم ادخل مرة أخرى.";
+  }
+
+  return message || `تعذر ${action} الآن. حاول مرة أخرى بعد لحظات.`;
 }
 
 async function requireCurrentUser() {
   if (!isSupabaseConfigured || !supabase) {
-    throw new Error("Supabase غير مضبوط حاليًا، لذلك لا يمكن حفظ نتائج الرادار.");
+    throw new Error("الاتصال بقاعدة البيانات غير مفعّل حاليًا.");
   }
 
-  const { data, error } = await supabase.auth.getSession();
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
-  if (error) {
-    throw new Error(friendlySupabaseError(error));
+  if (sessionError) {
+    throw new Error(buildFriendlyError(sessionError, "قراءة جلسة الدخول"));
   }
 
-  const user = data?.session?.user;
+  const sessionUser = sessionData?.session?.user;
 
-  if (!user?.id) {
+  if (!sessionUser?.id) {
     throw new Error("يجب تسجيل الدخول قبل حفظ نتائج الرادار.");
   }
 
-  return user;
+  return sessionUser;
 }
 
 export async function saveRadarAssessmentResult({
@@ -96,7 +111,7 @@ export async function saveRadarAssessmentResult({
 
   if (error) {
     console.error("Save radar assessment failed:", error);
-    throw new Error(friendlySupabaseError(error));
+    throw new Error(buildFriendlyError(error, "حفظ نتيجة الرادار"));
   }
 
   return data;
@@ -120,7 +135,7 @@ export async function loadRadarAssessmentHistory({ assessmentType = "", limit = 
 
   if (error) {
     console.error("Load radar assessment history failed:", error);
-    throw new Error(friendlySupabaseError(error));
+    throw new Error(buildFriendlyError(error, "تحميل سجل الرادار"));
   }
 
   return Array.isArray(data) ? data : [];
