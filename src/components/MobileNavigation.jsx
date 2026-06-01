@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import SiteLogo from "./SiteLogo";
 
 function safeNumber(value, fallback = 0) {
   const number = Number(value);
@@ -98,6 +99,9 @@ export default function MobileNavigation({
           align-items: flex-start;
           gap: 12px;
           margin-bottom: 14px;
+        }
+        .mobile-nav-logo {
+          margin-bottom: 10px;
         }
 
         .mobile-nav-title {
@@ -370,6 +374,9 @@ export default function MobileNavigation({
       <aside className="mobile-nav-panel" aria-label="قائمة التنقل للجوال">
         <div className="mobile-nav-top">
           <div className="mobile-nav-title">
+            <div className="mobile-nav-logo">
+              <SiteLogo variant="horizontal" context="mobile" />
+            </div>
             <strong>حياك يا {firstNameOf(userName)}</strong>
             <span>تنقل سريع داخل مختبر التطوير التنظيمي</span>
           </div>

@@ -14,6 +14,8 @@ import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
 import ThemeToggle from "./components/ThemeToggle";
 import EducationalToolsMenu from "./components/EducationalToolsMenu";
+import SiteLogo from "./components/SiteLogo";
+import BrandMeta from "./components/BrandMeta";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -66,7 +68,7 @@ const educationalToolPages = [
 ];
 
 const BOOT_TIMEOUT_MS = 8000;
-const BRAND_LOGO_SRC = "/rayan-logo.png";
+const BRAND_LOGO_SRC = "/brand/icon.svg";
 
 
 function getVerificationSlugFromLocation() {
@@ -140,7 +142,7 @@ async function readProgressRows() {
 function PageLoader({ label = "جارٍ تحميل القسم..." }) {
   return (
     <div className="page-loader" role="status" aria-live="polite">
-      <span className="page-loader-dot" aria-hidden="true" />
+      <SiteLogo variant="icon" context="loader" englishAlt />
       <span>{label}</span>
     </div>
   );
@@ -479,9 +481,12 @@ export default function App() {
 
   if (verificationSlug) {
     return (
-      <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
-        <VerifyCertificate slug={verificationSlug} />
-      </Suspense>
+      <>
+        <BrandMeta />
+        <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
+          <VerifyCertificate slug={verificationSlug} />
+        </Suspense>
+      </>
     );
   }
 
@@ -498,9 +503,13 @@ export default function App() {
 
   if (booting) {
     return (
-      <div className="boot-screen">
-        جارٍ تجهيز مختبر التطوير التنظيمي...
-      </div>
+      <>
+        <BrandMeta />
+        <div className="boot-screen">
+          <SiteLogo variant="icon" context="loader" englishAlt />
+          <span>جارٍ تجهيز مختبر التطوير التنظيمي...</span>
+        </div>
+      </>
     );
   }
 
@@ -520,6 +529,7 @@ export default function App() {
 
   return (
     <div className="site-frame">
+      <BrandMeta />
       <LearningTimeTracker activePage={activePage} />
       <style>{`
         /*
@@ -528,6 +538,37 @@ export default function App() {
         */
 
 
+        .brand.brand--munsaqah {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 0;
+        }
+
+        .site-header .munsaqah-logo--header {
+          max-width: min(220px, 34vw);
+        }
+
+        .site-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .site-footer-brand {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .boot-screen {
+          display: grid;
+          place-items: center;
+          gap: 12px;
+          text-align: center;
+        }
 
         .mobile-menu-button {
           display: none;
@@ -691,19 +732,8 @@ export default function App() {
       `}</style>
 
       <header className="site-header">
-        <div className="brand">
-          <div className="brand-mark image-mark">
-            <img
-              src={BRAND_LOGO_SRC}
-              alt="شعار المنصة"
-              className="brand-logo-image"
-            />
-          </div>
-
-          <div>
-            <strong>OD Engineering</strong>
-            <span>إتقان التطوير التنظيمي</span>
-          </div>
+        <div className="brand brand--munsaqah" aria-label="منسقة">
+          <SiteLogo variant="horizontal" context="header" />
         </div>
 
         <button

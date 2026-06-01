@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 import VisitorTestimonialsMarquee from "./VisitorTestimonialsMarquee";
+import SiteLogo from "./SiteLogo";
+import BrandMeta from "./BrandMeta";
 
 const MONTHS = [
   {
@@ -589,6 +591,7 @@ export default function AuthGate({
 
   return (
     <main className="public-gate" dir="rtl">
+      <BrandMeta />
       <style>{`
         .public-gate {
           min-height: 100vh;
@@ -621,6 +624,11 @@ export default function AuthGate({
             radial-gradient(circle at 85% 20%, rgba(245, 158, 11, .20), transparent 30%),
             linear-gradient(135deg, #0f172a, #1e1b4b 55%, #312e81);
           box-shadow: 0 26px 80px rgba(15, 23, 42, 0.22);
+        }
+        .public-brand-logo {
+          margin-bottom: 18px;
+          width: fit-content;
+          max-width: 100%;
         }
 
         .public-badge {
@@ -1123,6 +1131,11 @@ export default function AuthGate({
           font-size: 13px;
           font-weight: 750;
         }
+        .public-footer-logo {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 12px;
+        }
 
         .public-footer {
           margin-top: 18px;
@@ -1322,6 +1335,9 @@ export default function AuthGate({
       <div className="public-wrap">
         <section className="public-hero">
           <div>
+            <div className="public-brand-logo">
+              <SiteLogo variant="horizontal" context="hero" />
+            </div>
             <span className="public-badge">رحلة معرفية متكاملة في التطوير التنظيمي</span>
             <h1>حياك في مساحة الفهم قبل الحل</h1>
             <p>
@@ -1729,6 +1745,9 @@ export default function AuthGate({
         </section>
 
         <footer className="public-footer">
+          <div className="public-footer-logo">
+            <SiteLogo variant="horizontal" context="footer" />
+          </div>
           صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
           <span>© 2026 — جميع الحقوق محفوظة</span>
         </footer>
