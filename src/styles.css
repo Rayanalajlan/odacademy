@@ -97,7 +97,7 @@ h1 {
   margin-bottom: 16px;
   font-size: clamp(2rem, 5vw, 4.4rem);
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  letter-spacing: 0;
 }
 
 .hero-card p {
@@ -271,7 +271,7 @@ h1 {
 .section-title h2 {
   margin: 0;
   font-size: clamp(1.25rem, 3vw, 2rem);
-  letter-spacing: -0.025em;
+  letter-spacing: 0;
 }
 
 .months-grid {
@@ -717,7 +717,7 @@ body {
   display: block;
   font-size: 1rem;
   font-weight: 900;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
 }
 
 .brand span {
@@ -773,7 +773,7 @@ body {
   margin: 12px 0;
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1.1;
-  letter-spacing: -.045em;
+  letter-spacing: 0;
 }
 
 .section-hero p {

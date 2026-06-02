@@ -845,7 +845,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           margin: 18px 0 14px;
           font-size: clamp(34px, 6vw, 76px);
           line-height: 1.04;
-          letter-spacing: -2px;
+          letter-spacing: 0;
           font-weight: 950;
         }
 
@@ -1192,7 +1192,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           color: #0f172a;
           font-size: clamp(24px, 3vw, 38px);
           line-height: 1.25;
-          letter-spacing: -.8px;
+          letter-spacing: 0;
           font-weight: 950;
         }
 

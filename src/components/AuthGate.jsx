@@ -3,6 +3,7 @@ import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 import VisitorTestimonialsMarquee from "./VisitorTestimonialsMarquee";
 import SiteLogo from "./SiteLogo";
 import BrandMeta from "./BrandMeta";
+import ExperienceDesignSkin from "./ExperienceDesignSkin";
 
 const MONTHS = [
   {
@@ -592,6 +593,7 @@ export default function AuthGate({
   return (
     <main className="public-gate" dir="rtl">
       <BrandMeta />
+      <ExperienceDesignSkin />
       <style>{`
         .public-gate {
           min-height: 100vh;
@@ -647,7 +649,7 @@ export default function AuthGate({
           font-size: clamp(34px, 5vw, 64px);
           line-height: 1.15;
           font-weight: 950;
-          letter-spacing: -1px;
+          letter-spacing: 0;
         }
 
         .public-hero p {

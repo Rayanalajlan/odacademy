@@ -16,6 +16,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
+import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -483,6 +484,7 @@ export default function App() {
     return (
       <>
         <BrandMeta />
+        <ExperienceDesignSkin />
         <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
           <VerifyCertificate slug={verificationSlug} />
         </Suspense>
@@ -505,6 +507,7 @@ export default function App() {
     return (
       <>
         <BrandMeta />
+        <ExperienceDesignSkin />
         <div className="boot-screen">
           <SiteLogo variant="icon" context="loader" englishAlt />
           <span>جارٍ تجهيز مختبر التطوير التنظيمي...</span>
@@ -530,6 +533,7 @@ export default function App() {
   return (
     <div className="site-frame">
       <BrandMeta />
+      <ExperienceDesignSkin />
       <LearningTimeTracker activePage={activePage} />
       <style>{`
         /*
