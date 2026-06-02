@@ -1,7 +1,9 @@
 export const MUNSAQAH_ASSETS = {
-  horizontal: "/brand/logo-horizontal.svg",
-  vertical: "/brand/logo.svg",
-  icon: "/brand/icon.svg",
+  horizontal: "/brand/munsaqah-horizontal-official.png",
+  vertical: "/brand/munsaqah-vertical-official.png",
+  icon: "/brand/munsaqah-icon-official.png",
+  wordmarkAr: "/brand/munsaqah-wordmark-ar-official.png",
+  wordmarkEn: "/brand/munsaqah-wordmark-en-official.png",
   ogImage: "/brand/og-image.png",
   favicon: "/favicon.ico",
   favicon16: "/favicon-16.png",

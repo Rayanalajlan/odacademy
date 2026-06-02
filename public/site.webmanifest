@@ -1,7 +1,7 @@
 {
   "name": "OD Academy",
-  "short_name": "Munsaqah",
-  "description": "منصة تعليمية في التطوير التنظيمي وبناء الأنظمة.",
+  "short_name": "OD Academy",
+  "description": "OD Academy",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -1,8 +1,5 @@
 import { useEffect } from "react";
-import {
-  MUNSAQAH_ALT_EN,
-  MUNSAQAH_ASSETS
-} from "../lib/munsaqahBrand";
+import { MUNSAQAH_ASSETS } from "../lib/munsaqahBrand";
 
 function upsertLink({ id, rel, href, type, sizes }) {
   if (typeof document === "undefined") return;
@@ -40,87 +37,28 @@ function upsertMeta({ id, property, name, content }) {
 
 export default function BrandMeta() {
   useEffect(() => {
-    upsertLink({
-      id: "munsaqah-favicon-ico",
-      rel: "icon",
-      href: MUNSAQAH_ASSETS.favicon,
-      type: "image/x-icon"
-    });
+    upsertLink({ id: "site-favicon-ico", rel: "icon", href: MUNSAQAH_ASSETS.favicon, type: "image/x-icon" });
+    upsertLink({ id: "site-favicon-svg", rel: "icon", href: MUNSAQAH_ASSETS.siteIcon, type: "image/svg+xml" });
+    upsertLink({ id: "site-favicon-32", rel: "icon", href: MUNSAQAH_ASSETS.favicon32, type: "image/png", sizes: "32x32" });
+    upsertLink({ id: "site-favicon-16", rel: "icon", href: MUNSAQAH_ASSETS.favicon16, type: "image/png", sizes: "16x16" });
+    upsertLink({ id: "site-apple-touch-icon", rel: "apple-touch-icon", href: MUNSAQAH_ASSETS.appleTouchIcon, sizes: "180x180" });
+    upsertLink({ id: "site-webmanifest", rel: "manifest", href: MUNSAQAH_ASSETS.manifest });
+    upsertLink({ id: "site-logo-preload", rel: "preload", href: MUNSAQAH_ASSETS.horizontal, type: "image/png" });
 
-    upsertLink({
-      id: "munsaqah-favicon-svg",
-      rel: "icon",
-      href: MUNSAQAH_ASSETS.siteIcon,
-      type: "image/svg+xml"
-    });
+    upsertMeta({ id: "site-og-image", property: "og:image", content: MUNSAQAH_ASSETS.ogImage });
+    upsertMeta({ id: "site-twitter-image", name: "twitter:image", content: MUNSAQAH_ASSETS.ogImage });
 
-    upsertLink({
-      id: "munsaqah-favicon-32",
-      rel: "icon",
-      href: MUNSAQAH_ASSETS.favicon32,
-      type: "image/png",
-      sizes: "32x32"
-    });
-
-    upsertLink({
-      id: "munsaqah-favicon-16",
-      rel: "icon",
-      href: MUNSAQAH_ASSETS.favicon16,
-      type: "image/png",
-      sizes: "16x16"
-    });
-
-    upsertLink({
-      id: "munsaqah-apple-touch-icon",
-      rel: "apple-touch-icon",
-      href: MUNSAQAH_ASSETS.appleTouchIcon,
-      sizes: "180x180"
-    });
-
-    upsertLink({
-      id: "munsaqah-webmanifest",
-      rel: "manifest",
-      href: MUNSAQAH_ASSETS.manifest
-    });
-
-    upsertLink({
-      id: "munsaqah-logo-preload",
-      rel: "preload",
-      href: MUNSAQAH_ASSETS.horizontal,
-      type: "image/svg+xml"
-    });
-
-    upsertMeta({
-      id: "munsaqah-og-image",
-      property: "og:image",
-      content: MUNSAQAH_ASSETS.ogImage
-    });
-
-    upsertMeta({
-      id: "munsaqah-twitter-image",
-      name: "twitter:image",
-      content: MUNSAQAH_ASSETS.ogImage
-    });
-
-    let jsonLd = document.getElementById("munsaqah-jsonld");
-
-    if (!jsonLd) {
-      jsonLd = document.createElement("script");
-      jsonLd.id = "munsaqah-jsonld";
-      jsonLd.type = "application/ld+json";
-      document.head.appendChild(jsonLd);
+    const jsonLd = document.getElementById("site-jsonld-logo");
+    if (jsonLd) {
+      try {
+        const parsed = JSON.parse(jsonLd.textContent || "{}");
+        parsed.logo = MUNSAQAH_ASSETS.horizontal;
+        parsed.image = MUNSAQAH_ASSETS.ogImage;
+        jsonLd.textContent = JSON.stringify(parsed);
+      } catch {
+        // لا نغيّر محتوى JSON-LD النصي إذا لم يكن JSON صالحًا.
+      }
     }
-
-    jsonLd.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Munsaqah",
-      alternateName: "منسقة",
-      logo: MUNSAQAH_ASSETS.horizontal,
-      image: MUNSAQAH_ASSETS.ogImage,
-      url: window.location.origin,
-      description: MUNSAQAH_ALT_EN
-    });
   }, []);
 
   return null;
