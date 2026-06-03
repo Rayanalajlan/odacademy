@@ -15,338 +15,312 @@ export default function ThemeToggle() {
   const isDark = theme === "dark";
 
   return (
-    <>
+    <label
+      className="theme-switch"
+      title={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
+      aria-label={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
+    >
       <style>{`
-        .theme-toggle-button {
-          border: 0;
-          cursor: pointer;
-          min-height: 44px;
-          min-width: 44px;
-          border-radius: 17px;
+        /*
+          Phase 50 - Uiverse-style theme switch
+          مستوحى من كود Uiverse المرسل، مع تهذيب الحجم والهوية حتى يتناسب مع هيدر منسقة.
+        */
+
+        .theme-switch {
+          --toggle-size: 15px;
+          --container-width: 5.625em;
+          --container-height: 2.5em;
+          --container-radius: 6.25em;
+          --container-light-bg: #efe7ff;
+          --container-night-bg: #1d1f2c;
+          --circle-container-diameter: 3.375em;
+          --sun-moon-diameter: 2.125em;
+          --sun-bg: #d8c3ff;
+          --moon-bg: #c4c9d1;
+          --spot-color: #959db1;
+          --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+          --stars-color: #fff;
+          --clouds-color: #fbf7ff;
+          --back-clouds-color: #d8c3ff;
+          --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+          --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+
+          position: relative;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          color: #0f172a;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(159,122,234,.28), transparent 36%),
-            #ffffff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 14px 30px rgba(15,23,42,.08);
-          font-family: inherit;
-          font-size: 18px;
-          font-weight: 950;
-          transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+          flex: 0 0 auto;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent;
         }
 
-        .theme-toggle-button:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 18px 38px rgba(79,70,229,.14);
+        .theme-switch,
+        .theme-switch *,
+        .theme-switch *::before,
+        .theme-switch *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-size: var(--toggle-size);
         }
 
-        .theme-toggle-label {
-          display: none;
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .theme-toggle-icon {
-          display: inline-grid;
-          place-items: center;
-          width: 24px;
-          height: 24px;
-          line-height: 1;
-        }
-
-        /*
-          Phase 36:
-          المشكلة في الصورة كانت أن بعض الحاويات الخارجية بقيت بيضاء.
-          لذلك هنا نعالج html + body + root + wrappers العامة وليس البطاقات فقط.
-        */
-        html[data-theme="dark"],
-        html[data-theme="dark"] body,
-        body.od-theme-dark {
-          min-height: 100%;
-          color-scheme: dark;
-          background: #020617 !important;
-        }
-
-        html[data-theme="dark"] body::before,
-        body.od-theme-dark::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          z-index: -1;
+        .theme-switch__checkbox {
+          position: absolute;
+          inline-size: 1px;
+          block-size: 1px;
+          opacity: 0;
           pointer-events: none;
+        }
+
+        .theme-switch__container {
+          width: var(--container-width);
+          height: var(--container-height);
+          background-color: var(--container-light-bg);
+          border-radius: var(--container-radius);
+          overflow: hidden;
+          cursor: pointer;
+          box-shadow:
+            0em -0.062em 0.062em rgba(0, 0, 0, 0.25),
+            0em 0.062em 0.125em rgba(255, 255, 255, 0.94),
+            0 12px 26px rgba(126, 96, 205, .16);
+          transition: var(--transition);
+          position: relative;
+          border: 1px solid rgba(126, 96, 205, .20);
+        }
+
+        .theme-switch__container::before {
+          content: "";
+          position: absolute;
+          z-index: 1;
+          inset: 0;
+          box-shadow:
+            0em 0.05em 0.187em rgba(0, 0, 0, 0.22) inset,
+            0em 0.05em 0.187em rgba(0, 0, 0, 0.18) inset;
+          border-radius: var(--container-radius);
+          pointer-events: none;
+        }
+
+        .theme-switch__circle-container {
+          width: var(--circle-container-diameter);
+          height: var(--circle-container-diameter);
+          background-color: rgba(255, 255, 255, 0.14);
+          position: absolute;
+          left: var(--circle-container-offset);
+          top: var(--circle-container-offset);
+          border-radius: var(--container-radius);
+          box-shadow:
+            inset 0 0 0 3.375em rgba(255, 255, 255, 0.10),
+            inset 0 0 0 3.375em rgba(255, 255, 255, 0.10),
+            0 0 0 0.625em rgba(255, 255, 255, 0.10),
+            0 0 0 1.25em rgba(255, 255, 255, 0.08);
+          display: flex;
+          transition: var(--circle-transition);
+          pointer-events: none;
+        }
+
+        .theme-switch__sun-moon-container {
+          pointer-events: auto;
+          position: relative;
+          z-index: 2;
+          width: var(--sun-moon-diameter);
+          height: var(--sun-moon-diameter);
+          margin: auto;
+          border-radius: var(--container-radius);
           background:
-            radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
-            radial-gradient(circle at 88% 16%, rgba(143,101,223,.12), transparent 26%),
-            radial-gradient(circle at 50% 100%, rgba(159,122,234,.08), transparent 32%),
-            #020617 !important;
+            radial-gradient(circle at 35% 30%, #fbf7ff 0 14%, var(--sun-bg) 16% 100%);
+          box-shadow:
+            0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset,
+            0em -0.062em 0.062em 0em rgba(91,43,189,.38) inset;
+          filter:
+            drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25))
+            drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+          overflow: hidden;
+          transition: var(--transition);
         }
 
-        body.od-theme-dark,
-        body.od-theme-dark #root,
-        body.od-theme-dark .site-frame,
-        body.od-theme-dark .app,
-        body.od-theme-dark .app-shell,
-        body.od-theme-dark .page,
-        body.od-theme-dark .page-shell,
-        body.od-theme-dark .page-wrap,
-        body.od-theme-dark .page-wrapper,
-        body.od-theme-dark .main-page,
-        body.od-theme-dark .main-shell,
-        body.od-theme-dark .main-content,
-        body.od-theme-dark .content,
-        body.od-theme-dark .content-area,
-        body.od-theme-dark .dashboard,
-        body.od-theme-dark .dashboard-shell,
-        body.od-theme-dark .container,
-        body.od-theme-dark .wrapper,
-        body.od-theme-dark main {
-          background:
-            radial-gradient(circle at 10% 0%, rgba(79,70,229,.14), transparent 28%),
-            radial-gradient(circle at 90% 10%, rgba(143,101,223,.08), transparent 30%),
-            #020617 !important;
-          color: #e5e7eb !important;
+        .theme-switch__moon {
+          transform: translateX(100%);
+          width: 100%;
+          height: 100%;
+          background-color: var(--moon-bg);
+          border-radius: inherit;
+          box-shadow:
+            0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset,
+            0em -0.062em 0.062em 0em #969696 inset;
+          transition: var(--transition);
+          position: relative;
         }
 
-        /*
-          رحلة التعلم كانت أكثر مكان يظهر فيه الأبيض.
-          نغطي كل الطبقات الخاصة بها بأسماء عامة ومباشرة.
-        */
-        body.od-theme-dark .learning-journey,
-        body.od-theme-dark .course-journey,
-        body.od-theme-dark .journey,
-        body.od-theme-dark .journey-shell,
-        body.od-theme-dark .journey-page,
-        body.od-theme-dark .journey-lab,
-        body.od-theme-dark .jl-shell,
-        body.od-theme-dark .jl-page,
-        body.od-theme-dark .jl-main,
-        body.od-theme-dark .jl-content,
-        body.od-theme-dark .jl-stage,
-        body.od-theme-dark .jl-section,
-        body.od-theme-dark .jl-months,
-        body.od-theme-dark .jl-weeks,
-        body.od-theme-dark .jl-days,
-        body.od-theme-dark .jl-grid,
-        body.od-theme-dark .jl-top-actions,
-        body.od-theme-dark [class*="journey"],
-        body.od-theme-dark [class*="Journey"],
-        body.od-theme-dark [class*="course"],
-        body.od-theme-dark [class*="Course"],
-        body.od-theme-dark [class*="learning"],
-        body.od-theme-dark [class*="Learning"] {
-          background-color: transparent !important;
-          color: #e5e7eb !important;
+        .theme-switch__spot {
+          position: absolute;
+          top: 0.75em;
+          left: 0.312em;
+          width: 0.75em;
+          height: 0.75em;
+          border-radius: var(--container-radius);
+          background-color: var(--spot-color);
+          box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
         }
 
-        body.od-theme-dark .site-header,
-        body.od-theme-dark .site-footer,
-        body.od-theme-dark .profile-strip,
-        body.od-theme-dark .profile-card,
-        body.od-theme-dark .profile-drawer,
-        body.od-theme-dark .profile-panel,
-        body.od-theme-dark .portfolio-section,
-        body.od-theme-dark .portfolio-stat,
-        body.od-theme-dark .course-search-box,
-        body.od-theme-dark .saved-lessons-panel,
-        body.od-theme-dark .weekly-reflection-panel,
-        body.od-theme-dark .monthly-certificates,
-        body.od-theme-dark .page-loader,
-        body.od-theme-dark .global-notice,
-        body.od-theme-dark .mobile-nav-panel,
-        body.od-theme-dark .onboarding-card,
-        body.od-theme-dark .verify-card,
-        body.od-theme-dark .portfolio-export-report,
-        body.od-theme-dark .jl-hero,
-        body.od-theme-dark .jl-card,
-        body.od-theme-dark .jl-reader,
-        body.od-theme-dark .jl-quiz,
-        body.od-theme-dark .radar-card,
-        body.od-theme-dark .simulation-card,
-        body.od-theme-dark .ai-mentor-card,
-        body.od-theme-dark .od-card,
-        body.od-theme-dark .home-card,
-        body.od-theme-dark .feature-card,
-        body.od-theme-dark [class*="card"],
-        body.od-theme-dark [class*="Card"],
-        body.od-theme-dark [class*="panel"],
-        body.od-theme-dark [class*="Panel"],
-        body.od-theme-dark [class*="box"],
-        body.od-theme-dark [class*="Box"] {
-          background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 32%),
-            rgba(15, 23, 42, .95) !important;
-          border-color: rgba(148,163,184,.24) !important;
-          box-shadow: 0 18px 58px rgba(0,0,0,.32) !important;
-          color: #e5e7eb !important;
+        .theme-switch__spot:nth-of-type(2) {
+          width: 0.375em;
+          height: 0.375em;
+          top: 0.937em;
+          left: 1.375em;
         }
 
-        body.od-theme-dark .portfolio-row,
-        body.od-theme-dark .portfolio-cert,
-        body.od-theme-dark .report-row,
-        body.od-theme-dark .report-cert,
-        body.od-theme-dark .saved-lesson-card,
-        body.od-theme-dark .course-search-result,
-        body.od-theme-dark .profile-metric,
-        body.od-theme-dark .profile-stat,
-        body.od-theme-dark .weekly-reflection-progress,
-        body.od-theme-dark .monthly-card,
-        body.od-theme-dark .verify-field,
-        body.od-theme-dark .report-stat,
-        body.od-theme-dark .mobile-nav-item,
-        body.od-theme-dark .onboarding-step,
-        body.od-theme-dark .jl-month-card,
-        body.od-theme-dark .jl-week-card,
-        body.od-theme-dark .jl-day-card,
-        body.od-theme-dark .jl-stat,
-        body.od-theme-dark .jl-breadcrumb,
-        body.od-theme-dark [class*="item"],
-        body.od-theme-dark [class*="Item"],
-        body.od-theme-dark [class*="row"],
-        body.od-theme-dark [class*="Row"],
-        body.od-theme-dark [class*="stat"],
-        body.od-theme-dark [class*="Stat"],
-        body.od-theme-dark [class*="tile"],
-        body.od-theme-dark [class*="Tile"] {
-          background: rgba(30, 41, 59, .88) !important;
-          border-color: rgba(148,163,184,.24) !important;
-          color: #e5e7eb !important;
+        .theme-switch__spot:nth-of-type(3) {
+          width: 0.25em;
+          height: 0.25em;
+          top: 0.312em;
+          left: 0.812em;
         }
 
-        /*
-          منع أي صندوق أبيض صريح داخل الوضع الداكن.
-          نترك الصور والشعارات بدون تغيير.
-        */
-        body.od-theme-dark div:not(.brand-mark):not(.image-mark):not(.logo-badge):not([class*="avatar"]):not([class*="Avatar"]):not([class*="logo"]):not([class*="Logo"]) {
-          border-color: rgba(148,163,184,.20);
+        .theme-switch__clouds {
+          width: 1.25em;
+          height: 1.25em;
+          background-color: var(--clouds-color);
+          border-radius: var(--container-radius);
+          position: absolute;
+          bottom: -0.625em;
+          left: 0.312em;
+          box-shadow:
+            0.937em 0.312em var(--clouds-color),
+            -0.312em -0.312em var(--back-clouds-color),
+            1.437em 0.375em var(--clouds-color),
+            0.5em -0.125em var(--back-clouds-color),
+            2.187em 0 var(--clouds-color),
+            1.25em -0.062em var(--back-clouds-color),
+            2.937em 0.312em var(--clouds-color),
+            2em -0.312em var(--back-clouds-color),
+            3.625em -0.062em var(--clouds-color),
+            2.625em 0em var(--back-clouds-color),
+            4.5em -0.312em var(--clouds-color),
+            3.375em -0.437em var(--back-clouds-color),
+            4.625em -1.75em 0 0.437em var(--clouds-color),
+            4em -0.625em var(--back-clouds-color),
+            4.125em -2.125em 0 0.437em var(--back-clouds-color);
+          transition: var(--transition);
         }
 
-        body.od-theme-dark h1,
-        body.od-theme-dark h2,
-        body.od-theme-dark h3,
-        body.od-theme-dark h4,
-        body.od-theme-dark strong,
-        body.od-theme-dark b {
-          color: #f8fafc !important;
+        .theme-switch__stars-container {
+          position: absolute;
+          color: var(--stars-color);
+          top: -100%;
+          left: 0.312em;
+          width: 2.75em;
+          height: auto;
+          transition: var(--transition);
         }
 
-        body.od-theme-dark p,
-        body.od-theme-dark span,
-        body.od-theme-dark small,
-        body.od-theme-dark label,
-        body.od-theme-dark li {
-          color: #cbd5e1 !important;
+        .theme-switch__checkbox:checked + .theme-switch__container {
+          background-color: var(--container-night-bg);
+          border-color: rgba(216, 195, 255, .18);
+          box-shadow:
+            0em -0.062em 0.062em rgba(0, 0, 0, 0.25),
+            0em 0.062em 0.125em rgba(255, 255, 255, 0.16),
+            0 14px 30px rgba(0, 0, 0, .28);
         }
 
-        body.od-theme-dark input,
-        body.od-theme-dark textarea,
-        body.od-theme-dark select {
-          background: rgba(2, 6, 23, .90) !important;
-          color: #f8fafc !important;
-          border-color: rgba(148,163,184,.36) !important;
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+          left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
         }
 
-        body.od-theme-dark input::placeholder,
-        body.od-theme-dark textarea::placeholder {
-          color: #94a3b8 !important;
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+          left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em);
         }
 
-        body.od-theme-dark .main-nav button {
-          color: #cbd5e1 !important;
-          background: rgba(30,41,59,.72) !important;
-          border-color: rgba(148,163,184,.18) !important;
+        .theme-switch__circle-container:hover {
+          left: calc(var(--circle-container-offset) + 0.187em);
         }
 
-        body.od-theme-dark .main-nav button.active {
-          color: #ffffff !important;
-          background: linear-gradient(135deg, #4f46e5, #312e81) !important;
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+          transform: translate(0);
         }
 
-        body.od-theme-dark button:not(.active):not(.portfolio-button.primary):not(.profile-button.primary):not(.theme-toggle-button):not(.logout-button):not(.mobile-menu-button) {
-          background: rgba(30, 41, 59, .88) !important;
-          border-color: rgba(148,163,184,.24) !important;
-          color: #e5e7eb !important;
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+          bottom: -4.062em;
         }
 
-        body.od-theme-dark .logout-button {
-          color: #fecaca !important;
-          background: rgba(127,29,29,.34) !important;
-          border-color: rgba(248,113,113,.22) !important;
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+          top: 50%;
+          transform: translateY(-50%);
         }
 
-        body.od-theme-dark .theme-toggle-button {
-          color: #fde68a !important;
-          background:
-            radial-gradient(circle at 0% 100%, rgba(159,122,234,.24), transparent 38%),
-            linear-gradient(135deg, #0f172a, #312e81) !important;
-          border-color: rgba(253,230,138,.22) !important;
-          box-shadow: 0 18px 40px rgba(0,0,0,.28) !important;
+        .theme-switch:focus-within .theme-switch__container {
+          outline: 3px solid rgba(216, 195, 255, .80);
+          outline-offset: 3px;
         }
 
-        body.od-theme-dark .brand .brand-mark,
-        body.od-theme-dark .brand .brand-mark.image-mark,
-        body.od-theme-dark .logo-badge,
-        body.od-theme-dark .od-feature-icon.od-feature-icon--logo {
-          background: #f8fafc !important;
-        }
-
-        body.od-theme-dark a {
-          color: #93c5fd !important;
-        }
-
-
-        /* Phase 48 dark-background hardening */
-        html[data-theme="dark"],
-        html[data-theme="dark"] body,
-        html[data-theme="dark"] #root,
-        body.od-theme-dark,
-        body.od-theme-dark #root,
-        body.od-theme-dark .site-frame,
-        body.od-theme-dark .public-gate,
-        body.od-theme-dark .public-wrap,
-        body.od-theme-dark main {
-          background:
-            radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
-            radial-gradient(circle at 88% 14%, rgba(143,101,223,.08), transparent 26%),
-            #020617 !important;
-          color: #e5e7eb !important;
-        }
-
-        @media (min-width: 1180px) {
-          .theme-toggle-label {
-            display: inline;
-          }
-
-          .theme-toggle-button {
-            padding: 0 13px;
-          }
+        body.od-theme-dark .theme-switch__container {
+          background-color: var(--container-night-bg);
         }
 
         @media (max-width: 980px) {
-          .theme-toggle-button {
-            min-width: 44px;
-            padding: 0 10px;
+          .theme-switch {
+            --toggle-size: 14px;
+          }
+        }
+
+        @media (max-width: 430px) {
+          .theme-switch {
+            --toggle-size: 12px;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .theme-switch *,
+          .theme-switch *::before,
+          .theme-switch *::after {
+            transition-duration: .001ms !important;
           }
         }
       `}</style>
 
-      <button
-        type="button"
-        className="theme-toggle-button"
-        onClick={handleToggle}
-        aria-label={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
-        title={isDark ? "الوضع الفاتح" : "الوضع الداكن"}
-      >
-        <span className="theme-toggle-icon" aria-hidden="true">
-          {isDark ? "☀️" : "🌙"}
-        </span>
-        <span className="theme-toggle-label">
-          {isDark ? "فاتح" : "داكن"}
-        </span>
-      </button>
-    </>
+      <input
+        className="theme-switch__checkbox"
+        type="checkbox"
+        checked={isDark}
+        onChange={handleToggle}
+      />
+
+      <div className="theme-switch__container" aria-hidden="true">
+        <div className="theme-switch__circle-container">
+          <div className="theme-switch__sun-moon-container">
+            <div className="theme-switch__moon">
+              <div className="theme-switch__spot" />
+              <div className="theme-switch__spot" />
+              <div className="theme-switch__spot" />
+            </div>
+          </div>
+        </div>
+
+        <div className="theme-switch__clouds" />
+
+        <svg
+          className="theme-switch__stars-container"
+          viewBox="0 0 144 55"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C137.052 7.56303 137.441 6.55462 138.161 5.71123C138.937 4.85867 139.881 4.40947 141 4.35447C139.881 4.29946 138.937 3.85027 138.161 3.00688C137.441 2.15432 137.052 1.14591 136.996 0C136.996 1.14591 136.607 2.15432 135.831 3.00688Z"
+            fill="currentColor"
+          />
+          <path
+            d="M52.831 18.0069C52.055 18.8503 51.111 19.2995 50 19.3545C51.111 19.4095 52.055 19.8587 52.831 20.7112C53.607 21.5546 53.996 22.563 53.996 23.7273C54.052 22.563 54.441 21.5546 55.161 20.7112C55.937 19.8587 56.881 19.4095 58 19.3545C56.881 19.2995 55.937 18.8503 55.161 18.0069C54.441 17.1543 54.052 16.1459 53.996 15C53.996 16.1459 53.607 17.1543 52.831 18.0069Z"
+            fill="currentColor"
+          />
+          <path
+            d="M103.831 34.0069C103.055 34.8503 102.111 35.2995 101 35.3545C102.111 35.4095 103.055 35.8587 103.831 36.7112C104.607 37.5546 104.996 38.563 104.996 39.7273C105.052 38.563 105.441 37.5546 106.161 36.7112C106.937 35.8587 107.881 35.4095 109 35.3545C107.881 35.2995 106.937 34.8503 106.161 34.0069C105.441 33.1543 105.052 32.1459 104.996 31C104.996 32.1459 104.607 33.1543 103.831 34.0069Z"
+            fill="currentColor"
+          />
+          <circle cx="5" cy="47" r="2" fill="currentColor" />
+          <circle cx="35" cy="4" r="2" fill="currentColor" />
+          <circle cx="78" cy="49" r="2" fill="currentColor" />
+        </svg>
+      </div>
+    </label>
   );
 }
