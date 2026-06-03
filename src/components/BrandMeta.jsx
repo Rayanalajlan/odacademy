@@ -1,64 +1,88 @@
 import { useEffect } from "react";
-import { MUNSAQAH_ASSETS } from "../lib/munsaqahBrand";
+import { MUNSAQAH_ALT_AR, MUNSAQAH_ASSETS } from "../lib/munsaqahBrand";
 
-function upsertLink({ id, rel, href, type, sizes }) {
+function ensureLink(rel, href, attrs = {}) {
   if (typeof document === "undefined") return;
 
-  let element = id ? document.getElementById(id) : null;
+  let link = document.querySelector(`link[rel="${rel}"]${attrs.sizes ? `[sizes="${attrs.sizes}"]` : ""}`);
 
-  if (!element) {
-    element = document.createElement("link");
-    if (id) element.id = id;
-    document.head.appendChild(element);
+  if (!link) {
+    link = document.createElement("link");
+    link.setAttribute("rel", rel);
+    document.head.appendChild(link);
   }
 
-  element.setAttribute("rel", rel);
-  element.setAttribute("href", href);
+  link.setAttribute("href", href);
 
-  if (type) element.setAttribute("type", type);
-  if (sizes) element.setAttribute("sizes", sizes);
+  Object.entries(attrs).forEach(([key, value]) => {
+    if (value) link.setAttribute(key, value);
+  });
 }
 
-function upsertMeta({ id, property, name, content }) {
+function ensureMeta(property, content) {
   if (typeof document === "undefined") return;
 
-  let element = id ? document.getElementById(id) : null;
+  let meta = document.querySelector(`meta[property="${property}"]`);
 
-  if (!element) {
-    element = document.createElement("meta");
-    if (id) element.id = id;
-    document.head.appendChild(element);
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("property", property);
+    document.head.appendChild(meta);
   }
 
-  if (property) element.setAttribute("property", property);
-  if (name) element.setAttribute("name", name);
-  element.setAttribute("content", content);
+  meta.setAttribute("content", content);
+}
+
+function ensureNameMeta(name, content) {
+  if (typeof document === "undefined") return;
+
+  let meta = document.querySelector(`meta[name="${name}"]`);
+
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("name", name);
+    document.head.appendChild(meta);
+  }
+
+  meta.setAttribute("content", content);
 }
 
 export default function BrandMeta() {
   useEffect(() => {
-    upsertLink({ id: "site-favicon-ico", rel: "icon", href: MUNSAQAH_ASSETS.favicon, type: "image/x-icon" });
-    upsertLink({ id: "site-favicon-svg", rel: "icon", href: MUNSAQAH_ASSETS.siteIcon, type: "image/svg+xml" });
-    upsertLink({ id: "site-favicon-32", rel: "icon", href: MUNSAQAH_ASSETS.favicon32, type: "image/png", sizes: "32x32" });
-    upsertLink({ id: "site-favicon-16", rel: "icon", href: MUNSAQAH_ASSETS.favicon16, type: "image/png", sizes: "16x16" });
-    upsertLink({ id: "site-apple-touch-icon", rel: "apple-touch-icon", href: MUNSAQAH_ASSETS.appleTouchIcon, sizes: "180x180" });
-    upsertLink({ id: "site-webmanifest", rel: "manifest", href: MUNSAQAH_ASSETS.manifest });
-    upsertLink({ id: "site-logo-preload", rel: "preload", href: MUNSAQAH_ASSETS.horizontal, type: "image/png" });
+    ensureLink("icon", MUNSAQAH_ASSETS.favicon);
+    ensureLink("icon", MUNSAQAH_ASSETS.favicon32, { type: "image/png", sizes: "32x32" });
+    ensureLink("icon", MUNSAQAH_ASSETS.favicon16, { type: "image/png", sizes: "16x16" });
+    ensureLink("apple-touch-icon", MUNSAQAH_ASSETS.appleTouchIcon);
+    ensureLink("manifest", MUNSAQAH_ASSETS.manifest);
+    ensureLink("preload", MUNSAQAH_ASSETS.horizontal, { as: "image" });
 
-    upsertMeta({ id: "site-og-image", property: "og:image", content: MUNSAQAH_ASSETS.ogImage });
-    upsertMeta({ id: "site-twitter-image", name: "twitter:image", content: MUNSAQAH_ASSETS.ogImage });
+    const absoluteOg = new URL(MUNSAQAH_ASSETS.ogImage, window.location.origin).toString();
 
-    const jsonLd = document.getElementById("site-jsonld-logo");
-    if (jsonLd) {
-      try {
-        const parsed = JSON.parse(jsonLd.textContent || "{}");
-        parsed.logo = MUNSAQAH_ASSETS.horizontal;
-        parsed.image = MUNSAQAH_ASSETS.ogImage;
-        jsonLd.textContent = JSON.stringify(parsed);
-      } catch {
-        // لا نغيّر محتوى JSON-LD النصي إذا لم يكن JSON صالحًا.
-      }
-    }
+    ensureMeta("og:image", absoluteOg);
+    ensureMeta("og:image:alt", MUNSAQAH_ALT_AR);
+    ensureNameMeta("twitter:image", absoluteOg);
+    ensureNameMeta("twitter:image:alt", MUNSAQAH_ALT_AR);
+
+    const oldStructuredData = document.querySelector("script[data-munsaqah-brand-jsonld]");
+    if (oldStructuredData) oldStructuredData.remove();
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute("data-munsaqah-brand-jsonld", "true");
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      name: "OD Academy",
+      alternateName: "Munsaqah",
+      url: window.location.origin,
+      logo: new URL(MUNSAQAH_ASSETS.horizontal, window.location.origin).toString()
+    });
+
+    document.head.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
   }, []);
 
   return null;
