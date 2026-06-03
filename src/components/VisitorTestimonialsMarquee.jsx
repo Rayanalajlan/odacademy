@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   listPublishedVisitorTestimonials,
-  submitVisitorTestimonial,
   subscribeToPublishedVisitorTestimonials
 } from "../lib/visitorTestimonialsService";
 
@@ -51,18 +50,9 @@ function buildColumns(items, count = 4) {
   );
 }
 
-const initialForm = {
-  reviewerName: "",
-  reviewerMeta: "",
-  quote: "",
-  website: ""
-};
-
 export default function VisitorTestimonialsMarquee() {
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
   const [notice, setNotice] = useState("");
 
   async function loadTestimonials({ silent = false } = {}) {
@@ -102,42 +92,6 @@ export default function VisitorTestimonialsMarquee() {
   }, []);
 
   const columns = useMemo(() => buildColumns(items, 4), [items]);
-
-  function updateForm(field, value) {
-    setForm((current) => ({
-      ...current,
-      [field]: value
-    }));
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setSubmitting(true);
-    setNotice("");
-
-    try {
-      const result = await submitVisitorTestimonial({
-        reviewerName: form.reviewerName,
-        reviewerMeta: form.reviewerMeta,
-        quote: form.quote,
-        rating: 5,
-        website: form.website
-      });
-
-      if (result?.testimonial) {
-        setItems((current) => [result.testimonial, ...current]);
-      }
-
-      setForm(initialForm);
-      setNotice("تم نشر تقييمك، شكرًا لك.");
-      loadTestimonials({ silent: true });
-    } catch (error) {
-      setNotice(error?.message || "تعذر حفظ التقييم.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
   const hasItems = items.length > 0;
 
   return (
@@ -162,9 +116,9 @@ export default function VisitorTestimonialsMarquee() {
 
         .vt-head {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(290px, .58fr);
+          grid-template-columns: minmax(0, 1fr) auto;
           gap: 18px;
-          align-items: start;
+          align-items: end;
           margin-bottom: 22px;
           position: relative;
           z-index: 2;
@@ -189,7 +143,7 @@ export default function VisitorTestimonialsMarquee() {
           font-size: clamp(24px, 4vw, 42px);
           line-height: 1.25;
           font-weight: 950;
-          letter-spacing: -0.5px;
+          letter-spacing: 0;
         }
 
         .vt-head p {
@@ -200,74 +154,15 @@ export default function VisitorTestimonialsMarquee() {
           font-weight: 780;
         }
 
-        .vt-form {
-          border-radius: 8px;
-          padding: 14px;
-          background: rgba(255,255,255,.86);
-          border: 1px solid var(--vt-line);
-          box-shadow: 0 14px 30px rgba(15,23,42,.06);
-          display: grid;
-          gap: 8px;
-        }
-
-        .vt-form strong {
-          color: #0f172a;
-          font-size: 14px;
-          line-height: 1.6;
-          font-weight: 950;
-        }
-
-        .vt-form input,
-        .vt-form textarea {
-          width: 100%;
-          box-sizing: border-box;
-          border-radius: 8px;
-          border: 1px solid rgba(148,163,184,.28);
-          padding: 10px 11px;
-          color: #0f172a;
-          background: #fff;
-          font-family: inherit;
-          font-size: 12px;
-          font-weight: 800;
-          outline: none;
-        }
-
-        .vt-form textarea {
-          min-height: 86px;
-          line-height: 1.8;
-          resize: vertical;
-        }
-
-        .vt-form input:focus,
-        .vt-form textarea:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.10);
-        }
-
-        .vt-form .vt-hp {
-          display: none;
-        }
-
-        .vt-form button {
-          border: 0;
-          cursor: pointer;
-          min-height: 42px;
-          border-radius: 8px;
-          color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
-          font-family: inherit;
-          font-weight: 950;
-        }
-
-        .vt-form button:disabled {
-          opacity: .65;
-          cursor: not-allowed;
-        }
-
-        .vt-notice {
-          color: #64748b;
+        .vt-source-note {
+          width: min(250px, 100%);
+          border-radius: 14px;
+          padding: 12px 14px;
+          color: #3730a3;
+          background: rgba(238,242,255,.78);
+          border: 1px solid rgba(79,70,229,.16);
           font-size: 11px;
-          line-height: 1.7;
+          line-height: 1.8;
           font-weight: 850;
         }
 
@@ -424,16 +319,15 @@ export default function VisitorTestimonialsMarquee() {
         }
 
         body.od-theme-dark .vt-card,
-        body.od-theme-dark .vt-form,
-        body.od-theme-dark .vt-empty {
+        body.od-theme-dark .vt-empty,
+        body.od-theme-dark .vt-source-note {
           background: rgba(30,41,59,.88) !important;
           border-color: rgba(148,163,184,.22) !important;
           box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
         }
 
         body.od-theme-dark .vt-head h2,
-        body.od-theme-dark .vt-person strong,
-        body.od-theme-dark .vt-form strong {
+        body.od-theme-dark .vt-person strong {
           color: #f8fafc !important;
         }
 
@@ -441,8 +335,8 @@ export default function VisitorTestimonialsMarquee() {
         body.od-theme-dark .vt-card p,
         body.od-theme-dark .vt-person span,
         body.od-theme-dark .vt-card time,
-        body.od-theme-dark .vt-notice,
-        body.od-theme-dark .vt-empty {
+        body.od-theme-dark .vt-empty,
+        body.od-theme-dark .vt-source-note {
           color: #cbd5e1 !important;
         }
 
@@ -459,6 +353,10 @@ export default function VisitorTestimonialsMarquee() {
         @media (max-width: 760px) {
           .vt-head {
             grid-template-columns: 1fr;
+          }
+
+          .vt-source-note {
+            width: 100%;
           }
 
           .vt-wall {
@@ -514,55 +412,21 @@ export default function VisitorTestimonialsMarquee() {
           <span className="vt-kicker">تقييمات حقيقية</span>
           <h2>ما يقوله الزوار والمتعلمون عن التجربة</h2>
           <p>
-            هذا القسم لا يحتوي تقييمات وهمية أو مكتوبة يدويًا داخل الكود.
-            كل بطاقة تظهر هنا تأتي مباشرة من قاعدة البيانات بعد إضافة تقييم فعلي.
+            التقييمات المعروضة هنا تأتي من قاعدة البيانات فقط بعد اعتمادها،
+            ولا يمكن نشر تقييم عام مباشرة من صفحة الزوار.
           </p>
         </div>
 
-        <form className="vt-form" onSubmit={handleSubmit}>
-          <strong>شارك تقييمك للمنصة</strong>
-          <input
-            value={form.reviewerName}
-            onChange={(event) => updateForm("reviewerName", event.target.value)}
-            placeholder="الاسم"
-            maxLength={90}
-            required
-          />
-          <input
-            value={form.reviewerMeta}
-            onChange={(event) => updateForm("reviewerMeta", event.target.value)}
-            placeholder="المدينة أو الدولة أو المسمى"
-            maxLength={120}
-            required
-          />
-          <textarea
-            value={form.quote}
-            onChange={(event) => updateForm("quote", event.target.value)}
-            placeholder="اكتب اقتباسًا قصيرًا عن تجربتك"
-            maxLength={360}
-            required
-          />
-          <input
-            className="vt-hp"
-            value={form.website}
-            onChange={(event) => updateForm("website", event.target.value)}
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            placeholder="website"
-          />
-          <button type="submit" disabled={submitting}>
-            {submitting ? "جارٍ النشر..." : "نشر التقييم"}
-          </button>
-          {notice ? <span className="vt-notice">{notice}</span> : null}
-        </form>
+        <div className="vt-source-note">
+          تظهر البطاقات تلقائيًا عند وجود تقييمات منشورة ومعتمدة في قاعدة البيانات.
+        </div>
       </div>
 
       {loading ? (
         <div className="vt-empty">جارٍ تحميل التقييمات الحقيقية...</div>
       ) : !hasItems ? (
         <div className="vt-empty">
-          لا توجد تقييمات منشورة بعد. عند إضافة أول تقييم فعلي سيظهر هنا تلقائيًا.
+          لا توجد تقييمات منشورة بعد. عند اعتماد أول تقييم فعلي سيظهر هنا تلقائيًا.
         </div>
       ) : (
         <div className="vt-wall" tabIndex={0}>
@@ -582,6 +446,8 @@ export default function VisitorTestimonialsMarquee() {
           })}
         </div>
       )}
+
+      {notice ? <div className="vt-empty" style={{ marginTop: 12 }}>{notice}</div> : null}
     </section>
   );
 }

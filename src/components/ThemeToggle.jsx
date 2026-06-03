@@ -297,6 +297,24 @@ export default function ThemeToggle() {
           color: #93c5fd !important;
         }
 
+
+        /* Phase 48 dark-background hardening */
+        html[data-theme="dark"],
+        html[data-theme="dark"] body,
+        html[data-theme="dark"] #root,
+        body.od-theme-dark,
+        body.od-theme-dark #root,
+        body.od-theme-dark .site-frame,
+        body.od-theme-dark .public-gate,
+        body.od-theme-dark .public-wrap,
+        body.od-theme-dark main {
+          background:
+            radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
+            radial-gradient(circle at 88% 14%, rgba(16,185,129,.08), transparent 26%),
+            #020617 !important;
+          color: #e5e7eb !important;
+        }
+
         @media (min-width: 1180px) {
           .theme-toggle-label {
             display: inline;

@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-
-const LAB_SKIN_STYLE_ID = "odacademy-phase44-visual-lab-skin";
-
-const LAB_SKIN_CSS = String.raw`
+export default function ExperienceDesignSkin() {
+  return (
+    <style>{`
       /*
         Phase 43 - Visual redesign skin
         Design-only layer:
@@ -163,7 +161,7 @@ const LAB_SKIN_CSS = String.raw`
       }
 
       .public-hero::after {
-        content: "STRATEGY  CULTURE  ROLES  IMPACT  LEARNING";
+        content: "م ن س ق ة  ·  م ن س ق ة  ·  م ن س ق ة  ·  م ن س ق ة";
         position: absolute;
         inset-inline-start: clamp(18px, 4vw, 52px);
         bottom: clamp(14px, 3vw, 30px);
@@ -172,8 +170,10 @@ const LAB_SKIN_CSS = String.raw`
         font-size: clamp(42px, 7vw, 96px);
         line-height: 1;
         font-weight: 950;
-        letter-spacing: .08em;
+        letter-spacing: 0;
         white-space: nowrap;
+        direction: rtl;
+        animation: munsaqahLettersFloat 38s linear infinite;
       }
 
       .public-hero > div:first-child {
@@ -792,6 +792,109 @@ const LAB_SKIN_CSS = String.raw`
         background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
       }
 
+
+      /* =========================
+         Phase 48 fixes:
+         1) إزالة العبارة الإنجليزية من خلفية البطل واستبدالها بحروف منسقة.
+         2) تحسين وضوح الوضع الفاتح.
+         3) إجبار الخلفية الداكنة عند تفعيل الوضع الداكن.
+      ========================= */
+
+      body:not(.od-theme-dark) .site-frame {
+        background:
+          radial-gradient(circle at 12% 8%, rgba(126,96,205,.14), transparent 30%),
+          radial-gradient(circle at 90% 14%, rgba(214,168,79,.12), transparent 28%),
+          linear-gradient(180deg, #07111f 0%, #101b34 34%, #f4ecff 34%, #fffaf0 100%) !important;
+      }
+
+      body:not(.od-theme-dark) .od-timer-command {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(126,96,205,.13), transparent 34%),
+          linear-gradient(135deg, rgba(7,17,31,.96), rgba(17,26,53,.94)) !important;
+        border-color: rgba(226,232,240,.16) !important;
+        box-shadow: 0 24px 80px rgba(2,6,23,.22) !important;
+      }
+
+      body:not(.od-theme-dark) .od-timer-content h2,
+      body:not(.od-theme-dark) .od-section-head h2 {
+        color: #fffaf0 !important;
+        text-shadow: 0 14px 34px rgba(0,0,0,.24) !important;
+      }
+
+      body:not(.od-theme-dark) .od-timer-content p,
+      body:not(.od-theme-dark) .od-section-head p {
+        color: #d5deea !important;
+      }
+
+      body:not(.od-theme-dark) .od-section-kicker {
+        color: #5b21b6 !important;
+        background: rgba(255,255,255,.82) !important;
+        border: 1px solid rgba(126,96,205,.18) !important;
+      }
+
+      body:not(.od-theme-dark) .od-stat-card {
+        background: rgba(15,23,42,.92) !important;
+        border-color: rgba(226,232,240,.14) !important;
+        color: #f8fafc !important;
+        box-shadow: 0 20px 52px rgba(2,6,23,.20) !important;
+      }
+
+      body:not(.od-theme-dark) .od-stat-card strong,
+      body:not(.od-theme-dark) .od-stat-card b {
+        color: #fffaf0 !important;
+      }
+
+      body:not(.od-theme-dark) .od-stat-card span,
+      body:not(.od-theme-dark) .od-stat-card small,
+      body:not(.od-theme-dark) .od-stat-card p {
+        color: #cbd5e1 !important;
+      }
+
+      body:not(.od-theme-dark) .public-section {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(126,96,205,.07), transparent 30%),
+          rgba(255,250,240,.92) !important;
+      }
+
+      body.od-theme-dark,
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #root,
+      body.od-theme-dark #root,
+      body.od-theme-dark main,
+      body.od-theme-dark .site-frame,
+      body.od-theme-dark .public-gate,
+      body.od-theme-dark .public-wrap,
+      body.od-theme-dark .content,
+      body.od-theme-dark .main-content {
+        background:
+          radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
+          radial-gradient(circle at 88% 14%, rgba(16,185,129,.08), transparent 26%),
+          #020617 !important;
+        color: #e5e7eb !important;
+      }
+
+      body.od-theme-dark::before,
+      html[data-theme="dark"] body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
+          radial-gradient(circle at 88% 16%, rgba(16,185,129,.12), transparent 26%),
+          #020617 !important;
+      }
+
+      @keyframes munsaqahLettersFloat {
+        0% { transform: translate3d(18vw, 0, 0) rotate(-1deg); opacity: .045; }
+        25% { transform: translate3d(4vw, -18px, 0) rotate(.8deg); opacity: .075; }
+        55% { transform: translate3d(-10vw, 12px, 0) rotate(-.6deg); opacity: .055; }
+        100% { transform: translate3d(-28vw, -8px, 0) rotate(.4deg); opacity: .07; }
+      }
+
+
       /* =========================
          Dark mode integration
       ========================= */
@@ -956,90 +1059,6 @@ const LAB_SKIN_CSS = String.raw`
           scroll-behavior: auto !important;
         }
       }
-    
-
-      /* Phase 44 cascade fix: these rules are intentionally broad because original components inject local <style> tags. */
-      body.od-visual-lab-ready .public-gate,
-      body.od-visual-lab-ready .site-frame {
-        transition: background .35s ease, color .35s ease !important;
-      }
-
-      body.od-visual-lab-ready .public-gate > style,
-      body.od-visual-lab-ready .site-frame > style {
-        /* لا يؤثر بصريًا؛ فقط للتأكيد أن skin صار آخر طبقة في cascade */
-      }
-
-      body.od-visual-lab-ready .public-wrap,
-      body.od-visual-lab-ready .public-hero,
-      body.od-visual-lab-ready .public-section,
-      body.od-visual-lab-ready .site-header,
-      body.od-visual-lab-ready .profile-strip,
-      body.od-visual-lab-ready .course-search-box,
-      body.od-visual-lab-ready .saved-lessons-panel,
-      body.od-visual-lab-ready .weekly-reflection-panel,
-      body.od-visual-lab-ready .learning-portfolio,
-      body.od-visual-lab-ready .mobile-nav-panel {
-        box-sizing: border-box !important;
-      }
-
-      body.od-visual-lab-ready .public-hero {
-        transform: translateZ(0) !important;
-      }
-
-      body.od-visual-lab-ready .auth-card,
-      body.od-visual-lab-ready .sample-box,
-      body.od-visual-lab-ready .counter-card,
-      body.od-visual-lab-ready .path-card,
-      body.od-visual-lab-ready .info-card,
-      body.od-visual-lab-ready .legal-card,
-      body.od-visual-lab-ready .faq-item,
-      body.od-visual-lab-ready .vt-card {
-        transform: translateZ(0) !important;
-      }
-
-      body.od-visual-lab-ready .public-section:nth-of-type(odd) {
-        background:
-          radial-gradient(circle at 0% 100%, rgba(54,211,197,.08), transparent 30%),
-          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,250,240,.84)) !important;
-      }
-
-      body.od-visual-lab-ready .public-section:nth-of-type(even) {
-        background:
-          radial-gradient(circle at 100% 0%, rgba(214,168,79,.10), transparent 30%),
-          linear-gradient(180deg, rgba(255,250,240,.90), rgba(238,242,255,.72)) !important;
-      }
-
-      body.od-theme-dark.od-visual-lab-ready .public-section:nth-of-type(odd),
-      body.od-theme-dark.od-visual-lab-ready .public-section:nth-of-type(even) {
-        background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
-          rgba(15,23,42,.94) !important;
-      }
-`;
-
-export default function ExperienceDesignSkin() {
-  useEffect(() => {
-    if (typeof document === "undefined") return undefined;
-
-    document.body.classList.add("od-visual-lab-ready");
-
-    let style = document.getElementById(LAB_SKIN_STYLE_ID);
-
-    if (!style) {
-      style = document.createElement("style");
-      style.id = LAB_SKIN_STYLE_ID;
-      style.setAttribute("data-phase", "44-visual-lab-cascade-fix");
-      style.textContent = LAB_SKIN_CSS;
-
-      // مهم: نضيفه في آخر body بعد كل style الداخلي الموجود داخل المكونات.
-      // المرحلة السابقة كانت تظهر قبل style المحلي، لذلك لم تتغلب على التصميم القديم.
-      document.body.appendChild(style);
-    } else if (style.textContent !== LAB_SKIN_CSS) {
-      style.textContent = LAB_SKIN_CSS;
-    }
-
-    return undefined;
-  }, []);
-
-  return null;
+    `}</style>
+  );
 }
