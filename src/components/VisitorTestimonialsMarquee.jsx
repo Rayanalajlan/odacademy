@@ -52,25 +52,16 @@ function buildColumns(items, count = 4) {
 
 export default function VisitorTestimonialsMarquee() {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [notice, setNotice] = useState("");
+  const [ready, setReady] = useState(false);
 
-  async function loadTestimonials({ silent = false } = {}) {
-    if (!silent) {
-      setLoading(true);
-    }
-
+  async function loadTestimonials() {
     try {
       const rows = await listPublishedVisitorTestimonials({ limit: 40 });
       setItems(rows);
-      setNotice("");
     } catch (error) {
       console.warn("تعذر تحميل تقييمات الزوار:", error);
-      setNotice("تعذر تحميل التقييمات الآن.");
     } finally {
-      if (!silent) {
-        setLoading(false);
-      }
+      setReady(true);
     }
   }
 
@@ -78,12 +69,10 @@ export default function VisitorTestimonialsMarquee() {
     loadTestimonials();
 
     const unsubscribe = subscribeToPublishedVisitorTestimonials(() => {
-      loadTestimonials({ silent: true });
+      loadTestimonials();
     });
 
-    const interval = window.setInterval(() => {
-      loadTestimonials({ silent: true });
-    }, 60000);
+    const interval = window.setInterval(loadTestimonials, 60000);
 
     return () => {
       unsubscribe?.();
@@ -92,31 +81,35 @@ export default function VisitorTestimonialsMarquee() {
   }, []);
 
   const columns = useMemo(() => buildColumns(items, 4), [items]);
-  const hasItems = items.length > 0;
+
+  // لا نعرض القسم إطلاقًا إذا لا توجد تقييمات منشورة؛ حتى لا يرى الزائر أي رسائل داخلية.
+  if (!ready || items.length === 0) {
+    return null;
+  }
 
   return (
     <section className="visitor-testimonials" dir="rtl" aria-label="تقييمات الزوار">
       <style>{`
         .visitor-testimonials {
-          --vt-ink: #0f172a;
-          --vt-muted: #64748b;
-          --vt-line: rgba(148,163,184,.20);
+          --vt-ink: #211336;
+          --vt-muted: #6d607d;
+          --vt-line: rgba(126, 96, 205, .18);
           position: relative;
           overflow: hidden;
           border-radius: 28px;
           padding: clamp(22px, 4vw, 34px);
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
-            radial-gradient(circle at 0% 100%, rgba(245,158,11,.10), transparent 32%),
-            rgba(255,255,255,.86);
-          border: 1px solid rgba(255,255,255,.78);
-          box-shadow: 0 22px 70px rgba(15,23,42,.08);
+            radial-gradient(circle at 100% 0%, rgba(183,148,244,.16), transparent 30%),
+            radial-gradient(circle at 0% 100%, rgba(220,199,255,.18), transparent 32%),
+            rgba(250,247,255,.92);
+          border: 1px solid rgba(213,196,247,.72);
+          box-shadow: 0 22px 70px rgba(60,37,98,.10);
           margin: 18px 0;
         }
 
         .vt-head {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) auto;
+          grid-template-columns: minmax(0, 1fr);
           gap: 18px;
           align-items: end;
           margin-bottom: 22px;
@@ -129,9 +122,9 @@ export default function VisitorTestimonialsMarquee() {
           width: fit-content;
           border-radius: 999px;
           padding: 8px 12px;
-          color: #3730a3;
-          background: #eef2ff;
-          border: 1px solid rgba(79,70,229,.16);
+          color: #5b2bbd;
+          background: rgba(240,232,255,.86);
+          border: 1px solid rgba(126,96,205,.18);
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 9px;
@@ -152,29 +145,6 @@ export default function VisitorTestimonialsMarquee() {
           font-size: 13px;
           line-height: 1.9;
           font-weight: 780;
-        }
-
-        .vt-source-note {
-          width: min(250px, 100%);
-          border-radius: 14px;
-          padding: 12px 14px;
-          color: #3730a3;
-          background: rgba(238,242,255,.78);
-          border: 1px solid rgba(79,70,229,.16);
-          font-size: 11px;
-          line-height: 1.8;
-          font-weight: 850;
-        }
-
-        .vt-empty {
-          border-radius: 8px;
-          padding: 16px;
-          color: #475569;
-          background: rgba(248,250,252,.84);
-          border: 1px dashed rgba(148,163,184,.38);
-          font-size: 13px;
-          line-height: 1.9;
-          font-weight: 800;
         }
 
         .vt-wall {
@@ -200,12 +170,12 @@ export default function VisitorTestimonialsMarquee() {
 
         .vt-wall::before {
           top: 0;
-          background: linear-gradient(to bottom, rgba(248,250,252,.92), transparent);
+          background: linear-gradient(to bottom, rgba(250,247,255,.96), transparent);
         }
 
         .vt-wall::after {
           bottom: 0;
-          background: linear-gradient(to top, rgba(248,250,252,.92), transparent);
+          background: linear-gradient(to top, rgba(250,247,255,.96), transparent);
         }
 
         .vt-column {
@@ -247,7 +217,7 @@ export default function VisitorTestimonialsMarquee() {
           padding: 15px;
           background: rgba(255,255,255,.92);
           border: 1px solid var(--vt-line);
-          box-shadow: 0 14px 30px rgba(15,23,42,.07);
+          box-shadow: 0 14px 30px rgba(60,37,98,.08);
         }
 
         .vt-card-top {
@@ -259,21 +229,21 @@ export default function VisitorTestimonialsMarquee() {
         }
 
         .vt-stars {
-          color: #f59e0b;
+          color: #8f65df;
           letter-spacing: 1px;
           font-size: 13px;
           line-height: 1;
         }
 
         .vt-card time {
-          color: #94a3b8;
+          color: #8f7ca3;
           font-size: 11px;
           font-weight: 850;
         }
 
         .vt-card p {
           margin: 0;
-          color: #334155;
+          color: #3d2a54;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 780;
@@ -284,18 +254,18 @@ export default function VisitorTestimonialsMarquee() {
           gap: 2px;
           margin-top: 12px;
           padding-top: 12px;
-          border-top: 1px solid rgba(148,163,184,.14);
+          border-top: 1px solid rgba(126,96,205,.14);
         }
 
         .vt-person strong {
-          color: #0f172a;
+          color: #211336;
           font-size: 13px;
           line-height: 1.6;
           font-weight: 950;
         }
 
         .vt-person span {
-          color: #64748b;
+          color: #6d607d;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 760;
@@ -303,41 +273,37 @@ export default function VisitorTestimonialsMarquee() {
 
         body.od-theme-dark .visitor-testimonials {
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.14), transparent 30%),
-            radial-gradient(circle at 0% 100%, rgba(245,158,11,.08), transparent 32%),
-            rgba(15,23,42,.94) !important;
-          border-color: rgba(148,163,184,.22) !important;
+            radial-gradient(circle at 100% 0%, rgba(183,148,244,.16), transparent 30%),
+            radial-gradient(circle at 0% 100%, rgba(126,96,205,.12), transparent 32%),
+            rgba(15,10,25,.94) !important;
+          border-color: rgba(183,148,244,.22) !important;
           box-shadow: 0 22px 70px rgba(0,0,0,.28) !important;
         }
 
         body.od-theme-dark .vt-wall::before {
-          background: linear-gradient(to bottom, rgba(15,23,42,.96), transparent);
+          background: linear-gradient(to bottom, rgba(15,10,25,.96), transparent);
         }
 
         body.od-theme-dark .vt-wall::after {
-          background: linear-gradient(to top, rgba(15,23,42,.96), transparent);
+          background: linear-gradient(to top, rgba(15,10,25,.96), transparent);
         }
 
-        body.od-theme-dark .vt-card,
-        body.od-theme-dark .vt-empty,
-        body.od-theme-dark .vt-source-note {
-          background: rgba(30,41,59,.88) !important;
-          border-color: rgba(148,163,184,.22) !important;
+        body.od-theme-dark .vt-card {
+          background: rgba(32,22,48,.90) !important;
+          border-color: rgba(183,148,244,.20) !important;
           box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
         }
 
         body.od-theme-dark .vt-head h2,
         body.od-theme-dark .vt-person strong {
-          color: #f8fafc !important;
+          color: #fbf7ff !important;
         }
 
         body.od-theme-dark .vt-head p,
         body.od-theme-dark .vt-card p,
         body.od-theme-dark .vt-person span,
-        body.od-theme-dark .vt-card time,
-        body.od-theme-dark .vt-empty,
-        body.od-theme-dark .vt-source-note {
-          color: #cbd5e1 !important;
+        body.od-theme-dark .vt-card time {
+          color: #d9c9ef !important;
         }
 
         @media (max-width: 1040px) {
@@ -353,10 +319,6 @@ export default function VisitorTestimonialsMarquee() {
         @media (max-width: 760px) {
           .vt-head {
             grid-template-columns: 1fr;
-          }
-
-          .vt-source-note {
-            width: 100%;
           }
 
           .vt-wall {
@@ -409,45 +371,30 @@ export default function VisitorTestimonialsMarquee() {
 
       <div className="vt-head">
         <div>
-          <span className="vt-kicker">تقييمات حقيقية</span>
-          <h2>ما يقوله الزوار والمتعلمون عن التجربة</h2>
+          <span className="vt-kicker">تجارب الزوار</span>
+          <h2>أصوات من تجربة منسقة</h2>
           <p>
-            التقييمات المعروضة هنا تأتي من قاعدة البيانات فقط بعد اعتمادها،
-            ولا يمكن نشر تقييم عام مباشرة من صفحة الزوار.
+            مقتطفات قصيرة من تجارب حقيقية تعكس وضوح الرحلة وأثرها المعرفي.
           </p>
-        </div>
-
-        <div className="vt-source-note">
-          تظهر البطاقات تلقائيًا عند وجود تقييمات منشورة ومعتمدة في قاعدة البيانات.
         </div>
       </div>
 
-      {loading ? (
-        <div className="vt-empty">جارٍ تحميل التقييمات الحقيقية...</div>
-      ) : !hasItems ? (
-        <div className="vt-empty">
-          لا توجد تقييمات منشورة بعد. عند اعتماد أول تقييم فعلي سيظهر هنا تلقائيًا.
-        </div>
-      ) : (
-        <div className="vt-wall" tabIndex={0}>
-          {columns.map((column, columnIndex) => {
-            const repeated = [...column, ...column, ...column, ...column];
+      <div className="vt-wall" tabIndex={0}>
+        {columns.map((column, columnIndex) => {
+          const repeated = [...column, ...column, ...column, ...column];
 
-            return (
-              <div className="vt-column" key={`column-${columnIndex}`}>
-                {repeated.map((review, index) => (
-                  <ReviewCard
-                    key={`${columnIndex}-${review.id}-${index}`}
-                    review={review}
-                  />
-                ))}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {notice ? <div className="vt-empty" style={{ marginTop: 12 }}>{notice}</div> : null}
+          return (
+            <div className="vt-column" key={`column-${columnIndex}`}>
+              {repeated.map((review, index) => (
+                <ReviewCard
+                  key={`${columnIndex}-${review.id}-${index}`}
+                  review={review}
+                />
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

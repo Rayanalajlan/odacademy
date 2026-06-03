@@ -29,7 +29,7 @@ export default function ThemeToggle() {
           gap: 8px;
           color: #0f172a;
           background:
-            radial-gradient(circle at 100% 0%, rgba(245,158,11,.28), transparent 36%),
+            radial-gradient(circle at 100% 0%, rgba(159,122,234,.28), transparent 36%),
             #ffffff;
           border: 1px solid rgba(148,163,184,.22);
           box-shadow: 0 14px 30px rgba(15,23,42,.08);
@@ -80,8 +80,8 @@ export default function ThemeToggle() {
           pointer-events: none;
           background:
             radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
-            radial-gradient(circle at 88% 16%, rgba(16,185,129,.12), transparent 26%),
-            radial-gradient(circle at 50% 100%, rgba(245,158,11,.08), transparent 32%),
+            radial-gradient(circle at 88% 16%, rgba(143,101,223,.12), transparent 26%),
+            radial-gradient(circle at 50% 100%, rgba(159,122,234,.08), transparent 32%),
             #020617 !important;
         }
 
@@ -106,7 +106,7 @@ export default function ThemeToggle() {
         body.od-theme-dark main {
           background:
             radial-gradient(circle at 10% 0%, rgba(79,70,229,.14), transparent 28%),
-            radial-gradient(circle at 90% 10%, rgba(16,185,129,.08), transparent 30%),
+            radial-gradient(circle at 90% 10%, rgba(143,101,223,.08), transparent 30%),
             #020617 !important;
           color: #e5e7eb !important;
         }
@@ -280,7 +280,7 @@ export default function ThemeToggle() {
         body.od-theme-dark .theme-toggle-button {
           color: #fde68a !important;
           background:
-            radial-gradient(circle at 0% 100%, rgba(245,158,11,.24), transparent 38%),
+            radial-gradient(circle at 0% 100%, rgba(159,122,234,.24), transparent 38%),
             linear-gradient(135deg, #0f172a, #312e81) !important;
           border-color: rgba(253,230,138,.22) !important;
           box-shadow: 0 18px 40px rgba(0,0,0,.28) !important;
@@ -310,7 +310,7 @@ export default function ThemeToggle() {
         body.od-theme-dark main {
           background:
             radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
-            radial-gradient(circle at 88% 14%, rgba(16,185,129,.08), transparent 26%),
+            radial-gradient(circle at 88% 14%, rgba(143,101,223,.08), transparent 26%),
             #020617 !important;
           color: #e5e7eb !important;
         }

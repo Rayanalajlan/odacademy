@@ -23,12 +23,12 @@ export default function ExperienceDesignSkin() {
         --lab-paper: #f7f2e8;
         --lab-muted: #64748b;
         --lab-muted-dark: #b6c2d3;
-        --lab-gold: #d6a84f;
-        --lab-gold-soft: rgba(214, 168, 79, .16);
+        --lab-gold: #9f7aea;
+        --lab-gold-soft: rgba(159, 122, 234, .16);
         --lab-indigo: #4f46e5;
         --lab-violet: #6d5dfc;
-        --lab-cyan: #36d3c5;
-        --lab-green: #11b981;
+        --lab-cyan: #b794f4;
+        --lab-green: #8f65df;
         --lab-radius-xl: 34px;
         --lab-radius-lg: 24px;
         --lab-radius-md: 16px;
@@ -46,7 +46,7 @@ export default function ExperienceDesignSkin() {
       body {
         background:
           radial-gradient(circle at 7% 4%, rgba(79, 70, 229, .10), transparent 32%),
-          radial-gradient(circle at 93% 16%, rgba(214, 168, 79, .12), transparent 30%),
+          radial-gradient(circle at 93% 16%, rgba(159, 122, 234, .12), transparent 30%),
           linear-gradient(180deg, #fffaf0 0%, #eef2ff 46%, #fffaf0 100%) !important;
       }
 
@@ -74,7 +74,7 @@ export default function ExperienceDesignSkin() {
       input:focus-visible,
       textarea:focus-visible,
       select:focus-visible {
-        outline: 3px solid rgba(214, 168, 79, .78) !important;
+        outline: 3px solid rgba(159, 122, 234, .78) !important;
         outline-offset: 3px !important;
       }
 
@@ -87,7 +87,7 @@ export default function ExperienceDesignSkin() {
         overflow-x: clip !important;
         background:
           radial-gradient(circle at 12% 8%, rgba(126, 96, 205, .18), transparent 30%),
-          radial-gradient(circle at 88% 10%, rgba(214, 168, 79, .15), transparent 34%),
+          radial-gradient(circle at 88% 10%, rgba(159, 122, 234, .15), transparent 34%),
           linear-gradient(180deg, #fbf8ff 0%, #efe7ff 42%, #fffaf0 42%, #fffaf0 100%) !important;
         color: #0f172a !important;
         padding-top: clamp(14px, 3vw, 28px) !important;
@@ -112,8 +112,8 @@ export default function ExperienceDesignSkin() {
         z-index: 0;
         pointer-events: none;
         background:
-          radial-gradient(circle at 18% 26%, rgba(214,168,79,.18), transparent 3px),
-          radial-gradient(circle at 64% 18%, rgba(54,211,197,.18), transparent 3px),
+          radial-gradient(circle at 18% 26%, rgba(159,122,234,.18), transparent 3px),
+          radial-gradient(circle at 64% 18%, rgba(183,148,244,.18), transparent 3px),
           radial-gradient(circle at 76% 38%, rgba(109,93,252,.20), transparent 3px),
           linear-gradient(120deg, transparent 0 22%, rgba(226,232,240,.08) 22% 22.2%, transparent 22.4% 100%);
         opacity: .8;
@@ -138,7 +138,7 @@ export default function ExperienceDesignSkin() {
         border: 1px solid rgba(226,232,240,.18) !important;
         background:
           radial-gradient(circle at 8% 12%, rgba(126,96,205,.18), transparent 30%),
-          radial-gradient(circle at 88% 18%, rgba(214,168,79,.18), transparent 28%),
+          radial-gradient(circle at 88% 18%, rgba(159,122,234,.18), transparent 28%),
           linear-gradient(135deg, #ffffff 0%, #f4ecff 48%, #fff7df 100%) !important;
         box-shadow: 0 34px 100px rgba(65, 41, 111, .18) !important;
       }
@@ -149,12 +149,12 @@ export default function ExperienceDesignSkin() {
         inset: -25%;
         z-index: -2;
         background:
-          radial-gradient(circle at 25% 35%, rgba(54, 211, 197, .35), transparent 4px),
-          radial-gradient(circle at 33% 62%, rgba(214, 168, 79, .38), transparent 3px),
+          radial-gradient(circle at 25% 35%, rgba(183, 148, 244, .35), transparent 4px),
+          radial-gradient(circle at 33% 62%, rgba(159, 122, 234, .38), transparent 3px),
           radial-gradient(circle at 70% 32%, rgba(109, 93, 252, .42), transparent 5px),
-          radial-gradient(circle at 80% 66%, rgba(54, 211, 197, .32), transparent 3px),
+          radial-gradient(circle at 80% 66%, rgba(183, 148, 244, .32), transparent 3px),
           linear-gradient(90deg, transparent 0 22%, rgba(255,255,255,.10) 22.1% 22.2%, transparent 22.3% 100%),
-          linear-gradient(140deg, transparent 0 37%, rgba(214,168,79,.10) 37.1% 37.3%, transparent 37.4% 100%);
+          linear-gradient(140deg, transparent 0 37%, rgba(159,122,234,.10) 37.1% 37.3%, transparent 37.4% 100%);
         background-size: 520px 520px, 480px 480px, 620px 620px, 540px 540px, 100% 100%, 100% 100%;
         animation: labNodeDrift 22s ease-in-out infinite alternate;
         opacity: .78;
@@ -221,9 +221,9 @@ export default function ExperienceDesignSkin() {
         border-radius: 999px !important;
         padding: 9px 15px !important;
         color: #f8e5b3 !important;
-        background: rgba(214, 168, 79, .12) !important;
-        border: 1px solid rgba(214, 168, 79, .28) !important;
-        box-shadow: 0 0 40px rgba(214, 168, 79, .10) !important;
+        background: rgba(159, 122, 234, .12) !important;
+        border: 1px solid rgba(159, 122, 234, .28) !important;
+        box-shadow: 0 0 40px rgba(159, 122, 234, .10) !important;
       }
 
       .public-hero h1 {
@@ -258,7 +258,7 @@ export default function ExperienceDesignSkin() {
         top: 30px;
         inset-inline: 40px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(54,211,197,.36), rgba(214,168,79,.34), transparent);
+        background: linear-gradient(90deg, transparent, rgba(183,148,244,.36), rgba(159,122,234,.34), transparent);
         pointer-events: none;
       }
 
@@ -283,9 +283,9 @@ export default function ExperienceDesignSkin() {
       }
 
       .hero-point b {
-        background: rgba(54, 211, 197, .12) !important;
-        color: #80fff3 !important;
-        border: 1px solid rgba(54, 211, 197, .24) !important;
+        background: rgba(183, 148, 244, .12) !important;
+        color: #eadcff !important;
+        border: 1px solid rgba(183, 148, 244, .24) !important;
       }
 
       .hero-point strong {
@@ -337,8 +337,8 @@ export default function ExperienceDesignSkin() {
 
       .auth-tabs button.active {
         color: #07111f !important;
-        background: linear-gradient(135deg, #fffaf0, #d6a84f) !important;
-        box-shadow: 0 12px 30px rgba(214, 168, 79, .22) !important;
+        background: linear-gradient(135deg, #fffaf0, #9f7aea) !important;
+        box-shadow: 0 12px 30px rgba(159, 122, 234, .22) !important;
       }
 
       .auth-title {
@@ -371,15 +371,15 @@ export default function ExperienceDesignSkin() {
       .toggle-password,
       .forgot-button,
       .auth-ghost {
-        color: #d6a84f !important;
+        color: #9f7aea !important;
       }
 
       .auth-primary {
         min-height: 50px !important;
         border-radius: 15px !important;
         color: #07111f !important;
-        background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
-        box-shadow: 0 18px 46px rgba(214, 168, 79, .28) !important;
+        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
+        box-shadow: 0 18px 46px rgba(159, 122, 234, .28) !important;
       }
 
       .auth-primary:hover,
@@ -390,9 +390,9 @@ export default function ExperienceDesignSkin() {
 
       .auth-notice {
         border-radius: 14px !important;
-        background: rgba(54,211,197,.10) !important;
-        border-color: rgba(54,211,197,.24) !important;
-        color: #c7fff8 !important;
+        background: rgba(183,148,244,.10) !important;
+        border-color: rgba(183,148,244,.24) !important;
+        color: #eadcff !important;
       }
 
       .public-section {
@@ -480,7 +480,7 @@ export default function ExperienceDesignSkin() {
         top: 42px;
         inset-inline: 30px;
         height: 1px;
-        background: linear-gradient(90deg, rgba(54,211,197,.12), rgba(214,168,79,.42), rgba(79,70,229,.24));
+        background: linear-gradient(90deg, rgba(183,148,244,.12), rgba(159,122,234,.42), rgba(79,70,229,.24));
         pointer-events: none;
       }
 
@@ -503,14 +503,14 @@ export default function ExperienceDesignSkin() {
         width: 10px;
         height: 10px;
         border-radius: 99px;
-        background: #36d3c5;
-        box-shadow: 0 0 0 7px rgba(54,211,197,.12), 0 0 22px rgba(54,211,197,.42);
+        background: #b794f4;
+        box-shadow: 0 0 0 7px rgba(183,148,244,.12), 0 0 22px rgba(183,148,244,.42);
       }
 
       .path-card b {
-        color: #d6a84f !important;
-        background: rgba(214,168,79,.12) !important;
-        border-color: rgba(214,168,79,.20) !important;
+        color: #9f7aea !important;
+        background: rgba(159,122,234,.12) !important;
+        border-color: rgba(159,122,234,.20) !important;
       }
 
       .path-card strong {
@@ -545,7 +545,7 @@ export default function ExperienceDesignSkin() {
         position: absolute;
         inset-inline-end: 18px;
         top: 18px;
-        color: rgba(214,168,79,.62);
+        color: rgba(159,122,234,.62);
         font-size: 10px;
         font-weight: 950;
         letter-spacing: .16em;
@@ -570,8 +570,8 @@ export default function ExperienceDesignSkin() {
       .sample-button {
         border-radius: 14px !important;
         color: #07111f !important;
-        background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
-        box-shadow: 0 18px 42px rgba(214,168,79,.22) !important;
+        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
+        box-shadow: 0 18px 42px rgba(159,122,234,.22) !important;
       }
 
       .about-panel {
@@ -610,8 +610,8 @@ export default function ExperienceDesignSkin() {
       .about-links a {
         border-radius: 999px !important;
         color: #07111f !important;
-        background: rgba(214,168,79,.14) !important;
-        border: 1px solid rgba(214,168,79,.20) !important;
+        background: rgba(159,122,234,.14) !important;
+        border: 1px solid rgba(159,122,234,.20) !important;
       }
 
       .faq-list {
@@ -644,7 +644,7 @@ export default function ExperienceDesignSkin() {
         padding: 22px !important;
         color: #4a3c5f !important;
         background:
-          radial-gradient(circle at 0% 100%, rgba(214,168,79,.16), transparent 30%),
+          radial-gradient(circle at 0% 100%, rgba(159,122,234,.16), transparent 30%),
           linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90)) !important;
         border: 1px solid rgba(126,96,205,.18) !important;
         box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
@@ -676,7 +676,7 @@ export default function ExperienceDesignSkin() {
         overflow-x: clip !important;
         background:
           radial-gradient(circle at 8% 6%, rgba(126,96,205,.16), transparent 28%),
-          radial-gradient(circle at 88% 12%, rgba(214,168,79,.13), transparent 26%),
+          radial-gradient(circle at 88% 12%, rgba(159,122,234,.13), transparent 26%),
           linear-gradient(180deg, #fbf8ff 0%, #efe7ff 26%, #fffaf0 26%, #f7f2e8 100%) !important;
       }
 
@@ -731,8 +731,8 @@ export default function ExperienceDesignSkin() {
       .main-nav button.active,
       .educational-tools-trigger.active {
         color: #07111f !important;
-        background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
-        box-shadow: 0 16px 36px rgba(214,168,79,.22) !important;
+        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
+        box-shadow: 0 16px 36px rgba(159,122,234,.22) !important;
       }
 
       .logout-button {
@@ -774,7 +774,7 @@ export default function ExperienceDesignSkin() {
         width: min(1160px, calc(100% - 28px)) !important;
         margin: 0 auto 18px !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(54,211,197,.08), transparent 28%),
+          radial-gradient(circle at 100% 0%, rgba(183,148,244,.08), transparent 28%),
           rgba(255,255,255,.82) !important;
         border: 1px solid rgba(226,232,240,.62) !important;
         backdrop-filter: blur(18px) !important;
@@ -789,7 +789,7 @@ export default function ExperienceDesignSkin() {
       .mobile-menu-button {
         border-radius: 16px !important;
         color: #07111f !important;
-        background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
+        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
       }
 
 
@@ -803,7 +803,7 @@ export default function ExperienceDesignSkin() {
       body:not(.od-theme-dark) .site-frame {
         background:
           radial-gradient(circle at 12% 8%, rgba(126,96,205,.14), transparent 30%),
-          radial-gradient(circle at 90% 14%, rgba(214,168,79,.12), transparent 28%),
+          radial-gradient(circle at 90% 14%, rgba(159,122,234,.12), transparent 28%),
           linear-gradient(180deg, #07111f 0%, #101b34 34%, #f4ecff 34%, #fffaf0 100%) !important;
       }
 
@@ -869,7 +869,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .main-content {
         background:
           radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
-          radial-gradient(circle at 88% 14%, rgba(16,185,129,.08), transparent 26%),
+          radial-gradient(circle at 88% 14%, rgba(143,101,223,.08), transparent 26%),
           #020617 !important;
         color: #e5e7eb !important;
       }
@@ -883,7 +883,7 @@ export default function ExperienceDesignSkin() {
         pointer-events: none;
         background:
           radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
-          radial-gradient(circle at 88% 16%, rgba(16,185,129,.12), transparent 26%),
+          radial-gradient(circle at 88% 16%, rgba(143,101,223,.12), transparent 26%),
           #020617 !important;
       }
 
@@ -906,8 +906,8 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .site-frame,
       body.od-theme-dark .public-gate {
         background:
-          radial-gradient(circle at 10% 8%, rgba(54,211,197,.10), transparent 28%),
-          radial-gradient(circle at 88% 10%, rgba(214,168,79,.10), transparent 26%),
+          radial-gradient(circle at 10% 8%, rgba(183,148,244,.10), transparent 28%),
+          radial-gradient(circle at 88% 10%, rgba(159,122,234,.10), transparent 26%),
           linear-gradient(180deg, #020617 0%, #07111f 100%) !important;
       }
 
@@ -960,7 +960,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .public-footer,
       body.od-theme-dark .site-footer {
         background:
-          radial-gradient(circle at 100% 0%, rgba(54,211,197,.10), transparent 30%),
+          radial-gradient(circle at 100% 0%, rgba(183,148,244,.10), transparent 30%),
           linear-gradient(135deg, #07111f, #111a35) !important;
       }
 
