@@ -22,8 +22,11 @@ export default function ThemeToggle() {
     >
       <style>{`
         /*
-          Phase 50 - Uiverse-style theme switch
-          مستوحى من كود Uiverse المرسل، مع تهذيب الحجم والهوية حتى يتناسب مع هيدر منسقة.
+          Phase 52 - Natural Sun Theme Switch Fix
+          تعديل بسيط على زر الثيم الحالي:
+          - الإبقاء على نفس شكل Uiverse تقريبًا
+          - تصحيح لون الشمس ليصبح طبيعيًا (ذهبي/أصفر دافئ)
+          - بدون تغيير المنطق أو الربط مع themeService
         */
 
         .theme-switch {
@@ -31,17 +34,27 @@ export default function ThemeToggle() {
           --container-width: 5.625em;
           --container-height: 2.5em;
           --container-radius: 6.25em;
+
           --container-light-bg: #efe7ff;
           --container-night-bg: #1d1f2c;
+
           --circle-container-diameter: 3.375em;
           --sun-moon-diameter: 2.125em;
-          --sun-bg: #d8c3ff;
+
+          /* FIX: الشمس بلونها الطبيعي */
+          --sun-bg: #ECCA2F;
+          --sun-bg-deep: #E5B223;
+          --sun-highlight: #FFF6B2;
+
           --moon-bg: #c4c9d1;
           --spot-color: #959db1;
+
           --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+
           --stars-color: #fff;
           --clouds-color: #fbf7ff;
           --back-clouds-color: #d8c3ff;
+
           --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
           --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
 
@@ -85,7 +98,7 @@ export default function ThemeToggle() {
             0 12px 26px rgba(126, 96, 205, .16);
           transition: var(--transition);
           position: relative;
-          border: 1px solid rgba(126, 96, 205, .20);
+          border: 1px solid rgba(126, 96, 205, 0.20);
         }
 
         .theme-switch__container::before {
@@ -126,14 +139,20 @@ export default function ThemeToggle() {
           height: var(--sun-moon-diameter);
           margin: auto;
           border-radius: var(--container-radius);
+
+          /* FIX: شمس طبيعية */
           background:
-            radial-gradient(circle at 35% 30%, #fbf7ff 0 14%, var(--sun-bg) 16% 100%);
+            radial-gradient(circle at 34% 30%, var(--sun-highlight) 0 18%, transparent 19%),
+            radial-gradient(circle at 50% 48%, #F7D64D 0 48%, var(--sun-bg) 62%, var(--sun-bg-deep) 100%);
+
           box-shadow:
-            0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset,
-            0em -0.062em 0.062em 0em rgba(91,43,189,.38) inset;
+            0.062em 0.062em 0.062em 0em rgba(255, 248, 204, 0.72) inset,
+            0em -0.062em 0.062em 0em rgba(184, 128, 18, .55) inset;
+
           filter:
             drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25))
             drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+
           overflow: hidden;
           transition: var(--transition);
         }

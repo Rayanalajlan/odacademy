@@ -1,0 +1,44 @@
+[
+  {
+    "id": "home",
+    "label": "الرئيسية",
+    "src": "/section-icons/home.png",
+    "src512": "/section-icons/home-512.png",
+    "src1024": "/section-icons/home-1024.png"
+  },
+  {
+    "id": "portfolio",
+    "label": "ملفي التعليمي",
+    "src": "/section-icons/portfolio.png",
+    "src512": "/section-icons/portfolio-512.png",
+    "src1024": "/section-icons/portfolio-1024.png"
+  },
+  {
+    "id": "journey",
+    "label": "رحلتك التعليمية",
+    "src": "/section-icons/journey.png",
+    "src512": "/section-icons/journey-512.png",
+    "src1024": "/section-icons/journey-1024.png"
+  },
+  {
+    "id": "tools",
+    "label": "الأدوات التعليمية",
+    "src": "/section-icons/tools.png",
+    "src512": "/section-icons/tools-512.png",
+    "src1024": "/section-icons/tools-1024.png"
+  },
+  {
+    "id": "mastery",
+    "label": "وثيقة الإتقان",
+    "src": "/section-icons/mastery.png",
+    "src512": "/section-icons/mastery-512.png",
+    "src1024": "/section-icons/mastery-1024.png"
+  },
+  {
+    "id": "about",
+    "label": "عن ريان",
+    "src": "/section-icons/about.png",
+    "src512": "/section-icons/about-512.png",
+    "src1024": "/section-icons/about-1024.png"
+  }
+]
