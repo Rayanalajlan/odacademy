@@ -598,9 +598,9 @@ export default function AuthGate({
         .public-gate {
           min-height: 100vh;
           background:
-            radial-gradient(circle at 12% 8%, rgba(79, 70, 229, 0.15), transparent 30%),
-            radial-gradient(circle at 88% 14%, rgba(245, 158, 11, 0.14), transparent 30%),
-            linear-gradient(180deg, #f8fafc 0%, #eef2ff 48%, #f8fafc 100%);
+            radial-gradient(circle at 12% 8%, rgba(126, 96, 205, 0.18), transparent 30%),
+            radial-gradient(circle at 88% 14%, rgba(214, 168, 79, 0.16), transparent 30%),
+            linear-gradient(180deg, #fbf8ff 0%, #efe7ff 48%, #fffaf0 100%);
           color: #0f172a;
           padding: 28px 14px 70px;
           font-family: inherit;
@@ -620,17 +620,22 @@ export default function AuthGate({
           align-items: center;
           border-radius: 38px;
           padding: 34px;
-          color: white;
+          color: #211532;
           background:
-            radial-gradient(circle at 20% 15%, rgba(129, 140, 248, .25), transparent 30%),
-            radial-gradient(circle at 85% 20%, rgba(245, 158, 11, .20), transparent 30%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 55%, #312e81);
-          box-shadow: 0 26px 80px rgba(15, 23, 42, 0.22);
+            radial-gradient(circle at 20% 15%, rgba(126, 96, 205, .20), transparent 30%),
+            radial-gradient(circle at 85% 20%, rgba(214, 168, 79, .20), transparent 30%),
+            linear-gradient(135deg, #ffffff, #f4ecff 55%, #fff7df);
+          box-shadow: 0 24px 74px rgba(65, 41, 111, 0.16);
         }
         .public-brand-logo {
           margin-bottom: 18px;
           width: fit-content;
           max-width: 100%;
+          border-radius: 18px;
+          padding: 8px 12px;
+          background: rgba(255, 255, 255, .72);
+          border: 1px solid rgba(126, 96, 205, .18);
+          box-shadow: 0 16px 40px rgba(65, 41, 111, .08);
         }
 
         .public-badge {
@@ -639,7 +644,7 @@ export default function AuthGate({
           border-radius: 999px;
           background: rgba(255,255,255,.1);
           border: 1px solid rgba(255,255,255,.16);
-          color: #fde68a;
+          color: #5b3c8f;
           font-size: 12px;
           font-weight: 900;
         }
@@ -654,7 +659,7 @@ export default function AuthGate({
 
         .public-hero p {
           margin: 0;
-          color: #cbd5e1;
+          color: #4a3c5f;
           line-height: 2;
           font-size: 15px;
           font-weight: 700;
@@ -670,8 +675,8 @@ export default function AuthGate({
         .hero-point {
           border-radius: 22px;
           padding: 16px;
-          background: rgba(255, 255, 255, 0.10);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: rgba(255, 255, 255, 0.70);
+          border: 1px solid rgba(126, 96, 205, 0.18);
           backdrop-filter: blur(14px);
         }
 
@@ -691,7 +696,7 @@ export default function AuthGate({
 
         .hero-point strong {
           display: block;
-          color: #ffffff;
+          color: #211532;
           font-size: 15px;
           line-height: 1.7;
           font-weight: 950;
@@ -700,7 +705,7 @@ export default function AuthGate({
 
         .hero-point span {
           display: block;
-          color: rgba(226, 232, 240, 0.88);
+          color: #5f5270;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 750;
@@ -1142,10 +1147,15 @@ export default function AuthGate({
         .public-footer {
           margin-top: 18px;
           text-align: center;
-          color: #475569;
+          color: #4a3c5f;
           line-height: 1.9;
           font-size: 13px;
           font-weight: 850;
+          border-radius: 26px;
+          padding: 22px;
+          background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90));
+          border: 1px solid rgba(126,96,205,.18);
+          box-shadow: 0 18px 52px rgba(65,41,111,.10);
         }
 
         .public-footer span {

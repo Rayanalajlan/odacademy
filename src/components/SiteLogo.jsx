@@ -117,17 +117,17 @@ const logoStyles = `
     max-width: 100%;
   }
 
-  .munsaqah-logo--header .munsaqah-logo__mark img { height: clamp(46px, 4.8vw, 62px); }
-  .munsaqah-logo--header .munsaqah-logo__divider { height: clamp(42px, 4.6vw, 58px); }
-  .munsaqah-logo--header .munsaqah-logo__wordmarks { width: clamp(116px, 14vw, 196px); gap: 5px; }
-  .munsaqah-logo--header .munsaqah-logo__ar { height: clamp(24px, 2.7vw, 38px); }
-  .munsaqah-logo--header .munsaqah-logo__en { height: clamp(12px, 1.5vw, 20px); }
+  .munsaqah-logo--header .munsaqah-logo__mark img { height: clamp(36px, 4vw, 48px); }
+  .munsaqah-logo--header .munsaqah-logo__divider { height: clamp(32px, 3.6vw, 44px); }
+  .munsaqah-logo--header .munsaqah-logo__wordmarks { width: clamp(96px, 12vw, 148px); gap: 4px; }
+  .munsaqah-logo--header .munsaqah-logo__ar { height: clamp(20px, 2.3vw, 30px); }
+  .munsaqah-logo--header .munsaqah-logo__en { height: clamp(10px, 1.2vw, 15px); }
 
-  .munsaqah-logo--hero .munsaqah-logo__mark img { height: clamp(70px, 8vw, 118px); }
-  .munsaqah-logo--hero .munsaqah-logo__divider { height: clamp(64px, 7.6vw, 108px); }
-  .munsaqah-logo--hero .munsaqah-logo__wordmarks { width: clamp(180px, 26vw, 320px); gap: 8px; }
-  .munsaqah-logo--hero .munsaqah-logo__ar { height: clamp(36px, 4.2vw, 62px); }
-  .munsaqah-logo--hero .munsaqah-logo__en { height: clamp(17px, 2vw, 30px); }
+  .munsaqah-logo--hero .munsaqah-logo__mark img { height: clamp(42px, 5vw, 60px); }
+  .munsaqah-logo--hero .munsaqah-logo__divider { height: clamp(38px, 4.6vw, 54px); }
+  .munsaqah-logo--hero .munsaqah-logo__wordmarks { width: clamp(118px, 18vw, 184px); gap: 5px; }
+  .munsaqah-logo--hero .munsaqah-logo__ar { height: clamp(24px, 3vw, 36px); }
+  .munsaqah-logo--hero .munsaqah-logo__en { height: clamp(11px, 1.6vw, 17px); }
 
   .munsaqah-logo--mobile .munsaqah-logo__mark img { height: 50px; }
   .munsaqah-logo--mobile .munsaqah-logo__divider { height: 46px; }
@@ -135,11 +135,11 @@ const logoStyles = `
   .munsaqah-logo--mobile .munsaqah-logo__ar { height: 28px; }
   .munsaqah-logo--mobile .munsaqah-logo__en { height: 14px; }
 
-  .munsaqah-logo--footer .munsaqah-logo__mark img { height: 34px; }
-  .munsaqah-logo--footer .munsaqah-logo__divider { height: 32px; }
-  .munsaqah-logo--footer .munsaqah-logo__wordmarks { width: 100px; gap: 3px; }
-  .munsaqah-logo--footer .munsaqah-logo__ar { height: 20px; }
-  .munsaqah-logo--footer .munsaqah-logo__en { height: 10px; }
+  .munsaqah-logo--footer .munsaqah-logo__mark img { height: 28px; }
+  .munsaqah-logo--footer .munsaqah-logo__divider { height: 26px; }
+  .munsaqah-logo--footer .munsaqah-logo__wordmarks { width: 82px; gap: 3px; }
+  .munsaqah-logo--footer .munsaqah-logo__ar { height: 17px; }
+  .munsaqah-logo--footer .munsaqah-logo__en { height: 8px; }
 
   .munsaqah-logo--icon img,
   .munsaqah-logo--vertical img {
@@ -159,16 +159,16 @@ const logoStyles = `
   }
 
   @media (max-width: 720px) {
-    .munsaqah-logo--header .munsaqah-logo__mark img { height: 42px; }
-    .munsaqah-logo--header .munsaqah-logo__divider { height: 38px; }
-    .munsaqah-logo--header .munsaqah-logo__wordmarks { width: 112px; gap: 3px; }
-    .munsaqah-logo--header .munsaqah-logo__ar { height: 22px; }
-    .munsaqah-logo--header .munsaqah-logo__en { height: 11px; }
+    .munsaqah-logo--header .munsaqah-logo__mark img { height: 34px; }
+    .munsaqah-logo--header .munsaqah-logo__divider { height: 31px; }
+    .munsaqah-logo--header .munsaqah-logo__wordmarks { width: 92px; gap: 3px; }
+    .munsaqah-logo--header .munsaqah-logo__ar { height: 18px; }
+    .munsaqah-logo--header .munsaqah-logo__en { height: 9px; }
 
-    .munsaqah-logo--hero .munsaqah-logo__mark img { height: 58px; }
-    .munsaqah-logo--hero .munsaqah-logo__divider { height: 54px; }
-    .munsaqah-logo--hero .munsaqah-logo__wordmarks { width: 150px; }
-    .munsaqah-logo--hero .munsaqah-logo__ar { height: 30px; }
-    .munsaqah-logo--hero .munsaqah-logo__en { height: 14px; }
+    .munsaqah-logo--hero .munsaqah-logo__mark img { height: 38px; }
+    .munsaqah-logo--hero .munsaqah-logo__divider { height: 35px; }
+    .munsaqah-logo--hero .munsaqah-logo__wordmarks { width: 108px; }
+    .munsaqah-logo--hero .munsaqah-logo__ar { height: 22px; }
+    .munsaqah-logo--hero .munsaqah-logo__en { height: 10px; }
   }
 `;
