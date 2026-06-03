@@ -1692,3 +1692,124 @@ body {
   background: linear-gradient(135deg, #f7d787, #d6a84f) !important;
   box-shadow: 0 12px 28px rgba(214, 168, 79, .18) !important;
 }
+
+/* ===== OD Academy animated wave layer ===== */
+:root {
+  --od-wave-purple: rgba(126, 96, 205, 0.24);
+  --od-wave-purple-strong: rgba(126, 96, 205, 0.36);
+  --od-wave-gold: rgba(214, 168, 79, 0.20);
+  --od-wave-ink: rgba(33, 21, 50, 0.08);
+}
+
+.public-hero,
+.od-hero,
+.home-hero {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+.public-hero > *,
+.od-hero > *,
+.home-hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+.public-hero::before,
+.od-hero::before,
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: -28%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.92;
+  background:
+    radial-gradient(circle at 18% 36%, var(--od-wave-purple-strong), transparent 18%),
+    radial-gradient(circle at 78% 24%, var(--od-wave-gold), transparent 20%),
+    radial-gradient(circle at 50% 76%, rgba(126, 96, 205, 0.16), transparent 24%);
+  filter: blur(18px);
+  transform-origin: center;
+  animation: odWaveDrift 13s ease-in-out infinite alternate;
+}
+
+.public-hero::after,
+.od-hero::after,
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.78;
+  border-radius: 42% 58% 46% 54% / 44% 38% 62% 56%;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.54), rgba(126, 96, 205, 0.18), rgba(214, 168, 79, 0.16)),
+    repeating-radial-gradient(ellipse at center, var(--od-wave-ink) 0 1px, transparent 1px 18px);
+  mix-blend-mode: multiply;
+  transform-origin: center;
+  animation:
+    odWaveMorph 9s ease-in-out infinite,
+    odWaveLines 14s linear infinite;
+}
+
+@keyframes odWaveDrift {
+  from {
+    transform: translate3d(-2%, 1%, 0) scale(1) rotate(-2deg);
+  }
+
+  to {
+    transform: translate3d(3%, -2%, 0) scale(1.07) rotate(2deg);
+  }
+}
+
+@keyframes odWaveMorph {
+  0%,
+  100% {
+    border-radius: 42% 58% 46% 54% / 44% 38% 62% 56%;
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    border-radius: 58% 42% 56% 44% / 38% 54% 46% 62%;
+    transform: rotate(5deg) scale(1.04);
+  }
+}
+
+@keyframes odWaveLines {
+  from {
+    background-position: 0 0, 0 0;
+  }
+
+  to {
+    background-position: 0 0, 90px 48px;
+  }
+}
+
+@media (max-width: 760px) {
+  .public-hero::before,
+  .od-hero::before,
+  .home-hero::before {
+    inset: -38%;
+    filter: blur(16px);
+  }
+
+  .public-hero::after,
+  .od-hero::after,
+  .home-hero::after {
+    inset: 12%;
+    opacity: 0.58;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-hero::before,
+  .od-hero::before,
+  .home-hero::before,
+  .public-hero::after,
+  .od-hero::after,
+  .home-hero::after {
+    animation: none !important;
+  }
+}
