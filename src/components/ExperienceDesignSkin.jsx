@@ -1,6 +1,8 @@
-export default function ExperienceDesignSkin() {
-  return (
-    <style>{`
+import { useEffect } from "react";
+
+const LAB_SKIN_STYLE_ID = "odacademy-phase44-visual-lab-skin";
+
+const LAB_SKIN_CSS = String.raw`
       /*
         Phase 43 - Visual redesign skin
         Design-only layer:
@@ -954,6 +956,90 @@ export default function ExperienceDesignSkin() {
           scroll-behavior: auto !important;
         }
       }
-    `}</style>
-  );
+    
+
+      /* Phase 44 cascade fix: these rules are intentionally broad because original components inject local <style> tags. */
+      body.od-visual-lab-ready .public-gate,
+      body.od-visual-lab-ready .site-frame {
+        transition: background .35s ease, color .35s ease !important;
+      }
+
+      body.od-visual-lab-ready .public-gate > style,
+      body.od-visual-lab-ready .site-frame > style {
+        /* لا يؤثر بصريًا؛ فقط للتأكيد أن skin صار آخر طبقة في cascade */
+      }
+
+      body.od-visual-lab-ready .public-wrap,
+      body.od-visual-lab-ready .public-hero,
+      body.od-visual-lab-ready .public-section,
+      body.od-visual-lab-ready .site-header,
+      body.od-visual-lab-ready .profile-strip,
+      body.od-visual-lab-ready .course-search-box,
+      body.od-visual-lab-ready .saved-lessons-panel,
+      body.od-visual-lab-ready .weekly-reflection-panel,
+      body.od-visual-lab-ready .learning-portfolio,
+      body.od-visual-lab-ready .mobile-nav-panel {
+        box-sizing: border-box !important;
+      }
+
+      body.od-visual-lab-ready .public-hero {
+        transform: translateZ(0) !important;
+      }
+
+      body.od-visual-lab-ready .auth-card,
+      body.od-visual-lab-ready .sample-box,
+      body.od-visual-lab-ready .counter-card,
+      body.od-visual-lab-ready .path-card,
+      body.od-visual-lab-ready .info-card,
+      body.od-visual-lab-ready .legal-card,
+      body.od-visual-lab-ready .faq-item,
+      body.od-visual-lab-ready .vt-card {
+        transform: translateZ(0) !important;
+      }
+
+      body.od-visual-lab-ready .public-section:nth-of-type(odd) {
+        background:
+          radial-gradient(circle at 0% 100%, rgba(54,211,197,.08), transparent 30%),
+          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,250,240,.84)) !important;
+      }
+
+      body.od-visual-lab-ready .public-section:nth-of-type(even) {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(214,168,79,.10), transparent 30%),
+          linear-gradient(180deg, rgba(255,250,240,.90), rgba(238,242,255,.72)) !important;
+      }
+
+      body.od-theme-dark.od-visual-lab-ready .public-section:nth-of-type(odd),
+      body.od-theme-dark.od-visual-lab-ready .public-section:nth-of-type(even) {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
+          rgba(15,23,42,.94) !important;
+      }
+`;
+
+export default function ExperienceDesignSkin() {
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+
+    document.body.classList.add("od-visual-lab-ready");
+
+    let style = document.getElementById(LAB_SKIN_STYLE_ID);
+
+    if (!style) {
+      style = document.createElement("style");
+      style.id = LAB_SKIN_STYLE_ID;
+      style.setAttribute("data-phase", "44-visual-lab-cascade-fix");
+      style.textContent = LAB_SKIN_CSS;
+
+      // مهم: نضيفه في آخر body بعد كل style الداخلي الموجود داخل المكونات.
+      // المرحلة السابقة كانت تظهر قبل style المحلي، لذلك لم تتغلب على التصميم القديم.
+      document.body.appendChild(style);
+    } else if (style.textContent !== LAB_SKIN_CSS) {
+      style.textContent = LAB_SKIN_CSS;
+    }
+
+    return undefined;
+  }, []);
+
+  return null;
 }
