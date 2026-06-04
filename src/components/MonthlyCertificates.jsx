@@ -99,10 +99,10 @@ export default function MonthlyCertificates({
           border-radius: 32px;
           padding: 24px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
             linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,250,252,.94));
-          border: 1px solid rgba(148, 163, 184, 0.22);
-          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
+          border: 1px solid rgba(167, 139, 250, 0.22);
+          box-shadow: 0 18px 55px rgba(28, 17, 48, 0.08);
         }
 
         .monthly-head {
@@ -118,8 +118,8 @@ export default function MonthlyCertificates({
           width: fit-content;
           border-radius: 999px;
           padding: 8px 13px;
-          background: #eef2ff;
-          color: #3730a3;
+          background: #efe9fb;
+          color: #6d28d9;
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 10px;
@@ -127,7 +127,7 @@ export default function MonthlyCertificates({
 
         .monthly-head h2 {
           margin: 0 0 8px;
-          color: #0f172a;
+          color: #18102e;
           font-size: clamp(22px, 3vw, 34px);
           line-height: 1.35;
           font-weight: 950;
@@ -135,7 +135,7 @@ export default function MonthlyCertificates({
 
         .monthly-head p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.9;
           font-size: 14px;
           font-weight: 760;
@@ -146,9 +146,9 @@ export default function MonthlyCertificates({
           border-radius: 24px;
           padding: 16px;
           text-align: center;
-          background: #0f172a;
+          background: #18102e;
           color: #fff;
-          box-shadow: 0 18px 38px rgba(15,23,42,.14);
+          box-shadow: 0 18px 38px rgba(28, 17, 48,.14);
         }
 
         .monthly-status strong {
@@ -161,7 +161,7 @@ export default function MonthlyCertificates({
 
         .monthly-status span {
           display: block;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 12px;
           font-weight: 850;
         }
@@ -178,8 +178,8 @@ export default function MonthlyCertificates({
           border-radius: 26px;
           padding: 18px;
           background: #ffffff;
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 16px 38px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 16px 38px rgba(28, 17, 48,.06);
         }
 
         .monthly-card.issued {
@@ -190,7 +190,7 @@ export default function MonthlyCertificates({
         }
 
         .monthly-card.locked {
-          background: #f8fafc;
+          background: #f4f0fb;
         }
 
         .monthly-card-top {
@@ -208,9 +208,9 @@ export default function MonthlyCertificates({
           place-items: center;
           border-radius: 18px;
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
           font-weight: 950;
-          box-shadow: 0 14px 30px rgba(79,70,229,.18);
+          box-shadow: 0 14px 30px rgba(139, 92, 246,.18);
         }
 
         .monthly-lock {
@@ -219,9 +219,9 @@ export default function MonthlyCertificates({
           padding: 7px 10px;
           font-size: 11px;
           font-weight: 950;
-          background: #f1f5f9;
-          color: #475569;
-          border: 1px solid rgba(148,163,184,.25);
+          background: #efe9fb;
+          color: #5b4f78;
+          border: 1px solid rgba(167, 139, 250,.25);
         }
 
         .monthly-card.issued .monthly-lock {
@@ -232,7 +232,7 @@ export default function MonthlyCertificates({
 
         .monthly-card h3 {
           margin: 0 0 8px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.55;
           font-weight: 950;
@@ -240,7 +240,7 @@ export default function MonthlyCertificates({
 
         .monthly-card p {
           margin: 0 0 12px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 760;
@@ -255,13 +255,13 @@ export default function MonthlyCertificates({
         .monthly-mini div {
           border-radius: 16px;
           padding: 11px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.14);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.14);
         }
 
         .monthly-mini span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           font-weight: 850;
           margin-bottom: 4px;
@@ -269,7 +269,7 @@ export default function MonthlyCertificates({
 
         .monthly-mini strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 950;
@@ -279,7 +279,7 @@ export default function MonthlyCertificates({
         .monthly-progress {
           height: 10px;
           border-radius: 999px;
-          background: #e2e8f0;
+          background: #e0d8f5;
           overflow: hidden;
           margin-top: 12px;
         }
@@ -288,7 +288,7 @@ export default function MonthlyCertificates({
           display: block;
           height: 100%;
           border-radius: inherit;
-          background: linear-gradient(90deg, #4f46e5, #10b981);
+          background: linear-gradient(90deg, #8b5cf6, #10b981);
         }
 
         .monthly-actions {
@@ -307,13 +307,13 @@ export default function MonthlyCertificates({
           font-size: 12px;
           font-weight: 950;
           color: #fff;
-          background: linear-gradient(135deg,#4f46e5,#312e81);
+          background: linear-gradient(135deg,#8b5cf6,#3b1d6e);
         }
 
         .monthly-button.ghost {
-          background: #f1f5f9;
-          color: #0f172a;
-          border: 1px solid rgba(148,163,184,.22);
+          background: #efe9fb;
+          color: #18102e;
+          border: 1px solid rgba(167, 139, 250,.22);
         }
 
         .monthly-button:disabled {

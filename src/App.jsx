@@ -582,11 +582,11 @@ export default function App() {
           border-radius: 16px;
           padding: 0 14px;
           color: #ffffff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           font-family: inherit;
           font-size: 13px;
           font-weight: 950;
-          box-shadow: 0 14px 30px rgba(79,70,229,.20);
+          box-shadow: 0 14px 30px rgba(139, 92, 246,.20);
         }
 
         .mobile-menu-button span {
@@ -646,12 +646,12 @@ export default function App() {
           align-items: center;
           justify-content: center;
           gap: 10px;
-          color: #334155;
+          color: #463c63;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 35%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 35%),
             #ffffff;
-          border: 1px solid rgba(148,163,184,.18);
-          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.18);
+          box-shadow: 0 16px 42px rgba(28, 17, 48,.06);
           font-weight: 900;
         }
 
@@ -659,15 +659,15 @@ export default function App() {
           width: 12px;
           height: 12px;
           border-radius: 999px;
-          background: #4f46e5;
-          box-shadow: 0 0 0 0 rgba(79,70,229,.40);
+          background: #8b5cf6;
+          box-shadow: 0 0 0 0 rgba(139, 92, 246,.40);
           animation: odPulse 1.2s infinite;
         }
 
         @keyframes odPulse {
-          0% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(79,70,229,.40); }
-          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(79,70,229,0); }
-          100% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(79,70,229,0); }
+          0% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(139, 92, 246,.40); }
+          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(139, 92, 246,0); }
+          100% { transform: scale(.88); box-shadow: 0 0 0 0 rgba(139, 92, 246,0); }
         }
 
         .brand .brand-mark,

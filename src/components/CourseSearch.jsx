@@ -37,10 +37,10 @@ export default function CourseSearch({
           border-radius: 30px;
           padding: 20px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 32%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 32%),
             rgba(255,255,255,.94);
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .course-search-head {
@@ -57,14 +57,14 @@ export default function CourseSearch({
         }
 
         .course-search-title strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.5;
           font-weight: 950;
         }
 
         .course-search-title span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 780;
@@ -73,9 +73,9 @@ export default function CourseSearch({
         .course-search-counter {
           border-radius: 999px;
           padding: 8px 12px;
-          color: #3730a3;
-          background: #eef2ff;
-          border: 1px solid rgba(79,70,229,.18);
+          color: #6d28d9;
+          background: #efe9fb;
+          border: 1px solid rgba(139, 92, 246,.18);
           font-size: 12px;
           font-weight: 950;
           white-space: nowrap;
@@ -91,9 +91,9 @@ export default function CourseSearch({
           width: 100%;
           min-height: 52px;
           border-radius: 18px;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           padding: 0 15px;
-          color: #0f172a;
+          color: #18102e;
           background: #ffffff;
           font-family: inherit;
           font-size: 14px;
@@ -103,8 +103,8 @@ export default function CourseSearch({
         }
 
         .course-search-input:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.10);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,.10);
         }
 
         .course-search-clear {
@@ -113,8 +113,8 @@ export default function CourseSearch({
           min-height: 52px;
           border-radius: 18px;
           padding: 0 15px;
-          color: #0f172a;
-          background: #f1f5f9;
+          color: #18102e;
+          background: #efe9fb;
           font-family: inherit;
           font-size: 12px;
           font-weight: 950;
@@ -128,11 +128,11 @@ export default function CourseSearch({
         }
 
         .course-search-suggestions button {
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
           cursor: pointer;
           border-radius: 999px;
           padding: 8px 11px;
-          color: #334155;
+          color: #463c63;
           background: #ffffff;
           font-family: inherit;
           font-size: 11px;
@@ -147,26 +147,26 @@ export default function CourseSearch({
 
         .course-search-result {
           width: 100%;
-          border: 1px solid rgba(148,163,184,.20);
+          border: 1px solid rgba(167, 139, 250,.20);
           cursor: pointer;
           border-radius: 22px;
           padding: 15px;
           text-align: right;
           font-family: inherit;
           background: #ffffff;
-          color: #0f172a;
+          color: #18102e;
           transition: .2s ease;
         }
 
         .course-search-result:hover {
           transform: translateY(-2px);
-          border-color: rgba(79,70,229,.35);
-          box-shadow: 0 18px 34px rgba(79,70,229,.10);
+          border-color: rgba(139, 92, 246,.35);
+          box-shadow: 0 18px 34px rgba(139, 92, 246,.10);
         }
 
         .course-search-path {
           display: block;
-          color: #4f46e5;
+          color: #8b5cf6;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 950;
@@ -175,7 +175,7 @@ export default function CourseSearch({
 
         .course-search-result strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 15px;
           line-height: 1.7;
           font-weight: 950;
@@ -183,7 +183,7 @@ export default function CourseSearch({
 
         .course-search-result p {
           margin: 6px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 760;

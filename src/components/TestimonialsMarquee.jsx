@@ -112,9 +112,9 @@ export default function TestimonialsMarquee() {
     <section className="testimonials-marquee" dir="rtl" aria-label="تقييمات المتدربين">
       <style>{`
         .testimonials-marquee {
-          --tm-ink: #0f172a;
-          --tm-muted: #64748b;
-          --tm-line: rgba(148,163,184,.20);
+          --tm-ink: #18102e;
+          --tm-muted: #7a6c9a;
+          --tm-line: rgba(167, 139, 250,.20);
           position: relative;
           width: min(1220px, calc(100% - 28px));
           margin: 22px auto 76px;
@@ -122,11 +122,11 @@ export default function TestimonialsMarquee() {
           border-radius: 28px;
           padding: clamp(22px, 4vw, 34px);
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 30%),
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.10), transparent 32%),
             rgba(255,255,255,.86);
           border: 1px solid rgba(255,255,255,.78);
-          box-shadow: 0 22px 70px rgba(15,23,42,.08);
+          box-shadow: 0 22px 70px rgba(28, 17, 48,.08);
         }
 
         .tm-head {
@@ -144,9 +144,9 @@ export default function TestimonialsMarquee() {
           width: fit-content;
           border-radius: 999px;
           padding: 8px 12px;
-          color: #3730a3;
-          background: #eef2ff;
-          border: 1px solid rgba(79,70,229,.16);
+          color: #6d28d9;
+          background: #efe9fb;
+          border: 1px solid rgba(139, 92, 246,.16);
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 9px;
@@ -174,7 +174,7 @@ export default function TestimonialsMarquee() {
           border-radius: 20px;
           padding: 13px 15px;
           color: #fff;
-          background: linear-gradient(135deg, #0f172a, #312e81);
+          background: linear-gradient(135deg, #18102e, #3b1d6e);
           text-align: center;
         }
 
@@ -189,7 +189,7 @@ export default function TestimonialsMarquee() {
         .tm-counter span {
           display: block;
           margin-top: 5px;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 11px;
           font-weight: 850;
         }
@@ -264,7 +264,7 @@ export default function TestimonialsMarquee() {
           padding: 15px;
           background: rgba(255,255,255,.92);
           border: 1px solid var(--tm-line);
-          box-shadow: 0 14px 30px rgba(15,23,42,.07);
+          box-shadow: 0 14px 30px rgba(28, 17, 48,.07);
         }
 
         .tm-card-top {
@@ -276,21 +276,21 @@ export default function TestimonialsMarquee() {
         }
 
         .tm-stars {
-          color: #f59e0b;
+          color: #a855f7;
           letter-spacing: 1px;
           font-size: 13px;
           line-height: 1;
         }
 
         .tm-card time {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           font-weight: 850;
         }
 
         .tm-card p {
           margin: 0;
-          color: #334155;
+          color: #463c63;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 780;
@@ -301,18 +301,18 @@ export default function TestimonialsMarquee() {
           gap: 2px;
           margin-top: 12px;
           padding-top: 12px;
-          border-top: 1px solid rgba(148,163,184,.14);
+          border-top: 1px solid rgba(167, 139, 250,.14);
         }
 
         .tm-person strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.6;
           font-weight: 950;
         }
 
         .tm-person span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 760;
@@ -320,37 +320,37 @@ export default function TestimonialsMarquee() {
 
         body.od-theme-dark .testimonials-marquee {
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.14), transparent 30%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.14), transparent 30%),
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.08), transparent 32%),
-            rgba(15,23,42,.94) !important;
-          border-color: rgba(148,163,184,.22) !important;
+            rgba(28, 17, 48,.94) !important;
+          border-color: rgba(167, 139, 250,.22) !important;
           box-shadow: 0 22px 70px rgba(0,0,0,.28) !important;
         }
 
         body.od-theme-dark .tm-wall::before {
-          background: linear-gradient(to bottom, rgba(15,23,42,.96), transparent);
+          background: linear-gradient(to bottom, rgba(28, 17, 48,.96), transparent);
         }
 
         body.od-theme-dark .tm-wall::after {
-          background: linear-gradient(to top, rgba(15,23,42,.96), transparent);
+          background: linear-gradient(to top, rgba(28, 17, 48,.96), transparent);
         }
 
         body.od-theme-dark .tm-card {
           background: rgba(30,41,59,.88) !important;
-          border-color: rgba(148,163,184,.22) !important;
+          border-color: rgba(167, 139, 250,.22) !important;
           box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
         }
 
         body.od-theme-dark .tm-head h2,
         body.od-theme-dark .tm-person strong {
-          color: #f8fafc !important;
+          color: #f4f0fb !important;
         }
 
         body.od-theme-dark .tm-head p,
         body.od-theme-dark .tm-card p,
         body.od-theme-dark .tm-person span,
         body.od-theme-dark .tm-card time {
-          color: #cbd5e1 !important;
+          color: #c9bdf0 !important;
         }
 
         @media (max-width: 1040px) {

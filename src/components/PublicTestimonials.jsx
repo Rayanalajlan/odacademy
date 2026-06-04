@@ -28,25 +28,25 @@ export default function PublicTestimonials({ limit = 9 }) {
           border-radius: 26px;
           padding: 18px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 34%),
             #fff;
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 16px 42px rgba(28, 17, 48,.06);
         }
 
         .testimonial-card b {
           display: inline-flex;
           padding: 6px 10px;
           border-radius: 999px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 11px;
           font-weight: 950;
         }
 
         .testimonial-card p {
           margin: 12px 0;
-          color: #334155;
+          color: #463c63;
           line-height: 2;
           font-size: 13px;
           font-weight: 800;
@@ -57,13 +57,13 @@ export default function PublicTestimonials({ limit = 9 }) {
           justify-content: space-between;
           gap: 10px;
           align-items: center;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 850;
         }
 
         .testimonial-stars {
-          color: #f59e0b;
+          color: #a855f7;
           letter-spacing: 1px;
         }
 

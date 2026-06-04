@@ -111,11 +111,11 @@ export default function LearningPortfolio({
     <main className="learning-portfolio" dir="rtl">
       <style>{`
         .learning-portfolio {
-          --ink: #0f172a;
-          --muted: #64748b;
-          --line: rgba(148,163,184,.22);
-          --primary: #4f46e5;
-          --gold: #f59e0b;
+          --ink: #18102e;
+          --muted: #7a6c9a;
+          --line: rgba(167, 139, 250,.22);
+          --primary: #8b5cf6;
+          --gold: #a855f7;
           --green: #10b981;
           width: min(1180px, calc(100% - 28px));
           margin: 18px auto 70px;
@@ -130,8 +130,8 @@ export default function LearningPortfolio({
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.24), transparent 34%),
             radial-gradient(circle at 0% 100%, rgba(16,185,129,.14), transparent 34%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 58%, #312e81);
-          box-shadow: 0 28px 90px rgba(15,23,42,.22);
+            linear-gradient(135deg, #18102e, #1e1b4b 58%, #3b1d6e);
+          box-shadow: 0 28px 90px rgba(28, 17, 48,.22);
         }
 
         .portfolio-hero-grid {
@@ -183,8 +183,8 @@ export default function LearningPortfolio({
           display: grid;
           place-items: center;
           background:
-            conic-gradient(#f59e0b ${summary.progressPercent * 3.6}deg, rgba(255,255,255,.14) 0deg);
-          box-shadow: inset 0 0 0 12px rgba(15,23,42,.32), 0 24px 64px rgba(0,0,0,.22);
+            conic-gradient(#a855f7 ${summary.progressPercent * 3.6}deg, rgba(255,255,255,.14) 0deg);
+          box-shadow: inset 0 0 0 12px rgba(28, 17, 48,.32), 0 24px 64px rgba(0,0,0,.22);
         }
 
         .portfolio-orb div {
@@ -194,7 +194,7 @@ export default function LearningPortfolio({
           display: grid;
           place-items: center;
           text-align: center;
-          background: #0f172a;
+          background: #18102e;
           border: 1px solid rgba(255,255,255,.12);
         }
 
@@ -208,7 +208,7 @@ export default function LearningPortfolio({
 
         .portfolio-orb small {
           display: block;
-          color: #cbd5e1;
+          color: #c9bdf0;
           margin-top: 7px;
           font-size: 12px;
           font-weight: 850;
@@ -238,18 +238,18 @@ export default function LearningPortfolio({
 
         .portfolio-button.primary {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          box-shadow: 0 18px 38px rgba(79,70,229,.24);
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          box-shadow: 0 18px 38px rgba(139, 92, 246,.24);
         }
 
         .portfolio-button.soft {
-          color: #0f172a;
+          color: #18102e;
           background: #ffffff;
         }
 
         .portfolio-button.dark {
           color: #fff;
-          background: #0f172a;
+          background: #18102e;
         }
 
         .portfolio-button.export {
@@ -272,7 +272,7 @@ export default function LearningPortfolio({
           padding: 17px;
           background: rgba(255,255,255,.94);
           border: 1px solid var(--line);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .portfolio-stat span {
@@ -304,7 +304,7 @@ export default function LearningPortfolio({
           padding: 20px;
           background: rgba(255,255,255,.94);
           border: 1px solid var(--line);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
           margin-bottom: 14px;
         }
 
@@ -336,8 +336,8 @@ export default function LearningPortfolio({
           display: inline-flex;
           border-radius: 999px;
           padding: 7px 10px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 11px;
           font-weight: 950;
           white-space: nowrap;
@@ -349,14 +349,14 @@ export default function LearningPortfolio({
         }
 
         .portfolio-row {
-          border: 1px solid rgba(148,163,184,.18);
+          border: 1px solid rgba(167, 139, 250,.18);
           border-radius: 22px;
           padding: 14px;
-          background: #f8fafc;
+          background: #f4f0fb;
         }
 
         .portfolio-row.clickable {
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
           cursor: pointer;
           text-align: right;
           font-family: inherit;
@@ -364,13 +364,13 @@ export default function LearningPortfolio({
         }
 
         .portfolio-row.clickable:hover {
-          background: #eef2ff;
-          border-color: rgba(79,70,229,.30);
+          background: #efe9fb;
+          border-color: rgba(139, 92, 246,.30);
         }
 
         .portfolio-row small {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.7;
           font-weight: 850;
@@ -379,7 +379,7 @@ export default function LearningPortfolio({
 
         .portfolio-row strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           line-height: 1.7;
           font-weight: 950;
@@ -387,7 +387,7 @@ export default function LearningPortfolio({
 
         .portfolio-row p {
           margin: 6px 0 0;
-          color: #475569;
+          color: #5b4f78;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 760;
@@ -396,9 +396,9 @@ export default function LearningPortfolio({
         .portfolio-empty {
           border-radius: 22px;
           padding: 16px;
-          color: #64748b;
-          background: #f8fafc;
-          border: 1px dashed rgba(148,163,184,.38);
+          color: #7a6c9a;
+          background: #f4f0fb;
+          border: 1px dashed rgba(167, 139, 250,.38);
           font-size: 12px;
           line-height: 1.9;
           font-weight: 800;
@@ -413,8 +413,8 @@ export default function LearningPortfolio({
         .portfolio-cert {
           border-radius: 22px;
           padding: 14px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .portfolio-cert.issued {
@@ -424,7 +424,7 @@ export default function LearningPortfolio({
 
         .portfolio-cert b {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.7;
           font-weight: 950;
@@ -437,8 +437,8 @@ export default function LearningPortfolio({
           padding: 5px 8px;
           font-size: 10px;
           font-weight: 950;
-          color: #475569;
-          background: #e2e8f0;
+          color: #5b4f78;
+          background: #e0d8f5;
         }
 
         .portfolio-cert.issued span {

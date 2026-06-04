@@ -132,9 +132,9 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
           padding: 18px;
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.15), transparent 34%),
-            linear-gradient(135deg, #fff, #f8fafc);
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+            linear-gradient(135deg, #fff, #f4f0fb);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .feedback-card b {
@@ -150,7 +150,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
 
         .feedback-card h3 {
           margin: 0 0 6px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 20px;
           line-height: 1.5;
           font-weight: 950;
@@ -158,7 +158,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
 
         .feedback-card p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 780;
@@ -185,19 +185,19 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
         .feedback-actions .primary,
         .feedback-submit {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
         }
 
         .feedback-actions .soft {
-          color: #334155;
-          background: #f1f5f9;
+          color: #463c63;
+          background: #efe9fb;
         }
 
         .feedback-backdrop {
           position: fixed;
           inset: 0;
           z-index: 160;
-          background: rgba(15,23,42,.46);
+          background: rgba(28, 17, 48,.46);
           backdrop-filter: blur(8px);
         }
 
@@ -209,9 +209,9 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
           border-radius: 34px;
           padding: 24px;
           background:
-            radial-gradient(circle at 0% 0%, rgba(79,70,229,.10), transparent 32%),
+            radial-gradient(circle at 0% 0%, rgba(139, 92, 246,.10), transparent 32%),
             #fff;
-          box-shadow: 0 28px 90px rgba(15,23,42,.28);
+          box-shadow: 0 28px 90px rgba(28, 17, 48,.28);
         }
 
         .feedback-head {
@@ -224,7 +224,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
 
         .feedback-head h2 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: 26px;
           line-height: 1.5;
           font-weight: 950;
@@ -232,7 +232,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
 
         .feedback-head p {
           margin: 4px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.8;
           font-size: 13px;
           font-weight: 780;
@@ -243,8 +243,8 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
           width: 38px;
           height: 38px;
           border-radius: 14px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           font-weight: 950;
           cursor: pointer;
         }
@@ -263,7 +263,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
         .feedback-field {
           display: grid;
           gap: 7px;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 900;
@@ -272,13 +272,13 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
         .feedback-field input,
         .feedback-field select,
         .feedback-field textarea {
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 16px;
           padding: 0 12px;
           min-height: 44px;
           font-family: inherit;
           font-weight: 800;
-          color: #0f172a;
+          color: #18102e;
           outline: none;
         }
 
@@ -295,13 +295,13 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
         .feedback-rating {
           border-radius: 20px;
           padding: 13px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .feedback-rating span {
           display: block;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 950;
@@ -312,20 +312,20 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onA
           border: 0;
           background: transparent;
           cursor: pointer;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 26px;
           line-height: 1;
         }
 
         .feedback-rating button.active {
-          color: #f59e0b;
+          color: #a855f7;
         }
 
         .feedback-note {
           border-radius: 18px;
           padding: 13px;
-          background: #eef2ff;
-          color: #3730a3;
+          background: #efe9fb;
+          color: #6d28d9;
           line-height: 1.8;
           font-size: 12px;
           font-weight: 850;

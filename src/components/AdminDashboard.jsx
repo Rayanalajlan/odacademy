@@ -164,11 +164,11 @@ export default function AdminDashboard() {
         .admin-dashboard {
           min-height: 100vh;
           padding: 34px 16px 80px;
-          color: #0f172a;
+          color: #18102e;
           background:
-            radial-gradient(circle at 10% 10%, rgba(79,70,229,.14), transparent 30%),
+            radial-gradient(circle at 10% 10%, rgba(139, 92, 246,.14), transparent 30%),
             radial-gradient(circle at 90% 15%, rgba(245,158,11,.13), transparent 26%),
-            linear-gradient(180deg,#f8fafc 0%, #eef2ff 55%, #f8fafc 100%);
+            linear-gradient(180deg,#f4f0fb 0%, #efe9fb 55%, #f4f0fb 100%);
         }
 
         .admin-shell {
@@ -182,8 +182,8 @@ export default function AdminDashboard() {
           color: #fff;
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.22), transparent 34%),
-            linear-gradient(135deg, #0f172a, #312e81);
-          box-shadow: 0 24px 70px rgba(15,23,42,.18);
+            linear-gradient(135deg, #18102e, #3b1d6e);
+          box-shadow: 0 24px 70px rgba(28, 17, 48,.18);
         }
 
         .admin-hero span {
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
         .admin-hero p {
           margin: 14px 0 0;
           max-width: 820px;
-          color: rgba(226,232,240,.9);
+          color: rgba(196, 181, 253,.9);
           font-size: 14px;
           line-height: 2;
           font-weight: 760;
@@ -219,16 +219,16 @@ export default function AdminDashboard() {
           border-radius: 24px;
           padding: 18px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 14px 34px rgba(15,23,42,.06);
-          color: #334155;
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 14px 34px rgba(28, 17, 48,.06);
+          color: #463c63;
           font-weight: 850;
           line-height: 1.9;
         }
 
         .admin-notice {
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
         }
 
         .admin-metrics {
@@ -243,13 +243,13 @@ export default function AdminDashboard() {
           border-radius: 26px;
           padding: 18px;
           background: rgba(255,255,255,.94);
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .admin-metric span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 900;
@@ -258,7 +258,7 @@ export default function AdminDashboard() {
         .admin-metric strong {
           display: block;
           margin-top: 6px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 28px;
           line-height: 1.1;
           font-weight: 950;
@@ -267,7 +267,7 @@ export default function AdminDashboard() {
         .admin-metric small {
           display: block;
           margin-top: 8px;
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 780;
@@ -294,14 +294,14 @@ export default function AdminDashboard() {
         }
 
         .admin-tabs button {
-          color: #334155;
+          color: #463c63;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.20);
+          border: 1px solid rgba(167, 139, 250,.20);
         }
 
         .admin-tabs button.active {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           border-color: transparent;
         }
 
@@ -320,7 +320,7 @@ export default function AdminDashboard() {
         .admin-panel h2,
         .admin-panel h3 {
           margin: 0 0 12px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.6;
           font-weight: 950;
@@ -334,8 +334,8 @@ export default function AdminDashboard() {
         .admin-row {
           border-radius: 20px;
           padding: 14px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .admin-row-head {
@@ -348,7 +348,7 @@ export default function AdminDashboard() {
         }
 
         .admin-row-head strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           line-height: 1.7;
           font-weight: 950;
@@ -357,7 +357,7 @@ export default function AdminDashboard() {
         .admin-row-head small,
         .admin-row p,
         .admin-row span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 780;
@@ -365,11 +365,11 @@ export default function AdminDashboard() {
 
         .admin-row p {
           margin: 8px 0 0;
-          color: #334155;
+          color: #463c63;
         }
 
         .admin-stars {
-          color: #f59e0b;
+          color: #a855f7;
           letter-spacing: 1px;
           font-size: 14px;
         }
@@ -392,15 +392,15 @@ export default function AdminDashboard() {
         }
 
         .admin-soft-button {
-          color: #334155;
-          background: #e2e8f0;
+          color: #463c63;
+          background: #e0d8f5;
         }
 
         .admin-empty {
           border-radius: 20px;
           padding: 18px;
-          color: #64748b;
-          background: #f8fafc;
+          color: #7a6c9a;
+          background: #f4f0fb;
           border: 1px dashed rgba(100,116,139,.28);
           font-size: 13px;
           line-height: 1.9;
@@ -416,7 +416,7 @@ export default function AdminDashboard() {
         .admin-form label {
           display: grid;
           gap: 6px;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 900;
@@ -427,13 +427,13 @@ export default function AdminDashboard() {
         .admin-form textarea {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 16px;
           min-height: 42px;
           padding: 0 12px;
           font-family: inherit;
           font-weight: 800;
-          color: #0f172a;
+          color: #18102e;
           background: #fff;
           outline: none;
         }
@@ -448,8 +448,8 @@ export default function AdminDashboard() {
         .admin-form input:focus,
         .admin-form select:focus,
         .admin-form textarea:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.09);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,.09);
         }
 
         .admin-layout-2 {

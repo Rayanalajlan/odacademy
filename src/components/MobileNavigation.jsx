@@ -72,7 +72,7 @@ export default function MobileNavigation({
         .mobile-nav-backdrop {
           position: absolute;
           inset: 0;
-          background: rgba(15, 23, 42, 0.60);
+          background: rgba(28, 17, 48, 0.60);
           backdrop-filter: blur(12px);
         }
 
@@ -85,7 +85,7 @@ export default function MobileNavigation({
           overflow: auto;
           border-radius: 30px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.13), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.13), transparent 34%),
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.12), transparent 32%),
             #ffffff;
           border: 1px solid rgba(255,255,255,.78);
@@ -110,14 +110,14 @@ export default function MobileNavigation({
         }
 
         .mobile-nav-title strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 20px;
           line-height: 1.5;
           font-weight: 950;
         }
 
         .mobile-nav-title span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 800;
@@ -129,8 +129,8 @@ export default function MobileNavigation({
           width: 42px;
           height: 42px;
           border-radius: 16px;
-          color: #0f172a;
-          background: #f1f5f9;
+          color: #18102e;
+          background: #efe9fb;
           font-size: 20px;
           font-weight: 950;
         }
@@ -141,8 +141,8 @@ export default function MobileNavigation({
           color: #ffffff;
           background:
             radial-gradient(circle at 15% 15%, rgba(245,158,11,.24), transparent 34%),
-            linear-gradient(135deg, #0f172a, #312e81);
-          box-shadow: 0 18px 42px rgba(15,23,42,.16);
+            linear-gradient(135deg, #18102e, #3b1d6e);
+          box-shadow: 0 18px 42px rgba(28, 17, 48,.16);
           margin-bottom: 14px;
         }
 
@@ -155,7 +155,7 @@ export default function MobileNavigation({
         }
 
         .mobile-nav-progress-head span {
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 12px;
           font-weight: 850;
         }
@@ -179,13 +179,13 @@ export default function MobileNavigation({
           height: 100%;
           width: var(--progress-width);
           border-radius: inherit;
-          background: linear-gradient(90deg, #f59e0b, #10b981);
+          background: linear-gradient(90deg, #a855f7, #10b981);
         }
 
         .mobile-nav-progress small {
           display: block;
           margin-top: 10px;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 11px;
           line-height: 1.7;
           font-weight: 800;
@@ -198,11 +198,11 @@ export default function MobileNavigation({
           min-height: 46px;
           border-radius: 18px;
           color: #ffffff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           font-family: inherit;
           font-weight: 950;
           margin-bottom: 14px;
-          box-shadow: 0 16px 34px rgba(79,70,229,.20);
+          box-shadow: 0 16px 34px rgba(139, 92, 246,.20);
         }
 
         .mobile-nav-list {
@@ -212,7 +212,7 @@ export default function MobileNavigation({
 
         .mobile-nav-item {
           width: 100%;
-          border: 1px solid rgba(148,163,184,.20);
+          border: 1px solid rgba(167, 139, 250,.20);
           cursor: pointer;
           min-height: 50px;
           border-radius: 18px;
@@ -221,7 +221,7 @@ export default function MobileNavigation({
           justify-content: space-between;
           gap: 10px;
           padding: 0 14px;
-          color: #0f172a;
+          color: #18102e;
           background: #ffffff;
           font-family: inherit;
           font-size: 13px;
@@ -230,13 +230,13 @@ export default function MobileNavigation({
         }
 
         .mobile-nav-item.active {
-          color: #3730a3;
-          background: #eef2ff;
-          border-color: rgba(79,70,229,.32);
+          color: #6d28d9;
+          background: #efe9fb;
+          border-color: rgba(139, 92, 246,.32);
         }
 
         .mobile-nav-item small {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           font-weight: 900;
         }
@@ -245,14 +245,14 @@ export default function MobileNavigation({
           border-radius: 22px;
           padding: 11px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 34%),
-            #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 34%),
+            #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .mobile-tools-group.active {
-          border-color: rgba(79,70,229,.32);
-          background: #eef2ff;
+          border-color: rgba(139, 92, 246,.32);
+          background: #efe9fb;
         }
 
         .mobile-tools-title {
@@ -265,13 +265,13 @@ export default function MobileNavigation({
         }
 
         .mobile-tools-title strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           font-weight: 950;
         }
 
         .mobile-tools-title span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           font-weight: 850;
         }
@@ -291,18 +291,18 @@ export default function MobileNavigation({
 
         .mobile-tool-button.active,
         .mobile-tool-button:hover {
-          background: rgba(79,70,229,.10);
+          background: rgba(139, 92, 246,.10);
         }
 
         .mobile-tool-button strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           line-height: 1.6;
           font-weight: 950;
         }
 
         .mobile-tool-button span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           line-height: 1.7;
           font-weight: 760;
@@ -313,7 +313,7 @@ export default function MobileNavigation({
           gap: 10px;
           margin-top: 14px;
           padding-top: 14px;
-          border-top: 1px solid rgba(148,163,184,.20);
+          border-top: 1px solid rgba(167, 139, 250,.20);
         }
 
         .mobile-nav-signout {
@@ -329,7 +329,7 @@ export default function MobileNavigation({
 
         .mobile-nav-note {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 760;
@@ -338,23 +338,23 @@ export default function MobileNavigation({
 
         body.od-theme-dark .mobile-tools-group {
           background: rgba(30,41,59,.88) !important;
-          border-color: rgba(148,163,184,.24) !important;
+          border-color: rgba(167, 139, 250,.24) !important;
         }
 
         body.od-theme-dark .mobile-tools-group.active,
         body.od-theme-dark .mobile-tool-button.active,
         body.od-theme-dark .mobile-tool-button:hover {
-          background: rgba(79,70,229,.22) !important;
+          background: rgba(139, 92, 246,.22) !important;
         }
 
         body.od-theme-dark .mobile-tools-title strong,
         body.od-theme-dark .mobile-tool-button strong {
-          color: #f8fafc !important;
+          color: #f4f0fb !important;
         }
 
         body.od-theme-dark .mobile-tools-title span,
         body.od-theme-dark .mobile-tool-button span {
-          color: #cbd5e1 !important;
+          color: #c9bdf0 !important;
         }
 
         @media (max-width: 980px) {

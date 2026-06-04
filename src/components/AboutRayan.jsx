@@ -111,9 +111,9 @@ export default function AboutRayan() {
     <section className="about-rayan" dir="rtl">
       <style>{`
         .about-rayan {
-          --ink:#0f172a;
-          --muted:#64748b;
-          --line:rgba(148,163,184,.22);
+          --ink:#18102e;
+          --muted:#7a6c9a;
+          --line:rgba(167, 139, 250,.22);
           --gold:#b48a5a;
           --gold-deep:#7c4a20;
           --gold-light:#d6bb95;
@@ -127,9 +127,9 @@ export default function AboutRayan() {
           color:var(--ink);
           background:
             radial-gradient(circle at 12% 10%, rgba(180,138,90,.18), transparent 32%),
-            radial-gradient(circle at 90% 18%, rgba(79,70,229,.13), transparent 30%),
+            radial-gradient(circle at 90% 18%, rgba(139, 92, 246,.13), transparent 30%),
             radial-gradient(circle at 45% 92%, rgba(16,185,129,.10), transparent 34%),
-            linear-gradient(135deg,#f8fafc 0%,#fffaf3 46%,#eef2ff 100%);
+            linear-gradient(135deg,#f4f0fb 0%,#fffaf3 46%,#efe9fb 100%);
         }
 
         .about-rayan * {
@@ -151,8 +151,8 @@ export default function AboutRayan() {
           color:white;
           background:
             radial-gradient(circle at 14% 20%, rgba(214,187,149,.26), transparent 32%),
-            linear-gradient(135deg,#0f172a,#1e293b 58%,#111827);
-          box-shadow:0 30px 90px rgba(15,23,42,.22);
+            linear-gradient(135deg,#18102e,#281748 58%,#111827);
+          box-shadow:0 30px 90px rgba(28, 17, 48,.22);
         }
 
         .ar-hero::before {
@@ -207,7 +207,7 @@ export default function AboutRayan() {
         .ar-lead {
           margin:0;
           max-width:820px;
-          color:rgba(226,232,240,.88);
+          color:rgba(196, 181, 253,.88);
           font-size:16px;
           line-height:2.15;
           font-weight:700;
@@ -257,7 +257,7 @@ export default function AboutRayan() {
 
         .ar-primary-action {
           color:#111827;
-          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          background:linear-gradient(135deg,#fde68a,#a855f7);
           box-shadow:0 18px 42px rgba(245,158,11,.20);
         }
 
@@ -321,7 +321,7 @@ export default function AboutRayan() {
           padding:26px;
           background:rgba(255,255,255,.84);
           border:1px solid rgba(255,255,255,.94);
-          box-shadow:0 22px 60px rgba(15,23,42,.08);
+          box-shadow:0 22px 60px rgba(28, 17, 48,.08);
           backdrop-filter:blur(20px);
         }
 
@@ -363,7 +363,7 @@ export default function AboutRayan() {
           border-radius:22px;
           padding:14px 16px;
           color:white;
-          background:linear-gradient(135deg,#0f172a,#334155);
+          background:linear-gradient(135deg,#18102e,#463c63);
           font-size:12px;
           line-height:1.8;
           font-weight:900;
@@ -378,7 +378,7 @@ export default function AboutRayan() {
         .ar-dua-card {
           background:white;
           border:1px solid var(--line);
-          box-shadow:0 16px 44px rgba(15,23,42,.06);
+          box-shadow:0 16px 44px rgba(28, 17, 48,.06);
         }
 
         .ar-dua-section {
@@ -438,7 +438,7 @@ export default function AboutRayan() {
 
         .ar-bio-box p {
           margin:0;
-          color:#1e293b;
+          color:#281748;
           font-size:15px;
           line-height:2.15;
           font-weight:700;
@@ -531,8 +531,8 @@ export default function AboutRayan() {
           color:white;
           background:
             radial-gradient(circle at 20% 20%, rgba(253,230,138,.20), transparent 34%),
-            linear-gradient(150deg,#0f172a,#1e293b);
-          box-shadow:0 24px 60px rgba(15,23,42,.16);
+            linear-gradient(150deg,#18102e,#281748);
+          box-shadow:0 24px 60px rgba(28, 17, 48,.16);
         }
 
         .ar-lens b {
@@ -553,7 +553,7 @@ export default function AboutRayan() {
 
         .ar-lens p {
           margin:0;
-          color:rgba(226,232,240,.88);
+          color:rgba(196, 181, 253,.88);
           font-size:14px;
           line-height:2;
           font-weight:750;
@@ -636,8 +636,8 @@ export default function AboutRayan() {
           border-radius:28px;
           padding:22px;
           color:white;
-          background:linear-gradient(150deg,#0f172a,#1e293b);
-          box-shadow:0 20px 52px rgba(15,23,42,.16);
+          background:linear-gradient(150deg,#18102e,#281748);
+          box-shadow:0 20px 52px rgba(28, 17, 48,.16);
           display:flex;
           flex-direction:column;
           justify-content:center;
@@ -653,7 +653,7 @@ export default function AboutRayan() {
 
         .ar-consultation-panel p {
           margin:0;
-          color:rgba(226,232,240,.86);
+          color:rgba(196, 181, 253,.86);
           font-size:13px;
           line-height:1.9;
           font-weight:750;
@@ -668,7 +668,7 @@ export default function AboutRayan() {
           min-height:48px;
           border-radius:18px;
           color:#111827;
-          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          background:linear-gradient(135deg,#fde68a,#a855f7);
           font-size:13px;
           font-weight:950;
           transition:.24s ease;
@@ -693,7 +693,7 @@ export default function AboutRayan() {
 
         .ar-social:hover {
           transform:translateY(-5px);
-          box-shadow:0 24px 56px rgba(15,23,42,.10);
+          box-shadow:0 24px 56px rgba(28, 17, 48,.10);
         }
 
         .ar-social-icon {

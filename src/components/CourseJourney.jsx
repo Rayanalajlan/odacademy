@@ -1111,12 +1111,12 @@ export default function CourseJourney({
     <section className="journey-lab" dir="rtl">
       <style>{`
         .journey-lab {
-          --ink:#0f172a;
-          --muted:#64748b;
-          --line:rgba(148,163,184,.23);
-          --primary:#4f46e5;
+          --ink:#18102e;
+          --muted:#7a6c9a;
+          --line:rgba(167, 139, 250,.23);
+          --primary:#8b5cf6;
           --violet:#7c3aed;
-          --gold:#f59e0b;
+          --gold:#a855f7;
           --green:#10b981;
           --red:#ef4444;
           min-height:100vh;
@@ -1125,10 +1125,10 @@ export default function CourseJourney({
           color:var(--ink);
           padding:28px 16px 70px;
           background:
-            radial-gradient(circle at 12% 12%, rgba(79,70,229,.18), transparent 31%),
+            radial-gradient(circle at 12% 12%, rgba(139, 92, 246,.18), transparent 31%),
             radial-gradient(circle at 86% 18%, rgba(245,158,11,.16), transparent 28%),
             radial-gradient(circle at 50% 88%, rgba(16,185,129,.13), transparent 31%),
-            linear-gradient(135deg,#f8fafc 0%,#eef2ff 48%,#f8fafc 100%);
+            linear-gradient(135deg,#f4f0fb 0%,#efe9fb 48%,#f4f0fb 100%);
         }
 
         .jl-wrap {
@@ -1146,8 +1146,8 @@ export default function CourseJourney({
           position:relative;
           background:
             radial-gradient(circle at top left, rgba(245,158,11,.24), transparent 35%),
-            linear-gradient(135deg,#0f172a,#1e293b 54%,#111827);
-          box-shadow:0 28px 90px rgba(15,23,42,.22);
+            linear-gradient(135deg,#18102e,#281748 54%,#111827);
+          box-shadow:0 28px 90px rgba(28, 17, 48,.22);
         }
 
         .jl-hero::before {
@@ -1194,7 +1194,7 @@ export default function CourseJourney({
         .jl-title span {
           display:block;
           color:transparent;
-          background:linear-gradient(90deg,#fff,#c7d2fe,#fde68a);
+          background:linear-gradient(90deg,#fff,#c3b5e8,#fde68a);
           -webkit-background-clip:text;
           background-clip:text;
         }
@@ -1202,7 +1202,7 @@ export default function CourseJourney({
         .jl-hero p {
           margin:0;
           max-width:780px;
-          color:rgba(226,232,240,.88);
+          color:rgba(196, 181, 253,.88);
           font-size:15px;
           line-height:2;
           font-weight:750;
@@ -1221,9 +1221,9 @@ export default function CourseJourney({
           display:grid;
           place-items:center;
           background:
-            radial-gradient(circle at 38% 32%, rgba(255,255,255,.96), rgba(199,210,254,.35) 19%, rgba(79,70,229,.24) 42%, rgba(15,23,42,.08) 66%),
-            conic-gradient(from 0deg,#4f46e5,#7c3aed,#f59e0b,#10b981,#4f46e5);
-          box-shadow:inset 0 0 38px rgba(255,255,255,.35),0 30px 90px rgba(79,70,229,.34);
+            radial-gradient(circle at 38% 32%, rgba(255,255,255,.96), rgba(199,210,254,.35) 19%, rgba(139, 92, 246,.24) 42%, rgba(28, 17, 48,.08) 66%),
+            conic-gradient(from 0deg,#8b5cf6,#7c3aed,#a855f7,#10b981,#8b5cf6);
+          box-shadow:inset 0 0 38px rgba(255,255,255,.35),0 30px 90px rgba(139, 92, 246,.34);
         }
 
         .jl-orb strong {
@@ -1232,7 +1232,7 @@ export default function CourseJourney({
           font-size:46px;
           font-weight:950;
           text-align:center;
-          text-shadow:0 8px 24px rgba(15,23,42,.35);
+          text-shadow:0 8px 24px rgba(28, 17, 48,.35);
         }
 
         .jl-orb small {
@@ -1255,7 +1255,7 @@ export default function CourseJourney({
           padding:16px;
           background:rgba(255,255,255,.80);
           border:1px solid rgba(255,255,255,.92);
-          box-shadow:0 16px 38px rgba(15,23,42,.08);
+          box-shadow:0 16px 38px rgba(28, 17, 48,.08);
           backdrop-filter:blur(18px);
         }
 
@@ -1283,7 +1283,7 @@ export default function CourseJourney({
         .jl-mini-track {
           height:9px;
           border-radius:999px;
-          background:rgba(148,163,184,.18);
+          background:rgba(167, 139, 250,.18);
           overflow:hidden;
         }
 
@@ -1291,13 +1291,13 @@ export default function CourseJourney({
           display:block;
           height:100%;
           border-radius:inherit;
-          background:linear-gradient(90deg,#4f46e5,#7c3aed,#f59e0b);
+          background:linear-gradient(90deg,#8b5cf6,#7c3aed,#a855f7);
         }
 
         .jl-mini-progress small {
           display:block;
           margin-top:9px;
-          color:#94a3b8;
+          color:#9d8fc0;
           font-size:11px;
           font-weight:850;
         }
@@ -1335,10 +1335,10 @@ export default function CourseJourney({
           border-radius:999px;
           background:rgba(255,255,255,.78);
           border:1px solid rgba(255,255,255,.92);
-          color:#475569;
+          color:#5b4f78;
           font-size:12px;
           font-weight:950;
-          box-shadow:0 10px 28px rgba(15,23,42,.06);
+          box-shadow:0 10px 28px rgba(28, 17, 48,.06);
         }
 
         .jl-crumb:hover,
@@ -1361,7 +1361,7 @@ export default function CourseJourney({
         .jl-back {
           padding:11px 15px;
           border-radius:16px;
-          background:#0f172a;
+          background:#18102e;
           color:white;
           font-size:12px;
           font-weight:950;
@@ -1371,8 +1371,8 @@ export default function CourseJourney({
           padding:13px 18px;
           border-radius:18px;
           color:white;
-          background:linear-gradient(135deg,#4f46e5,#7c3aed);
-          box-shadow:0 18px 38px rgba(79,70,229,.24);
+          background:linear-gradient(135deg,#8b5cf6,#7c3aed);
+          box-shadow:0 18px 38px rgba(139, 92, 246,.24);
           font-size:12px;
           font-weight:950;
         }
@@ -1382,7 +1382,7 @@ export default function CourseJourney({
           padding:24px;
           background:rgba(255,255,255,.76);
           border:1px solid rgba(255,255,255,.94);
-          box-shadow:0 22px 60px rgba(15,23,42,.08);
+          box-shadow:0 22px 60px rgba(28, 17, 48,.08);
           backdrop-filter:blur(22px);
         }
 
@@ -1423,8 +1423,8 @@ export default function CourseJourney({
           max-width:310px;
           padding:14px 16px;
           border-radius:22px;
-          background:#0f172a;
-          color:#f8fafc;
+          background:#18102e;
+          color:#f4f0fb;
           font-size:12px;
           line-height:1.8;
           font-weight:900;
@@ -1474,8 +1474,8 @@ export default function CourseJourney({
           border:0;
           border-radius:30px;
           background:rgba(255,255,255,.90);
-          border:1px solid rgba(148,163,184,.20);
-          box-shadow:0 18px 45px rgba(15,23,42,.07);
+          border:1px solid rgba(167, 139, 250,.20);
+          box-shadow:0 18px 45px rgba(28, 17, 48,.07);
           transition:.25s ease;
           position:relative;
           overflow:hidden;
@@ -1485,7 +1485,7 @@ export default function CourseJourney({
         .jl-week-card:hover,
         .jl-day-card:hover {
           transform:translateY(-6px);
-          box-shadow:0 26px 60px rgba(79,70,229,.12);
+          box-shadow:0 26px 60px rgba(139, 92, 246,.12);
         }
 
         .jl-month-card:disabled,
@@ -1537,17 +1537,17 @@ export default function CourseJourney({
         }
 
         .jl-status--active {
-          color:#3730a3;
-          background:rgba(79,70,229,.12);
+          color:#6d28d9;
+          background:rgba(139, 92, 246,.12);
         }
 
         .jl-status--locked {
-          color:#64748b;
+          color:#7a6c9a;
           background:rgba(100,116,139,.12);
         }
 
         .jl-index {
-          color:rgba(15,23,42,.13);
+          color:rgba(28, 17, 48,.13);
           font-size:42px;
           font-weight:950;
           line-height:1;
@@ -1579,7 +1579,7 @@ export default function CourseJourney({
           display:flex;
           justify-content:space-between;
           gap:12px;
-          color:#64748b;
+          color:#7a6c9a;
           font-size:11px;
           font-weight:900;
         }
@@ -1594,7 +1594,7 @@ export default function CourseJourney({
           color:white;
           font-size:20px;
           font-weight:950;
-          background:linear-gradient(135deg,#4f46e5,#7c3aed);
+          background:linear-gradient(135deg,#8b5cf6,#7c3aed);
         }
 
         .jl-day-card--completed .jl-day-number {
@@ -1602,7 +1602,7 @@ export default function CourseJourney({
         }
 
         .jl-day-card--locked .jl-day-number {
-          background:linear-gradient(135deg,#94a3b8,#64748b);
+          background:linear-gradient(135deg,#9d8fc0,#7a6c9a);
         }
 
         .jl-day-card strong {
@@ -1636,8 +1636,8 @@ export default function CourseJourney({
           color:white;
           background:
             radial-gradient(circle at top right, rgba(245,158,11,.22), transparent 36%),
-            linear-gradient(160deg,#0f172a,#1e293b);
-          box-shadow:0 22px 55px rgba(15,23,42,.18);
+            linear-gradient(160deg,#18102e,#281748);
+          box-shadow:0 22px 55px rgba(28, 17, 48,.18);
         }
 
         .jl-pill {
@@ -1657,12 +1657,12 @@ export default function CourseJourney({
 
         .jl-pill--active {
           color:#e0e7ff;
-          background:rgba(79,70,229,.24);
+          background:rgba(139, 92, 246,.24);
         }
 
         .jl-pill--locked {
-          color:#e2e8f0;
-          background:rgba(148,163,184,.18);
+          color:#e0d8f5;
+          background:rgba(167, 139, 250,.18);
         }
 
         .jl-lesson-side h3 {
@@ -1674,7 +1674,7 @@ export default function CourseJourney({
 
         .jl-lesson-side p {
           margin:0;
-          color:rgba(226,232,240,.86);
+          color:rgba(196, 181, 253,.86);
           font-size:12px;
           line-height:1.9;
           font-weight:750;
@@ -1720,8 +1720,8 @@ export default function CourseJourney({
           border-radius:30px;
           padding:28px;
           background:rgba(255,255,255,.96);
-          border:1px solid rgba(148,163,184,.18);
-          box-shadow:0 20px 55px rgba(15,23,42,.07);
+          border:1px solid rgba(167, 139, 250,.18);
+          box-shadow:0 20px 55px rgba(28, 17, 48,.07);
         }
 
         .jl-week-intro {
@@ -1747,7 +1747,7 @@ export default function CourseJourney({
         .jl-rich-text h3,
         .jl-rich-text h4 {
           margin:0;
-          color:#0f172a;
+          color:#18102e;
           line-height:1.55;
           font-weight:950;
         }
@@ -1757,16 +1757,16 @@ export default function CourseJourney({
           padding:20px;
           border-radius:24px;
           color:white;
-          background:linear-gradient(135deg,#0f172a,#1e293b);
+          background:linear-gradient(135deg,#18102e,#281748);
         }
 
         .jl-rich-text h2 {
           font-size:24px;
           padding:16px 18px;
           border-radius:22px;
-          background:#eef2ff;
-          color:#3730a3;
-          border:1px solid rgba(79,70,229,.12);
+          background:#efe9fb;
+          color:#6d28d9;
+          border:1px solid rgba(139, 92, 246,.12);
         }
 
         .jl-rich-text h3 {
@@ -1774,8 +1774,8 @@ export default function CourseJourney({
           margin-top:8px;
           padding:14px 16px;
           border-radius:20px;
-          background:#f8fafc;
-          border-right:5px solid #4f46e5;
+          background:#f4f0fb;
+          border-right:5px solid #8b5cf6;
         }
 
         .jl-rich-text h4 {
@@ -1788,7 +1788,7 @@ export default function CourseJourney({
 
         .jl-rich-text p {
           margin:0;
-          color:#1e293b;
+          color:#281748;
           font-size:15px;
           line-height:2.12;
           font-weight:650;
@@ -1799,9 +1799,9 @@ export default function CourseJourney({
           position:relative;
           padding:12px 42px 12px 14px;
           border-radius:18px;
-          color:#334155;
-          background:#f8fafc;
-          border:1px solid rgba(148,163,184,.18);
+          color:#463c63;
+          background:#f4f0fb;
+          border:1px solid rgba(167, 139, 250,.18);
           font-size:14px;
           line-height:1.9;
           font-weight:750;
@@ -1815,21 +1815,21 @@ export default function CourseJourney({
           width:9px;
           height:9px;
           border-radius:999px;
-          background:linear-gradient(135deg,#4f46e5,#7c3aed);
+          background:linear-gradient(135deg,#8b5cf6,#7c3aed);
         }
 
         .jl-quiz {
           margin-top:24px;
           padding:22px;
           border-radius:28px;
-          background:#0f172a;
+          background:#18102e;
           color:white;
-          box-shadow:0 22px 55px rgba(15,23,42,.16);
+          box-shadow:0 22px 55px rgba(28, 17, 48,.16);
         }
 
         .jl-quiz-soft {
-          background:#f8fafc;
-          color:#334155;
+          background:#f4f0fb;
+          color:#463c63;
           border:1px dashed rgba(100,116,139,.35);
           box-shadow:none;
         }
@@ -1898,13 +1898,13 @@ export default function CourseJourney({
           border-radius:13px;
           display:grid;
           place-items:center;
-          background:linear-gradient(135deg,#f59e0b,#facc15);
+          background:linear-gradient(135deg,#a855f7,#facc15);
           color:#111827;
           font-weight:950;
         }
 
         .jl-question-title span {
-          color:#f8fafc;
+          color:#f4f0fb;
           font-size:14px;
           line-height:1.9;
           font-weight:850;
@@ -1981,7 +1981,7 @@ export default function CourseJourney({
           padding:13px 18px;
           border-radius:18px;
           color:#111827;
-          background:linear-gradient(135deg,#fde68a,#f59e0b);
+          background:linear-gradient(135deg,#fde68a,#a855f7);
           font-size:12px;
           font-weight:950;
         }
@@ -2009,16 +2009,16 @@ export default function CourseJourney({
         .jl-exact-source {
           margin-top:24px;
           border-radius:24px;
-          background:#f8fafc;
-          border:1px solid rgba(148,163,184,.28);
+          background:#f4f0fb;
+          border:1px solid rgba(167, 139, 250,.28);
           overflow:hidden;
         }
 
         .jl-exact-source summary {
           cursor:pointer;
           padding:16px 18px;
-          color:#3730a3;
-          background:#eef2ff;
+          color:#6d28d9;
+          background:#efe9fb;
           font-size:13px;
           font-weight:950;
         }
@@ -2029,7 +2029,7 @@ export default function CourseJourney({
           white-space:pre-wrap;
           word-break:break-word;
           overflow:auto;
-          color:#0f172a;
+          color:#18102e;
           background:white;
           font-family:Tajawal, Arial, Tahoma, sans-serif;
           font-size:14px;
@@ -2040,8 +2040,8 @@ export default function CourseJourney({
         .jl-empty {
           border-radius:24px;
           padding:22px;
-          background:#f8fafc;
-          color:#64748b;
+          background:#f4f0fb;
+          color:#7a6c9a;
           border:1px dashed rgba(100,116,139,.35);
           font-size:13px;
           font-weight:900;

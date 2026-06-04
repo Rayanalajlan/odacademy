@@ -9,25 +9,25 @@ const fieldStyle = {
 };
 
 const labelStyle = {
-  color: "#0f172a",
+  color: "#18102e",
   fontWeight: 900
 };
 
 const inputStyle = {
   width: "100%",
-  border: "1px solid #cbd5e1",
+  border: "1px solid #c9bdf0",
   borderRadius: "16px",
   padding: "13px 14px",
   fontSize: "1rem",
   outline: "none",
   background: "#ffffff",
-  color: "#0f172a",
+  color: "#18102e",
   boxSizing: "border-box"
 };
 
 const helperStyle = {
   margin: 0,
-  color: "#64748b",
+  color: "#7a6c9a",
   fontSize: "0.9rem",
   lineHeight: 1.7
 };
@@ -147,11 +147,11 @@ export default function DataDeletionRequest() {
     >
       <div
         style={{
-          background: "#eef2ff",
-          border: "1px solid #c7d2fe",
+          background: "#efe9fb",
+          border: "1px solid #c3b5e8",
           borderRadius: "20px",
           padding: "16px",
-          color: "#312e81",
+          color: "#3b1d6e",
           lineHeight: 1.9,
           marginBottom: "22px"
         }}
@@ -271,7 +271,7 @@ export default function DataDeletionRequest() {
             display: "flex",
             gap: "10px",
             alignItems: "flex-start",
-            color: "#334155",
+            color: "#463c63",
             lineHeight: 1.8,
             marginBottom: "18px"
           }}
@@ -300,7 +300,7 @@ export default function DataDeletionRequest() {
             border: "none",
             borderRadius: "18px",
             padding: "15px 18px",
-            background: submitting ? "#94a3b8" : "#4f46e5",
+            background: submitting ? "#9d8fc0" : "#8b5cf6",
             color: "#ffffff",
             fontWeight: 900,
             fontSize: "1rem",

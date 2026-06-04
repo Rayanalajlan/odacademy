@@ -721,14 +721,14 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
     <section className="od-home-v2" dir="rtl">
       <style>{`
         .od-home-v2 {
-          --od-ink: #0f172a;
-          --od-muted: #64748b;
+          --od-ink: #18102e;
+          --od-muted: #7a6c9a;
           --od-soft: rgba(255,255,255,.76);
-          --od-line: rgba(148,163,184,.22);
-          --od-indigo: #4f46e5;
+          --od-line: rgba(167, 139, 250,.22);
+          --od-indigo: #8b5cf6;
           --od-violet: #7c3aed;
           --od-emerald: #10b981;
-          --od-amber: #f59e0b;
+          --od-amber: #a855f7;
           --od-rose: #e11d48;
           position: relative;
           min-height: 100vh;
@@ -736,10 +736,10 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           padding: 28px 16px 80px;
           color: var(--od-ink);
           background:
-            radial-gradient(circle at 14% 12%, rgba(79,70,229,.18), transparent 28%),
+            radial-gradient(circle at 14% 12%, rgba(139, 92, 246,.18), transparent 28%),
             radial-gradient(circle at 82% 10%, rgba(245,158,11,.16), transparent 30%),
             radial-gradient(circle at 52% 92%, rgba(16,185,129,.12), transparent 32%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 52%, #fff7ed 100%);
+            linear-gradient(135deg, #f4f0fb 0%, #efe9fb 52%, #fff7ed 100%);
         }
 
         .od-home-v2::before {
@@ -747,8 +747,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           position: absolute;
           inset: 0;
           background-image:
-            linear-gradient(rgba(15,23,42,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(15,23,42,.035) 1px, transparent 1px);
+            linear-gradient(rgba(28, 17, 48,.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(28, 17, 48,.035) 1px, transparent 1px);
           background-size: 44px 44px;
           mask-image: radial-gradient(circle at center, black, transparent 78%);
           pointer-events: none;
@@ -771,8 +771,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           background:
             radial-gradient(circle at 16% 20%, rgba(129,140,248,.32), transparent 34%),
             radial-gradient(circle at 85% 15%, rgba(245,158,11,.24), transparent 28%),
-            linear-gradient(145deg, #0f172a 0%, #1e1b4b 52%, #312e81 100%);
-          box-shadow: 0 28px 90px rgba(15,23,42,.22);
+            linear-gradient(145deg, #18102e 0%, #1e1b4b 52%, #3b1d6e 100%);
+          box-shadow: 0 28px 90px rgba(28, 17, 48,.22);
           border: 1px solid rgba(255,255,255,.16);
         }
 
@@ -851,7 +851,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-hero h1 span {
           display: block;
-          background: linear-gradient(90deg, #fff, #c7d2fe, #fde68a);
+          background: linear-gradient(90deg, #fff, #c3b5e8, #fde68a);
           color: transparent;
           -webkit-background-clip: text;
           background-clip: text;
@@ -860,7 +860,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-hero-lead {
           max-width: 720px;
           margin: 0;
-          color: rgba(226,232,240,.9);
+          color: rgba(196, 181, 253,.9);
           font-size: 16px;
           line-height: 2.05;
           font-weight: 750;
@@ -891,26 +891,26 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-button--primary {
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          box-shadow: 0 18px 38px rgba(79,70,229,.32);
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          box-shadow: 0 18px 38px rgba(139, 92, 246,.32);
         }
 
         .od-button--dark {
           color: white;
-          background: #0f172a;
-          box-shadow: 0 16px 34px rgba(15,23,42,.24);
+          background: #18102e;
+          box-shadow: 0 16px 34px rgba(28, 17, 48,.24);
         }
 
         .od-button--light {
-          color: #0f172a;
+          color: #18102e;
           background: rgba(255,255,255,.92);
           box-shadow: 0 16px 34px rgba(255,255,255,.12);
         }
 
         .od-button--ghost {
-          color: #334155;
+          color: #463c63;
           background: rgba(255,255,255,.78);
-          border: 1px solid rgba(148,163,184,.26);
+          border: 1px solid rgba(167, 139, 250,.26);
         }
 
         .od-hero-note {
@@ -921,7 +921,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 20px;
           background: rgba(255,255,255,.1);
           border: 1px solid rgba(255,255,255,.14);
-          color: rgba(226,232,240,.88);
+          color: rgba(196, 181, 253,.88);
           font-size: 12px;
           font-weight: 850;
         }
@@ -960,7 +960,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-rank span {
-          color: rgba(226,232,240,.72);
+          color: rgba(196, 181, 253,.72);
           font-size: 11px;
           font-weight: 950;
         }
@@ -981,8 +981,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           margin: 10px auto 18px;
           border-radius: 50%;
           background:
-            radial-gradient(circle at center, rgba(15,23,42,.94) 0 58%, transparent 59%),
-            conic-gradient(#f59e0b 0 ${progress}%, rgba(255,255,255,.16) ${progress}% 100%);
+            radial-gradient(circle at center, rgba(28, 17, 48,.94) 0 58%, transparent 59%),
+            conic-gradient(#a855f7 0 ${progress}%, rgba(255,255,255,.16) ${progress}% 100%);
           box-shadow: 0 24px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.14);
         }
 
@@ -1003,7 +1003,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-main-gauge span {
           margin-top: 8px;
           display: block;
-          color: rgba(226,232,240,.72);
+          color: rgba(196, 181, 253,.72);
           font-size: 11px;
           font-weight: 950;
           text-align: center;
@@ -1026,7 +1026,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-command-mini span {
           display: block;
-          color: rgba(226,232,240,.66);
+          color: rgba(196, 181, 253,.66);
           font-size: 10px;
           font-weight: 950;
           margin-bottom: 5px;
@@ -1048,13 +1048,13 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 28px;
           background: rgba(255,255,255,.76);
           border: 1px solid rgba(255,255,255,.9);
-          box-shadow: 0 18px 55px rgba(15,23,42,.08);
+          box-shadow: 0 18px 55px rgba(28, 17, 48,.08);
           backdrop-filter: blur(18px);
         }
 
         .od-quote-bar p {
           margin: 0;
-          color: #1e293b;
+          color: #281748;
           font-size: 15px;
           line-height: 1.9;
           font-weight: 900;
@@ -1068,7 +1068,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           place-items: center;
           background: #ffffff;
           overflow: hidden;
-          box-shadow: 0 16px 34px rgba(15,23,42,.12);
+          box-shadow: 0 16px 34px rgba(28, 17, 48,.12);
           border: 1px solid rgba(180,138,90,.18);
         }
 
@@ -1082,7 +1082,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 36px;
           background: rgba(255,255,255,.78);
           border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 22px 70px rgba(15,23,42,.08);
+          box-shadow: 0 22px 70px rgba(28, 17, 48,.08);
           backdrop-filter: blur(20px);
         }
 
@@ -1094,8 +1094,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 30px;
           overflow: hidden;
           background:
-            radial-gradient(circle at 50% 50%, rgba(79,70,229,.16), transparent 58%),
-            linear-gradient(145deg, #0f172a, #1e293b);
+            radial-gradient(circle at 50% 50%, rgba(139, 92, 246,.16), transparent 58%),
+            linear-gradient(145deg, #18102e, #281748);
         }
 
         .od-timer-orbit::before,
@@ -1136,8 +1136,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           padding: 18px;
           background:
             radial-gradient(circle at 40% 32%, rgba(255,255,255,.9), rgba(255,255,255,.18) 18%, transparent 46%),
-            conic-gradient(from 0deg, #4f46e5, #7c3aed, #10b981, #f59e0b, #4f46e5);
-          box-shadow: 0 26px 70px rgba(79,70,229,.28);
+            conic-gradient(from 0deg, #8b5cf6, #7c3aed, #10b981, #a855f7, #8b5cf6);
+          box-shadow: 0 26px 70px rgba(139, 92, 246,.28);
         }
 
         .od-live-core--idle {
@@ -1161,7 +1161,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           color: white;
           font-size: 34px;
           font-weight: 950;
-          text-shadow: 0 10px 24px rgba(15,23,42,.32);
+          text-shadow: 0 10px 24px rgba(28, 17, 48,.32);
         }
 
         .od-live-core small {
@@ -1179,8 +1179,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           width: fit-content;
           padding: 8px 12px;
           border-radius: 999px;
-          color: #3730a3;
-          background: rgba(79,70,229,.1);
+          color: #6d28d9;
+          background: rgba(139, 92, 246,.1);
           font-size: 11px;
           font-weight: 950;
           margin-bottom: 10px;
@@ -1189,7 +1189,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-timer-content h2,
         .od-section-head h2 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: clamp(24px, 3vw, 38px);
           line-height: 1.25;
           letter-spacing: 0;
@@ -1199,7 +1199,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-timer-content p,
         .od-section-head p {
           margin: 12px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 14px;
           line-height: 1.9;
           font-weight: 750;
@@ -1222,8 +1222,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           padding: 15px;
           border-radius: 24px;
           background: white;
-          border: 1px solid rgba(148,163,184,.18);
-          box-shadow: 0 14px 35px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.18);
+          box-shadow: 0 14px 35px rgba(28, 17, 48,.06);
         }
 
         .od-stat-card::before {
@@ -1238,16 +1238,16 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           background: currentColor;
         }
 
-        .od-stat-card--indigo { color: #4f46e5; }
+        .od-stat-card--indigo { color: #8b5cf6; }
         .od-stat-card--violet { color: #7c3aed; }
         .od-stat-card--emerald { color: #10b981; }
-        .od-stat-card--amber { color: #f59e0b; }
-        .od-stat-card--slate { color: #334155; }
+        .od-stat-card--amber { color: #a855f7; }
+        .od-stat-card--slate { color: #463c63; }
         .od-stat-card--rose { color: #e11d48; }
 
         .od-stat-card span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           font-weight: 950;
           margin-bottom: 8px;
@@ -1255,7 +1255,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-stat-card strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 21px;
           font-weight: 950;
           line-height: 1.25;
@@ -1264,7 +1264,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-stat-card small {
           display: block;
           margin-top: 8px;
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 10px;
           font-weight: 850;
           line-height: 1.5;
@@ -1278,8 +1278,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-progress-line {
           padding: 15px;
           border-radius: 22px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .od-progress-line > div:first-child {
@@ -1290,13 +1290,13 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-progress-line span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 950;
         }
 
         .od-progress-line strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           font-weight: 950;
         }
@@ -1305,21 +1305,21 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           height: 10px;
           overflow: hidden;
           border-radius: 999px;
-          background: rgba(148,163,184,.18);
+          background: rgba(167, 139, 250,.18);
         }
 
         .od-progress-track b {
           display: block;
           height: 100%;
           border-radius: inherit;
-          background: linear-gradient(90deg, #4f46e5, #7c3aed, #f59e0b);
-          box-shadow: 0 8px 24px rgba(79,70,229,.22);
+          background: linear-gradient(90deg, #8b5cf6, #7c3aed, #a855f7);
+          box-shadow: 0 8px 24px rgba(139, 92, 246,.22);
         }
 
         .od-progress-line small {
           display: block;
           margin-top: 8px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 800;
         }
@@ -1340,7 +1340,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-section-head small {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 900;
         }
@@ -1363,13 +1363,13 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 30px;
           background: rgba(255,255,255,.84);
           border: 1px solid rgba(255,255,255,.95);
-          box-shadow: 0 18px 48px rgba(15,23,42,.08);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.08);
           transition: .28s ease;
         }
 
         .od-feature-card:hover {
           transform: translateY(-7px);
-          box-shadow: 0 28px 70px rgba(79,70,229,.14);
+          box-shadow: 0 28px 70px rgba(139, 92, 246,.14);
         }
 
         .od-feature-card::before {
@@ -1384,11 +1384,11 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           background: currentColor;
         }
 
-        .od-feature-card--indigo { color: #4f46e5; }
+        .od-feature-card--indigo { color: #8b5cf6; }
         .od-feature-card--violet { color: #7c3aed; }
         .od-feature-card--emerald { color: #10b981; }
-        .od-feature-card--amber { color: #f59e0b; }
-        .od-feature-card--slate { color: #334155; }
+        .od-feature-card--amber { color: #a855f7; }
+        .od-feature-card--slate { color: #463c63; }
         .od-feature-card--rose { color: #e11d48; }
 
         .od-feature-top {
@@ -1404,8 +1404,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           display: inline-flex;
           padding: 7px 10px;
           border-radius: 999px;
-          background: rgba(15,23,42,.06);
-          color: #475569;
+          background: rgba(28, 17, 48,.06);
+          color: #5b4f78;
           font-size: 10px;
           font-weight: 950;
         }
@@ -1420,7 +1420,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           color: white;
           font-size: 22px;
           font-weight: 950;
-          box-shadow: 0 14px 30px rgba(15,23,42,.1);
+          box-shadow: 0 14px 30px rgba(28, 17, 48,.1);
           overflow: hidden;
         }
 
@@ -1442,7 +1442,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           position: relative;
           z-index: 1;
           margin: 24px 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 22px;
           line-height: 1.35;
           font-weight: 950;
@@ -1452,7 +1452,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           position: relative;
           z-index: 1;
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 750;
@@ -1471,7 +1471,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-feature-bottom span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 950;
         }
@@ -1494,13 +1494,13 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border-radius: 32px;
           background: rgba(255,255,255,.78);
           border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 18px 52px rgba(15,23,42,.07);
+          box-shadow: 0 18px 52px rgba(28, 17, 48,.07);
           backdrop-filter: blur(18px);
         }
 
         .od-lab-card h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 22px;
           line-height: 1.35;
           font-weight: 950;
@@ -1508,7 +1508,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-lab-card p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 750;
@@ -1524,8 +1524,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-milestone {
           padding: 13px 10px;
           border-radius: 20px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
           text-align: center;
         }
 
@@ -1536,7 +1536,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-milestone strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           font-weight: 950;
         }
@@ -1544,7 +1544,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-milestone span {
           display: block;
           margin-top: 5px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           font-weight: 850;
         }

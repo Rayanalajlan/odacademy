@@ -22,7 +22,7 @@ export default function SectionIcon({
           background:
             radial-gradient(circle at 30% 18%, rgba(255,255,255,.78), transparent 42%),
             rgba(245, 239, 255, .72);
-          border: 1px solid rgba(183, 148, 244, .24);
+          border: 1px solid rgba(124, 58, 237, .24);
           box-shadow: 0 10px 26px rgba(60, 37, 98, .10);
         }
 
@@ -94,7 +94,7 @@ export default function SectionIcon({
           background:
             radial-gradient(circle at 30% 18%, rgba(255,255,255,.16), transparent 42%),
             rgba(32, 22, 48, .86);
-          border-color: rgba(216, 195, 255, .22);
+          border-color: rgba(167, 139, 250, .22);
           box-shadow: 0 14px 34px rgba(0, 0, 0, .24);
         }
       `}</style>

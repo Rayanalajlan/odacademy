@@ -27,13 +27,13 @@ export function LegalFooterLinks() {
 
 export function LegalFloatingLinks() {
   const chipStyle = {
-    color: "#0f172a",
+    color: "#18102e",
     background: "rgba(255,255,255,0.94)",
-    border: "1px solid rgba(15,23,42,0.12)",
+    border: "1px solid rgba(28, 17, 48,0.12)",
     borderRadius: "999px",
     padding: "9px 12px",
     textDecoration: "none",
-    boxShadow: "0 10px 24px rgba(15,23,42,0.14)",
+    boxShadow: "0 10px 24px rgba(28, 17, 48,0.14)",
     fontSize: "0.82rem",
     fontWeight: 800
   };

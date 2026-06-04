@@ -3,7 +3,7 @@ import LegalLayout from "./LegalLayout";
 const sectionStyle = {
   marginTop: "26px",
   paddingTop: "22px",
-  borderTop: "1px solid #e2e8f0"
+  borderTop: "1px solid #e0d8f5"
 };
 
 const h2Style = {
@@ -13,13 +13,13 @@ const h2Style = {
 };
 
 const pStyle = {
-  color: "#475569",
+  color: "#5b4f78",
   lineHeight: 1.95,
   margin: "0 0 12px"
 };
 
 const listStyle = {
-  color: "#475569",
+  color: "#5b4f78",
   lineHeight: 2,
   margin: "0",
   paddingRight: "22px"
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
           يمكنك إرسال طلبك من خلال الصفحة المخصصة:
         </p>
         <p style={pStyle}>
-          <a href="/data-deletion" style={{ color: "#4f46e5", fontWeight: 900 }}>
+          <a href="/data-deletion" style={{ color: "#8b5cf6", fontWeight: 900 }}>
             الانتقال إلى نموذج طلب حذف أو تصحيح البيانات
           </a>
         </p>

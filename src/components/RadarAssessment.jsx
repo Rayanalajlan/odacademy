@@ -1379,12 +1379,12 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
     <section className="page-shell radar-assessment-page" dir="rtl">
       <style>{`
         .radar-assessment-page {
-          --ink:#0f172a;
-          --muted:#64748b;
-          --line:rgba(148,163,184,.24);
-          --primary:#4f46e5;
+          --ink:#18102e;
+          --muted:#7a6c9a;
+          --line:rgba(167, 139, 250,.24);
+          --primary:#8b5cf6;
           --violet:#7c3aed;
-          --gold:#f59e0b;
+          --gold:#a855f7;
           --green:#10b981;
           --red:#ef4444;
         }
@@ -1402,7 +1402,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-tab {
-          border:1px solid rgba(148,163,184,.22);
+          border:1px solid rgba(167, 139, 250,.22);
           background:rgba(255,255,255,.9);
           color:var(--ink);
           border-radius:24px;
@@ -1410,19 +1410,19 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           cursor:pointer;
           text-align:right;
           font-family:inherit;
-          box-shadow:0 14px 34px rgba(15,23,42,.06);
+          box-shadow:0 14px 34px rgba(28, 17, 48,.06);
           transition:.22s ease;
         }
 
         .radar-tab:hover,
         .radar-tab.active {
           transform:translateY(-3px);
-          border-color:rgba(79,70,229,.35);
-          box-shadow:0 20px 44px rgba(79,70,229,.11);
+          border-color:rgba(139, 92, 246,.35);
+          box-shadow:0 20px 44px rgba(139, 92, 246,.11);
         }
 
         .radar-tab.active {
-          background:linear-gradient(135deg,#eef2ff,#ffffff);
+          background:linear-gradient(135deg,#efe9fb,#ffffff);
         }
 
         .radar-tab strong {
@@ -1453,15 +1453,15 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           border-radius:30px;
           padding:24px;
           background:rgba(255,255,255,.92);
-          border:1px solid rgba(148,163,184,.20);
-          box-shadow:0 22px 58px rgba(15,23,42,.08);
+          border:1px solid rgba(167, 139, 250,.20);
+          box-shadow:0 22px 58px rgba(28, 17, 48,.08);
         }
 
         .radar-card-dark {
           color:white;
           background:
             radial-gradient(circle at top left, rgba(245,158,11,.22), transparent 34%),
-            linear-gradient(145deg,#0f172a,#1e293b 58%,#111827);
+            linear-gradient(145deg,#18102e,#281748 58%,#111827);
           border-color:rgba(255,255,255,.14);
         }
 
@@ -1471,8 +1471,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           border-radius:999px;
           padding:8px 13px;
           margin-bottom:14px;
-          background:rgba(79,70,229,.12);
-          color:#3730a3;
+          background:rgba(139, 92, 246,.12);
+          color:#6d28d9;
           font-size:11px;
           font-weight:950;
         }
@@ -1504,7 +1504,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-card-dark p {
-          color:rgba(226,232,240,.86);
+          color:rgba(196, 181, 253,.86);
         }
 
         .radar-metrics {
@@ -1543,13 +1543,13 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-chip {
           border-radius:20px;
           padding:14px;
-          background:#f8fafc;
-          border:1px solid rgba(148,163,184,.18);
+          background:#f4f0fb;
+          border:1px solid rgba(167, 139, 250,.18);
         }
 
         .radar-chip strong {
           display:block;
-          color:#0f172a;
+          color:#18102e;
           font-size:13px;
           font-weight:950;
           margin-bottom:5px;
@@ -1557,7 +1557,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
 
         .radar-chip span {
           display:block;
-          color:#64748b;
+          color:#7a6c9a;
           font-size:12px;
           line-height:1.8;
           font-weight:750;
@@ -1576,8 +1576,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-question-meta small {
           border-radius:999px;
           padding:8px 12px;
-          background:#eef2ff;
-          color:#3730a3;
+          background:#efe9fb;
+          color:#6d28d9;
           font-size:11px;
           font-weight:950;
         }
@@ -1600,7 +1600,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-progress-line {
           height:10px;
           border-radius:999px;
-          background:rgba(148,163,184,.20);
+          background:rgba(167, 139, 250,.20);
           overflow:hidden;
           margin-top:16px;
         }
@@ -1609,7 +1609,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           display:block;
           height:100%;
           border-radius:inherit;
-          background:linear-gradient(90deg,#4f46e5,#7c3aed,#f59e0b);
+          background:linear-gradient(90deg,#8b5cf6,#7c3aed,#a855f7);
         }
 
         .radar-options-list {
@@ -1623,9 +1623,9 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           gap:12px;
           align-items:flex-start;
           text-align:right;
-          border:1px solid rgba(148,163,184,.22);
+          border:1px solid rgba(167, 139, 250,.22);
           background:#ffffff;
-          color:#0f172a;
+          color:#18102e;
           border-radius:20px;
           padding:15px;
           font-family:inherit;
@@ -1635,8 +1635,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
 
         .radar-options-list button:hover {
           transform:translateY(-2px);
-          border-color:rgba(79,70,229,.42);
-          box-shadow:0 16px 35px rgba(79,70,229,.10);
+          border-color:rgba(139, 92, 246,.42);
+          box-shadow:0 16px 35px rgba(139, 92, 246,.10);
         }
 
         .radar-options-list span {
@@ -1646,8 +1646,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           display:grid;
           place-items:center;
           border-radius:14px;
-          background:#eef2ff;
-          color:#3730a3;
+          background:#efe9fb;
+          color:#6d28d9;
           font-weight:950;
         }
 
@@ -1680,15 +1680,15 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-actions .primary-button,
         .radar-card .primary-button {
           color:white;
-          background:linear-gradient(135deg,#4f46e5,#7c3aed);
-          box-shadow:0 18px 38px rgba(79,70,229,.22);
+          background:linear-gradient(135deg,#8b5cf6,#7c3aed);
+          box-shadow:0 18px 38px rgba(139, 92, 246,.22);
         }
 
         .radar-actions .secondary-button,
         .radar-card .secondary-button {
-          color:#334155;
-          background:#f8fafc;
-          border:1px solid rgba(148,163,184,.22);
+          color:#463c63;
+          background:#f4f0fb;
+          border:1px solid rgba(167, 139, 250,.22);
         }
 
         .radar-actions .danger {
@@ -1703,7 +1703,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-summary-box span {
-          color:rgba(226,232,240,.82);
+          color:rgba(196, 181, 253,.82);
           font-size:12px;
           font-weight:850;
         }
@@ -1745,8 +1745,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           display:inline-block;
         }
 
-        .legend-primary { background:#4f46e5; }
-        .legend-secondary { background:#f59e0b; }
+        .legend-primary { background:#8b5cf6; }
+        .legend-secondary { background:#a855f7; }
 
         .radar-svg {
           width:100%;
@@ -1762,26 +1762,26 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-label {
-          fill:#334155;
+          fill:#463c63;
           font-size:10px;
           font-weight:900;
         }
 
         .radar-area {
-          fill:rgba(79,70,229,.28);
-          stroke:#4f46e5;
+          fill:rgba(139, 92, 246,.28);
+          stroke:#8b5cf6;
           stroke-width:3;
         }
 
         .radar-area-secondary {
           fill:rgba(245,158,11,.18);
-          stroke:#f59e0b;
+          stroke:#a855f7;
           stroke-width:2;
           stroke-dasharray:7 5;
         }
 
         .radar-dot {
-          fill:#4f46e5;
+          fill:#8b5cf6;
           stroke:white;
           stroke-width:2;
         }
@@ -1809,13 +1809,13 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-score-head span {
-          color:#334155;
+          color:#463c63;
           font-size:12px;
           font-weight:950;
         }
 
         .radar-score-head strong {
-          color:#0f172a;
+          color:#18102e;
           font-size:13px;
           font-weight:950;
         }
@@ -1823,7 +1823,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-score-track {
           height:9px;
           border-radius:999px;
-          background:rgba(148,163,184,.20);
+          background:rgba(167, 139, 250,.20);
           overflow:hidden;
         }
 
@@ -1831,11 +1831,11 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           display:block;
           height:100%;
           border-radius:inherit;
-          background:linear-gradient(90deg,#4f46e5,#7c3aed,#f59e0b);
+          background:linear-gradient(90deg,#8b5cf6,#7c3aed,#a855f7);
         }
 
         .radar-score-row small {
-          color:#64748b;
+          color:#7a6c9a;
           font-size:11px;
           line-height:1.7;
           font-weight:750;
@@ -1864,7 +1864,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
 
         .radar-history-panel {
           margin-top:22px;
-          border-top:1px solid rgba(148,163,184,.22);
+          border-top:1px solid rgba(167, 139, 250,.22);
           padding-top:18px;
         }
 
@@ -1884,15 +1884,15 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         .radar-history-head span {
           border-radius:999px;
           padding:6px 10px;
-          background:#eef2ff;
-          color:#3730a3;
+          background:#efe9fb;
+          color:#6d28d9;
           font-size:11px;
           font-weight:950;
         }
 
         .radar-history-empty {
           margin:0;
-          color:#64748b;
+          color:#7a6c9a;
           font-size:12px;
           line-height:1.9;
           font-weight:750;
@@ -1910,13 +1910,13 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           gap:12px;
           border-radius:18px;
           padding:12px;
-          background:#f8fafc;
-          border:1px solid rgba(148,163,184,.18);
+          background:#f4f0fb;
+          border:1px solid rgba(167, 139, 250,.18);
         }
 
         .radar-history-item strong {
           display:block;
-          color:#0f172a;
+          color:#18102e;
           font-size:12px;
           font-weight:950;
           margin-bottom:4px;
@@ -1924,7 +1924,7 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
 
         .radar-history-item span {
           display:block;
-          color:#64748b;
+          color:#7a6c9a;
           font-size:11px;
           font-weight:750;
         }
@@ -1933,8 +1933,8 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           flex:0 0 auto;
           border-radius:14px;
           padding:8px 10px;
-          background:#eef2ff;
-          color:#3730a3;
+          background:#efe9fb;
+          color:#6d28d9;
           font-size:12px;
           font-weight:950;
         }

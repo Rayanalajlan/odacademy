@@ -44,7 +44,7 @@ export default function OnboardingFlow({
           display: grid;
           place-items: center;
           padding: 18px;
-          background: rgba(15, 23, 42, 0.62);
+          background: rgba(28, 17, 48, 0.62);
           backdrop-filter: blur(14px);
         }
 
@@ -54,7 +54,7 @@ export default function OnboardingFlow({
           overflow: auto;
           border-radius: 36px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.10), transparent 32%),
             #ffffff;
           border: 1px solid rgba(255,255,255,.72);
@@ -77,8 +77,8 @@ export default function OnboardingFlow({
           width: fit-content;
           border-radius: 999px;
           padding: 8px 13px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 12px;
@@ -86,7 +86,7 @@ export default function OnboardingFlow({
 
         .onboarding-title {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: clamp(30px, 5vw, 56px);
           line-height: 1.18;
           font-weight: 950;
@@ -94,12 +94,12 @@ export default function OnboardingFlow({
         }
 
         .onboarding-title span {
-          color: #4f46e5;
+          color: #8b5cf6;
         }
 
         .onboarding-lead {
           margin: 16px 0 0;
-          color: #475569;
+          color: #5b4f78;
           line-height: 2;
           font-size: 15px;
           font-weight: 760;
@@ -111,8 +111,8 @@ export default function OnboardingFlow({
           color: #fff;
           background:
             radial-gradient(circle at 15% 15%, rgba(245,158,11,.22), transparent 32%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 64%, #312e81);
-          box-shadow: 0 22px 58px rgba(15,23,42,.18);
+            linear-gradient(135deg, #18102e, #1e1b4b 64%, #3b1d6e);
+          box-shadow: 0 22px 58px rgba(28, 17, 48,.18);
         }
 
         .onboarding-route h3 {
@@ -131,8 +131,8 @@ export default function OnboardingFlow({
           display: grid;
           place-items: center;
           background:
-            conic-gradient(#f59e0b ${progress * 3.6}deg, rgba(255,255,255,.15) 0deg);
-          box-shadow: inset 0 0 0 11px rgba(15,23,42,.35);
+            conic-gradient(#a855f7 ${progress * 3.6}deg, rgba(255,255,255,.15) 0deg);
+          box-shadow: inset 0 0 0 11px rgba(28, 17, 48,.35);
         }
 
         .onboarding-progress-orb div {
@@ -142,7 +142,7 @@ export default function OnboardingFlow({
           display: grid;
           place-items: center;
           text-align: center;
-          background: #0f172a;
+          background: #18102e;
           border: 1px solid rgba(255,255,255,.12);
         }
 
@@ -155,14 +155,14 @@ export default function OnboardingFlow({
 
         .onboarding-progress-orb small {
           display: block;
-          color: #cbd5e1;
+          color: #c9bdf0;
           margin-top: 5px;
           font-weight: 850;
         }
 
         .onboarding-route p {
           margin: 0;
-          color: #cbd5e1;
+          color: #c9bdf0;
           line-height: 1.9;
           font-size: 13px;
           font-weight: 780;
@@ -178,8 +178,8 @@ export default function OnboardingFlow({
         .onboarding-step {
           border-radius: 22px;
           padding: 14px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .onboarding-step b {
@@ -188,15 +188,15 @@ export default function OnboardingFlow({
           width: 32px;
           height: 32px;
           border-radius: 12px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 12px;
           margin-bottom: 9px;
         }
 
         .onboarding-step strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.6;
           font-weight: 950;
@@ -205,7 +205,7 @@ export default function OnboardingFlow({
 
         .onboarding-step span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.75;
           font-size: 11px;
           font-weight: 760;
@@ -225,17 +225,17 @@ export default function OnboardingFlow({
           min-height: 112px;
           text-align: right;
           font-family: inherit;
-          color: #0f172a;
+          color: #18102e;
           background: #ffffff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 16px 38px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 16px 38px rgba(28, 17, 48,.06);
           transition: .2s ease;
         }
 
         .onboarding-action:hover:not(:disabled) {
           transform: translateY(-3px);
-          box-shadow: 0 22px 44px rgba(79,70,229,.11);
-          border-color: rgba(79,70,229,.32);
+          box-shadow: 0 22px 44px rgba(139, 92, 246,.11);
+          border-color: rgba(139, 92, 246,.32);
         }
 
         .onboarding-action:disabled {
@@ -245,7 +245,7 @@ export default function OnboardingFlow({
 
         .onboarding-action.primary {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
         }
 
         .onboarding-action.secondary {
@@ -280,7 +280,7 @@ export default function OnboardingFlow({
         .onboarding-skip button {
           border: none;
           cursor: pointer;
-          color: #64748b;
+          color: #7a6c9a;
           background: transparent;
           font-family: inherit;
           font-size: 12px;

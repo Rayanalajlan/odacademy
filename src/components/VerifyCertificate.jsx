@@ -57,11 +57,11 @@ export default function VerifyCertificate({ slug }) {
           display: grid;
           place-items: center;
           padding: 24px;
-          color: #0f172a;
+          color: #18102e;
           background:
-            radial-gradient(circle at 12% 12%, rgba(79,70,229,.16), transparent 30%),
+            radial-gradient(circle at 12% 12%, rgba(139, 92, 246,.16), transparent 30%),
             radial-gradient(circle at 88% 18%, rgba(245,158,11,.14), transparent 28%),
-            linear-gradient(135deg, #f8fafc, #eef2ff);
+            linear-gradient(135deg, #f4f0fb, #efe9fb);
           font-family: inherit;
         }
 
@@ -70,8 +70,8 @@ export default function VerifyCertificate({ slug }) {
           border-radius: 34px;
           padding: 28px;
           background: rgba(255,255,255,.94);
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 28px 80px rgba(15,23,42,.14);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 28px 80px rgba(28, 17, 48,.14);
         }
 
         .verify-card.success {
@@ -101,7 +101,7 @@ export default function VerifyCertificate({ slug }) {
 
         .verify-card p {
           margin: 0 0 18px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 14px;
           line-height: 2;
           font-weight: 760;
@@ -117,13 +117,13 @@ export default function VerifyCertificate({ slug }) {
         .verify-field {
           border-radius: 20px;
           padding: 14px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .verify-field span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 850;
           margin-bottom: 6px;
@@ -131,7 +131,7 @@ export default function VerifyCertificate({ slug }) {
 
         .verify-field strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           line-height: 1.7;
           font-weight: 950;
@@ -160,7 +160,7 @@ export default function VerifyCertificate({ slug }) {
           border-radius: 16px;
           padding: 0 16px;
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           font-weight: 950;
         }
 

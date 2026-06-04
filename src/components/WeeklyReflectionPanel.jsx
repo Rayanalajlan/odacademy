@@ -135,10 +135,10 @@ export default function WeeklyReflectionPanel({
           padding: 20px;
           background:
             radial-gradient(circle at 100% 0%, rgba(16,185,129,.12), transparent 34%),
-            radial-gradient(circle at 0% 100%, rgba(79,70,229,.10), transparent 32%),
+            radial-gradient(circle at 0% 100%, rgba(139, 92, 246,.10), transparent 32%),
             rgba(255,255,255,.95);
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .weekly-reflection-head {
@@ -164,7 +164,7 @@ export default function WeeklyReflectionPanel({
 
         .weekly-reflection-head h3 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: 20px;
           line-height: 1.55;
           font-weight: 950;
@@ -172,7 +172,7 @@ export default function WeeklyReflectionPanel({
 
         .weekly-reflection-head p {
           margin: 6px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 780;
@@ -183,7 +183,7 @@ export default function WeeklyReflectionPanel({
           border-radius: 20px;
           padding: 12px;
           color: #fff;
-          background: linear-gradient(135deg, #0f172a, #064e3b);
+          background: linear-gradient(135deg, #18102e, #064e3b);
           text-align: center;
         }
 
@@ -212,7 +212,7 @@ export default function WeeklyReflectionPanel({
         .weekly-reflection-panel label {
           display: grid;
           gap: 7px;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           font-weight: 950;
         }
@@ -222,10 +222,10 @@ export default function WeeklyReflectionPanel({
         .weekly-reflection-panel select {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 18px;
           padding: 12px;
-          color: #0f172a;
+          color: #18102e;
           background: #fff;
           font-family: inherit;
           font-size: 13px;
@@ -277,7 +277,7 @@ export default function WeeklyReflectionPanel({
         }
 
         .weekly-reflection-status {
-          color: #475569;
+          color: #5b4f78;
           font-size: 12px;
           font-weight: 850;
           line-height: 1.8;

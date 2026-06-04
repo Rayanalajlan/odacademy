@@ -28,13 +28,13 @@ export default function BadgesStrip({ completedDays = 0 }) {
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.12), transparent 34%),
             #ffffff;
-          border: 1px solid rgba(148,163,184,.18);
-          box-shadow: 0 16px 42px rgba(15,23,42,.055);
+          border: 1px solid rgba(167, 139, 250,.18);
+          box-shadow: 0 16px 42px rgba(28, 17, 48,.055);
         }
 
         .badges-strip h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 15px;
           line-height: 1.6;
           font-weight: 950;
@@ -52,15 +52,15 @@ export default function BadgesStrip({ completedDays = 0 }) {
           gap: 7px;
           border-radius: 999px;
           padding: 8px 11px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
-          color: #334155;
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
+          color: #463c63;
           font-size: 12px;
           font-weight: 900;
         }
 
         .badge-pill b {
-          color: #0f172a;
+          color: #18102e;
         }
       `}</style>
 

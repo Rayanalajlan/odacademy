@@ -176,7 +176,7 @@ export default function MasteryCertificate({
           padding: 24px !important;
           box-shadow: none !important;
           border: none !important;
-          background: #07111f !important;
+          background: #0e0820 !important;
           color: #fff !important;
         }
 
@@ -207,10 +207,10 @@ export default function MasteryCertificate({
           min-height: 100vh;
           padding: 40px 18px 70px;
           background:
-            radial-gradient(circle at 20% 10%, rgba(79, 70, 229, 0.18), transparent 28%),
+            radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.18), transparent 28%),
             radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.16), transparent 26%),
-            linear-gradient(180deg, #f8fafc 0%, #eef2ff 48%, #f8fafc 100%);
-          color: #0f172a;
+            linear-gradient(180deg, #f4f0fb 0%, #efe9fb 48%, #f4f0fb 100%);
+          color: #18102e;
           font-family: inherit;
         }
 
@@ -225,10 +225,10 @@ export default function MasteryCertificate({
           border-radius: 34px;
           padding: 34px;
           background:
-            linear-gradient(135deg, rgba(15, 23, 42, 0.97), rgba(30, 41, 59, 0.94)),
-            radial-gradient(circle at top left, rgba(99, 102, 241, 0.45), transparent 35%);
+            linear-gradient(135deg, rgba(28, 17, 48, 0.97), rgba(30, 41, 59, 0.94)),
+            radial-gradient(circle at top left, rgba(139, 92, 246, 0.45), transparent 35%);
           color: white;
-          box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+          box-shadow: 0 24px 70px rgba(28, 17, 48, 0.18);
           border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
@@ -263,7 +263,7 @@ export default function MasteryCertificate({
           padding: 8px 14px;
           border-radius: 999px;
           background: rgba(255, 255, 255, 0.1);
-          color: #c7d2fe;
+          color: #c3b5e8;
           font-size: 13px;
           font-weight: 800;
           margin-bottom: 14px;
@@ -283,7 +283,7 @@ export default function MasteryCertificate({
         .mastery-hero p {
           margin: 18px 0 0;
           max-width: 760px;
-          color: #cbd5e1;
+          color: #c9bdf0;
           line-height: 2;
           font-size: 16px;
         }
@@ -296,15 +296,15 @@ export default function MasteryCertificate({
           place-items: center;
           margin-inline: auto;
           background:
-            conic-gradient(#f59e0b ${progress * 3.6}deg, rgba(255,255,255,0.12) 0deg);
-          box-shadow: inset 0 0 0 14px rgba(15, 23, 42, 0.45), 0 22px 50px rgba(0,0,0,0.22);
+            conic-gradient(#a855f7 ${progress * 3.6}deg, rgba(255,255,255,0.12) 0deg);
+          box-shadow: inset 0 0 0 14px rgba(28, 17, 48, 0.45), 0 22px 50px rgba(0,0,0,0.22);
         }
 
         .mastery-progress-inner {
           width: 166px;
           height: 166px;
           border-radius: 50%;
-          background: #0f172a;
+          background: #18102e;
           display: grid;
           place-items: center;
           text-align: center;
@@ -318,7 +318,7 @@ export default function MasteryCertificate({
         }
 
         .mastery-progress-inner span {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-weight: 800;
           font-size: 13px;
           margin-top: 8px;
@@ -334,15 +334,15 @@ export default function MasteryCertificate({
         .mastery-stat {
           background: rgba(255,255,255,0.8);
           backdrop-filter: blur(14px);
-          border: 1px solid rgba(148, 163, 184, 0.22);
+          border: 1px solid rgba(167, 139, 250, 0.22);
           border-radius: 24px;
           padding: 18px;
-          box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+          box-shadow: 0 18px 45px rgba(28, 17, 48, 0.08);
         }
 
         .mastery-stat span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-weight: 800;
           font-size: 12px;
           margin-bottom: 8px;
@@ -350,7 +350,7 @@ export default function MasteryCertificate({
 
         .mastery-stat strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 24px;
           font-weight: 950;
         }
@@ -361,8 +361,8 @@ export default function MasteryCertificate({
           border-radius: 30px;
           padding: 28px;
           background: white;
-          border: 1px solid rgba(148, 163, 184, 0.24);
-          box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+          border: 1px solid rgba(167, 139, 250, 0.24);
+          box-shadow: 0 18px 60px rgba(28, 17, 48, 0.08);
           margin-top: 22px;
         }
 
@@ -380,19 +380,19 @@ export default function MasteryCertificate({
           display: grid;
           place-items: center;
           font-size: 34px;
-          background: linear-gradient(135deg, #eef2ff, #fff7ed);
-          border: 1px solid #e2e8f0;
+          background: linear-gradient(135deg, #efe9fb, #fff7ed);
+          border: 1px solid #e0d8f5;
         }
 
         .mastery-lock h2 {
           margin: 0 0 8px;
           font-size: 24px;
-          color: #0f172a;
+          color: #18102e;
         }
 
         .mastery-lock p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.9;
         }
 
@@ -400,7 +400,7 @@ export default function MasteryCertificate({
           margin-top: 20px;
           height: 14px;
           border-radius: 999px;
-          background: #e2e8f0;
+          background: #e0d8f5;
           overflow: hidden;
         }
 
@@ -409,7 +409,7 @@ export default function MasteryCertificate({
           height: 100%;
           width: ${progress}%;
           border-radius: 999px;
-          background: linear-gradient(90deg, #4f46e5, #f59e0b);
+          background: linear-gradient(90deg, #8b5cf6, #a855f7);
         }
 
         .mastery-actions {
@@ -439,15 +439,15 @@ export default function MasteryCertificate({
         }
 
         .mastery-button.primary {
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           color: white;
-          box-shadow: 0 16px 34px rgba(79,70,229,0.28);
+          box-shadow: 0 16px 34px rgba(139, 92, 246,0.28);
         }
 
         .mastery-button.dark {
-          background: #0f172a;
+          background: #18102e;
           color: white;
-          box-shadow: 0 16px 34px rgba(15,23,42,0.18);
+          box-shadow: 0 16px 34px rgba(28, 17, 48,0.18);
         }
 
         .mastery-button.linkedin {
@@ -457,8 +457,8 @@ export default function MasteryCertificate({
         }
 
         .mastery-button.ghost {
-          background: #f1f5f9;
-          color: #0f172a;
+          background: #efe9fb;
+          color: #18102e;
         }
 
         .certificate-stage {
@@ -472,8 +472,8 @@ export default function MasteryCertificate({
           border-radius: 34px;
           padding: 18px;
           background:
-            linear-gradient(135deg, #f59e0b, #4f46e5, #0f172a);
-          box-shadow: 0 30px 85px rgba(15, 23, 42, 0.22);
+            linear-gradient(135deg, #a855f7, #8b5cf6, #18102e);
+          box-shadow: 0 30px 85px rgba(28, 17, 48, 0.22);
         }
 
         .certificate-inner {
@@ -484,8 +484,8 @@ export default function MasteryCertificate({
           padding: 44px;
           background:
             radial-gradient(circle at 20% 15%, rgba(245, 158, 11, 0.18), transparent 25%),
-            radial-gradient(circle at 80% 10%, rgba(79, 70, 229, 0.24), transparent 28%),
-            linear-gradient(145deg, #07111f, #0f172a 45%, #111827);
+            radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.24), transparent 28%),
+            linear-gradient(145deg, #0e0820, #18102e 45%, #111827);
           color: white;
           border: 1px solid rgba(255,255,255,0.12);
         }
@@ -525,7 +525,7 @@ export default function MasteryCertificate({
           border-radius: 18px;
           display: grid;
           place-items: center;
-          background: linear-gradient(135deg, #4f46e5, #f59e0b);
+          background: linear-gradient(135deg, #8b5cf6, #a855f7);
           color: white;
           font-weight: 950;
           box-shadow: 0 16px 36px rgba(0,0,0,0.25);
@@ -541,14 +541,14 @@ export default function MasteryCertificate({
         .certificate-code span {
           display: block;
           margin-top: 4px;
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           font-weight: 800;
         }
 
         .certificate-code {
           text-align: left;
-          color: #e2e8f0;
+          color: #e0d8f5;
           font-size: 12px;
           font-weight: 900;
         }
@@ -595,7 +595,7 @@ export default function MasteryCertificate({
         .certificate-title p {
           margin: 0 auto;
           max-width: 820px;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 15px;
           line-height: 2.05;
           font-weight: 700;
@@ -625,7 +625,7 @@ export default function MasteryCertificate({
         }
 
         .certificate-pillar span {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-weight: 800;
           font-size: 11px;
         }
@@ -642,13 +642,13 @@ export default function MasteryCertificate({
 
         .certificate-footer strong {
           display: block;
-          color: #e2e8f0;
+          color: #e0d8f5;
           margin-bottom: 8px;
         }
 
         .certificate-footer span,
         .certificate-footer small {
-          color: #94a3b8;
+          color: #9d8fc0;
           line-height: 1.8;
           font-size: 12px;
           font-weight: 800;
@@ -670,19 +670,19 @@ export default function MasteryCertificate({
           border-radius: 30px;
           padding: 22px;
           background: white;
-          border: 1px solid rgba(148, 163, 184, 0.22);
-          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
+          border: 1px solid rgba(167, 139, 250, 0.22);
+          box-shadow: 0 18px 55px rgba(28, 17, 48, 0.08);
         }
 
         .linkedin-panel h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 20px;
         }
 
         .linkedin-panel p {
           margin: 0 0 14px;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.8;
         }
 
@@ -690,20 +690,20 @@ export default function MasteryCertificate({
           width: 100%;
           min-height: 210px;
           resize: vertical;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 22px;
           padding: 18px;
           line-height: 1.9;
           font-family: inherit;
           font-weight: 700;
-          color: #0f172a;
-          background: #f8fafc;
+          color: #18102e;
+          background: #f4f0fb;
           outline: none;
         }
 
         .linkedin-textarea:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,0.08);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,0.08);
         }
 
         .certificate-verification-panel {
@@ -711,10 +711,10 @@ export default function MasteryCertificate({
           border-radius: 30px;
           padding: 22px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 35%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 35%),
             #ffffff;
-          border: 1px solid rgba(148, 163, 184, 0.22);
-          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
+          border: 1px solid rgba(167, 139, 250, 0.22);
+          box-shadow: 0 18px 55px rgba(28, 17, 48, 0.08);
         }
 
         .certificate-verification-grid {
@@ -727,13 +727,13 @@ export default function MasteryCertificate({
         .certificate-verification-card {
           border-radius: 22px;
           padding: 16px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .certificate-verification-card span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 850;
           margin-bottom: 7px;
@@ -741,7 +741,7 @@ export default function MasteryCertificate({
 
         .certificate-verification-card strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 15px;
           line-height: 1.8;
           font-weight: 950;
@@ -751,7 +751,7 @@ export default function MasteryCertificate({
         .certificate-verification-card small {
           display: block;
           margin-top: 8px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 760;
@@ -782,16 +782,16 @@ export default function MasteryCertificate({
         }
 
         .verify-state.locked {
-          background: #f1f5f9;
-          color: #475569;
-          border: 1px solid rgba(148,163,184,.25);
+          background: #efe9fb;
+          color: #5b4f78;
+          border: 1px solid rgba(167, 139, 250,.25);
         }
 
         .certificate-verify-line {
           margin-top: 14px;
           padding-top: 14px;
           border-top: 1px solid rgba(255,255,255,.12);
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 800;

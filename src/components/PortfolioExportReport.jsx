@@ -83,7 +83,7 @@ export default function PortfolioExportReport({
           inset: 0;
           z-index: 160;
           overflow: auto;
-          background: rgba(15,23,42,.58);
+          background: rgba(28, 17, 48,.58);
           backdrop-filter: blur(10px);
           padding: 18px;
         }
@@ -94,9 +94,9 @@ export default function PortfolioExportReport({
           border-radius: 32px;
           overflow: hidden;
           background: #ffffff;
-          color: #0f172a;
+          color: #18102e;
           box-shadow: 0 34px 110px rgba(0,0,0,.34);
-          border: 1px solid rgba(148,163,184,.24);
+          border: 1px solid rgba(167, 139, 250,.24);
         }
 
         .report-toolbar {
@@ -105,12 +105,12 @@ export default function PortfolioExportReport({
           align-items: center;
           gap: 12px;
           padding: 14px;
-          background: #f8fafc;
-          border-bottom: 1px solid rgba(148,163,184,.22);
+          background: #f4f0fb;
+          border-bottom: 1px solid rgba(167, 139, 250,.22);
         }
 
         .report-toolbar strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           font-weight: 950;
         }
@@ -129,8 +129,8 @@ export default function PortfolioExportReport({
           padding: 0 13px;
           font-family: inherit;
           font-weight: 950;
-          color: #0f172a;
-          background: #e2e8f0;
+          color: #18102e;
+          background: #e0d8f5;
         }
 
         .report-toolbar button.primary {
@@ -144,7 +144,7 @@ export default function PortfolioExportReport({
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.26), transparent 34%),
             radial-gradient(circle at 0% 100%, rgba(16,185,129,.18), transparent 34%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 58%, #312e81);
+            linear-gradient(135deg, #18102e, #1e1b4b 58%, #3b1d6e);
         }
 
         .report-kicker {
@@ -193,7 +193,7 @@ export default function PortfolioExportReport({
         .report-meta span,
         .report-stat span {
           display: block;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 11px;
           font-weight: 850;
           margin-bottom: 5px;
@@ -221,16 +221,16 @@ export default function PortfolioExportReport({
         }
 
         .report-stats-grid .report-stat {
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .report-stats-grid .report-stat span {
-          color: #64748b;
+          color: #7a6c9a;
         }
 
         .report-stats-grid .report-stat strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 24px;
         }
 
@@ -240,13 +240,13 @@ export default function PortfolioExportReport({
           border-radius: 24px;
           padding: 18px;
           background: #ffffff;
-          border: 1px solid rgba(148,163,184,.20);
+          border: 1px solid rgba(167, 139, 250,.20);
           margin-top: 14px;
         }
 
         .report-section h2 {
           margin: 0 0 6px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 20px;
           line-height: 1.5;
           font-weight: 950;
@@ -254,7 +254,7 @@ export default function PortfolioExportReport({
 
         .report-section > p {
           margin: 0 0 12px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 760;
@@ -270,13 +270,13 @@ export default function PortfolioExportReport({
           page-break-inside: avoid;
           border-radius: 18px;
           padding: 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .report-row small {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.7;
           font-weight: 850;
@@ -285,7 +285,7 @@ export default function PortfolioExportReport({
 
         .report-row strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.7;
           font-weight: 950;
@@ -293,7 +293,7 @@ export default function PortfolioExportReport({
 
         .report-row p {
           margin: 6px 0 0;
-          color: #475569;
+          color: #5b4f78;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 760;
@@ -308,8 +308,8 @@ export default function PortfolioExportReport({
         .report-cert {
           border-radius: 16px;
           padding: 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
         }
 
         .report-cert.issued {
@@ -319,7 +319,7 @@ export default function PortfolioExportReport({
 
         .report-cert b {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 950;
@@ -331,8 +331,8 @@ export default function PortfolioExportReport({
           margin-top: 7px;
           border-radius: 999px;
           padding: 5px 8px;
-          color: #475569;
-          background: #e2e8f0;
+          color: #5b4f78;
+          background: #e0d8f5;
           font-size: 10px;
           font-weight: 950;
         }
@@ -345,9 +345,9 @@ export default function PortfolioExportReport({
         .report-empty {
           border-radius: 18px;
           padding: 13px;
-          background: #f8fafc;
-          border: 1px dashed rgba(148,163,184,.38);
-          color: #64748b;
+          background: #f4f0fb;
+          border: 1px dashed rgba(167, 139, 250,.38);
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 800;
@@ -357,9 +357,9 @@ export default function PortfolioExportReport({
           margin-top: 18px;
           border-radius: 20px;
           padding: 14px;
-          color: #475569;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.18);
+          color: #5b4f78;
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.18);
           font-size: 11px;
           line-height: 1.8;
           font-weight: 760;

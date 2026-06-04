@@ -12,31 +12,31 @@ export default function ExperienceDesignSkin() {
       */
 
       :root {
-        --lab-ink: #0b1220;
-        --lab-deep: #07111f;
-        --lab-navy: #0d1b2d;
-        --lab-panel: rgba(10, 22, 38, .88);
+        --lab-ink: #120a22;
+        --lab-deep: #0e0820;
+        --lab-navy: #170d2c;
+        --lab-panel: rgba(28, 16, 52, .88);
         --lab-panel-soft: rgba(255, 255, 255, .78);
-        --lab-line: rgba(148, 163, 184, .22);
-        --lab-line-strong: rgba(226, 232, 240, .38);
-        --lab-warm: #fffaf0;
-        --lab-paper: #f7f2e8;
-        --lab-muted: #64748b;
-        --lab-muted-dark: #b6c2d3;
-        --lab-gold: #9f7aea;
-        --lab-gold-soft: rgba(159, 122, 234, .16);
-        --lab-indigo: #4f46e5;
-        --lab-violet: #6d5dfc;
-        --lab-cyan: #b794f4;
-        --lab-green: #8f65df;
+        --lab-line: rgba(167, 139, 250, .22);
+        --lab-line-strong: rgba(196, 181, 253, .38);
+        --lab-warm: #f7f3fc;
+        --lab-paper: #ede6f7;
+        --lab-muted: #7a6c9a;
+        --lab-muted-dark: #b6a8d6;
+        --lab-gold: #a855f7;
+        --lab-gold-soft: rgba(168, 85, 247, .16);
+        --lab-indigo: #8b5cf6;
+        --lab-violet: #a78bfa;
+        --lab-cyan: #7c3aed;
+        --lab-green: #7c3aed;
         --lab-radius-xl: 34px;
         --lab-radius-lg: 24px;
         --lab-radius-md: 16px;
-        --lab-shadow-deep: 0 30px 110px rgba(2, 6, 23, .30);
-        --lab-shadow-soft: 0 20px 60px rgba(15, 23, 42, .10);
+        --lab-shadow-deep: 0 30px 110px rgba(12, 7, 23, .30);
+        --lab-shadow-soft: 0 20px 60px rgba(28, 17, 48, .10);
         --lab-grid:
-          linear-gradient(rgba(148, 163, 184, .075) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, .075) 1px, transparent 1px);
+          linear-gradient(rgba(167, 139, 250, .075) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(167, 139, 250, .075) 1px, transparent 1px);
       }
 
       html {
@@ -45,14 +45,14 @@ export default function ExperienceDesignSkin() {
 
       body {
         background:
-          radial-gradient(circle at 7% 4%, rgba(79, 70, 229, .10), transparent 32%),
-          radial-gradient(circle at 93% 16%, rgba(159, 122, 234, .12), transparent 30%),
-          linear-gradient(180deg, #fffaf0 0%, #eef2ff 46%, #fffaf0 100%) !important;
+          radial-gradient(circle at 7% 4%, rgba(139, 92, 246, .10), transparent 32%),
+          radial-gradient(circle at 93% 16%, rgba(168, 85, 247, .12), transparent 30%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 46%, #f7f3fc 100%) !important;
       }
 
       body::selection {
         color: #fff;
-        background: #4f46e5;
+        background: #8b5cf6;
       }
 
       button,
@@ -74,7 +74,7 @@ export default function ExperienceDesignSkin() {
       input:focus-visible,
       textarea:focus-visible,
       select:focus-visible {
-        outline: 3px solid rgba(159, 122, 234, .78) !important;
+        outline: 3px solid rgba(168, 85, 247, .78) !important;
         outline-offset: 3px !important;
       }
 
@@ -86,10 +86,10 @@ export default function ExperienceDesignSkin() {
         position: relative !important;
         overflow-x: clip !important;
         background:
-          radial-gradient(circle at 12% 8%, rgba(126, 96, 205, .18), transparent 30%),
-          radial-gradient(circle at 88% 10%, rgba(159, 122, 234, .15), transparent 34%),
-          linear-gradient(180deg, #fbf8ff 0%, #efe7ff 42%, #fffaf0 42%, #fffaf0 100%) !important;
-        color: #0f172a !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .18), transparent 30%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .15), transparent 34%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 42%, #f7f3fc 42%, #f7f3fc 100%) !important;
+        color: #18102e !important;
         padding-top: clamp(14px, 3vw, 28px) !important;
       }
 
@@ -112,10 +112,10 @@ export default function ExperienceDesignSkin() {
         z-index: 0;
         pointer-events: none;
         background:
-          radial-gradient(circle at 18% 26%, rgba(159,122,234,.18), transparent 3px),
-          radial-gradient(circle at 64% 18%, rgba(183,148,244,.18), transparent 3px),
-          radial-gradient(circle at 76% 38%, rgba(109,93,252,.20), transparent 3px),
-          linear-gradient(120deg, transparent 0 22%, rgba(226,232,240,.08) 22% 22.2%, transparent 22.4% 100%);
+          radial-gradient(circle at 18% 26%, rgba(168, 85, 247,.18), transparent 3px),
+          radial-gradient(circle at 64% 18%, rgba(124, 58, 237,.18), transparent 3px),
+          radial-gradient(circle at 76% 38%, rgba(167, 139, 250,.20), transparent 3px),
+          linear-gradient(120deg, transparent 0 22%, rgba(196, 181, 253,.08) 22% 22.2%, transparent 22.4% 100%);
         opacity: .8;
         mask-image: linear-gradient(to bottom, #000 0%, transparent 56%);
       }
@@ -135,12 +135,12 @@ export default function ExperienceDesignSkin() {
         padding: clamp(24px, 5vw, 58px) !important;
         border-radius: clamp(26px, 4vw, 46px) !important;
         overflow: hidden !important;
-        border: 1px solid rgba(226,232,240,.18) !important;
+        border: 1px solid rgba(196, 181, 253,.18) !important;
         background:
-          radial-gradient(circle at 8% 12%, rgba(126,96,205,.18), transparent 30%),
-          radial-gradient(circle at 88% 18%, rgba(159,122,234,.18), transparent 28%),
-          linear-gradient(135deg, #ffffff 0%, #f4ecff 48%, #fff7df 100%) !important;
-        box-shadow: 0 34px 100px rgba(65, 41, 111, .18) !important;
+          radial-gradient(circle at 8% 12%, rgba(139, 92, 246,.18), transparent 30%),
+          radial-gradient(circle at 88% 18%, rgba(168, 85, 247,.18), transparent 28%),
+          linear-gradient(135deg, #ffffff 0%, #efe9fb 48%, #f3eefb 100%) !important;
+        box-shadow: 0 34px 100px rgba(59, 29, 110, .18) !important;
       }
 
       .public-hero::before {
@@ -149,12 +149,12 @@ export default function ExperienceDesignSkin() {
         inset: -25%;
         z-index: -2;
         background:
-          radial-gradient(circle at 25% 35%, rgba(183, 148, 244, .35), transparent 4px),
-          radial-gradient(circle at 33% 62%, rgba(159, 122, 234, .38), transparent 3px),
-          radial-gradient(circle at 70% 32%, rgba(109, 93, 252, .42), transparent 5px),
-          radial-gradient(circle at 80% 66%, rgba(183, 148, 244, .32), transparent 3px),
+          radial-gradient(circle at 25% 35%, rgba(124, 58, 237, .35), transparent 4px),
+          radial-gradient(circle at 33% 62%, rgba(168, 85, 247, .38), transparent 3px),
+          radial-gradient(circle at 70% 32%, rgba(167, 139, 250, .42), transparent 5px),
+          radial-gradient(circle at 80% 66%, rgba(124, 58, 237, .32), transparent 3px),
           linear-gradient(90deg, transparent 0 22%, rgba(255,255,255,.10) 22.1% 22.2%, transparent 22.3% 100%),
-          linear-gradient(140deg, transparent 0 37%, rgba(159,122,234,.10) 37.1% 37.3%, transparent 37.4% 100%);
+          linear-gradient(140deg, transparent 0 37%, rgba(168, 85, 247,.10) 37.1% 37.3%, transparent 37.4% 100%);
         background-size: 520px 520px, 480px 480px, 620px 620px, 540px 540px, 100% 100%, 100% 100%;
         animation: labNodeDrift 22s ease-in-out infinite alternate;
         opacity: .78;
@@ -166,7 +166,7 @@ export default function ExperienceDesignSkin() {
         inset-inline-start: clamp(18px, 4vw, 52px);
         bottom: clamp(14px, 3vw, 30px);
         z-index: -1;
-        color: rgba(33,21,50,.07);
+        color: rgba(26, 16, 48,.07);
         font-size: clamp(42px, 7vw, 96px);
         line-height: 1;
         font-weight: 950;
@@ -190,8 +190,8 @@ export default function ExperienceDesignSkin() {
         padding: 8px 12px !important;
         border-radius: 18px !important;
         background: rgba(255, 255, 255, .72) !important;
-        border: 1px solid rgba(126, 96, 205, .18) !important;
-        box-shadow: 0 16px 40px rgba(65, 41, 111, .08) !important;
+        border: 1px solid rgba(139, 92, 246, .18) !important;
+        box-shadow: 0 16px 40px rgba(59, 29, 110, .08) !important;
         backdrop-filter: blur(12px) !important;
       }
 
@@ -220,16 +220,16 @@ export default function ExperienceDesignSkin() {
         width: fit-content !important;
         border-radius: 999px !important;
         padding: 9px 15px !important;
-        color: #f8e5b3 !important;
-        background: rgba(159, 122, 234, .12) !important;
-        border: 1px solid rgba(159, 122, 234, .28) !important;
-        box-shadow: 0 0 40px rgba(159, 122, 234, .10) !important;
+        color: #ddd6fe !important;
+        background: rgba(168, 85, 247, .12) !important;
+        border: 1px solid rgba(168, 85, 247, .28) !important;
+        box-shadow: 0 0 40px rgba(168, 85, 247, .10) !important;
       }
 
       .public-hero h1 {
         max-width: 760px !important;
         margin: clamp(18px, 3vw, 26px) 0 16px !important;
-        color: #211532 !important;
+        color: #1a1030 !important;
         font-size: clamp(46px, 7.8vw, 104px) !important;
         line-height: .98 !important;
         letter-spacing: 0 !important;
@@ -239,7 +239,7 @@ export default function ExperienceDesignSkin() {
 
       .public-hero p {
         max-width: 680px !important;
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
         font-size: clamp(15px, 1.35vw, 18px) !important;
         line-height: 2.05 !important;
       }
@@ -258,7 +258,7 @@ export default function ExperienceDesignSkin() {
         top: 30px;
         inset-inline: 40px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(183,148,244,.36), rgba(159,122,234,.34), transparent);
+        background: linear-gradient(90deg, transparent, rgba(124, 58, 237,.36), rgba(168, 85, 247,.34), transparent);
         pointer-events: none;
       }
 
@@ -268,7 +268,7 @@ export default function ExperienceDesignSkin() {
         border-radius: 18px !important;
         padding: 18px !important;
         background: rgba(255,255,255,.70) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
         backdrop-filter: blur(16px) !important;
         box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
       }
@@ -283,17 +283,17 @@ export default function ExperienceDesignSkin() {
       }
 
       .hero-point b {
-        background: rgba(183, 148, 244, .12) !important;
-        color: #eadcff !important;
-        border: 1px solid rgba(183, 148, 244, .24) !important;
+        background: rgba(124, 58, 237, .12) !important;
+        color: #e6daf9 !important;
+        border: 1px solid rgba(124, 58, 237, .24) !important;
       }
 
       .hero-point strong {
-        color: #211532 !important;
+        color: #1a1030 !important;
       }
 
       .hero-point span {
-        color: #5f5270 !important;
+        color: #6f6391 !important;
       }
 
       .auth-card {
@@ -303,11 +303,11 @@ export default function ExperienceDesignSkin() {
         border-radius: 26px !important;
         padding: clamp(18px, 2.6vw, 28px) !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.12), transparent 34%),
-          linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
+          linear-gradient(180deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
         box-shadow:
-          0 22px 68px rgba(65,41,111,.16),
+          0 22px 68px rgba(59, 29, 110,.16),
           inset 0 1px 0 rgba(255,255,255,.80) !important;
         backdrop-filter: blur(22px) !important;
       }
@@ -316,7 +316,7 @@ export default function ExperienceDesignSkin() {
         content: "ACCESS PANEL";
         display: block;
         margin-bottom: 12px;
-        color: #7e60cd;
+        color: #8b5cf6;
         font-size: 11px;
         font-weight: 950;
         letter-spacing: .12em;
@@ -324,62 +324,62 @@ export default function ExperienceDesignSkin() {
 
       .auth-tabs {
         border-radius: 16px !important;
-        background: rgba(126,96,205,.09) !important;
-        border: 1px solid rgba(126,96,205,.14) !important;
+        background: rgba(139, 92, 246,.09) !important;
+        border: 1px solid rgba(139, 92, 246,.14) !important;
         padding: 6px !important;
       }
 
       .auth-tabs button {
         border-radius: 12px !important;
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
         background: transparent !important;
       }
 
       .auth-tabs button.active {
-        color: #07111f !important;
-        background: linear-gradient(135deg, #fffaf0, #9f7aea) !important;
-        box-shadow: 0 12px 30px rgba(159, 122, 234, .22) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #f7f3fc, #a855f7) !important;
+        box-shadow: 0 12px 30px rgba(168, 85, 247, .22) !important;
       }
 
       .auth-title {
-        color: #211532 !important;
+        color: #1a1030 !important;
       }
 
       .auth-field label {
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
       }
 
       .auth-field input,
       .password-row input {
         min-height: 48px !important;
         border-radius: 14px !important;
-        color: #211532 !important;
+        color: #1a1030 !important;
         background: rgba(255,255,255,.92) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
         box-shadow: inset 0 1px 0 rgba(255,255,255,.86) !important;
       }
 
       .auth-field input::placeholder,
       .password-row input::placeholder {
-        color: rgba(74,60,95,.62) !important;
+        color: rgba(111, 99, 145,.62) !important;
       }
 
       .hint {
-        color: #7a6a91 !important;
+        color: #8a7caa !important;
       }
 
       .toggle-password,
       .forgot-button,
       .auth-ghost {
-        color: #9f7aea !important;
+        color: #a855f7 !important;
       }
 
       .auth-primary {
         min-height: 50px !important;
         border-radius: 15px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 18px 46px rgba(159, 122, 234, .28) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        box-shadow: 0 18px 46px rgba(168, 85, 247, .28) !important;
       }
 
       .auth-primary:hover,
@@ -390,9 +390,9 @@ export default function ExperienceDesignSkin() {
 
       .auth-notice {
         border-radius: 14px !important;
-        background: rgba(183,148,244,.10) !important;
-        border-color: rgba(183,148,244,.24) !important;
-        color: #eadcff !important;
+        background: rgba(124, 58, 237,.10) !important;
+        border-color: rgba(124, 58, 237,.24) !important;
+        color: #e6daf9 !important;
       }
 
       .public-section {
@@ -401,9 +401,9 @@ export default function ExperienceDesignSkin() {
         border-radius: 28px !important;
         padding: clamp(20px, 4vw, 34px) !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.08), transparent 30%),
-          rgba(255, 250, 240, .88) !important;
-        border: 1px solid rgba(148,163,184,.16) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.08), transparent 30%),
+          rgba(247, 243, 252, .88) !important;
+        border: 1px solid rgba(167, 139, 250,.16) !important;
         box-shadow: var(--lab-shadow-soft) !important;
       }
 
@@ -414,7 +414,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head h2 {
-        color: #0b1220 !important;
+        color: #120a22 !important;
         font-size: clamp(28px, 4.4vw, 58px) !important;
         line-height: 1.08 !important;
         letter-spacing: 0 !important;
@@ -422,7 +422,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head p {
-        color: #64748b !important;
+        color: #7a6c9a !important;
         line-height: 2 !important;
       }
 
@@ -438,10 +438,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 20px !important;
         padding: 20px !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.12), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .counter-card::before {
@@ -455,13 +455,13 @@ export default function ExperienceDesignSkin() {
       }
 
       .counter-card strong {
-        color: #211532 !important;
+        color: #1a1030 !important;
         font-size: clamp(34px, 4vw, 54px) !important;
         line-height: 1 !important;
       }
 
       .counter-card span {
-        color: #5f5270 !important;
+        color: #6f6391 !important;
       }
 
       .path-grid {
@@ -480,7 +480,7 @@ export default function ExperienceDesignSkin() {
         top: 42px;
         inset-inline: 30px;
         height: 1px;
-        background: linear-gradient(90deg, rgba(183,148,244,.12), rgba(159,122,234,.42), rgba(79,70,229,.24));
+        background: linear-gradient(90deg, rgba(124, 58, 237,.12), rgba(168, 85, 247,.42), rgba(139, 92, 246,.24));
         pointer-events: none;
       }
 
@@ -491,8 +491,8 @@ export default function ExperienceDesignSkin() {
         padding: 18px !important;
         background:
           linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
-        border: 1px solid rgba(148,163,184,.20) !important;
-        box-shadow: 0 18px 52px rgba(15,23,42,.08) !important;
+        border: 1px solid rgba(167, 139, 250,.20) !important;
+        box-shadow: 0 18px 52px rgba(28, 17, 48,.08) !important;
       }
 
       .path-card::after {
@@ -503,23 +503,23 @@ export default function ExperienceDesignSkin() {
         width: 10px;
         height: 10px;
         border-radius: 99px;
-        background: #b794f4;
-        box-shadow: 0 0 0 7px rgba(183,148,244,.12), 0 0 22px rgba(183,148,244,.42);
+        background: #7c3aed;
+        box-shadow: 0 0 0 7px rgba(124, 58, 237,.12), 0 0 22px rgba(124, 58, 237,.42);
       }
 
       .path-card b {
-        color: #9f7aea !important;
-        background: rgba(159,122,234,.12) !important;
-        border-color: rgba(159,122,234,.20) !important;
+        color: #a855f7 !important;
+        background: rgba(168, 85, 247,.12) !important;
+        border-color: rgba(168, 85, 247,.20) !important;
       }
 
       .path-card strong {
-        color: #0b1220 !important;
+        color: #120a22 !important;
         font-size: 16px !important;
       }
 
       .path-card span {
-        color: #475569 !important;
+        color: #5b4f78 !important;
         line-height: 1.9 !important;
       }
 
@@ -534,10 +534,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 22px !important;
         padding: clamp(20px, 3vw, 28px) !important;
         background:
-          radial-gradient(circle at 88% 10%, rgba(126,96,205,.14), transparent 28%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 88% 10%, rgba(139, 92, 246,.14), transparent 28%),
+          linear-gradient(135deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .sample-box::before {
@@ -545,33 +545,33 @@ export default function ExperienceDesignSkin() {
         position: absolute;
         inset-inline-end: 18px;
         top: 18px;
-        color: rgba(159,122,234,.62);
+        color: rgba(168, 85, 247,.62);
         font-size: 10px;
         font-weight: 950;
         letter-spacing: .16em;
       }
 
       .sample-kicker {
-        color: #5b3c8f !important;
-        background: rgba(126,96,205,.12) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        color: #6d28d9 !important;
+        background: rgba(139, 92, 246,.12) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
       }
 
       .sample-box h3 {
-        color: #211532 !important;
+        color: #1a1030 !important;
         font-size: clamp(22px, 3vw, 34px) !important;
       }
 
       .sample-box p,
       .sample-bullets li {
-        color: #5f5270 !important;
+        color: #6f6391 !important;
       }
 
       .sample-button {
         border-radius: 14px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 18px 42px rgba(159,122,234,.22) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        box-shadow: 0 18px 42px rgba(168, 85, 247,.22) !important;
       }
 
       .about-panel {
@@ -590,28 +590,28 @@ export default function ExperienceDesignSkin() {
         border-radius: 18px !important;
         background:
           linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
-        border: 1px solid rgba(148,163,184,.18) !important;
-        box-shadow: 0 16px 44px rgba(15,23,42,.07) !important;
+        border: 1px solid rgba(167, 139, 250,.18) !important;
+        box-shadow: 0 16px 44px rgba(28, 17, 48,.07) !important;
       }
 
       .info-card strong,
       .legal-card strong,
       .faq-question span:first-child {
-        color: #0b1220 !important;
+        color: #120a22 !important;
       }
 
       .info-card span,
       .legal-card span,
       .faq-answer {
-        color: #475569 !important;
+        color: #5b4f78 !important;
         line-height: 1.95 !important;
       }
 
       .about-links a {
         border-radius: 999px !important;
-        color: #07111f !important;
-        background: rgba(159,122,234,.14) !important;
-        border: 1px solid rgba(159,122,234,.20) !important;
+        color: #0e0820 !important;
+        background: rgba(168, 85, 247,.14) !important;
+        border: 1px solid rgba(168, 85, 247,.20) !important;
       }
 
       .faq-list {
@@ -628,7 +628,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .faq-question[aria-expanded="true"] {
-        background: rgba(79,70,229,.08) !important;
+        background: rgba(139, 92, 246,.08) !important;
       }
 
       .legal-grid {
@@ -642,17 +642,17 @@ export default function ExperienceDesignSkin() {
         margin-top: clamp(26px, 5vw, 60px) !important;
         border-radius: 26px !important;
         padding: 22px !important;
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
         background:
-          radial-gradient(circle at 0% 100%, rgba(159,122,234,.16), transparent 30%),
-          linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 0% 100%, rgba(168, 85, 247,.16), transparent 30%),
+          linear-gradient(135deg, rgba(255,255,255,.92), rgba(237, 230, 251,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .public-footer span,
       .site-footer span {
-        color: #7a6a91 !important;
+        color: #8a7caa !important;
       }
 
       .public-footer-logo .munsaqah-logo--footer .munsaqah-logo__mark img {
@@ -675,9 +675,9 @@ export default function ExperienceDesignSkin() {
         min-height: 100vh !important;
         overflow-x: clip !important;
         background:
-          radial-gradient(circle at 8% 6%, rgba(126,96,205,.16), transparent 28%),
-          radial-gradient(circle at 88% 12%, rgba(159,122,234,.13), transparent 26%),
-          linear-gradient(180deg, #fbf8ff 0%, #efe7ff 26%, #fffaf0 26%, #f7f2e8 100%) !important;
+          radial-gradient(circle at 8% 6%, rgba(139, 92, 246,.16), transparent 28%),
+          radial-gradient(circle at 88% 12%, rgba(168, 85, 247,.13), transparent 26%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 26%, #f7f3fc 26%, #ede6f7 100%) !important;
       }
 
       .site-frame::before {
@@ -701,10 +701,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 26px !important;
         padding: 14px !important;
         background:
-          linear-gradient(135deg, rgba(255,255,255,.90), rgba(241,231,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
+          linear-gradient(135deg, rgba(255,255,255,.90), rgba(237, 230, 251,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
         backdrop-filter: blur(20px) !important;
-        box-shadow: 0 18px 52px rgba(65, 41, 111, .12) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110, .12) !important;
       }
 
       .main-nav {
@@ -715,24 +715,24 @@ export default function ExperienceDesignSkin() {
       .educational-tools-trigger {
         min-height: 42px !important;
         border-radius: 999px !important;
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
         background: rgba(255,255,255,.62) !important;
-        border: 1px solid rgba(126,96,205,.14) !important;
+        border: 1px solid rgba(139, 92, 246,.14) !important;
         box-shadow: none !important;
       }
 
       .main-nav button:hover,
       .educational-tools-trigger:hover {
-        color: #211532 !important;
+        color: #1a1030 !important;
         transform: translateY(-1px) !important;
         background: rgba(255,255,255,.12) !important;
       }
 
       .main-nav button.active,
       .educational-tools-trigger.active {
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 16px 36px rgba(159,122,234,.22) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        box-shadow: 0 16px 36px rgba(168, 85, 247,.22) !important;
       }
 
       .logout-button {
@@ -766,30 +766,30 @@ export default function ExperienceDesignSkin() {
       [class*="card"],
       [class*="panel"] {
         border-radius: 24px !important;
-        border-color: rgba(148,163,184,.18) !important;
-        box-shadow: 0 18px 56px rgba(15,23,42,.08) !important;
+        border-color: rgba(167, 139, 250,.18) !important;
+        box-shadow: 0 18px 56px rgba(28, 17, 48,.08) !important;
       }
 
       .profile-strip {
         width: min(1160px, calc(100% - 28px)) !important;
         margin: 0 auto 18px !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(183,148,244,.08), transparent 28%),
+          radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.08), transparent 28%),
           rgba(255,255,255,.82) !important;
-        border: 1px solid rgba(226,232,240,.62) !important;
+        border: 1px solid rgba(196, 181, 253,.62) !important;
         backdrop-filter: blur(18px) !important;
       }
 
       .page-loader {
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
-          rgba(255,250,240,.92) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 30%),
+          rgba(247, 243, 252,.92) !important;
       }
 
       .mobile-menu-button {
         border-radius: 16px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
       }
 
 
@@ -802,58 +802,58 @@ export default function ExperienceDesignSkin() {
 
       body:not(.od-theme-dark) .site-frame {
         background:
-          radial-gradient(circle at 12% 8%, rgba(126,96,205,.14), transparent 30%),
-          radial-gradient(circle at 90% 14%, rgba(159,122,234,.12), transparent 28%),
-          linear-gradient(180deg, #07111f 0%, #101b34 34%, #f4ecff 34%, #fffaf0 100%) !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.14), transparent 30%),
+          radial-gradient(circle at 90% 14%, rgba(168, 85, 247,.12), transparent 28%),
+          linear-gradient(180deg, #0e0820 0%, #1c1138 34%, #efe9fb 34%, #f7f3fc 100%) !important;
       }
 
       body:not(.od-theme-dark) .od-timer-command {
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.13), transparent 34%),
-          linear-gradient(135deg, rgba(7,17,31,.96), rgba(17,26,53,.94)) !important;
-        border-color: rgba(226,232,240,.16) !important;
-        box-shadow: 0 24px 80px rgba(2,6,23,.22) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.13), transparent 34%),
+          linear-gradient(135deg, rgba(16, 9, 30,.96), rgba(30, 18, 58,.94)) !important;
+        border-color: rgba(196, 181, 253,.16) !important;
+        box-shadow: 0 24px 80px rgba(12, 7, 23,.22) !important;
       }
 
       body:not(.od-theme-dark) .od-timer-content h2,
       body:not(.od-theme-dark) .od-section-head h2 {
-        color: #fffaf0 !important;
+        color: #f7f3fc !important;
         text-shadow: 0 14px 34px rgba(0,0,0,.24) !important;
       }
 
       body:not(.od-theme-dark) .od-timer-content p,
       body:not(.od-theme-dark) .od-section-head p {
-        color: #d5deea !important;
+        color: #d6cdec !important;
       }
 
       body:not(.od-theme-dark) .od-section-kicker {
-        color: #5b21b6 !important;
+        color: #6d28d9 !important;
         background: rgba(255,255,255,.82) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card {
-        background: rgba(15,23,42,.92) !important;
-        border-color: rgba(226,232,240,.14) !important;
-        color: #f8fafc !important;
-        box-shadow: 0 20px 52px rgba(2,6,23,.20) !important;
+        background: rgba(28, 17, 48,.92) !important;
+        border-color: rgba(196, 181, 253,.14) !important;
+        color: #f4f0fb !important;
+        box-shadow: 0 20px 52px rgba(12, 7, 23,.20) !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card strong,
       body:not(.od-theme-dark) .od-stat-card b {
-        color: #fffaf0 !important;
+        color: #f7f3fc !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card span,
       body:not(.od-theme-dark) .od-stat-card small,
       body:not(.od-theme-dark) .od-stat-card p {
-        color: #cbd5e1 !important;
+        color: #c9bdf0 !important;
       }
 
       body:not(.od-theme-dark) .public-section {
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.07), transparent 30%),
-          rgba(255,250,240,.92) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.07), transparent 30%),
+          rgba(247, 243, 252,.92) !important;
       }
 
       body.od-theme-dark,
@@ -868,10 +868,10 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .content,
       body.od-theme-dark .main-content {
         background:
-          radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
-          radial-gradient(circle at 88% 14%, rgba(143,101,223,.08), transparent 26%),
-          #020617 !important;
-        color: #e5e7eb !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.15), transparent 30%),
+          radial-gradient(circle at 88% 14%, rgba(124, 58, 237,.08), transparent 26%),
+          #0c0717 !important;
+        color: #e9e4f5 !important;
       }
 
       body.od-theme-dark::before,
@@ -882,9 +882,9 @@ export default function ExperienceDesignSkin() {
         z-index: -1;
         pointer-events: none;
         background:
-          radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
-          radial-gradient(circle at 88% 16%, rgba(143,101,223,.12), transparent 26%),
-          #020617 !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.22), transparent 30%),
+          radial-gradient(circle at 88% 16%, rgba(124, 58, 237,.12), transparent 26%),
+          #0c0717 !important;
       }
 
       @keyframes munsaqahLettersFloat {
@@ -900,15 +900,15 @@ export default function ExperienceDesignSkin() {
       ========================= */
 
       body.od-theme-dark {
-        background: #020617 !important;
+        background: #0c0717 !important;
       }
 
       body.od-theme-dark .site-frame,
       body.od-theme-dark .public-gate {
         background:
-          radial-gradient(circle at 10% 8%, rgba(183,148,244,.10), transparent 28%),
-          radial-gradient(circle at 88% 10%, rgba(159,122,234,.10), transparent 26%),
-          linear-gradient(180deg, #020617 0%, #07111f 100%) !important;
+          radial-gradient(circle at 10% 8%, rgba(124, 58, 237,.10), transparent 28%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247,.10), transparent 26%),
+          linear-gradient(180deg, #0c0717 0%, #0e0820 100%) !important;
       }
 
       body.od-theme-dark .public-section,
@@ -926,10 +926,10 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark [class*="card"],
       body.od-theme-dark [class*="panel"] {
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 28%),
-          rgba(15, 23, 42, .94) !important;
-        border-color: rgba(148,163,184,.22) !important;
-        color: #e5e7eb !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 28%),
+          rgba(28, 17, 48, .94) !important;
+        border-color: rgba(167, 139, 250,.22) !important;
+        color: #e9e4f5 !important;
         box-shadow: 0 20px 70px rgba(0,0,0,.28) !important;
       }
 
@@ -938,7 +938,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark h3,
       body.od-theme-dark strong,
       body.od-theme-dark b {
-        color: #fffaf0 !important;
+        color: #f7f3fc !important;
       }
 
       body.od-theme-dark p,
@@ -950,7 +950,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .info-card span,
       body.od-theme-dark .legal-card span,
       body.od-theme-dark .faq-answer {
-        color: #cbd5e1 !important;
+        color: #c9bdf0 !important;
       }
 
       body.od-theme-dark .auth-card,
@@ -960,8 +960,8 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .public-footer,
       body.od-theme-dark .site-footer {
         background:
-          radial-gradient(circle at 100% 0%, rgba(183,148,244,.10), transparent 30%),
-          linear-gradient(135deg, #07111f, #111a35) !important;
+          radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.10), transparent 30%),
+          linear-gradient(135deg, #0e0820, #1e1240) !important;
       }
 
       /* =========================

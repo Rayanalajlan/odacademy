@@ -497,12 +497,12 @@ export default function AiMentor() {
         .ai-command-page {
           min-height: 100vh;
           padding: 30px 14px 72px;
-          color: #0f172a;
+          color: #18102e;
           background:
-            radial-gradient(circle at 10% 8%, rgba(79, 70, 229, 0.16), transparent 30%),
+            radial-gradient(circle at 10% 8%, rgba(139, 92, 246, 0.16), transparent 30%),
             radial-gradient(circle at 92% 13%, rgba(245, 158, 11, 0.15), transparent 28%),
             radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.10), transparent 36%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 52%, #fff7ed 100%);
+            linear-gradient(135deg, #f4f0fb 0%, #efe9fb 52%, #fff7ed 100%);
         }
 
         .ai-command-wrap {
@@ -519,8 +519,8 @@ export default function AiMentor() {
           background:
             radial-gradient(circle at 18% 18%, rgba(129, 140, 248, .28), transparent 30%),
             radial-gradient(circle at 82% 8%, rgba(245, 158, 11, .20), transparent 30%),
-            linear-gradient(135deg, #020617, #1e1b4b 58%, #312e81);
-          box-shadow: 0 28px 82px rgba(15, 23, 42, .22);
+            linear-gradient(135deg, #0c0717, #1e1b4b 58%, #3b1d6e);
+          box-shadow: 0 28px 82px rgba(28, 17, 48, .22);
         }
 
         .command-hero::before {
@@ -566,7 +566,7 @@ export default function AiMentor() {
         .command-hero p {
           margin: 0;
           max-width: 820px;
-          color: rgba(226, 232, 240, .92);
+          color: rgba(196, 181, 253, .92);
           line-height: 2.05;
           font-size: 15px;
           font-weight: 760;
@@ -583,7 +583,7 @@ export default function AiMentor() {
 
         .command-live-card span {
           display: block;
-          color: #cbd5e1;
+          color: #c9bdf0;
           font-size: 12px;
           font-weight: 900;
           margin-bottom: 8px;
@@ -618,13 +618,13 @@ export default function AiMentor() {
           padding: 20px;
           background: rgba(255,255,255,.92);
           border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 22px 60px rgba(15,23,42,.08);
+          box-shadow: 0 22px 60px rgba(28, 17, 48,.08);
           backdrop-filter: blur(18px);
         }
 
         .command-panel h2 {
           margin: 0 0 8px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 22px;
           line-height: 1.45;
           font-weight: 950;
@@ -632,7 +632,7 @@ export default function AiMentor() {
 
         .command-panel p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.85;
           font-size: 12.5px;
           font-weight: 760;
@@ -645,7 +645,7 @@ export default function AiMentor() {
         }
 
         .mode-button {
-          border: 1px solid rgba(148, 163, 184, .22);
+          border: 1px solid rgba(167, 139, 250, .22);
           border-radius: 22px;
           padding: 13px;
           display: grid;
@@ -653,7 +653,7 @@ export default function AiMentor() {
           gap: 10px;
           align-items: center;
           background: #fff;
-          color: #0f172a;
+          color: #18102e;
           cursor: pointer;
           text-align: right;
           font-family: inherit;
@@ -663,13 +663,13 @@ export default function AiMentor() {
 
         .mode-button:hover {
           transform: translateY(-1px);
-          box-shadow: 0 14px 34px rgba(15,23,42,.08);
+          box-shadow: 0 14px 34px rgba(28, 17, 48,.08);
         }
 
         .mode-button.active {
-          border-color: rgba(79,70,229,.36);
+          border-color: rgba(139, 92, 246,.36);
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
             #fff;
         }
 
@@ -686,7 +686,7 @@ export default function AiMentor() {
           align-items: center;
           justify-content: center;
           color: #ffffff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           font-size: 12px;
           line-height: 1;
           font-weight: 950;
@@ -714,7 +714,7 @@ export default function AiMentor() {
 
         .mode-button span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.65;
           font-weight: 750;
@@ -723,7 +723,7 @@ export default function AiMentor() {
 
         .mode-copy > span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.65;
           font-weight: 750;
@@ -746,7 +746,7 @@ export default function AiMentor() {
 
         .chat-title strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 22px;
           line-height: 1.45;
           font-weight: 950;
@@ -754,7 +754,7 @@ export default function AiMentor() {
 
         .chat-title span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 760;
@@ -770,8 +770,8 @@ export default function AiMentor() {
           border: 0;
           border-radius: 999px;
           padding: 9px 13px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           font-family: inherit;
           font-size: 12px;
           font-weight: 900;
@@ -787,7 +787,7 @@ export default function AiMentor() {
           border-radius: 28px;
           background:
             linear-gradient(180deg, rgba(248,250,252,.96), rgba(241,245,249,.84));
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .message {
@@ -811,7 +811,7 @@ export default function AiMentor() {
         }
 
         .message-label {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           font-weight: 900;
         }
@@ -823,19 +823,19 @@ export default function AiMentor() {
           line-height: 1.95;
           font-size: 13px;
           font-weight: 780;
-          box-shadow: 0 12px 30px rgba(15,23,42,.05);
+          box-shadow: 0 12px 30px rgba(28, 17, 48,.05);
         }
 
         .message.user .message-bubble {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           border-top-left-radius: 10px;
         }
 
         .message.assistant .message-bubble {
-          color: #1e293b;
+          color: #281748;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
           border-top-right-radius: 10px;
         }
 
@@ -849,7 +849,7 @@ export default function AiMentor() {
           width: 7px;
           height: 7px;
           border-radius: 999px;
-          background: #94a3b8;
+          background: #9d8fc0;
           animation: bounce 1s infinite ease-in-out;
         }
 
@@ -905,10 +905,10 @@ export default function AiMentor() {
           min-height: 120px;
           resize: vertical;
           border-radius: 24px;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           padding: 15px;
           background: #fff;
-          color: #0f172a;
+          color: #18102e;
           outline: none;
           font-family: inherit;
           font-size: 14px;
@@ -918,8 +918,8 @@ export default function AiMentor() {
         }
 
         .composer textarea:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.09);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,.09);
         }
 
         .composer-footer {
@@ -931,7 +931,7 @@ export default function AiMentor() {
         }
 
         .composer-footer small {
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.7;
           font-size: 11px;
           font-weight: 780;
@@ -943,11 +943,11 @@ export default function AiMentor() {
           border-radius: 18px;
           padding: 0 18px;
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           cursor: pointer;
           font-family: inherit;
           font-weight: 950;
-          box-shadow: 0 16px 35px rgba(79,70,229,.22);
+          box-shadow: 0 16px 35px rgba(139, 92, 246,.22);
         }
 
         .send-button:disabled {
@@ -962,7 +962,7 @@ export default function AiMentor() {
           margin-top: 14px;
           min-height: 42px;
           border-radius: 16px;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           padding: 0 12px;
           font-family: inherit;
           font-weight: 800;
@@ -979,7 +979,7 @@ export default function AiMentor() {
         }
 
         .archive-item {
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
           border-radius: 20px;
           padding: 12px;
           background: #fff;
@@ -991,17 +991,17 @@ export default function AiMentor() {
 
         .archive-item:hover {
           transform: translateY(-1px);
-          box-shadow: 0 14px 32px rgba(15,23,42,.07);
+          box-shadow: 0 14px 32px rgba(28, 17, 48,.07);
         }
 
         .archive-item.active {
-          border-color: rgba(79,70,229,.36);
-          background: #eef2ff;
+          border-color: rgba(139, 92, 246,.36);
+          background: #efe9fb;
         }
 
         .archive-item strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.65;
           font-weight: 950;
@@ -1009,7 +1009,7 @@ export default function AiMentor() {
 
         .archive-item span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.65;
           margin-top: 4px;

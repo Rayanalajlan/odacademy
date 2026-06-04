@@ -90,15 +90,15 @@ export default function LessonNotesPanel({
           padding: 18px;
           margin: 18px 0;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 35%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 35%),
             #ffffff;
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 16px 42px rgba(28, 17, 48,.06);
         }
 
         .lesson-notes-panel h3 {
           margin: 0 0 8px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.6;
           font-weight: 950;
@@ -106,7 +106,7 @@ export default function LessonNotesPanel({
 
         .lesson-notes-panel p {
           margin: 0 0 12px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 780;
@@ -121,12 +121,12 @@ export default function LessonNotesPanel({
         .lesson-notes-panel textarea {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 16px;
           padding: 12px;
           font-family: inherit;
           font-weight: 800;
-          color: #0f172a;
+          color: #18102e;
           outline: none;
         }
 
@@ -140,7 +140,7 @@ export default function LessonNotesPanel({
           display: flex;
           align-items: center;
           gap: 8px;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           font-weight: 900;
         }
@@ -168,16 +168,16 @@ export default function LessonNotesPanel({
 
         .lesson-notes-actions .primary {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
         }
 
         .lesson-notes-actions .soft {
-          color: #334155;
-          background: #f1f5f9;
+          color: #463c63;
+          background: #efe9fb;
         }
 
         .lesson-note-status {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 850;
         }

@@ -440,7 +440,7 @@ export default function LearnerProfileCenter({
         .learner-profile-center {
           width: min(1180px, calc(100% - 28px));
           margin: 14px auto 0;
-          color: #0f172a;
+          color: #18102e;
         }
 
         .profile-strip {
@@ -451,11 +451,11 @@ export default function LearnerProfileCenter({
           border-radius: 30px;
           padding: 14px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 35%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 35%),
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.11), transparent 30%),
             rgba(255,255,255,.94);
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
           backdrop-filter: blur(18px);
         }
 
@@ -474,7 +474,7 @@ export default function LearnerProfileCenter({
 
         .profile-identity:hover .profile-avatar {
           transform: translateY(-1px);
-          box-shadow: 0 16px 34px rgba(79,70,229,.26);
+          box-shadow: 0 16px 34px rgba(139, 92, 246,.26);
         }
 
         .profile-avatar {
@@ -484,10 +484,10 @@ export default function LearnerProfileCenter({
           display: grid;
           place-items: center;
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           font-size: 22px;
           font-weight: 950;
-          box-shadow: 0 14px 30px rgba(79,70,229,.22);
+          box-shadow: 0 14px 30px rgba(139, 92, 246,.22);
           transition: .18s ease;
         }
 
@@ -497,7 +497,7 @@ export default function LearnerProfileCenter({
 
         .profile-name strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 15px;
           line-height: 1.6;
           font-weight: 950;
@@ -508,7 +508,7 @@ export default function LearnerProfileCenter({
 
         .profile-name span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.6;
           font-weight: 800;
@@ -519,8 +519,8 @@ export default function LearnerProfileCenter({
           margin-top: 5px;
           padding: 4px 8px;
           border-radius: 999px;
-          background: #eef2ff;
-          color: #3730a3;
+          background: #efe9fb;
+          color: #6d28d9;
           font-size: 10px;
           line-height: 1;
           font-weight: 950;
@@ -535,13 +535,13 @@ export default function LearnerProfileCenter({
         .profile-metric {
           border-radius: 20px;
           padding: 10px 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .profile-metric b {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           line-height: 1.5;
           font-weight: 900;
@@ -550,7 +550,7 @@ export default function LearnerProfileCenter({
         .profile-metric strong {
           display: block;
           margin-top: 3px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.5;
           font-weight: 950;
@@ -561,14 +561,14 @@ export default function LearnerProfileCenter({
           height: 7px;
           border-radius: 999px;
           overflow: hidden;
-          background: #e2e8f0;
+          background: #e0d8f5;
         }
 
         .profile-progress-line span {
           display: block;
           height: 100%;
           border-radius: inherit;
-          background: linear-gradient(90deg, #4f46e5, #22c55e);
+          background: linear-gradient(90deg, #8b5cf6, #22c55e);
         }
 
         .profile-actions {
@@ -595,21 +595,21 @@ export default function LearnerProfileCenter({
 
         .profile-button.primary {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
-          box-shadow: 0 14px 30px rgba(79,70,229,.18);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
+          box-shadow: 0 14px 30px rgba(139, 92, 246,.18);
         }
 
         .profile-button.myfile {
           color: #fff;
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.25), transparent 38%),
-            linear-gradient(135deg, #0f172a, #312e81);
+            linear-gradient(135deg, #18102e, #3b1d6e);
           min-height: 48px;
         }
 
         .profile-button.soft {
-          color: #334155;
-          background: #f1f5f9;
+          color: #463c63;
+          background: #efe9fb;
         }
 
         .profile-drawer-backdrop,
@@ -617,7 +617,7 @@ export default function LearnerProfileCenter({
           position: fixed;
           inset: 0;
           z-index: 130;
-          background: rgba(15,23,42,.42);
+          background: rgba(28, 17, 48,.42);
           backdrop-filter: blur(8px);
         }
 
@@ -631,9 +631,9 @@ export default function LearnerProfileCenter({
           overflow: auto;
           padding: 22px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
             #ffffff;
-          box-shadow: -24px 0 70px rgba(15,23,42,.22);
+          box-shadow: -24px 0 70px rgba(28, 17, 48,.22);
         }
 
         .drawer-head,
@@ -648,7 +648,7 @@ export default function LearnerProfileCenter({
         .drawer-head h2,
         .profile-modal-head h2 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: 24px;
           line-height: 1.45;
           font-weight: 950;
@@ -657,7 +657,7 @@ export default function LearnerProfileCenter({
         .drawer-head p,
         .profile-modal-head p {
           margin: 4px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 760;
@@ -668,8 +668,8 @@ export default function LearnerProfileCenter({
           width: 38px;
           height: 38px;
           border-radius: 14px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           cursor: pointer;
           font-weight: 950;
         }
@@ -679,15 +679,15 @@ export default function LearnerProfileCenter({
           padding: 17px;
           margin-top: 12px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.18);
-          box-shadow: 0 14px 34px rgba(15,23,42,.055);
+          border: 1px solid rgba(167, 139, 250,.18);
+          box-shadow: 0 14px 34px rgba(28, 17, 48,.055);
         }
 
         .profile-card.gradient {
           color: #fff;
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.22), transparent 32%),
-            linear-gradient(135deg, #0f172a, #312e81);
+            linear-gradient(135deg, #18102e, #3b1d6e);
           border: 0;
         }
 
@@ -701,14 +701,14 @@ export default function LearnerProfileCenter({
 
         .profile-card p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.9;
           font-weight: 760;
         }
 
         .profile-card.gradient p {
-          color: rgba(226,232,240,.92);
+          color: rgba(196, 181, 253,.92);
         }
 
         .identity-line {
@@ -744,13 +744,13 @@ export default function LearnerProfileCenter({
         .profile-stat {
           border-radius: 20px;
           padding: 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .profile-stat b {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 850;
@@ -758,7 +758,7 @@ export default function LearnerProfileCenter({
 
         .profile-stat strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           margin-top: 4px;
           font-size: 16px;
           line-height: 1.5;
@@ -770,13 +770,13 @@ export default function LearnerProfileCenter({
           border-radius: 999px;
           overflow: hidden;
           margin-top: 10px;
-          background: #e2e8f0;
+          background: #e0d8f5;
         }
 
         .mini-progress span {
           display: block;
           height: 100%;
-          background: linear-gradient(90deg, #4f46e5, #22c55e);
+          background: linear-gradient(90deg, #8b5cf6, #22c55e);
         }
 
         .quick-links {
@@ -790,8 +790,8 @@ export default function LearnerProfileCenter({
           border: 0;
           border-radius: 16px;
           min-height: 42px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           font-family: inherit;
           font-size: 12px;
           font-weight: 900;
@@ -800,7 +800,7 @@ export default function LearnerProfileCenter({
 
         .quick-links button.important {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
         }
 
         .full-profile-modal {
@@ -811,9 +811,9 @@ export default function LearnerProfileCenter({
           border-radius: 34px;
           padding: 24px;
           background:
-            radial-gradient(circle at 0% 0%, rgba(79,70,229,.10), transparent 30%),
+            radial-gradient(circle at 0% 0%, rgba(139, 92, 246,.10), transparent 30%),
             #fff;
-          box-shadow: 0 28px 90px rgba(15,23,42,.28);
+          box-shadow: 0 28px 90px rgba(28, 17, 48,.28);
         }
 
         .full-profile-grid {
@@ -836,20 +836,20 @@ export default function LearnerProfileCenter({
         .field-item {
           border-radius: 18px;
           padding: 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .field-item b {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 850;
           margin-bottom: 5px;
         }
 
         .field-item span {
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           font-weight: 900;
           line-height: 1.7;
@@ -873,8 +873,8 @@ export default function LearnerProfileCenter({
         .notification-row {
           border-radius: 18px;
           padding: 12px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .radar-row-top,
@@ -884,7 +884,7 @@ export default function LearnerProfileCenter({
           justify-content: space-between;
           gap: 10px;
           align-items: center;
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           font-weight: 950;
         }
@@ -897,7 +897,7 @@ export default function LearnerProfileCenter({
         .notification-row small {
           display: block;
           margin-top: 4px;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.7;
           font-size: 11px;
           font-weight: 760;
@@ -907,7 +907,7 @@ export default function LearnerProfileCenter({
         .note-row strong,
         .notification-row strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.7;
           font-weight: 950;
@@ -915,9 +915,9 @@ export default function LearnerProfileCenter({
 
         .edit-card,
         .account-card {
-          border: 1px solid rgba(79,70,229,.24);
+          border: 1px solid rgba(139, 92, 246,.24);
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.09), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.09), transparent 34%),
             #fff;
         }
 
@@ -933,8 +933,8 @@ export default function LearnerProfileCenter({
           border: 0;
           border-radius: 999px;
           padding: 7px 10px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           font-family: inherit;
           font-size: 11px;
           font-weight: 900;
@@ -950,7 +950,7 @@ export default function LearnerProfileCenter({
         .profile-form label {
           display: grid;
           gap: 6px;
-          color: #334155;
+          color: #463c63;
           font-size: 12px;
           font-weight: 900;
         }
@@ -958,13 +958,13 @@ export default function LearnerProfileCenter({
         .profile-form input,
         .profile-form select,
         .profile-form textarea {
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           border-radius: 16px;
           min-height: 42px;
           padding: 0 12px;
           font-family: inherit;
           font-weight: 800;
-          color: #0f172a;
+          color: #18102e;
           outline: none;
         }
 
@@ -977,22 +977,22 @@ export default function LearnerProfileCenter({
         .profile-form input:focus,
         .profile-form select:focus,
         .profile-form textarea:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.09);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,.09);
         }
 
         .account-password-form {
           margin-top: 14px;
           padding-top: 14px;
-          border-top: 1px solid rgba(148,163,184,.18);
+          border-top: 1px solid rgba(167, 139, 250,.18);
         }
 
         .account-status {
           margin-top: 12px;
           border-radius: 16px;
           padding: 10px 12px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 850;

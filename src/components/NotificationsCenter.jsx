@@ -45,8 +45,8 @@ export default function NotificationsCenter({ setActivePage }) {
           min-height: 42px;
           border-radius: 16px;
           padding: 0 14px;
-          color: #334155;
-          background: #f1f5f9;
+          color: #463c63;
+          background: #efe9fb;
           font-family: inherit;
           font-weight: 950;
           cursor: pointer;
@@ -76,13 +76,13 @@ export default function NotificationsCenter({ setActivePage }) {
           border-radius: 24px;
           padding: 12px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 24px 70px rgba(15,23,42,.18);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 24px 70px rgba(28, 17, 48,.18);
         }
 
         .notifications-popover h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 16px;
           line-height: 1.6;
           font-weight: 950;
@@ -101,18 +101,18 @@ export default function NotificationsCenter({ setActivePage }) {
           text-align: right;
           border-radius: 18px;
           padding: 12px;
-          background: #f8fafc;
+          background: #f4f0fb;
           font-family: inherit;
           cursor: pointer;
         }
 
         .notification-item.unread {
-          background: #eef2ff;
+          background: #efe9fb;
         }
 
         .notification-item strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.7;
           font-weight: 950;
@@ -120,14 +120,14 @@ export default function NotificationsCenter({ setActivePage }) {
 
         .notification-item span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 780;
         }
 
         .notification-empty {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 800;

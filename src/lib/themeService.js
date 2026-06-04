@@ -8,18 +8,19 @@ function safeWindow() {
 
 export function getStoredTheme() {
   const win = safeWindow();
-  if (!win) return "light";
+  if (!win) return "dark";
 
   try {
-    return win.localStorage.getItem(THEME_KEY) === "dark" ? "dark" : "light";
+    // Default visual identity is dark; an explicit stored "light" is still honored.
+    return win.localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
   } catch {
-    return "light";
+    return "dark";
   }
 }
 
-export function applyTheme(theme = "light") {
+export function applyTheme(theme = "dark") {
   const win = safeWindow();
-  if (!win?.document?.body) return "light";
+  if (!win?.document?.body) return "dark";
 
   const normalized = theme === "dark" ? "dark" : "light";
   const { body, documentElement } = win.document;

@@ -14,11 +14,11 @@ export default function SectionIconGrid({ onNavigate }) {
         }
 
         .section-icon-grid__item {
-          border: 1px solid rgba(183, 148, 244, .20);
+          border: 1px solid rgba(124, 58, 237, .20);
           border-radius: 24px;
           padding: 16px 12px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(183, 148, 244, .10), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237, .10), transparent 34%),
             rgba(255,255,255,.78);
           box-shadow: 0 18px 44px rgba(60, 37, 98, .08);
           display: grid;
@@ -44,9 +44,9 @@ export default function SectionIconGrid({ onNavigate }) {
         body.od-theme-dark .section-icon-grid__item {
           color: #fbf7ff;
           background:
-            radial-gradient(circle at 100% 0%, rgba(183, 148, 244, .14), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237, .14), transparent 34%),
             rgba(15, 10, 25, .88);
-          border-color: rgba(216, 195, 255, .18);
+          border-color: rgba(167, 139, 250, .18);
         }
 
         @media (max-width: 980px) {

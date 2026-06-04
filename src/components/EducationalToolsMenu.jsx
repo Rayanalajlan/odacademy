@@ -58,8 +58,8 @@ export default function EducationalToolsMenu({
           align-items: center;
           gap: 8px;
           color: #ffffff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
-          box-shadow: 0 14px 30px rgba(79,70,229,.18);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
+          box-shadow: 0 14px 30px rgba(139, 92, 246,.18);
           font-family: inherit;
           font-size: 13px;
           font-weight: 950;
@@ -77,8 +77,8 @@ export default function EducationalToolsMenu({
         .educational-tools-trigger.active {
           background:
             radial-gradient(circle at 0% 100%, rgba(245,158,11,.28), transparent 38%),
-            linear-gradient(135deg, #4f46e5, #7c3aed);
-          box-shadow: 0 16px 34px rgba(79,70,229,.26);
+            linear-gradient(135deg, #8b5cf6, #7c3aed);
+          box-shadow: 0 16px 34px rgba(139, 92, 246,.26);
         }
 
         .educational-tools-dropdown {
@@ -90,10 +90,10 @@ export default function EducationalToolsMenu({
           border-radius: 24px;
           padding: 10px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.12), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
             #ffffff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 26px 74px rgba(15,23,42,.20);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 26px 74px rgba(28, 17, 48,.20);
         }
 
         .educational-tools-dropdown::before {
@@ -105,19 +105,19 @@ export default function EducationalToolsMenu({
           height: 14px;
           transform: rotate(45deg);
           background: #ffffff;
-          border-top: 1px solid rgba(148,163,184,.22);
-          border-right: 1px solid rgba(148,163,184,.22);
+          border-top: 1px solid rgba(167, 139, 250,.22);
+          border-right: 1px solid rgba(167, 139, 250,.22);
         }
 
         .educational-tools-head {
           padding: 10px 12px 12px;
-          border-bottom: 1px solid rgba(148,163,184,.16);
+          border-bottom: 1px solid rgba(167, 139, 250,.16);
           margin-bottom: 8px;
         }
 
         .educational-tools-head strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           line-height: 1.6;
           font-weight: 950;
@@ -125,7 +125,7 @@ export default function EducationalToolsMenu({
 
         .educational-tools-head span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 800;
@@ -147,18 +147,18 @@ export default function EducationalToolsMenu({
 
         .educational-tool-option:hover,
         .educational-tool-option.active {
-          background: #eef2ff;
+          background: #efe9fb;
         }
 
         .educational-tool-option strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.6;
           font-weight: 950;
         }
 
         .educational-tool-option span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.7;
           font-weight: 780;
@@ -166,30 +166,30 @@ export default function EducationalToolsMenu({
 
         body.od-theme-dark .educational-tools-dropdown {
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.16), transparent 34%),
-            rgba(15,23,42,.98) !important;
-          border-color: rgba(148,163,184,.24) !important;
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.16), transparent 34%),
+            rgba(28, 17, 48,.98) !important;
+          border-color: rgba(167, 139, 250,.24) !important;
           box-shadow: 0 26px 74px rgba(0,0,0,.42) !important;
         }
 
         body.od-theme-dark .educational-tools-dropdown::before {
-          background: rgba(15,23,42,.98) !important;
-          border-color: rgba(148,163,184,.24) !important;
+          background: rgba(28, 17, 48,.98) !important;
+          border-color: rgba(167, 139, 250,.24) !important;
         }
 
         body.od-theme-dark .educational-tool-option:hover,
         body.od-theme-dark .educational-tool-option.active {
-          background: rgba(79,70,229,.22) !important;
+          background: rgba(139, 92, 246,.22) !important;
         }
 
         body.od-theme-dark .educational-tools-head strong,
         body.od-theme-dark .educational-tool-option strong {
-          color: #f8fafc !important;
+          color: #f4f0fb !important;
         }
 
         body.od-theme-dark .educational-tools-head span,
         body.od-theme-dark .educational-tool-option span {
-          color: #cbd5e1 !important;
+          color: #c9bdf0 !important;
         }
 
         @media (max-width: 980px) {

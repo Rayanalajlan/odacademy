@@ -36,8 +36,8 @@ export default function SavedLessonsPanel({
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.12), transparent 34%),
             rgba(255,255,255,.94);
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 18px 48px rgba(15,23,42,.07);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07);
         }
 
         .saved-lessons-head {
@@ -54,14 +54,14 @@ export default function SavedLessonsPanel({
         }
 
         .saved-lessons-title strong {
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.5;
           font-weight: 950;
         }
 
         .saved-lessons-title span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.8;
           font-weight: 780;
@@ -73,8 +73,8 @@ export default function SavedLessonsPanel({
           min-height: 40px;
           border-radius: 16px;
           padding: 0 13px;
-          color: #0f172a;
-          background: #f1f5f9;
+          color: #18102e;
+          background: #efe9fb;
           font-family: inherit;
           font-size: 12px;
           font-weight: 950;
@@ -84,9 +84,9 @@ export default function SavedLessonsPanel({
         .saved-lessons-empty {
           border-radius: 20px;
           padding: 14px;
-          color: #475569;
-          background: #f8fafc;
-          border: 1px dashed rgba(148,163,184,.38);
+          color: #5b4f78;
+          background: #f4f0fb;
+          border: 1px dashed rgba(167, 139, 250,.38);
           font-size: 12px;
           line-height: 1.9;
           font-weight: 800;
@@ -99,14 +99,14 @@ export default function SavedLessonsPanel({
         }
 
         .saved-lesson-card {
-          border: 1px solid rgba(148,163,184,.20);
+          border: 1px solid rgba(167, 139, 250,.20);
           cursor: pointer;
           border-radius: 22px;
           padding: 15px;
           text-align: right;
           font-family: inherit;
           background: #ffffff;
-          color: #0f172a;
+          color: #18102e;
           transition: .2s ease;
         }
 
@@ -127,7 +127,7 @@ export default function SavedLessonsPanel({
 
         .saved-lesson-card strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 14px;
           line-height: 1.7;
           font-weight: 950;
@@ -135,7 +135,7 @@ export default function SavedLessonsPanel({
 
         .saved-lesson-card p {
           margin: 7px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.85;
           font-weight: 760;
@@ -146,7 +146,7 @@ export default function SavedLessonsPanel({
           justify-content: space-between;
           gap: 10px;
           margin-top: 10px;
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 10px;
           font-weight: 900;
         }

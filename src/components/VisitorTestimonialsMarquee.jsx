@@ -93,13 +93,13 @@ export default function VisitorTestimonialsMarquee() {
         .visitor-testimonials {
           --vt-ink: #211336;
           --vt-muted: #6d607d;
-          --vt-line: rgba(126, 96, 205, .18);
+          --vt-line: rgba(139, 92, 246, .18);
           position: relative;
           overflow: hidden;
           border-radius: 28px;
           padding: clamp(22px, 4vw, 34px);
           background:
-            radial-gradient(circle at 100% 0%, rgba(183,148,244,.16), transparent 30%),
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.16), transparent 30%),
             radial-gradient(circle at 0% 100%, rgba(220,199,255,.18), transparent 32%),
             rgba(250,247,255,.92);
           border: 1px solid rgba(213,196,247,.72);
@@ -124,7 +124,7 @@ export default function VisitorTestimonialsMarquee() {
           padding: 8px 12px;
           color: #5b2bbd;
           background: rgba(240,232,255,.86);
-          border: 1px solid rgba(126,96,205,.18);
+          border: 1px solid rgba(139, 92, 246,.18);
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 9px;
@@ -229,7 +229,7 @@ export default function VisitorTestimonialsMarquee() {
         }
 
         .vt-stars {
-          color: #8f65df;
+          color: #7c3aed;
           letter-spacing: 1px;
           font-size: 13px;
           line-height: 1;
@@ -254,7 +254,7 @@ export default function VisitorTestimonialsMarquee() {
           gap: 2px;
           margin-top: 12px;
           padding-top: 12px;
-          border-top: 1px solid rgba(126,96,205,.14);
+          border-top: 1px solid rgba(139, 92, 246,.14);
         }
 
         .vt-person strong {
@@ -273,10 +273,10 @@ export default function VisitorTestimonialsMarquee() {
 
         body.od-theme-dark .visitor-testimonials {
           background:
-            radial-gradient(circle at 100% 0%, rgba(183,148,244,.16), transparent 30%),
-            radial-gradient(circle at 0% 100%, rgba(126,96,205,.12), transparent 32%),
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.16), transparent 30%),
+            radial-gradient(circle at 0% 100%, rgba(139, 92, 246,.12), transparent 32%),
             rgba(15,10,25,.94) !important;
-          border-color: rgba(183,148,244,.22) !important;
+          border-color: rgba(124, 58, 237,.22) !important;
           box-shadow: 0 22px 70px rgba(0,0,0,.28) !important;
         }
 
@@ -290,7 +290,7 @@ export default function VisitorTestimonialsMarquee() {
 
         body.od-theme-dark .vt-card {
           background: rgba(32,22,48,.90) !important;
-          border-color: rgba(183,148,244,.20) !important;
+          border-color: rgba(124, 58, 237,.20) !important;
           box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
         }
 

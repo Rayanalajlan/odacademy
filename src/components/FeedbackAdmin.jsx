@@ -90,8 +90,8 @@ export default function FeedbackAdmin() {
           color: #fff;
           background:
             radial-gradient(circle at 100% 0%, rgba(245,158,11,.22), transparent 32%),
-            linear-gradient(135deg, #0f172a, #312e81);
-          box-shadow: 0 22px 60px rgba(15,23,42,.16);
+            linear-gradient(135deg, #18102e, #3b1d6e);
+          box-shadow: 0 22px 60px rgba(28, 17, 48,.16);
         }
 
         .admin-head h1 {
@@ -103,7 +103,7 @@ export default function FeedbackAdmin() {
 
         .admin-head p {
           margin: 0;
-          color: #cbd5e1;
+          color: #c9bdf0;
           line-height: 1.9;
           font-weight: 760;
         }
@@ -119,8 +119,8 @@ export default function FeedbackAdmin() {
           border: 0;
           border-radius: 999px;
           padding: 10px 14px;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
           font-family: inherit;
           font-weight: 900;
           cursor: pointer;
@@ -128,7 +128,7 @@ export default function FeedbackAdmin() {
 
         .admin-tabs button.active {
           color: #fff;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
         }
 
         .feedback-review-list {
@@ -140,8 +140,8 @@ export default function FeedbackAdmin() {
           border-radius: 28px;
           padding: 18px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.22);
-          box-shadow: 0 16px 42px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.22);
+          box-shadow: 0 16px 42px rgba(28, 17, 48,.06);
         }
 
         .review-top {
@@ -154,14 +154,14 @@ export default function FeedbackAdmin() {
 
         .review-top h3 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           line-height: 1.6;
           font-weight: 950;
         }
 
         .review-top span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 850;
         }
@@ -176,8 +176,8 @@ export default function FeedbackAdmin() {
         .review-badges b {
           border-radius: 999px;
           padding: 5px 9px;
-          background: #eef2ff;
-          color: #3730a3;
+          background: #efe9fb;
+          color: #6d28d9;
           font-size: 11px;
           font-weight: 950;
         }
@@ -185,8 +185,8 @@ export default function FeedbackAdmin() {
         .review-text {
           border-radius: 20px;
           padding: 13px;
-          background: #f8fafc;
-          color: #334155;
+          background: #f4f0fb;
+          color: #463c63;
           line-height: 1.9;
           font-size: 13px;
           font-weight: 780;
@@ -208,8 +208,8 @@ export default function FeedbackAdmin() {
           font-family: inherit;
           font-weight: 950;
           cursor: pointer;
-          background: #f1f5f9;
-          color: #334155;
+          background: #efe9fb;
+          color: #463c63;
         }
 
         .review-actions .approve {
@@ -224,7 +224,7 @@ export default function FeedbackAdmin() {
 
         .review-actions .hide {
           color: #fff;
-          background: #475569;
+          background: #5b4f78;
         }
       `}</style>
 

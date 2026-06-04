@@ -7,8 +7,8 @@ const styles = {
     minHeight: "100vh",
     direction: "rtl",
     background:
-      "radial-gradient(circle at top right, rgba(79, 70, 229, 0.16), transparent 34%), linear-gradient(135deg, #0f172a 0%, #111827 48%, #1e293b 100%)",
-    color: "#e5e7eb",
+      "radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 34%), linear-gradient(135deg, #18102e 0%, #111827 48%, #281748 100%)",
+    color: "#e9e4f5",
     padding: "28px 16px"
   },
   shell: {
@@ -58,7 +58,7 @@ const styles = {
   brandSub: {
     margin: "4px 0 0",
     fontSize: "0.82rem",
-    color: "#cbd5e1"
+    color: "#c9bdf0"
   },
   nav: {
     display: "flex",
@@ -71,12 +71,12 @@ const styles = {
     border: "1px solid rgba(219, 234, 254, 0.22)",
     borderRadius: "999px",
     padding: "9px 13px",
-    background: "rgba(15, 23, 42, 0.42)",
+    background: "rgba(28, 17, 48, 0.42)",
     fontSize: "0.9rem"
   },
   card: {
     background: "rgba(255, 255, 255, 0.96)",
-    color: "#0f172a",
+    color: "#18102e",
     borderRadius: "30px",
     padding: "clamp(22px, 4vw, 44px)",
     boxShadow: "0 24px 70px rgba(0,0,0,0.28)",
@@ -84,7 +84,7 @@ const styles = {
   },
   eyebrow: {
     margin: 0,
-    color: "#4f46e5",
+    color: "#8b5cf6",
     fontWeight: 900,
     letterSpacing: "0.02em"
   },
@@ -92,17 +92,17 @@ const styles = {
     margin: "10px 0 12px",
     fontSize: "clamp(1.9rem, 4vw, 3.2rem)",
     lineHeight: 1.2,
-    color: "#0f172a"
+    color: "#18102e"
   },
   intro: {
     margin: "0 0 28px",
-    color: "#475569",
+    color: "#5b4f78",
     lineHeight: 1.9,
     fontSize: "1.02rem"
   },
   footer: {
     marginTop: "20px",
-    color: "#cbd5e1",
+    color: "#c9bdf0",
     fontSize: "0.86rem",
     textAlign: "center"
   }

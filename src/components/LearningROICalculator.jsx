@@ -737,12 +737,12 @@ export default function LearningROICalculator({
         .roi-page {
           min-height: 100vh;
           padding: 34px 16px 70px;
-          color: #0f172a;
+          color: #18102e;
           background:
-            radial-gradient(circle at 10% 10%, rgba(79,70,229,.12), transparent 30%),
+            radial-gradient(circle at 10% 10%, rgba(139, 92, 246,.12), transparent 30%),
             radial-gradient(circle at 94% 14%, rgba(245,158,11,.13), transparent 28%),
             radial-gradient(circle at 48% 96%, rgba(16,185,129,.10), transparent 34%),
-            linear-gradient(135deg, #f8fafc 0%, #eef2ff 54%, #fff7ed 100%);
+            linear-gradient(135deg, #f4f0fb 0%, #efe9fb 54%, #fff7ed 100%);
         }
 
         .roi-wrap {
@@ -759,8 +759,8 @@ export default function LearningROICalculator({
           background:
             radial-gradient(circle at 15% 18%, rgba(129,140,248,.26), transparent 32%),
             radial-gradient(circle at 85% 15%, rgba(245,158,11,.17), transparent 30%),
-            linear-gradient(135deg, #0f172a, #1e1b4b 58%, #312e81);
-          box-shadow: 0 26px 80px rgba(15, 23, 42, 0.20);
+            linear-gradient(135deg, #18102e, #1e1b4b 58%, #3b1d6e);
+          box-shadow: 0 26px 80px rgba(28, 17, 48, 0.20);
         }
 
         .roi-hero::before {
@@ -808,7 +808,7 @@ export default function LearningROICalculator({
         .roi-hero h1 span {
           display: block;
           color: transparent;
-          background: linear-gradient(90deg, #fff, #c7d2fe, #fde68a);
+          background: linear-gradient(90deg, #fff, #c3b5e8, #fde68a);
           -webkit-background-clip: text;
           background-clip: text;
           padding-top: 3px;
@@ -817,7 +817,7 @@ export default function LearningROICalculator({
         .roi-hero p {
           margin: 0;
           max-width: 780px;
-          color: rgba(226,232,240,.9);
+          color: rgba(196, 181, 253,.9);
           font-size: 15px;
           line-height: 2.05;
           font-weight: 750;
@@ -839,7 +839,7 @@ export default function LearningROICalculator({
           background:
             conic-gradient(#10b981 ${result.readinessScore * 3.6}deg, rgba(255,255,255,.13) 0deg);
           box-shadow:
-            inset 0 0 0 15px rgba(15,23,42,.42),
+            inset 0 0 0 15px rgba(28, 17, 48,.42),
             0 24px 70px rgba(0,0,0,.20);
         }
 
@@ -850,13 +850,13 @@ export default function LearningROICalculator({
           display: grid;
           place-items: center;
           text-align: center;
-          background: #0f172a;
+          background: #18102e;
           border: 1px solid rgba(255,255,255,.14);
           padding: 18px;
         }
 
         .roi-orbit-inner span {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 12px;
           font-weight: 900;
         }
@@ -888,13 +888,13 @@ export default function LearningROICalculator({
           padding: 24px;
           background: rgba(255,255,255,.88);
           border: 1px solid rgba(255,255,255,.92);
-          box-shadow: 0 22px 60px rgba(15,23,42,.08);
+          box-shadow: 0 22px 60px rgba(28, 17, 48,.08);
           backdrop-filter: blur(18px);
         }
 
         .roi-panel h2 {
           margin: 0 0 8px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 26px;
           font-weight: 950;
           line-height: 1.35;
@@ -902,7 +902,7 @@ export default function LearningROICalculator({
 
         .roi-panel > p {
           margin: 0 0 18px;
-          color: #64748b;
+          color: #7a6c9a;
           line-height: 1.9;
           font-size: 13px;
           font-weight: 750;
@@ -915,7 +915,7 @@ export default function LearningROICalculator({
         .roi-field label {
           display: block;
           margin-bottom: 8px;
-          color: #334155;
+          color: #463c63;
           font-size: 13px;
           font-weight: 950;
         }
@@ -925,9 +925,9 @@ export default function LearningROICalculator({
           width: 100%;
           min-height: 48px;
           border-radius: 18px;
-          border: 1px solid #cbd5e1;
+          border: 1px solid #c9bdf0;
           background: #fff;
-          color: #0f172a;
+          color: #18102e;
           padding: 0 14px;
           font-family: inherit;
           font-size: 14px;
@@ -937,13 +937,13 @@ export default function LearningROICalculator({
 
         .roi-field select:focus,
         .roi-field input[type="number"]:focus {
-          border-color: #4f46e5;
-          box-shadow: 0 0 0 4px rgba(79,70,229,.09);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 4px rgba(139, 92, 246,.09);
         }
 
         .roi-range {
           width: 100%;
-          accent-color: #4f46e5;
+          accent-color: #8b5cf6;
         }
 
         .roi-switch {
@@ -952,7 +952,7 @@ export default function LearningROICalculator({
           gap: 8px;
           padding: 7px;
           border-radius: 22px;
-          background: #f1f5f9;
+          background: #efe9fb;
           margin-bottom: 16px;
         }
 
@@ -962,7 +962,7 @@ export default function LearningROICalculator({
           border-radius: 16px;
           min-height: 42px;
           padding: 10px 12px;
-          color: #475569;
+          color: #5b4f78;
           background: transparent;
           font-family: inherit;
           font-weight: 950;
@@ -970,8 +970,8 @@ export default function LearningROICalculator({
 
         .roi-switch button.active {
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
-          box-shadow: 0 12px 28px rgba(79,70,229,.20);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
+          box-shadow: 0 12px 28px rgba(139, 92, 246,.20);
         }
 
         .application-grid {
@@ -982,11 +982,11 @@ export default function LearningROICalculator({
         }
 
         .application-pill {
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
           border-radius: 16px;
           padding: 10px 8px;
           background: #fff;
-          color: #334155;
+          color: #463c63;
           cursor: pointer;
           font-family: inherit;
           font-size: 11px;
@@ -997,7 +997,7 @@ export default function LearningROICalculator({
 
         .application-pill.active {
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #312e81);
+          background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
           border-color: transparent;
         }
 
@@ -1013,8 +1013,8 @@ export default function LearningROICalculator({
           border-radius: 24px;
           padding: 18px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.20);
-          box-shadow: 0 14px 38px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.20);
+          box-shadow: 0 14px 38px rgba(28, 17, 48,.06);
         }
 
         .roi-result-card::before {
@@ -1025,7 +1025,7 @@ export default function LearningROICalculator({
           width: 150px;
           height: 150px;
           border-radius: 999px;
-          background: rgba(79,70,229,.10);
+          background: rgba(139, 92, 246,.10);
         }
 
         .roi-result-card.gold::before {
@@ -1044,7 +1044,7 @@ export default function LearningROICalculator({
           position: relative;
           z-index: 1;
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 9px;
@@ -1054,7 +1054,7 @@ export default function LearningROICalculator({
           position: relative;
           z-index: 1;
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 21px;
           line-height: 1.35;
           font-weight: 950;
@@ -1064,7 +1064,7 @@ export default function LearningROICalculator({
           position: relative;
           z-index: 1;
           margin: 9px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.85;
           font-weight: 750;
@@ -1080,8 +1080,8 @@ export default function LearningROICalculator({
         .value-step {
           border-radius: 22px;
           padding: 15px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.20);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.20);
         }
 
         .value-step b {
@@ -1089,7 +1089,7 @@ export default function LearningROICalculator({
           padding: 5px 9px;
           border-radius: 999px;
           color: white;
-          background: #4f46e5;
+          background: #8b5cf6;
           margin-bottom: 8px;
           font-size: 11px;
           line-height: 1;
@@ -1097,7 +1097,7 @@ export default function LearningROICalculator({
 
         .value-step strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           font-weight: 950;
           line-height: 1.6;
@@ -1106,7 +1106,7 @@ export default function LearningROICalculator({
         .value-step span {
           display: block;
           margin-top: 5px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.75;
           font-weight: 750;
@@ -1116,23 +1116,23 @@ export default function LearningROICalculator({
           margin-top: 14px;
           border-radius: 26px;
           padding: 18px;
-          color: #1e293b;
+          color: #281748;
           background:
-            radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 34%),
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 34%),
             #ffffff;
-          border: 1px solid rgba(148,163,184,.22);
+          border: 1px solid rgba(167, 139, 250,.22);
         }
 
         .roi-reading h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 19px;
           font-weight: 950;
         }
 
         .roi-reading p {
           margin: 0;
-          color: #475569;
+          color: #5b4f78;
           line-height: 2;
           font-size: 13px;
           font-weight: 800;
@@ -1154,7 +1154,7 @@ export default function LearningROICalculator({
           border-radius: 18px;
           padding: 12px 16px;
           color: #fff;
-          background: #0f172a;
+          background: #18102e;
           font-family: inherit;
           font-size: 12px;
           font-weight: 950;
@@ -1172,14 +1172,14 @@ export default function LearningROICalculator({
           border-radius: 20px;
           padding: 13px;
           background: rgba(255,255,255,.82);
-          border: 1px solid rgba(148,163,184,.22);
-          color: #0f172a;
+          border: 1px solid rgba(167, 139, 250,.22);
+          color: #18102e;
           transition: .2s ease;
         }
 
         .roi-source:hover {
           transform: translateY(-2px);
-          box-shadow: 0 16px 36px rgba(15,23,42,.08);
+          box-shadow: 0 16px 36px rgba(28, 17, 48,.08);
         }
 
         .roi-source strong {
@@ -1192,7 +1192,7 @@ export default function LearningROICalculator({
         .roi-source span {
           display: block;
           margin-top: 5px;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 750;
@@ -1203,8 +1203,8 @@ export default function LearningROICalculator({
           margin-top: 8px;
           padding: 4px 8px;
           border-radius: 999px;
-          color: #3730a3;
-          background: #eef2ff;
+          color: #6d28d9;
+          background: #efe9fb;
           font-size: 10px;
           font-weight: 950;
         }

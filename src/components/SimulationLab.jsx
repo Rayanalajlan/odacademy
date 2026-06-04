@@ -120,7 +120,7 @@ const DIFFICULTY_LEVELS = [
 ];
 
 const ARCHETYPES = [
-  { id: "contract-diagnosis", name: "التعاقد والتشخيص", color: "#6366f1", lens: "نطاق العمل والعميل الحقيقي ومنهج التشخيص", description: "مشكلات تحديد نطاق العمل، العميل الحقيقي، جمع البيانات، السرية، وتحليل الفجوات التنظيمية.", examples: "طلب تشخيص سريع بلا حدود واضحة، عميل ظاهر يختلف عن العميل الحقيقي، أو التباس في حدود السرية واستخدام البيانات.", centerLabel: "ضبابية التعاقد", goodFrame: "إعادة صياغة الطلب كمسألة تعاقد وتشخيص: من هو العميل الحقيقي؟ وما حدود العمل؟ وما الأسئلة التي يجب التحقق منها قبل التوصية؟", bestHypothesis: "الخلل المركزي ليس في غياب الحلول، بل في غموض التعاقد وتضارب توقعات الأطراف حول الغرض من التشخيص وحدود استخدام نتائجه.", bestData: "مراجعة طلب العميل، مقابلات تعاقدية مع الراعي والأطراف المتأثرة، تحليل حدود السرية، وتحديد فجوات الأسئلة التشخيصية قبل جمع بيانات موسعة.", bestIntervention: "إعادة ضبط التعاقد المهني، وتوضيح العميل الحقيقي والنطاق والمخرجات، ثم بناء خطة تشخيص متعددة المصادر قبل أي تدخل لاحق.", bestMetric: "وضوح النطاق، وانخفاض تغيّر التوقعات أثناء العمل، وارتفاع جودة البيانات التي تُجمع وفق غرض تشخيصي محدد.", bestEthic: "حماية المشاركين من استخدام الإفادات خارج غرض التشخيص، وتوضيح حدود السرية والاطلاع منذ البداية." },
+  { id: "contract-diagnosis", name: "التعاقد والتشخيص", color: "#8b5cf6", lens: "نطاق العمل والعميل الحقيقي ومنهج التشخيص", description: "مشكلات تحديد نطاق العمل، العميل الحقيقي، جمع البيانات، السرية، وتحليل الفجوات التنظيمية.", examples: "طلب تشخيص سريع بلا حدود واضحة، عميل ظاهر يختلف عن العميل الحقيقي، أو التباس في حدود السرية واستخدام البيانات.", centerLabel: "ضبابية التعاقد", goodFrame: "إعادة صياغة الطلب كمسألة تعاقد وتشخيص: من هو العميل الحقيقي؟ وما حدود العمل؟ وما الأسئلة التي يجب التحقق منها قبل التوصية؟", bestHypothesis: "الخلل المركزي ليس في غياب الحلول، بل في غموض التعاقد وتضارب توقعات الأطراف حول الغرض من التشخيص وحدود استخدام نتائجه.", bestData: "مراجعة طلب العميل، مقابلات تعاقدية مع الراعي والأطراف المتأثرة، تحليل حدود السرية، وتحديد فجوات الأسئلة التشخيصية قبل جمع بيانات موسعة.", bestIntervention: "إعادة ضبط التعاقد المهني، وتوضيح العميل الحقيقي والنطاق والمخرجات، ثم بناء خطة تشخيص متعددة المصادر قبل أي تدخل لاحق.", bestMetric: "وضوح النطاق، وانخفاض تغيّر التوقعات أثناء العمل، وارتفاع جودة البيانات التي تُجمع وفق غرض تشخيصي محدد.", bestEthic: "حماية المشاركين من استخدام الإفادات خارج غرض التشخيص، وتوضيح حدود السرية والاطلاع منذ البداية." },
   { id: "structures-processes", name: "الهياكل والعمليات", color: "#0f766e", lens: "التصميم التنظيمي وتدفق العمل والحوكمة", description: "مشكلات تداخل الصلاحيات، بطء اتخاذ القرار، ازدواجية العمل، الاختناقات، وضعف الحوكمة.", examples: "تكرار العمل بين وحدتين، بطء اعتماد القرارات، تضارب الصلاحيات، أو اختناق مستمر في مسار تشغيلي حرج.", centerLabel: "اختناق التصميم", goodFrame: "إعادة صياغة المشكلة كخلل محتمل في التصميم: حقوق القرار، نقاط التسليم، تدفق العمل، والحوكمة؛ لا كضعف جهد الأفراد فقط.", bestHypothesis: "السبب الأعمق يتمثل في تصميم هيكلي وتشغيلي يعيد إنتاج التأخر والتداخل بسبب غموض القرار وتكرار الأدوار والاختناقات.", bestData: "تحليل عمليات فعلية، رسم نقاط التسليم، مراجعة الصلاحيات، قياس زمن الدورة وإعادة العمل، وملاحظة اجتماعات القرار.", bestIntervention: "إعادة تصميم نقاط القرار وتوزيع الصلاحيات وتبسيط العملية الحرجة مع حوكمة واضحة للمسؤوليات والتسليمات.", bestMetric: "انخفاض زمن الدورة، وتراجع إعادة العمل، وتحسن حسم القرارات العابرة للوحدات.", bestEthic: "تجنّب تحميل الأفراد أخطاء التصميم، وعرض النتائج كنمط تنظيمي يحتاج إصلاحًا لا كإدانة شخصية." },
   { id: "culture-climate-change", name: "الثقافة والمناخ والتغيير", color: "#7c3aed", lens: "الثقافة التنظيمية والمناخ النفسي وتبنّي التغيير", description: "مشكلات ثقافة اللوم، ضعف الثقة، مقاومة التغيير، الصمت التنظيمي، وبيئات العمل غير الصحية.", examples: "رفض صامت لمبادرة جديدة، خوف من رفع الأخبار السيئة، انتشار اللوم، أو بيئة تجعل الناس يخفون الحقيقة.", centerLabel: "دورة المقاومة", goodFrame: "إعادة صياغة الظاهرة كمنظومة ثقافية وسلوكية: كيف تُكافأ الطاعة الصامتة؟ وكيف تُعاقب الصراحة؟ وما الذي يجعل التغيير يبدو تهديدًا؟", bestHypothesis: "المشكلة نتاج ثقافة ومناخ يعززان الحذر والامتثال الشكلي، ويجعلان التغيير يُستقبل كتهديد لا كفرصة تعلم.", bestData: "مقابلات آمنة، تحليل لحظات الحقيقة، مراجعة رسائل القيادة، قياس المناخ والثقة، وملاحظة استجابة القادة للاعتراض والأخبار الصعبة.", bestIntervention: "تدخل ثقافي سلوكي يغيّر استجابات القيادة، ويؤسس ممارسات أمان نفسي، ويعالج تبني التغيير عبر تجارب صغيرة وحوار منظم.", bestMetric: "ارتفاع الإبلاغ المبكر، وتحسن مناخ الثقة، وانخفاض مقاومة التغيير الصامتة، واستمرار السلوك الجديد بعد فترة المتابعة.", bestEthic: "حماية سرية المشاركين وعدم كشف رواياتهم الفردية، وتجنّب استخدام نتائج المناخ لمعاقبة المعترضين." },
   { id: "leadership-teams", name: "القيادة والفرق", color: "#dc2626", lens: "فاعلية القيادة والتعاون والأمان النفسي داخل الفرق", description: "مشكلات الصراع بين القادة، تفكك الفرق، ضعف التعاون، غياب المساءلة، وانخفاض السلامة النفسية.", examples: "خلافات مزمنة بين مديرين، فريق غير منسجم، غياب المساءلة المشتركة، أو قرارات تُتخذ خارج الفريق ثم تُفرض عليه.", centerLabel: "انقسام القيادة", goodFrame: "إعادة صياغة المشكلة بوصفها فجوة في قيادة الفريق والعلاقات بين القادة: كيف تتوزع السلطة؟ وكيف تُدار الخلافات؟ وما الرسائل السلوكية التي يتلقاها الفريق؟", bestHypothesis: "الأعراض الظاهرة تخفي خللًا في نمط القيادة والتنسيق والمساءلة، ما يولّد صراعًا متكررًا وضعف تعاون وسلامة نفسية هشة.", bestData: "مقابلات مع القادة والأعضاء، ملاحظة اجتماعات الفريق، تحليل مسارات التصعيد، وقياس الثقة والتعاون والمساءلة.", bestIntervention: "تدخل يجمع بين مواءمة القيادة، واتفاقات فريق واضحة، وآليات مساءلة وتغذية راجعة، مع دعم سلوكي للقادة في المواقف الحرجة.", bestMetric: "تحسن التعاون بين القادة، وانخفاض التصعيدات الشخصية، وارتفاع وضوح المساءلة وجودة العمل الجماعي.", bestEthic: "تقديم تغذية راجعة تحفظ الكرامة ولا تحول التشخيص إلى إحراج علني أو تصفية حسابات." },
@@ -692,8 +692,8 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: #eef2ff;
-      color: #0f172a;
+      background: #efe9fb;
+      color: #18102e;
       font-family: Tahoma, Arial, sans-serif;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -705,7 +705,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
       padding: 34px;
       background: #fff;
       border: 1px solid #dbe4ff;
-      box-shadow: 0 18px 55px rgba(15,23,42,.12);
+      box-shadow: 0 18px 55px rgba(28, 17, 48,.12);
       page-break-after: always;
       overflow: hidden;
       position: relative;
@@ -714,15 +714,15 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
       color: white;
       background:
         radial-gradient(circle at 20% 15%, rgba(245,158,11,.28), transparent 34%),
-        linear-gradient(135deg, #0f172a, #1e293b 60%, #111827);
+        linear-gradient(135deg, #18102e, #281748 60%, #111827);
       border: 0;
     }
     .kicker {
       display: inline-flex;
       padding: 8px 14px;
       border-radius: 999px;
-      background: #eef2ff;
-      color: #3730a3;
+      background: #efe9fb;
+      color: #6d28d9;
       font-size: 13px;
       font-weight: 900;
       margin-bottom: 18px;
@@ -732,7 +732,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     h1 { font-size: 46px; max-width: 880px; }
     h2 { font-size: 34px; margin-bottom: 18px; }
     h3 { font-size: 22px; margin-bottom: 10px; }
-    p { margin: 0; line-height: 1.9; font-size: 17px; font-weight: 650; color: #334155; }
+    p { margin: 0; line-height: 1.9; font-size: 17px; font-weight: 650; color: #463c63; }
     .dark p { color: #dbeafe; }
     .score {
       width: 156px;
@@ -751,10 +751,10 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
       border-radius: 999px;
       display: grid;
       place-items: center;
-      background: #0f172a;
+      background: #18102e;
     }
     .score strong { display: block; color: white; font-size: 36px; line-height: 1; }
-    .score span { display: block; margin-top: 6px; color: #cbd5e1; font-size: 12px; font-weight: 800; }
+    .score span { display: block; margin-top: 6px; color: #c9bdf0; font-size: 12px; font-weight: 800; }
     .meta {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -764,22 +764,22 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     .box {
       border-radius: 22px;
       padding: 18px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #f4f0fb;
+      border: 1px solid #e0d8f5;
     }
     .dark .box { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.12); }
-    .box b { display: block; margin-bottom: 8px; color: #4f46e5; font-size: 13px; }
+    .box b { display: block; margin-bottom: 8px; color: #8b5cf6; font-size: 13px; }
     .dark .box b { color: #fde68a; }
     .box span { font-size: 15px; line-height: 1.8; font-weight: 750; }
     table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 18px; font-size: 13px; }
-    th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; text-align: right; vertical-align: top; line-height: 1.7; }
-    th { color: #312e81; background: #eef2ff; font-weight: 950; }
-    tr:nth-child(even) td { background: #f8fafc; }
+    th, td { padding: 12px; border-bottom: 1px solid #e0d8f5; text-align: right; vertical-align: top; line-height: 1.7; }
+    th { color: #3b1d6e; background: #efe9fb; font-weight: 950; }
+    tr:nth-child(even) td { background: #f4f0fb; }
     .good { color: #047857; font-weight: 950; }
     .watch { color: #b45309; font-weight: 950; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     ul { margin: 0; padding: 0 22px 0 0; }
-    li { margin: 0 0 10px; color: #334155; line-height: 1.8; font-weight: 700; }
+    li { margin: 0 0 10px; color: #463c63; line-height: 1.8; font-weight: 700; }
     .footer {
       position: absolute;
       bottom: 20px;
@@ -788,7 +788,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
       display: flex;
       justify-content: space-between;
       gap: 20px;
-      color: #94a3b8;
+      color: #9d8fc0;
       font-size: 12px;
       font-weight: 800;
     }
@@ -941,7 +941,7 @@ function MasteryCard({ title, value, subtitle, color }) {
 
 function ScenarioMap({ scenario }) {
   const nodes = [
-    { label: "العرض", text: scenario.trigger, color: "#f59e0b" },
+    { label: "العرض", text: scenario.trigger, color: "#a855f7" },
     { label: "النمط", text: scenario.hiddenDynamic, color: scenario.archetype.color },
     { label: "الضغط", text: scenario.pressure, color: "#e11d48" },
     { label: "المخرج", text: scenario.deliverable, color: "#10b981" }
@@ -1307,12 +1307,12 @@ export default function Simulation() {
         .sim-root {
           min-height: 100vh;
           padding: 26px 14px 80px;
-          color: #0f172a;
+          color: #18102e;
           background:
-            radial-gradient(circle at 8% 10%, rgba(79,70,229,.18), transparent 28%),
+            radial-gradient(circle at 8% 10%, rgba(139, 92, 246,.18), transparent 28%),
             radial-gradient(circle at 92% 12%, rgba(245,158,11,.16), transparent 28%),
             radial-gradient(circle at 50% 98%, rgba(16,185,129,.13), transparent 34%),
-            linear-gradient(135deg, #f8fafc, #eef2ff 55%, #fff7ed);
+            linear-gradient(135deg, #f4f0fb, #efe9fb 55%, #fff7ed);
           font-family: inherit;
         }
 
@@ -1331,8 +1331,8 @@ export default function Simulation() {
             radial-gradient(circle at 18% 20%, rgba(129,140,248,.30), transparent 32%),
             radial-gradient(circle at 85% 5%, rgba(16,185,129,.18), transparent 28%),
             radial-gradient(circle at 60% 90%, rgba(245,158,11,.12), transparent 30%),
-            linear-gradient(145deg, #0f172a, #1e1b4b 55%, #312e81);
-          box-shadow: 0 30px 90px rgba(15,23,42,.22);
+            linear-gradient(145deg, #18102e, #1e1b4b 55%, #3b1d6e);
+          box-shadow: 0 30px 90px rgba(28, 17, 48,.22);
         }
 
         .hero::before {
@@ -1380,7 +1380,7 @@ export default function Simulation() {
         .hero h1 span {
           display: block;
           color: transparent;
-          background: linear-gradient(90deg, #fff, #c7d2fe, #fde68a);
+          background: linear-gradient(90deg, #fff, #c3b5e8, #fde68a);
           -webkit-background-clip: text;
           background-clip: text;
         }
@@ -1388,7 +1388,7 @@ export default function Simulation() {
         .hero p {
           margin: 0;
           max-width: 780px;
-          color: rgba(226,232,240,.9);
+          color: rgba(196, 181, 253,.9);
           font-size: 15px;
           line-height: 2;
           font-weight: 750;
@@ -1418,8 +1418,8 @@ export default function Simulation() {
 
         .btn.primary {
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          box-shadow: 0 16px 35px rgba(79,70,229,.35);
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          box-shadow: 0 16px 35px rgba(139, 92, 246,.35);
         }
 
         .btn.success {
@@ -1429,19 +1429,19 @@ export default function Simulation() {
         }
 
         .btn.light {
-          color: #0f172a;
+          color: #18102e;
           background: rgba(255,255,255,.92);
         }
 
         .btn.dark {
           color: white;
-          background: #0f172a;
+          background: #18102e;
         }
 
         .btn.ghost {
-          color: #334155;
+          color: #463c63;
           background: rgba(255,255,255,.78);
-          border: 1px solid rgba(148,163,184,.24);
+          border: 1px solid rgba(167, 139, 250,.24);
         }
 
         .btn.danger {
@@ -1471,7 +1471,7 @@ export default function Simulation() {
 
         .hero-metric span {
           display: block;
-          color: rgba(226,232,240,.72);
+          color: rgba(196, 181, 253,.72);
           font-size: 11px;
           font-weight: 950;
           margin-bottom: 8px;
@@ -1494,7 +1494,7 @@ export default function Simulation() {
           border-radius: 26px;
           background: rgba(255,255,255,.72);
           border: 1px solid rgba(255,255,255,.9);
-          box-shadow: 0 12px 35px rgba(15,23,42,.06);
+          box-shadow: 0 12px 35px rgba(28, 17, 48,.06);
           backdrop-filter: blur(16px);
         }
 
@@ -1507,16 +1507,16 @@ export default function Simulation() {
           font-family: inherit;
           font-weight: 950;
           font-size: 11px;
-          color: #475569;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          color: #5b4f78;
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
           transition: .2s ease;
         }
 
         .nav-btn.active,
         .panel-btn.active {
           color: white;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
           border-color: transparent;
         }
 
@@ -1524,7 +1524,7 @@ export default function Simulation() {
           border-radius: 34px;
           background: rgba(255,255,255,.86);
           border: 1px solid rgba(255,255,255,.94);
-          box-shadow: 0 18px 55px rgba(15,23,42,.08);
+          box-shadow: 0 18px 55px rgba(28, 17, 48,.08);
           backdrop-filter: blur(18px);
           padding: 22px;
           overflow: hidden;
@@ -1540,7 +1540,7 @@ export default function Simulation() {
 
         .page-head h2 {
           margin: 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: clamp(26px, 4vw, 46px);
           line-height: 1.2;
           font-weight: 950;
@@ -1549,16 +1549,16 @@ export default function Simulation() {
 
         .page-head p {
           margin: 10px 0 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 14px;
           line-height: 1.9;
           font-weight: 750;
         }
 
         .od-kicker {
-          background: rgba(79,70,229,.10);
-          color: #3730a3;
-          border-color: rgba(79,70,229,.12);
+          background: rgba(139, 92, 246,.10);
+          color: #6d28d9;
+          border-color: rgba(139, 92, 246,.12);
           margin-bottom: 12px;
         }
 
@@ -1578,8 +1578,8 @@ export default function Simulation() {
           border-radius: 30px;
           padding: 20px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.16);
-          box-shadow: 0 14px 35px rgba(15,23,42,.06);
+          border: 1px solid rgba(167, 139, 250,.16);
+          box-shadow: 0 14px 35px rgba(28, 17, 48,.06);
           transition: .22s ease;
           position: relative;
           overflow: hidden;
@@ -1599,7 +1599,7 @@ export default function Simulation() {
 
         .home-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 22px 45px rgba(15,23,42,.11);
+          box-shadow: 0 22px 45px rgba(28, 17, 48,.11);
         }
 
         .home-card b {
@@ -1618,7 +1618,7 @@ export default function Simulation() {
           display: block;
           font-size: 18px;
           font-weight: 950;
-          color: #0f172a;
+          color: #18102e;
           margin-bottom: 10px;
         }
 
@@ -1626,7 +1626,7 @@ export default function Simulation() {
           display: block;
           font-size: 12px;
           line-height: 1.8;
-          color: #64748b;
+          color: #7a6c9a;
           font-weight: 750;
         }
 
@@ -1649,14 +1649,14 @@ export default function Simulation() {
         }
 
         .od-pill {
-          background: rgba(79,70,229,.1);
-          color: #3730a3;
+          background: rgba(139, 92, 246,.1);
+          color: #6d28d9;
         }
 
         .od-data-pill {
-          background: #f1f5f9;
-          color: #475569;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #efe9fb;
+          color: #5b4f78;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .score-orb {
@@ -1668,9 +1668,9 @@ export default function Simulation() {
           text-align: center;
           color: white;
           background:
-            radial-gradient(circle at center, #0f172a 0 58%, transparent 59%),
-            conic-gradient(#10b981 0 var(--score), rgba(148,163,184,.22) var(--score) 100%);
-          box-shadow: 0 20px 45px rgba(15,23,42,.16);
+            radial-gradient(circle at center, #18102e 0 58%, transparent 59%),
+            conic-gradient(#10b981 0 var(--score), rgba(167, 139, 250,.22) var(--score) 100%);
+          box-shadow: 0 20px 45px rgba(28, 17, 48,.16);
         }
 
         .score-orb strong {
@@ -1683,7 +1683,7 @@ export default function Simulation() {
         .score-orb span {
           display: block;
           margin-top: 6px;
-          color: rgba(226,232,240,.78);
+          color: rgba(196, 181, 253,.78);
           font-size: 10px;
           font-weight: 950;
         }
@@ -1706,19 +1706,19 @@ export default function Simulation() {
           padding: 18px;
           border-radius: 28px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .card h3 {
           margin: 0 0 10px;
-          color: #0f172a;
+          color: #18102e;
           font-size: 18px;
           font-weight: 950;
         }
 
         .card p,
         .card li {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 13px;
           line-height: 1.9;
           font-weight: 750;
@@ -1749,7 +1749,7 @@ export default function Simulation() {
           border-radius: 26px;
           padding: 16px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .scenario-node::before {
@@ -1779,7 +1779,7 @@ export default function Simulation() {
 
         .scenario-node span {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           font-weight: 950;
           margin-bottom: 8px;
@@ -1787,7 +1787,7 @@ export default function Simulation() {
 
         .scenario-node p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 750;
@@ -1795,41 +1795,41 @@ export default function Simulation() {
 
 
         .briefing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0 18px; direction: rtl; }
-        .briefing-card { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; background: radial-gradient(circle at top right, rgba(99,102,241,.12), transparent 28%), radial-gradient(circle at bottom left, rgba(245,158,11,.10), transparent 30%), #ffffff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 18px 46px rgba(15,23,42,.06); direction: rtl; text-align: right; }
-        .briefing-card.domain-card { background: radial-gradient(circle at top right, rgba(99,102,241,.10), transparent 28%), radial-gradient(circle at bottom left, rgba(148,163,184,.14), transparent 34%), #ffffff; }
+        .briefing-card { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.12), transparent 28%), radial-gradient(circle at bottom left, rgba(245,158,11,.10), transparent 30%), #ffffff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 18px 46px rgba(28, 17, 48,.06); direction: rtl; text-align: right; }
+        .briefing-card.domain-card { background: radial-gradient(circle at top right, rgba(139, 92, 246,.10), transparent 28%), radial-gradient(circle at bottom left, rgba(167, 139, 250,.14), transparent 34%), #ffffff; }
         .briefing-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; direction: rtl; text-align: right; margin-bottom: 12px; }
-        .briefing-head strong { color: #0f172a; font-size: 24px; font-weight: 950; }
-        .briefing-head span { display: inline-flex; align-items: center; justify-content: center; width: fit-content; padding: 7px 12px; border-radius: 999px; background: #eef2ff; color: #4338ca; border: 1px solid rgba(99,102,241,.18); font-size: 11px; font-weight: 950; white-space: nowrap; }
-        .briefing-card p { margin: 0; color: #475569; font-size: 14px; line-height: 2.05; font-weight: 760; direction: rtl; text-align: right; }
-        .briefing-focus { margin-top: 14px; padding: 14px; border-radius: 20px; background: #f8fafc; border: 1px solid rgba(226,232,240,.95); }
-        .briefing-focus b { display: block; color: #0f172a; font-size: 13px; font-weight: 950; margin-bottom: 8px; }
-        .briefing-note { margin-top: 12px; padding: 12px 14px; border-radius: 18px; background: #eef2ff; color: #312e81; border: 1px solid rgba(99,102,241,.15); font-size: 13px; line-height: 1.95; font-weight: 850; }
-        .bento-causal { border-radius: 30px; background: radial-gradient(circle at top right, rgba(99,102,241,.08), transparent 26%), radial-gradient(circle at bottom left, rgba(245,158,11,.08), transparent 24%), #f8fafc; border: 1px solid rgba(226,232,240,.95); padding: 18px; overflow: hidden; }
+        .briefing-head strong { color: #18102e; font-size: 24px; font-weight: 950; }
+        .briefing-head span { display: inline-flex; align-items: center; justify-content: center; width: fit-content; padding: 7px 12px; border-radius: 999px; background: #efe9fb; color: #4338ca; border: 1px solid rgba(139, 92, 246,.18); font-size: 11px; font-weight: 950; white-space: nowrap; }
+        .briefing-card p { margin: 0; color: #5b4f78; font-size: 14px; line-height: 2.05; font-weight: 760; direction: rtl; text-align: right; }
+        .briefing-focus { margin-top: 14px; padding: 14px; border-radius: 20px; background: #f4f0fb; border: 1px solid rgba(196, 181, 253,.95); }
+        .briefing-focus b { display: block; color: #18102e; font-size: 13px; font-weight: 950; margin-bottom: 8px; }
+        .briefing-note { margin-top: 12px; padding: 12px 14px; border-radius: 18px; background: #efe9fb; color: #3b1d6e; border: 1px solid rgba(139, 92, 246,.15); font-size: 13px; line-height: 1.95; font-weight: 850; }
+        .bento-causal { border-radius: 30px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.08), transparent 26%), radial-gradient(circle at bottom left, rgba(245,158,11,.08), transparent 24%), #f4f0fb; border: 1px solid rgba(196, 181, 253,.95); padding: 18px; overflow: hidden; }
         .causal-meta-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-        .causal-chip { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: #eef2ff; color: #4338ca; font-size: 11px; font-weight: 950; border: 1px solid rgba(99,102,241,.18); }
+        .causal-chip { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: #efe9fb; color: #4338ca; font-size: 11px; font-weight: 950; border: 1px solid rgba(139, 92, 246,.18); }
         .causal-meta-line b { color: #111827; font-size: 30px; font-weight: 950; }
         .causal-tree { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; min-height: 690px; padding: 8px 0; }
         .causal-connectors { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
         .causal-connectors path { fill: none; stroke: #c7c9f8; stroke-width: 3; marker-end: url(#causalArrow); opacity: .95; }
         .causal-connectors path.soft { stroke: #d7dbea; stroke-dasharray: 7 7; }
-        .tree-card { position: relative; z-index: 1; border-radius: 28px; padding: 18px; background: #ffffff; border: 1px solid rgba(226,232,240,.95); box-shadow: 0 16px 40px rgba(15,23,42,.06); min-height: 150px; }
-        .tree-card p { margin: 0; color: #475569; font-size: 14px; line-height: 2.02; font-weight: 760; }
+        .tree-card { position: relative; z-index: 1; border-radius: 28px; padding: 18px; background: #ffffff; border: 1px solid rgba(196, 181, 253,.95); box-shadow: 0 16px 40px rgba(28, 17, 48,.06); min-height: 150px; }
+        .tree-card p { margin: 0; color: #5b4f78; font-size: 14px; line-height: 2.02; font-weight: 760; }
         .tree-top-left { grid-column: 1 / span 4; grid-row: 1; } .tree-top-right { grid-column: 9 / span 4; grid-row: 1; } .tree-center { grid-column: 4 / span 6; grid-row: 2; min-height: 220px; } .tree-bottom-left { grid-column: 1 / span 4; grid-row: 3; } .tree-bottom-center { grid-column: 5 / span 4; grid-row: 3; } .tree-bottom-right { grid-column: 9 / span 4; grid-row: 3; }
         .tree-card.success { border-color: rgba(110,231,183,.9); } .tree-card.info { border-color: rgba(199,210,254,.95); } .tree-card.danger { border-color: rgba(254,205,211,.95); }
-        .bento-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; } .bento-title-row h4 { margin: 0; color: #0f172a; font-size: 20px; line-height: 1.35; font-weight: 950; }
+        .bento-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; } .bento-title-row h4 { margin: 0; color: #18102e; font-size: 20px; line-height: 1.35; font-weight: 950; }
         .node-badge { width: 30px; height: 30px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 950; flex: 0 0 auto; }
-        .node-badge.warning { background: #f59e0b; } .node-badge.danger { background: #ef4444; } .node-badge.success { background: #10b981; } .node-badge.violet { background: #8b5cf6; } .node-badge.neutral { background: #64748b; }
-        .main-center { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, rgba(250,250,255,.98), rgba(241,245,249,.96)), #fff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 22px 60px rgba(99,102,241,.10); padding: 26px; }
-        .center-kicker { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: rgba(79,70,229,.08); color: #4338ca; font-size: 11px; font-weight: 950; margin-bottom: 14px; }
-        .main-center h3 { margin: 0 0 12px; color: #111827; font-size: 36px; line-height: 1.22; font-weight: 950; } .main-center p { max-width: 92%; color: #475569; font-size: 14px; line-height: 2.05; }
-        .causal-reading-box { margin-top: 14px; border-radius: 24px; padding: 16px 18px; background: #eef2ff; border: 1px solid rgba(199,210,254,.9); } .causal-reading-box h4 { margin: 0 0 8px; color: #3730a3; font-size: 16px; font-weight: 950; } .causal-reading-box p { margin: 0; color: #334155; font-size: 14px; line-height: 2; font-weight: 760; }
+        .node-badge.warning { background: #a855f7; } .node-badge.danger { background: #ef4444; } .node-badge.success { background: #10b981; } .node-badge.violet { background: #8b5cf6; } .node-badge.neutral { background: #7a6c9a; }
+        .main-center { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, rgba(250,250,255,.98), rgba(241,245,249,.96)), #fff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 22px 60px rgba(139, 92, 246,.10); padding: 26px; }
+        .center-kicker { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: rgba(139, 92, 246,.08); color: #4338ca; font-size: 11px; font-weight: 950; margin-bottom: 14px; }
+        .main-center h3 { margin: 0 0 12px; color: #111827; font-size: 36px; line-height: 1.22; font-weight: 950; } .main-center p { max-width: 92%; color: #5b4f78; font-size: 14px; line-height: 2.05; }
+        .causal-reading-box { margin-top: 14px; border-radius: 24px; padding: 16px 18px; background: #efe9fb; border: 1px solid rgba(199,210,254,.9); } .causal-reading-box h4 { margin: 0 0 8px; color: #6d28d9; font-size: 16px; font-weight: 950; } .causal-reading-box p { margin: 0; color: #463c63; font-size: 14px; line-height: 2; font-weight: 760; }
 
         .causal-loop {
           border-radius: 28px;
           background:
-            radial-gradient(circle at 50% 50%, rgba(79,70,229,.08), transparent 58%),
-            #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+            radial-gradient(circle at 50% 50%, rgba(139, 92, 246,.08), transparent 58%),
+            #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
           padding: 12px;
         }
 
@@ -1839,9 +1839,9 @@ export default function Simulation() {
           border-radius: 34px;
           padding: 18px;
           background:
-            radial-gradient(circle at 12% 10%, rgba(79,70,229,.30), transparent 32%),
+            radial-gradient(circle at 12% 10%, rgba(139, 92, 246,.30), transparent 32%),
             radial-gradient(circle at 88% 0%, rgba(16,185,129,.20), transparent 30%),
-            #0f172a;
+            #18102e;
           color: white;
         }
 
@@ -1883,7 +1883,7 @@ export default function Simulation() {
 
         .decision-top p {
           margin: 8px 0 0;
-          color: rgba(226,232,240,.78);
+          color: rgba(196, 181, 253,.78);
           line-height: 1.8;
           font-size: 13px;
           font-weight: 750;
@@ -1959,7 +1959,7 @@ export default function Simulation() {
           background:
             radial-gradient(circle at 10% 20%, rgba(16,185,129,.14), transparent 32%),
             #fff;
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .breakdown-list {
@@ -1971,8 +1971,8 @@ export default function Simulation() {
         .breakdown {
           padding: 12px;
           border-radius: 18px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .breakdown-top {
@@ -1984,20 +1984,20 @@ export default function Simulation() {
         }
 
         .breakdown-top b {
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           font-weight: 950;
         }
 
         .breakdown-top span {
-          color: #475569;
+          color: #5b4f78;
           font-size: 11px;
           font-weight: 950;
         }
 
         .breakdown p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 750;
@@ -2010,7 +2010,7 @@ export default function Simulation() {
         }
 
         .field label {
-          color: #475569;
+          color: #5b4f78;
           font-size: 11px;
           font-weight: 950;
         }
@@ -2020,12 +2020,12 @@ export default function Simulation() {
         .field textarea {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid rgba(148,163,184,.24);
-          background: #f8fafc;
+          border: 1px solid rgba(167, 139, 250,.24);
+          background: #f4f0fb;
           border-radius: 16px;
           padding: 12px;
           font-family: inherit;
-          color: #0f172a;
+          color: #18102e;
           font-weight: 850;
           outline: none;
         }
@@ -2058,19 +2058,19 @@ export default function Simulation() {
           min-height: 146px;
           border-radius: 22px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
           transition: .2s ease;
         }
 
         .scenario-mini:hover,
         .scenario-mini.active {
           transform: translateY(-3px);
-          border-color: rgba(79,70,229,.26);
-          box-shadow: 0 14px 32px rgba(15,23,42,.08);
+          border-color: rgba(139, 92, 246,.26);
+          box-shadow: 0 14px 32px rgba(28, 17, 48,.08);
         }
 
         .scenario-mini span {
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 10px;
           font-weight: 950;
         }
@@ -2078,14 +2078,14 @@ export default function Simulation() {
         .scenario-mini strong {
           display: block;
           margin: 7px 0;
-          color: #0f172a;
+          color: #18102e;
           font-size: 13px;
           line-height: 1.5;
           font-weight: 950;
         }
 
         .scenario-mini small {
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 10px;
           font-weight: 850;
           line-height: 1.6;
@@ -2104,7 +2104,7 @@ export default function Simulation() {
           border-radius: 24px;
           padding: 16px;
           background: #fff;
-          border: 1px solid rgba(148,163,184,.16);
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .mastery-card::before {
@@ -2121,7 +2121,7 @@ export default function Simulation() {
 
         .mastery-card span {
           display: block;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 11px;
           font-weight: 950;
           margin-bottom: 8px;
@@ -2129,7 +2129,7 @@ export default function Simulation() {
 
         .mastery-card strong {
           display: block;
-          color: #0f172a;
+          color: #18102e;
           font-size: 30px;
           font-weight: 950;
           line-height: 1;
@@ -2137,7 +2137,7 @@ export default function Simulation() {
 
         .mastery-card p {
           margin: 8px 0 0;
-          color: #94a3b8;
+          color: #9d8fc0;
           font-size: 11px;
           line-height: 1.6;
           font-weight: 850;
@@ -2162,13 +2162,13 @@ export default function Simulation() {
         }
 
         .mini-bar-top span {
-          color: #64748b;
+          color: #7a6c9a;
         }
 
         .mini-bar-track {
           height: 9px;
           border-radius: 999px;
-          background: #e2e8f0;
+          background: #e0d8f5;
           overflow: hidden;
         }
 
@@ -2191,19 +2191,19 @@ export default function Simulation() {
           align-items: start;
           padding: 12px;
           border-radius: 18px;
-          background: #f8fafc;
-          border: 1px solid rgba(148,163,184,.16);
+          background: #f4f0fb;
+          border: 1px solid rgba(167, 139, 250,.16);
         }
 
         .rubric-item b {
-          color: #0f172a;
+          color: #18102e;
           font-size: 12px;
           font-weight: 950;
         }
 
         .rubric-item p {
           margin: 0;
-          color: #64748b;
+          color: #7a6c9a;
           font-size: 12px;
           line-height: 1.7;
           font-weight: 750;
@@ -2355,7 +2355,7 @@ export default function Simulation() {
             </div>
 
             <div className="home-grid">
-              <button className="home-card" style={{ "--accent": "#4f46e5" }} type="button" onClick={randomScenario}>
+              <button className="home-card" style={{ "--accent": "#8b5cf6" }} type="button" onClick={randomScenario}>
                 <b>1</b>
                 <strong>ابدأ حالة جديدة</strong>
                 <span>يولد لك المختبر سيناريو تدريبيًا عشوائيًا من 350 حالة.</span>
@@ -2367,7 +2367,7 @@ export default function Simulation() {
                 <span>اقرأ الملخص والخريطة والبيانات والمخاطر دون تشتيت.</span>
               </button>
 
-              <button className="home-card" style={{ "--accent": "#f59e0b" }} type="button" onClick={() => setActiveView("decision")}>
+              <button className="home-card" style={{ "--accent": "#a855f7" }} type="button" onClick={() => setActiveView("decision")}>
                 <b>3</b>
                 <strong>افتح غرفة القرار</strong>
                 <span>أجب سؤالًا وراء سؤال مثل مستشار يعمل تحت ضغط.</span>
@@ -2722,9 +2722,9 @@ export default function Simulation() {
             </div>
 
             <div className="mastery-grid">
-              <MasteryCard title="المحاولات" value={progress.attempts || 0} subtitle="كل محاولة كاملة" color="#4f46e5" />
+              <MasteryCard title="المحاولات" value={progress.attempts || 0} subtitle="كل محاولة كاملة" color="#8b5cf6" />
               <MasteryCard title="أفضل درجة" value={`${progress.bestScore || 0}%`} subtitle="أعلى نضج قرار" color="#10b981" />
-              <MasteryCard title="متوسط الأداء" value={`${avgScore}%`} subtitle="آخر المحاولات" color="#f59e0b" />
+              <MasteryCard title="متوسط الأداء" value={`${avgScore}%`} subtitle="آخر المحاولات" color="#a855f7" />
               <MasteryCard title="وقت التعلم" value={formatTime(totalSeconds)} subtitle="داخل المختبر" color="#e11d48" />
             </div>
 
