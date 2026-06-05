@@ -4,6 +4,7 @@ import VisitorTestimonialsMarquee from "./VisitorTestimonialsMarquee";
 import SiteLogo from "./SiteLogo";
 import BrandMeta from "./BrandMeta";
 import ExperienceDesignSkin from "./ExperienceDesignSkin";
+import ThemeToggle from "./ThemeToggle";
 
 const MONTHS = [
   {
@@ -1781,6 +1782,18 @@ export default function AuthGate({
       `}</style>
 
       <div className="public-wrap">
+        <div
+          className="visitor-theme-toggle"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "8px",
+            position: "relative",
+            zIndex: 3
+          }}
+        >
+          <ThemeToggle />
+        </div>
         <section className="public-hero">
           <div>
             <div className="public-brand-logo">

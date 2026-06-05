@@ -88,8 +88,8 @@ export default function ExperienceDesignSkin() {
         background:
           radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .18), transparent 30%),
           radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .15), transparent 34%),
-          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 42%, #f7f3fc 42%, #f7f3fc 100%) !important;
-        color: #18102e !important;
+          linear-gradient(180deg, #0c0717 0%, #120a22 60%, #0c0717 100%) !important;
+        color: #ece6f8 !important;
         padding-top: clamp(14px, 3vw, 28px) !important;
       }
 
@@ -139,7 +139,7 @@ export default function ExperienceDesignSkin() {
         background:
           radial-gradient(circle at 8% 12%, rgba(139, 92, 246,.18), transparent 30%),
           radial-gradient(circle at 88% 18%, rgba(168, 85, 247,.18), transparent 28%),
-          linear-gradient(135deg, #ffffff 0%, #efe9fb 48%, #f3eefb 100%) !important;
+          linear-gradient(135deg, #160c2a 0%, #120a22 55%, #1a1030 100%) !important;
         box-shadow: 0 34px 100px rgba(59, 29, 110, .18) !important;
       }
 
@@ -166,7 +166,7 @@ export default function ExperienceDesignSkin() {
         inset-inline-start: clamp(18px, 4vw, 52px);
         bottom: clamp(14px, 3vw, 30px);
         z-index: -1;
-        color: rgba(26, 16, 48,.07);
+        color: rgba(196, 181, 253,.06);
         font-size: clamp(42px, 7vw, 96px);
         line-height: 1;
         font-weight: 950;
@@ -189,7 +189,7 @@ export default function ExperienceDesignSkin() {
         margin-bottom: clamp(20px, 4vw, 34px) !important;
         padding: 8px 12px !important;
         border-radius: 18px !important;
-        background: rgba(255, 255, 255, .72) !important;
+        background: rgba(30, 18, 55, .5) !important;
         border: 1px solid rgba(139, 92, 246, .18) !important;
         box-shadow: 0 16px 40px rgba(59, 29, 110, .08) !important;
         backdrop-filter: blur(12px) !important;
@@ -229,7 +229,7 @@ export default function ExperienceDesignSkin() {
       .public-hero h1 {
         max-width: 760px !important;
         margin: clamp(18px, 3vw, 26px) 0 16px !important;
-        color: #1a1030 !important;
+        color: #f1ecfb !important;
         font-size: clamp(46px, 7.8vw, 104px) !important;
         line-height: .98 !important;
         letter-spacing: 0 !important;
@@ -239,7 +239,7 @@ export default function ExperienceDesignSkin() {
 
       .public-hero p {
         max-width: 680px !important;
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
         font-size: clamp(15px, 1.35vw, 18px) !important;
         line-height: 2.05 !important;
       }
@@ -267,7 +267,7 @@ export default function ExperienceDesignSkin() {
         overflow: hidden !important;
         border-radius: 18px !important;
         padding: 18px !important;
-        background: rgba(255,255,255,.70) !important;
+        background: rgba(28, 17, 48, .6) !important;
         border: 1px solid rgba(139, 92, 246,.18) !important;
         backdrop-filter: blur(16px) !important;
         box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
@@ -289,11 +289,11 @@ export default function ExperienceDesignSkin() {
       }
 
       .hero-point strong {
-        color: #1a1030 !important;
+        color: #f1ecfb !important;
       }
 
       .hero-point span {
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
       }
 
       .auth-card {
@@ -304,11 +304,11 @@ export default function ExperienceDesignSkin() {
         padding: clamp(18px, 2.6vw, 28px) !important;
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
-          linear-gradient(180deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+          linear-gradient(180deg, rgba(30,18,55,.94), rgba(18,11,34,.96)) !important;
         border: 1px solid rgba(139, 92, 246,.20) !important;
         box-shadow:
           0 22px 68px rgba(59, 29, 110,.16),
-          inset 0 1px 0 rgba(255,255,255,.80) !important;
+          inset 0 1px 0 rgba(255,255,255,.06) !important;
         backdrop-filter: blur(22px) !important;
       }
 
@@ -331,32 +331,32 @@ export default function ExperienceDesignSkin() {
 
       .auth-tabs button {
         border-radius: 12px !important;
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
         background: transparent !important;
       }
 
       .auth-tabs button.active {
-        color: #0e0820 !important;
-        background: linear-gradient(135deg, #f7f3fc, #a855f7) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
         box-shadow: 0 12px 30px rgba(168, 85, 247, .22) !important;
       }
 
       .auth-title {
-        color: #1a1030 !important;
+        color: #f1ecfb !important;
       }
 
       .auth-field label {
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
       }
 
       .auth-field input,
       .password-row input {
         min-height: 48px !important;
         border-radius: 14px !important;
-        color: #1a1030 !important;
-        background: rgba(255,255,255,.92) !important;
+        color: #f1ecfb !important;
+        background: rgba(12, 7, 23, .55) !important;
         border: 1px solid rgba(139, 92, 246,.20) !important;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.86) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
       }
 
       .auth-field input::placeholder,
@@ -365,7 +365,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .hint {
-        color: #8a7caa !important;
+        color: #9d8fc0 !important;
       }
 
       .toggle-password,
@@ -377,8 +377,8 @@ export default function ExperienceDesignSkin() {
       .auth-primary {
         min-height: 50px !important;
         border-radius: 15px !important;
-        color: #0e0820 !important;
-        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
         box-shadow: 0 18px 46px rgba(168, 85, 247, .28) !important;
       }
 
@@ -402,7 +402,7 @@ export default function ExperienceDesignSkin() {
         padding: clamp(20px, 4vw, 34px) !important;
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.08), transparent 30%),
-          rgba(247, 243, 252, .88) !important;
+          rgba(18, 11, 34, .82) !important;
         border: 1px solid rgba(167, 139, 250,.16) !important;
         box-shadow: var(--lab-shadow-soft) !important;
       }
@@ -414,7 +414,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head h2 {
-        color: #120a22 !important;
+        color: #f1ecfb !important;
         font-size: clamp(28px, 4.4vw, 58px) !important;
         line-height: 1.08 !important;
         letter-spacing: 0 !important;
@@ -422,7 +422,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head p {
-        color: #7a6c9a !important;
+        color: #9d8fc0 !important;
         line-height: 2 !important;
       }
 
@@ -439,7 +439,7 @@ export default function ExperienceDesignSkin() {
         padding: 20px !important;
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+          linear-gradient(135deg, rgba(30,18,55,.94), rgba(18,11,34,.95)) !important;
         border: 1px solid rgba(139, 92, 246,.18) !important;
         box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
@@ -455,13 +455,13 @@ export default function ExperienceDesignSkin() {
       }
 
       .counter-card strong {
-        color: #1a1030 !important;
+        color: #f1ecfb !important;
         font-size: clamp(34px, 4vw, 54px) !important;
         line-height: 1 !important;
       }
 
       .counter-card span {
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
       }
 
       .path-grid {
@@ -490,7 +490,7 @@ export default function ExperienceDesignSkin() {
         border-radius: 20px !important;
         padding: 18px !important;
         background:
-          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
+          linear-gradient(180deg, rgba(28,17,48,.85), rgba(18,11,34,.92)) !important;
         border: 1px solid rgba(167, 139, 250,.20) !important;
         box-shadow: 0 18px 52px rgba(28, 17, 48,.08) !important;
       }
@@ -514,12 +514,12 @@ export default function ExperienceDesignSkin() {
       }
 
       .path-card strong {
-        color: #120a22 !important;
+        color: #f1ecfb !important;
         font-size: 16px !important;
       }
 
       .path-card span {
-        color: #5b4f78 !important;
+        color: #b6a8d6 !important;
         line-height: 1.9 !important;
       }
 
@@ -535,7 +535,7 @@ export default function ExperienceDesignSkin() {
         padding: clamp(20px, 3vw, 28px) !important;
         background:
           radial-gradient(circle at 88% 10%, rgba(139, 92, 246,.14), transparent 28%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(243, 236, 253,.90)) !important;
+          linear-gradient(135deg, rgba(30,18,55,.94), rgba(18,11,34,.95)) !important;
         border: 1px solid rgba(139, 92, 246,.18) !important;
         box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
@@ -558,19 +558,19 @@ export default function ExperienceDesignSkin() {
       }
 
       .sample-box h3 {
-        color: #1a1030 !important;
+        color: #f1ecfb !important;
         font-size: clamp(22px, 3vw, 34px) !important;
       }
 
       .sample-box p,
       .sample-bullets li {
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
       }
 
       .sample-button {
         border-radius: 14px !important;
-        color: #0e0820 !important;
-        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
         box-shadow: 0 18px 42px rgba(168, 85, 247,.22) !important;
       }
 
@@ -589,7 +589,7 @@ export default function ExperienceDesignSkin() {
       .vt-card {
         border-radius: 18px !important;
         background:
-          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
+          linear-gradient(180deg, rgba(28,17,48,.85), rgba(18,11,34,.92)) !important;
         border: 1px solid rgba(167, 139, 250,.18) !important;
         box-shadow: 0 16px 44px rgba(28, 17, 48,.07) !important;
       }
@@ -597,19 +597,19 @@ export default function ExperienceDesignSkin() {
       .info-card strong,
       .legal-card strong,
       .faq-question span:first-child {
-        color: #120a22 !important;
+        color: #f1ecfb !important;
       }
 
       .info-card span,
       .legal-card span,
       .faq-answer {
-        color: #5b4f78 !important;
+        color: #b6a8d6 !important;
         line-height: 1.95 !important;
       }
 
       .about-links a {
         border-radius: 999px !important;
-        color: #0e0820 !important;
+        color: #ffffff !important;
         background: rgba(168, 85, 247,.14) !important;
         border: 1px solid rgba(168, 85, 247,.20) !important;
       }
@@ -642,17 +642,17 @@ export default function ExperienceDesignSkin() {
         margin-top: clamp(26px, 5vw, 60px) !important;
         border-radius: 26px !important;
         padding: 22px !important;
-        color: #6f6391 !important;
+        color: #b6a8d6 !important;
         background:
           radial-gradient(circle at 0% 100%, rgba(168, 85, 247,.16), transparent 30%),
-          linear-gradient(135deg, rgba(255,255,255,.92), rgba(237, 230, 251,.90)) !important;
+          linear-gradient(135deg, rgba(26,15,48,.92), rgba(16,9,28,.96)) !important;
         border: 1px solid rgba(139, 92, 246,.18) !important;
         box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .public-footer span,
       .site-footer span {
-        color: #8a7caa !important;
+        color: #9d8fc0 !important;
       }
 
       .public-footer-logo .munsaqah-logo--footer .munsaqah-logo__mark img {
@@ -904,11 +904,38 @@ export default function ExperienceDesignSkin() {
       }
 
       body.od-theme-dark .site-frame,
-      body.od-theme-dark .public-gate {
+      body.od-theme-dark .public-gate,
+      body.od-theme-dark .od-home-v2,
+      body.od-theme-dark .about-rayan,
+      body.od-theme-dark .admin-dashboard,
+      body.od-theme-dark .ai-command-page,
+      body.od-theme-dark .journey-lab,
+      body.od-theme-dark .learning-journey,
+      body.od-theme-dark .mastery-page,
+      body.od-theme-dark .roi-page,
+      body.od-theme-dark .sim-root,
+      body.od-theme-dark .verify-page,
+      body.od-theme-dark .learning-portfolio {
         background:
           radial-gradient(circle at 10% 8%, rgba(124, 58, 237,.10), transparent 28%),
           radial-gradient(circle at 88% 10%, rgba(168, 85, 247,.10), transparent 26%),
           linear-gradient(180deg, #0c0717 0%, #0e0820 100%) !important;
+        color: #ece6f8 !important;
+      }
+
+      body.od-theme-dark .od-home-v2::before,
+      body.od-theme-dark .about-rayan::before,
+      body.od-theme-dark .admin-dashboard::before,
+      body.od-theme-dark .ai-command-page::before,
+      body.od-theme-dark .journey-lab::before,
+      body.od-theme-dark .learning-journey::before,
+      body.od-theme-dark .mastery-page::before,
+      body.od-theme-dark .roi-page::before,
+      body.od-theme-dark .sim-root::before,
+      body.od-theme-dark .verify-page::before {
+        background-image:
+          linear-gradient(rgba(167, 139, 250,.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(167, 139, 250,.05) 1px, transparent 1px) !important;
       }
 
       body.od-theme-dark .public-section,
@@ -924,7 +951,13 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .vt-form,
       body.od-theme-dark .vt-card,
       body.od-theme-dark [class*="card"],
-      body.od-theme-dark [class*="panel"] {
+      body.od-theme-dark [class*="panel"],
+      body.od-theme-dark [class*="od-timer"],
+      body.od-theme-dark [class*="command"],
+      body.od-theme-dark [class*="tracker"],
+      body.od-theme-dark [class*="-strip"],
+      body.od-theme-dark [class*="-tile"],
+      body.od-theme-dark [class*="-box"] {
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 28%),
           rgba(28, 17, 48, .94) !important;

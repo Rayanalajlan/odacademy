@@ -45,6 +45,66 @@ const pages = [
   { id: "about", label: "عن ريان" }
 ];
 
+const NAV_ICON_PATHS = {
+  home: (
+    <>
+      <path d="M3.2 10.9 12 3.6l8.8 7.3" />
+      <path d="M5.5 9.4V20.5h13V9.4" />
+    </>
+  ),
+  portfolio: (
+    <>
+      <path d="M5 5h9.4A2.6 2.6 0 0 1 17 7.6V20.6H7.6A2.6 2.6 0 0 0 5 23.2z" />
+      <path d="M9 5v15.6" />
+    </>
+  ),
+  journey: (
+    <>
+      <path d="M6.5 21V4" />
+      <path d="M6.5 4.6c3-1.8 6 1.8 9 0v7.1c-3 1.8-6-1.8-9 0" />
+    </>
+  ),
+  mastery: (
+    <>
+      <circle cx="12" cy="8.8" r="4.8" />
+      <path d="M9 12.8 7.6 21 12 18.4 16.4 21 15 12.8" />
+    </>
+  ),
+  about: (
+    <>
+      <circle cx="12" cy="8" r="3.4" />
+      <path d="M5.6 20a6.4 6.4 0 0 1 12.8 0" />
+    </>
+  ),
+  admin: (
+    <>
+      <rect x="3.2" y="3.2" width="7" height="8.6" rx="1.6" />
+      <rect x="13.8" y="3.2" width="7" height="5" rx="1.6" />
+      <rect x="13.8" y="11.8" width="7" height="9" rx="1.6" />
+      <rect x="3.2" y="15.4" width="7" height="5.4" rx="1.6" />
+    </>
+  )
+};
+
+function renderNavIcon(id) {
+  const paths = NAV_ICON_PATHS[id];
+  if (!paths) return null;
+  return (
+    <span className="nav-ico" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {paths}
+      </svg>
+    </span>
+  );
+}
+
 const educationalToolPages = [
   {
     id: "radar",
@@ -637,6 +697,26 @@ export default function App() {
           }
         }
 
+        .main-nav button {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 7px;
+        }
+
+        .main-nav button .nav-ico {
+          display: inline-flex;
+          width: 17px;
+          height: 17px;
+          flex: none;
+          opacity: 0.92;
+        }
+
+        .main-nav button .nav-ico svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+
         .page-loader {
           width: min(1180px, calc(100% - 28px));
           margin: 18px auto;
@@ -766,6 +846,7 @@ export default function App() {
                 className={activePage === page.id ? "active" : ""}
                 onClick={() => navigate(page.id)}
               >
+                {renderNavIcon(page.id)}
                 {page.label}
               </button>
             </Fragment>
