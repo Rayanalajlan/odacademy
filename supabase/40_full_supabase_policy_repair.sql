@@ -24,7 +24,14 @@ CREATE TABLE IF NOT EXISTS public.user_profiles (
   id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email text,
   full_name text,
+  display_name text,
+  certificate_name text,
   avatar_url text,
+  professional_goal text,
+  professional_track text,
+  experience_level text,
+  city text,
+  country text,
   role text NOT NULL DEFAULT 'learner',
   onboarding_completed boolean NOT NULL DEFAULT false,
   current_month integer NOT NULL DEFAULT 1,
@@ -32,6 +39,11 @@ CREATE TABLE IF NOT EXISTS public.user_profiles (
   current_day integer NOT NULL DEFAULT 1,
   completed_days integer NOT NULL DEFAULT 0,
   total_learning_seconds integer NOT NULL DEFAULT 0,
+  profile_completed_at timestamptz,
+  welcome_email_sent_at timestamptz,
+  welcome_email_status text,
+  welcome_email_error text,
+  welcome_email_last_attempt_at timestamptz,
   last_seen_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
@@ -230,11 +242,26 @@ CREATE TABLE IF NOT EXISTS public.journey_feedback (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
   stage text NOT NULL DEFAULT 'general',
+  clarity_rating integer,
+  od_depth_rating integer,
   overall_rating integer,
+  capability_rating integer,
+  recommend boolean,
+  most_helpful_section text,
+  improvement_text text,
+  transformation_text text,
   testimonial_text text,
   consent_to_publish boolean NOT NULL DEFAULT false,
+  publish_consent boolean NOT NULL DEFAULT false,
+  display_name_preference text NOT NULL DEFAULT 'anonymous',
+  is_public boolean NOT NULL DEFAULT false,
+  completed_days integer NOT NULL DEFAULT 0,
+  completed_percent integer NOT NULL DEFAULT 0,
   status text NOT NULL DEFAULT 'pending',
   admin_note text,
+  submitted_at timestamptz NOT NULL DEFAULT now(),
+  moderated_at timestamptz,
+  published_at timestamptz,
   metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
@@ -264,6 +291,43 @@ CREATE TABLE IF NOT EXISTS public.privacy_requests (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+ALTER TABLE public.user_profiles
+  ADD COLUMN IF NOT EXISTS display_name text,
+  ADD COLUMN IF NOT EXISTS certificate_name text,
+  ADD COLUMN IF NOT EXISTS professional_goal text,
+  ADD COLUMN IF NOT EXISTS professional_track text,
+  ADD COLUMN IF NOT EXISTS experience_level text,
+  ADD COLUMN IF NOT EXISTS city text,
+  ADD COLUMN IF NOT EXISTS country text,
+  ADD COLUMN IF NOT EXISTS profile_completed_at timestamptz,
+  ADD COLUMN IF NOT EXISTS welcome_email_sent_at timestamptz,
+  ADD COLUMN IF NOT EXISTS welcome_email_status text,
+  ADD COLUMN IF NOT EXISTS welcome_email_error text,
+  ADD COLUMN IF NOT EXISTS welcome_email_last_attempt_at timestamptz;
+
+ALTER TABLE public.journey_feedback
+  ADD COLUMN IF NOT EXISTS clarity_rating integer,
+  ADD COLUMN IF NOT EXISTS od_depth_rating integer,
+  ADD COLUMN IF NOT EXISTS capability_rating integer,
+  ADD COLUMN IF NOT EXISTS recommend boolean,
+  ADD COLUMN IF NOT EXISTS most_helpful_section text,
+  ADD COLUMN IF NOT EXISTS improvement_text text,
+  ADD COLUMN IF NOT EXISTS transformation_text text,
+  ADD COLUMN IF NOT EXISTS publish_consent boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS display_name_preference text NOT NULL DEFAULT 'anonymous',
+  ADD COLUMN IF NOT EXISTS is_public boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS completed_days integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS completed_percent integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS submitted_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS moderated_at timestamptz,
+  ADD COLUMN IF NOT EXISTS published_at timestamptz;
+
+UPDATE public.user_profiles
+SET display_name = COALESCE(display_name, full_name),
+    certificate_name = COALESCE(certificate_name, full_name)
+WHERE full_name IS NOT NULL
+  AND (display_name IS NULL OR certificate_name IS NULL);
+
 CREATE INDEX IF NOT EXISTS idx_user_progress_user ON public.user_progress(user_id);
 CREATE INDEX IF NOT EXISTS idx_lesson_notes_user ON public.lesson_notes(user_id);
 CREATE INDEX IF NOT EXISTS idx_weekly_reflections_user ON public.weekly_reflections(user_id);
@@ -271,6 +335,7 @@ CREATE INDEX IF NOT EXISTS idx_radar_assessments_user ON public.radar_assessment
 CREATE INDEX IF NOT EXISTS idx_notifications_user_read ON public.notifications(user_id, is_read);
 CREATE INDEX IF NOT EXISTS idx_learning_events_user_created ON public.user_learning_events(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_journey_feedback_status ON public.journey_feedback(status);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_journey_feedback_user_stage ON public.journey_feedback(user_id, stage);
 CREATE INDEX IF NOT EXISTS idx_mastery_certificates_lookup ON public.mastery_certificates(certificate_code, certificate_slug);
 CREATE INDEX IF NOT EXISTS idx_monthly_certificates_lookup ON public.monthly_certificates(certificate_code, certificate_slug);
 
@@ -733,7 +798,11 @@ AS $$
 
   SELECT
     journey_feedback.id,
-    COALESCE(user_profiles.full_name, 'متعلم في OD Academy') AS display_name,
+    CASE
+      WHEN journey_feedback.display_name_preference = 'full_name'
+        THEN COALESCE(user_profiles.display_name, user_profiles.certificate_name, user_profiles.full_name, 'متعلم في OD Academy')
+      ELSE 'متعلم في OD Academy'
+    END AS display_name,
     NULL::text AS role_title,
     journey_feedback.testimonial_text,
     journey_feedback.overall_rating AS rating,
@@ -742,7 +811,11 @@ AS $$
   FROM public.journey_feedback
   LEFT JOIN public.user_profiles ON user_profiles.id = journey_feedback.user_id
   WHERE journey_feedback.status = 'published'
-    AND journey_feedback.consent_to_publish = true
+    AND (
+      journey_feedback.publish_consent = true
+      OR journey_feedback.consent_to_publish = true
+      OR journey_feedback.is_public = true
+    )
     AND journey_feedback.testimonial_text IS NOT NULL
   ORDER BY created_at DESC
   LIMIT LEAST(GREATEST(COALESCE(limit_count, 6), 1), 24);
@@ -770,7 +843,18 @@ BEGIN
       WHEN moderation_action IN ('reject', 'rejected') THEN 'rejected'
       ELSE COALESCE(moderation_action, status)
     END,
+    is_public = CASE
+      WHEN publish OR moderation_action IN ('publish', 'published', 'approve', 'approved') THEN true
+      WHEN moderation_action IN ('reject', 'rejected') THEN false
+      ELSE is_public
+    END,
     admin_note = note,
+    moderated_at = now(),
+    published_at = CASE
+      WHEN publish OR moderation_action IN ('publish', 'published', 'approve', 'approved')
+        THEN COALESCE(published_at, now())
+      ELSE published_at
+    END,
     updated_at = now()
   WHERE id = feedback_id;
 

@@ -222,6 +222,59 @@ async function sendEmailWithResend({ apiKey, fromEmail, toEmail, subject, html, 
 
   return {
     ok: true,
+    provider: "resend",
+    result
+  };
+}
+
+async function sendEmailWithBrevo({
+  apiKey,
+  senderEmail,
+  senderName,
+  toEmail,
+  toName,
+  subject,
+  html,
+  text
+}) {
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "api-key": apiKey,
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      sender: {
+        name: senderName || "OD Academy",
+        email: senderEmail
+      },
+      to: [
+        {
+          email: toEmail,
+          name: toName || toEmail
+        }
+      ],
+      subject,
+      htmlContent: html,
+      textContent: text
+    })
+  });
+
+  const result = await safeJson(response);
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      provider: "brevo",
+      status: response.status,
+      details: result
+    };
+  }
+
+  return {
+    ok: true,
+    provider: "brevo",
     result
   };
 }
@@ -232,6 +285,35 @@ export async function onRequestOptions() {
     status: 204,
     headers: corsHeaders()
   });
+}
+
+export async function onRequestGet({ env }) {
+  const supabaseUrl = getEnvValue(env, "SUPABASE_URL", "VITE_SUPABASE_URL");
+  const supabaseAnonKey = getEnvValue(
+    env,
+    "SUPABASE_ANON_KEY",
+    "VITE_SUPABASE_ANON_KEY"
+  );
+  const resendApiKey = getEnvValue(env, "RESEND_API_KEY");
+  const brevoApiKey = getEnvValue(env, "BREVO_API_KEY");
+  const brevoSenderEmail = getEnvValue(env, "BREVO_SENDER_EMAIL");
+  const missing = [];
+
+  if (!supabaseUrl) missing.push("SUPABASE_URL أو VITE_SUPABASE_URL");
+  if (!supabaseAnonKey) missing.push("SUPABASE_ANON_KEY أو VITE_SUPABASE_ANON_KEY");
+  if (!resendApiKey && !brevoApiKey) missing.push("RESEND_API_KEY أو BREVO_API_KEY");
+  if (brevoApiKey && !brevoSenderEmail) missing.push("BREVO_SENDER_EMAIL");
+
+  return jsonResponse(
+    {
+      ok: missing.length === 0,
+      service: "odacademy-login-notice",
+      envReady: missing.length === 0,
+      provider: brevoApiKey ? "brevo" : resendApiKey ? "resend" : "none",
+      missing
+    },
+    missing.length === 0 ? 200 : 500
+  );
 }
 
 export async function onRequestPost({ request, env }) {
@@ -267,6 +349,9 @@ export async function onRequestPost({ request, env }) {
       "VITE_SUPABASE_ANON_KEY"
     );
     const resendApiKey = getEnvValue(env, "RESEND_API_KEY");
+    const brevoApiKey = getEnvValue(env, "BREVO_API_KEY");
+    const brevoSenderEmail = getEnvValue(env, "BREVO_SENDER_EMAIL");
+    const brevoSenderName = getEnvValue(env, "BREVO_SENDER_NAME") || "OD Academy";
 
     if (!supabaseUrl || !supabaseAnonKey) {
       return jsonResponse(
@@ -278,11 +363,21 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    if (!resendApiKey) {
+    if (!resendApiKey && !brevoApiKey) {
       return jsonResponse(
         {
           ok: false,
-          error: "Missing RESEND_API_KEY"
+          error: "Missing RESEND_API_KEY or BREVO_API_KEY"
+        },
+        500
+      );
+    }
+
+    if (brevoApiKey && !brevoSenderEmail) {
+      return jsonResponse(
+        {
+          ok: false,
+          error: "Missing BREVO_SENDER_EMAIL"
         },
         500
       );
@@ -347,14 +442,25 @@ export async function onRequestPost({ request, env }) {
       userAgent
     });
 
-    const emailResult = await sendEmailWithResend({
-      apiKey: resendApiKey,
-      fromEmail,
-      toEmail: user.email,
-      subject: emailContent.subject,
-      html: emailContent.html,
-      text: emailContent.text
-    });
+    const emailResult = brevoApiKey
+      ? await sendEmailWithBrevo({
+          apiKey: brevoApiKey,
+          senderEmail: brevoSenderEmail,
+          senderName: brevoSenderName,
+          toEmail: user.email,
+          toName: user.email,
+          subject: emailContent.subject,
+          html: emailContent.html,
+          text: emailContent.text
+        })
+      : await sendEmailWithResend({
+          apiKey: resendApiKey,
+          fromEmail,
+          toEmail: user.email,
+          subject: emailContent.subject,
+          html: emailContent.html,
+          text: emailContent.text
+        });
 
     if (!emailResult.ok) {
       return jsonResponse(
@@ -369,7 +475,8 @@ export async function onRequestPost({ request, env }) {
 
     return jsonResponse({
       ok: true,
-      sent: true
+      sent: true,
+      provider: emailResult.provider
     });
   } catch (error) {
     return jsonResponse(
