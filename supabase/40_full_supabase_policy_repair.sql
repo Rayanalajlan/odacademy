@@ -306,21 +306,213 @@ ALTER TABLE public.user_profiles
   ADD COLUMN IF NOT EXISTS welcome_email_last_attempt_at timestamptz;
 
 ALTER TABLE public.journey_feedback
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS stage text NOT NULL DEFAULT 'general',
   ADD COLUMN IF NOT EXISTS clarity_rating integer,
   ADD COLUMN IF NOT EXISTS od_depth_rating integer,
+  ADD COLUMN IF NOT EXISTS overall_rating integer,
   ADD COLUMN IF NOT EXISTS capability_rating integer,
   ADD COLUMN IF NOT EXISTS recommend boolean,
   ADD COLUMN IF NOT EXISTS most_helpful_section text,
   ADD COLUMN IF NOT EXISTS improvement_text text,
   ADD COLUMN IF NOT EXISTS transformation_text text,
+  ADD COLUMN IF NOT EXISTS testimonial_text text,
+  ADD COLUMN IF NOT EXISTS consent_to_publish boolean NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS publish_consent boolean NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS display_name_preference text NOT NULL DEFAULT 'anonymous',
   ADD COLUMN IF NOT EXISTS is_public boolean NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS completed_days integer NOT NULL DEFAULT 0,
   ADD COLUMN IF NOT EXISTS completed_percent integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'pending',
+  ADD COLUMN IF NOT EXISTS admin_note text,
   ADD COLUMN IF NOT EXISTS submitted_at timestamptz NOT NULL DEFAULT now(),
   ADD COLUMN IF NOT EXISTS moderated_at timestamptz,
-  ADD COLUMN IF NOT EXISTS published_at timestamptz;
+  ADD COLUMN IF NOT EXISTS published_at timestamptz,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.notifications
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS title text,
+  ADD COLUMN IF NOT EXISTS body text,
+  ADD COLUMN IF NOT EXISTS type text NOT NULL DEFAULT 'info',
+  ADD COLUMN IF NOT EXISTS is_read boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS read_at timestamptz;
+
+ALTER TABLE public.visitor_testimonials
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS display_name text,
+  ADD COLUMN IF NOT EXISTS role_title text,
+  ADD COLUMN IF NOT EXISTS testimonial_text text,
+  ADD COLUMN IF NOT EXISTS rating integer,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'published',
+  ADD COLUMN IF NOT EXISTS display_order integer NOT NULL DEFAULT 100,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.privacy_requests
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS email text,
+  ADD COLUMN IF NOT EXISTS request_type text,
+  ADD COLUMN IF NOT EXISTS details text,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'pending',
+  ADD COLUMN IF NOT EXISTS admin_note text,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.user_progress
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS month_no integer,
+  ADD COLUMN IF NOT EXISTS week_no integer,
+  ADD COLUMN IF NOT EXISTS day_no integer,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'completed',
+  ADD COLUMN IF NOT EXISTS completed boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS completed_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS notes text,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.lesson_notes
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS month_no integer,
+  ADD COLUMN IF NOT EXISTS week_no integer,
+  ADD COLUMN IF NOT EXISTS day_no integer,
+  ADD COLUMN IF NOT EXISTS lesson_id text,
+  ADD COLUMN IF NOT EXISTS title text,
+  ADD COLUMN IF NOT EXISTS content text,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.lesson_bookmarks
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS month_no integer,
+  ADD COLUMN IF NOT EXISTS week_no integer,
+  ADD COLUMN IF NOT EXISTS day_no integer,
+  ADD COLUMN IF NOT EXISTS lesson_id text,
+  ADD COLUMN IF NOT EXISTS title text,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.weekly_reflections
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS month_no integer,
+  ADD COLUMN IF NOT EXISTS week_no integer,
+  ADD COLUMN IF NOT EXISTS responses jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.radar_assessments
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS assessment_type text NOT NULL DEFAULT 'performance_radar',
+  ADD COLUMN IF NOT EXISTS scores jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS result jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS notes text,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.radar_attempts
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS result jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.simulation_attempts
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS simulation_id text,
+  ADD COLUMN IF NOT EXISTS score integer,
+  ADD COLUMN IF NOT EXISTS result jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.ai_mentor_sessions
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS title text,
+  ADD COLUMN IF NOT EXISTS messages jsonb NOT NULL DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.user_learning_time
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS page_name text NOT NULL DEFAULT 'unknown',
+  ADD COLUMN IF NOT EXISTS entity_type text,
+  ADD COLUMN IF NOT EXISTS entity_id text,
+  ADD COLUMN IF NOT EXISTS month_no integer,
+  ADD COLUMN IF NOT EXISTS week_no integer,
+  ADD COLUMN IF NOT EXISTS day_no integer,
+  ADD COLUMN IF NOT EXISTS seconds_spent integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.user_learning_events
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS event_type text,
+  ADD COLUMN IF NOT EXISTS event_title text,
+  ADD COLUMN IF NOT EXISTS event_description text,
+  ADD COLUMN IF NOT EXISTS entity_type text,
+  ADD COLUMN IF NOT EXISTS entity_id text,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.badges
+  ADD COLUMN IF NOT EXISTS id text,
+  ADD COLUMN IF NOT EXISTS title text,
+  ADD COLUMN IF NOT EXISTS description text,
+  ADD COLUMN IF NOT EXISTS icon text,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.user_badges
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS badge_id text,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS awarded_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.monthly_certificates
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS month_number integer,
+  ADD COLUMN IF NOT EXISTS month_title text,
+  ADD COLUMN IF NOT EXISTS certificate_code text,
+  ADD COLUMN IF NOT EXISTS certificate_slug text,
+  ADD COLUMN IF NOT EXISTS certificate_name text,
+  ADD COLUMN IF NOT EXISTS completed_days integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS total_days integer NOT NULL DEFAULT 30,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'issued',
+  ADD COLUMN IF NOT EXISTS public_enabled boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS issued_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+ALTER TABLE public.mastery_certificates
+  ADD COLUMN IF NOT EXISTS id uuid DEFAULT gen_random_uuid(),
+  ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS certificate_code text,
+  ADD COLUMN IF NOT EXISTS certificate_slug text,
+  ADD COLUMN IF NOT EXISTS certificate_name text,
+  ADD COLUMN IF NOT EXISTS completed_days integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS total_days integer NOT NULL DEFAULT 180,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'issued',
+  ADD COLUMN IF NOT EXISTS public_enabled boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS issued_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
 
 UPDATE public.user_profiles
 SET display_name = COALESCE(display_name, full_name),
@@ -537,6 +729,7 @@ CREATE TRIGGER on_auth_user_created_profile
 AFTER INSERT OR UPDATE ON auth.users
 FOR EACH ROW EXECUTE FUNCTION public.handle_new_user_profile();
 
+DROP FUNCTION IF EXISTS public.touch_user_activity();
 CREATE OR REPLACE FUNCTION public.touch_user_activity()
 RETURNS void
 LANGUAGE plpgsql
@@ -557,6 +750,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_public_platform_stats();
 CREATE OR REPLACE FUNCTION public.get_public_platform_stats()
 RETURNS TABLE (
   total_learners bigint,
@@ -583,6 +777,7 @@ AS $$
     GREATEST(250 - (SELECT count(*) FROM public.user_profiles), 0)::integer;
 $$;
 
+DROP FUNCTION IF EXISTS public.record_learning_time(integer, text, text, text, integer, integer, integer, jsonb);
 CREATE OR REPLACE FUNCTION public.record_learning_time(
   seconds_spent integer,
   page_name text DEFAULT 'unknown',
@@ -644,6 +839,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.log_learning_event(text, text, text, text, text, jsonb);
 CREATE OR REPLACE FUNCTION public.log_learning_event(
   event_type_text text,
   event_title text DEFAULT NULL,
@@ -683,6 +879,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.award_badge_if_missing(text, jsonb);
 CREATE OR REPLACE FUNCTION public.award_badge_if_missing(
   target_badge_id text,
   badge_metadata jsonb DEFAULT '{}'::jsonb
@@ -705,6 +902,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.mark_notification_read(uuid);
 CREATE OR REPLACE FUNCTION public.mark_notification_read(notification_id uuid)
 RETURNS void
 LANGUAGE plpgsql
@@ -720,6 +918,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.verify_mastery_certificate(text);
 CREATE OR REPLACE FUNCTION public.verify_mastery_certificate(slug_or_code text)
 RETURNS TABLE (
   certificate_type text,
@@ -768,6 +967,7 @@ AS $$
   LIMIT 1;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_public_testimonials(integer);
 CREATE OR REPLACE FUNCTION public.get_public_testimonials(limit_count integer DEFAULT 6)
 RETURNS TABLE (
   id uuid,
@@ -821,6 +1021,7 @@ AS $$
   LIMIT LEAST(GREATEST(COALESCE(limit_count, 6), 1), 24);
 $$;
 
+DROP FUNCTION IF EXISTS public.moderate_feedback(uuid, text, text, boolean);
 CREATE OR REPLACE FUNCTION public.moderate_feedback(
   feedback_id uuid,
   moderation_action text,
@@ -862,6 +1063,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.moderate_journey_feedback(uuid, text, text);
 CREATE OR REPLACE FUNCTION public.moderate_journey_feedback(
   feedback_id_input uuid,
   next_status text,
@@ -877,6 +1079,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_admin_overview();
 CREATE OR REPLACE FUNCTION public.get_admin_overview()
 RETURNS TABLE (
   total_learners bigint,
@@ -911,6 +1114,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_admin_feedback_queue(integer);
 CREATE OR REPLACE FUNCTION public.get_admin_feedback_queue(limit_count integer DEFAULT 20)
 RETURNS SETOF public.journey_feedback
 LANGUAGE plpgsql
@@ -932,6 +1136,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_admin_recent_learners(integer);
 CREATE OR REPLACE FUNCTION public.get_admin_recent_learners(limit_count integer DEFAULT 20)
 RETURNS SETOF public.user_profiles
 LANGUAGE plpgsql
@@ -951,6 +1156,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_admin_recent_notes(integer);
 CREATE OR REPLACE FUNCTION public.get_admin_recent_notes(limit_count integer DEFAULT 20)
 RETURNS SETOF public.lesson_notes
 LANGUAGE plpgsql
@@ -970,6 +1176,7 @@ BEGIN
 END;
 $$;
 
+DROP FUNCTION IF EXISTS public.get_admin_recent_certificates(integer);
 CREATE OR REPLACE FUNCTION public.get_admin_recent_certificates(limit_count integer DEFAULT 20)
 RETURNS TABLE (
   id uuid,
