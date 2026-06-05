@@ -1083,6 +1083,108 @@ export default function ExperienceDesignSkin() {
         }
       }
 
+      /* =========================
+         #5  Light-mode landing (visitor page follows the toggle)
+         Base landing is dark; these restore a clean LIGHT landing
+         only when the light theme is active.
+      ========================= */
+      body:not(.od-theme-dark) .public-gate {
+        background:
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .16), transparent 30%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .13), transparent 34%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 45%, #f7f3fc 100%) !important;
+        color: #18102e !important;
+      }
+      body:not(.od-theme-dark) .public-hero {
+        background:
+          radial-gradient(circle at 8% 12%, rgba(139, 92, 246, .16), transparent 30%),
+          radial-gradient(circle at 88% 18%, rgba(168, 85, 247, .16), transparent 28%),
+          linear-gradient(135deg, #ffffff 0%, #efe9fb 48%, #f3eefb 100%) !important;
+      }
+      body:not(.od-theme-dark) .public-hero::after { color: rgba(26, 16, 48, .06) !important; }
+      body:not(.od-theme-dark) .public-hero h1 { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .public-hero p { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-brand-logo { background: rgba(255, 255, 255, .72) !important; }
+      body:not(.od-theme-dark) .hero-point { background: rgba(255, 255, 255, .72) !important; }
+      body:not(.od-theme-dark) .hero-point strong { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .hero-point span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .auth-card {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
+          linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .auth-title { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .auth-tabs button { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .auth-field label { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .auth-field input,
+      body:not(.od-theme-dark) .password-row input {
+        color: #1a1030 !important;
+        background: rgba(255, 255, 255, .94) !important;
+      }
+      body:not(.od-theme-dark) .auth-field input::placeholder,
+      body:not(.od-theme-dark) .password-row input::placeholder { color: rgba(91, 79, 120, .6) !important; }
+      body:not(.od-theme-dark) .hint { color: #6f6391 !important; }
+      body:not(.od-theme-dark) .public-section {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .08), transparent 30%),
+          rgba(247, 243, 252, .9) !important;
+      }
+      body:not(.od-theme-dark) .section-head h2 { color: #120a22 !important; }
+      body:not(.od-theme-dark) .section-head p { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .counter-card {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
+          linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .counter-card strong { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .counter-card span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .path-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .76)) !important;
+      }
+      body:not(.od-theme-dark) .path-card strong { color: #120a22 !important; }
+      body:not(.od-theme-dark) .path-card span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .sample-box {
+        background:
+          radial-gradient(circle at 88% 10%, rgba(139, 92, 246, .12), transparent 28%),
+          linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .sample-box h3 { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .sample-box p,
+      body:not(.od-theme-dark) .sample-bullets li { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .info-card,
+      body:not(.od-theme-dark) .legal-card,
+      body:not(.od-theme-dark) .faq-item,
+      body:not(.od-theme-dark) .visitor-testimonials,
+      body:not(.od-theme-dark) .vt-form,
+      body:not(.od-theme-dark) .vt-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .76)) !important;
+      }
+      body:not(.od-theme-dark) .info-card strong,
+      body:not(.od-theme-dark) .legal-card strong,
+      body:not(.od-theme-dark) .faq-question span:first-child { color: #120a22 !important; }
+      body:not(.od-theme-dark) .info-card span,
+      body:not(.od-theme-dark) .legal-card span,
+      body:not(.od-theme-dark) .faq-answer { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-footer,
+      body:not(.od-theme-dark) .site-footer {
+        color: #5b4f78 !important;
+        background:
+          radial-gradient(circle at 0% 100%, rgba(168, 85, 247, .14), transparent 30%),
+          linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(237, 230, 251, .92)) !important;
+      }
+      body:not(.od-theme-dark) .public-footer span,
+      body:not(.od-theme-dark) .site-footer span { color: #6f6391 !important; }
+
+      /* =========================
+         #2  Theme text safety net — guarantees readable contrast both ways.
+         High specificity (double class) beats most component rules.
+         Targets block-level text only, so accent spans/buttons keep color.
+      ========================= */
+      html body.od-theme-dark.od-theme-dark :is(h1, h2, h3, h4, h5, h6) { color: #f1ecfb !important; }
+      html body.od-theme-dark.od-theme-dark :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #c9bdf0 !important; }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) { color: #18102e !important; }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #463c63 !important; }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,

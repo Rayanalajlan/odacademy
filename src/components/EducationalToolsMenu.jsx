@@ -1,5 +1,66 @@
 import { useEffect, useRef, useState } from "react";
 
+const TOOLS_MAIN_ICON = (
+  <>
+    <path d="M5 6h14" />
+    <circle cx="9" cy="6" r="2" />
+    <path d="M5 12h14" />
+    <circle cx="15" cy="12" r="2" />
+    <path d="M5 18h14" />
+    <circle cx="8" cy="18" r="2" />
+  </>
+);
+
+const TOOL_ICON_PATHS = {
+  radar: (
+    <>
+      <polygon points="12 3 20 8 17 19 7 19 4 8" />
+      <circle cx="12" cy="12" r="2.6" />
+      <path d="M12 9.4V3" />
+    </>
+  ),
+  simulation: (
+    <>
+      <path d="M6 4.6 18.5 12 6 19.4z" />
+    </>
+  ),
+  "ai-mentor": (
+    <>
+      <rect x="5" y="6.5" width="14" height="11" rx="3.2" />
+      <path d="M12 3.2v3.3" />
+      <circle cx="9.6" cy="12" r="1.05" />
+      <circle cx="14.4" cy="12" r="1.05" />
+      <path d="M9.4 15.4h5.2" />
+    </>
+  ),
+  "learning-roi": (
+    <>
+      <path d="M4 20.2V5" />
+      <path d="M4 20.2h16" />
+      <rect x="7" y="13" width="2.8" height="4.4" rx="0.6" />
+      <rect x="11.6" y="9.4" width="2.8" height="8" rx="0.6" />
+      <rect x="16.2" y="15" width="2.8" height="2.4" rx="0.6" />
+    </>
+  )
+};
+
+function ToolIcon({ id, main }) {
+  const paths = main ? TOOLS_MAIN_ICON : TOOL_ICON_PATHS[id];
+  if (!paths) return null;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {paths}
+    </svg>
+  );
+}
+
 export default function EducationalToolsMenu({
   toolPages = [],
   activePage = "",
@@ -164,6 +225,50 @@ export default function EducationalToolsMenu({
           font-weight: 780;
         }
 
+        .educational-tools-trigger .ett-icon {
+          display: inline-flex;
+          width: 17px;
+          height: 17px;
+          flex: none;
+        }
+
+        .educational-tools-trigger .ett-icon svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+
+        .educational-tool-option {
+          grid-template-columns: auto 1fr;
+          column-gap: 10px;
+          align-items: center;
+        }
+
+        .educational-tool-option .eto-icon {
+          grid-column: 1;
+          grid-row: 1 / 3;
+          width: 36px;
+          height: 36px;
+          border-radius: 11px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(139, 92, 246, 0.12);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          color: #7c3aed;
+        }
+
+        .educational-tool-option .eto-icon svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        body.od-theme-dark .educational-tool-option .eto-icon {
+          background: rgba(139, 92, 246, 0.18) !important;
+          border-color: rgba(167, 139, 250, 0.3) !important;
+          color: #c4b5fd !important;
+        }
+
         body.od-theme-dark .educational-tools-dropdown {
           background:
             radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.16), transparent 34%),
@@ -206,6 +311,9 @@ export default function EducationalToolsMenu({
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
       >
+        <span className="ett-icon" aria-hidden="true">
+          <ToolIcon main />
+        </span>
         الأدوات التعليمية
       </button>
 
@@ -224,6 +332,9 @@ export default function EducationalToolsMenu({
               className={`educational-tool-option ${activePage === page.id ? "active" : ""}`}
               onClick={() => chooseTool(page.id)}
             >
+              <span className="eto-icon" aria-hidden="true">
+                <ToolIcon id={page.id} />
+              </span>
               <strong>{page.label}</strong>
               <span>{page.description}</span>
             </button>
