@@ -73,11 +73,6 @@ const logoStyles = `
     white-space: nowrap;
   }
 
-  .munsaqah-logo,
-  .munsaqah-logo * {
-    font-family: inherit !important;
-  }
-
   .munsaqah-logo img {
     display: block;
     width: auto;

@@ -410,6 +410,11 @@ export default function AiMentor() {
     addMessage("user", message, { retitle: true });
 
     try {
+      const compactHistory = previousMessages.slice(-8).map((item) => ({
+        role: item.role,
+        content: item.content
+      }));
+
       const response = await fetch("/api/mentor", {
         method: "POST",
         headers: {
@@ -419,10 +424,8 @@ export default function AiMentor() {
           message,
           mode: activeMode?.id,
           modeTitle: activeMode?.title,
-          history: previousMessages.slice(-8).map((item) => ({
-            role: item.role,
-            content: item.content
-          }))
+          history: compactHistory,
+          messages: compactHistory
         })
       });
 
@@ -471,6 +474,7 @@ export default function AiMentor() {
       }
 
       const answer =
+        data?.reply ||
         data?.answer ||
         data?.response ||
         data?.text ||

@@ -1,15 +1,22 @@
 {
   "name": "OD Academy",
   "short_name": "OD Academy",
-  "description": "OD Academy learning experience",
+  "description": "منصة عربية لتعلم التطوير التنظيمي وقياس التقدم وبناء أثر عملي داخل المنظمات.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#1F1433",
-  "theme_color": "#1F1433",
+  "orientation": "portrait-primary",
+  "background_color": "#0c0717",
+  "theme_color": "#0c0717",
   "dir": "rtl",
-  "lang": "ar",
+  "lang": "ar-SA",
   "icons": [
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
     {
       "src": "/icons/app-icon-192.png",
       "sizes": "192x192",

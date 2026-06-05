@@ -17,6 +17,8 @@ import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
 import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
+import LegalPageRouter, { isLegalPath } from "./components/LegalPageRouter";
+import { LegalFooterLinks, LegalFloatingLinks } from "./components/LegalLinks";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -227,6 +229,7 @@ export default function App() {
   const [checkingOnboarding, setCheckingOnboarding] = useState(false);
   const verificationSlug = getVerificationSlugFromLocation();
   const passwordRecoveryMode = isPasswordRecoveryRequest();
+  const legalPageRequested = isLegalPath();
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -248,14 +251,11 @@ export default function App() {
     if (showLoader) setLoadingProgress(true);
 
     try {
-      // Phase 38:
-      // لا نضع timeout قصيرًا على تحميل التقدم؛ لأن هذا كان سبب ظهور رسالة
-      // "سيعمل الموقع من التخزين المحلي" رغم أن Supabase قد يكون فقط أبطأ من 8 ثوانٍ.
-      // خدمة progressService نفسها تعيد المحاولة وتزامن المحلي إلى السحابة.
+      // Phase 38: نترك خدمة التقدم تعيد المحاولة بهدوء عند بطء الاتصال.
       const rows = await readProgressRows();
       setProgressRows(Array.isArray(rows) ? rows : []);
       setNotice((current) =>
-        current === "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
+        current?.startsWith("تعذر تحميل التقدم من السحابة الآن.")
           ? ""
           : current
       );
@@ -540,6 +540,10 @@ export default function App() {
   }
 
 
+  if (legalPageRequested) {
+    return <LegalPageRouter />;
+  }
+
   if (verificationSlug) {
     return (
       <>
@@ -578,10 +582,13 @@ export default function App() {
 
   if (!authenticated) {
     return (
-      <AuthGate
-        onEnter={handleEnter}
-        onAuthenticated={handleAuthenticatedFromOldAuthGate}
-      />
+      <>
+        <AuthGate
+          onEnter={handleEnter}
+          onAuthenticated={handleAuthenticatedFromOldAuthGate}
+        />
+        <LegalFloatingLinks />
+      </>
     );
   }
 
@@ -964,6 +971,7 @@ export default function App() {
         </div>
 
         <span>© 2026 — جميع الحقوق محفوظة</span>
+        <LegalFooterLinks />
       </footer>
     </div>
   );
