@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap");
 
 :root {
-  /* خطوط عربية حقيقية: عرض هندسي للعناوين + خط تقني دقيق للنص */
+  /* خطوط عربية حديثة ومريحة: Cairo للعناوين الكبيرة + IBM Plex للنص */
   --font-body: "IBM Plex Sans Arabic", "Tajawal", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", "Tajawal", system-ui, sans-serif;
+  --font-display: "Cairo", "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
   font-family: var(--font-body);
   color: #160c2a;
   background: #ece4f6;
@@ -102,6 +102,16 @@ h1 {
   margin-bottom: 16px;
   font-size: clamp(2rem, 5vw, 4.4rem);
   line-height: 1.05;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
   letter-spacing: 0;
 }
 

@@ -957,13 +957,49 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark [class*="tracker"],
       body.od-theme-dark [class*="-strip"],
       body.od-theme-dark [class*="-tile"],
-      body.od-theme-dark [class*="-box"] {
+      body.od-theme-dark [class*="-box"],
+      body.od-theme-dark .profile-metric,
+      body.od-theme-dark .profile-stat,
+      body.od-theme-dark .day-step,
+      body.od-theme-dark .portfolio-stat,
+      body.od-theme-dark .portfolio-section,
+      body.od-theme-dark .portfolio-notice,
+      body.od-theme-dark .roi-reading,
+      body.od-theme-dark .roi-source,
+      body.od-theme-dark .roi-disclaimer,
+      body.od-theme-dark .scenario-node,
+      body.od-theme-dark .scenario-mini,
+      body.od-theme-dark .message-bubble,
+      body.od-theme-dark .archive-item,
+      body.od-theme-dark .quota-timer,
+      body.od-theme-dark .monthly-certificates,
+      body.od-theme-dark .issued,
+      body.od-theme-dark .course-search-result,
+      body.od-theme-dark .course-search-empty,
+      body.od-theme-dark .admin-notice,
+      body.od-theme-dark .report-section,
+      body.od-theme-dark .report-body,
+      body.od-theme-dark .jl-week-intro,
+      body.od-theme-dark .jl-reader,
+      body.od-theme-dark .jl-mini-progress,
+      body.od-theme-dark .ar-section {
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 28%),
           rgba(28, 17, 48, .94) !important;
         border-color: rgba(167, 139, 250,.22) !important;
         color: #e9e4f5 !important;
         box-shadow: 0 20px 70px rgba(0,0,0,.28) !important;
+      }
+
+      /* text inside the darkened content cards stays light/readable */
+      body.od-theme-dark :is(
+        .profile-metric, .profile-stat, .day-step, .portfolio-stat,
+        .portfolio-section, .roi-reading, .roi-source, .scenario-node,
+        .scenario-mini, .message-bubble, .archive-item, .quota-timer,
+        .monthly-certificates, .issued, .course-search-result,
+        .jl-week-intro, .jl-reader, .jl-mini-progress
+      ) :is(strong, b, span, p, small, label, time, div, h1, h2, h3, h4) {
+        color: #ece6f8 !important;
       }
 
       body.od-theme-dark h1,
@@ -1108,6 +1144,16 @@ export default function ExperienceDesignSkin() {
       body:not(.od-theme-dark) .hero-point { background: rgba(255, 255, 255, .72) !important; }
       body:not(.od-theme-dark) .hero-point strong { color: #1a1030 !important; }
       body:not(.od-theme-dark) .hero-point span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-badge {
+        color: #5b21b6 !important;
+        background: rgba(168, 85, 247, 0.14) !important;
+        border-color: rgba(124, 58, 237, 0.32) !important;
+      }
+      body:not(.od-theme-dark) .hero-point b {
+        color: #6d28d9 !important;
+        background: rgba(124, 58, 237, 0.12) !important;
+        border-color: rgba(124, 58, 237, 0.28) !important;
+      }
       body:not(.od-theme-dark) .auth-card {
         background:
           radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
