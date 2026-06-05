@@ -182,7 +182,8 @@ function normalizeCourse(raw = []) {
           label: day.label || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
           title: day.title || day.name || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
           content,
-          quiz: day.quiz || day.questions || null
+          quiz: day.quiz || day.questions || null,
+          quizAnswerKey: day.quizAnswerKey || day.answerKey || day.correctAnswers || null
         };
       });
 
@@ -340,9 +341,140 @@ function normalizeStructuredQuiz(day) {
   }).filter((q) => q.question && q.options.length);
 }
 
-function parseQuizText(day, quizText) {
+const ARABIC_DAY_NAMES = {
+  1: ["الأول", "الاول", "١", "1"],
+  2: ["الثاني", "٢", "2"],
+  3: ["الثالث", "٣", "3"],
+  4: ["الرابع", "٤", "4"],
+  5: ["الخامس", "٥", "5"],
+  6: ["السادس", "٦", "6"],
+  7: ["السابع", "٧", "7"]
+};
+
+function normalizeAnswerLetter(value) {
+  const letter = safeText(value).trim().toUpperCase();
+  const map = {
+    "أ": "A",
+    "ا": "A",
+    "A": "A",
+    "ب": "B",
+    "B": "B",
+    "ج": "C",
+    "C": "C",
+    "د": "D",
+    "D": "D"
+  };
+
+  return map[letter] || "";
+}
+
+function normalizeArabicDigits(value) {
+  const digits = {
+    "٠": "0",
+    "١": "1",
+    "٢": "2",
+    "٣": "3",
+    "٤": "4",
+    "٥": "5",
+    "٦": "6",
+    "٧": "7",
+    "٨": "8",
+    "٩": "9"
+  };
+
+  return safeText(value).replace(/[٠-٩]/g, (digit) => digits[digit] || digit);
+}
+
+function getAnswerKeyBlockForDay(day, fullText) {
+  const text = normalizeArabicDigits(fullText);
+  const answerKeyIndex = text.search(/مفتاح\s+إجابات|مفتاح\s+الاجابات|مفاتيح\s+الإجابة|مفاتيح\s+الاجابة/);
+
+  if (answerKeyIndex < 0) return "";
+
+  const answerText = text.slice(answerKeyIndex);
+  const dayNames = ARABIC_DAY_NAMES[Number(day?.dayIndex)] || [];
+
+  for (const dayName of dayNames) {
+    const pattern = new RegExp(`اليوم\\s+${escapeRegExp(dayName)}\\s*[:：]?([\\s\\S]*?)(?=\\n\\s*اليوم\\s+(?:الأول|الاول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|[1-7])\\s*[:：]?|$)`);
+    const match = answerText.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return answerText;
+}
+
+function normalizeAnswerKeyMap(sourceMap) {
+  if (!sourceMap || typeof sourceMap !== "object") return {};
+
+  const entries = Array.isArray(sourceMap)
+    ? sourceMap.map((value, index) => [index + 1, value])
+    : Object.entries(sourceMap);
+
+  return entries.reduce((map, [key, value]) => {
+    const questionNumber = Number(normalizeArabicDigits(String(key)));
+    const answerLetter = normalizeAnswerLetter(value);
+
+    if (questionNumber && answerLetter) {
+      map[questionNumber] = answerLetter;
+    }
+
+    return map;
+  }, {});
+}
+
+function extractAnswerKeyMap(day, fullText) {
+  const knownAnswerMap = normalizeAnswerKeyMap(
+    day?.quizAnswerKey || day?.answerKey || day?.correctAnswers
+  );
+
+  if (Object.keys(knownAnswerMap).length) return knownAnswerMap;
+
+  const block = getAnswerKeyBlockForDay(day, fullText);
+  const map = {};
+
+  if (!block) return map;
+
+  const regex = /(?:السؤال\s*)?([1-9]\d*)\s*[-–—:：]\s*([A-Dأابجد])/gi;
+  let match;
+
+  while ((match = regex.exec(block)) !== null) {
+    const questionNumber = Number(match[1]);
+    const answerLetter = normalizeAnswerLetter(match[2]);
+
+    if (questionNumber && answerLetter) {
+      map[questionNumber] = answerLetter;
+    }
+  }
+
+  return map;
+}
+
+function applyAnswerKeyMap(questions, answerKeyMap) {
+  if (!answerKeyMap || !Object.keys(answerKeyMap).length) return questions;
+
+  return questions.map((question, index) => {
+    const correctLetter = answerKeyMap[index + 1];
+    if (!correctLetter) return question;
+
+    const options = question.options.map((option) => ({
+      ...option,
+      isCorrect:
+        normalizeAnswerLetter(option.id) === correctLetter ||
+        normalizeAnswerLetter(option.originalKey) === correctLetter
+    }));
+
+    return {
+      ...question,
+      options,
+      hasKnownCorrectAnswer: options.some((option) => option.isCorrect)
+    };
+  });
+}
+
+function parseQuizText(day, quizText, fullText = "") {
+  const answerKeyMap = extractAnswerKeyMap(day, fullText);
   const structured = normalizeStructuredQuiz(day);
-  if (structured.length) return structured;
+  if (structured.length) return applyAnswerKeyMap(structured, answerKeyMap);
 
   const text = safeText(quizText);
   if (!text) return [];
@@ -353,7 +485,7 @@ function parseQuizText(day, quizText) {
     .map((item) => item.trim())
     .filter((item) => /^السؤال\s+\d+/.test(item));
 
-  return blocks.map((block, index) => {
+  const questions = blocks.map((block, index) => {
     const withoutLabel = block.replace(/^السؤال\s+\d+\s*/g, "").trim();
 
     // يدعم الخيارات الإنجليزية A/B/C/D والخيارات العربية أ/ب/ج/د.
@@ -388,12 +520,14 @@ function parseQuizText(day, quizText) {
       hasKnownCorrectAnswer: false
     };
   }).filter((q) => q.question && q.options.length);
+
+  return applyAnswerKeyMap(questions, answerKeyMap);
 }
 
 function prepareLesson(day) {
   const fullText = getDayContent(day);
   const { lessonText, quizText } = splitQuizFromText(fullText);
-  const parsedQuiz = parseQuizText(day, quizText);
+  const parsedQuiz = parseQuizText(day, quizText, fullText);
 
   return {
     // النص الكامل محفوظ داخليًا للمعالجة، ولا يُعرض للمتدرب كملف مصدر.
@@ -569,6 +703,9 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
       <div className="jl-question-list">
         {questions.map((question, questionIndex) => {
           const selected = answers[question.id];
+          const selectedOption = question.options.find((option) => option.id === selected);
+          const correctOption = question.options.find((option) => option.isCorrect);
+          const answeredCorrectly = Boolean(selectedOption?.isCorrect);
 
           return (
             <div className="jl-question" key={question.id}>
@@ -606,6 +743,14 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
                   );
                 })}
               </div>
+
+              {submitted && hasKnownAnswers && correctOption && (
+                <div className={answeredCorrectly ? "jl-answer-note jl-answer-note--correct" : "jl-answer-note jl-answer-note--wrong"}>
+                  {answeredCorrectly
+                    ? "إجابتك صحيحة."
+                    : `الإجابة الصحيحة: ${correctOption.text}`}
+                </div>
+              )}
             </div>
           );
         })}
@@ -1967,6 +2112,27 @@ export default function CourseJourney({
         .jl-option--wrong {
           border-color:rgba(239,68,68,.72);
           background:rgba(239,68,68,.18);
+        }
+
+        .jl-answer-note {
+          margin-top:10px;
+          border-radius:16px;
+          padding:10px 12px;
+          font-size:12px;
+          line-height:1.8;
+          font-weight:900;
+        }
+
+        .jl-answer-note--correct {
+          background:rgba(16,185,129,.14);
+          color:#d1fae5;
+          border:1px solid rgba(16,185,129,.28);
+        }
+
+        .jl-answer-note--wrong {
+          background:rgba(239,68,68,.14);
+          color:#fecaca;
+          border:1px solid rgba(239,68,68,.28);
         }
 
         .jl-quiz-footer {

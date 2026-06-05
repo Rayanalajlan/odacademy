@@ -66,27 +66,136 @@ function splitInstructorAppendix(content) {
   };
 }
 
+const ANSWER_KEY_DAY_NAMES = {
+  1: ["\u0627\u0644\u0623\u0648\u0644", "\u0627\u0644\u0627\u0648\u0644", "1", "\u0661"],
+  2: ["\u0627\u0644\u062b\u0627\u0646\u064a", "2", "\u0662"],
+  3: ["\u0627\u0644\u062b\u0627\u0644\u062b", "3", "\u0663"],
+  4: ["\u0627\u0644\u0631\u0627\u0628\u0639", "4", "\u0664"],
+  5: ["\u0627\u0644\u062e\u0627\u0645\u0633", "5", "\u0665"],
+  6: ["\u0627\u0644\u0633\u0627\u062f\u0633", "6", "\u0666"],
+  7: ["\u0627\u0644\u0633\u0627\u0628\u0639", "7", "\u0667"]
+};
+
+function normalizeArabicDigitsForAnswerKeys(value) {
+  const digits = {
+    "\u0660": "0",
+    "\u0661": "1",
+    "\u0662": "2",
+    "\u0663": "3",
+    "\u0664": "4",
+    "\u0665": "5",
+    "\u0666": "6",
+    "\u0667": "7",
+    "\u0668": "8",
+    "\u0669": "9"
+  };
+
+  return String(value || "").replace(/[\u0660-\u0669]/g, (digit) => digits[digit] || digit);
+}
+
+function normalizeAnswerLetterForAnswerKeys(value) {
+  const letter = String(value || "").trim().toUpperCase();
+  const letters = {
+    "\u0623": "A",
+    "\u0627": "A",
+    A: "A",
+    "\u0628": "B",
+    B: "B",
+    "\u062c": "C",
+    C: "C",
+    "\u062f": "D",
+    D: "D"
+  };
+
+  return letters[letter] || "";
+}
+
+function escapeRegExpForAnswerKeys(value) {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getAnswerKeyBlock(instructorAppendix, dayIndex) {
+  const text = normalizeArabicDigitsForAnswerKeys(instructorAppendix);
+  const dayNames = ANSWER_KEY_DAY_NAMES[Number(dayIndex)] || [];
+  const boundaryNames = Object.values(ANSWER_KEY_DAY_NAMES)
+    .flat()
+    .map(normalizeArabicDigitsForAnswerKeys)
+    .map(escapeRegExpForAnswerKeys)
+    .join("|");
+
+  for (const dayName of dayNames.map(normalizeArabicDigitsForAnswerKeys)) {
+    const pattern = new RegExp(
+      `\\u0627\\u0644\\u064a\\u0648\\u0645\\s+${escapeRegExpForAnswerKeys(dayName)}\\s*[:\uff1a]?([\\s\\S]*?)(?=\\n\\s*\\u0627\\u0644\\u064a\\u0648\\u0645\\s+(?:${boundaryNames})\\s*[:\uff1a]?|$)`
+    );
+    const match = text.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return "";
+}
+
+function extractQuizAnswerKey(instructorAppendix, dayIndex) {
+  const block = getAnswerKeyBlock(instructorAppendix, dayIndex);
+  const answerKey = {};
+
+  if (!block) return answerKey;
+
+  const regex = /(?:\u0627\u0644\u0633\u0624\u0627\u0644\s*)?([1-9]\d*)\s*[-\u2013\u2014:\uff1a]\s*([A-D\u0623\u0627\u0628\u062c\u062f])/gi;
+  let match;
+
+  while ((match = regex.exec(block)) !== null) {
+    const questionNumber = Number(match[1]);
+    const answerLetter = normalizeAnswerLetterForAnswerKeys(match[2]);
+
+    if (questionNumber && answerLetter) {
+      answerKey[questionNumber] = answerLetter;
+    }
+  }
+
+  return answerKey;
+}
+
+const BUILT_IN_QUIZ_ANSWER_KEYS = {
+  "1-1": {
+    1: { 1: "C", 2: "A", 3: "D" },
+    2: { 1: "B", 2: "D", 3: "A" },
+    3: { 1: "C", 2: "B", 3: "D" },
+    4: { 1: "A", 2: "D", 3: "B" },
+    5: { 1: "B", 2: "C", 3: "A" },
+    6: { 1: "D", 2: "A", 3: "C" },
+    7: { 1: "C", 2: "B", 3: "D" }
+  }
+};
+
+function getBuiltInQuizAnswerKey(monthIndex, weekIndex, dayIndex) {
+  return BUILT_IN_QUIZ_ANSWER_KEYS[`${monthIndex}-${weekIndex}`]?.[dayIndex] || {};
+}
+
 function buildAvailableWeek({ source, monthIndex, weekIndex, title, subtitle }) {
-  const positions = findHeadingPositions(source, title);
-  const intro = source.slice(0, positions[0].index).trim();
-  let instructorAppendix = "";
+  const { traineeContent: sourceContent, instructorAppendix } = splitInstructorAppendix(source);
+  const positions = findHeadingPositions(sourceContent, title);
+  const intro = sourceContent.slice(0, positions[0].index).trim();
 
   const days = positions.map((position, positionIndex) => {
     const nextPosition = positions[positionIndex + 1];
-    const rawContent = source
-      .slice(position.index, nextPosition ? nextPosition.index : source.length)
+    const rawContent = sourceContent
+      .slice(position.index, nextPosition ? nextPosition.index : sourceContent.length)
       .trim();
-    const { traineeContent, instructorAppendix: appendix } = splitInstructorAppendix(rawContent);
-    if (appendix) instructorAppendix = appendix;
+    const { traineeContent } = splitInstructorAppendix(rawContent);
+    const dayIndex = positionIndex + 1;
+    const extractedAnswerKey = extractQuizAnswerKey(instructorAppendix, dayIndex);
 
     return {
-      id: `m${monthIndex}-w${weekIndex}-d${positionIndex + 1}`,
+      id: `m${monthIndex}-w${weekIndex}-d${dayIndex}`,
       monthIndex,
       weekIndex,
-      dayIndex: positionIndex + 1,
+      dayIndex,
       label: position.label,
       title: extractDayTitle(traineeContent, position.label),
-      content: traineeContent
+      content: traineeContent,
+      quizAnswerKey: Object.keys(extractedAnswerKey).length
+        ? extractedAnswerKey
+        : getBuiltInQuizAnswerKey(monthIndex, weekIndex, dayIndex)
     };
   });
 
