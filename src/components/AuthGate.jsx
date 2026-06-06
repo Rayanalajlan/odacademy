@@ -5,6 +5,7 @@ import SiteLogo from "./SiteLogo";
 import BrandMeta from "./BrandMeta";
 import ExperienceDesignSkin from "./ExperienceDesignSkin";
 import ThemeToggle from "./ThemeToggle";
+import { LegalFooterLinks } from "./LegalLinks";
 
 const MONTHS = [
   {
@@ -595,7 +596,7 @@ export default function AuthGate({
       <ExperienceDesignSkin />
       <style>{`
         /*
-          OD Academy — Visual redesign (Design-only)
+          منسقة — تحسين بصري للواجهة
           مختبر التشخيص التنظيمي | Organizational Diagnostic Lab
           - لا يغيّر النصوص ولا المنطق ولا Supabase/Auth/API/RPC/Routes.
           - تعديل CSS فقط داخل نفس البلوك.
@@ -2343,6 +2344,7 @@ export default function AuthGate({
             صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
           </p>
           <span>© 2026 — جميع الحقوق محفوظة</span>
+          <LegalFooterLinks />
         </footer>
       </div>
       {activeSample.type && (

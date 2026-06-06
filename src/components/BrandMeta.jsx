@@ -72,7 +72,7 @@ export default function BrandMeta() {
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
-      name: "OD Academy",
+      name: "منسقة",
       alternateName: "Munsaqah",
       url: window.location.origin,
       logo: new URL(MUNSAQAH_ASSETS.horizontal, window.location.origin).toString()

@@ -58,8 +58,11 @@ const requestTypeLabels = {
   other: "طلب آخر متعلق بالخصوصية"
 };
 
+const DELETE_CONFIRMATION_TEXT = "أفهم أن حذف البيانات قد يكون نهائيًا";
+
 export default function DataDeletionRequest() {
   const [form, setForm] = useState(initialForm);
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
   const [status, setStatus] = useState({
     type: "idle",
     message: ""
@@ -70,6 +73,9 @@ export default function DataDeletionRequest() {
     () => requestTypeLabels[form.requestType] || "طلب خصوصية",
     [form.requestType]
   );
+  const deleteConfirmed =
+    form.requestType !== "delete_data" ||
+    deleteConfirmation.trim() === DELETE_CONFIRMATION_TEXT;
 
   function updateField(field, value) {
     setForm((current) => ({
@@ -97,6 +103,13 @@ export default function DataDeletionRequest() {
 
     if (!form.consent) {
       return "يجب تأكيد أن البيانات المدخلة صحيحة وأنك صاحب الطلب أو مخول بتقديمه.";
+    }
+
+    if (
+      form.requestType === "delete_data" &&
+      deleteConfirmation.trim() !== DELETE_CONFIRMATION_TEXT
+    ) {
+      return `قبل إرسال طلب الحذف، اكتب العبارة التالية كما هي: ${DELETE_CONFIRMATION_TEXT}`;
     }
 
     return "";
@@ -129,6 +142,7 @@ export default function DataDeletionRequest() {
       });
 
       setForm(initialForm);
+      setDeleteConfirmation("");
     } catch (error) {
       setStatus({
         type: "error",
@@ -197,7 +211,10 @@ export default function DataDeletionRequest() {
           <span style={labelStyle}>نوع الطلب</span>
           <select
             value={form.requestType}
-            onChange={(event) => updateField("requestType", event.target.value)}
+            onChange={(event) => {
+              updateField("requestType", event.target.value);
+              setDeleteConfirmation("");
+            }}
             style={inputStyle}
           >
             <option value="delete_data">حذف بياناتي</option>
@@ -208,6 +225,49 @@ export default function DataDeletionRequest() {
           </select>
           <p style={helperStyle}>الطلب المحدد حاليًا: {selectedRequestLabel}</p>
         </label>
+
+        {form.requestType === "delete_data" ? (
+          <div
+            style={{
+              background: "#fef2f2",
+              border: "1px solid #fca5a5",
+              borderRadius: "20px",
+              padding: "16px",
+              color: "#7f1d1d",
+              lineHeight: 1.9,
+              marginBottom: "18px"
+            }}
+          >
+            <strong>تنبيه شديد الأهمية:</strong> طلب حذف البيانات قد يؤدي إلى
+            إزالة حسابك، تقدمك، ملاحظاتك، إنجازاتك، وأي بيانات مرتبطة ببريدك
+            داخل المنصة بعد التحقق من الهوية. لا ترسل هذا الطلب إلا إذا كنت
+            متأكدًا تمامًا.
+
+            <label
+              style={{
+                display: "grid",
+                gap: "8px",
+                marginTop: "14px"
+              }}
+            >
+              <span style={{ fontWeight: 900 }}>
+                اكتب هذه العبارة للتأكيد:
+              </span>
+              <strong>{DELETE_CONFIRMATION_TEXT}</strong>
+              <input
+                type="text"
+                value={deleteConfirmation}
+                onChange={(event) => setDeleteConfirmation(event.target.value)}
+                style={{
+                  ...inputStyle,
+                  borderColor: "#fca5a5"
+                }}
+                placeholder={DELETE_CONFIRMATION_TEXT}
+                autoComplete="off"
+              />
+            </label>
+          </div>
+        ) : null}
 
         <label style={fieldStyle}>
           <span style={labelStyle}>الاسم</span>
@@ -261,7 +321,7 @@ export default function DataDeletionRequest() {
               resize: "vertical",
               lineHeight: 1.8
             }}
-            placeholder="مثال: أطلب حذف حسابي وبيانات التقدم المرتبطة بهذا البريد..."
+            placeholder="مثال: أطلب حذف حسابي وبيانات التقدم المرتبطة بهذا البريد"
             required
           />
         </label>
@@ -294,20 +354,24 @@ export default function DataDeletionRequest() {
 
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !deleteConfirmed}
           style={{
             width: "100%",
             border: "none",
             borderRadius: "18px",
             padding: "15px 18px",
-            background: submitting ? "#9d8fc0" : "#8b5cf6",
+            background: submitting || !deleteConfirmed ? "#9d8fc0" : "#8b5cf6",
             color: "#ffffff",
             fontWeight: 900,
             fontSize: "1rem",
-            cursor: submitting ? "not-allowed" : "pointer"
+            cursor: submitting || !deleteConfirmed ? "not-allowed" : "pointer"
           }}
         >
-          {submitting ? "جارٍ إرسال الطلب..." : "إرسال الطلب"}
+          {submitting
+            ? "جارٍ إرسال الطلب"
+            : form.requestType === "delete_data" && !deleteConfirmed
+              ? "اكتب عبارة التأكيد أولًا"
+              : "إرسال الطلب"}
         </button>
       </form>
     </LegalLayout>

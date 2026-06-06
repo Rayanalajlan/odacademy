@@ -1,14 +1,16 @@
 {
-  "name": "OD Academy | أكاديمية التطوير التنظيمي",
-  "short_name": "OD Academy",
-  "description": "منصة عربية للتطوير التنظيمي وقياس أثر التعلم.",
-  "lang": "ar-SA",
-  "dir": "rtl",
+  "name": "منسقة",
+  "short_name": "منسقة",
+  "description": "منصة عربية لتعلم التطوير التنظيمي وقياس التقدم وبناء أثر عملي داخل المنظمات.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0c0717",
   "theme_color": "#0c0717",
+  "dir": "rtl",
+  "lang": "ar-SA",
   "icons": [
     {
       "src": "/favicon-32.png",
@@ -26,6 +28,11 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/app-icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
     }
   ]
 }

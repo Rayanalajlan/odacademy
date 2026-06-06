@@ -18,7 +18,7 @@ import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
 import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
 import LegalPageRouter, { isLegalPath } from "./components/LegalPageRouter";
-import { LegalFooterLinks, LegalFloatingLinks } from "./components/LegalLinks";
+import { LegalFooterLinks } from "./components/LegalLinks";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -201,7 +201,7 @@ async function readProgressRows() {
   return loader();
 }
 
-function PageLoader({ label = "جارٍ تحميل القسم..." }) {
+function PageLoader({ label = "جارٍ تحميل القسم" }) {
   return (
     <div className="page-loader" role="status" aria-live="polite">
       <SiteLogo variant="icon" context="loader" englishAlt />
@@ -548,7 +548,7 @@ export default function App() {
       <>
         <BrandMeta />
         <ExperienceDesignSkin />
-        <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
+        <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق" />}>
           <VerifyCertificate slug={verificationSlug} />
         </Suspense>
       </>
@@ -573,7 +573,7 @@ export default function App() {
         <ExperienceDesignSkin />
         <div className="boot-screen">
           <SiteLogo variant="icon" context="loader" englishAlt />
-          <span>ثواني ونفتح لك التجربة</span>
+          <span>يا هلا، نرتب لك الطريق في منسقة</span>
         </div>
       </>
     );
@@ -586,7 +586,6 @@ export default function App() {
           onEnter={handleEnter}
           onAuthenticated={handleAuthenticatedFromOldAuthGate}
         />
-        <LegalFloatingLinks />
       </>
     );
   }

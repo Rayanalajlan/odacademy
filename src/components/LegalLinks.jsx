@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const legalLinks = [
   {
     href: "/privacy",
@@ -98,7 +100,7 @@ const legalLinksStyles = `
 
   .legal-footer-link:hover,
   .legal-floating-link:hover {
-    transform: translateY(-1px);
+    filter: brightness(.98);
   }
 
   .legal-link-icon {
@@ -114,6 +116,69 @@ const legalLinksStyles = `
     width: 100%;
     height: 100%;
     display: block;
+  }
+
+  .legal-confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(12, 7, 23, .72);
+    backdrop-filter: blur(10px);
+  }
+
+  .legal-confirm-dialog {
+    width: min(520px, 100%);
+    border-radius: 26px;
+    padding: 22px;
+    background: #ffffff;
+    color: #18102e;
+    border: 1px solid rgba(239, 68, 68, .26);
+    box-shadow: 0 26px 80px rgba(0, 0, 0, .28);
+    text-align: right;
+  }
+
+  .legal-confirm-dialog h2 {
+    margin: 0 0 10px;
+    color: #7f1d1d;
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .legal-confirm-dialog p {
+    margin: 0;
+    color: #463c63;
+    font-size: .96rem;
+    line-height: 2;
+    font-weight: 800;
+  }
+
+  .legal-confirm-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+
+  .legal-confirm-actions button {
+    border: 0;
+    border-radius: 16px;
+    padding: 12px 16px;
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .legal-confirm-cancel {
+    color: #463c63;
+    background: #efe9fb;
+  }
+
+  .legal-confirm-continue {
+    color: #ffffff;
+    background: #991b1b;
   }
 
   body.od-theme-dark .legal-footer-link {
@@ -149,16 +214,71 @@ const legalLinksStyles = `
   }
 `;
 
+function DeleteDataConfirmModal({ open, onCancel, onContinue }) {
+  if (!open) return null;
+
+  return (
+    <div className="legal-confirm-backdrop" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title">
+      <div className="legal-confirm-dialog">
+        <h2 id="delete-confirm-title">تنبيه قبل طلب حذف البيانات</h2>
+        <p>
+          هذا المسار مخصص لطلب حساس قد يؤدي بعد المراجعة والتحقق إلى حذف حسابك،
+          تقدمك، ملاحظاتك، وإنجازاتك داخل منسقة. لن يتم الحذف بمجرد فتح الصفحة،
+          لكن لا تتابع إلا إذا كنت تقصد فعلًا طلب حذف بياناتك.
+        </p>
+        <div className="legal-confirm-actions">
+          <button type="button" className="legal-confirm-cancel" onClick={onCancel}>
+            إلغاء
+          </button>
+          <button type="button" className="legal-confirm-continue" onClick={onContinue}>
+            أفهم وأريد المتابعة
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LegalLinksList({ variant }) {
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const className = variant === "floating" ? "legal-floating-link" : "legal-footer-link";
+
+  function handleDeleteClick(event) {
+    event.preventDefault();
+    setConfirmDeleteOpen(true);
+  }
+
+  function continueToDeletion() {
+    window.location.href = "/data-deletion";
+  }
+
+  return (
+    <>
+      <style>{legalLinksStyles}</style>
+      {legalLinks.map((link) => (
+        <a
+          key={link.href}
+          className={className}
+          href={link.href}
+          onClick={link.icon === "delete" ? handleDeleteClick : undefined}
+        >
+          <LegalIcon type={link.icon} />
+          {variant === "floating" ? link.shortLabel : link.label}
+        </a>
+      ))}
+      <DeleteDataConfirmModal
+        open={confirmDeleteOpen}
+        onCancel={() => setConfirmDeleteOpen(false)}
+        onContinue={continueToDeletion}
+      />
+    </>
+  );
+}
+
 export function LegalFooterLinks() {
   return (
     <nav className="legal-footer-links" aria-label="روابط قانونية">
-      <style>{legalLinksStyles}</style>
-      {legalLinks.map((link) => (
-        <a key={link.href} className="legal-footer-link" href={link.href}>
-          <LegalIcon type={link.icon} />
-          {link.label}
-        </a>
-      ))}
+      <LegalLinksList variant="footer" />
     </nav>
   );
 }
@@ -166,13 +286,7 @@ export function LegalFooterLinks() {
 export function LegalFloatingLinks() {
   return (
     <nav className="legal-floating-links" aria-label="روابط الخصوصية قبل تسجيل الدخول">
-      <style>{legalLinksStyles}</style>
-      {legalLinks.map((link) => (
-        <a key={link.href} className="legal-floating-link" href={link.href}>
-          <LegalIcon type={link.icon} />
-          {link.shortLabel}
-        </a>
-      ))}
+      <LegalLinksList variant="floating" />
     </nav>
   );
 }

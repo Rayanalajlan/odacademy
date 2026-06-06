@@ -109,12 +109,18 @@ const styles = {
 };
 
 export default function LegalLayout({
-  eyebrow = "OD Academy",
+  eyebrow = "منسقة",
   title,
   intro,
   children
 }) {
   const [logoFailed, setLogoFailed] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  function handleDeleteLink(event) {
+    event.preventDefault();
+    setConfirmDeleteOpen(true);
+  }
 
   return (
     <main style={styles.page}>
@@ -122,7 +128,7 @@ export default function LegalLayout({
         <header style={styles.header}>
           <a href="/" style={styles.brand} aria-label="العودة إلى الصفحة الرئيسية">
             {logoFailed ? (
-              <span style={styles.fallbackLogo} aria-hidden="true">OD</span>
+              <span style={styles.fallbackLogo} aria-hidden="true">م</span>
             ) : (
               <img
                 src={BRAND_LOGO_SRC}
@@ -132,8 +138,8 @@ export default function LegalLayout({
               />
             )}
             <div>
-              <p style={styles.brandTitle}>OD Engineering LAB</p>
-              <p style={styles.brandSub}>مختبر تعليمي للتطوير التنظيمي</p>
+              <p style={styles.brandTitle}>منسقة</p>
+              <p style={styles.brandSub}>منصة تعليمية للتطوير التنظيمي</p>
             </div>
           </a>
 
@@ -141,7 +147,7 @@ export default function LegalLayout({
             <a href="/" style={styles.navLink}>الرئيسية</a>
             <a href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
             <a href="/terms" style={styles.navLink}>شروط الاستخدام</a>
-            <a href="/data-deletion" style={styles.navLink}>طلب حذف البيانات</a>
+            <a href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
           </nav>
         </header>
 
@@ -153,8 +159,84 @@ export default function LegalLayout({
         </section>
 
         <footer style={styles.footer}>
-          © 2026 — منصة OD Academy. جميع الحقوق محفوظة.
+          © 2026 — منصة منسقة. جميع الحقوق محفوظة.
         </footer>
+
+        {confirmDeleteOpen ? (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="تنبيه قبل طلب حذف البيانات"
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 1000,
+              display: "grid",
+              placeItems: "center",
+              padding: "18px",
+              background: "rgba(12, 7, 23, .72)",
+              backdropFilter: "blur(10px)"
+            }}
+          >
+            <div
+              style={{
+                width: "min(520px, 100%)",
+                borderRadius: "26px",
+                padding: "22px",
+                background: "#ffffff",
+                color: "#18102e",
+                border: "1px solid rgba(239, 68, 68, .26)",
+                boxShadow: "0 26px 80px rgba(0, 0, 0, .28)",
+                textAlign: "right"
+              }}
+            >
+              <h2 style={{ margin: "0 0 10px", color: "#7f1d1d", fontSize: "1.25rem", lineHeight: 1.7 }}>
+                تنبيه قبل طلب حذف البيانات
+              </h2>
+              <p style={{ margin: 0, color: "#463c63", fontSize: ".96rem", lineHeight: 2, fontWeight: 800 }}>
+                هذا المسار مخصص لطلب حساس قد يؤدي بعد المراجعة والتحقق إلى حذف
+                حسابك، تقدمك، ملاحظاتك، وإنجازاتك داخل منسقة. لا تتابع إلا إذا
+                كنت تقصد فعلًا طلب حذف بياناتك.
+              </p>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "18px" }}>
+                <button
+                  type="button"
+                  onClick={() => setConfirmDeleteOpen(false)}
+                  style={{
+                    border: 0,
+                    borderRadius: "16px",
+                    padding: "12px 16px",
+                    font: "inherit",
+                    fontWeight: 900,
+                    color: "#463c63",
+                    background: "#efe9fb",
+                    cursor: "pointer"
+                  }}
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.location.href = "/data-deletion";
+                  }}
+                  style={{
+                    border: 0,
+                    borderRadius: "16px",
+                    padding: "12px 16px",
+                    font: "inherit",
+                    fontWeight: 900,
+                    color: "#ffffff",
+                    background: "#991b1b",
+                    cursor: "pointer"
+                  }}
+                >
+                  أفهم وأريد المتابعة
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </main>
   );
