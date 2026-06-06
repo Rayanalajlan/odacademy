@@ -259,6 +259,45 @@ function passwordIssue(password) {
   return "";
 }
 
+function getAuthErrorText(error) {
+  return String(error?.message || error?.error_description || error?.name || "").toLowerCase();
+}
+
+function isInvalidLoginError(error) {
+  const text = getAuthErrorText(error);
+  return text.includes("invalid login credentials") || text.includes("invalid credentials");
+}
+
+function isExistingAccountError(error) {
+  const text = getAuthErrorText(error);
+  return (
+    text.includes("user already registered") ||
+    text.includes("already registered") ||
+    text.includes("already exists") ||
+    text.includes("email already")
+  );
+}
+
+function friendlyAuthMessage(error, mode) {
+  if (isInvalidLoginError(error)) {
+    return "لم نتمكن من الدخول بهذه البيانات. إن كان هذا بريدك لأول مرة فأكمل إنشاء حساب جديد، وإن كان لديك حساب سابق فجرّب استعادة كلمة المرور.";
+  }
+
+  if (isExistingAccountError(error)) {
+    return "يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.";
+  }
+
+  if (mode === "signup") {
+    return "تعذر إنشاء الحساب الآن. راجع البيانات وحاول مرة أخرى بعد لحظات.";
+  }
+
+  if (mode === "recover") {
+    return "تعذر إرسال رابط الاستعادة الآن. تأكد من البريد وحاول مرة أخرى.";
+  }
+
+  return "تعذر إكمال العملية الآن. راجع البيانات وحاول مرة أخرى.";
+}
+
 function formatNumber(value) {
   const number = Number(value || 0);
   return new Intl.NumberFormat("en-US").format(number);
@@ -423,7 +462,7 @@ export default function AuthGate({
 
       showNotice("أرسلنا رابط استعادة كلمة المرور إلى بريدك. افتح الرابط وسيظهر لك نموذج تعيين كلمة مرور جديدة.");
     } catch (error) {
-      showNotice(error?.message || "تعذر إرسال رابط استعادة كلمة المرور.");
+      showNotice(friendlyAuthMessage(error, "recover"));
     } finally {
       setBusy(false);
     }
@@ -478,7 +517,7 @@ export default function AuthGate({
         onAuthenticated?.(data.session);
       }
     } catch (error) {
-      showNotice(error?.message || "تعذر تحديث كلمة المرور.");
+      showNotice("تعذر تحديث كلمة المرور الآن. تأكد من الرابط أو اطلب رابط استعادة جديد.");
     } finally {
       setBusy(false);
     }
@@ -530,7 +569,21 @@ export default function AuthGate({
           }
         });
 
-        if (error) throw error;
+        if (error) {
+          if (isExistingAccountError(error)) {
+            setMode("signin");
+            showNotice("يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.");
+            return;
+          }
+
+          throw error;
+        }
+
+        if (Array.isArray(data?.user?.identities) && data.user.identities.length === 0) {
+          setMode("signin");
+          showNotice("يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.");
+          return;
+        }
 
         if (data?.session) {
           await touchActivity();
@@ -549,7 +602,16 @@ export default function AuthGate({
         password
       });
 
-      if (error) throw error;
+      if (error) {
+        if (isInvalidLoginError(error)) {
+          setMode("signup");
+          setFullName("");
+          showNotice("يبدو أن هذا البريد لم يبدأ رحلته بعد. أكمل إنشاء حساب جديد الآن، وإن كان لديك حساب سابق فاختر «نسيت كلمة المرور».");
+          return;
+        }
+
+        throw error;
+      }
 
       await touchActivity();
       await loadPublicStats();
@@ -563,7 +625,7 @@ export default function AuthGate({
       onEnter?.({ session, name });
       onAuthenticated?.(session);
     } catch (error) {
-      showNotice(error?.message || "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.");
+      showNotice(friendlyAuthMessage(error, mode));
     } finally {
       setBusy(false);
     }
