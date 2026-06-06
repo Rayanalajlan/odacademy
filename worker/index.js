@@ -7,7 +7,7 @@
 // باقي الطلبات تمر إلى assets عبر env.ASSETS
 
 const DEFAULT_ALLOWED_ORIGINS = [
-  "https://odacademy.rayansalajlan.workers.dev",
+  "https://munsaqah.rayansalajlan.workers.dev",
   "http://localhost:5173",
   "http://127.0.0.1:5173"
 ];
@@ -671,7 +671,7 @@ async function sendEmailWithBrevo({
 
 function buildLoginEmail({ displayName, siteUrl }) {
   const safeName = escapeHtml(displayName || "متدربنا العزيز");
-  const safeUrl = escapeHtml(siteUrl || "https://odacademy.rayansalajlan.workers.dev");
+  const safeUrl = escapeHtml(siteUrl || "https://munsaqah.rayansalajlan.workers.dev");
 
   return {
     subject: "تنبيه دخول إلى منصة OD Academy",
@@ -684,7 +684,7 @@ function buildLoginEmail({ displayName, siteUrl }) {
 إذا لم يكن أنت، غيّر كلمة المرور فورًا.
 
 رابط المنصة:
-${siteUrl || "https://odacademy.rayansalajlan.workers.dev"}
+${siteUrl || "https://munsaqah.rayansalajlan.workers.dev"}
     `.trim(),
     html: `
       <div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a;">
@@ -702,7 +702,7 @@ ${siteUrl || "https://odacademy.rayansalajlan.workers.dev"}
 
 function buildWelcomeEmail({ displayName, siteUrl, platformName = "OD Academy" }) {
   const safeDisplayName = escapeHtml(displayName || "متدربنا العزيز");
-  const safeSiteUrl = escapeHtml(siteUrl || "https://odacademy.rayansalajlan.workers.dev");
+  const safeSiteUrl = escapeHtml(siteUrl || "https://munsaqah.rayansalajlan.workers.dev");
   const safePlatformName = escapeHtml(platformName);
 
   const subject = "🎉 حيّاك الله في رحلة إتقان التطوير التنظيمي";
@@ -725,7 +725,7 @@ function buildWelcomeEmail({ displayName, siteUrl, platformName = "OD Academy" }
 تذكّر: القيمة ليست في إنهاء الصفحات بسرعة، بل في بناء عين مهنية ترى النظام خلف المشكلة، والمعنى خلف السلوك.
 
 رابط المنصة:
-${siteUrl || "https://odacademy.rayansalajlan.workers.dev"}
+${siteUrl || "https://munsaqah.rayansalajlan.workers.dev"}
 
 بانتظار أثر جميل تصنعه من هذه الرحلة ✨
   `.trim();
@@ -890,7 +890,7 @@ function getRequiredEmailEnv(env) {
     senderName: getEnvValue(env, "BREVO_SENDER_NAME") || "OD Academy",
     siteUrl:
       getEnvValue(env, "SITE_URL", "PUBLIC_SITE_URL") ||
-      "https://odacademy.rayansalajlan.workers.dev"
+      "https://munsaqah.rayansalajlan.workers.dev"
   };
 }
 
@@ -1114,44 +1114,10 @@ async function handleWelcomeEmailRequest(request, env) {
   return jsonResponse({ ok: true, sent: true, provider: "brevo" }, 200, request, env);
 }
 
-
-function jsStringLiteral(value) {
-  return JSON.stringify(String(value || ""));
-}
-
-function handleRuntimeConfigRequest(request, env) {
-  const config = {
-    VITE_SUPABASE_URL: getEnvValue(env, "VITE_SUPABASE_URL", "SUPABASE_URL"),
-    VITE_SUPABASE_ANON_KEY: getEnvValue(env, "VITE_SUPABASE_ANON_KEY", "SUPABASE_ANON_KEY"),
-    SITE_URL:
-      getEnvValue(env, "SITE_URL", "PUBLIC_SITE_URL") ||
-      getRequestSameOrigin(request)
-  };
-
-  const body = `window.__ODACADEMY_CONFIG__ = Object.freeze({\n` +
-    Object.entries(config)
-      .map(([key, value]) => `  ${JSON.stringify(key)}: ${jsStringLiteral(value)}`)
-      .join(",\n") +
-    `\n});\n`;
-
-  return new Response(body, {
-    status: 200,
-    headers: {
-      "Content-Type": "application/javascript; charset=utf-8",
-      "Cache-Control": "no-store, max-age=0",
-      "X-Content-Type-Options": "nosniff"
-    }
-  });
-}
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const pathname = url.pathname.replace(/\/+$/, "") || "/";
-
-    if (pathname === "/env-config.js") {
-      return handleRuntimeConfigRequest(request, env);
-    }
 
     if (request.method === "OPTIONS" && pathname.startsWith("/api/")) {
       return emptyResponse(request, env);
