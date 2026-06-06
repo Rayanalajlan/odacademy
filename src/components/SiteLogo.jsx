@@ -137,9 +137,9 @@ const logoStyles = `
   }
 
   .munsaqah-logo--loader img {
-    height: 52px;
+    height: clamp(92px, 12vw, 134px);
     width: auto;
-    max-width: 52px;
+    max-width: clamp(92px, 12vw, 134px);
     animation: munsaqahLogoPulse 1.4s ease-in-out infinite;
   }
 

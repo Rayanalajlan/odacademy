@@ -1232,39 +1232,286 @@ export default function ExperienceDesignSkin() {
       html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #463c63 !important; }
 
       /* =========================
-         Gradient-filled display headings (background-clip:text) were invisible
-         in dark mode. Repaint them with a LIGHT gradient so they stay readable.
+         Phase 49 visual readability fixes
       ========================= */
-      body.od-theme-dark :is(
-        .od-hero h1 span, .jl-title span, .ar-title span,
-        .roi-hero h1 span, .hero h1 span
-      ) {
-        background: linear-gradient(120deg, #efe9ff 0%, #b9a6f5 100%) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: #d9cdf2 !important;
+
+      html body .boot-screen {
+        min-height: 100vh !important;
+        display: grid !important;
+        place-items: center !important;
+        align-content: center !important;
+        gap: 26px !important;
+        padding: 34px !important;
+        text-align: center !important;
+        background:
+          radial-gradient(circle at 50% 15%, rgba(139, 92, 246, .20), transparent 28%),
+          radial-gradient(circle at 50% 86%, rgba(168, 85, 247, .09), transparent 30%),
+          linear-gradient(180deg, #090512 0%, #0c0717 100%) !important;
+        color: #e8ddff !important;
       }
 
-      body.od-theme-dark :is(
-        .od-timer-content h2, .od-section-head h2, .od-hero h1,
-        .jl-title, .ar-title, .roi-hero h1,
-        .od-feature-card h3, .od-lab-card h3, .od-quote-bar p
-      ) {
-        color: #f1ecfb !important;
-        -webkit-text-fill-color: #f1ecfb !important;
+      html body .boot-screen .munsaqah-logo--loader img {
+        height: clamp(92px, 12vw, 134px) !important;
+        max-width: clamp(92px, 12vw, 134px) !important;
       }
 
-      /* =========================
-         Light mode: unify the home cards to one clean surface
-         (was a mix of white + purple-tinted boxes).
-      ========================= */
-      body:not(.od-theme-dark) :is(
-        .od-stat-card, .od-feature-card, .od-quote-bar, .od-lab-card
+      html body .boot-screen span {
+        display: block !important;
+        max-width: min(720px, calc(100vw - 36px)) !important;
+        color: #e8ddff !important;
+        font-size: 1.45rem !important;
+        line-height: 1.9 !important;
+        font-weight: 900 !important;
+        text-align: center !important;
+        text-wrap: balance !important;
+        text-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
+      }
+
+      html body .site-header .main-nav button,
+      html body .site-header .educational-tools-trigger {
+        min-height: 54px !important;
+        padding-inline: 18px !important;
+        color: #463c63 !important;
+        background: rgba(255, 255, 255, .86) !important;
+        border: 1px solid rgba(139, 92, 246, .18) !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        white-space: nowrap !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark .site-header .main-nav button,
+      html body.od-theme-dark.od-theme-dark .site-header .educational-tools-trigger {
+        color: #e8ddff !important;
+        background: rgba(241, 236, 251, .11) !important;
+        border-color: rgba(196, 181, 253, .24) !important;
+      }
+
+      html body .site-header .main-nav button:hover,
+      html body .site-header .educational-tools-trigger:hover,
+      html body .site-header .main-nav button.active,
+      html body .site-header .educational-tools-trigger.active {
+        color: #160c2a !important;
+        background: linear-gradient(135deg, #f4efff, #a855f7) !important;
+        border-color: rgba(216, 180, 254, .55) !important;
+        box-shadow: 0 18px 42px rgba(168, 85, 247, .24) !important;
+      }
+
+      html body :is(
+        .public-hero > *,
+        .od-hero-inner,
+        .ar-hero-inner,
+        .portfolio-hero-grid,
+        .jl-hero-inner,
+        .roi-hero-inner,
+        .command-hero-inner,
+        .mastery-hero-content
       ) {
-        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
-        border: 1px solid rgba(124, 58, 237, 0.16) !important;
-        box-shadow: 0 16px 40px rgba(124, 58, 237, 0.08) !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+
+      html body :is(
+        .public-hero h1,
+        .od-hero h1,
+        .ar-title,
+        .portfolio-hero h1,
+        .jl-title,
+        .roi-hero h1,
+        .command-hero h1,
+        .mastery-hero h1
+      ) {
+        max-width: min(980px, 100%) !important;
+        font-size: 4.25rem !important;
+        line-height: 1.14 !important;
+        letter-spacing: 0 !important;
+        overflow: visible !important;
+        overflow-wrap: normal !important;
+        word-break: normal !important;
+        hyphens: none !important;
+        text-wrap: balance !important;
+        padding-inline: 0 !important;
+      }
+
+      html body :is(
+        .public-hero p,
+        .od-hero-lead,
+        .ar-lead,
+        .portfolio-hero p,
+        .jl-hero p,
+        .roi-hero p,
+        .command-hero p,
+        .mastery-hero p
+      ) {
+        max-width: min(900px, 100%) !important;
+        font-size: 1.04rem !important;
+        line-height: 1.95 !important;
+        overflow-wrap: normal !important;
+        word-break: normal !important;
+        text-wrap: pretty !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(167, 139, 250, .16), transparent 34%),
+          linear-gradient(135deg, rgba(31, 20, 58, .96), rgba(18, 10, 34, .96)) !important;
+        border-color: rgba(196, 181, 253, .26) !important;
+        color: #f4f0fb !important;
+        box-shadow: 0 22px 70px rgba(0, 0, 0, .30) !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) :is(h2, h3, h4, strong, b, p, span, small, em, label, time) {
+        color: #f4f0fb !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) :is(p, span, small, em, label, time) {
+        color: #d8ccff !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .10), transparent 34%),
+          linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .91)) !important;
+        border-color: rgba(139, 92, 246, .20) !important;
+        color: #1a1030 !important;
+        box-shadow: 0 18px 48px rgba(28, 17, 48, .10) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) :is(h2, h3, h4, strong, b, p, span, small, em, label, time) {
+        color: #1a1030 !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-stat-card,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .stat-card,
+        .counter-card,
+        .path-card,
+        .hero-point,
+        .day-step,
+        .jl-month-card,
+        .jl-week-card,
+        .jl-day-card,
+        .od-quote-bar
+      ) :is(p, span, small, em, label, time) {
+        color: #5b4f78 !important;
+      }
+
+      @media (max-width: 980px) {
+        html body :is(
+          .public-hero h1,
+          .od-hero h1,
+          .ar-title,
+          .portfolio-hero h1,
+          .jl-title,
+          .roi-hero h1,
+          .command-hero h1,
+          .mastery-hero h1
+        ) {
+          font-size: 3.25rem !important;
+          line-height: 1.18 !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        html body .boot-screen span {
+          font-size: 1.12rem !important;
+        }
+
+        html body .site-header .main-nav button,
+        html body .site-header .educational-tools-trigger {
+          min-height: 48px !important;
+          padding-inline: 14px !important;
+        }
+
+        html body :is(
+          .public-hero h1,
+          .od-hero h1,
+          .ar-title,
+          .portfolio-hero h1,
+          .jl-title,
+          .roi-hero h1,
+          .command-hero h1,
+          .mastery-hero h1
+        ) {
+          font-size: 2.38rem !important;
+          line-height: 1.22 !important;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
