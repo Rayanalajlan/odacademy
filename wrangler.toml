@@ -5,6 +5,7 @@ compatibility_date = "2026-05-23"
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+not_found_handling = "single-page-application"
 
 [ai]
 binding = "AI"
@@ -22,5 +23,6 @@ BREVO_SENDER_EMAIL = "rayan.al.ajlan123@gmail.com"
 BREVO_SENDER_NAME = "OD Academy"
 SITE_URL = "https://odacademy.rayansalajlan.workers.dev"
 VITE_SUPABASE_URL = "https://vajfguzaylvddcyywmco.supabase.co"
+# ضع قيمة VITE_SUPABASE_ANON_KEY كـ secret في Cloudflare، ولا تضعها هنا إذا كنت تريد إبقاءها خارج الملف.
 MENTOR_RATE_LIMIT_PER_MINUTE = "20"
 EMAIL_RATE_LIMIT_PER_MINUTE = "3"

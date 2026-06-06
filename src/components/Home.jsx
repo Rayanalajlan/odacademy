@@ -20,7 +20,7 @@ import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 const TIMER_STORAGE_KEY = "od_academy_learning_timer_v1";
 const TIMER_STORAGE_KEY_PREFIX = "od_academy_learning_timer_v2_user_";
 const LEGACY_HOURS_KEY = "od_hours";
-const REMOTE_LEARNING_TIME_TABLE = "user_learning_time";
+const REMOTE_LEARNING_TIME_TABLE = "user_learning_stats";
 const REMOTE_SYNC_INTERVAL_MS = 15000;
 const TIMER_EVENT = "od-learning-time-update";
 const DAILY_GOAL_SECONDS = 45 * 60;

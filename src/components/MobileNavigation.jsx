@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import SiteLogo from "./SiteLogo";
 
 function safeNumber(value, fallback = 0) {
@@ -24,6 +24,9 @@ export default function MobileNavigation({
   onResumeJourney,
   onSignOut
 }) {
+  const panelRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
+
   const progress = useMemo(() => {
     const safeTotal = Math.max(1, safeNumber(totalDays, 180));
     const safeCompleted = Math.min(safeTotal, Math.max(0, safeNumber(completedDays, 0)));
@@ -41,11 +44,45 @@ export default function MobileNavigation({
     if (!open || typeof window === "undefined") return undefined;
 
     const originalOverflow = document.body.style.overflow;
+    previouslyFocusedRef.current = document.activeElement;
     document.body.style.overflow = "hidden";
+
+    const focusableSelector = [
+      "button:not([disabled])",
+      "a[href]",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])"
+    ].join(",");
+
+    window.setTimeout(() => {
+      const firstFocusable = panelRef.current?.querySelector(focusableSelector);
+      firstFocusable?.focus?.();
+    }, 0);
 
     function handleKeyDown(event) {
       if (event.key === "Escape") {
         onClose?.();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(panelRef.current?.querySelectorAll(focusableSelector) || [])
+        .filter((element) => element.offsetParent !== null);
+
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     }
 
@@ -54,6 +91,7 @@ export default function MobileNavigation({
     return () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocusedRef.current?.focus?.();
     };
   }, [open, onClose]);
 
@@ -121,6 +159,11 @@ export default function MobileNavigation({
           font-size: 12px;
           line-height: 1.7;
           font-weight: 800;
+        }
+
+        .mobile-nav-panel :focus-visible {
+          outline: 3px solid #f59e0b;
+          outline-offset: 3px;
         }
 
         .mobile-nav-close {
@@ -371,7 +414,13 @@ export default function MobileNavigation({
         onClick={onClose}
       />
 
-      <aside className="mobile-nav-panel" aria-label="قائمة التنقل للجوال">
+      <aside
+        ref={panelRef}
+        className="mobile-nav-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="قائمة التنقل للجوال"
+      >
         <div className="mobile-nav-top">
           <div className="mobile-nav-title">
             <div className="mobile-nav-logo">

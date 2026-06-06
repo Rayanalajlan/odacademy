@@ -1114,10 +1114,44 @@ async function handleWelcomeEmailRequest(request, env) {
   return jsonResponse({ ok: true, sent: true, provider: "brevo" }, 200, request, env);
 }
 
+
+function jsStringLiteral(value) {
+  return JSON.stringify(String(value || ""));
+}
+
+function handleRuntimeConfigRequest(request, env) {
+  const config = {
+    VITE_SUPABASE_URL: getEnvValue(env, "VITE_SUPABASE_URL", "SUPABASE_URL"),
+    VITE_SUPABASE_ANON_KEY: getEnvValue(env, "VITE_SUPABASE_ANON_KEY", "SUPABASE_ANON_KEY"),
+    SITE_URL:
+      getEnvValue(env, "SITE_URL", "PUBLIC_SITE_URL") ||
+      getRequestSameOrigin(request)
+  };
+
+  const body = `window.__ODACADEMY_CONFIG__ = Object.freeze({\n` +
+    Object.entries(config)
+      .map(([key, value]) => `  ${JSON.stringify(key)}: ${jsStringLiteral(value)}`)
+      .join(",\n") +
+    `\n});\n`;
+
+  return new Response(body, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/javascript; charset=utf-8",
+      "Cache-Control": "no-store, max-age=0",
+      "X-Content-Type-Options": "nosniff"
+    }
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const pathname = url.pathname.replace(/\/+$/, "") || "/";
+
+    if (pathname === "/env-config.js") {
+      return handleRuntimeConfigRequest(request, env);
+    }
 
     if (request.method === "OPTIONS" && pathname.startsWith("/api/")) {
       return emptyResponse(request, env);

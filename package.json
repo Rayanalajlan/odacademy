@@ -20,7 +20,7 @@
     "vite": "8.0.14"
   },
   "devDependencies": {
-    "wrangler": "4.55.0"
+    "wrangler": "^4.98.0"
   },
   "engines": {
     "node": ">=22.16.0"

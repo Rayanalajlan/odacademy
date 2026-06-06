@@ -1270,5 +1270,535 @@ GRANT EXECUTE ON FUNCTION public.get_admin_recent_learners(integer) TO authentic
 GRANT EXECUTE ON FUNCTION public.get_admin_recent_notes(integer) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.get_admin_recent_certificates(integer) TO authenticated;
 
+
+
+CREATE TABLE IF NOT EXISTS public.user_learning_stats (
+  user_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  total_seconds integer NOT NULL DEFAULT 0,
+  daily_log jsonb NOT NULL DEFAULT '{}'::jsonb,
+  sessions_count integer NOT NULL DEFAULT 0,
+  longest_session_seconds integer NOT NULL DEFAULT 0,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.user_learning_stats ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users manage own learning stats" ON public.user_learning_stats;
+CREATE POLICY "Users manage own learning stats"
+ON public.user_learning_stats
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id OR public.is_platform_admin())
+WITH CHECK (auth.uid() = user_id OR public.is_platform_admin());
+
+DROP TRIGGER IF EXISTS trg_user_learning_stats_updated_at ON public.user_learning_stats;
+CREATE TRIGGER trg_user_learning_stats_updated_at
+BEFORE UPDATE ON public.user_learning_stats
+FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+GRANT ALL ON public.user_learning_stats TO authenticated;
+
 -- Optional: add the owner email after creating the account in Supabase Auth.
 -- INSERT INTO public.platform_admins (email) VALUES ('owner@example.com') ON CONFLICT DO NOTHING;
+
+
+-- OD Academy compatibility alignment for current React services
+-- This block keeps older database installs compatible with the current app code.
+-- It is safe to run more than once.
+
+ALTER TABLE public.user_progress
+  ALTER COLUMN month_no DROP NOT NULL,
+  ALTER COLUMN week_no DROP NOT NULL,
+  ALTER COLUMN day_no DROP NOT NULL,
+  ADD COLUMN IF NOT EXISTS month_index integer,
+  ADD COLUMN IF NOT EXISTS week_index integer,
+  ADD COLUMN IF NOT EXISTS day_index integer,
+  ADD COLUMN IF NOT EXISTS opened_at timestamptz,
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+UPDATE public.user_progress
+SET month_index = COALESCE(month_index, month_no),
+    week_index = COALESCE(week_index, week_no),
+    day_index = COALESCE(day_index, day_no),
+    opened_at = COALESCE(opened_at, created_at, completed_at, now()),
+    updated_at = COALESCE(updated_at, completed_at, created_at, now())
+WHERE month_index IS NULL OR week_index IS NULL OR day_index IS NULL OR opened_at IS NULL OR updated_at IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_user_progress_user_mwd_index
+ON public.user_progress(user_id, month_index, week_index, day_index);
+
+ALTER TABLE public.lesson_notes
+  ADD COLUMN IF NOT EXISTS month_index integer,
+  ADD COLUMN IF NOT EXISTS week_index integer,
+  ADD COLUMN IF NOT EXISTS day_index integer,
+  ADD COLUMN IF NOT EXISTS note_title text,
+  ADD COLUMN IF NOT EXISTS note text,
+  ADD COLUMN IF NOT EXISTS is_pinned boolean NOT NULL DEFAULT false;
+
+UPDATE public.lesson_notes
+SET month_index = COALESCE(month_index, month_no),
+    week_index = COALESCE(week_index, week_no),
+    day_index = COALESCE(day_index, day_no),
+    note_title = COALESCE(note_title, title),
+    note = COALESCE(note, content)
+WHERE month_index IS NULL OR week_index IS NULL OR day_index IS NULL OR note_title IS NULL OR note IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_lesson_notes_user_mwd_index
+ON public.lesson_notes(user_id, month_index, week_index, day_index);
+
+ALTER TABLE public.lesson_bookmarks
+  ADD COLUMN IF NOT EXISTS month_index integer,
+  ADD COLUMN IF NOT EXISTS week_index integer,
+  ADD COLUMN IF NOT EXISTS day_index integer,
+  ADD COLUMN IF NOT EXISTS lesson_title text,
+  ADD COLUMN IF NOT EXISTS lesson_path text,
+  ADD COLUMN IF NOT EXISTS excerpt text,
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+UPDATE public.lesson_bookmarks
+SET month_index = COALESCE(month_index, month_no),
+    week_index = COALESCE(week_index, week_no),
+    day_index = COALESCE(day_index, day_no),
+    lesson_title = COALESCE(lesson_title, title),
+    updated_at = COALESCE(updated_at, created_at, now())
+WHERE month_index IS NULL OR week_index IS NULL OR day_index IS NULL OR lesson_title IS NULL OR updated_at IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_lesson_bookmarks_user_mwd_index
+ON public.lesson_bookmarks(user_id, month_index, week_index, day_index);
+
+ALTER TABLE public.weekly_reflections
+  ADD COLUMN IF NOT EXISTS month_index integer,
+  ADD COLUMN IF NOT EXISTS week_index integer,
+  ADD COLUMN IF NOT EXISTS week_title text,
+  ADD COLUMN IF NOT EXISTS key_learning text,
+  ADD COLUMN IF NOT EXISTS observed_pattern text,
+  ADD COLUMN IF NOT EXISTS application_idea text,
+  ADD COLUMN IF NOT EXISTS next_action text,
+  ADD COLUMN IF NOT EXISTS confidence_score integer NOT NULL DEFAULT 3,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'draft';
+
+UPDATE public.weekly_reflections
+SET month_index = COALESCE(month_index, month_no),
+    week_index = COALESCE(week_index, week_no),
+    key_learning = COALESCE(key_learning, responses ->> 'key_learning', responses ->> 'keyLearning'),
+    observed_pattern = COALESCE(observed_pattern, responses ->> 'observed_pattern', responses ->> 'observedPattern'),
+    application_idea = COALESCE(application_idea, responses ->> 'application_idea', responses ->> 'applicationIdea'),
+    next_action = COALESCE(next_action, responses ->> 'next_action', responses ->> 'nextAction')
+WHERE month_index IS NULL OR week_index IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_weekly_reflections_user_mw_index
+ON public.weekly_reflections(user_id, month_index, week_index);
+
+ALTER TABLE public.user_onboarding
+  ADD COLUMN IF NOT EXISTS onboarding_version text NOT NULL DEFAULT '2026-05-v1',
+  ADD COLUMN IF NOT EXISTS has_completed boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS preferred_start text NOT NULL DEFAULT 'later',
+  ADD COLUMN IF NOT EXISTS last_seen_at timestamptz,
+  ADD COLUMN IF NOT EXISTS steps_seen text[] NOT NULL DEFAULT ARRAY[]::text[],
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_user_onboarding_user_version
+ON public.user_onboarding(user_id, onboarding_version);
+
+ALTER TABLE public.notifications
+  ADD COLUMN IF NOT EXISTS action_label text,
+  ADD COLUMN IF NOT EXISTS action_page text;
+
+ALTER TABLE public.monthly_certificates
+  ADD COLUMN IF NOT EXISTS month_subtitle text,
+  ADD COLUMN IF NOT EXISTS required_days integer NOT NULL DEFAULT 30,
+  ADD COLUMN IF NOT EXISTS verification_slug text,
+  ADD COLUMN IF NOT EXISTS verification_enabled boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS public_note text;
+
+UPDATE public.monthly_certificates
+SET verification_slug = COALESCE(verification_slug, certificate_slug, certificate_code),
+    verification_enabled = COALESCE(verification_enabled, public_enabled, true)
+WHERE verification_slug IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_monthly_certificates_verification_slug
+ON public.monthly_certificates(verification_slug)
+WHERE verification_slug IS NOT NULL;
+
+ALTER TABLE public.mastery_certificates
+  ADD COLUMN IF NOT EXISTS verification_slug text,
+  ADD COLUMN IF NOT EXISTS verification_enabled boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS public_note text;
+
+UPDATE public.mastery_certificates
+SET verification_slug = COALESCE(verification_slug, certificate_slug, certificate_code),
+    verification_enabled = COALESCE(verification_enabled, public_enabled, true)
+WHERE verification_slug IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mastery_certificates_verification_slug
+ON public.mastery_certificates(verification_slug)
+WHERE verification_slug IS NOT NULL;
+
+ALTER TABLE public.radar_assessments
+  ADD COLUMN IF NOT EXISTS assessment_title text,
+  ADD COLUMN IF NOT EXISTS overall_score numeric,
+  ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'radar_assessments'
+      AND column_name = 'notes'
+      AND data_type <> 'jsonb'
+  ) THEN
+    ALTER TABLE public.radar_assessments
+      ALTER COLUMN notes DROP DEFAULT,
+      ALTER COLUMN notes TYPE jsonb USING
+        CASE
+          WHEN notes IS NULL OR btrim(notes) = '' THEN '[]'::jsonb
+          ELSE jsonb_build_array(notes)
+        END,
+      ALTER COLUMN notes SET DEFAULT '[]'::jsonb;
+  END IF;
+END;
+$$;
+
+ALTER TABLE public.radar_assessments
+  ALTER COLUMN notes SET DEFAULT '[]'::jsonb;
+
+ALTER TABLE public.privacy_requests
+  ALTER COLUMN email DROP NOT NULL,
+  ADD COLUMN IF NOT EXISTS requester_name text,
+  ADD COLUMN IF NOT EXISTS requester_email text,
+  ADD COLUMN IF NOT EXISTS preferred_contact text NOT NULL DEFAULT 'email',
+  ADD COLUMN IF NOT EXISTS message text,
+  ADD COLUMN IF NOT EXISTS source_path text,
+  ADD COLUMN IF NOT EXISTS user_agent text;
+
+UPDATE public.privacy_requests
+SET requester_email = COALESCE(requester_email, email),
+    message = COALESCE(message, details)
+WHERE requester_email IS NULL OR message IS NULL;
+
+ALTER TABLE public.visitor_testimonials
+  ADD COLUMN IF NOT EXISTS reviewer_name text,
+  ADD COLUMN IF NOT EXISTS reviewer_meta text,
+  ADD COLUMN IF NOT EXISTS quote text;
+
+UPDATE public.visitor_testimonials
+SET reviewer_name = COALESCE(reviewer_name, display_name),
+    reviewer_meta = COALESCE(reviewer_meta, role_title),
+    quote = COALESCE(quote, testimonial_text)
+WHERE reviewer_name IS NULL OR quote IS NULL;
+
+CREATE OR REPLACE FUNCTION public.sync_legacy_app_columns()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  IF TG_TABLE_NAME = 'user_progress' THEN
+    NEW.month_no := COALESCE(NEW.month_no, NEW.month_index);
+    NEW.week_no := COALESCE(NEW.week_no, NEW.week_index);
+    NEW.day_no := COALESCE(NEW.day_no, NEW.day_index);
+    NEW.month_index := COALESCE(NEW.month_index, NEW.month_no);
+    NEW.week_index := COALESCE(NEW.week_index, NEW.week_no);
+    NEW.day_index := COALESCE(NEW.day_index, NEW.day_no);
+    NEW.completed := COALESCE(NEW.completed, NEW.status = 'completed');
+    NEW.opened_at := COALESCE(NEW.opened_at, now());
+    NEW.updated_at := now();
+  ELSIF TG_TABLE_NAME = 'lesson_notes' THEN
+    NEW.month_no := COALESCE(NEW.month_no, NEW.month_index);
+    NEW.week_no := COALESCE(NEW.week_no, NEW.week_index);
+    NEW.day_no := COALESCE(NEW.day_no, NEW.day_index);
+    NEW.month_index := COALESCE(NEW.month_index, NEW.month_no);
+    NEW.week_index := COALESCE(NEW.week_index, NEW.week_no);
+    NEW.day_index := COALESCE(NEW.day_index, NEW.day_no);
+    NEW.title := COALESCE(NEW.title, NEW.note_title);
+    NEW.content := COALESCE(NEW.content, NEW.note);
+    NEW.note_title := COALESCE(NEW.note_title, NEW.title);
+    NEW.note := COALESCE(NEW.note, NEW.content);
+  ELSIF TG_TABLE_NAME = 'lesson_bookmarks' THEN
+    NEW.month_no := COALESCE(NEW.month_no, NEW.month_index);
+    NEW.week_no := COALESCE(NEW.week_no, NEW.week_index);
+    NEW.day_no := COALESCE(NEW.day_no, NEW.day_index);
+    NEW.month_index := COALESCE(NEW.month_index, NEW.month_no);
+    NEW.week_index := COALESCE(NEW.week_index, NEW.week_no);
+    NEW.day_index := COALESCE(NEW.day_index, NEW.day_no);
+    NEW.title := COALESCE(NEW.title, NEW.lesson_title);
+    NEW.lesson_title := COALESCE(NEW.lesson_title, NEW.title);
+    NEW.updated_at := COALESCE(NEW.updated_at, now());
+  ELSIF TG_TABLE_NAME = 'weekly_reflections' THEN
+    NEW.month_no := COALESCE(NEW.month_no, NEW.month_index);
+    NEW.week_no := COALESCE(NEW.week_no, NEW.week_index);
+    NEW.month_index := COALESCE(NEW.month_index, NEW.month_no);
+    NEW.week_index := COALESCE(NEW.week_index, NEW.week_no);
+    NEW.responses := COALESCE(NEW.responses, '{}'::jsonb) || jsonb_strip_nulls(jsonb_build_object(
+      'week_title', NEW.week_title,
+      'key_learning', NEW.key_learning,
+      'observed_pattern', NEW.observed_pattern,
+      'application_idea', NEW.application_idea,
+      'next_action', NEW.next_action,
+      'confidence_score', NEW.confidence_score,
+      'status', NEW.status
+    ));
+  ELSIF TG_TABLE_NAME = 'monthly_certificates' THEN
+    NEW.certificate_slug := COALESCE(NEW.certificate_slug, NEW.verification_slug, encode(gen_random_bytes(12), 'hex'));
+    NEW.verification_slug := COALESCE(NEW.verification_slug, NEW.certificate_slug);
+    NEW.public_enabled := COALESCE(NEW.public_enabled, NEW.verification_enabled, true);
+    NEW.verification_enabled := COALESCE(NEW.verification_enabled, NEW.public_enabled, true);
+  ELSIF TG_TABLE_NAME = 'mastery_certificates' THEN
+    NEW.certificate_slug := COALESCE(NEW.certificate_slug, NEW.verification_slug, encode(gen_random_bytes(14), 'hex'));
+    NEW.verification_slug := COALESCE(NEW.verification_slug, NEW.certificate_slug);
+    NEW.public_enabled := COALESCE(NEW.public_enabled, NEW.verification_enabled, true);
+    NEW.verification_enabled := COALESCE(NEW.verification_enabled, NEW.public_enabled, true);
+  ELSIF TG_TABLE_NAME = 'privacy_requests' THEN
+    NEW.email := COALESCE(NEW.email, NEW.requester_email);
+    NEW.requester_email := COALESCE(NEW.requester_email, NEW.email);
+    NEW.details := COALESCE(NEW.details, NEW.message);
+    NEW.message := COALESCE(NEW.message, NEW.details);
+  ELSIF TG_TABLE_NAME = 'visitor_testimonials' THEN
+    NEW.display_name := COALESCE(NEW.display_name, NEW.reviewer_name, 'زائر OD Academy');
+    NEW.role_title := COALESCE(NEW.role_title, NEW.reviewer_meta);
+    NEW.testimonial_text := COALESCE(NEW.testimonial_text, NEW.quote);
+    NEW.reviewer_name := COALESCE(NEW.reviewer_name, NEW.display_name);
+    NEW.reviewer_meta := COALESCE(NEW.reviewer_meta, NEW.role_title);
+    NEW.quote := COALESCE(NEW.quote, NEW.testimonial_text);
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+DO $$
+DECLARE
+  table_name text;
+BEGIN
+  FOREACH table_name IN ARRAY ARRAY[
+    'user_progress',
+    'lesson_notes',
+    'lesson_bookmarks',
+    'weekly_reflections',
+    'monthly_certificates',
+    'mastery_certificates',
+    'privacy_requests',
+    'visitor_testimonials'
+  ]
+  LOOP
+    EXECUTE format('DROP TRIGGER IF EXISTS trg_%I_compat_columns ON public.%I', table_name, table_name);
+    EXECUTE format(
+      'CREATE TRIGGER trg_%I_compat_columns BEFORE INSERT OR UPDATE ON public.%I FOR EACH ROW EXECUTE FUNCTION public.sync_legacy_app_columns()',
+      table_name,
+      table_name
+    );
+  END LOOP;
+END;
+$$;
+
+DROP FUNCTION IF EXISTS public.verify_mastery_certificate(text);
+CREATE OR REPLACE FUNCTION public.verify_mastery_certificate(slug_or_code text)
+RETURNS TABLE (
+  certificate_type text,
+  month_number integer,
+  month_title text,
+  certificate_code text,
+  certificate_name text,
+  completed_days integer,
+  total_days integer,
+  issued_at timestamptz
+)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    'mastery'::text AS certificate_type,
+    NULL::integer AS month_number,
+    NULL::text AS month_title,
+    certificate_code,
+    certificate_name,
+    completed_days,
+    total_days,
+    issued_at
+  FROM public.mastery_certificates
+  WHERE COALESCE(verification_enabled, public_enabled, true) = true
+    AND status = 'issued'
+    AND (
+      certificate_code = slug_or_code
+      OR certificate_slug = slug_or_code
+      OR verification_slug = slug_or_code
+    )
+
+  UNION ALL
+
+  SELECT
+    'monthly'::text AS certificate_type,
+    month_number,
+    month_title,
+    certificate_code,
+    certificate_name,
+    completed_days,
+    total_days,
+    issued_at
+  FROM public.monthly_certificates
+  WHERE COALESCE(verification_enabled, public_enabled, true) = true
+    AND status = 'issued'
+    AND (
+      certificate_code = slug_or_code
+      OR certificate_slug = slug_or_code
+      OR verification_slug = slug_or_code
+    )
+  LIMIT 1;
+$$;
+
+DROP FUNCTION IF EXISTS public.get_public_testimonials(integer);
+CREATE OR REPLACE FUNCTION public.get_public_testimonials(limit_count integer DEFAULT 6)
+RETURNS TABLE (
+  id uuid,
+  display_name text,
+  role_title text,
+  testimonial_text text,
+  rating integer,
+  source text,
+  created_at timestamptz
+)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    visitor_testimonials.id,
+    COALESCE(visitor_testimonials.reviewer_name, visitor_testimonials.display_name) AS display_name,
+    COALESCE(visitor_testimonials.reviewer_meta, visitor_testimonials.role_title) AS role_title,
+    COALESCE(visitor_testimonials.quote, visitor_testimonials.testimonial_text) AS testimonial_text,
+    visitor_testimonials.rating,
+    'visitor'::text AS source,
+    visitor_testimonials.created_at
+  FROM public.visitor_testimonials
+  WHERE visitor_testimonials.status = 'published'
+
+  UNION ALL
+
+  SELECT
+    journey_feedback.id,
+    CASE
+      WHEN journey_feedback.display_name_preference = 'full_name'
+        THEN COALESCE(user_profiles.display_name, user_profiles.certificate_name, user_profiles.full_name, 'متعلم في OD Academy')
+      ELSE 'متعلم في OD Academy'
+    END AS display_name,
+    NULL::text AS role_title,
+    journey_feedback.testimonial_text,
+    journey_feedback.overall_rating AS rating,
+    'learner'::text AS source,
+    journey_feedback.created_at
+  FROM public.journey_feedback
+  LEFT JOIN public.user_profiles ON user_profiles.id = journey_feedback.user_id
+  WHERE journey_feedback.status = 'published'
+    AND (
+      journey_feedback.publish_consent = true
+      OR journey_feedback.consent_to_publish = true
+      OR journey_feedback.is_public = true
+    )
+    AND journey_feedback.testimonial_text IS NOT NULL
+  ORDER BY created_at DESC
+  LIMIT LEAST(GREATEST(COALESCE(limit_count, 6), 1), 24);
+$$;
+
+GRANT EXECUTE ON FUNCTION public.verify_mastery_certificate(text) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.get_public_testimonials(integer) TO anon, authenticated;
+
+
+-- OD Academy learning time aggregate function alignment
+DROP FUNCTION IF EXISTS public.record_learning_time(integer, text, text, text, integer, integer, integer, jsonb);
+CREATE OR REPLACE FUNCTION public.record_learning_time(
+  seconds_spent integer,
+  page_name text DEFAULT 'unknown',
+  entity_type_text text DEFAULT NULL,
+  entity_id_text text DEFAULT NULL,
+  month_no integer DEFAULT NULL,
+  week_no integer DEFAULT NULL,
+  day_no integer DEFAULT NULL,
+  event_metadata jsonb DEFAULT '{}'::jsonb
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
+DECLARE
+  safe_seconds integer := LEAST(GREATEST(COALESCE(seconds_spent, 0), 0), 600);
+  day_key text := to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD');
+BEGIN
+  IF auth.uid() IS NULL OR safe_seconds <= 0 THEN
+    RETURN;
+  END IF;
+
+  INSERT INTO public.user_learning_time (
+    user_id, page_name, entity_type, entity_id, month_no, week_no, day_no, seconds_spent, metadata
+  )
+  VALUES (
+    auth.uid(),
+    COALESCE(page_name, 'unknown'),
+    entity_type_text,
+    entity_id_text,
+    month_no,
+    week_no,
+    day_no,
+    safe_seconds,
+    COALESCE(event_metadata, '{}'::jsonb)
+  )
+  ON CONFLICT (user_id, page_name, entity_type, entity_id, month_no, week_no, day_no)
+  DO UPDATE
+  SET seconds_spent = public.user_learning_time.seconds_spent + EXCLUDED.seconds_spent,
+      metadata = public.user_learning_time.metadata || EXCLUDED.metadata,
+      updated_at = now();
+
+  INSERT INTO public.user_learning_stats (
+    user_id,
+    total_seconds,
+    daily_log,
+    sessions_count,
+    longest_session_seconds
+  )
+  VALUES (
+    auth.uid(),
+    safe_seconds,
+    jsonb_build_object(day_key, safe_seconds),
+    1,
+    safe_seconds
+  )
+  ON CONFLICT (user_id)
+  DO UPDATE
+  SET total_seconds = public.user_learning_stats.total_seconds + EXCLUDED.total_seconds,
+      daily_log = jsonb_set(
+        COALESCE(public.user_learning_stats.daily_log, '{}'::jsonb),
+        ARRAY[day_key],
+        to_jsonb(COALESCE((public.user_learning_stats.daily_log ->> day_key)::integer, 0) + safe_seconds),
+        true
+      ),
+      sessions_count = public.user_learning_stats.sessions_count + 1,
+      longest_session_seconds = GREATEST(public.user_learning_stats.longest_session_seconds, safe_seconds),
+      updated_at = now();
+
+  INSERT INTO public.user_learning_events (
+    user_id, event_type, event_title, event_description, entity_type, entity_id, metadata
+  )
+  VALUES (
+    auth.uid(),
+    'learning_time',
+    page_name,
+    concat(safe_seconds::text, ' seconds'),
+    entity_type_text,
+    entity_id_text,
+    COALESCE(event_metadata, '{}'::jsonb)
+  );
+
+  UPDATE public.user_profiles
+  SET total_learning_seconds = COALESCE(total_learning_seconds, 0) + safe_seconds,
+      last_seen_at = now(),
+      updated_at = now()
+  WHERE id = auth.uid();
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.record_learning_time(integer, text, text, text, integer, integer, integer, jsonb) TO authenticated;

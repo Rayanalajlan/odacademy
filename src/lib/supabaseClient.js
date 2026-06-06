@@ -3,8 +3,23 @@ import { createClient } from "@supabase/supabase-js";
 // مهم:
 // Vite لا يقرأ متغيرات الواجهة إلا إذا بدأت بـ VITE_.
 // لا تضع هنا Service Role Key أو أي مفتاح سري.
-const rawSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
-const rawSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+function readRuntimeConfigValue(name) {
+  if (typeof window === "undefined") return "";
+
+  return window.__ODACADEMY_CONFIG__?.[name] || "";
+}
+
+const rawSupabaseUrl =
+  import.meta.env.VITE_SUPABASE_URL ||
+  readRuntimeConfigValue("VITE_SUPABASE_URL") ||
+  readRuntimeConfigValue("SUPABASE_URL") ||
+  "";
+
+const rawSupabaseAnonKey =
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  readRuntimeConfigValue("VITE_SUPABASE_ANON_KEY") ||
+  readRuntimeConfigValue("SUPABASE_ANON_KEY") ||
+  "";
 
 const supabaseUrl = rawSupabaseUrl.trim();
 const supabaseAnonKey = rawSupabaseAnonKey.trim();

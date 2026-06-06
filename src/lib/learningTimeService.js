@@ -55,18 +55,43 @@ export async function getLearningTimeSummary() {
 
   if (!userId) return null;
 
-  const { data, error } = await supabase
-    .from("user_learning_time")
-    .select("*")
+  const { data: statsData, error: statsError } = await supabase
+    .from("user_learning_stats")
+    .select("total_seconds, daily_log, sessions_count, longest_session_seconds, created_at, updated_at")
     .eq("user_id", userId)
     .maybeSingle();
+
+  if (!statsError && statsData) {
+    return statsData;
+  }
+
+  const { data, error } = await supabase
+    .from("user_learning_time")
+    .select("seconds_spent, created_at")
+    .eq("user_id", userId)
+    .limit(1000);
 
   if (error) {
     console.warn("تعذر قراءة وقت التعلم:", error.message);
     return null;
   }
 
-  return data;
+  const rows = Array.isArray(data) ? data : [];
+  const dailyLog = rows.reduce((acc, row) => {
+    const key = String(row.created_at || new Date().toISOString()).slice(0, 10);
+    acc[key] = (acc[key] || 0) + Number(row.seconds_spent || 0);
+    return acc;
+  }, {});
+
+  return {
+    total_seconds: rows.reduce((sum, row) => sum + Number(row.seconds_spent || 0), 0),
+    daily_log: dailyLog,
+    sessions_count: rows.length,
+    longest_session_seconds: rows.reduce(
+      (max, row) => Math.max(max, Number(row.seconds_spent || 0)),
+      0
+    )
+  };
 }
 
 export function startLearningTimeTracker({

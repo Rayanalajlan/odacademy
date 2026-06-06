@@ -64,7 +64,12 @@ export async function getRecentLearners(limit = 20) {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map((learner) => ({
+    ...learner,
+    user_id: learner.user_id || learner.id,
+    total_seconds: Number(learner.total_seconds ?? learner.total_learning_seconds ?? 0),
+    completed_days: Number(learner.completed_days || 0)
+  }));
 }
 
 export async function getRecentNotes(limit = 20) {
@@ -76,7 +81,14 @@ export async function getRecentNotes(limit = 20) {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map((note) => ({
+    ...note,
+    month_index: Number(note.month_index ?? note.month_no ?? 0),
+    week_index: Number(note.week_index ?? note.week_no ?? 0),
+    day_index: Number(note.day_index ?? note.day_no ?? 0),
+    note_title: note.note_title || note.title || "ملاحظة محفوظة",
+    note: note.note || note.content || ""
+  }));
 }
 
 export async function getRecentCertificates(limit = 20) {
@@ -88,7 +100,10 @@ export async function getRecentCertificates(limit = 20) {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map((certificate) => ({
+    ...certificate,
+    verification_enabled: certificate.verification_enabled ?? certificate.public_enabled ?? true
+  }));
 }
 
 export async function createAdminNotification({
