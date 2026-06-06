@@ -318,9 +318,9 @@ function normalizeStats(payload) {
   const row = Array.isArray(payload) ? payload[0] : payload;
 
   return {
-    total_joined: Number(row?.total_joined || 0),
-    active_now: Number(row?.active_now || 0),
-    completed_count: Number(row?.completed_count || 0)
+    total_joined: Number(row?.total_joined ?? row?.total_learners ?? 0),
+    active_now: Number(row?.active_now ?? 0),
+    completed_count: Number(row?.completed_count ?? row?.completed_learners ?? 0)
   };
 }
 
@@ -358,13 +358,17 @@ export default function AuthGate({
       return;
     }
 
-    const { data, error } = await supabase.rpc("get_public_platform_stats");
+    try {
+      const { data, error } = await supabase.rpc("get_public_platform_stats");
 
-    if (!error && data) {
-      setStats(normalizeStats(data));
+      if (!error && data) {
+        setStats(normalizeStats(data));
+      }
+    } catch (error) {
+      console.warn("تعذر تحميل إحصاءات المنصة العامة:", error);
+    } finally {
+      setStatsReady(true);
     }
-
-    setStatsReady(true);
   }
 
   useEffect(() => {
@@ -380,7 +384,12 @@ export default function AuthGate({
 
   async function touchActivity() {
     if (!isSupabaseConfigured || !supabase) return;
-    await supabase.rpc("touch_user_activity");
+
+    try {
+      await supabase.rpc("touch_user_activity");
+    } catch (error) {
+      console.warn("تعذر تحديث نشاط المتدرب:", error);
+    }
   }
 
 

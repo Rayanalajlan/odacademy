@@ -2027,3 +2027,102 @@ select {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Zero-Crash Framework: رسالة عزل الأعطال بدل الشاشة البيضاء */
+.od-error-boundary {
+  width: min(1040px, calc(100% - 28px));
+  margin: 24px auto;
+  padding: 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.13), transparent 38%),
+    rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  box-shadow: 0 18px 48px rgba(28, 17, 48, 0.08);
+  color: #31264a;
+}
+
+.od-error-boundary--section {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.od-error-boundary__icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  font-weight: 950;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
+  box-shadow: 0 14px 32px rgba(139, 92, 246, 0.25);
+}
+
+.od-error-boundary h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+}
+
+.od-error-boundary p {
+  margin: 0;
+  line-height: 1.9;
+  color: #574a70;
+}
+
+.od-error-boundary code {
+  display: block;
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  direction: ltr;
+  text-align: left;
+  white-space: pre-wrap;
+  border-radius: 14px;
+  background: rgba(49, 38, 74, 0.08);
+  color: #31264a;
+}
+
+.od-error-boundary button {
+  margin-top: 14px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #3b1d6e);
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.22);
+}
+
+[data-theme="dark"] .od-error-boundary,
+.dark .od-error-boundary {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(167, 139, 250, 0.16), transparent 40%),
+    rgba(21, 14, 34, 0.94);
+  border-color: rgba(167, 139, 250, 0.2);
+  color: #f5f1ff;
+}
+
+[data-theme="dark"] .od-error-boundary p,
+.dark .od-error-boundary p {
+  color: rgba(245, 241, 255, 0.78);
+}
+
+[data-theme="dark"] .od-error-boundary code,
+.dark .od-error-boundary code {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f1ff;
+}
+
+@media (max-width: 680px) {
+  .od-error-boundary {
+    flex-direction: column;
+    padding: 18px;
+    border-radius: 22px;
+  }
+}

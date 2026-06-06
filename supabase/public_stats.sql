@@ -115,9 +115,9 @@ begin
     from (
       select user_id
       from public.user_progress
-      where status = 'completed'
+      where status = 'completed' or completed = true
       group by user_id
-      having count(*) >= 168
+      having count(*) >= 180
     ) x
   )
   select

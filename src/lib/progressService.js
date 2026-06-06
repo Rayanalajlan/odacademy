@@ -12,20 +12,37 @@ function nowIso() {
   return new Date().toISOString();
 }
 
-function normalizeStatus(status) {
-  return status === "completed" ? "completed" : "opened";
+function normalizeStatus(status, completed = false) {
+  if (status === "completed" || completed === true) return "completed";
+  return "opened";
 }
 
 function normalizeRow(row = {}) {
+  const status = normalizeStatus(row.status, row.completed);
+  const openedAt = row.opened_at || row.openedAt || row.created_at || null;
+  const completedAt = row.completed_at || row.completedAt || (status === "completed" ? row.updated_at : null);
+
   return {
-    month_index: Number(row.month_index ?? row.monthIndex),
-    week_index: Number(row.week_index ?? row.weekIndex),
-    day_index: Number(row.day_index ?? row.dayIndex),
-    status: normalizeStatus(row.status),
-    opened_at: row.opened_at || null,
-    completed_at: row.completed_at || null,
-    updated_at: row.updated_at || nowIso()
+    month_index: Number(row.month_index ?? row.monthIndex ?? row.month_no ?? row.monthNo),
+    week_index: Number(row.week_index ?? row.weekIndex ?? row.week_no ?? row.weekNo),
+    day_index: Number(row.day_index ?? row.dayIndex ?? row.day_no ?? row.dayNo),
+    status,
+    opened_at: openedAt,
+    completed_at: completedAt || null,
+    updated_at: row.updated_at || row.updatedAt || completedAt || openedAt || nowIso()
   };
+}
+
+function isSchemaCompatibilityError(error) {
+  const message = `${error?.message || ""} ${error?.details || ""} ${error?.hint || ""}`.toLowerCase();
+  return (
+    message.includes("column") ||
+    message.includes("schema cache") ||
+    message.includes("month_index") ||
+    message.includes("week_index") ||
+    message.includes("day_index") ||
+    message.includes("opened_at")
+  );
 }
 
 function sortProgressRows(rows) {
@@ -40,29 +57,41 @@ function safeLocalStorage() {
   return typeof window !== "undefined" ? window.localStorage : null;
 }
 
-function readLocalProgress() {
+function getLocalProgressKey(userId = "guest") {
+  const safeUserId = String(userId || "guest").replace(/[^a-zA-Z0-9_-]/g, "_");
+  return `${LOCAL_PROGRESS_KEY}_${safeUserId}`;
+}
+
+function readLocalProgress(userId = "guest") {
   try {
     const storage = safeLocalStorage();
     if (!storage) return [];
 
-    const raw = storage.getItem(LOCAL_PROGRESS_KEY);
+    const scopedKey = getLocalProgressKey(userId);
+    const raw = storage.getItem(scopedKey) || storage.getItem(LOCAL_PROGRESS_KEY);
     if (!raw) return [];
 
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? sortProgressRows(parsed.map(normalizeRow)) : [];
+    const rows = Array.isArray(parsed) ? sortProgressRows(parsed.map(normalizeRow)) : [];
+
+    if (rows.length && !storage.getItem(scopedKey)) {
+      storage.setItem(scopedKey, JSON.stringify(rows));
+    }
+
+    return rows;
   } catch (error) {
     console.warn("تعذر قراءة نسخة التقدم المحلية:", error);
     return [];
   }
 }
 
-function writeLocalProgress(rows) {
+function writeLocalProgress(rows, userId = "guest") {
   try {
     const storage = safeLocalStorage();
     if (!storage) return;
 
     const safeRows = sortProgressRows(rows.map(normalizeRow));
-    storage.setItem(LOCAL_PROGRESS_KEY, JSON.stringify(safeRows));
+    storage.setItem(getLocalProgressKey(userId), JSON.stringify(safeRows));
   } catch (error) {
     console.warn("تعذر تحديث نسخة التقدم المحلية:", error);
   }
@@ -119,8 +148,8 @@ function mergeProgressRows(localRows, remoteRows) {
   return sortProgressRows(Array.from(map.values()));
 }
 
-function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status }) {
-  const rows = readLocalProgress();
+function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status, userId = "guest" }) {
+  const rows = readLocalProgress(userId);
   const key = makeProgressKey(monthIndex, weekIndex, dayIndex);
   const currentTime = nowIso();
   const safeStatus = normalizeStatus(status);
@@ -146,7 +175,7 @@ function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status }) {
   }
 
   const sortedRows = sortProgressRows(rows);
-  writeLocalProgress(sortedRows);
+  writeLocalProgress(sortedRows, userId);
   return sortedRows;
 }
 
@@ -195,17 +224,31 @@ async function fetchRemoteProgress(userId) {
   }
 
   return withRetry(async () => {
-    const { data, error } = await supabase
+    const modern = await supabase
       .from(PROGRESS_TABLE)
-      .select("month_index, week_index, day_index, status, opened_at, completed_at, updated_at")
+      .select("*")
       .eq("user_id", userId)
       .order("month_index", { ascending: true })
       .order("week_index", { ascending: true })
       .order("day_index", { ascending: true });
 
-    if (error) throw error;
+    if (!modern.error) {
+      return Array.isArray(modern.data) ? sortProgressRows(modern.data.map(normalizeRow)) : [];
+    }
 
-    return Array.isArray(data) ? sortProgressRows(data.map(normalizeRow)) : [];
+    if (!isSchemaCompatibilityError(modern.error)) throw modern.error;
+
+    const legacy = await supabase
+      .from(PROGRESS_TABLE)
+      .select("*")
+      .eq("user_id", userId)
+      .order("month_no", { ascending: true })
+      .order("week_no", { ascending: true })
+      .order("day_no", { ascending: true });
+
+    if (legacy.error) throw legacy.error;
+
+    return Array.isArray(legacy.data) ? sortProgressRows(legacy.data.map(normalizeRow)) : [];
   }, "تحميل التقدم من Supabase");
 }
 
@@ -215,47 +258,88 @@ async function fetchSingleRemoteProgress(userId, monthIndex, weekIndex, dayIndex
   }
 
   return withRetry(async () => {
-    const { data, error } = await supabase
+    const modernQuery = supabase
       .from(PROGRESS_TABLE)
-      .select("month_index, week_index, day_index, status, opened_at, completed_at, updated_at")
+      .select("*")
       .eq("user_id", userId)
       .eq("month_index", Number(monthIndex))
       .eq("week_index", Number(weekIndex))
       .eq("day_index", Number(dayIndex))
       .maybeSingle();
 
-    if (error) throw error;
+    const { data, error } = await modernQuery;
 
-    return data ? normalizeRow(data) : null;
+    if (!error) {
+      return data ? normalizeRow(data) : null;
+    }
+
+    if (!isSchemaCompatibilityError(error)) throw error;
+
+    const legacy = await supabase
+      .from(PROGRESS_TABLE)
+      .select("*")
+      .eq("user_id", userId)
+      .eq("month_no", Number(monthIndex))
+      .eq("week_no", Number(weekIndex))
+      .eq("day_no", Number(dayIndex))
+      .maybeSingle();
+
+    if (legacy.error) throw legacy.error;
+    return legacy.data ? normalizeRow(legacy.data) : null;
   }, "قراءة سجل التقدم من Supabase");
 }
 
 async function upsertRemoteRows(userId, rows = []) {
   if (!userId || !rows.length) return [];
 
-  const payload = rows.map((row) => {
-    const normalized = normalizeRow(row);
+  const currentTime = nowIso();
+  const normalizedRows = rows.map(normalizeRow);
 
-    return {
-      user_id: userId,
-      month_index: normalized.month_index,
-      week_index: normalized.week_index,
-      day_index: normalized.day_index,
-      status: normalized.status,
-      opened_at: normalized.opened_at || nowIso(),
-      completed_at: normalized.status === "completed"
-        ? normalized.completed_at || nowIso()
+  const modernPayload = normalizedRows.map((normalized) => ({
+    user_id: userId,
+    month_index: normalized.month_index,
+    week_index: normalized.week_index,
+    day_index: normalized.day_index,
+    month_no: normalized.month_index,
+    week_no: normalized.week_index,
+    day_no: normalized.day_index,
+    status: normalized.status,
+    completed: normalized.status === "completed",
+    opened_at: normalized.opened_at || currentTime,
+    completed_at:
+      normalized.status === "completed"
+        ? normalized.completed_at || currentTime
         : normalized.completed_at,
-      updated_at: normalized.updated_at || nowIso()
-    };
-  });
+    updated_at: normalized.updated_at || currentTime
+  }));
+
+  const legacyPayload = normalizedRows.map((normalized) => ({
+    user_id: userId,
+    month_no: normalized.month_index,
+    week_no: normalized.week_index,
+    day_no: normalized.day_index,
+    status: normalized.status,
+    completed: normalized.status === "completed",
+    completed_at:
+      normalized.status === "completed"
+        ? normalized.completed_at || currentTime
+        : normalized.completed_at || currentTime,
+    updated_at: normalized.updated_at || currentTime
+  }));
 
   await withRetry(async () => {
-    const { error } = await supabase.from(PROGRESS_TABLE).upsert(payload, {
+    const modern = await supabase.from(PROGRESS_TABLE).upsert(modernPayload, {
       onConflict: "user_id,month_index,week_index,day_index"
     });
 
-    if (error) throw error;
+    if (!modern.error) return true;
+    if (!isSchemaCompatibilityError(modern.error)) throw modern.error;
+
+    const legacy = await supabase.from(PROGRESS_TABLE).upsert(legacyPayload, {
+      onConflict: "user_id,month_no,week_no,day_no"
+    });
+
+    if (legacy.error) throw legacy.error;
     return true;
   }, "حفظ التقدم في Supabase");
 
@@ -298,13 +382,14 @@ async function syncRowToSupabase({ monthIndex, weekIndex, dayIndex, status }) {
 
   const mergedRow = existingRemoteRow ? mergeTwoRows(existingRemoteRow, nextRow) : nextRow;
   const remoteRows = await upsertRemoteRows(user.id, [mergedRow]);
-  writeLocalProgress(remoteRows);
+  writeLocalProgress(remoteRows, user.id);
   return remoteRows;
 }
 
 export async function loadUserProgress() {
-  const localRows = readLocalProgress();
   const user = await getCurrentUserStrict();
+  const userKey = user?.id || "guest";
+  const localRows = readLocalProgress(userKey);
 
   if (!user?.id) {
     // قبل تسجيل الدخول أو في وضع تجريبي فقط.
@@ -317,11 +402,11 @@ export async function loadUserProgress() {
   // إذا كانت هناك نسخة محلية قديمة، نرفعها للسحابة ثم نقرأ السحابة مرة أخرى.
   if (mergedRows.length) {
     const syncedRows = await upsertRemoteRows(user.id, mergedRows);
-    writeLocalProgress(syncedRows);
+    writeLocalProgress(syncedRows, user.id);
     return syncedRows;
   }
 
-  writeLocalProgress(remoteRows);
+  writeLocalProgress(remoteRows, user.id);
   return remoteRows;
 }
 
@@ -330,14 +415,14 @@ export async function fetchUserProgress() {
 }
 
 export async function markDayOpened({ monthIndex, weekIndex, dayIndex }) {
+  const user = await getCurrentUserStrict();
   const mirrorRows = upsertLocalMirror({
     monthIndex,
     weekIndex,
     dayIndex,
-    status: "opened"
+    status: "opened",
+    userId: user?.id || "guest"
   });
-
-  const user = await getCurrentUserStrict();
 
   if (!user?.id) {
     return mirrorRows;
@@ -358,15 +443,15 @@ export async function updateUserProgress({
   status
 }) {
   const safeStatus = normalizeStatus(status || "completed");
+  const user = await getCurrentUserStrict();
 
   const mirrorRows = upsertLocalMirror({
     monthIndex,
     weekIndex,
     dayIndex,
-    status: safeStatus
+    status: safeStatus,
+    userId: user?.id || "guest"
   });
-
-  const user = await getCurrentUserStrict();
 
   if (!user?.id) {
     return mirrorRows;

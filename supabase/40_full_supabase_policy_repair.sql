@@ -753,9 +753,9 @@ $$;
 DROP FUNCTION IF EXISTS public.get_public_platform_stats();
 CREATE OR REPLACE FUNCTION public.get_public_platform_stats()
 RETURNS TABLE (
-  total_learners bigint,
+  total_joined bigint,
   active_now bigint,
-  completed_learners bigint,
+  completed_count bigint,
   remaining_seats integer
 )
 LANGUAGE sql
@@ -766,9 +766,9 @@ AS $$
   WITH completed AS (
     SELECT user_id
     FROM public.user_progress
-    WHERE completed = true
+    WHERE completed = true OR status = 'completed'
     GROUP BY user_id
-    HAVING count(*) >= 168
+    HAVING count(*) >= 180
   )
   SELECT
     (SELECT count(*) FROM public.user_profiles)::bigint,
@@ -1321,9 +1321,21 @@ UPDATE public.user_progress
 SET month_index = COALESCE(month_index, month_no),
     week_index = COALESCE(week_index, week_no),
     day_index = COALESCE(day_index, day_no),
+    month_no = COALESCE(month_no, month_index),
+    week_no = COALESCE(week_no, week_index),
+    day_no = COALESCE(day_no, day_index),
+    status = CASE WHEN completed = true THEN 'completed' ELSE COALESCE(status, 'opened') END,
     opened_at = COALESCE(opened_at, created_at, completed_at, now()),
     updated_at = COALESCE(updated_at, completed_at, created_at, now())
-WHERE month_index IS NULL OR week_index IS NULL OR day_index IS NULL OR opened_at IS NULL OR updated_at IS NULL;
+WHERE month_index IS NULL
+   OR week_index IS NULL
+   OR day_index IS NULL
+   OR month_no IS NULL
+   OR week_no IS NULL
+   OR day_no IS NULL
+   OR opened_at IS NULL
+   OR updated_at IS NULL
+   OR status IS NULL;
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_user_progress_user_mwd_index
 ON public.user_progress(user_id, month_index, week_index, day_index);

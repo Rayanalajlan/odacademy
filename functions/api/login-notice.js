@@ -8,6 +8,7 @@
 // مهم: لا نضع RESEND_API_KEY داخل React أو داخل ملفات الواجهة.
 
 const DEFAULT_ALLOWED_ORIGINS = [
+  "https://odacademy.rayansalajlan.workers.dev",
   "https://munsaqah.rayansalajlan.workers.dev",
   "http://localhost:5173",
   "http://127.0.0.1:5173"

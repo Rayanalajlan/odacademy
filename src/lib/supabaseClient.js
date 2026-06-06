@@ -55,7 +55,10 @@ export const supabase = isSupabaseConfigured
         detectSessionInUrl: true,
 
         // اسم واضح للتخزين حتى لا يتعارض مع مشاريع أخرى.
-        storageKey: "odacademy-auth-session"
+        storageKey: "odacademy-auth-session",
+
+        // PKCE أكثر ملاءمة لتطبيقات الويب الحديثة وروابط الاستعادة والتأكيد.
+        flowType: "pkce"
       }
     })
   : null;

@@ -7,6 +7,7 @@
 // باقي الطلبات تمر إلى assets عبر env.ASSETS
 
 const DEFAULT_ALLOWED_ORIGINS = [
+  "https://odacademy.rayansalajlan.workers.dev",
   "https://munsaqah.rayansalajlan.workers.dev",
   "http://localhost:5173",
   "http://127.0.0.1:5173"

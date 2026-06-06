@@ -17,6 +17,7 @@ import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
 import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
+import ErrorBoundary from "./components/ErrorBoundary";
 import LegalPageRouter, { isLegalPath } from "./components/LegalPageRouter";
 import { LegalFooterLinks, LegalFloatingLinks } from "./components/LegalLinks";
 import {
@@ -549,9 +550,11 @@ export default function App() {
       <>
         <BrandMeta />
         <ExperienceDesignSkin />
-        <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
-          <VerifyCertificate slug={verificationSlug} />
-        </Suspense>
+        <ErrorBoundary title="تعذّر فتح صفحة التحقق">
+          <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
+            <VerifyCertificate slug={verificationSlug} />
+          </Suspense>
+        </ErrorBoundary>
       </>
     );
   }
@@ -910,14 +913,17 @@ export default function App() {
       )}
 
       {activePage === "home" && (
-        <Home
-          userName={displayName}
-          setActivePage={navigate}
-          completedDays={completedDays}
-          totalDays={totalJourneyDays}
-        />
+        <ErrorBoundary resetKey={activePage} title="تعذّر تحميل الصفحة الرئيسية">
+          <Home
+            userName={displayName}
+            setActivePage={navigate}
+            completedDays={completedDays}
+            totalDays={totalJourneyDays}
+          />
+        </ErrorBoundary>
       )}
 
+      <ErrorBoundary resetKey={activePage}>
       <Suspense fallback={<PageLoader />}>
         {activePage === "journey" && (
           <CourseJourney
@@ -963,6 +969,7 @@ export default function App() {
 
         {activePage === "about" && <AboutRayan />}
       </Suspense>
+      </ErrorBoundary>
 
       <footer className="site-footer">
         <div>
