@@ -1,27 +1,27 @@
 export const SECTION_ICON_ASSETS = {
   home: {
     label: "الرئيسية",
-    src: "/section-icons/home.png"
+    src: "/section-icons/home.webp"
   },
   portfolio: {
     label: "ملفي التعليمي",
-    src: "/section-icons/portfolio.png"
+    src: "/section-icons/portfolio.webp"
   },
   journey: {
     label: "رحلتك التعليمية",
-    src: "/section-icons/journey.png"
+    src: "/section-icons/journey.webp"
   },
   tools: {
     label: "الأدوات التعليمية",
-    src: "/section-icons/tools.png"
+    src: "/section-icons/tools.webp"
   },
   mastery: {
     label: "وثيقة الإتقان",
-    src: "/section-icons/mastery.png"
+    src: "/section-icons/mastery.webp"
   },
   about: {
     label: "عن ريان",
-    src: "/section-icons/about.png"
+    src: "/section-icons/about.webp"
   }
 };
 

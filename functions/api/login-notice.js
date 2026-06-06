@@ -7,20 +7,75 @@
 // إرسال رسالة تنبيه للمستخدم بعد تسجيل الدخول الناجح.
 // مهم: لا نضع RESEND_API_KEY داخل React أو داخل ملفات الواجهة.
 
-function corsHeaders() {
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://odacademy.rayansalajlan.workers.dev",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+];
+
+function splitEnvList(value) {
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function getAllowedOrigins(env) {
+  const configured = getEnvValue(env, "ALLOWED_ORIGINS", "CORS_ALLOWED_ORIGINS");
+  return configured ? splitEnvList(configured) : DEFAULT_ALLOWED_ORIGINS;
+}
+
+function normalizeOrigin(value) {
+  try {
+    return new URL(value).origin;
+  } catch {
+    return "";
+  }
+}
+
+function getRequestOrigin(request) {
+  return normalizeOrigin(request.headers.get("Origin") || "");
+}
+
+function getRequestSameOrigin(request) {
+  const url = new URL(request.url);
+  return `${url.protocol}//${url.host}`;
+}
+
+function isAllowedRequestOrigin(request, env) {
+  const origin = getRequestOrigin(request);
+  if (!origin) return true;
+  return getAllowedOrigins(env).includes(origin);
+}
+
+function getCorsOrigin(request, env) {
+  const origin = getRequestOrigin(request);
+  const allowed = getAllowedOrigins(env);
+
+  if (origin && allowed.includes(origin)) return origin;
+
+  const sameOrigin = getRequestSameOrigin(request);
+  if (allowed.includes(sameOrigin)) return sameOrigin;
+
+  return allowed[0] || sameOrigin;
+}
+
+function corsHeaders(request, env) {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": getCorsOrigin(request, env),
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Max-Age": "86400"
+    "Access-Control-Max-Age": "86400",
+    "X-Content-Type-Options": "nosniff"
   };
 }
 
-function jsonResponse(payload, status = 200) {
+function jsonResponse(payload, status = 200, request, env) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      ...corsHeaders(),
+      ...corsHeaders(request, env),
       "Content-Type": "application/json; charset=utf-8"
     }
   });
@@ -280,14 +335,18 @@ async function sendEmailWithBrevo({
 }
 
 // مهم لطلبات المتصفح الاستباقية Preflight.
-export async function onRequestOptions() {
+export async function onRequestOptions({ request, env }) {
   return new Response(null, {
     status: 204,
-    headers: corsHeaders()
+    headers: corsHeaders(request, env)
   });
 }
 
-export async function onRequestGet({ env }) {
+export async function onRequestGet({ request, env }) {
+  if (!isAllowedRequestOrigin(request, env)) {
+    return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+  }
+
   const supabaseUrl = getEnvValue(env, "SUPABASE_URL", "VITE_SUPABASE_URL");
   const supabaseAnonKey = getEnvValue(
     env,
@@ -312,12 +371,18 @@ export async function onRequestGet({ env }) {
       provider: brevoApiKey ? "brevo" : resendApiKey ? "resend" : "none",
       missing
     },
-    missing.length === 0 ? 200 : 500
+    missing.length === 0 ? 200 : 500,
+    request,
+    env
   );
 }
 
 export async function onRequestPost({ request, env }) {
   try {
+    if (!isAllowedRequestOrigin(request, env)) {
+      return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+    }
+
     const authHeader = request.headers.get("Authorization") || "";
 
     if (!authHeader.startsWith("Bearer ")) {
@@ -326,7 +391,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "Missing authorization token"
         },
-        401
+        401,
+        request,
+        env
       );
     }
 
@@ -338,7 +405,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "Empty authorization token"
         },
-        401
+        401,
+        request,
+        env
       );
     }
 
@@ -359,7 +428,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "Missing Supabase environment variables"
         },
-        500
+        500,
+        request,
+        env
       );
     }
 
@@ -369,7 +440,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "Missing RESEND_API_KEY or BREVO_API_KEY"
         },
-        500
+        500,
+        request,
+        env
       );
     }
 
@@ -379,7 +452,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "Missing BREVO_SENDER_EMAIL"
         },
-        500
+        500,
+        request,
+        env
       );
     }
 
@@ -395,7 +470,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: userResult.error || "Invalid Supabase session"
         },
-        userResult.status || 401
+        userResult.status || 401,
+        request,
+        env
       );
     }
 
@@ -407,7 +484,9 @@ export async function onRequestPost({ request, env }) {
           ok: false,
           error: "User email not found"
         },
-        400
+        400,
+        request,
+        env
       );
     }
 
@@ -469,22 +548,31 @@ export async function onRequestPost({ request, env }) {
           error: "Email provider failed",
           details: emailResult.details
         },
-        502
+        502,
+        request,
+        env
       );
     }
 
-    return jsonResponse({
-      ok: true,
-      sent: true,
-      provider: emailResult.provider
-    });
+    return jsonResponse(
+      {
+        ok: true,
+        sent: true,
+        provider: emailResult.provider
+      },
+      200,
+      request,
+      env
+    );
   } catch (error) {
     return jsonResponse(
       {
         ok: false,
         error: error?.message || "Unexpected error"
       },
-      500
+      500,
+      request,
+      env
     );
   }
 }

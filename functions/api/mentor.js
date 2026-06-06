@@ -40,6 +40,12 @@ function getOrigin(request) {
   }
 }
 
+function isAllowedRequestOrigin(request, env) {
+  const origin = getOrigin(request);
+  if (!origin) return true;
+  return getAllowedOrigins(env).includes(origin);
+}
+
 function corsHeaders(request, env) {
   const origin = getOrigin(request);
   const allowed = getAllowedOrigins(env);
@@ -162,6 +168,10 @@ export async function onRequestOptions({ request, env }) {
 }
 
 export async function onRequestGet({ request, env }) {
+  if (!isAllowedRequestOrigin(request, env)) {
+    return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+  }
+
   const ready = Boolean(getEnvValue(env, "GEMINI_API_KEY"));
 
   return jsonResponse(
@@ -180,6 +190,10 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
+  if (!isAllowedRequestOrigin(request, env)) {
+    return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+  }
+
   const apiKey = getEnvValue(env, "GEMINI_API_KEY");
 
   if (!apiKey) {

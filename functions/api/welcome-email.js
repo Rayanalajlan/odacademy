@@ -1,22 +1,15 @@
 const DEFAULT_SITE_URL = "https://odacademy.rayansalajlan.workers.dev";
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://odacademy.rayansalajlan.workers.dev",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+];
 
-function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Max-Age": "86400"
-  };
-}
-
-function jsonResponse(payload, status = 200) {
-  return new Response(JSON.stringify(payload), {
-    status,
-    headers: {
-      ...corsHeaders(),
-      "Content-Type": "application/json; charset=utf-8"
-    }
-  });
+function splitEnvList(value) {
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function getEnvValue(env, ...names) {
@@ -25,6 +18,67 @@ function getEnvValue(env, ...names) {
     if (typeof value === "string" && value.trim()) return value.trim();
   }
   return "";
+}
+
+function getAllowedOrigins(env) {
+  const configured = getEnvValue(env, "ALLOWED_ORIGINS", "CORS_ALLOWED_ORIGINS");
+  return configured ? splitEnvList(configured) : DEFAULT_ALLOWED_ORIGINS;
+}
+
+function normalizeOrigin(value) {
+  try {
+    return new URL(value).origin;
+  } catch {
+    return "";
+  }
+}
+
+function getRequestOrigin(request) {
+  return normalizeOrigin(request.headers.get("Origin") || "");
+}
+
+function getRequestSameOrigin(request) {
+  const url = new URL(request.url);
+  return `${url.protocol}//${url.host}`;
+}
+
+function isAllowedRequestOrigin(request, env) {
+  const origin = getRequestOrigin(request);
+  if (!origin) return true;
+  return getAllowedOrigins(env).includes(origin);
+}
+
+function getCorsOrigin(request, env) {
+  const origin = getRequestOrigin(request);
+  const allowed = getAllowedOrigins(env);
+
+  if (origin && allowed.includes(origin)) return origin;
+
+  const sameOrigin = getRequestSameOrigin(request);
+  if (allowed.includes(sameOrigin)) return sameOrigin;
+
+  return allowed[0] || sameOrigin;
+}
+
+function corsHeaders(request, env) {
+  return {
+    "Access-Control-Allow-Origin": getCorsOrigin(request, env),
+    "Vary": "Origin",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Max-Age": "86400",
+    "X-Content-Type-Options": "nosniff"
+  };
+}
+
+function jsonResponse(payload, status = 200, request, env) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      ...corsHeaders(request, env),
+      "Content-Type": "application/json; charset=utf-8"
+    }
+  });
 }
 
 async function safeJson(responseOrRequest) {
@@ -243,11 +297,15 @@ async function sendEmail(config, payload) {
   return { ok: false, status: 500, provider: "none", details: { error: "missing_email_provider" } };
 }
 
-export async function onRequestOptions() {
-  return new Response(null, { status: 204, headers: corsHeaders() });
+export async function onRequestOptions({ request, env }) {
+  return new Response(null, { status: 204, headers: corsHeaders(request, env) });
 }
 
-export async function onRequestGet({ env }) {
+export async function onRequestGet({ request, env }) {
+  if (!isAllowedRequestOrigin(request, env)) {
+    return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+  }
+
   const config = getEmailConfig(env);
   const missing = [];
 
@@ -264,17 +322,25 @@ export async function onRequestGet({ env }) {
       provider: config.brevoApiKey ? "brevo" : config.resendApiKey ? "resend" : "none",
       missing
     },
-    missing.length === 0 ? 200 : 500
+    missing.length === 0 ? 200 : 500,
+    request,
+    env
   );
 }
 
 export async function onRequestPost({ request, env }) {
+  if (!isAllowedRequestOrigin(request, env)) {
+    return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
+  }
+
   const accessToken = getAuthToken(request);
-  if (!accessToken) return jsonResponse({ ok: false, error: "Missing authorization token" }, 401);
+  if (!accessToken) {
+    return jsonResponse({ ok: false, error: "Missing authorization token" }, 401, request, env);
+  }
 
   const config = getEmailConfig(env);
   if (!config.supabaseUrl || !config.supabaseAnonKey) {
-    return jsonResponse({ ok: false, error: "Missing Supabase environment variables" }, 500);
+    return jsonResponse({ ok: false, error: "Missing Supabase environment variables" }, 500, request, env);
   }
 
   const userResult = await getSupabaseUser({
@@ -284,7 +350,7 @@ export async function onRequestPost({ request, env }) {
   });
 
   if (!userResult.ok) {
-    return jsonResponse({ ok: false, error: userResult.error }, userResult.status || 401);
+    return jsonResponse({ ok: false, error: userResult.error }, userResult.status || 401, request, env);
   }
 
   const body = await safeJson(request);
@@ -300,7 +366,7 @@ export async function onRequestPost({ request, env }) {
   const profile = profileResult.profile || {};
 
   if (!force && profile.welcome_email_sent_at) {
-    return jsonResponse({ ok: true, skipped: true, reason: "welcome_email_already_sent" });
+    return jsonResponse({ ok: true, skipped: true, reason: "welcome_email_already_sent" }, 200, request, env);
   }
 
   await updateUserProfile({
@@ -349,7 +415,9 @@ export async function onRequestPost({ request, env }) {
         provider: emailResult.provider,
         details: emailResult.details
       },
-      emailResult.status || 502
+      emailResult.status || 502,
+      request,
+      env
     );
   }
 
@@ -366,5 +434,5 @@ export async function onRequestPost({ request, env }) {
     }
   });
 
-  return jsonResponse({ ok: true, sent: true, provider: emailResult.provider });
+  return jsonResponse({ ok: true, sent: true, provider: emailResult.provider }, 200, request, env);
 }
