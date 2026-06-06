@@ -17,8 +17,6 @@ import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
 import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
-import LegalPageRouter, { isLegalPath } from "./components/LegalPageRouter";
-import { LegalFooterLinks, LegalFloatingLinks } from "./components/LegalLinks";
 import {
   completeLocalOnboarding,
   completeOnboarding,
@@ -229,7 +227,6 @@ export default function App() {
   const [checkingOnboarding, setCheckingOnboarding] = useState(false);
   const verificationSlug = getVerificationSlugFromLocation();
   const passwordRecoveryMode = isPasswordRecoveryRequest();
-  const legalPageRequested = isLegalPath();
 
   const completedDays = useMemo(() => {
     const unique = new Set(
@@ -251,11 +248,14 @@ export default function App() {
     if (showLoader) setLoadingProgress(true);
 
     try {
-      // Phase 38: نترك خدمة التقدم تعيد المحاولة بهدوء عند بطء الاتصال.
+      // Phase 38:
+      // لا نضع timeout قصيرًا على تحميل التقدم؛ لأن هذا كان سبب ظهور رسالة
+      // "سيعمل الموقع من التخزين المحلي" رغم أن Supabase قد يكون فقط أبطأ من 8 ثوانٍ.
+      // خدمة progressService نفسها تعيد المحاولة وتزامن المحلي إلى السحابة.
       const rows = await readProgressRows();
       setProgressRows(Array.isArray(rows) ? rows : []);
       setNotice((current) =>
-        current?.startsWith("تعذر تحميل التقدم من السحابة الآن.")
+        current === "تعذر تحميل التقدم من السحابة الآن. سيعمل الموقع مؤقتًا من التخزين المحلي."
           ? ""
           : current
       );
@@ -540,10 +540,6 @@ export default function App() {
   }
 
 
-  if (legalPageRequested) {
-    return <LegalPageRouter />;
-  }
-
   if (verificationSlug) {
     return (
       <>
@@ -582,13 +578,10 @@ export default function App() {
 
   if (!authenticated) {
     return (
-      <>
-        <AuthGate
-          onEnter={handleEnter}
-          onAuthenticated={handleAuthenticatedFromOldAuthGate}
-        />
-        <LegalFloatingLinks />
-      </>
+      <AuthGate
+        onEnter={handleEnter}
+        onAuthenticated={handleAuthenticatedFromOldAuthGate}
+      />
     );
   }
 
@@ -622,10 +615,58 @@ export default function App() {
 
         .site-footer {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: space-between;
-          gap: 14px;
-          flex-wrap: wrap;
+          text-align: center;
+          gap: 10px;
+          margin-top: 30px;
+          padding: 30px 24px;
+          border-radius: 24px;
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(167, 139, 250, 0.18);
+          background:
+            radial-gradient(120% 160% at 50% -40%, rgba(139, 92, 246, 0.1), transparent 55%),
+            linear-gradient(180deg, rgba(26, 15, 48, 0.92), rgba(16, 9, 28, 0.96));
+        }
+
+        .site-footer::before {
+          content: "";
+          position: absolute;
+          inset: 0 0 auto 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, #8b5cf6, #a855f7, transparent);
+          opacity: 0.7;
+        }
+
+        .site-footer-tagline {
+          max-width: 640px;
+          margin: 0;
+          line-height: 2;
+          font-size: 13px;
+          font-weight: 700;
+          color: #c9bdf0;
+        }
+
+        .site-footer span {
+          font-size: 12px;
+          font-weight: 800;
+          color: #9d8fc0;
+        }
+
+        body:not(.od-theme-dark) .site-footer {
+          border-color: rgba(124, 58, 237, 0.18);
+          background:
+            radial-gradient(120% 160% at 50% -40%, rgba(139, 92, 246, 0.08), transparent 55%),
+            linear-gradient(180deg, #ffffff, #f4f0fb);
+        }
+
+        body:not(.od-theme-dark) .site-footer-tagline {
+          color: #463c63;
+        }
+
+        body:not(.od-theme-dark) .site-footer span {
+          color: #6f6391;
         }
 
         .site-footer-brand {
@@ -965,13 +1006,11 @@ export default function App() {
       </Suspense>
 
       <footer className="site-footer">
-        <div>
+        <p className="site-footer-tagline">
           صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
           السلوك، والنظام خلف المشكلة.
-        </div>
-
+        </p>
         <span>© 2026 — جميع الحقوق محفوظة</span>
-        <LegalFooterLinks />
       </footer>
     </div>
   );

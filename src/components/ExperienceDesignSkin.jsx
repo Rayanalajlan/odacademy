@@ -1231,6 +1231,42 @@ export default function ExperienceDesignSkin() {
       html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) { color: #18102e !important; }
       html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #463c63 !important; }
 
+      /* =========================
+         Gradient-filled display headings (background-clip:text) were invisible
+         in dark mode. Repaint them with a LIGHT gradient so they stay readable.
+      ========================= */
+      body.od-theme-dark :is(
+        .od-hero h1 span, .jl-title span, .ar-title span,
+        .roi-hero h1 span, .hero h1 span
+      ) {
+        background: linear-gradient(120deg, #efe9ff 0%, #b9a6f5 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: #d9cdf2 !important;
+      }
+
+      body.od-theme-dark :is(
+        .od-timer-content h2, .od-section-head h2, .od-hero h1,
+        .jl-title, .ar-title, .roi-hero h1,
+        .od-feature-card h3, .od-lab-card h3, .od-quote-bar p
+      ) {
+        color: #f1ecfb !important;
+        -webkit-text-fill-color: #f1ecfb !important;
+      }
+
+      /* =========================
+         Light mode: unify the home cards to one clean surface
+         (was a mix of white + purple-tinted boxes).
+      ========================= */
+      body:not(.od-theme-dark) :is(
+        .od-stat-card, .od-feature-card, .od-quote-bar, .od-lab-card
+      ) {
+        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
+        border: 1px solid rgba(124, 58, 237, 0.16) !important;
+        box-shadow: 0 16px 40px rgba(124, 58, 237, 0.08) !important;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
