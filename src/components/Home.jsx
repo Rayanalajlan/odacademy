@@ -80,12 +80,206 @@ const cards = [
 ];
 
 const insights = [
-  "لا تبدأ بالحل. افهم النظام.",
-  "التطوير التنظيمي ليس بحثًا عن الجاني، بل قراءة لهندسة السلوك داخل المنظمة.",
-  "ما لا يدخل في الأدوار والصلاحيات والأداء سيبقى شعارًا.",
-  "التغيير لا ينجح عند الإطلاق؛ ينجح عندما يصمد تحت الضغط.",
-  "الثقافة تظهر عندما تصبح القيمة مكلفة.",
-  "الممارس المحترف يقيس الأثر، لا عدد الأنشطة فقط."
+  "القيمة الحقيقية للتعلم تظهر حين يتغير قرارك لا حين تزداد ملاحظاتك.",
+  "ابدأ صغيرًا، لكن لا تبدأ عشوائيًا؛ الفوضى تكبر مثل الخطة تمامًا.",
+  "كل منظمة تقول ما تؤمن به، لكنها تعمل بما تكافئه.",
+  "الفريق لا يحتاج صوتًا أعلى؛ يحتاج معنى أوضح.",
+  "حين يتكرر العطل، فتش عن النظام قبل أن تفتش عن الأشخاص.",
+  "القرار الجيد لا يلمع في الاجتماع فقط؛ يصمد عند التنفيذ.",
+  "ما لا تفهمه بهدوء ستعالجه بعجلة، والعجلة تُخفي السبب.",
+  "التغيير ليس إعلانًا جديدًا، بل عادة جديدة تجد من يحميها.",
+  "أقوى القادة لا يملكون كل الإجابات، لكنهم يحسنون طرح السؤال الصحيح.",
+  "المنظمة التي لا تتعلم من يومها تعيد أخطاء أمس بأسماء حديثة.",
+  "لا تقيس النشاط وحده؛ اسأل ماذا تغيّر بعده.",
+  "كل فجوة أداء تحمل رسالة من التصميم الداخلي للعمل.",
+  "التواصل ليس كثرة رسائل، بل قلة سوء فهم.",
+  "حين يتضح الدور، يقل الاحتكاك ويزيد الإنجاز.",
+  "الثقافة لا تُكتب على الجدار؛ تُرى في لحظة الضغط.",
+  "أحيانًا يكون الحل في إزالة عائق لا في إضافة مبادرة.",
+  "لا تطلب من الناس التميز داخل نظام يكافئ النجاة فقط.",
+  "الاستماع العميق يوفر أشهرًا من التجارب الخاطئة.",
+  "كل مؤشر بلا قرار يتحول إلى زينة رقمية.",
+  "التحسين الحقيقي يبدأ حين نتوقف عن الدفاع عن الوضع الحالي.",
+  "ما لا يُشرح ببساطة لم يُفهم بما يكفي.",
+  "الممارس الناضج يرى العلاقة بين السلوك والسياسة والمكافأة.",
+  "لا تعالج العرض بملصق جميل؛ ابحث عن الجذر الهادئ.",
+  "التغيير الناجح لا يطلب من الناس القفز قبل أن يرى الجسر.",
+  "السرعة مهمة، لكن الاتجاه أهم منها.",
+  "كل اجتماع بلا قرار واضح يضيف ضبابًا جديدًا للنظام.",
+  "حين تصبح القيم مكلفة، يظهر المؤمنون بها فعلًا.",
+  "التطوير التنظيمي الجيد يقلل البطولة الفردية ويزيد قوة النظام.",
+  "لا تجعل الحماس بديلًا عن التصميم.",
+  "الفهم نصف العلاج، والنصف الآخر شجاعة التطبيق.",
+  "البيانات لا تتكلم وحدها؛ تحتاج عقلًا يعرف ماذا يسألها.",
+  "كل عادة تنظيمية بدأت يومًا كاستثناء تكرر كثيرًا.",
+  "القياس الجيد لا يعاقب الناس؛ يكشف الطريق.",
+  "لا تنقل حل منظمة أخرى قبل أن تفهم ألم منظمتك.",
+  "أقصر طريق للفشل أن نطبق وصفة ناجحة في سياق مختلف.",
+  "القائد الحكيم لا يملأ الفراغ بالضجيج، بل بالوضوح.",
+  "قبل أن تدرب الفريق، تأكد أن بيئة العمل تسمح بما تعلمه.",
+  "النية الطيبة لا تكفي إذا كان النظام يدفع الناس للعكس.",
+  "المشكلة التي لا يملكها أحد ستبقى ضيفة دائمة.",
+  "كل تحول يبدأ بسؤال صادق لا بإجابة جاهزة.",
+  "لا تطارد كل رقم؛ اختر الرقم الذي يغير السلوك.",
+  "الإنجاز المستدام يحتاج إيقاعًا لا اندفاعًا.",
+  "أحيانًا يكون أعظم تطوير هو أن تقول: هذا لا يخدم الهدف.",
+  "المنظمة القوية تعرف أين تتنازل وأين لا تساوم.",
+  "كل خطة لا تعيش في التقويم ستبقى في العرض التقديمي.",
+  "المعرفة التي لا تدخل العمل تصبح زخرفة ذهنية.",
+  "لا تحكم على الناس قبل أن ترى القيود التي يعملون داخلها.",
+  "التحسين يبدأ حين تصبح الحقيقة أقل تهديدًا وأكثر فائدة.",
+  "الجودة ليست مرحلة أخيرة؛ هي طريقة تفكير منذ البداية.",
+  "كل قرار غامض يخلق عشر تفسيرات متعبة.",
+  "حين تتكرر الاستثناءات، فهي لم تعد استثناءات بل سياسة غير مكتوبة.",
+  "التطوير الهادئ أعمق من التغيير الصاخب.",
+  "اسأل عن السبب الثالث؛ غالبًا الأولان مجرد قشرة.",
+  "الأداء لا يتحسن بالخوف؛ يتحسن بالمعنى والقدرة والمساءلة.",
+  "لا تصمم تجربة تعلم جميلة ثم تترك المتعلم وحيدًا بعد النهاية.",
+  "حين يعرف الناس لماذا، يحتملون كيف أكثر.",
+  "المنظمات تنمو بقدر ما تتحمل من صراحة محترمة.",
+  "لا تبحث عن الالتزام قبل أن توضح التوقع.",
+  "أفضل حل هو الذي يقلل الاعتماد على التذكير المستمر.",
+  "كل عملية معقدة أكثر من اللازم تخفي فرصة تبسيط.",
+  "التعلم الجاد يغير مفرداتك ثم يغير قراراتك.",
+  "الاستراتيجية التي لا يعرفها الصف الأول لم تغادر المكتب بعد.",
+  "الوضوح عدالة؛ لأنه يقلل التخمين ويزيد الثقة.",
+  "لا تطلب ابتكارًا من بيئة تعاقب السؤال.",
+  "التجربة الصغيرة الصادقة أفضل من خطة كبيرة لا تبدأ.",
+  "كل مؤشر أداء يجب أن يجيب: ماذا سنفعل لو تغير؟",
+  "العمل الجيد ليس أن تنشغل أكثر؛ بل أن تؤثر بوعي أكبر.",
+  "ثقافة المنظمة هي ما يحدث عندما لا يراقب أحد.",
+  "التحول الحقيقي يغير المحادثات اليومية قبل الشعارات الرسمية.",
+  "لا تجعل التدريب تعويضًا عن ضعف الإدارة.",
+  "حين يتضح الهدف، يصبح الرفض أسهل والاختيار أنضج.",
+  "الممارس الممتاز يبني الثقة قبل أن يطلب التغيير.",
+  "كل مقاومة تحمل معلومة؛ لا تهدرها بالغضب.",
+  "التغيير الذي لا يحترم تعب الناس سيواجه صمتهم قبل رفضهم.",
+  "النظام الجيد يجعل التصرف الصحيح أسهل من الخاطئ.",
+  "لا تجعل الأدوات تقود التفكير؛ دع المشكلة تقود اختيار الأداة.",
+  "أفضل الأسئلة هي التي تجعل الفريق يرى ما كان أمامه طوال الوقت.",
+  "المخرجات الضعيفة غالبًا تبدأ من مدخلات غامضة.",
+  "لا يوجد تحسين بلا ترك شيء اعتدنا عليه.",
+  "القائد الذي يسمع مبكرًا يدفع أقل لاحقًا.",
+  "كل مشروع تغيير يحتاج مالكًا، لا مشجعين فقط.",
+  "المهارة تنمو بالتكرار الواعي لا بالتكرار الآلي.",
+  "المنظمة التي تخاف من القياس تخاف غالبًا من الحقيقة.",
+  "لا تخلط بين الهدوء والرضا؛ بعض الصمت علامة تعب.",
+  "التطوير التنظيمي يبدأ من احترام الواقع لا الهروب منه.",
+  "كل قرار مؤجل يصبح تكلفة مخفية.",
+  "حين تُبنى الثقة، تصبح الملاحظات وقودًا لا تهديدًا.",
+  "لا تكثر المبادرات حتى لا يموت المهم تحت ازدحام الجيد.",
+  "الفريق يحتاج مساحة آمنة، لكنه يحتاج معيارًا واضحًا أيضًا.",
+  "الحل المستدام يعلّم النظام كيف يصلح نفسه.",
+  "كل تغيير بلا متابعة يتحول إلى ذكرى جميلة.",
+  "التعلم لا يكتمل عند الفهم؛ يكتمل عند السلوك.",
+  "من لا يرى العلاقات بين الأشياء سيعالج كل عرض وحده.",
+  "التحسين لا يحب الغموض؛ أعطه هدفًا وحدودًا ومالكًا.",
+  "في كل منظمة قصة رسمية وقصة يومية؛ ابدأ من اليومية.",
+  "لا تجعل الخبرة القديمة تمنعك من سؤال جديد.",
+  "التدرج ليس بطئًا؛ أحيانًا هو احترام لطبيعة النظام.",
+  "الأثر لا ينتج من كثرة الكلام، بل من وضوح الالتزام.",
+  "حين تتعارض الرسائل مع المكافآت، تنتصر المكافآت.",
+  "كل تصميم عمل يعلّم الناس سلوكًا ما؛ اختر ما تريد تعليمه.",
+  "الإنصات ليس توقفًا عن الكلام فقط، بل توقف عن افتراض الإجابة.",
+  "لا تطلب جودة عالية من عملية لا تملك وقتًا للتعلم.",
+  "المشكلة الواضحة نصف اجتماع ناجح.",
+  "كل نظام له ذاكرة؛ لا تتجاهل تجاربه السابقة.",
+  "التحول لا يحتاج بطولة يومية إذا صُمم بذكاء.",
+  "الناس يدعمون ما يفهمونه ويثقون بعدالته.",
+  "لا تجعل اللغة الكبيرة تخفي الفكرة الصغيرة.",
+  "عندما يتكرر السؤال نفسه، فالمعلومة ليست في مكانها الصحيح.",
+  "كل فجوة بين القول والفعل تخصم من رصيد الثقة.",
+  "المبادرة الناجحة تترك أثرًا بعد أن تنتهي الحملة.",
+  "إذا لم تعرف من يتأثر بالقرار، فأنت لم تكمل التفكير.",
+  "التطوير الحقيقي يجعل العمل أكثر وضوحًا لا أكثر تعقيدًا.",
+  "الخطأ فرصة تعلم فقط عندما لا نخاف من تسميته.",
+  "لا تحل مشكلة بسرعة تجعلها تعود بألم أكبر.",
+  "كل منظمة تحتاج من يترجم الطموح إلى سلوك يومي.",
+  "التحسين الهادئ يبني سمعة لا تحتاج إعلانًا كثيرًا.",
+  "لا تحكم على فكرة من أول ارتباك؛ بعض النمو يبدأ مرتبكًا.",
+  "القرار الجريء ليس الأعلى صوتًا، بل الأكثر مسؤولية.",
+  "حين يصبح الهدف مشتركًا، تقل لعبة اللوم.",
+  "الفريق الناضج يختلف بوضوح ويتفق بمسؤولية.",
+  "لا تقيس الحضور ثم تسميه أثرًا.",
+  "العمل الذي لا يملك تعريفًا للنجاح سيفشل في إرضاء الجميع.",
+  "كل قاعدة لا يفهمها الناس ستُلتف حولها يومًا ما.",
+  "المسؤولية لا تعني اللوم؛ تعني وضوح من يملك الخطوة التالية.",
+  "التعلم الفردي مهم، لكن التعلم التنظيمي يغير اللعبة.",
+  "لا تزرع فكرة في أرض لا تسمح بنموها.",
+  "الأسئلة الجيدة تمنح الفريق مرآة لا سوطًا.",
+  "كل نظام يكافئ شيئًا ما؛ راقب المكافآت تفهم السلوك.",
+  "الخطوة الأولى ليست دائمًا الحل، أحيانًا هي تسمية الواقع.",
+  "لا تجعل لوحة المؤشرات بديلاً عن المحادثة الصادقة.",
+  "الإدارة الجيدة تجعل التعقيد قابلًا للفهم والعمل.",
+  "عندما تتضح الأولويات، يقل الإرهاق الناتج عن كل شيء مهم.",
+  "التغيير الذي لا يملك قصة مفهومة سيُقاوم حتى لو كان صحيحًا.",
+  "كل تحسين يبدأ بتواضع الاعتراف أن الطريقة الحالية ليست النهاية.",
+  "المنظمة لا تتغير لأنها سمعت فكرة، بل لأنها أعادت ترتيب عملها حولها.",
+  "لا تطلب سرعة من فريق لا يرى الطريق.",
+  "الممارسة تبني الثقة أكثر مما تفعل الشعارات.",
+  "كل قرار يحتاج ذاكرة: لماذا اخترناه وماذا تعلمنا منه؟",
+  "المؤشرات الضعيفة تجعل الناس يتقنون اللعبة بدل العمل.",
+  "الجودة تبدأ من تعريف واضح لما لا نقبله.",
+  "كل مشروع بلا إغلاق واضح يترك ضبابًا للذي بعده.",
+  "التحسين ليس نقدًا للأشخاص؛ هو احترام للعملاء والزملاء والوقت.",
+  "عندما يتكرر التصعيد، راجع حدود الصلاحية لا صبر الناس فقط.",
+  "المنظمات الذكية تجعل المعرفة تنتقل قبل أن يغادر أصحابها.",
+  "لا تبنِ حلًا لا يستطيع الفريق صيانته بعدك.",
+  "القرار المتوازن يسمع الإنسان والرقم والسياق معًا.",
+  "كل ورشة بلا تطبيق لاحق تبقى حديثًا جميلًا.",
+  "القيادة ليست أن تعرف أكثر، بل أن تجعل الفريق يرى أوضح.",
+  "التغيير الجيد يخفف مقاومة المستقبل لا يكتفي بإطفاء حريق اليوم.",
+  "الخطط القوية تعرف ماذا ستفعل وماذا لن تفعل.",
+  "كل بيئة عمل تصنع نوعًا من الناس؛ انتبه لما تصنعه.",
+  "التحسين يحتاج إيقاع متابعة، لا لحظة حماس فقط.",
+  "إذا تعذر الشرح، تعذر التبني.",
+  "المسار الواضح يقلل العبء الذهني ويزيد جودة القرار.",
+  "لا تعامل كل مشكلة كأنها نقص تدريب؛ أحيانًا هي نقص تصميم.",
+  "كل ملاحظة صادقة هي هدية تحتاج نضجًا لتُفتح.",
+  "المنظمة القوية لا تخلو من الخلاف؛ لكنها تعرف كيف تديره.",
+  "التأثير لا يبدأ عندما تتكلم، بل عندما يفهم الآخر لماذا يعنيه الأمر.",
+  "العمل العميق يحتاج حماية من الضجيج الداخلي.",
+  "لا تطلب تعاونًا من أهداف متصارعة.",
+  "عندما لا يعرف الناس الأولوية، يصبح كل طلب طارئًا.",
+  "التجربة لا تعلّم وحدها؛ التأمل بعدها هو المعلم الحقيقي.",
+  "كل نظام عمل يملك ظلالًا؛ مهمة الممارس أن يراها قبل أن تكبر.",
+  "الحكمة أن تعرف متى تضيف ومتى تحذف.",
+  "التحسين الذي لا يلمسه المستخدم النهائي يحتاج إعادة نظر.",
+  "لا تجعل لوحة جميلة تخفي تجربة متعبة.",
+  "القوة الهادئة في المنظمة اسمها وضوح المسؤوليات.",
+  "كل وعد تنظيمي يحتاج آلية تحميه من النسيان.",
+  "الأسلوب المهني لا يعني البرود؛ يعني احترام الحقيقة والناس معًا.",
+  "المنظمة التي تتعلم أسرع تخطئ أقل بالطريقة نفسها.",
+  "القرار السليم لا يكتمل حتى يعرف الجميع أثره على عملهم.",
+  "حين يصعب التنفيذ، اسأل: هل صممنا الطريق أم تمنينا الوصول؟",
+  "كل مبادرة ينبغي أن تجيب: ما السلوك الذي نريد رؤيته غدًا؟",
+  "التغيير لا يحتاج أن يرضي الجميع، لكنه يحتاج أن يكون مفهومًا وعادلًا.",
+  "التحسين الصغير المتكرر يهزم الحملة الكبيرة المنقطعة.",
+  "لا تترك القيم وحيدة؛ اربطها بالاختيار والترقية والمكافأة.",
+  "الفريق الذي يملك لغة مشتركة يحل مشكلاته بسرعة أكبر.",
+  "كل اجتماع يجب أن يقلل الغموض أو لا يستحق الوقت.",
+  "التعلم الحقيقي يجعل الإنسان أكثر دقة لا أكثر تعاليًا.",
+  "لا تستعجل النتيجة قبل أن تجهز شروطها.",
+  "المنظمة التي لا توثق تعلمها تدفع ثمن الدرس أكثر من مرة.",
+  "كل مشكلة مزمنة تعيش لأنها وجدت بيئة تسمح لها بالبقاء.",
+  "التطوير الناجح يحول النية إلى عادة، والعادة إلى معيار.",
+  "إذا أردت تغيير السلوك، غيّر الإشارة والسهولة والمكافأة.",
+  "المعرفة لا تكفي؛ يحتاجها الناس في اللحظة التي يقررون فيها.",
+  "الفرق بين الفكرة والأثر هو الانضباط الهادئ.",
+  "كل نظام يتكلم من خلال نتائجه، حتى لو قالت العروض شيئًا آخر.",
+  "لا تبنِ الثقة بالمواعظ؛ ابنها بالتوقعات الواضحة والوفاء بها.",
+  "التحسين يبدأ عندما يصبح السؤال: ماذا تعلمنا؟ لا: من أخطأ؟",
+  "المبادرة التي لا تملك صاحبًا واضحًا ستعيش ضيفة ثم تختفي.",
+  "العمل الجيد لا يحتاج دائمًا المزيد؛ يحتاج أحيانًا أقل لكن أعمق.",
+  "كل تحول مستدام يحترم ثلاثية الإنسان والنظام والنتيجة.",
+  "كلما زاد الغموض، زادت الحاجة إلى قيادة هادئة لا إلى ضجيج إضافي.",
+  "لا تجعل رحلة التعلم سباقًا؛ اجعلها بناءً يتقوى كل يوم.",
+  "التطوير التنظيمي فن رؤية الخيوط التي تربط القرار بالسلوك بالأثر.",
+  "ما يتكرر بلا مساءلة يصبح ثقافة، حتى لو لم نسمه كذلك.",
+  "الأثر العظيم يبدأ غالبًا من سؤال صغير طُرح في الوقت المناسب.",
+  "من لا يحسن قراءة الصمت سيفاجأ متأخرًا بالضجيج.",
+  "كل فكرة عظيمة تحتاج لغة بسيطة كي تجد طريقها للناس.",
+  "التطوير ليس أن تبدو المنظمة أحدث؛ بل أن تصبح أقدر."
 ];
 
 function getTodayKey() {
@@ -695,10 +889,28 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
   const { snapshot: timer, pause, resume, resetToday } = useLearningTimer();
 
-  const quote = useMemo(() => {
-    const index = Math.floor((safeCompletedDays + timer.completedHours) % insights.length);
-    return insights[index];
+  const initialQuoteIndex = useMemo(() => {
+    return Math.abs(Math.floor((safeCompletedDays + timer.completedHours) % insights.length));
   }, [safeCompletedDays, timer.completedHours]);
+
+  const [quoteIndex, setQuoteIndex] = useState(initialQuoteIndex);
+  const [isQuotePaused, setIsQuotePaused] = useState(false);
+
+  useEffect(() => {
+    setQuoteIndex(initialQuoteIndex);
+  }, [initialQuoteIndex]);
+
+  useEffect(() => {
+    if (isQuotePaused || typeof window === "undefined") return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setQuoteIndex((currentIndex) => (currentIndex + 1) % insights.length);
+    }, 5200);
+
+    return () => window.clearInterval(intervalId);
+  }, [isQuotePaused]);
+
+  const quote = insights[quoteIndex % insights.length];
 
   const learningRank = useMemo(() => {
     if (timer.completedHours >= 100) return "ممارس متقدم";
@@ -735,6 +947,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           overflow: hidden;
           padding: 28px 16px 80px;
           color: var(--od-ink);
+          font-size: clamp(15px, 1.05vw, 17px);
+          line-height: 1.75;
           background:
             radial-gradient(circle at 14% 12%, rgba(139, 92, 246,.18), transparent 28%),
             radial-gradient(circle at 82% 10%, rgba(245,158,11,.16), transparent 30%),
@@ -843,8 +1057,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-hero h1 {
           margin: 18px 0 14px;
-          font-size: clamp(34px, 6vw, 76px);
-          line-height: 1.04;
+          font-size: clamp(34px, 5.15vw, 64px);
+          line-height: 1.12;
           letter-spacing: 0;
           font-weight: 950;
         }
@@ -861,9 +1075,9 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           max-width: 720px;
           margin: 0;
           color: rgba(196, 181, 253,.9);
-          font-size: 16px;
-          line-height: 2.05;
-          font-weight: 750;
+          font-size: clamp(14px, 1.45vw, 16px);
+          line-height: 1.95;
+          font-weight: 700;
         }
 
         .od-hero-actions {
@@ -880,8 +1094,10 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           font-family: inherit;
           border-radius: 19px;
           padding: 14px 20px;
-          font-size: 13px;
+          font-size: clamp(12px, 1.25vw, 13px);
           font-weight: 950;
+          line-height: 1.45;
+          white-space: normal;
           transition: .25s ease;
         }
 
@@ -995,7 +1211,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-main-gauge strong {
-          font-size: 54px;
+          font-size: clamp(38px, 5vw, 52px);
           line-height: 1;
           font-weight: 950;
         }
@@ -1039,37 +1255,147 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-quote-bar {
-          margin: 18px 0;
+          position: relative;
+          margin: 20px 0;
           display: grid;
-          grid-template-columns: 1fr auto;
-          gap: 14px;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 18px;
           align-items: center;
-          padding: 20px;
-          border-radius: 28px;
-          background: rgba(255,255,255,.76);
-          border: 1px solid rgba(255,255,255,.9);
-          box-shadow: 0 18px 55px rgba(28, 17, 48,.08);
+          min-height: 172px;
+          padding: clamp(20px, 3vw, 30px);
+          border-radius: 32px;
+          overflow: hidden;
+          color: #fff7ed;
+          background:
+            radial-gradient(circle at 8% 0%, rgba(251, 191, 36, .28), transparent 32%),
+            radial-gradient(circle at 92% 100%, rgba(139, 92, 246, .35), transparent 34%),
+            linear-gradient(135deg, #24143f 0%, #3b1d6e 55%, #18102e 100%);
+          border: 1px solid rgba(255, 255, 255, .16);
+          box-shadow: 0 24px 70px rgba(28, 17, 48, .18);
           backdrop-filter: blur(18px);
+          isolation: isolate;
         }
 
-        .od-quote-bar p {
+        .od-quote-bar::before {
+          content: "";
+          position: absolute;
+          inset: 12px;
+          border-radius: 26px;
+          border: 1px solid rgba(255, 255, 255, .10);
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .od-quote-bar::after {
+          content: "";
+          position: absolute;
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          left: -72px;
+          top: -84px;
+          background: conic-gradient(from 120deg, rgba(251, 191, 36, .35), rgba(139, 92, 246, .22), rgba(16, 185, 129, .16), rgba(251, 191, 36, .35));
+          filter: blur(3px);
+          opacity: .74;
+          animation: odQuoteGlow 16s linear infinite;
+          pointer-events: none;
+        }
+
+        .od-quote-bar.is-paused::after,
+        .od-quote-bar:hover::after,
+        .od-quote-bar:focus-visible::after {
+          animation-play-state: paused;
+        }
+
+        @keyframes odQuoteGlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .od-quote-copy {
+          min-width: 0;
+        }
+
+        .od-quote-kicker {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 12px;
+        }
+
+        .od-quote-kicker span {
+          display: inline-flex;
+          width: fit-content;
+          align-items: center;
+          border-radius: 999px;
+          padding: 7px 11px;
+          color: #fde68a;
+          background: rgba(255, 255, 255, .11);
+          border: 1px solid rgba(255, 255, 255, .14);
+          font-size: clamp(11px, 1.5vw, 12px);
+          font-weight: 950;
+        }
+
+        .od-quote-kicker small {
+          color: rgba(237, 233, 254, .72);
+          font-size: clamp(10px, 1.4vw, 12px);
+          font-weight: 850;
+        }
+
+        .od-quote-text {
           margin: 0;
-          color: #281748;
-          font-size: 15px;
-          line-height: 1.9;
-          font-weight: 900;
+          color: #ffffff;
+          font-size: clamp(18px, 2.35vw, 26px);
+          line-height: 1.85;
+          font-weight: 850;
+          letter-spacing: 0;
+          text-wrap: pretty;
+          overflow-wrap: break-word;
+          word-break: normal;
+          animation: odQuoteTextIn .46s ease both;
+        }
+
+        @keyframes odQuoteTextIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .od-quote-side {
+          width: 88px;
+          min-height: 112px;
+          display: grid;
+          place-items: center;
+          align-content: center;
+          gap: 5px;
+          border-radius: 24px;
+          background: rgba(255, 255, 255, .10);
+          border: 1px solid rgba(255, 255, 255, .13);
         }
 
         .od-quote-logo {
-          width: 54px;
-          height: 54px;
-          border-radius: 22px;
+          width: 46px;
+          height: 46px;
+          border-radius: 18px;
           display: grid;
           place-items: center;
           background: #ffffff;
           overflow: hidden;
-          box-shadow: 0 16px 34px rgba(28, 17, 48,.12);
-          border: 1px solid rgba(180,138,90,.18);
+          box-shadow: 0 16px 34px rgba(28, 17, 48,.18);
+          border: 1px solid rgba(255,255,255,.48);
+        }
+
+        .od-quote-side strong {
+          color: #fde68a;
+          font-size: 18px;
+          font-weight: 950;
+          line-height: 1;
+        }
+
+        .od-quote-side span {
+          color: rgba(237, 233, 254, .68);
+          font-size: 10px;
+          font-weight: 850;
         }
 
         .od-timer-command {
@@ -1353,18 +1679,20 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         .od-feature-card {
           position: relative;
-          min-height: 230px;
+          min-height: 260px;
           overflow: hidden;
           cursor: pointer;
           text-align: right;
           font-family: inherit;
           border: 0;
-          padding: 20px;
+          padding: 22px;
           border-radius: 30px;
-          background: rgba(255,255,255,.84);
+          background: rgba(255,255,255,.88);
           border: 1px solid rgba(255,255,255,.95);
           box-shadow: 0 18px 48px rgba(28, 17, 48,.08);
           transition: .28s ease;
+          display: flex;
+          flex-direction: column;
         }
 
         .od-feature-card:hover {
@@ -1443,8 +1771,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           z-index: 1;
           margin: 24px 0 10px;
           color: #18102e;
-          font-size: 22px;
-          line-height: 1.35;
+          font-size: clamp(18px, 2vw, 22px);
+          line-height: 1.42;
           font-weight: 950;
         }
 
@@ -1453,21 +1781,20 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           z-index: 1;
           margin: 0;
           color: #7a6c9a;
-          font-size: 13px;
-          line-height: 1.9;
-          font-weight: 750;
+          font-size: clamp(12px, 1.28vw, 13px);
+          line-height: 1.85;
+          font-weight: 700;
         }
 
         .od-feature-bottom {
-          position: absolute;
+          position: relative;
           z-index: 1;
-          right: 20px;
-          left: 20px;
-          bottom: 18px;
           display: flex;
           justify-content: space-between;
           gap: 12px;
           align-items: center;
+          margin-top: auto;
+          padding-top: 20px;
         }
 
         .od-feature-bottom span {
@@ -1595,6 +1922,19 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
             grid-template-columns: 1fr;
           }
 
+          .od-quote-side {
+            width: 100%;
+            min-height: auto;
+            grid-template-columns: auto auto auto;
+            justify-content: start;
+            padding: 12px;
+          }
+
+          .od-quote-text {
+            font-size: clamp(17px, 5vw, 22px);
+            line-height: 1.8;
+          }
+
           .od-command-mini {
             grid-template-columns: 1fr;
           }
@@ -1667,10 +2007,28 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           </div>
         </header>
 
-        <section className="od-quote-bar">
-          <p>“{quote}”</p>
-          <div className="od-quote-logo" aria-label="شعار ريان العجلان">
-            <img src={BRAND_LOGO_SRC} alt="شعار ريان العجلان" />
+        <section
+          className={isQuotePaused ? "od-quote-bar is-paused" : "od-quote-bar"}
+          onMouseEnter={() => setIsQuotePaused(true)}
+          onMouseLeave={() => setIsQuotePaused(false)}
+          onFocus={() => setIsQuotePaused(true)}
+          onBlur={() => setIsQuotePaused(false)}
+          tabIndex={0}
+          aria-label="عبارات ملهمة متجددة"
+        >
+          <div className="od-quote-copy">
+            <div className="od-quote-kicker">
+              <span>عبارات ملهمة</span>
+              <small>{isQuotePaused ? "متوقفة مؤقتًا" : "تتجدد تلقائيًا"}</small>
+            </div>
+            <p key={quoteIndex} className="od-quote-text">“{quote}”</p>
+          </div>
+          <div className="od-quote-side" aria-hidden="true">
+            <div className="od-quote-logo">
+              <img src={BRAND_LOGO_SRC} alt="" />
+            </div>
+            <strong>{String((quoteIndex % insights.length) + 1).padStart(3, "0")}</strong>
+            <span>من {insights.length}</span>
           </div>
         </section>
 
