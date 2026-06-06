@@ -7,7 +7,6 @@
 // باقي الطلبات تمر إلى assets عبر env.ASSETS
 
 const DEFAULT_ALLOWED_ORIGINS = [
-  "https://odacademy.rayansalajlan.workers.dev",
   "https://munsaqah.rayansalajlan.workers.dev",
   "http://localhost:5173",
   "http://127.0.0.1:5173"
@@ -706,77 +705,74 @@ function buildWelcomeEmail({ displayName, siteUrl, platformName = "OD Academy" }
   const safeSiteUrl = escapeHtml(siteUrl || "https://munsaqah.rayansalajlan.workers.dev");
   const safePlatformName = escapeHtml(platformName);
 
-  const subject = "🎉 حيّاك الله في رحلة إتقان التطوير التنظيمي";
+  const subject = "مرحبًا بك في منسقة | رتّب فهمك قبل الحل";
 
   const text = `
-حيّاك الله يا ${displayName || "متدربنا العزيز"} 🌿
+حياك الله يا ${displayName || "متدربنا العزيز"}
 
-سعدنا بانضمامك إلى رحلة إتقان التطوير التنظيمي.
+أهلًا بك في منسقة.
 
-هذه ليست مجرد منصة محتوى، بل مساحة تدريب معرفي تساعدك على قراءة المنظمة قبل استعجال الحل:
-تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
+هنا لا نبدأ بالحل مباشرة. نرتب الفهم أولًا:
+نقرأ السلوك، نبحث عن النظام خلف المشكلة، ثم نبني تدخلًا قابلًا للقياس.
 
-ابدأ رحلتك بهذه الخطوات:
-1. افتح رحلتك التعليمية وابدأ من اليوم الأول.
-2. حدّث ملفك التعليمي وحدد هدفك من الرحلة.
+ابدأ بخطوات بسيطة:
+1. افتح الرحلة التعليمية وابدأ من اليوم الأول.
+2. أكمل ملفك التعليمي وحدد هدفك من الرحلة.
 3. جرّب رادار الأداء لتعرف أين تقف.
-4. استخدم الموجه الذكي عند مواجهة حالة أو سؤال مهني.
-5. اختبر قراراتك داخل المحاكاة.
+4. استخدم الموجه الذكي عندما تواجه سؤالًا أو حالة مهنية.
+5. احفظ إنجازك يومًا بعد يوم.
 
-تذكّر: القيمة ليست في إنهاء الصفحات بسرعة، بل في بناء عين مهنية ترى النظام خلف المشكلة، والمعنى خلف السلوك.
+منسقة ليست سباق صفحات. هي مساحة تساعدك تبني عينًا مهنية أهدأ، وأعمق، وأكثر قدرة على قراءة ما يحدث داخل المنظمة.
 
 رابط المنصة:
 ${siteUrl || "https://munsaqah.rayansalajlan.workers.dev"}
-
-بانتظار أثر جميل تصنعه من هذه الرحلة ✨
   `.trim();
 
   const html = `
-  <div dir="rtl" style="margin:0;padding:0;background:#f8fafc;font-family:Tahoma,Arial,sans-serif;color:#0f172a;">
-    <div style="max-width:720px;margin:0 auto;padding:28px 16px;">
-      <div style="background:linear-gradient(135deg,#0f172a,#312e81);border-radius:30px;padding:30px;color:#ffffff;box-shadow:0 22px 60px rgba(15,23,42,.18);">
-        <div style="display:inline-block;background:rgba(245,158,11,.16);color:#fde68a;border:1px solid rgba(245,158,11,.28);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;">
-          ${safePlatformName} · بداية الرحلة 🌿
+  <div dir="rtl" style="margin:0;padding:0;background:#f7f3fc;font-family:Tahoma,Arial,sans-serif;color:#18102e;">
+    <div style="max-width:720px;margin:0 auto;padding:30px 16px;">
+      <div style="background:linear-gradient(135deg,#160c2a,#3b1d6e);border-radius:30px;padding:30px;color:#ffffff;box-shadow:0 24px 70px rgba(28,17,48,.20);">
+        <div style="display:inline-block;background:rgba(255,255,255,.12);color:#e9d5ff;border:1px solid rgba(216,180,254,.28);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;">
+          ${safePlatformName} | منسقة
         </div>
-        <h1 style="margin:18px 0 10px;font-size:30px;line-height:1.55;">
-          حيّاك الله يا ${safeDisplayName} 🎉
+        <h1 style="margin:18px 0 10px;font-size:30px;line-height:1.55;color:#ffffff;">
+          حياك الله يا ${safeDisplayName}
         </h1>
-        <p style="margin:0;color:#dbeafe;font-size:16px;line-height:2;">
-          سعدنا بانضمامك إلى رحلة معرفية صُممت لتساعدك على فهم المنظمة قبل استعجال الحل:
-          تشخيص، تصميم، تغيير، ثقافة، قياس، واستدامة.
+        <p style="margin:0;color:#ddd6fe;font-size:16px;line-height:2;">
+          أهلًا بك في منسقة. هنا نرتب الفهم قبل الحل، ونبحث عن النظام خلف المشكلة، حتى تصبح قراءتك للتطوير التنظيمي أعمق وأكثر اتزانًا.
         </p>
       </div>
 
-      <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:26px;padding:24px;margin-top:16px;">
-        <h2 style="margin:0 0 14px;font-size:21px;color:#0f172a;">كيف تبدأ؟ 🚀</h2>
+      <div style="background:#ffffff;border:1px solid #e5ddf5;border-radius:26px;padding:24px;margin-top:16px;">
+        <h2 style="margin:0 0 14px;font-size:22px;line-height:1.6;color:#18102e;">كيف تبدأ رحلتك؟</h2>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin-bottom:12px;">
-          <strong style="color:#312e81;">01 · ابدأ من اليوم الأول</strong>
-          <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">لا تتعامل مع الرحلة كصفحات تُقرأ، بل كبوابات إتقان تتقدم فيها يومًا بعد يوم.</p>
+        <div style="background:#f8f5ff;border:1px solid #eadcff;border-radius:18px;padding:15px;margin-bottom:12px;">
+          <strong style="color:#5b21b6;">01 | افتح اليوم الأول</strong>
+          <p style="margin:6px 0 0;color:#463c63;line-height:1.9;font-size:14px;">ابدأ بهدوء. المهم أن تفهم الفكرة وتربطها بواقع العمل، لا أن تنهي الصفحات بسرعة.</p>
         </div>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin-bottom:12px;">
-          <strong style="color:#312e81;">02 · حدّث ملفك التعليمي ✍️</strong>
-          <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">اكتب هدفك من الرحلة ليصبح تقدمك أكثر ارتباطًا بما تريد بناءه مهنيًا.</p>
+        <div style="background:#f8f5ff;border:1px solid #eadcff;border-radius:18px;padding:15px;margin-bottom:12px;">
+          <strong style="color:#5b21b6;">02 | حدّث ملفك التعليمي</strong>
+          <p style="margin:6px 0 0;color:#463c63;line-height:1.9;font-size:14px;">اكتب هدفك من الرحلة حتى يصبح تقدمك مرتبطًا بما تريد بناءه مهنيًا.</p>
         </div>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin-bottom:12px;">
-          <strong style="color:#312e81;">03 · جرّب الرادار والمحاكاة 🧭</strong>
-          <p style="margin:6px 0 0;color:#334155;line-height:1.9;font-size:14px;">رادار الأداء يوضح أين تقف، والمحاكاة تختبر طريقة تفكيرك في مواقف تنظيمية واقعية.</p>
+        <div style="background:#f8f5ff;border:1px solid #eadcff;border-radius:18px;padding:15px;margin-bottom:12px;">
+          <strong style="color:#5b21b6;">03 | استخدم الرادار والمحاكاة</strong>
+          <p style="margin:6px 0 0;color:#463c63;line-height:1.9;font-size:14px;">الرادار يوضح موقعك، والمحاكاة تساعدك تختبر قراراتك قبل أن تواجهها في الواقع.</p>
         </div>
 
-        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:22px;padding:18px;margin-top:18px;">
-          <h3 style="margin:0 0 8px;color:#78350f;font-size:18px;">رسالة صغيرة قبل الانطلاق ✨</h3>
-          <p style="margin:0;color:#78350f;font-size:15px;line-height:2;font-weight:700;">القيمة ليست في إنهاء الصفحات بسرعة، بل في بناء عين مهنية ترى النظام خلف المشكلة، والمعنى خلف السلوك.</p>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:20px;padding:18px;margin-top:18px;">
+          <h3 style="margin:0 0 8px;color:#7c2d12;font-size:18px;">تذكير من منسقة</h3>
+          <p style="margin:0;color:#7c2d12;font-size:15px;line-height:2;font-weight:700;">لا تبدأ بالحل. افهم النظام أولًا، ثم اختر التدخل الذي يستحق أن يحدث.</p>
         </div>
 
-        <a href="${safeSiteUrl}" style="display:inline-block;margin-top:20px;padding:14px 22px;background:#312e81;color:#ffffff;text-decoration:none;border-radius:16px;font-weight:700;">
-          متابعة الرحلة الآن
+        <a href="${safeSiteUrl}" style="display:inline-block;margin-top:20px;padding:14px 22px;background:#5b21b6;color:#ffffff;text-decoration:none;border-radius:16px;font-weight:700;">
+          افتح منسقة الآن
         </a>
       </div>
 
-      <div style="text-align:center;color:#64748b;font-size:12px;line-height:1.8;margin-top:18px;">
-        هذه رسالة ترحيبية مرتبطة بإنشاء حسابك في منصة إتقان التطوير التنظيمي.
+      <div style="text-align:center;color:#6f6391;font-size:12px;line-height:1.8;margin-top:18px;">
+        وصلتك هذه الرسالة لأنك أنشأت حسابًا في منصة منسقة.
       </div>
     </div>
   </div>

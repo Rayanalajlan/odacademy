@@ -4,6 +4,25 @@ import {
   markNotificationRead
 } from "../lib/notificationsService";
 
+function BellIcon() {
+  return (
+    <span className="notification-button-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M18 9.8a6 6 0 0 0-12 0c0 6-2.2 6.8-2.2 6.8h16.4S18 15.8 18 9.8" />
+        <path d="M10 19.2a2.2 2.2 0 0 0 4 0" />
+        <path d="M12 3.2V2" />
+      </svg>
+    </span>
+  );
+}
+
 export default function NotificationsCenter({ setActivePage }) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
@@ -50,6 +69,26 @@ export default function NotificationsCenter({ setActivePage }) {
           font-family: inherit;
           font-weight: 950;
           cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          white-space: nowrap;
+          border: 1px solid rgba(139, 92, 246, .18);
+        }
+
+        .notification-button-icon {
+          width: 19px;
+          height: 19px;
+          display: inline-grid;
+          place-items: center;
+          color: inherit;
+        }
+
+        .notification-button-icon svg {
+          width: 100%;
+          height: 100%;
+          display: block;
         }
 
         .notification-count {
@@ -133,9 +172,21 @@ export default function NotificationsCenter({ setActivePage }) {
           font-weight: 800;
           padding: 12px;
         }
+
+        body.od-theme-dark .notification-button {
+          color: #efe9ff;
+          background: rgba(241, 236, 251, .10);
+          border-color: rgba(196, 181, 253, .24);
+        }
       `}</style>
 
-      <button type="button" className="notification-button" onClick={() => setOpen((current) => !current)}>
+      <button
+        type="button"
+        className="notification-button"
+        aria-label="فتح التنبيهات"
+        onClick={() => setOpen((current) => !current)}
+      >
+        <BellIcon />
         التنبيهات
         {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
       </button>

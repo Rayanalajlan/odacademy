@@ -17,7 +17,6 @@ import EducationalToolsMenu from "./components/EducationalToolsMenu";
 import SiteLogo from "./components/SiteLogo";
 import BrandMeta from "./components/BrandMeta";
 import ExperienceDesignSkin from "./components/ExperienceDesignSkin";
-import ErrorBoundary from "./components/ErrorBoundary";
 import LegalPageRouter, { isLegalPath } from "./components/LegalPageRouter";
 import { LegalFooterLinks, LegalFloatingLinks } from "./components/LegalLinks";
 import {
@@ -159,8 +158,7 @@ function isPasswordRecoveryRequest() {
     path === "/reset-password" ||
     search.includes("reset_password=true") ||
     search.includes("type=recovery") ||
-    hash.includes("type=recovery") ||
-    hash.includes("access_token=")
+    hash.includes("type=recovery")
   );
 }
 
@@ -550,11 +548,9 @@ export default function App() {
       <>
         <BrandMeta />
         <ExperienceDesignSkin />
-        <ErrorBoundary title="تعذّر فتح صفحة التحقق">
-          <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
-            <VerifyCertificate slug={verificationSlug} />
-          </Suspense>
-        </ErrorBoundary>
+        <Suspense fallback={<PageLoader label="جارٍ فتح صفحة التحقق..." />}>
+          <VerifyCertificate slug={verificationSlug} />
+        </Suspense>
       </>
     );
   }
@@ -577,7 +573,7 @@ export default function App() {
         <ExperienceDesignSkin />
         <div className="boot-screen">
           <SiteLogo variant="icon" context="loader" englishAlt />
-          <span>نرتب لك التجربة... ثواني وتبدأ الرحلة</span>
+          <span>ثواني ونفتح لك التجربة</span>
         </div>
       </>
     );
@@ -624,17 +620,46 @@ export default function App() {
         }
 
         .site-footer {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 14px;
-          flex-wrap: wrap;
+          display: grid;
+          justify-items: center;
+          gap: 12px;
+          padding: 28px 24px 34px;
+          text-align: center;
         }
 
         .site-footer-brand {
           display: inline-flex;
           align-items: center;
           justify-content: center;
+        }
+
+        .site-footer-brand .munsaqah-logo--footer img {
+          height: clamp(54px, 6vw, 76px);
+          max-width: min(320px, 74vw);
+        }
+
+        .site-footer-message {
+          margin: 0;
+          max-width: 920px;
+          color: #382a58 !important;
+          font-size: .96rem;
+          line-height: 1.9;
+          font-weight: 900;
+        }
+
+        .site-footer-rights {
+          color: #6f6391 !important;
+          font-size: .9rem;
+          line-height: 1.7;
+          font-weight: 900;
+        }
+
+        body.od-theme-dark .site-footer-message {
+          color: #efe9ff !important;
+        }
+
+        body.od-theme-dark .site-footer-rights {
+          color: #c9bdf0 !important;
         }
 
         .boot-screen {
@@ -913,17 +938,14 @@ export default function App() {
       )}
 
       {activePage === "home" && (
-        <ErrorBoundary resetKey={activePage} title="تعذّر تحميل الصفحة الرئيسية">
-          <Home
-            userName={displayName}
-            setActivePage={navigate}
-            completedDays={completedDays}
-            totalDays={totalJourneyDays}
-          />
-        </ErrorBoundary>
+        <Home
+          userName={displayName}
+          setActivePage={navigate}
+          completedDays={completedDays}
+          totalDays={totalJourneyDays}
+        />
       )}
 
-      <ErrorBoundary resetKey={activePage}>
       <Suspense fallback={<PageLoader />}>
         {activePage === "journey" && (
           <CourseJourney
@@ -969,15 +991,18 @@ export default function App() {
 
         {activePage === "about" && <AboutRayan />}
       </Suspense>
-      </ErrorBoundary>
 
       <footer className="site-footer">
-        <div>
-          صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
-          السلوك، والنظام خلف المشكلة.
+        <div className="site-footer-brand">
+          <SiteLogo context="footer" />
         </div>
 
-        <span>© 2026 — جميع الحقوق محفوظة</span>
+        <p className="site-footer-message">
+          صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف
+          السلوك، والنظام خلف المشكلة.
+        </p>
+
+        <span className="site-footer-rights">© 2026 — جميع الحقوق محفوظة</span>
         <LegalFooterLinks />
       </footer>
     </div>

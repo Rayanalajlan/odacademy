@@ -259,45 +259,6 @@ function passwordIssue(password) {
   return "";
 }
 
-function getAuthErrorText(error) {
-  return String(error?.message || error?.error_description || error?.name || "").toLowerCase();
-}
-
-function isInvalidLoginError(error) {
-  const text = getAuthErrorText(error);
-  return text.includes("invalid login credentials") || text.includes("invalid credentials");
-}
-
-function isExistingAccountError(error) {
-  const text = getAuthErrorText(error);
-  return (
-    text.includes("user already registered") ||
-    text.includes("already registered") ||
-    text.includes("already exists") ||
-    text.includes("email already")
-  );
-}
-
-function friendlyAuthMessage(error, mode) {
-  if (isInvalidLoginError(error)) {
-    return "لم نتمكن من الدخول بهذه البيانات. إن كان هذا بريدك لأول مرة فأكمل إنشاء حساب جديد، وإن كان لديك حساب سابق فجرّب استعادة كلمة المرور.";
-  }
-
-  if (isExistingAccountError(error)) {
-    return "يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.";
-  }
-
-  if (mode === "signup") {
-    return "تعذر إنشاء الحساب الآن. راجع البيانات وحاول مرة أخرى بعد لحظات.";
-  }
-
-  if (mode === "recover") {
-    return "تعذر إرسال رابط الاستعادة الآن. تأكد من البريد وحاول مرة أخرى.";
-  }
-
-  return "تعذر إكمال العملية الآن. راجع البيانات وحاول مرة أخرى.";
-}
-
 function formatNumber(value) {
   const number = Number(value || 0);
   return new Intl.NumberFormat("en-US").format(number);
@@ -318,9 +279,9 @@ function normalizeStats(payload) {
   const row = Array.isArray(payload) ? payload[0] : payload;
 
   return {
-    total_joined: Number(row?.total_joined ?? row?.total_learners ?? 0),
-    active_now: Number(row?.active_now ?? 0),
-    completed_count: Number(row?.completed_count ?? row?.completed_learners ?? 0)
+    total_joined: Number(row?.total_joined || 0),
+    active_now: Number(row?.active_now || 0),
+    completed_count: Number(row?.completed_count || 0)
   };
 }
 
@@ -358,17 +319,13 @@ export default function AuthGate({
       return;
     }
 
-    try {
-      const { data, error } = await supabase.rpc("get_public_platform_stats");
+    const { data, error } = await supabase.rpc("get_public_platform_stats");
 
-      if (!error && data) {
-        setStats(normalizeStats(data));
-      }
-    } catch (error) {
-      console.warn("تعذر تحميل إحصاءات المنصة العامة:", error);
-    } finally {
-      setStatsReady(true);
+    if (!error && data) {
+      setStats(normalizeStats(data));
     }
+
+    setStatsReady(true);
   }
 
   useEffect(() => {
@@ -384,12 +341,7 @@ export default function AuthGate({
 
   async function touchActivity() {
     if (!isSupabaseConfigured || !supabase) return;
-
-    try {
-      await supabase.rpc("touch_user_activity");
-    } catch (error) {
-      console.warn("تعذر تحديث نشاط المتدرب:", error);
-    }
+    await supabase.rpc("touch_user_activity");
   }
 
 
@@ -471,7 +423,7 @@ export default function AuthGate({
 
       showNotice("أرسلنا رابط استعادة كلمة المرور إلى بريدك. افتح الرابط وسيظهر لك نموذج تعيين كلمة مرور جديدة.");
     } catch (error) {
-      showNotice(friendlyAuthMessage(error, "recover"));
+      showNotice(error?.message || "تعذر إرسال رابط استعادة كلمة المرور.");
     } finally {
       setBusy(false);
     }
@@ -526,7 +478,7 @@ export default function AuthGate({
         onAuthenticated?.(data.session);
       }
     } catch (error) {
-      showNotice("تعذر تحديث كلمة المرور الآن. تأكد من الرابط أو اطلب رابط استعادة جديد.");
+      showNotice(error?.message || "تعذر تحديث كلمة المرور.");
     } finally {
       setBusy(false);
     }
@@ -570,39 +522,23 @@ export default function AuthGate({
 
     try {
       if (mode === "signup") {
+        const redirectTo = `${window.location.origin}/`;
         const { data, error } = await supabase.auth.signUp({
           email: cleanEmail,
           password,
           options: {
+            emailRedirectTo: redirectTo,
             data: { full_name: cleanName }
           }
         });
 
-        if (error) {
-          if (isExistingAccountError(error)) {
-            setMode("signin");
-            showNotice("يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.");
-            return;
-          }
-
-          throw error;
-        }
-
-        if (Array.isArray(data?.user?.identities) && data.user.identities.length === 0) {
-          setMode("signin");
-          showNotice("يبدو أن لديك حسابًا بهذا البريد. سجّل الدخول مباشرة، أو استخدم استعادة كلمة المرور إذا نسيتها.");
-          return;
-        }
+        if (error) throw error;
 
         if (data?.session) {
-          await touchActivity();
-          await loadPublicStats();
-          onEnter?.({ session: data.session, name: cleanName });
-          onAuthenticated?.(data.session);
-        } else {
-          showNotice("تم إنشاء الحساب. إذا كان تأكيد البريد مفعّلًا، افتح بريدك ثم سجل الدخول.");
+          await supabase.auth.signOut();
         }
 
+        showNotice("تم إنشاء الحساب. أرسلنا لك رابط تأكيد على البريد. افتح الرابط لتفعيل الحساب، ثم سجل الدخول.");
         return;
       }
 
@@ -611,16 +547,7 @@ export default function AuthGate({
         password
       });
 
-      if (error) {
-        if (isInvalidLoginError(error)) {
-          setMode("signup");
-          setFullName("");
-          showNotice("يبدو أن هذا البريد لم يبدأ رحلته بعد. أكمل إنشاء حساب جديد الآن، وإن كان لديك حساب سابق فاختر «نسيت كلمة المرور».");
-          return;
-        }
-
-        throw error;
-      }
+      if (error) throw error;
 
       await touchActivity();
       await loadPublicStats();
@@ -634,7 +561,7 @@ export default function AuthGate({
       onEnter?.({ session, name });
       onAuthenticated?.(session);
     } catch (error) {
-      showNotice(friendlyAuthMessage(error, mode));
+      showNotice(error?.message || "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.");
     } finally {
       setBusy(false);
     }
