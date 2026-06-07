@@ -815,15 +815,21 @@ export default function ExperienceDesignSkin() {
         box-shadow: 0 24px 80px rgba(12, 7, 23,.22) !important;
       }
 
-      body:not(.od-theme-dark) .od-timer-content h2,
-      body:not(.od-theme-dark) .od-section-head h2 {
+      body:not(.od-theme-dark) .od-timer-content h2 {
         color: #f7f3fc !important;
         text-shadow: 0 14px 34px rgba(0,0,0,.24) !important;
       }
+      body:not(.od-theme-dark) .od-section-head h2 {
+        /* عنوان القسم على سطح فاتح -> نص داكن مقروء (كان فاتحًا فيختفي) */
+        color: #1b1233 !important;
+        text-shadow: none !important;
+      }
 
-      body:not(.od-theme-dark) .od-timer-content p,
-      body:not(.od-theme-dark) .od-section-head p {
+      body:not(.od-theme-dark) .od-timer-content p {
         color: #d6cdec !important;
+      }
+      body:not(.od-theme-dark) .od-section-head p {
+        color: #4c4170 !important;
       }
 
       body:not(.od-theme-dark) .od-section-kicker {
@@ -1239,11 +1245,10 @@ export default function ExperienceDesignSkin() {
         .od-hero h1 span, .jl-title span, .ar-title span,
         .roi-hero h1 span, .hero h1 span
       ) {
-        background: linear-gradient(120deg, #efe9ff 0%, #b9a6f5 100%) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: #d9cdf2 !important;
+        /* كان: نص شفّاف بتدرّج (يختفي عند فشل القص). الآن: لون صلب مرئي دائمًا */
+        background-image: none !important;
+        -webkit-text-fill-color: #f1ecfb !important;
+        color: #f1ecfb !important;
       }
 
       body.od-theme-dark :is(
@@ -1312,19 +1317,17 @@ export default function ExperienceDesignSkin() {
             mastery / radar and any other clipped-text heading. */
       html body.od-theme-dark.od-theme-dark
         :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
-        background-image: linear-gradient(118deg, #f4eeff 0%, #c8b3ff 50%, #f6db8e 100%) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: #ece4ff !important;
+        /* السبان يتبع لون العنوان (مرئي دائمًا) بدل النص الشفّاف */
+        background-image: none !important;
+        -webkit-text-fill-color: currentColor !important;
+        color: inherit !important;
       }
       html body:not(.od-theme-dark):not(.od-theme-dark)
         :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
-        background-image: linear-gradient(118deg, #2a1758 0%, #6d28d9 52%, #946312 100%) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: #2a1758 !important;
+        /* السبان يتبع لون العنوان حسب السطح (يمنع نص داكن على لوحة داكنة) */
+        background-image: none !important;
+        -webkit-text-fill-color: currentColor !important;
+        color: inherit !important;
       }
 
       /* 2) Plain heading text (no span) -> solid, readable, gradients off. */
@@ -1384,14 +1387,14 @@ export default function ExperienceDesignSkin() {
       /* 6) Text inside dark/light surfaces stays on-theme (values, labels, captions). */
       html body.od-theme-dark.od-theme-dark
         :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
-            .profile-metric, .od-timer-command, .day-step)
+            .profile-metric, .day-step)
         :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
         color: #e7ddfb !important;
         -webkit-text-fill-color: #e7ddfb !important;
       }
       html body:not(.od-theme-dark):not(.od-theme-dark)
         :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
-            .profile-metric, .od-timer-command, .day-step)
+            .profile-metric, .day-step)
         :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
         color: #2c2342 !important;
         -webkit-text-fill-color: #2c2342 !important;
@@ -1417,6 +1420,189 @@ export default function ExperienceDesignSkin() {
           animation-iteration-count: 1 !important;
           scroll-behavior: auto !important;
         }
+      }
+
+      /* ============================================================
+         PHASE 53 — Contrast & typography hardening (final layer)
+         طبقة تقوية نهائية: ألوان وتنسيق فقط — لا منطق، لا نصوص، لا RTL.
+         تُحمَّل أخيرًا وبأولوية عالية لتتغلّب على أنماط المكوّنات المحقونة
+         بغضّ النظر عن ترتيب الحقن. تضمن قراءة كل عنوان/نص/رقم على سطحه
+         في الوضعين، ومصفوفة كاملة لأزرار الأقسام العلوية، وأشرطة تقدّم واضحة.
+      ============================================================ */
+
+      /* 0) نظام المتغيّرات الموحّد (هوية بنفسجية/ذهبية، فاتح + داكن) */
+      :root,
+      html[data-theme="light"],
+      html body.od-theme-light {
+        --bg: #f3eefb;
+        --bg-soft: #ece4f6;
+        --surface: #ffffff;
+        --surface-elevated: #faf7ff;
+        --surface-muted: #f1ebfb;
+        --card: #ffffff;
+        --card-header: #f3edfc;
+        --text: #190f30;
+        --text-muted: #4c4170;
+        --text-soft: #6f6391;
+        --heading: #190f30;
+        --border: rgba(124, 58, 237, .18);
+        --accent: #7c3aed;
+        --accent-hover: #6d28d9;
+        --accent-contrast: #ffffff;
+        --gold: #9a6a12;
+        --gold-soft: rgba(154, 106, 18, .14);
+        --success: #1b9c83;
+        --warning: #9a6a12;
+        --danger: #dc2654;
+        --metric-bg: #1c1130;
+        --metric-text: #f4f0fb;
+        --nav-pill-bg: rgba(124, 58, 237, .07);
+        --nav-pill-text: #4c3a82;
+        --nav-pill-active-text: #ffffff;
+      }
+      html[data-theme="dark"],
+      html body.od-theme-dark {
+        --bg: #0c0717;
+        --bg-soft: #0e0820;
+        --surface: rgba(28, 17, 48, .94);
+        --surface-elevated: rgba(38, 24, 66, .96);
+        --surface-muted: rgba(24, 14, 42, .92);
+        --card: rgba(28, 17, 48, .94);
+        --card-header: rgba(38, 24, 66, .9);
+        --text: #ece6f8;
+        --text-muted: #c9bdf0;
+        --text-soft: #a99fce;
+        --heading: #f4effc;
+        --border: rgba(167, 139, 250, .22);
+        --accent: #a855f7;
+        --accent-hover: #bb8ff6;
+        --accent-contrast: #10081f;
+        --gold: #e7c873;
+        --gold-soft: rgba(231, 200, 115, .16);
+        --success: #34d3b3;
+        --warning: #e7c873;
+        --danger: #fb7185;
+        --metric-bg: rgba(20, 12, 36, .96);
+        --metric-text: #f4f0fb;
+        --nav-pill-bg: rgba(167, 139, 250, .10);
+        --nav-pill-text: #d9cdf2;
+        --nav-pill-active-text: #ffffff;
+      }
+
+      /* 1) أمان عام: كل عنوان أو سبان داخل عنوان يرسم نصًّا صلبًا (لا شفافية).
+            يبطل أي background-clip:text متبقٍّ في المكوّنات. */
+      html body :is(h1, h2, h3, h4, h5, h6),
+      html body :is(h1, h2, h3, h4, h5, h6) :is(span, b, strong, em, i, a) {
+        -webkit-text-fill-color: currentColor !important;
+      }
+
+      /* 2) استثناء اللوحات الداكنة (داكنة في الوضعين) -> نصّها فاتح دائمًا.
+            يمنع "نص داكن على لوحة داكنة" في الوضع الفاتح:
+            البطل العام، بطل اللوحة، العدّاد الدائري، ومرصد الوقت. */
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.public-hero, .od-hero, .od-main-gauge, .od-timer-command, .od-timer-content)
+        :is(h1, h2, h3, h4, h5, h6, span, strong, b, small, p, time, label) {
+        color: #f4f0fb !important;
+        -webkit-text-fill-color: #f4f0fb !important;
+      }
+      html body.od-theme-dark.od-theme-dark
+        :is(.public-hero, .od-hero, .od-main-gauge, .od-timer-command, .od-timer-content)
+        :is(h1, h2, h3, h4, h5, h6, span, strong, b, small, p, time, label) {
+        color: #f4f0fb !important;
+        -webkit-text-fill-color: #f4f0fb !important;
+      }
+
+      /* 3) أزرار الأقسام العلوية (.main-nav) — مصفوفة كاملة لكل حالة وثيم.
+            يصلح: تحويم بنص أسود غير مرئي في الداكن + تباين منخفض في الفاتح. */
+      /* --- الوضع الفاتح --- */
+      html body:not(.od-theme-dark) .main-nav button,
+      html body:not(.od-theme-dark) .educational-tools-trigger {
+        color: #4c3a82 !important;
+        -webkit-text-fill-color: #4c3a82 !important;
+        background: rgba(124, 58, 237, .07) !important;
+        border: 1px solid rgba(124, 58, 237, .16) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button .nav-label,
+      html body:not(.od-theme-dark) .main-nav button span,
+      html body:not(.od-theme-dark) .educational-tools-trigger span {
+        color: #4c3a82 !important;
+        -webkit-text-fill-color: #4c3a82 !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button:hover,
+      html body:not(.od-theme-dark) .educational-tools-trigger:hover {
+        color: #2a1758 !important;
+        -webkit-text-fill-color: #2a1758 !important;
+        background: rgba(124, 58, 237, .13) !important;
+        border-color: rgba(124, 58, 237, .30) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button:hover .nav-label,
+      html body:not(.od-theme-dark) .main-nav button:hover span {
+        color: #2a1758 !important;
+        -webkit-text-fill-color: #2a1758 !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button.active,
+      html body:not(.od-theme-dark) .educational-tools-trigger.active {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(124, 58, 237, .26) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button.active .nav-label,
+      html body:not(.od-theme-dark) .main-nav button.active span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+      /* --- الوضع الداكن --- */
+      html body.od-theme-dark .main-nav button,
+      html body.od-theme-dark .educational-tools-trigger {
+        color: #d9cdf2 !important;
+        -webkit-text-fill-color: #d9cdf2 !important;
+        background: rgba(167, 139, 250, .10) !important;
+        border: 1px solid rgba(167, 139, 250, .22) !important;
+      }
+      html body.od-theme-dark .main-nav button .nav-label,
+      html body.od-theme-dark .main-nav button span,
+      html body.od-theme-dark .educational-tools-trigger span {
+        color: #d9cdf2 !important;
+        -webkit-text-fill-color: #d9cdf2 !important;
+      }
+      html body.od-theme-dark .main-nav button:hover,
+      html body.od-theme-dark .educational-tools-trigger:hover {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: rgba(167, 139, 250, .20) !important;
+        border-color: rgba(196, 181, 253, .42) !important;
+      }
+      html body.od-theme-dark .main-nav button:hover .nav-label,
+      html body.od-theme-dark .main-nav button:hover span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+      html body.od-theme-dark .main-nav button.active,
+      html body.od-theme-dark .educational-tools-trigger.active {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(168, 85, 247, .30) !important;
+      }
+      html body.od-theme-dark .main-nav button.active .nav-label,
+      html body.od-theme-dark .main-nav button.active span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* 4) أشرطة التقدّم — مسار فارغ مرئي في الوضعين (التعبئة تبقى بلونها). */
+      html body:not(.od-theme-dark)
+        :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+            .monthly-progress, .weekly-reflection-progress, .mini-bar-track) {
+        background-color: rgba(124, 58, 237, .14) !important;
+      }
+      html body.od-theme-dark
+        :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+            .monthly-progress, .weekly-reflection-progress, .mini-bar-track) {
+        background-color: rgba(167, 139, 250, .18) !important;
       }
     `}</style>
   );
