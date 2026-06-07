@@ -1299,6 +1299,116 @@ export default function ExperienceDesignSkin() {
         -webkit-text-fill-color: #2c2342 !important;
       }
 
+      /* ============================================================
+         #FINAL — Full contrast + typography treatment (dark + light).
+         Supersedes earlier partial fixes: guarantees every text layer
+         is readable in BOTH themes, neutralises invisible clipped-text
+         headings, restores card numbers + eyebrows, and right-sizes the
+         oversized display headings.
+      ============================================================ */
+
+      /* 1) Display heading SPANS -> visible, theme-appropriate gradient.
+            Catches od-hero / ar-title / roi-hero / jl-title / sim-hero /
+            mastery / radar and any other clipped-text heading. */
+      html body.od-theme-dark.od-theme-dark
+        :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
+        background-image: linear-gradient(118deg, #f4eeff 0%, #c8b3ff 50%, #f6db8e 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: #ece4ff !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
+        background-image: linear-gradient(118deg, #2a1758 0%, #6d28d9 52%, #946312 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: #2a1758 !important;
+      }
+
+      /* 2) Plain heading text (no span) -> solid, readable, gradients off. */
+      html body.od-theme-dark.od-theme-dark :is(h1, h2, h3, h4, h5, h6) {
+        color: #f4effc !important;
+        background-image: none !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) {
+        color: #190f30 !important;
+        background-image: none !important;
+      }
+
+      /* 3) Decorative numerals / marks (01 02 03, step numbers) -> visible, subtle. */
+      html body.od-theme-dark.od-theme-dark
+        :is(.ar-lens b, .ar-domain-mark, .hero-point b, .jl-index, [class*="-mark"], [class*="-numeral"]) {
+        color: rgba(201, 184, 255, 0.5) !important;
+        -webkit-text-fill-color: rgba(201, 184, 255, 0.5) !important;
+        background-image: none !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.ar-lens b, .ar-domain-mark, .hero-point b, .jl-index, [class*="-mark"], [class*="-numeral"]) {
+        color: rgba(109, 40, 217, 0.42) !important;
+        -webkit-text-fill-color: rgba(109, 40, 217, 0.42) !important;
+        background-image: none !important;
+      }
+
+      /* 4) Eyebrows / kickers -> theme-aware pill + label.
+            Fixes the light-mode disappearance (gold / lilac text on light bg). */
+      html body.od-theme-dark.od-theme-dark
+        :is(.od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
+        color: #ece4ff !important;
+        -webkit-text-fill-color: #ece4ff !important;
+        background: rgba(139, 92, 246, 0.18) !important;
+        border: 1px solid rgba(167, 139, 250, 0.30) !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
+        color: #6d28d9 !important;
+        -webkit-text-fill-color: #6d28d9 !important;
+        background: rgba(139, 92, 246, 0.12) !important;
+        border: 1px solid rgba(124, 58, 237, 0.26) !important;
+      }
+
+      /* 5) Body / descriptions -> readable + comfortable line-height. */
+      html body.od-theme-dark.od-theme-dark :is(p, li, dd, dt, blockquote, figcaption) {
+        color: #d2c7f1 !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, blockquote, figcaption) {
+        color: #443a60 !important;
+      }
+      :is(.od-hero, .od-section-head, .ar-hero, .ar-section-head, .roi-hero,
+          .jl-intro, .hero, .mastery-hero, [class*="section-head"], [class*="-hero"]) p {
+        line-height: 1.9 !important;
+        font-weight: 600 !important;
+      }
+
+      /* 6) Text inside dark/light surfaces stays on-theme (values, labels, captions). */
+      html body.od-theme-dark.od-theme-dark
+        :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
+            .profile-metric, .od-timer-command, .day-step)
+        :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
+        color: #e7ddfb !important;
+        -webkit-text-fill-color: #e7ddfb !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
+            .profile-metric, .od-timer-command, .day-step)
+        :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+      }
+
+      /* 7) Right-size oversized display headings to fit the layout. */
+      :is(.od-hero h1, .ar-title, .roi-hero h1, .jl-title, .hero h1, .mastery-hero h1) {
+        font-size: clamp(1.8rem, 3.8vw, 3rem) !important;
+        line-height: 1.22 !important;
+        letter-spacing: 0 !important;
+      }
+      :is(.od-section-head h2, .ar-section-head h2, .od-timer-content h2, [class*="section-head"] h2) {
+        font-size: clamp(1.5rem, 3.1vw, 2.45rem) !important;
+        line-height: 1.3 !important;
+        letter-spacing: 0 !important;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
