@@ -1642,18 +1642,34 @@ body {
 }
 
 @media print {
-  body * {
-    visibility: hidden !important;
+  html,
+  body {
+    background: #fff !important;
+    color: #111827 !important;
+    overflow: visible !important;
   }
 
-  #printable-certificate-frame,
-  #printable-certificate-frame * {
+  body * {
     visibility: visible !important;
   }
 
+  *,
+  *::before,
+  *::after {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .site-frame,
+  .app-shell,
+  .content-container,
+  .navigation-card,
+  .hero-card,
+  .progress-card {
+    box-shadow: none !important;
+  }
+
   #printable-certificate-frame {
-    position: absolute !important;
-    inset: 0 auto auto 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     box-shadow: none !important;
