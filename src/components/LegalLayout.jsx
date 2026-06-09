@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { initializeTheme } from "../lib/themeService";
 
 const BRAND_LOGO_SRC = "/rayan-logo.png";
 
@@ -117,20 +118,25 @@ export default function LegalLayout({
   const [logoFailed, setLogoFailed] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
+  useEffect(() => {
+    initializeTheme();
+  }, []);
+
   function handleDeleteLink(event) {
     event.preventDefault();
     setConfirmDeleteOpen(true);
   }
 
   return (
-    <main style={styles.page}>
-      <div style={styles.shell}>
-        <header style={styles.header}>
-          <a href="/" style={styles.brand} aria-label="العودة إلى الصفحة الرئيسية">
+    <main className="legal-page" style={styles.page}>
+      <div className="legal-shell" style={styles.shell}>
+        <header className="legal-header" style={styles.header}>
+          <a className="legal-brand" href="/" style={styles.brand} aria-label="العودة إلى الصفحة الرئيسية">
             {logoFailed ? (
-              <span style={styles.fallbackLogo} aria-hidden="true">م</span>
+              <span className="legal-fallback-logo" style={styles.fallbackLogo} aria-hidden="true">م</span>
             ) : (
               <img
+                className="legal-logo"
                 src={BRAND_LOGO_SRC}
                 alt="شعار ريان العجلان"
                 style={styles.logo}
@@ -138,32 +144,33 @@ export default function LegalLayout({
               />
             )}
             <div>
-              <p style={styles.brandTitle}>منسقة</p>
-              <p style={styles.brandSub}>منصة تعليمية للتطوير التنظيمي</p>
+              <p className="legal-brand-title" style={styles.brandTitle}>منسقة</p>
+              <p className="legal-brand-sub" style={styles.brandSub}>منصة تعليمية للتطوير التنظيمي</p>
             </div>
           </a>
 
-          <nav style={styles.nav} aria-label="روابط الصفحات القانونية">
-            <a href="/" style={styles.navLink}>الرئيسية</a>
-            <a href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
-            <a href="/terms" style={styles.navLink}>شروط الاستخدام</a>
-            <a href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
+          <nav className="legal-nav" style={styles.nav} aria-label="روابط الصفحات القانونية">
+            <a className="legal-nav-link" href="/" style={styles.navLink}>الرئيسية</a>
+            <a className="legal-nav-link" href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
+            <a className="legal-nav-link" href="/terms" style={styles.navLink}>شروط الاستخدام</a>
+            <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
           </nav>
         </header>
 
-        <section style={styles.card}>
-          <p style={styles.eyebrow}>{eyebrow}</p>
-          <h1 style={styles.title}>{title}</h1>
-          {intro ? <p style={styles.intro}>{intro}</p> : null}
+        <section className="legal-card legal-content-card" style={styles.card}>
+          <p className="legal-eyebrow" style={styles.eyebrow}>{eyebrow}</p>
+          <h1 className="legal-title" style={styles.title}>{title}</h1>
+          {intro ? <p className="legal-intro" style={styles.intro}>{intro}</p> : null}
           {children}
         </section>
 
-        <footer style={styles.footer}>
+        <footer className="legal-footer" style={styles.footer}>
           © 2026 — منصة منسقة. جميع الحقوق محفوظة.
         </footer>
 
         {confirmDeleteOpen ? (
           <div
+            className="legal-confirm-backdrop"
             role="dialog"
             aria-modal="true"
             aria-label="تنبيه قبل طلب حذف البيانات"
@@ -179,6 +186,7 @@ export default function LegalLayout({
             }}
           >
             <div
+              className="legal-confirm-dialog"
               style={{
                 width: "min(520px, 100%)",
                 borderRadius: "26px",
@@ -198,8 +206,9 @@ export default function LegalLayout({
                 حسابك، تقدمك، ملاحظاتك، وإنجازاتك داخل منسقة. لا تتابع إلا إذا
                 كنت تقصد فعلًا طلب حذف بياناتك.
               </p>
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "18px" }}>
+              <div className="legal-confirm-actions" style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "18px" }}>
                 <button
+                  className="legal-confirm-cancel"
                   type="button"
                   onClick={() => setConfirmDeleteOpen(false)}
                   style={{
@@ -216,6 +225,7 @@ export default function LegalLayout({
                   إلغاء
                 </button>
                 <button
+                  className="legal-confirm-continue"
                   type="button"
                   onClick={() => {
                     window.location.href = "/data-deletion";

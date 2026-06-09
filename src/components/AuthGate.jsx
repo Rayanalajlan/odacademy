@@ -1879,6 +1879,185 @@ export default function AuthGate({
           }
         }
 
+        /* Final visitor contrast layer: surface decides text, not inherited theme color. */
+        body:not(.od-theme-dark) .public-gate {
+          --visitor-heading: #2b155f;
+          --visitor-text: #46345f;
+          --visitor-muted: #6a5d85;
+          --visitor-surface: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,247,255,.92));
+          --visitor-soft: rgba(124, 58, 237, .11);
+          --visitor-border: rgba(124, 58, 237, .20);
+          color: var(--visitor-text) !important;
+          background:
+            radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .15), transparent 30%),
+            radial-gradient(circle at 88% 12%, rgba(16, 185, 129, .08), transparent 28%),
+            linear-gradient(180deg, #f7f3fc 0%, #efe9fb 48%, #f7f3fc 100%) !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .public-hero,
+          .public-section,
+          .auth-card,
+          .hero-point,
+          .counter-card,
+          .path-card,
+          .info-card,
+          .legal-card,
+          .faq-item,
+          .sample-box,
+          .sample-modal,
+          .sample-modal-card
+        ) {
+          background: var(--visitor-surface) !important;
+          border-color: var(--visitor-border) !important;
+          color: var(--visitor-text) !important;
+          box-shadow: 0 18px 48px rgba(74, 45, 132, .10) !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .public-hero h1,
+          .section-head h2,
+          .auth-title,
+          .counter-card strong,
+          .path-card strong,
+          .info-card strong,
+          .legal-card strong,
+          .sample-box h3,
+          .sample-modal h2,
+          .sample-modal-card strong,
+          .faq-question > span:first-child
+        ) {
+          color: var(--visitor-heading) !important;
+          -webkit-text-fill-color: var(--visitor-heading) !important;
+          background-image: none !important;
+          text-shadow: none !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .public-hero p,
+          .section-head p,
+          .hero-point span,
+          .counter-card span,
+          .path-card span,
+          .info-card span,
+          .legal-card span,
+          .sample-box p,
+          .sample-bullets li,
+          .sample-modal p,
+          .sample-modal-card span,
+          .faq-answer,
+          .public-footer,
+          .public-footer p,
+          .public-footer span
+        ) {
+          color: var(--visitor-text) !important;
+          -webkit-text-fill-color: var(--visitor-text) !important;
+          opacity: 1 !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .public-badge,
+          .sample-kicker,
+          .hero-point b,
+          .path-card b,
+          .legal-footer-link
+        ) {
+          color: #6d28d9 !important;
+          -webkit-text-fill-color: #6d28d9 !important;
+          background: var(--visitor-soft) !important;
+          border-color: rgba(124, 58, 237, .28) !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .auth-field label,
+          .hint,
+          .auth-tabs button,
+          .auth-ghost,
+          .toggle-password,
+          .forgot-button
+        ) {
+          color: var(--visitor-text) !important;
+          -webkit-text-fill-color: var(--visitor-text) !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(.auth-field input, .password-row input) {
+          color: var(--visitor-heading) !important;
+          -webkit-text-fill-color: var(--visitor-heading) !important;
+          background: rgba(255,255,255,.98) !important;
+          border-color: var(--visitor-border) !important;
+        }
+
+        body:not(.od-theme-dark) .public-gate :is(
+          .auth-tabs button.active,
+          .auth-primary,
+          .sample-button
+        ),
+        body.od-theme-dark .public-gate :is(
+          .auth-tabs button.active,
+          .auth-primary,
+          .sample-button
+        ) {
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+        }
+
+        body.od-theme-dark .public-gate :is(
+          .public-section,
+          .auth-card,
+          .hero-point,
+          .counter-card,
+          .path-card,
+          .info-card,
+          .legal-card,
+          .faq-item,
+          .sample-box,
+          .sample-modal,
+          .sample-modal-card
+        ) {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .10), transparent 30%),
+            rgba(28, 17, 48, .94) !important;
+          border-color: rgba(196, 181, 253, .24) !important;
+          color: #e7ddfb !important;
+        }
+
+        body.od-theme-dark .public-gate :is(
+          .public-hero h1,
+          .section-head h2,
+          .auth-title,
+          .counter-card strong,
+          .path-card strong,
+          .info-card strong,
+          .legal-card strong,
+          .sample-box h3,
+          .sample-modal h2,
+          .sample-modal-card strong,
+          .faq-question > span:first-child
+        ) {
+          color: #f7f3fc !important;
+          -webkit-text-fill-color: #f7f3fc !important;
+          background-image: none !important;
+        }
+
+        body.od-theme-dark .public-gate :is(
+          .public-hero p,
+          .section-head p,
+          .hero-point span,
+          .counter-card span,
+          .path-card span,
+          .info-card span,
+          .legal-card span,
+          .sample-box p,
+          .sample-bullets li,
+          .sample-modal p,
+          .sample-modal-card span,
+          .faq-answer
+        ) {
+          color: #cfc3ee !important;
+          -webkit-text-fill-color: #cfc3ee !important;
+          opacity: 1 !important;
+        }
+
       `}</style>
 
       <div className="public-wrap">

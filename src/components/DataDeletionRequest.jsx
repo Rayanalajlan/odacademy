@@ -160,6 +160,7 @@ export default function DataDeletionRequest() {
       intro="استخدم هذا النموذج لطلب حذف بياناتك، تصحيحها، الحصول على نسخة منها، أو إرسال طلب آخر متعلق بالخصوصية."
     >
       <div
+        className="legal-info-card"
         style={{
           background: "#efe9fb",
           border: "1px solid #c3b5e8",
@@ -176,6 +177,7 @@ export default function DataDeletionRequest() {
 
       {status.type !== "idle" ? (
         <div
+          className={`legal-alert legal-alert--${status.type}`}
           role="alert"
           style={{
             ...alertBase,
@@ -191,7 +193,7 @@ export default function DataDeletionRequest() {
         </div>
       ) : null}
 
-      <form onSubmit={handleSubmit}>
+      <form className="legal-form" onSubmit={handleSubmit}>
         {/* حقل مخفي بسيط لتقليل الإرسال الآلي. لا تعبئه الواجهة الطبيعية. */}
         <input
           type="text"
@@ -228,6 +230,7 @@ export default function DataDeletionRequest() {
 
         {form.requestType === "delete_data" ? (
           <div
+            className="legal-danger-card"
             style={{
               background: "#fef2f2",
               border: "1px solid #fca5a5",

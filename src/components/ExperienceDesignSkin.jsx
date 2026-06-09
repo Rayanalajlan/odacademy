@@ -2080,6 +2080,208 @@ export default function ExperienceDesignSkin() {
         opacity: 1 !important;
       }
 
+      /* PHASE 55 - Surface-aware final contrast for authenticated app screens. */
+      html body:not(.od-theme-dark):not(.od-theme-dark) {
+        --app-heading-readable: #2b155f;
+        --app-text-readable: #46345f;
+        --app-muted-readable: #6a5d85;
+        --app-light-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+        --app-light-border: rgba(124, 58, 237, .18);
+      }
+
+      html body.od-theme-dark.od-theme-dark {
+        --app-heading-readable: #f7f3fc;
+        --app-text-readable: #e7ddfb;
+        --app-muted-readable: #cfc3ee;
+        --app-dark-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
+        --app-dark-border: rgba(196, 181, 253, .26);
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-hero, .od-command-card, .portfolio-hero, .radar-card-dark,
+        .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero,
+        .sim-root .hero, .learning-journey .journey-hero
+      ) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) {
+        background: var(--app-light-surface) !important;
+        border-color: var(--app-light-border) !important;
+        color: var(--app-text-readable) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(h1, h2, h3, h4, strong, b) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(p, span, small, label, time, li) {
+        color: var(--app-muted-readable) !important;
+        -webkit-text-fill-color: var(--app-muted-readable) !important;
+        opacity: 1 !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) {
+        background: var(--app-dark-surface) !important;
+        border-color: var(--app-dark-border) !important;
+        color: var(--app-text-readable) !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(h1, h2, h3, h4, strong, b) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(p, span, small, label, time, li) {
+        color: var(--app-muted-readable) !important;
+        -webkit-text-fill-color: var(--app-muted-readable) !important;
+        opacity: 1 !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+        background: rgba(167, 139, 250, .15) !important;
+        border-color: rgba(196, 181, 253, .30) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+        color: #4c2a86 !important;
+        -webkit-text-fill-color: #4c2a86 !important;
+        background: rgba(124, 58, 237, .10) !important;
+        border-color: rgba(124, 58, 237, .24) !important;
+      }
+
     `}</style>
   );
 }

@@ -825,3 +825,157 @@ html body :is(.portfolio-hero h1, .od-hero h1, .onboarding-title, .ar-title,
   }
 }
 
+/* ============================================================
+   PHASE 55 - Final legal + surface-aware contrast guard.
+   Colors only: fixes inline legal pages and light-card text leaks in dark mode.
+============================================================ */
+html body:not(.od-theme-dark):not(.od-theme-dark),
+html body.od-theme-light {
+  --od-readable-heading: #2b155f;
+  --od-readable-text: #46345f;
+  --od-readable-muted: #6a5d85;
+  --od-readable-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+  --od-readable-soft: #f3edfc;
+  --od-readable-border: rgba(124, 58, 237, .20);
+}
+
+html body.od-theme-dark.od-theme-dark {
+  --od-readable-heading: #f7f3fc;
+  --od-readable-text: #e7ddfb;
+  --od-readable-muted: #cfc3ee;
+  --od-readable-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
+  --od-readable-soft: rgba(167, 139, 250, .13);
+  --od-readable-border: rgba(196, 181, 253, .28);
+}
+
+html body:not(.od-theme-dark) :is(
+  .legal-page,
+  .legal-card,
+  .legal-content-card,
+  .legal-info-card,
+  .legal-alert,
+  .legal-danger-card,
+  .legal-confirm-dialog
+) {
+  color: var(--od-readable-text) !important;
+}
+
+html body.od-theme-dark :is(.legal-page) {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .16), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(124, 58, 237, .10), transparent 30%),
+    linear-gradient(180deg, #0c0717 0%, #120a22 100%) !important;
+  color: var(--od-readable-text) !important;
+}
+
+html body :is(.legal-card, .legal-content-card) {
+  border-color: var(--od-readable-border) !important;
+}
+
+html body.od-theme-dark :is(
+  .legal-card,
+  .legal-content-card,
+  .legal-info-card,
+  .legal-alert,
+  .legal-danger-card,
+  .legal-confirm-dialog
+) {
+  background: var(--od-readable-surface) !important;
+  border-color: var(--od-readable-border) !important;
+  color: var(--od-readable-text) !important;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, .34) !important;
+}
+
+html body:not(.od-theme-dark) :is(
+  .legal-title,
+  .legal-content-card h1,
+  .legal-content-card h2,
+  .legal-content-card h3,
+  .legal-content-card strong,
+  .legal-brand-title
+) {
+  color: var(--od-readable-heading) !important;
+  -webkit-text-fill-color: var(--od-readable-heading) !important;
+}
+
+html body.od-theme-dark :is(
+  .legal-title,
+  .legal-content-card h1,
+  .legal-content-card h2,
+  .legal-content-card h3,
+  .legal-content-card strong,
+  .legal-brand-title,
+  .legal-confirm-dialog h2
+) {
+  color: var(--od-readable-heading) !important;
+  -webkit-text-fill-color: var(--od-readable-heading) !important;
+}
+
+html body :is(
+  .legal-intro,
+  .legal-content-card p,
+  .legal-content-card li,
+  .legal-content-card label,
+  .legal-content-card span,
+  .legal-brand-sub,
+  .legal-footer,
+  .legal-confirm-dialog p
+) {
+  color: var(--od-readable-muted) !important;
+  -webkit-text-fill-color: var(--od-readable-muted) !important;
+  opacity: 1 !important;
+}
+
+html body :is(.legal-eyebrow) {
+  color: #7c3aed !important;
+  -webkit-text-fill-color: #7c3aed !important;
+}
+
+html body.od-theme-dark :is(.legal-eyebrow) {
+  color: #d9c7ff !important;
+  -webkit-text-fill-color: #d9c7ff !important;
+}
+
+html body :is(.legal-nav-link, .legal-footer-link, .legal-floating-link) {
+  color: var(--od-readable-heading) !important;
+  -webkit-text-fill-color: var(--od-readable-heading) !important;
+  background: var(--od-readable-soft) !important;
+  border-color: var(--od-readable-border) !important;
+}
+
+html body.od-theme-dark :is(.legal-nav-link, .legal-footer-link, .legal-floating-link) {
+  color: #efe9ff !important;
+  -webkit-text-fill-color: #efe9ff !important;
+  background: rgba(241, 236, 251, .10) !important;
+}
+
+html body :is(.legal-content-card input, .legal-content-card textarea, .legal-content-card select) {
+  background: var(--field-bg) !important;
+  color: var(--field-text) !important;
+  -webkit-text-fill-color: var(--field-text) !important;
+  border-color: var(--field-border) !important;
+}
+
+html body.od-theme-dark :is(.legal-info-card) {
+  background: rgba(124, 58, 237, .18) !important;
+}
+
+html body.od-theme-dark :is(.legal-danger-card, .legal-alert--error) {
+  background: rgba(248, 113, 113, .16) !important;
+  border-color: rgba(251, 113, 133, .34) !important;
+}
+
+html body.od-theme-dark :is(.legal-alert--success) {
+  background: rgba(16, 185, 129, .15) !important;
+  border-color: rgba(52, 211, 179, .34) !important;
+}
+
+html body.od-theme-dark :is(.legal-danger-card, .legal-alert--error) :is(strong, span, p, label) {
+  color: #fda4af !important;
+  -webkit-text-fill-color: #fda4af !important;
+}
+
+html body.od-theme-dark :is(.legal-alert--success) {
+  color: #7ff0d4 !important;
+  -webkit-text-fill-color: #7ff0d4 !important;
+}
