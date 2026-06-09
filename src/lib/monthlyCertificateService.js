@@ -102,7 +102,7 @@ function makeLocalRecord(milestone, { userName, completedDays, totalDays }) {
     status: unlocked ? "issued" : "locked",
     issued_at: unlocked ? new Date().toISOString() : null,
     public_note: unlocked
-      ? "تم فتح الشهادة محليًا، وسيتم توثيقها بعد الاتصال بقاعدة البيانات."
+      ? "تم فتح الشهادة محلياً، وتصبح موثقة بعد إصدارها من قاعدة البيانات."
       : "لم يكتمل هذا الشهر بعد."
   };
 }
@@ -125,8 +125,8 @@ export async function getOrCreateMonthlyCertificates({
   completedDays = 0,
   totalDays = 180
 } = {}) {
-  const safeCompleted = Math.max(0, Math.min(safeNumber(totalDays, 180), safeNumber(completedDays)));
   const safeTotal = safeNumber(totalDays, 180);
+  const safeCompleted = Math.max(0, Math.min(safeTotal, safeNumber(completedDays)));
   const learnerName = String(userName || "").trim() || "متدرب";
 
   const localRecords = MONTHLY_MILESTONES.map((milestone) =>
@@ -137,15 +137,10 @@ export async function getOrCreateMonthlyCertificates({
     })
   );
 
-  if (!isSupabaseConfigured || !supabase) {
-    return localRecords;
-  }
+  if (!isSupabaseConfigured || !supabase) return localRecords;
 
   const user = await getCurrentUser();
-
-  if (!user?.id) {
-    return localRecords;
-  }
+  if (!user?.id) return localRecords;
 
   const { data: existingRows, error: readError } = await supabase
     .from("monthly_certificates")
@@ -158,54 +153,20 @@ export async function getOrCreateMonthlyCertificates({
     return localRecords;
   }
 
-  const existingByMonth = new Map(
-    (existingRows || []).map((row) => [Number(row.month_number), row])
-  );
-
-  const unlockedMilestones = MONTHLY_MILESTONES.filter((milestone) =>
-    isMonthlyMilestoneUnlocked(milestone, safeCompleted)
-  );
-
-  const payloads = unlockedMilestones.map((milestone) => {
-    const existing = existingByMonth.get(milestone.monthNumber);
-    const fallbackCode =
-      existing?.certificate_code ||
-      createLocalMonthlyCertificateCode({
-        userName: learnerName,
-        monthNumber: milestone.monthNumber
-      });
-    const fallbackSlug = existing?.verification_slug || slugify(fallbackCode);
-
-    return {
-      user_id: user.id,
-      certificate_name: learnerName || user.email || "متدرب",
-      month_number: milestone.monthNumber,
-      month_title: milestone.title,
-      month_subtitle: milestone.subtitle,
-      required_days: milestone.requiredDays,
-      completed_days: safeCompleted,
-      total_days: safeTotal,
-      certificate_code: fallbackCode,
-      verification_slug: fallbackSlug,
-      verification_enabled: true,
-      status: "issued",
-      issued_at: existing?.issued_at || new Date().toISOString(),
-      public_note: `تم إصدار ${milestone.title} بعد إكمال ${milestone.requiredDays} يومًا من الرحلة.`
-    };
-  });
-
   let savedRows = existingRows || [];
 
-  if (payloads.length) {
-    const { data: upserted, error: upsertError } = await supabase
-      .from("monthly_certificates")
-      .upsert(payloads, { onConflict: "user_id,month_number" })
-      .select("*");
+  if (safeCompleted >= 30) {
+    const { data: issuedRows, error: issueError } = await supabase.rpc(
+      "issue_monthly_certificates",
+      {
+        certificate_name_input: learnerName || user.email || "متدرب"
+      }
+    );
 
-    if (upsertError) {
-      console.warn("تعذر حفظ الشهادات الشهرية:", upsertError.message);
+    if (issueError) {
+      console.warn("تعذر إصدار الشهادات الشهرية عبر RPC:", issueError.message);
     } else {
-      savedRows = upserted || savedRows;
+      savedRows = Array.isArray(issuedRows) ? issuedRows : savedRows;
     }
   }
 

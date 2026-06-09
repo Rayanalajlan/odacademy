@@ -232,11 +232,13 @@ export async function onRequestPost({ request, env }) {
   });
 
   if (!result.ok) {
+    console.warn("Mentor provider failed:", result.status, result.error);
+
     return jsonResponse(
       {
         ok: false,
+        code: "MENTOR_PROVIDER_UNAVAILABLE",
         error: "الموجه غير متاح الآن. حاول بعد قليل.",
-        details: result.error
       },
       result.status || 502,
       request,

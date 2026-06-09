@@ -60,6 +60,18 @@ async function getCurrentUser() {
   return data?.user || null;
 }
 
+function makeLocalRecord({ fallbackCode, fallbackSlug, isUnlocked, safeCompleted, totalDays, userName }) {
+  return {
+    certificate_code: fallbackCode,
+    verification_slug: fallbackSlug,
+    verification_enabled: false,
+    status: isUnlocked ? "issued" : "locked",
+    completed_days: safeCompleted,
+    total_days: totalDays,
+    certificate_name: userName || "متدرب"
+  };
+}
+
 export async function getOrCreateMasteryCertificate({
   userName = "",
   completedDays = 0,
@@ -72,30 +84,19 @@ export async function getOrCreateMasteryCertificate({
     completedDays: safeCompleted
   });
   const fallbackSlug = slugify(fallbackCode);
+  const localRecord = makeLocalRecord({
+    fallbackCode,
+    fallbackSlug,
+    isUnlocked,
+    safeCompleted,
+    totalDays,
+    userName
+  });
 
-  if (!isSupabaseConfigured || !supabase) {
-    return {
-      certificate_code: fallbackCode,
-      verification_slug: fallbackSlug,
-      verification_enabled: false,
-      status: isUnlocked ? "issued" : "locked",
-      completed_days: safeCompleted,
-      total_days: totalDays
-    };
-  }
+  if (!isSupabaseConfigured || !supabase) return localRecord;
 
   const user = await getCurrentUser();
-
-  if (!user?.id) {
-    return {
-      certificate_code: fallbackCode,
-      verification_slug: fallbackSlug,
-      verification_enabled: false,
-      status: isUnlocked ? "issued" : "locked",
-      completed_days: safeCompleted,
-      total_days: totalDays
-    };
-  }
+  if (!user?.id) return localRecord;
 
   const { data: existing, error: readError } = await supabase
     .from("mastery_certificates")
@@ -107,56 +108,22 @@ export async function getOrCreateMasteryCertificate({
     console.warn("تعذر قراءة وثيقة الإتقان:", readError.message);
   }
 
-  const issuedAt = existing?.issued_at || (isUnlocked ? new Date().toISOString() : null);
-  const certificateCode = existing?.certificate_code || fallbackCode;
-  const verificationSlug = existing?.verification_slug || slugify(certificateCode);
+  if (isUnlocked) {
+    const { data: issuedCertificate, error: issueError } = await supabase.rpc(
+      "issue_mastery_certificate",
+      {
+        certificate_name_input: userName || existing?.certificate_name || user.email || "متدرب"
+      }
+    );
 
-  const payload = {
-    user_id: user.id,
-    certificate_name: userName || existing?.certificate_name || user.email || "متدرب",
-    completed_days: safeCompleted,
-    total_days: totalDays,
-    status: isUnlocked ? "issued" : "locked",
-    issued_at: issuedAt,
-    certificate_code: certificateCode,
-    verification_slug: verificationSlug,
-    verification_enabled: Boolean(isUnlocked),
-    public_note: isUnlocked
-      ? "تم إصدار الوثيقة بعد إكمال رحلة التطوير التنظيمي."
-      : "لم تكتمل الرحلة بعد."
-  };
-
-  if (existing?.id) {
-    const { data, error } = await supabase
-      .from("mastery_certificates")
-      .update(payload)
-      .eq("id", existing.id)
-      .select("*")
-      .single();
-
-    if (error) {
-      console.warn("تعذر تحديث وثيقة الإتقان:", error.message);
-      return { ...existing, ...payload };
+    if (issueError) {
+      console.warn("تعذر إصدار وثيقة الإتقان عبر RPC:", issueError.message);
+    } else if (issuedCertificate) {
+      return issuedCertificate;
     }
-
-    return data;
   }
 
-  const { data, error } = await supabase
-    .from("mastery_certificates")
-    .insert(payload)
-    .select("*")
-    .single();
-
-  if (error) {
-    console.warn("تعذر إنشاء وثيقة الإتقان:", error.message);
-    return {
-      ...payload,
-      id: null
-    };
-  }
-
-  return data;
+  return existing || localRecord;
 }
 
 export async function verifyCertificatePublic(slugOrCode) {

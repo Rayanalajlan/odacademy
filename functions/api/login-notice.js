@@ -368,11 +368,9 @@ export async function onRequestGet({ request, env }) {
     {
       ok: missing.length === 0,
       service: "odacademy-login-notice",
-      envReady: missing.length === 0,
-      provider: brevoApiKey ? "brevo" : resendApiKey ? "resend" : "none",
-      missing
+      envReady: missing.length === 0
     },
-    missing.length === 0 ? 200 : 500,
+    missing.length === 0 ? 200 : 503,
     request,
     env
   );
@@ -543,11 +541,13 @@ export async function onRequestPost({ request, env }) {
         });
 
     if (!emailResult.ok) {
+      console.warn("Login notice email provider failed:", emailResult.status, emailResult.provider, emailResult.details);
+
       return jsonResponse(
         {
           ok: false,
-          error: "Email provider failed",
-          details: emailResult.details
+          code: "EMAIL_PROVIDER_FAILED",
+          error: "Email provider failed"
         },
         502,
         request,
@@ -566,10 +566,13 @@ export async function onRequestPost({ request, env }) {
       env
     );
   } catch (error) {
+    console.warn("Login notice function failed:", error);
+
     return jsonResponse(
       {
         ok: false,
-        error: error?.message || "Unexpected error"
+        code: "UNEXPECTED_ERROR",
+        error: "Unexpected error"
       },
       500,
       request,

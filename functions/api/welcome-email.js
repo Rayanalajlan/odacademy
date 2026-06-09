@@ -357,11 +357,9 @@ export async function onRequestGet({ request, env }) {
     {
       ok: missing.length === 0,
       service: "odacademy-welcome-email",
-      envReady: missing.length === 0,
-      provider: config.brevoApiKey ? "brevo" : config.resendApiKey ? "resend" : "none",
-      missing
+      envReady: missing.length === 0
     },
-    missing.length === 0 ? 200 : 500,
+    missing.length === 0 ? 200 : 503,
     request,
     env
   );
@@ -435,6 +433,8 @@ export async function onRequestPost({ request, env }) {
   });
 
   if (!emailResult.ok) {
+    console.warn("Welcome email provider failed:", emailResult.status, emailResult.provider, emailResult.details);
+
     await updateUserProfile({
       supabaseUrl: config.supabaseUrl,
       supabaseAnonKey: config.supabaseAnonKey,
@@ -450,9 +450,8 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse(
       {
         ok: false,
+        code: "EMAIL_PROVIDER_FAILED",
         error: "تعذر إرسال إيميل الترحيب.",
-        provider: emailResult.provider,
-        details: emailResult.details
       },
       emailResult.status || 502,
       request,

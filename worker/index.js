@@ -12,6 +12,17 @@ const DEFAULT_ALLOWED_ORIGINS = [
   "http://127.0.0.1:5173"
 ];
 
+const MAX_MENTOR_REQUEST_BYTES = 32 * 1024;
+const MAX_EMAIL_REQUEST_BYTES = 4 * 1024;
+
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+  "Cross-Origin-Opener-Policy": "same-origin"
+};
+
 const MEMORY_RATE_LIMIT = new Map();
 
 const MENTOR_SYSTEM_INSTRUCTION = `
@@ -117,13 +128,13 @@ function getCorsOrigin(request, env) {
 
 function corsHeaders(request, env, extraHeaders = {}) {
   return {
+    ...SECURITY_HEADERS,
     "Access-Control-Allow-Origin": getCorsOrigin(request, env),
     "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400",
-    "X-Content-Type-Options": "nosniff",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Cache-Control": "no-store",
     ...extraHeaders
   };
 }
@@ -163,6 +174,121 @@ async function safeJson(responseOrRequest) {
   } catch {
     return null;
   }
+}
+
+async function readLimitedJsonRequest(request, maxBytes) {
+  const contentLength = Number(request.headers.get("Content-Length") || "0");
+
+  if (Number.isFinite(contentLength) && contentLength > maxBytes) {
+    return {
+      ok: false,
+      status: 413,
+      code: "REQUEST_TOO_LARGE",
+      error: "Request body is too large."
+    };
+  }
+
+  const contentType = request.headers.get("Content-Type") || "";
+  if (contentType && !contentType.toLowerCase().includes("application/json")) {
+    return {
+      ok: false,
+      status: 415,
+      code: "UNSUPPORTED_MEDIA_TYPE",
+      error: "Content-Type must be application/json."
+    };
+  }
+
+  let raw = "";
+
+  try {
+    raw = await request.text();
+  } catch {
+    return {
+      ok: false,
+      status: 400,
+      code: "INVALID_BODY",
+      error: "Request body could not be read."
+    };
+  }
+
+  if (new TextEncoder().encode(raw).length > maxBytes) {
+    return {
+      ok: false,
+      status: 413,
+      code: "REQUEST_TOO_LARGE",
+      error: "Request body is too large."
+    };
+  }
+
+  if (!raw.trim()) return { ok: true, data: {} };
+
+  try {
+    return { ok: true, data: JSON.parse(raw) };
+  } catch {
+    return {
+      ok: false,
+      status: 400,
+      code: "INVALID_JSON",
+      error: "Request body must be valid JSON."
+    };
+  }
+}
+
+function buildContentSecurityPolicy(env) {
+  const configuredSiteOrigin = normalizeOrigin(
+    getEnvValue(env, "SITE_URL", "PUBLIC_SITE_URL", "VITE_SITE_URL")
+  );
+  const configuredSupabaseOrigin = normalizeOrigin(
+    getEnvValue(env, "SUPABASE_URL", "VITE_SUPABASE_URL")
+  );
+  const connectOrigins = Array.from(
+    new Set([
+      "'self'",
+      configuredSiteOrigin,
+      configuredSupabaseOrigin,
+      "https://*.supabase.co"
+    ].filter(Boolean))
+  ).join(" ");
+
+  return [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob: https:",
+    `connect-src ${connectOrigins}`,
+    "form-action 'self'",
+    "upgrade-insecure-requests"
+  ].join("; ");
+}
+
+async function assetResponse(request, env) {
+  const response = await env.ASSETS.fetch(request);
+  const headers = new Headers(response.headers);
+  const url = new URL(request.url);
+
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    headers.set(name, value);
+  }
+
+  if (url.protocol === "https:") {
+    headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  }
+
+  const contentType = headers.get("Content-Type") || "";
+  if (contentType.includes("text/html")) {
+    headers.set("Content-Security-Policy", buildContentSecurityPolicy(env));
+    headers.set("Cache-Control", "no-store");
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
 }
 
 async function sha256Hex(value) {
@@ -535,7 +661,21 @@ async function handleMentorRequest(request, env) {
 
   if (!rate.allowed) return rateLimitResponse(request, env, rate);
 
-  const body = (await safeJson(request)) || {};
+  const parsedBody = await readLimitedJsonRequest(request, MAX_MENTOR_REQUEST_BYTES);
+  if (!parsedBody.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        code: parsedBody.code,
+        error: parsedBody.error
+      },
+      parsedBody.status,
+      request,
+      env
+    );
+  }
+
+  const body = parsedBody.data || {};
   const latestMessage = cleanUserMessage(body.message || body.prompt || body.text || "");
 
   if (!latestMessage) {
@@ -560,11 +700,13 @@ async function handleMentorRequest(request, env) {
   }
 
   if (!result.ok) {
+    console.warn("Mentor provider failed:", result.error || result.errors);
+
     return jsonResponse(
       {
         ok: false,
-        error: "الموجه غير متاح الآن. فيه ضغط على المختبر الذكي، جرّب بعد قليل.",
-        details: result.error || result.errors
+        code: "MENTOR_PROVIDER_UNAVAILABLE",
+        error: "الموجه غير متاح الآن. فيه ضغط على المختبر الذكي، جرّب بعد قليل."
       },
       503,
       request,
@@ -958,11 +1100,13 @@ async function handleLoginNoticeRequest(request, env) {
   });
 
   if (!sendResult.ok) {
+    console.warn("Login notice email provider failed:", sendResult.status, sendResult.details);
+
     return jsonResponse(
       {
         ok: false,
-        error: "تعذر إرسال تنبيه الدخول.",
-        details: sendResult.details
+        code: "EMAIL_PROVIDER_FAILED",
+        error: "تعذر إرسال تنبيه الدخول."
       },
       502,
       request,
@@ -978,24 +1122,23 @@ async function handleWelcomeEmailRequest(request, env) {
 
   if (request.method === "GET") {
     const config = getRequiredEmailEnv(env);
-    const missing = [];
-
-    if (!config.supabaseUrl) missing.push("SUPABASE_URL أو VITE_SUPABASE_URL");
-    if (!config.supabaseAnonKey) missing.push("SUPABASE_ANON_KEY أو VITE_SUPABASE_ANON_KEY");
-    if (!config.brevoApiKey) missing.push("BREVO_API_KEY");
-    if (!config.senderEmail) missing.push("BREVO_SENDER_EMAIL");
+    const envReady = Boolean(
+      config.supabaseUrl &&
+        config.supabaseAnonKey &&
+        config.brevoApiKey &&
+        config.senderEmail
+    );
 
     return jsonResponse(
       {
-        ok: missing.length === 0,
+        ok: envReady,
         service: "odacademy-welcome-email",
-        message: missing.length === 0
+        message: envReady
           ? "خدمة إيميل الترحيب متصلة وجاهزة."
           : "خدمة إيميل الترحيب متصلة لكن الإعدادات ناقصة.",
-        envReady: missing.length === 0,
-        missing
+        envReady
       },
-      missing.length === 0 ? 200 : 500,
+      envReady ? 200 : 503,
       request,
       env
     );
@@ -1029,7 +1172,21 @@ async function handleWelcomeEmailRequest(request, env) {
   const userResult = await getSupabaseUser({ supabaseUrl, supabaseAnonKey, accessToken });
   if (!userResult.ok) return jsonResponse({ ok: false, error: userResult.error }, userResult.status || 401, request, env);
 
-  const body = (await safeJson(request)) || {};
+  const parsedBody = await readLimitedJsonRequest(request, MAX_EMAIL_REQUEST_BYTES);
+  if (!parsedBody.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        code: parsedBody.code,
+        error: parsedBody.error
+      },
+      parsedBody.status,
+      request,
+      env
+    );
+  }
+
+  const body = parsedBody.data || {};
   const force = body.force === true;
 
   const profileResult = await safeFetchUserProfile({
@@ -1071,6 +1228,8 @@ async function handleWelcomeEmailRequest(request, env) {
   });
 
   if (!sendResult.ok) {
+    console.warn("Welcome email provider failed:", sendResult.status, sendResult.details);
+
     await safeUpdateUserProfile({
       supabaseUrl,
       supabaseAnonKey,
@@ -1086,8 +1245,8 @@ async function handleWelcomeEmailRequest(request, env) {
     return jsonResponse(
       {
         ok: false,
-        error: "تعذر إرسال إيميل الترحيب.",
-        details: sendResult.details
+        code: "EMAIL_PROVIDER_FAILED",
+        error: "تعذر إرسال إيميل الترحيب."
       },
       502,
       request,
@@ -1116,12 +1275,12 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname.replace(/\/+$/, "") || "/";
 
-    if (request.method === "OPTIONS" && pathname.startsWith("/api/")) {
-      return emptyResponse(request, env);
-    }
-
     if (pathname.startsWith("/api/") && !isAllowedRequestOrigin(request, env)) {
       return forbiddenOriginResponse(request, env);
+    }
+
+    if (request.method === "OPTIONS" && pathname.startsWith("/api/")) {
+      return emptyResponse(request, env);
     }
 
     if (pathname === "/api/mentor") {
@@ -1136,6 +1295,6 @@ export default {
       return handleWelcomeEmailRequest(request, env);
     }
 
-    return env.ASSETS.fetch(request);
+    return assetResponse(request, env);
   }
 };
