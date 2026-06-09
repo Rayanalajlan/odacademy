@@ -125,7 +125,7 @@ const ARCHETYPES = [
   { id: "culture-climate-change", name: "الثقافة والمناخ والتغيير", color: "#7c3aed", lens: "الثقافة التنظيمية والمناخ النفسي وتبنّي التغيير", description: "مشكلات ثقافة اللوم، ضعف الثقة، مقاومة التغيير، الصمت التنظيمي، وبيئات العمل غير الصحية.", examples: "رفض صامت لمبادرة جديدة، خوف من رفع الأخبار السيئة، انتشار اللوم، أو بيئة تجعل الناس يخفون الحقيقة.", centerLabel: "دورة المقاومة", goodFrame: "إعادة صياغة الظاهرة كمنظومة ثقافية وسلوكية: كيف تُكافأ الطاعة الصامتة؟ وكيف تُعاقب الصراحة؟ وما الذي يجعل التغيير يبدو تهديدًا؟", bestHypothesis: "المشكلة نتاج ثقافة ومناخ يعززان الحذر والامتثال الشكلي، ويجعلان التغيير يُستقبل كتهديد لا كفرصة تعلم.", bestData: "مقابلات آمنة، تحليل لحظات الحقيقة، مراجعة رسائل القيادة، قياس المناخ والثقة، وملاحظة استجابة القادة للاعتراض والأخبار الصعبة.", bestIntervention: "تدخل ثقافي سلوكي يغيّر استجابات القيادة، ويؤسس ممارسات أمان نفسي، ويعالج تبني التغيير عبر تجارب صغيرة وحوار منظم.", bestMetric: "ارتفاع الإبلاغ المبكر، وتحسن مناخ الثقة، وانخفاض مقاومة التغيير الصامتة، واستمرار السلوك الجديد بعد فترة المتابعة.", bestEthic: "حماية سرية المشاركين وعدم كشف رواياتهم الفردية، وتجنّب استخدام نتائج المناخ لمعاقبة المعترضين." },
   { id: "leadership-teams", name: "القيادة والفرق", color: "#dc2626", lens: "فاعلية القيادة والتعاون والأمان النفسي داخل الفرق", description: "مشكلات الصراع بين القادة، تفكك الفرق، ضعف التعاون، غياب المساءلة، وانخفاض السلامة النفسية.", examples: "خلافات مزمنة بين مديرين، فريق غير منسجم، غياب المساءلة المشتركة، أو قرارات تُتخذ خارج الفريق ثم تُفرض عليه.", centerLabel: "انقسام القيادة", goodFrame: "إعادة صياغة المشكلة بوصفها فجوة في قيادة الفريق والعلاقات بين القادة: كيف تتوزع السلطة؟ وكيف تُدار الخلافات؟ وما الرسائل السلوكية التي يتلقاها الفريق؟", bestHypothesis: "الأعراض الظاهرة تخفي خللًا في نمط القيادة والتنسيق والمساءلة، ما يولّد صراعًا متكررًا وضعف تعاون وسلامة نفسية هشة.", bestData: "مقابلات مع القادة والأعضاء، ملاحظة اجتماعات الفريق، تحليل مسارات التصعيد، وقياس الثقة والتعاون والمساءلة.", bestIntervention: "تدخل يجمع بين مواءمة القيادة، واتفاقات فريق واضحة، وآليات مساءلة وتغذية راجعة، مع دعم سلوكي للقادة في المواقف الحرجة.", bestMetric: "تحسن التعاون بين القادة، وانخفاض التصعيدات الشخصية، وارتفاع وضوح المساءلة وجودة العمل الجماعي.", bestEthic: "تقديم تغذية راجعة تحفظ الكرامة ولا تحول التشخيص إلى إحراج علني أو تصفية حسابات." },
   { id: "talent-capabilities", name: "المواهب والقدرات", color: "#2563eb", lens: "الأداء والتعلم والتعاقب وفجوات المهارات", description: "مشكلات تقييم الأداء، التغذية الراجعة، التعاقب الوظيفي، فجوات المهارات، وضعف أثر التعلم.", examples: "نظام أداء شكلي، تغذية راجعة متأخرة، تعلم بلا أثر ظاهر، ضعف جاهزية البدلاء، أو فجوات مهارية تتكرر دون معالجة.", centerLabel: "فجوة القدرة", goodFrame: "إعادة صياغة المشكلة كفجوة بين ما تتطلبه الأدوار وما يبنيه النظام من أداء وتعلم وقدرات، لا كضعف شخصي مجرد.", bestHypothesis: "الخلل الأساسي هو أن أنظمة الأداء والتعلم وبناء القدرات تعمل شكليًا ولا تغذي السلوك أو الجاهزية أو جودة القرارات داخل العمل.", bestData: "عينة من محادثات الأداء، مراجعة خطط التعلم، تحليل فجوات المهارات، مقابلات مع المديرين والموظفين، وبيانات التعاقب والجاهزية.", bestIntervention: "إعادة تصميم حوارات الأداء والتغذية الراجعة، وربط التعلم بسياق العمل، وتقوية خطط الجاهزية والتعاقب حول القدرات الحرجة.", bestMetric: "تحسن جودة محادثات الأداء، وانخفاض فجوات المهارات الحرجة، وارتفاع جاهزية المواهب، وظهور أثر للتعلم في السلوك والعمل.", bestEthic: "عدم استخدام بيانات الأداء أو التقييمات الجديدة لمحاسبة غير عادلة قبل تأهيل المديرين وضبط معايير العدالة." },
-  { id: "strategy-transformation", name: "الاستراتيجية والتحول", color: "#ea580c", lens: "المواءمة الاستراتيجية والتحولات الكبرى", description: "مشكلات تشتت المبادرات، ضعف المواءمة، التحولات الكبرى، الاندماج والاستحواذ، وفقدان التركيز الاستراتيجي.", examples: "مبادرات كثيرة بلا ترابط، تحول رقمي متعثر، اندماج يفتقد المواءمة، أو استراتيجية معلنة لا تظهر في التشغيل اليومي.", centerLabel: "فجوة المواءمة", goodFrame: "إعادة صياغة الظاهرة كفجوة بين التوجه الاستراتيجي ونموذج التشغيل والحوكمة والأولويات اليومية، لا كضعف تنفيذ معزول فقط.", bestHypothesis: "المشكلة الأعمق هي غياب المواءمة بين الاستراتيجية والمبادرات ونموذج التشغيل، ما يبدد الجهد ويشتت الانتباه ويضعف الأثر.", bestData: "تحليل المحفظة الحالية للمبادرات، مراجعة أولويات القيادة، مقابلات حول التوجه الاستراتيجي، وتتبع كيف تُترجم القرارات الاستراتيجية في العمل اليومي.", bestIntervention: "إعادة مواءمة المبادرات والحوكمة والأدوار مع التوجه الاستراتيجي، وتحديد أولويات واضحة ومسار تحول متدرج قابل للمتابعة.", bestMetric: "ارتفاع وضوح الأولويات، وانخفاض تشتت المبادرات، وتحسن الارتباط بين القرارات اليومية والأهداف الاستراتيجية.", bestEthic: "عدم تجميل نتائج التحول لإرضاء القيادة، والتمييز بين الإنجاز الشكلي والقيمة الفعلية المتحققة." }
+  { id: "strategy-transformation", name: "الاستراتيجية والتحول", color: "#7c3aed", lens: "المواءمة الاستراتيجية والتحولات الكبرى", description: "مشكلات تشتت المبادرات، ضعف المواءمة، التحولات الكبرى، الاندماج والاستحواذ، وفقدان التركيز الاستراتيجي.", examples: "مبادرات كثيرة بلا ترابط، تحول رقمي متعثر، اندماج يفتقد المواءمة، أو استراتيجية معلنة لا تظهر في التشغيل اليومي.", centerLabel: "فجوة المواءمة", goodFrame: "إعادة صياغة الظاهرة كفجوة بين التوجه الاستراتيجي ونموذج التشغيل والحوكمة والأولويات اليومية، لا كضعف تنفيذ معزول فقط.", bestHypothesis: "المشكلة الأعمق هي غياب المواءمة بين الاستراتيجية والمبادرات ونموذج التشغيل، ما يبدد الجهد ويشتت الانتباه ويضعف الأثر.", bestData: "تحليل المحفظة الحالية للمبادرات، مراجعة أولويات القيادة، مقابلات حول التوجه الاستراتيجي، وتتبع كيف تُترجم القرارات الاستراتيجية في العمل اليومي.", bestIntervention: "إعادة مواءمة المبادرات والحوكمة والأدوار مع التوجه الاستراتيجي، وتحديد أولويات واضحة ومسار تحول متدرج قابل للمتابعة.", bestMetric: "ارتفاع وضوح الأولويات، وانخفاض تشتت المبادرات، وتحسن الارتباط بين القرارات اليومية والأهداف الاستراتيجية.", bestEthic: "عدم تجميل نتائج التحول لإرضاء القيادة، والتمييز بين الإنجاز الشكلي والقيمة الفعلية المتحققة." }
 ];
 
 const INDUSTRIES = [
@@ -713,7 +713,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     .slide.dark {
       color: white;
       background:
-        radial-gradient(circle at 20% 15%, rgba(245,158,11,.28), transparent 34%),
+        radial-gradient(circle at 20% 15%, rgba(139,92,246,.28), transparent 34%),
         linear-gradient(135deg, #18102e, #281748 60%, #111827);
       border: 0;
     }
@@ -727,7 +727,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
       font-weight: 900;
       margin-bottom: 18px;
     }
-    .dark .kicker { background: rgba(255,255,255,.12); color: #fde68a; }
+    .dark .kicker { background: rgba(255,255,255,.12); color: #c4b5fd; }
     h1, h2, h3 { margin: 0; font-weight: 950; line-height: 1.35; }
     h1 { font-size: 46px; max-width: 880px; }
     h2 { font-size: 34px; margin-bottom: 18px; }
@@ -769,14 +769,14 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     }
     .dark .box { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.12); }
     .box b { display: block; margin-bottom: 8px; color: #8b5cf6; font-size: 13px; }
-    .dark .box b { color: #fde68a; }
+    .dark .box b { color: #c4b5fd; }
     .box span { font-size: 15px; line-height: 1.8; font-weight: 750; }
     table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 18px; font-size: 13px; }
     th, td { padding: 12px; border-bottom: 1px solid #e0d8f5; text-align: right; vertical-align: top; line-height: 1.7; }
     th { color: #3b1d6e; background: #efe9fb; font-weight: 950; }
     tr:nth-child(even) td { background: #f4f0fb; }
     .good { color: #047857; font-weight: 950; }
-    .watch { color: #b45309; font-weight: 950; }
+    .watch { color: #7c3aed; font-weight: 950; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     ul { margin: 0; padding: 0 22px 0 0; }
     li { margin: 0 0 10px; color: #463c63; line-height: 1.8; font-weight: 700; }
@@ -1310,9 +1310,9 @@ export default function Simulation() {
           color: #18102e;
           background:
             radial-gradient(circle at 8% 10%, rgba(139, 92, 246,.18), transparent 28%),
-            radial-gradient(circle at 92% 12%, rgba(245,158,11,.16), transparent 28%),
+            radial-gradient(circle at 92% 12%, rgba(139,92,246,.16), transparent 28%),
             radial-gradient(circle at 50% 98%, rgba(16,185,129,.13), transparent 34%),
-            linear-gradient(135deg, #f4f0fb, #efe9fb 55%, #fff7ed);
+            linear-gradient(135deg, #f4f0fb, #efe9fb 55%, #f5f0ff);
           font-family: inherit;
         }
 
@@ -1330,7 +1330,7 @@ export default function Simulation() {
           background:
             radial-gradient(circle at 18% 20%, rgba(129,140,248,.30), transparent 32%),
             radial-gradient(circle at 85% 5%, rgba(16,185,129,.18), transparent 28%),
-            radial-gradient(circle at 60% 90%, rgba(245,158,11,.12), transparent 30%),
+            radial-gradient(circle at 60% 90%, rgba(139,92,246,.12), transparent 30%),
             linear-gradient(145deg, #18102e, #1e1b4b 55%, #3b1d6e);
           box-shadow: 0 30px 90px rgba(28, 17, 48,.22);
         }
@@ -1380,7 +1380,7 @@ export default function Simulation() {
         .hero h1 span {
           display: block;
           color: transparent;
-          background: linear-gradient(90deg, #fff, #c3b5e8, #fde68a);
+          background: linear-gradient(90deg, #fff, #c3b5e8, #c4b5fd);
           -webkit-background-clip: text;
           background-clip: text;
         }
@@ -1795,7 +1795,7 @@ export default function Simulation() {
 
 
         .briefing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0 18px; direction: rtl; }
-        .briefing-card { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.12), transparent 28%), radial-gradient(circle at bottom left, rgba(245,158,11,.10), transparent 30%), #ffffff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 18px 46px rgba(28, 17, 48,.06); direction: rtl; text-align: right; }
+        .briefing-card { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.12), transparent 28%), radial-gradient(circle at bottom left, rgba(139,92,246,.10), transparent 30%), #ffffff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 18px 46px rgba(28, 17, 48,.06); direction: rtl; text-align: right; }
         .briefing-card.domain-card { background: radial-gradient(circle at top right, rgba(139, 92, 246,.10), transparent 28%), radial-gradient(circle at bottom left, rgba(167, 139, 250,.14), transparent 34%), #ffffff; }
         .briefing-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; direction: rtl; text-align: right; margin-bottom: 12px; }
         .briefing-head strong { color: #18102e; font-size: 24px; font-weight: 950; }
@@ -1804,10 +1804,10 @@ export default function Simulation() {
         .briefing-focus { margin-top: 14px; padding: 14px; border-radius: 20px; background: #f4f0fb; border: 1px solid rgba(196, 181, 253,.95); }
         .briefing-focus b { display: block; color: #18102e; font-size: 13px; font-weight: 950; margin-bottom: 8px; }
         .briefing-note { margin-top: 12px; padding: 12px 14px; border-radius: 18px; background: #efe9fb; color: #3b1d6e; border: 1px solid rgba(139, 92, 246,.15); font-size: 13px; line-height: 1.95; font-weight: 850; }
-        .bento-causal { border-radius: 30px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.08), transparent 26%), radial-gradient(circle at bottom left, rgba(245,158,11,.08), transparent 24%), #f4f0fb; border: 1px solid rgba(196, 181, 253,.95); padding: 18px; overflow: hidden; }
+        .bento-causal { border-radius: 30px; background: radial-gradient(circle at top right, rgba(139, 92, 246,.08), transparent 26%), radial-gradient(circle at bottom left, rgba(139,92,246,.08), transparent 24%), #f4f0fb; border: 1px solid rgba(196, 181, 253,.95); padding: 18px; overflow: hidden; }
         .causal-meta-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
         .causal-chip { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: #efe9fb; color: #4338ca; font-size: 11px; font-weight: 950; border: 1px solid rgba(139, 92, 246,.18); }
-        .causal-meta-line b { color: #111827; font-size: 30px; font-weight: 950; }
+        .causal-meta-line b { color: #24123f; font-size: 30px; font-weight: 950; }
         .causal-tree { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; min-height: 690px; padding: 8px 0; }
         .causal-connectors { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
         .causal-connectors path { fill: none; stroke: #c7c9f8; stroke-width: 3; marker-end: url(#causalArrow); opacity: .95; }
@@ -1821,7 +1821,7 @@ export default function Simulation() {
         .node-badge.warning { background: #a855f7; } .node-badge.danger { background: #ef4444; } .node-badge.success { background: #10b981; } .node-badge.violet { background: #8b5cf6; } .node-badge.neutral { background: #7a6c9a; }
         .main-center { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, rgba(250,250,255,.98), rgba(241,245,249,.96)), #fff; border: 1px solid rgba(199,210,254,.85); box-shadow: 0 22px 60px rgba(139, 92, 246,.10); padding: 26px; }
         .center-kicker { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; background: rgba(139, 92, 246,.08); color: #4338ca; font-size: 11px; font-weight: 950; margin-bottom: 14px; }
-        .main-center h3 { margin: 0 0 12px; color: #111827; font-size: 36px; line-height: 1.22; font-weight: 950; } .main-center p { max-width: 92%; color: #5b4f78; font-size: 14px; line-height: 2.05; }
+        .main-center h3 { margin: 0 0 12px; color: #24123f; font-size: 36px; line-height: 1.22; font-weight: 950; } .main-center p { max-width: 92%; color: #5b4f78; font-size: 14px; line-height: 2.05; }
         .causal-reading-box { margin-top: 14px; border-radius: 24px; padding: 16px 18px; background: #efe9fb; border: 1px solid rgba(199,210,254,.9); } .causal-reading-box h4 { margin: 0 0 8px; color: #6d28d9; font-size: 16px; font-weight: 950; } .causal-reading-box p { margin: 0; color: #463c63; font-size: 14px; line-height: 2; font-weight: 760; }
 
         .causal-loop {
@@ -1892,8 +1892,8 @@ export default function Simulation() {
         .points-badge {
           padding: 12px 14px;
           border-radius: 18px;
-          background: rgba(253,230,138,.16);
-          color: #fde68a;
+          background: rgba(196,181,253,.16);
+          color: #c4b5fd;
           font-weight: 950;
           font-size: 12px;
           white-space: nowrap;

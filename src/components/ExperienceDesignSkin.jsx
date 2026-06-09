@@ -167,7 +167,7 @@ export default function ExperienceDesignSkin() {
         bottom: clamp(14px, 3vw, 30px);
         z-index: -1;
         color: rgba(196, 181, 253,.06);
-        font-size: clamp(42px, 7vw, 96px);
+        font-size: clamp(32px, 5.4vw, 68px);
         line-height: 1;
         font-weight: 950;
         letter-spacing: 0;
@@ -230,8 +230,9 @@ export default function ExperienceDesignSkin() {
         max-width: 760px !important;
         margin: clamp(18px, 3vw, 26px) 0 16px !important;
         color: #f1ecfb !important;
-        font-size: clamp(46px, 7.8vw, 104px) !important;
-        line-height: .98 !important;
+        font-size: clamp(32px, 4vw, 54px) !important;
+        line-height: 1.22 !important;
+        font-weight: 850 !important;
         letter-spacing: 0 !important;
         text-wrap: balance !important;
         text-shadow: none !important;
@@ -1089,8 +1090,8 @@ export default function ExperienceDesignSkin() {
         }
 
         .public-hero h1 {
-          font-size: clamp(38px, 13vw, 58px) !important;
-          line-height: 1.02 !important;
+          font-size: clamp(31px, 10vw, 48px) !important;
+          line-height: 1.18 !important;
         }
 
         .hero-points,
@@ -1135,7 +1136,7 @@ export default function ExperienceDesignSkin() {
           radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .16), transparent 30%),
           radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .13), transparent 34%),
           linear-gradient(180deg, #f7f3fc 0%, #efe9fb 45%, #f7f3fc 100%) !important;
-        color: #18102e !important;
+        color: #24123f !important;
       }
       body:not(.od-theme-dark) .public-hero {
         background:
@@ -1144,11 +1145,11 @@ export default function ExperienceDesignSkin() {
           linear-gradient(135deg, #ffffff 0%, #efe9fb 48%, #f3eefb 100%) !important;
       }
       body:not(.od-theme-dark) .public-hero::after { color: rgba(26, 16, 48, .06) !important; }
-      body:not(.od-theme-dark) .public-hero h1 { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .public-hero h1 { color: #24123f !important; }
       body:not(.od-theme-dark) .public-hero p { color: #5b4f78 !important; }
       body:not(.od-theme-dark) .public-brand-logo { background: rgba(255, 255, 255, .72) !important; }
       body:not(.od-theme-dark) .hero-point { background: rgba(255, 255, 255, .72) !important; }
-      body:not(.od-theme-dark) .hero-point strong { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .hero-point strong { color: #24123f !important; }
       body:not(.od-theme-dark) .hero-point span { color: #5b4f78 !important; }
       body:not(.od-theme-dark) .public-badge {
         color: #5b21b6 !important;
@@ -1355,7 +1356,7 @@ export default function ExperienceDesignSkin() {
       }
 
       /* 4) Eyebrows / kickers -> theme-aware pill + label.
-            Fixes the light-mode disappearance (gold / lilac text on light bg). */
+            Fixes the light-mode disappearance (purple / lilac text on light bg). */
       html body.od-theme-dark.od-theme-dark
         :is(.od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
         color: #ece4ff !important;
@@ -1430,7 +1431,7 @@ export default function ExperienceDesignSkin() {
          في الوضعين، ومصفوفة كاملة لأزرار الأقسام العلوية، وأشرطة تقدّم واضحة.
       ============================================================ */
 
-      /* 0) نظام المتغيّرات الموحّد (هوية بنفسجية/ذهبية، فاتح + داكن) */
+      /* 0) نظام المتغيّرات الموحّد (هوية بنفسجية موحّدة، فاتح + داكن) */
       :root,
       html[data-theme="light"],
       html body.od-theme-light {
@@ -1449,10 +1450,10 @@ export default function ExperienceDesignSkin() {
         --accent: #7c3aed;
         --accent-hover: #6d28d9;
         --accent-contrast: #ffffff;
-        --gold: #9a6a12;
-        --gold-soft: rgba(154, 106, 18, .14);
+        --gold: #6d28d9;
+        --gold-soft: rgba(124, 58, 237, .14);
         --success: #1b9c83;
-        --warning: #9a6a12;
+        --warning: #6d28d9;
         --danger: #dc2654;
         --metric-bg: #1c1130;
         --metric-text: #f4f0fb;
@@ -1477,10 +1478,10 @@ export default function ExperienceDesignSkin() {
         --accent: #a855f7;
         --accent-hover: #bb8ff6;
         --accent-contrast: #10081f;
-        --gold: #e7c873;
-        --gold-soft: rgba(231, 200, 115, .16);
+        --gold: #c4b5fd;
+        --gold-soft: rgba(167, 139, 250, .16);
         --success: #34d3b3;
-        --warning: #e7c873;
+        --warning: #c4b5fd;
         --danger: #fb7185;
         --metric-bg: rgba(20, 12, 36, .96);
         --metric-text: #f4f0fb;
@@ -1619,7 +1620,7 @@ export default function ExperienceDesignSkin() {
         --odx-dark-heading: #f7f3fc;
         --odx-dark-text: #e6def8;
         --odx-dark-muted: #cfc3ee;
-        --odx-gold: #f6db8e;
+        --odx-gold: #c4b5fd;
         --odx-purple: #7c3aed;
         --odx-purple-2: #a855f7;
         --odx-light-card: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
@@ -1634,7 +1635,7 @@ export default function ExperienceDesignSkin() {
         --odx-dark-heading: #f7f3fc;
         --odx-dark-text: #e6def8;
         --odx-dark-muted: #cfc3ee;
-        --odx-gold: #f6db8e;
+        --odx-gold: #c4b5fd;
         --odx-purple: #a855f7;
         --odx-purple-2: #c084fc;
         --odx-light-card: rgba(28, 17, 48, .94);
@@ -1869,7 +1870,7 @@ export default function ExperienceDesignSkin() {
       html body :is(.public-hero h1, .od-hero h1, .portfolio-hero h1, .radar-assessment-page .section-hero h2,
         .mastery-hero h1, .ar-title, .roi-hero h1, .jl-title, .sim-root .hero h1,
         .command-hero h1, .journey-hero h1) {
-        font-size: clamp(2rem, 5vw, 4rem) !important;
+        font-size: clamp(2rem, 4.2vw, 3.45rem) !important;
         line-height: 1.15 !important;
         letter-spacing: 0 !important;
         overflow: visible !important;
@@ -1889,7 +1890,7 @@ export default function ExperienceDesignSkin() {
           .radar-assessment-page .section-hero h2, .mastery-hero h1, .ar-title,
           .roi-hero h1, .jl-title, .sim-root .hero h1, .command-hero h1,
           .journey-hero h1) {
-          font-size: clamp(1.85rem, 10vw, 3rem) !important;
+          font-size: clamp(1.85rem, 9vw, 2.75rem) !important;
         }
 
         html body :is(.hero-points, .od-hero-inner, .portfolio-hero-grid,
@@ -1942,8 +1943,8 @@ export default function ExperienceDesignSkin() {
 
       html body:not(.od-theme-dark):not(.od-theme-dark) .radar-card.radar-card-dark .radar-kicker,
       html body.od-theme-dark.od-theme-dark .radar-card.radar-card-dark .radar-kicker {
-        color: #f6db8e !important;
-        -webkit-text-fill-color: #f6db8e !important;
+        color: #c4b5fd !important;
+        -webkit-text-fill-color: #c4b5fd !important;
         background: rgba(255,255,255,.10) !important;
         border-color: rgba(255,255,255,.18) !important;
       }
@@ -2048,7 +2049,7 @@ export default function ExperienceDesignSkin() {
         overflow: visible !important;
         background:
           radial-gradient(circle at 16% 20%, rgba(139, 92, 246, .20), transparent 35%),
-          radial-gradient(circle at 88% 72%, rgba(245, 158, 11, .16), transparent 34%),
+          radial-gradient(circle at 88% 72%, rgba(139, 92, 246, .16), transparent 34%),
           linear-gradient(135deg, rgba(24, 16, 46, .97), rgba(55, 28, 110, .94)) !important;
         border: 1px solid rgba(255, 255, 255, .16) !important;
         box-shadow: 0 26px 70px rgba(24, 16, 46, .20) !important;

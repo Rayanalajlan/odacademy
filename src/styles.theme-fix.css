@@ -19,7 +19,7 @@
    ========================================================================== */
 
 /* ===========================================================================
-   0) نظام المتغيّرات الموحّد (هوية بنفسجية/ذهبية) — فاتح + داكن
+   0) نظام المتغيّرات الموحّد (هوية بنفسجية موحّدة) — فاتح + داكن
    =========================================================================== */
 :root,
 html[data-theme="light"],
@@ -41,8 +41,8 @@ html body.od-theme-light {
   --accent-hover: #6d28d9;
   --accent-contrast: #ffffff;
   --link: #6d28d9;
-  --gold: #9a6a12;
-  --gold-soft: rgba(154, 106, 18, .14);
+  --gold: #6d28d9;
+  --gold-soft: rgba(124, 58, 237, .14);
   --field-bg: #ffffff;
   --field-text: #211a3a;
   --field-placeholder: #8a7fae;
@@ -50,9 +50,9 @@ html body.od-theme-light {
   --success: #1b9c83;
   --success-bg: #e7f8f3;
   --success-text: #0f6b58;
-  --warning: #9a6a12;
-  --warning-bg: #fbf3df;
-  --warning-text: #7a520a;
+  --warning: #6d28d9;
+  --warning-bg: #f1ebfb;
+  --warning-text: #4c1d95;
   --danger: #dc2654;
   --danger-bg: #fdeaef;
   --danger-text: #a4163a;
@@ -86,8 +86,8 @@ html body.od-theme-dark {
   --accent-hover: #bb8ff6;
   --accent-contrast: #10081f;
   --link: #c9b4f7;
-  --gold: #e7c873;
-  --gold-soft: rgba(231, 200, 115, .16);
+  --gold: #c4b5fd;
+  --gold-soft: rgba(167, 139, 250, .16);
   --field-bg: rgba(18, 11, 32, .9);
   --field-text: #efe9fb;
   --field-placeholder: #9a8fc0;
@@ -95,9 +95,9 @@ html body.od-theme-dark {
   --success: #34d3b3;
   --success-bg: rgba(16, 185, 129, .15);
   --success-text: #7ff0d4;
-  --warning: #e7c873;
-  --warning-bg: rgba(231, 200, 115, .16);
-  --warning-text: #f3d98c;
+  --warning: #c4b5fd;
+  --warning-bg: rgba(167, 139, 250, .16);
+  --warning-text: #ddd6fe;
   --danger: #fb7185;
   --danger-bg: rgba(248, 113, 113, .16);
   --danger-text: #fda4af;
@@ -295,7 +295,7 @@ html body.od-theme-dark :is(
   [class*="warning"], .monthly-warning, .radar-warning, .jl-quiz-warning
 ):not(button):not([class*="btn"]) {
   background-color: var(--warning-bg) !important;
-  border-color: rgba(231, 200, 115, .34) !important;
+  border-color: rgba(167, 139, 250, .34) !important;
 }
 html body.od-theme-dark :is([class*="warning"]) :is(strong, span, p, small, b) {
   color: var(--warning-text) !important;
@@ -629,8 +629,8 @@ html body :is(.public-hero, .od-hero, .portfolio-hero, .radar-card-dark,
   .onboarding-route, .mastery-hero, .ar-hero, .sim-hero, .roi-hero)
   :is(.od-chip, .portfolio-kicker, .radar-kicker, .od-section-kicker,
 .mastery-eyebrow, .ar-eyebrow, [class*="kicker"], [class*="eyebrow"]) {
-  color: #f6db8e !important;
-  -webkit-text-fill-color: #f6db8e !important;
+  color: #c4b5fd !important;
+  -webkit-text-fill-color: #c4b5fd !important;
   background: rgba(255, 255, 255, .10) !important;
   border: 1px solid rgba(255, 255, 255, .16) !important;
   opacity: 1 !important;
@@ -720,8 +720,8 @@ html body .radar-card-dark :is(.radar-metrics span, .radar-summary-box) {
 }
 
 html body .radar-card-dark .radar-metrics b {
-  color: #f6db8e !important;
-  -webkit-text-fill-color: #f6db8e !important;
+  color: #c4b5fd !important;
+  -webkit-text-fill-color: #c4b5fd !important;
   text-shadow: none !important;
 }
 
@@ -978,4 +978,110 @@ html body.od-theme-dark :is(.legal-danger-card, .legal-alert--error) :is(strong,
 html body.od-theme-dark :is(.legal-alert--success) {
   color: #7ff0d4 !important;
   -webkit-text-fill-color: #7ff0d4 !important;
+}
+
+/* ============================================================
+   PHASE 56 - Final mixed-surface guard.
+   Keeps visitor/about pages from inheriting text-fill across opposite surfaces.
+============================================================ */
+html body:not(.od-theme-dark):not(.od-theme-dark) {
+  --od56-heading: #24123f;
+  --od56-text: #4d3f69;
+  --od56-muted: #6a5d85;
+  --od56-accent: #6d28d9;
+  --od56-dark-heading: #f7f3fc;
+  --od56-dark-muted: #d8cff2;
+}
+
+html body.od-theme-dark.od-theme-dark {
+  --od56-heading: #f7f3fc;
+  --od56-text: #e7ddfb;
+  --od56-muted: #cfc3ee;
+  --od56-accent: #d9c7ff;
+  --od56-dark-heading: #f7f3fc;
+  --od56-dark-muted: #d8cff2;
+}
+
+html body :is(.public-gate, .about-rayan) :is(h1, h2, h3, h4, strong, b, p, li, span, small, a, button) {
+  letter-spacing: 0 !important;
+}
+
+html body .public-gate .public-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.35rem) !important;
+  line-height: 1.22 !important;
+  font-weight: 850 !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero h1,
+  .section-head h2,
+  .auth-title,
+  .counter-card strong,
+  .path-card strong,
+  .info-card strong,
+  .sample-box h3
+) {
+  color: var(--od56-heading) !important;
+  -webkit-text-fill-color: var(--od56-heading) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero p,
+  .section-head p,
+  .hero-point span,
+  .counter-card span,
+  .path-card span,
+  .info-card span,
+  .sample-box p,
+  .sample-bullets li
+) {
+  color: var(--od56-text) !important;
+  -webkit-text-fill-color: var(--od56-text) !important;
+}
+
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) :is(svg, path, span),
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) :is(svg, path) {
+  fill: currentColor !important;
+  stroke: currentColor;
+}
+
+html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(h1, h2, h3, strong, b) {
+  color: var(--od56-dark-heading) !important;
+  -webkit-text-fill-color: var(--od56-dark-heading) !important;
+}
+
+html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(p, span, small) {
+  color: var(--od56-dark-muted) !important;
+  -webkit-text-fill-color: var(--od56-dark-muted) !important;
+  opacity: 1 !important;
+}
+
+html body .about-rayan .ar-lens b {
+  color: #8b5cf6 !important;
+  -webkit-text-fill-color: #8b5cf6 !important;
+  opacity: .78 !important;
+}
+
+html body .about-rayan .ar-lens h3 {
+  color: #efe9ff !important;
+  -webkit-text-fill-color: #efe9ff !important;
+}
+
+html body .about-rayan .ar-lens p {
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(.ar-section-head h2, .ar-domain h3, .ar-card h3, .ar-social h3, .ar-consultation-copy h3) {
+  color: var(--od56-heading) !important;
+  -webkit-text-fill-color: var(--od56-heading) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(.ar-section-head p, .ar-domain p, .ar-card p, .ar-social p, .ar-consultation-copy p, .ar-bio-box p) {
+  color: var(--od56-muted) !important;
+  -webkit-text-fill-color: var(--od56-muted) !important;
 }

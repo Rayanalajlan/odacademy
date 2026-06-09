@@ -1271,7 +1271,7 @@ export default function CourseJourney({
           padding:28px 16px 70px;
           background:
             radial-gradient(circle at 12% 12%, rgba(139, 92, 246,.18), transparent 31%),
-            radial-gradient(circle at 86% 18%, rgba(245,158,11,.16), transparent 28%),
+            radial-gradient(circle at 86% 18%, rgba(139,92,246,.16), transparent 28%),
             radial-gradient(circle at 50% 88%, rgba(16,185,129,.13), transparent 31%),
             linear-gradient(135deg,#f4f0fb 0%,#efe9fb 48%,#f4f0fb 100%);
         }
@@ -1290,7 +1290,7 @@ export default function CourseJourney({
           overflow:hidden;
           position:relative;
           background:
-            radial-gradient(circle at top left, rgba(245,158,11,.24), transparent 35%),
+            radial-gradient(circle at top left, rgba(139,92,246,.24), transparent 35%),
             linear-gradient(135deg,#18102e,#281748 54%,#111827);
           box-shadow:0 28px 90px rgba(28, 17, 48,.22);
         }
@@ -1323,7 +1323,7 @@ export default function CourseJourney({
           border-radius:999px;
           background:rgba(255,255,255,.10);
           border:1px solid rgba(255,255,255,.16);
-          color:#fde68a;
+          color:#c4b5fd;
           font-size:12px;
           font-weight:950;
         }
@@ -1339,7 +1339,7 @@ export default function CourseJourney({
         .jl-title span {
           display:block;
           color:transparent;
-          background:linear-gradient(90deg,#fff,#c3b5e8,#fde68a);
+          background:linear-gradient(90deg,#fff,#c3b5e8,#c4b5fd);
           -webkit-background-clip:text;
           background-clip:text;
         }
@@ -1587,9 +1587,9 @@ export default function CourseJourney({
         }
 
         .jl-loading {
-          background:#fffbeb;
-          color:#92400e;
-          border-color:rgba(245,158,11,.24);
+          background:#f5f0ff;
+          color:#5b21b6;
+          border-color:rgba(139,92,246,.24);
         }
 
         .jl-month-grid {
@@ -1780,7 +1780,7 @@ export default function CourseJourney({
           padding:18px;
           color:white;
           background:
-            radial-gradient(circle at top right, rgba(245,158,11,.22), transparent 36%),
+            radial-gradient(circle at top right, rgba(139,92,246,.22), transparent 36%),
             linear-gradient(160deg,#18102e,#281748);
           box-shadow:0 22px 55px rgba(28, 17, 48,.18);
         }
@@ -1873,9 +1873,9 @@ export default function CourseJourney({
           margin:0 0 18px;
           border-radius:24px;
           padding:18px;
-          background:#fffbeb;
-          border:1px solid #fde68a;
-          color:#78350f;
+          background:#f5f0ff;
+          border:1px solid #c4b5fd;
+          color:#4c1d95;
           line-height:2;
           font-size:13px;
           font-weight:800;
@@ -1925,10 +1925,10 @@ export default function CourseJourney({
 
         .jl-rich-text h4 {
           font-size:15px;
-          color:#92400e;
+          color:#5b21b6;
           padding:12px 14px;
           border-radius:18px;
-          background:#fffbeb;
+          background:#f5f0ff;
         }
 
         .jl-rich-text p {
@@ -1988,7 +1988,7 @@ export default function CourseJourney({
         }
 
         .jl-quiz-header span {
-          color:#fde68a;
+          color:#c4b5fd;
           font-size:12px;
           font-weight:950;
         }
@@ -2010,8 +2010,8 @@ export default function CourseJourney({
           margin:0 0 14px;
           padding:12px 14px;
           border-radius:18px;
-          background:rgba(245,158,11,.14);
-          color:#fde68a;
+          background:rgba(139,92,246,.14);
+          color:#c4b5fd;
           font-size:12px;
           line-height:1.8;
           font-weight:850;
@@ -2043,8 +2043,8 @@ export default function CourseJourney({
           border-radius:13px;
           display:grid;
           place-items:center;
-          background:linear-gradient(135deg,#a855f7,#facc15);
-          color:#111827;
+          background:linear-gradient(135deg,#a855f7,#c4b5fd);
+          color:#24123f;
           font-weight:950;
         }
 
@@ -2087,7 +2087,7 @@ export default function CourseJourney({
           display:grid;
           place-items:center;
           background:rgba(255,255,255,.12);
-          color:#fde68a;
+          color:#c4b5fd;
           font-size:12px;
           font-weight:950;
           flex:0 0 auto;
@@ -2100,8 +2100,8 @@ export default function CourseJourney({
         }
 
         .jl-option--selected {
-          border-color:rgba(245,158,11,.65);
-          background:rgba(245,158,11,.14);
+          border-color:rgba(139,92,246,.65);
+          background:rgba(139,92,246,.14);
         }
 
         .jl-option--correct {
@@ -2146,8 +2146,8 @@ export default function CourseJourney({
         .jl-quiz-submit {
           padding:13px 18px;
           border-radius:18px;
-          color:#111827;
-          background:linear-gradient(135deg,#fde68a,#a855f7);
+          color:#24123f;
+          background:linear-gradient(135deg,#c4b5fd,#a855f7);
           font-size:12px;
           font-weight:950;
         }

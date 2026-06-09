@@ -1379,19 +1379,19 @@ export default function AuthGate({
 
         .about-links a.social-x {
           color: #ffffff !important;
-          background: #000000 !important;
-          border: 1px solid rgba(255, 255, 255, 0.22) !important;
+          background: #18102e !important;
+          border: 1px solid rgba(196, 181, 253, 0.26) !important;
         }
 
         .about-links a.social-x:hover {
-          background: #141414 !important;
+          background: #24143f !important;
           transform: translateY(-2px);
         }
 
         body.od-theme-dark .about-links a.social-x {
-          color: #000000 !important;
-          background: #ffffff !important;
-          border-color: rgba(0, 0, 0, 0.12) !important;
+          color: #f7f3fc !important;
+          background: #18102e !important;
+          border-color: rgba(196, 181, 253, 0.30) !important;
         }
 
         .about-links a.social-mail {
@@ -1754,8 +1754,8 @@ export default function AuthGate({
         }
 
         .simulation-choice.warning {
-          border-color: rgba(245, 158, 11, 0.5);
-          background: rgba(245, 158, 11, 0.1);
+          border-color: rgba(139, 92, 246, 0.5);
+          background: rgba(139, 92, 246, 0.1);
         }
 
         .simulation-choice.wrong {
@@ -2056,6 +2056,71 @@ export default function AuthGate({
           color: #cfc3ee !important;
           -webkit-text-fill-color: #cfc3ee !important;
           opacity: 1 !important;
+        }
+
+        /* Final polish after the global skin: quieter headings and locked icon colors. */
+        html body .public-gate .public-hero h1 {
+          max-width: 760px !important;
+          font-size: clamp(2rem, 4vw, 3.35rem) !important;
+          line-height: 1.22 !important;
+          font-weight: 850 !important;
+          letter-spacing: 0 !important;
+          text-wrap: balance;
+        }
+
+        html body .public-gate :is(.section-head h2, .auth-title, .sample-box h3) {
+          font-weight: 820 !important;
+          letter-spacing: 0 !important;
+        }
+
+        html body .public-gate :is(
+          .public-hero p,
+          .section-head p,
+          .hero-point span,
+          .counter-card span,
+          .path-card span,
+          .info-card span,
+          .sample-box p,
+          .sample-bullets li
+        ) {
+          font-weight: 650 !important;
+        }
+
+        html body .public-gate .about-links a.social-linkedin {
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          background: #0a66c2 !important;
+          border-color: rgba(10, 102, 194, .95) !important;
+          box-shadow: 0 14px 32px rgba(10, 102, 194, .20) !important;
+        }
+
+        html body .public-gate .about-links a.social-x {
+          color: #f7f3fc !important;
+          -webkit-text-fill-color: #f7f3fc !important;
+          background: #18102e !important;
+          border-color: rgba(196, 181, 253, .26) !important;
+          box-shadow: 0 14px 32px rgba(24, 16, 46, .18) !important;
+        }
+
+        html body .public-gate .about-links a.social-mail {
+          color: #5b21b6 !important;
+          -webkit-text-fill-color: #5b21b6 !important;
+          background: rgba(124, 58, 237, .10) !important;
+          border-color: rgba(124, 58, 237, .28) !important;
+        }
+
+        html body.od-theme-dark .public-gate .about-links a.social-mail {
+          color: #e7ddfb !important;
+          -webkit-text-fill-color: #e7ddfb !important;
+          background: rgba(167, 139, 250, .16) !important;
+          border-color: rgba(196, 181, 253, .30) !important;
+        }
+
+        html body .public-gate .about-links a.social-link :is(span, svg, path) {
+          color: currentColor !important;
+          fill: currentColor !important;
+          stroke: currentColor;
+          -webkit-text-fill-color: currentColor !important;
         }
 
       `}</style>

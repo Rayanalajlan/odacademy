@@ -114,22 +114,22 @@ export default function AboutRayan() {
           --ink:#18102e;
           --muted:#7a6c9a;
           --line:rgba(167, 139, 250,.22);
-          --gold:#b48a5a;
-          --gold-deep:#7c4a20;
-          --gold-light:#d6bb95;
-          --gold-soft:rgba(180,138,90,.13);
+          --gold:#8b5cf6;
+          --gold-deep:#4c1d95;
+          --gold-light:#c4b5fd;
+          --gold-soft:rgba(139,92,246,.13);
           --linkedin:#0a66c2;
-          --x:#000000;
+          --x:#18102e;
           min-height:100vh;
           position:relative;
           overflow:hidden;
           padding:30px 16px 72px;
           color:var(--ink);
           background:
-            radial-gradient(circle at 12% 10%, rgba(180,138,90,.18), transparent 32%),
+            radial-gradient(circle at 12% 10%, rgba(139,92,246,.18), transparent 32%),
             radial-gradient(circle at 90% 18%, rgba(139, 92, 246,.13), transparent 30%),
             radial-gradient(circle at 45% 92%, rgba(16,185,129,.10), transparent 34%),
-            linear-gradient(135deg,#f4f0fb 0%,#fffaf3 46%,#efe9fb 100%);
+            linear-gradient(135deg,#f4f0fb 0%,#f7f3ff 46%,#efe9fb 100%);
         }
 
         .about-rayan * {
@@ -150,8 +150,8 @@ export default function AboutRayan() {
           padding:34px;
           color:white;
           background:
-            radial-gradient(circle at 14% 20%, rgba(214,187,149,.26), transparent 32%),
-            linear-gradient(135deg,#18102e,#281748 58%,#111827);
+            radial-gradient(circle at 14% 20%, rgba(196,181,253,.26), transparent 32%),
+            linear-gradient(135deg,#18102e,#281748 58%,#120a22);
           box-shadow:0 30px 90px rgba(28, 17, 48,.22);
         }
 
@@ -181,7 +181,7 @@ export default function AboutRayan() {
           width:fit-content;
           padding:8px 14px;
           border-radius:999px;
-          color:#fde68a;
+          color:#c4b5fd;
           background:rgba(255,255,255,.10);
           border:1px solid rgba(255,255,255,.16);
           font-size:12px;
@@ -199,7 +199,7 @@ export default function AboutRayan() {
         .ar-title span {
           display:block;
           color:transparent;
-          background:linear-gradient(90deg,#fff,#fde68a,#d6bb95);
+          background:linear-gradient(90deg,#fff,#c4b5fd,#c4b5fd);
           -webkit-background-clip:text;
           background-clip:text;
         }
@@ -227,7 +227,7 @@ export default function AboutRayan() {
           min-height:38px;
           padding:9px 13px;
           border-radius:999px;
-          color:#fde68a;
+          color:#c4b5fd;
           background:rgba(255,255,255,.10);
           border:1px solid rgba(255,255,255,.15);
           font-size:12px;
@@ -256,9 +256,9 @@ export default function AboutRayan() {
         }
 
         .ar-primary-action {
-          color:#111827;
-          background:linear-gradient(135deg,#fde68a,#a855f7);
-          box-shadow:0 18px 42px rgba(245,158,11,.20);
+          color:#24123f;
+          background:linear-gradient(135deg,#c4b5fd,#a855f7);
+          box-shadow:0 18px 42px rgba(139,92,246,.20);
         }
 
         .ar-secondary-action {
@@ -290,7 +290,7 @@ export default function AboutRayan() {
           border-radius:999px;
           background:#ffffff;
           box-shadow:
-            inset 0 0 0 1px rgba(180,138,90,.10),
+            inset 0 0 0 1px rgba(139,92,246,.10),
             0 28px 70px rgba(0,0,0,.22);
           overflow:hidden;
         }
@@ -310,7 +310,7 @@ export default function AboutRayan() {
           color:var(--gold);
           font-size:54px;
           font-weight:950;
-          border:12px solid rgba(180,138,90,.42);
+          border:12px solid rgba(139,92,246,.42);
           border-radius:999px;
           background:white;
         }
@@ -396,8 +396,8 @@ export default function AboutRayan() {
           border-radius:34px;
           padding:30px;
           background:
-            radial-gradient(circle at top left, rgba(180,138,90,.22), transparent 34%),
-            linear-gradient(135deg,#ffffff,#fffbeb);
+            radial-gradient(circle at top left, rgba(139,92,246,.22), transparent 34%),
+            linear-gradient(135deg,#ffffff,#f5f0ff);
         }
 
         .ar-dua-card::before {
@@ -408,7 +408,7 @@ export default function AboutRayan() {
           width:220px;
           height:220px;
           border-radius:999px;
-          background:rgba(180,138,90,.14);
+          background:rgba(139,92,246,.14);
         }
 
         .ar-dua-card span {
@@ -416,7 +416,7 @@ export default function AboutRayan() {
           z-index:1;
           display:inline-flex;
           margin-bottom:10px;
-          color:#92400e;
+          color:#5b21b6;
           font-size:12px;
           font-weight:950;
         }
@@ -425,7 +425,7 @@ export default function AboutRayan() {
           position:relative;
           z-index:1;
           margin:0;
-          color:#78350f;
+          color:#4c1d95;
           font-size:18px;
           line-height:2.15;
           font-weight:900;
@@ -483,8 +483,8 @@ export default function AboutRayan() {
           border-radius:17px;
           align-items:center;
           justify-content:center;
-          color:#78350f;
-          background:#fffbeb;
+          color:#4c1d95;
+          background:#f5f0ff;
           font-size:12px;
           font-weight:950;
           margin-bottom:18px;
@@ -530,7 +530,7 @@ export default function AboutRayan() {
           padding:24px;
           color:white;
           background:
-            radial-gradient(circle at 20% 20%, rgba(253,230,138,.20), transparent 34%),
+            radial-gradient(circle at 20% 20%, rgba(196,181,253,.20), transparent 34%),
             linear-gradient(150deg,#18102e,#281748);
           box-shadow:0 24px 60px rgba(28, 17, 48,.16);
         }
@@ -548,7 +548,7 @@ export default function AboutRayan() {
           margin:0 0 12px;
           font-size:28px;
           font-weight:950;
-          color:#fde68a;
+          color:#c4b5fd;
         }
 
         .ar-lens p {
@@ -667,8 +667,8 @@ export default function AboutRayan() {
           width:100%;
           min-height:48px;
           border-radius:18px;
-          color:#111827;
-          background:linear-gradient(135deg,#fde68a,#a855f7);
+          color:#24123f;
+          background:linear-gradient(135deg,#c4b5fd,#a855f7);
           font-size:13px;
           font-weight:950;
           transition:.24s ease;
@@ -720,7 +720,7 @@ export default function AboutRayan() {
         }
 
         .ar-social.x span {
-          color:#111827;
+          color:#5b21b6;
         }
 
         .ar-social span {
@@ -743,6 +743,187 @@ export default function AboutRayan() {
           font-size:13px;
           line-height:1.9;
           font-weight:700;
+        }
+
+        /* Final theme pass: mixed surfaces keep readable purple-family contrast. */
+        html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan {
+          --ar-heading-readable:#24123f;
+          --ar-text-readable:#4d3f69;
+          --ar-muted-readable:#6a5d85;
+          --ar-accent-readable:#6d28d9;
+          --ar-border-readable:rgba(124,58,237,.18);
+          --ar-light-surface:linear-gradient(180deg,#ffffff 0%,#faf7ff 100%);
+          --ar-dark-surface:linear-gradient(150deg,#18102e 0%,#281748 100%);
+          --ar-dark-heading:#f7f3fc;
+          --ar-dark-text:#e7ddfb;
+          --ar-dark-muted:#d8cff2;
+          color:var(--ar-text-readable) !important;
+        }
+
+        html body.od-theme-dark.od-theme-dark .about-rayan {
+          --ar-heading-readable:#f7f3fc;
+          --ar-text-readable:#e7ddfb;
+          --ar-muted-readable:#cfc3ee;
+          --ar-accent-readable:#d9c7ff;
+          --ar-border-readable:rgba(196,181,253,.26);
+          --ar-light-surface:linear-gradient(180deg,rgba(31,19,55,.96),rgba(22,13,42,.94));
+          --ar-dark-surface:linear-gradient(150deg,#18102e 0%,#281748 100%);
+          --ar-dark-heading:#f7f3fc;
+          --ar-dark-text:#e7ddfb;
+          --ar-dark-muted:#d8cff2;
+          color:var(--ar-text-readable) !important;
+          background:
+            radial-gradient(circle at 12% 10%, rgba(139,92,246,.18), transparent 32%),
+            radial-gradient(circle at 86% 18%, rgba(139,92,246,.10), transparent 30%),
+            linear-gradient(135deg,#0c0717 0%,#160c2a 48%,#10091f 100%) !important;
+        }
+
+        html body .about-rayan :is(.ar-title, .ar-section-head h2, .ar-lens h3, .ar-domain h3, .ar-card h3, .ar-social h3, .ar-consultation-copy h3) {
+          letter-spacing:0 !important;
+          text-wrap:balance;
+        }
+
+        html body .about-rayan .ar-title {
+          font-size:clamp(2.05rem,4.2vw,4rem) !important;
+          line-height:1.16 !important;
+          font-weight:850 !important;
+        }
+
+        html body .about-rayan .ar-title span {
+          color:transparent !important;
+          -webkit-text-fill-color:transparent !important;
+          background:linear-gradient(90deg,#ffffff,#f4e8ff,#d9c7ff) !important;
+          -webkit-background-clip:text !important;
+          background-clip:text !important;
+        }
+
+        html body .about-rayan :is(.ar-section-head h2, .ar-domain h3, .ar-card h3, .ar-social h3, .ar-consultation-copy h3) {
+          color:var(--ar-heading-readable) !important;
+          -webkit-text-fill-color:var(--ar-heading-readable) !important;
+          font-weight:850 !important;
+        }
+
+        html body .about-rayan :is(.ar-section-head p, .ar-domain p, .ar-card p, .ar-social p, .ar-consultation-copy p, .ar-bio-box p) {
+          color:var(--ar-muted-readable) !important;
+          -webkit-text-fill-color:var(--ar-muted-readable) !important;
+          opacity:1 !important;
+          font-weight:650 !important;
+        }
+
+        html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(
+          .ar-section,
+          .ar-bio-box,
+          .ar-consultation-copy,
+          .ar-card,
+          .ar-domain,
+          .ar-social
+        ) {
+          background:var(--ar-light-surface) !important;
+          border-color:var(--ar-border-readable) !important;
+          color:var(--ar-text-readable) !important;
+          box-shadow:0 18px 48px rgba(74,45,132,.08) !important;
+        }
+
+        html body.od-theme-dark.od-theme-dark .about-rayan :is(
+          .ar-section,
+          .ar-bio-box,
+          .ar-consultation-copy,
+          .ar-card,
+          .ar-domain,
+          .ar-social,
+          .ar-dua-card
+        ) {
+          background:var(--ar-light-surface) !important;
+          border-color:var(--ar-border-readable) !important;
+          color:var(--ar-text-readable) !important;
+          box-shadow:0 20px 58px rgba(0,0,0,.24) !important;
+        }
+
+        html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) {
+          background:var(--ar-dark-surface) !important;
+          border-color:rgba(196,181,253,.22) !important;
+          color:var(--ar-dark-text) !important;
+        }
+
+        html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(h1, h2, h3, strong) {
+          color:var(--ar-dark-heading) !important;
+          -webkit-text-fill-color:var(--ar-dark-heading) !important;
+        }
+
+        html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(p, span:not(.ar-eyebrow), small) {
+          color:var(--ar-dark-muted) !important;
+          -webkit-text-fill-color:var(--ar-dark-muted) !important;
+          opacity:1 !important;
+        }
+
+        html body .about-rayan .ar-lens b {
+          color:#8b5cf6 !important;
+          -webkit-text-fill-color:#8b5cf6 !important;
+          opacity:.78 !important;
+        }
+
+        html body .about-rayan .ar-lens h3 {
+          color:#efe9ff !important;
+          -webkit-text-fill-color:#efe9ff !important;
+        }
+
+        html body .about-rayan .ar-lens p {
+          color:#d8cff2 !important;
+          -webkit-text-fill-color:#d8cff2 !important;
+          opacity:1 !important;
+        }
+
+        html body .about-rayan .ar-title span {
+          color:transparent !important;
+          -webkit-text-fill-color:transparent !important;
+          background:linear-gradient(90deg,#ffffff,#f4e8ff,#d9c7ff) !important;
+          -webkit-background-clip:text !important;
+          background-clip:text !important;
+        }
+
+        html body .about-rayan .ar-domain-mark,
+        html body .about-rayan .ar-social-icon {
+          color:#ffffff !important;
+          -webkit-text-fill-color:#ffffff !important;
+        }
+
+        html body .about-rayan .ar-domain-mark {
+          background:linear-gradient(135deg,#7c3aed,#4c1d95) !important;
+        }
+
+        html body .about-rayan .ar-social-icon * {
+          color:currentColor !important;
+          fill:currentColor !important;
+          stroke:currentColor;
+          -webkit-text-fill-color:currentColor !important;
+        }
+
+        html body .about-rayan .ar-social.linkedin .ar-social-icon {
+          background:#0a66c2 !important;
+        }
+
+        html body .about-rayan .ar-social.x .ar-social-icon {
+          background:#18102e !important;
+        }
+
+        html body .about-rayan .ar-social.linkedin span,
+        html body .about-rayan .ar-social.x span,
+        html body .about-rayan .ar-section-head span,
+        html body .about-rayan .ar-card strong {
+          color:var(--ar-accent-readable) !important;
+          -webkit-text-fill-color:var(--ar-accent-readable) !important;
+        }
+
+        html body .about-rayan :is(.ar-primary-action, .ar-consultation-button) {
+          color:#24123f !important;
+          -webkit-text-fill-color:#24123f !important;
+        }
+
+        html body .about-rayan .ar-secondary-action {
+          color:#f7f3fc !important;
+          -webkit-text-fill-color:#f7f3fc !important;
+          background:rgba(255,255,255,.12) !important;
+          border-color:rgba(255,255,255,.22) !important;
         }
 
         @media (max-width:980px) {

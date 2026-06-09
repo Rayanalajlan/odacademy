@@ -149,7 +149,7 @@ h6 {
 }
 
 .auth-panel--demo {
-  background: linear-gradient(135deg, rgba(254, 249, 195, 0.75), rgba(255, 255, 255, 0.9));
+  background: linear-gradient(135deg, rgba(237, 230, 251, 0.75), rgba(255, 255, 255, 0.9));
   border-color: rgba(168, 85, 247, 0.22);
 }
 
@@ -932,9 +932,9 @@ body {
 }
 
 .notice.warning {
-  background: #fffbeb;
-  color: #92400e;
-  border-color: #fde68a;
+  background: #f5f0ff;
+  color: #5b21b6;
+  border-color: #c4b5fd;
 }
 
 .global-notice {
@@ -1645,7 +1645,7 @@ body {
   html,
   body {
     background: #fff !important;
-    color: #111827 !important;
+    color: #24123f !important;
     overflow: visible !important;
   }
 
