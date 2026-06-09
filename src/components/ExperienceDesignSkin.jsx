@@ -1604,6 +1604,285 @@ export default function ExperienceDesignSkin() {
             .monthly-progress, .weekly-reflection-progress, .mini-bar-track) {
         background-color: rgba(167, 139, 250, .18) !important;
       }
+
+
+      /* ============================================================
+         PHASE 54 — Surface-aware contrast repair for uploaded build
+         يعالج اللوحات الداكنة المتداخلة داخل الوضع الفاتح، ويمنع انقلاب
+         نصوص البطاقات البيضاء إلى فاتحة بسبب قواعد الحاوية الداكنة.
+      ============================================================ */
+      :root,
+      html[data-theme="light"],
+      html body.od-theme-light {
+        --nav-pill-active-bg: linear-gradient(135deg, #7c3aed, #a855f7);
+        --metric-bg: #ffffff;
+        --metric-text: #18102e;
+        --dark-surface: #18102e;
+        --dark-surface-2: #281748;
+        --dark-text: #f7f3fc;
+        --dark-muted: #d8cff2;
+      }
+
+      html[data-theme="dark"],
+      html body.od-theme-dark {
+        --nav-pill-active-bg: linear-gradient(135deg, #a855f7, #7c3aed);
+        --metric-bg: rgba(255, 255, 255, .08);
+        --metric-text: #f7f3fc;
+        --dark-surface: #18102e;
+        --dark-surface-2: #281748;
+        --dark-text: #f7f3fc;
+        --dark-muted: #d8cff2;
+      }
+
+      html body {
+        color: var(--text) !important;
+        line-height: 1.75;
+        letter-spacing: 0 !important;
+      }
+
+      html body :is(button, input, select, textarea) {
+        font-family: inherit;
+        line-height: 1.55;
+      }
+
+      html body :is(h1, h2, h3, h4, h5, h6, p, li, button, label, small, strong, span) {
+        overflow-wrap: anywhere;
+      }
+
+      html body :is(.od-button, .portfolio-button, .profile-button, .radar-tab, .radar-actions button,
+        .educational-tools-trigger, .main-nav button, .onboarding-action) {
+        min-height: 44px;
+        white-space: normal !important;
+        text-align: center;
+      }
+
+      /* Dark visual surfaces that exist in both themes. */
+      html body :is(.public-hero, .od-hero, .portfolio-hero, .radar-card-dark,
+        .od-main-gauge, .od-command-card, .od-timer-command, .od-timer-content,
+        .onboarding-route, .mastery-hero, .ar-hero, .sim-hero, .roi-hero) {
+        color: var(--dark-text) !important;
+        border-color: rgba(255, 255, 255, .16) !important;
+      }
+
+      html body :is(.public-hero, .od-hero, .portfolio-hero, .radar-card-dark,
+        .od-main-gauge, .od-command-card, .od-timer-command, .od-timer-content,
+        .onboarding-route, .mastery-hero, .ar-hero, .sim-hero, .roi-hero)
+        :is(h1, h2, h3, h4, h5, h6, strong, b) {
+        color: var(--dark-text) !important;
+        -webkit-text-fill-color: var(--dark-text) !important;
+        background-image: none !important;
+        text-shadow: 0 12px 30px rgba(0, 0, 0, .24);
+      }
+
+      html body :is(.public-hero, .od-hero, .portfolio-hero, .radar-card-dark,
+        .od-main-gauge, .od-command-card, .od-timer-command, .od-timer-content,
+        .onboarding-route, .mastery-hero, .ar-hero, .sim-hero, .roi-hero)
+        :is(p, li, small, label, time) {
+        color: var(--dark-muted) !important;
+        -webkit-text-fill-color: var(--dark-muted) !important;
+        opacity: 1 !important;
+      }
+
+      html body :is(.public-hero, .od-hero, .portfolio-hero, .radar-card-dark,
+        .od-main-gauge, .od-command-card, .od-timer-command, .od-timer-content,
+        .onboarding-route, .mastery-hero, .ar-hero, .sim-hero, .roi-hero)
+        :is(.od-chip, .portfolio-kicker, .radar-kicker, .od-section-kicker,
+            .mastery-eyebrow, .ar-eyebrow, [class*="kicker"], [class*="eyebrow"]) {
+        color: #f6db8e !important;
+        -webkit-text-fill-color: #f6db8e !important;
+        background: rgba(255, 255, 255, .10) !important;
+        border: 1px solid rgba(255, 255, 255, .16) !important;
+        opacity: 1 !important;
+      }
+
+      /* White cards nested inside dark sections must keep dark text in light mode. */
+      html body:not(.od-theme-dark) .od-timer-command :is(.od-stat-card, .od-progress-line),
+      html body:not(.od-theme-dark) .portfolio-hero :is(.portfolio-button.soft),
+      html body:not(.od-theme-dark) .radar-card:not(.radar-card-dark),
+      html body:not(.od-theme-dark) .onboarding-card :is(.onboarding-step, .onboarding-action:not(.primary)) {
+        color: #18102e !important;
+        -webkit-text-fill-color: #18102e !important;
+        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
+        border-color: rgba(124, 58, 237, .18) !important;
+      }
+
+      html body:not(.od-theme-dark) .od-timer-command :is(.od-stat-card, .od-progress-line)
+        :is(span, strong, b, small, label, p),
+      html body:not(.od-theme-dark) .radar-card:not(.radar-card-dark)
+        :is(h3, strong, b, span, small, p, label),
+      html body:not(.od-theme-dark) .onboarding-card :is(.onboarding-step, .onboarding-action:not(.primary))
+        :is(strong, b, span, small, p, label) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+        text-shadow: none !important;
+        opacity: 1 !important;
+      }
+
+      html body:not(.od-theme-dark) .od-timer-command .od-stat-card span,
+      html body:not(.od-theme-dark) .od-timer-command .od-progress-line span,
+      html body:not(.od-theme-dark) .radar-card:not(.radar-card-dark) p,
+      html body:not(.od-theme-dark) .onboarding-card .onboarding-step span,
+      html body:not(.od-theme-dark) .onboarding-card .onboarding-action:not(.primary) span {
+        color: #5b4f78 !important;
+        -webkit-text-fill-color: #5b4f78 !important;
+      }
+
+      html body:not(.od-theme-dark) .od-timer-command .od-stat-card small,
+      html body:not(.od-theme-dark) .od-timer-command .od-progress-line small {
+        color: #6f6391 !important;
+        -webkit-text-fill-color: #6f6391 !important;
+      }
+
+      /* Metric cards and progress indicators. */
+      html body :is(.profile-metric, .portfolio-stat, .od-stat-card, .radar-metrics span,
+        .radar-summary-box, .onboarding-step, .od-command-mini > div) {
+        min-height: auto !important;
+        line-height: 1.65 !important;
+      }
+
+      html body:not(.od-theme-dark) :is(.profile-metric, .portfolio-stat, .od-command-mini > div) {
+        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
+        border-color: rgba(124, 58, 237, .18) !important;
+        color: #18102e !important;
+      }
+
+      html body:not(.od-theme-dark) :is(.profile-metric, .portfolio-stat, .od-command-mini > div)
+        :is(b, strong, span, small) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+        opacity: 1 !important;
+      }
+
+      html body.od-theme-dark :is(.profile-metric, .portfolio-stat, .od-stat-card,
+        .od-progress-line, .radar-card, .onboarding-card, .onboarding-step,
+        .onboarding-action:not(.primary), .od-command-mini > div) {
+        background: rgba(28, 17, 48, .94) !important;
+        border-color: rgba(167, 139, 250, .24) !important;
+        color: #ece6f8 !important;
+      }
+
+      html body.od-theme-dark :is(.profile-metric, .portfolio-stat, .od-stat-card,
+        .od-progress-line, .radar-card, .onboarding-card, .onboarding-step,
+        .onboarding-action:not(.primary), .od-command-mini > div)
+        :is(h1, h2, h3, h4, strong, b, span, small, p, label) {
+        color: #ece6f8 !important;
+        -webkit-text-fill-color: #ece6f8 !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body .radar-card-dark :is(.radar-metrics span, .radar-summary-box) {
+        background: rgba(255, 255, 255, .10) !important;
+        border-color: rgba(255, 255, 255, .16) !important;
+        color: #f4f0fb !important;
+        -webkit-text-fill-color: #f4f0fb !important;
+      }
+
+      html body .radar-card-dark .radar-metrics b {
+        color: #f6db8e !important;
+        -webkit-text-fill-color: #f6db8e !important;
+        text-shadow: none !important;
+      }
+
+      html body :is(.od-progress-track, .profile-progress-line, .radar-progress-line,
+        .mini-progress, .mastery-track, .monthly-progress, .weekly-reflection-progress) {
+        min-height: 8px;
+        background-color: rgba(124, 58, 237, .16) !important;
+        box-shadow: inset 0 0 0 1px rgba(124, 58, 237, .08);
+      }
+
+      html body.od-theme-dark :is(.od-progress-track, .profile-progress-line, .radar-progress-line,
+        .mini-progress, .mastery-track, .monthly-progress, .weekly-reflection-progress) {
+        background-color: rgba(167, 139, 250, .20) !important;
+        box-shadow: inset 0 0 0 1px rgba(196, 181, 253, .12);
+      }
+
+      html body :is(.od-progress-track b, .profile-progress-line span, .radar-progress-line i,
+        .mini-progress span, .mastery-track span, .monthly-progress span, .weekly-reflection-progress span) {
+        background: linear-gradient(90deg, #8b5cf6, #10b981) !important;
+      }
+
+      /* Top section pills / tabs. */
+      html body:not(.od-theme-dark) :is(.main-nav button, .educational-tools-trigger, .radar-tab) {
+        color: #4c3a82 !important;
+        -webkit-text-fill-color: #4c3a82 !important;
+        background: rgba(124, 58, 237, .08) !important;
+        border-color: rgba(124, 58, 237, .18) !important;
+      }
+
+      html body:not(.od-theme-dark) :is(.main-nav button:hover, .main-nav button.active,
+        .educational-tools-trigger:hover, .educational-tools-trigger.active,
+        .radar-tab:hover, .radar-tab.active) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: var(--nav-pill-active-bg) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(124, 58, 237, .24) !important;
+      }
+
+      html body:not(.od-theme-dark) :is(.main-nav button:hover, .main-nav button.active,
+        .educational-tools-trigger:hover, .educational-tools-trigger.active,
+        .radar-tab:hover, .radar-tab.active) :is(span, strong, small, svg) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      html body.od-theme-dark :is(.main-nav button, .educational-tools-trigger, .radar-tab) {
+        color: #d9cdf2 !important;
+        -webkit-text-fill-color: #d9cdf2 !important;
+        background: rgba(167, 139, 250, .10) !important;
+        border-color: rgba(167, 139, 250, .22) !important;
+      }
+
+      html body.od-theme-dark :is(.main-nav button:hover, .main-nav button.active,
+        .educational-tools-trigger:hover, .educational-tools-trigger.active,
+        .radar-tab:hover, .radar-tab.active) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: var(--nav-pill-active-bg) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(168, 85, 247, .28) !important;
+      }
+
+      html body.od-theme-dark :is(.main-nav button:hover, .main-nav button.active,
+        .educational-tools-trigger:hover, .educational-tools-trigger.active,
+        .radar-tab:hover, .radar-tab.active) :is(span, strong, small, svg) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* Prevent clipping in the Arabic profile strip and hero headings. */
+      html body :is(.profile-name strong, .profile-name span, .profile-name small,
+        .portfolio-hero h1, .od-hero h1, .radar-card h3, .onboarding-title) {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        letter-spacing: 0 !important;
+      }
+
+      html body :is(.portfolio-hero h1, .od-hero h1, .onboarding-title, .ar-title,
+        .roi-hero h1, .jl-title, .mastery-hero h1) {
+        font-size: clamp(1.9rem, 4.2vw, 3.65rem) !important;
+        line-height: 1.18 !important;
+        text-wrap: balance;
+      }
+
+      @media (max-width: 760px) {
+        html body :is(.profile-strip, .od-hero-inner, .portfolio-hero-grid,
+          .radar-intro-grid, .radar-two-columns, .radar-question-layout,
+          .onboarding-hero, .onboarding-actions) {
+          grid-template-columns: 1fr !important;
+        }
+
+        html body :is(.profile-actions, .od-hero-actions, .portfolio-actions, .radar-actions) {
+          width: 100%;
+        }
+
+        html body :is(.od-button, .portfolio-button, .profile-button, .radar-actions button) {
+          width: 100%;
+          justify-content: center;
+        }
+      }
     `}</style>
   );
 }
