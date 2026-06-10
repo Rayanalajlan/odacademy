@@ -937,15 +937,16 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
     <section className="od-home-v2" dir="rtl">
       <style>{`
         .od-home-v2 {
-          --od-ink: #18102e;
-          --od-muted: #7a6c9a;
-          --od-soft: rgba(255,255,255,.76);
-          --od-line: rgba(167, 139, 250,.22);
-          --od-indigo: #8b5cf6;
-          --od-violet: #7c3aed;
-          --od-emerald: #10b981;
-          --od-amber: #a855f7;
-          --od-rose: #e11d48;
+          /* الرموز المحلية تُشتقّ الآن من نظام التصميم الموحّد (يتبدّل تلقائياً بين الوضعين) */
+          --od-ink: var(--text);
+          --od-muted: var(--text-muted);
+          --od-soft: var(--surface);
+          --od-line: var(--border);
+          --od-indigo: var(--accent);
+          --od-violet: var(--accent-hover);
+          --od-emerald: var(--success);
+          --od-amber: var(--accent);
+          --od-rose: var(--danger);
           position: relative;
           min-height: 100vh;
           overflow: hidden;
@@ -955,9 +956,9 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           line-height: 1.75;
           background:
             radial-gradient(circle at 14% 12%, rgba(139, 92, 246,.18), transparent 28%),
-            radial-gradient(circle at 82% 10%, rgba(245,158,11,.16), transparent 30%),
-            radial-gradient(circle at 52% 92%, rgba(16,185,129,.12), transparent 32%),
-            linear-gradient(135deg, #f4f0fb 0%, #efe9fb 52%, #fff7ed 100%);
+            radial-gradient(circle at 82% 10%, rgba(124, 58, 237,.14), transparent 30%),
+            radial-gradient(circle at 52% 92%, rgba(168, 85, 247,.12), transparent 32%),
+            linear-gradient(135deg, #f4f0fb 0%, #efe9fb 52%, #f3edfb 100%);
         }
 
         .od-home-v2::before {
@@ -1128,9 +1129,9 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         }
 
         .od-button--ghost {
-          color: #463c63;
-          background: rgba(255,255,255,.78);
-          border: 1px solid rgba(167, 139, 250,.26);
+          color: var(--od-ink);
+          background: var(--od-soft);
+          border: 1px solid var(--od-line);
         }
 
         .od-hero-note {
@@ -1435,8 +1436,8 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           margin: 18px 0;
           padding: 20px;
           border-radius: 36px;
-          background: rgba(255,255,255,.78);
-          border: 1px solid rgba(255,255,255,.92);
+          background: var(--od-soft);
+          border: 1px solid var(--od-line);
           box-shadow: 0 22px 70px rgba(28, 17, 48,.08);
           backdrop-filter: blur(20px);
         }
@@ -1716,7 +1717,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           border: 0;
           padding: 22px;
           border-radius: 30px;
-          background: rgba(255,255,255,.88);
+          background: var(--od-soft);
           border: 1px solid rgba(255,255,255,.95);
           box-shadow: 0 18px 48px rgba(28, 17, 48,.08);
           transition: .28s ease;
@@ -1848,15 +1849,15 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-lab-card {
           padding: 24px;
           border-radius: 32px;
-          background: rgba(255,255,255,.78);
-          border: 1px solid rgba(255,255,255,.92);
+          background: var(--od-soft);
+          border: 1px solid var(--od-line);
           box-shadow: 0 18px 52px rgba(28, 17, 48,.07);
           backdrop-filter: blur(18px);
         }
 
         .od-lab-card h3 {
           margin: 0 0 10px;
-          color: #18102e;
+          color: var(--od-ink);
           font-size: 22px;
           line-height: 1.35;
           font-weight: 950;

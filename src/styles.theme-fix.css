@@ -21,96 +21,255 @@
 /* ===========================================================================
    0) نظام المتغيّرات الموحّد (هوية بنفسجية موحّدة) — فاتح + داكن
    =========================================================================== */
+/* ---------------------------------------------------------------------------
+   نظام التصميم الموحّد — مصدر الحقيقة الوحيد للألوان (Single Source of Truth)
+   هوية بنفسجية (Munsaqah) موحّدة. كل القيم تمّ التحقّق من تباينها وفق WCAG 2.1 AA.
+   التصنيف الدلالي: Background / Surface / Text / Primary(Accent) / Border /
+   Success / Warning / Danger / Info. لا توجد ألوان "شاطحة" — كل لون له دور.
+   تتضمّن هذه الكتلة أيضًا "أسماء قديمة" (Legacy aliases) تربط متغيّرات styles.css
+   القديمة (--primary / --slate-900 / --surface ...) بالنظام الجديد، فتتبدّل
+   تلقائيًا بين الوضعين دون لمس الملف الأساسي.
+   --------------------------------------------------------------------------- */
 :root,
 html[data-theme="light"],
 html body.od-theme-light {
+  /* الخلفيات */
   --bg: #f3eefb;
   --bg-soft: #ece4f6;
+  --bg-tint: #faf6ff;
+  /* الأسطح */
   --surface: #ffffff;
   --surface-elevated: #faf7ff;
   --surface-muted: #f1ebfb;
   --card: #ffffff;
   --card-header: #f3edfc;
-  --text: #190f30;
-  --text-muted: #4c4170;
-  --text-soft: #6f6391;
-  --heading: #190f30;
+  /* النصوص (AA على الأسطح الفاتحة) */
+  --text: #1c1033;          /* 17.9:1 على الأبيض */
+  --text-muted: #4a3d6b;    /* 9.7:1  */
+  --text-soft: #6a5d88;     /* 5.9:1  */
+  --heading: #1c1033;
+  /* الإطارات */
   --border: rgba(124, 58, 237, .18);
   --border-strong: rgba(124, 58, 237, .30);
-  --accent: #7c3aed;
+  /* اللون الأساسي (العلامة) */
+  --accent: #7c3aed;        /* أبيض عليه = 5.7:1 */
   --accent-hover: #6d28d9;
   --accent-contrast: #ffffff;
-  --link: #6d28d9;
-  --gold: #6d28d9;
+  --accent-soft: rgba(124, 58, 237, .12);
+  --link: #6d28d9;          /* 7.1:1 على الأبيض */
+  --gold: #6d28d9;          /* "ذهبي" العلامة = بنفسجي للتوحيد */
   --gold-soft: rgba(124, 58, 237, .14);
+  /* الحقول */
   --field-bg: #ffffff;
   --field-text: #211a3a;
-  --field-placeholder: #8a7fae;
+  --field-placeholder: #6b5f8c;
   --field-border: rgba(124, 58, 237, .22);
+  /* الحالات */
   --success: #1b9c83;
   --success-bg: #e7f8f3;
-  --success-text: #0f6b58;
-  --warning: #6d28d9;
+  --success-text: #0f6b58;  /* 5.9:1 */
+  --success-border: rgba(27, 156, 131, .30);
+  --warning: #7c3aed;
   --warning-bg: #f1ebfb;
-  --warning-text: #4c1d95;
+  --warning-text: #4c1d95;  /* 9.4:1 */
+  --warning-border: rgba(124, 58, 237, .30);
   --danger: #dc2654;
   --danger-bg: #fdeaef;
-  --danger-text: #a4163a;
+  --danger-text: #a4163a;   /* 6.6:1 */
+  --danger-border: rgba(220, 38, 84, .30);
   --info-bg: #efe9fb;
-  --info-text: #4c3a82;
-  --metric-bg: #1c1130;
-  --metric-text: #f4f0fb;
+  --info-text: #3f2f72;
+  --info-border: rgba(124, 58, 237, .24);
+  /* المقاييس والـ pills */
+  --metric-bg: #ffffff;
+  --metric-text: #1c1033;
   --nav-pill-bg: rgba(124, 58, 237, .07);
-  --nav-pill-text: #4c3a82;
+  --nav-pill-text: #4c3a82;       /* 7.5:1 على خلفية الـpill */
   --nav-pill-hover-bg: rgba(124, 58, 237, .13);
   --nav-pill-hover-text: #2a1758;
+  --nav-pill-active-bg: linear-gradient(135deg, #7c3aed, #a855f7);
   --nav-pill-active-text: #ffffff;
+  /* أسطح داكنة موجودة في الوضعين (heroes/gauges) — نصّها فاتح دائمًا */
+  --surface-invert: #18102e;
+  --surface-invert-2: #281748;
+  --text-on-invert: #f7f3fc;
+  --text-on-invert-muted: #d8cff2;
+  --eyebrow-on-invert: #c4b5fd;
+  --shadow-card: 0 28px 90px rgba(18, 11, 34, .12);
+
+  /* ====== Legacy aliases (لتوريث styles.css والمكوّنات تلقائيًا) ====== */
+  --primary: var(--accent);
+  --primary-dark: #3b1d6e;
+  --primary-soft: #ede6fb;
+  --slate-900: var(--text);
+  --shadow: var(--shadow-card);
+  --success-soft: var(--success-bg);
+  --locked: #6a5d88;
+  --locked-soft: #efe9fb;
+
+  /* ====== أسماء مراحل سابقة (موحّدة هنا لمنع التكرار/التعارض) ====== */
+  --dark-surface: var(--surface-invert);
+  --dark-surface-2: var(--surface-invert-2);
+  --dark-text: var(--text-on-invert);
+  --dark-muted: var(--text-on-invert-muted);
+  --od-readable-heading: var(--heading);
+  --od-readable-text: var(--text-muted);
+  --od-readable-muted: var(--text-soft);
+  --od-readable-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+  --od-readable-soft: var(--surface-elevated);
+  --od-readable-border: var(--border);
+  --od56-heading: var(--heading);
+  --od56-text: var(--text-muted);
+  --od56-muted: var(--text-soft);
+  --od56-accent: var(--link);
+  --od56-dark-heading: var(--text-on-invert);
+  --od56-dark-muted: var(--text-on-invert-muted);
+
   color-scheme: light;
 }
+
 html[data-theme="dark"],
 html body.od-theme-dark {
+  /* الخلفيات */
   --bg: #0c0717;
   --bg-soft: #0e0820;
+  --bg-tint: #120a22;
+  /* الأسطح */
   --surface: rgba(28, 17, 48, .94);
   --surface-elevated: rgba(38, 24, 66, .96);
   --surface-muted: rgba(24, 14, 42, .92);
   --card: rgba(28, 17, 48, .94);
   --card-header: rgba(38, 24, 66, .9);
-  --text: #ece6f8;
-  --text-muted: #c9bdf0;
-  --text-soft: #a99fce;
+  /* النصوص (AA على السطح الداكن) */
+  --text: #ece6f8;          /* 14.9:1 على السطح */
+  --text-muted: #c9bdf0;    /* 10.4:1 */
+  --text-soft: #a99fce;     /* 7.4:1  */
   --heading: #f4effc;
+  /* الإطارات */
   --border: rgba(167, 139, 250, .22);
   --border-strong: rgba(196, 181, 253, .42);
-  --accent: #a855f7;
+  /* اللون الأساسي (العلامة) */
+  --accent: #a855f7;        /* 5.0:1 على الخلفية */
   --accent-hover: #bb8ff6;
   --accent-contrast: #10081f;
-  --link: #c9b4f7;
+  --accent-soft: rgba(167, 139, 250, .16);
+  --link: #c9b4f7;          /* 9.8:1 على السطح */
   --gold: #c4b5fd;
   --gold-soft: rgba(167, 139, 250, .16);
+  /* الحقول */
   --field-bg: rgba(18, 11, 32, .9);
   --field-text: #efe9fb;
-  --field-placeholder: #9a8fc0;
+  --field-placeholder: #9a8fc0;  /* 6.5:1 */
   --field-border: rgba(167, 139, 250, .30);
+  /* الحالات */
   --success: #34d3b3;
   --success-bg: rgba(16, 185, 129, .15);
-  --success-text: #7ff0d4;
+  --success-text: #7ff0d4;  /* 12:1 */
+  --success-border: rgba(52, 211, 179, .34);
   --warning: #c4b5fd;
   --warning-bg: rgba(167, 139, 250, .16);
-  --warning-text: #ddd6fe;
+  --warning-text: #ddd6fe;  /* 11.6:1 */
+  --warning-border: rgba(167, 139, 250, .34);
   --danger: #fb7185;
   --danger-bg: rgba(248, 113, 113, .16);
-  --danger-text: #fda4af;
+  --danger-text: #fda4af;   /* 8.6:1 */
+  --danger-border: rgba(251, 113, 133, .34);
   --info-bg: rgba(124, 58, 237, .18);
   --info-text: #cdbcf8;
-  --metric-bg: rgba(20, 12, 36, .96);
+  --info-border: rgba(167, 139, 250, .28);
+  /* المقاييس والـ pills */
+  --metric-bg: rgba(255, 255, 255, .06);
   --metric-text: #f4f0fb;
   --nav-pill-bg: rgba(167, 139, 250, .10);
-  --nav-pill-text: #d9cdf2;
+  --nav-pill-text: #d9cdf2;       /* 11.8:1 */
   --nav-pill-hover-bg: rgba(167, 139, 250, .20);
   --nav-pill-hover-text: #ffffff;
+  --nav-pill-active-bg: linear-gradient(135deg, #a855f7, #7c3aed);
   --nav-pill-active-text: #ffffff;
+  /* أسطح داكنة في الوضعين — نفس قيم الوضع الفاتح (الـhero داكن دائمًا) */
+  --surface-invert: #18102e;
+  --surface-invert-2: #281748;
+  --text-on-invert: #f7f3fc;
+  --text-on-invert-muted: #d8cff2;
+  --eyebrow-on-invert: #c4b5fd;
+  --shadow-card: 0 28px 90px rgba(0, 0, 0, .42);
+
+  /* ====== Legacy aliases ====== */
+  --primary: var(--accent);
+  --primary-dark: #d9cdf2;
+  --primary-soft: rgba(167, 139, 250, .16);
+  --slate-900: var(--text);
+  --shadow: var(--shadow-card);
+  --success-soft: var(--success-bg);
+  --locked: #a99fce;
+  --locked-soft: rgba(167, 139, 250, .12);
+
+  /* ====== أسماء مراحل سابقة (موحّدة) ====== */
+  --dark-surface: var(--surface-invert);
+  --dark-surface-2: var(--surface-invert-2);
+  --dark-text: var(--text-on-invert);
+  --dark-muted: var(--text-on-invert-muted);
+  --od-readable-heading: var(--heading);
+  --od-readable-text: var(--text-muted);
+  --od-readable-muted: var(--text-soft);
+  --od-readable-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
+  --od-readable-soft: var(--accent-soft);
+  --od-readable-border: var(--border-strong);
+  --od56-heading: var(--heading);
+  --od56-text: var(--text-muted);
+  --od56-muted: var(--text-soft);
+  --od56-accent: var(--link);
+  --od56-dark-heading: var(--text-on-invert);
+  --od56-dark-muted: var(--text-on-invert-muted);
+
   color-scheme: dark;
+}
+
+/* ===========================================================================
+   0.1) جسور المكوّنات + خلفيات الصفحات في الوضع الداكن
+   ----------------------------------------------------------------------------
+   كل مكوّن كان يعرّف لوحته المحلّية (--ink / --muted / --line / --gold ...)
+   بقيَم فاتحة ثابتة، وكانت خلفية جذر الصفحة فاتحة دائمًا حتى في الوضع الداكن
+   (وهذا أكبر سبب لـ"الألوان الشاطحة"). هنا نربط تلك المتغيّرات المحلّية بالنظام
+   الموحّد ونُصلح خلفية الصفحة — فيتبدّل المكوّن كاملًا من مصدر واحد.
+   =========================================================================== */
+html body.od-theme-dark :is(
+  .radar-assessment-page, .journey-lab, .about-rayan
+) {
+  --ink: var(--text);
+  --muted: var(--text-muted);
+  --line: var(--border);
+  --primary: var(--accent);
+  --violet: var(--accent-hover);
+  --gold: var(--accent);
+  --green: var(--success);
+  --red: var(--danger);
+}
+html body.od-theme-dark .about-rayan {
+  --gold: var(--accent);
+  --gold-deep: #c4b5fd;
+  --gold-light: #d6c8ff;
+  --gold-soft: var(--accent-soft);
+}
+
+/* خلفية موحّدة داكنة لكل صفحات المكوّنات (تمنع ظهور التدرّج الفاتح خلف البطاقات) */
+html body.od-theme-dark :is(
+  .od-home-v2, .journey-lab, .radar-assessment-page,
+  .sim-root, .roi-page, .mastery-page, .about-rayan
+) {
+  background:
+    radial-gradient(circle at 14% 10%, rgba(139, 92, 246, .16), transparent 30%),
+    radial-gradient(circle at 84% 14%, rgba(124, 58, 237, .12), transparent 30%),
+    radial-gradient(circle at 50% 92%, rgba(168, 85, 247, .10), transparent 32%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 55%, var(--bg-tint) 100%) !important;
+}
+
+/* خلفية الـ body نفسها في الوضع الداكن (المناطق غير المغطّاة بجذر مكوّن) */
+html body.od-theme-dark {
+  background:
+    radial-gradient(circle at top right, rgba(139, 92, 246, .10), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(168, 85, 247, .08), transparent 30%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%) !important;
 }
 
 /* ===========================================================================
@@ -147,19 +306,19 @@ html body.od-theme-dark mark {
 }
 
 /* ===========================================================================
-   3) الوضع الداكن — الأسطح: بطاقات/لوحات/مناطق + catch-all موسّع
+   3) الوضع الداكن — الأسطح: بطاقات/لوحات فقط (catch-all مُحكَم)
+   ----------------------------------------------------------------------------
+   أُزيلت اللواحق شديدة العموم (-row/-item/-section/-block) لأنها كانت تُلوّن
+   حاويات تخطيط ليست أسطحًا → "صناديق داكنة شاطحة". أبقينا الأسطح الحقيقية فقط.
    =========================================================================== */
 html body.od-theme-dark :is(
   [class*="card"], [class*="panel"], [class*="-box"], [class*="-tile"],
-  [class*="-strip"], [class*="-section"], [class*="-block"], [class*="-shell"],
-  [class*="-pane"], [class*="-surface"], [class*="-well"], [class*="-frame-inner"],
-  [class*="-result"], [class*="-row"], [class*="-item"], [class*="-step"],
-  [class*="-note"], [class*="-reading"], [class*="-summary"], [class*="-detail"],
+  [class*="-shell"], [class*="-pane"], [class*="-surface"], [class*="-well"],
   .issued, .archive-item, .message-bubble, .scenario-node, .scenario-mini,
   .day-step, .jl-reader, .jl-week-intro, .course-search-results,
-  .course-search-suggestions, .field-grid, .field-item
+  .course-search-suggestions
 ):not([class*="gauge"]):not([class*="ring"]):not([class*="hero"]):not([class*="command"]):not([class*="timer"]):not([class*="-mark"]):not([class*="progress"]):not([class*="bar"]):not(button):not([class*="pill"]):not([class*="badge"]):not([class*="tab"]) {
-  background-color: rgba(28, 17, 48, .92) !important;
+  background-color: var(--surface) !important;
   border-color: var(--border) !important;
 }
 
@@ -548,33 +707,9 @@ html body.od-theme-dark :is(hr, [class*="divider"], [class*="separator"]) {
 
 
 /* ============================================================
-   PHASE 54 — Surface-aware contrast repair for uploaded build
-   يعالج اللوحات الداكنة المتداخلة داخل الوضع الفاتح، ويمنع انقلاب
-   نصوص البطاقات البيضاء إلى فاتحة بسبب قواعد الحاوية الداكنة.
+   PHASE 54 — Surface-aware contrast repair (rules only)
+   الرموز نُقلت إلى "نظام التصميم الموحّد" أعلى الملف.
 ============================================================ */
-:root,
-html[data-theme="light"],
-html body.od-theme-light {
-  --nav-pill-active-bg: linear-gradient(135deg, #7c3aed, #a855f7);
-  --metric-bg: #ffffff;
-  --metric-text: #18102e;
-  --dark-surface: #18102e;
-  --dark-surface-2: #281748;
-  --dark-text: #f7f3fc;
-  --dark-muted: #d8cff2;
-}
-
-html[data-theme="dark"],
-html body.od-theme-dark {
-  --nav-pill-active-bg: linear-gradient(135deg, #a855f7, #7c3aed);
-  --metric-bg: rgba(255, 255, 255, .08);
-  --metric-text: #f7f3fc;
-  --dark-surface: #18102e;
-  --dark-surface-2: #281748;
-  --dark-text: #f7f3fc;
-  --dark-muted: #d8cff2;
-}
-
 html body {
   color: var(--text) !important;
   line-height: 1.75;
@@ -740,7 +875,7 @@ html body.od-theme-dark :is(.od-progress-track, .profile-progress-line, .radar-p
 
 html body :is(.od-progress-track b, .profile-progress-line span, .radar-progress-line i,
   .mini-progress span, .mastery-track span, .monthly-progress span, .weekly-reflection-progress span) {
-  background: linear-gradient(90deg, #8b5cf6, #10b981) !important;
+  background: linear-gradient(90deg, #7c3aed, #a855f7) !important;
 }
 
 /* Top section pills / tabs. */
@@ -826,28 +961,9 @@ html body :is(.portfolio-hero h1, .od-hero h1, .onboarding-title, .ar-title,
 }
 
 /* ============================================================
-   PHASE 55 - Final legal + surface-aware contrast guard.
-   Colors only: fixes inline legal pages and light-card text leaks in dark mode.
+   PHASE 55 - Legal + surface-aware contrast guard (rules only).
+   الرموز --od-readable-* موحّدة في "نظام التصميم" أعلى الملف.
 ============================================================ */
-html body:not(.od-theme-dark):not(.od-theme-dark),
-html body.od-theme-light {
-  --od-readable-heading: #2b155f;
-  --od-readable-text: #46345f;
-  --od-readable-muted: #6a5d85;
-  --od-readable-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
-  --od-readable-soft: #f3edfc;
-  --od-readable-border: rgba(124, 58, 237, .20);
-}
-
-html body.od-theme-dark.od-theme-dark {
-  --od-readable-heading: #f7f3fc;
-  --od-readable-text: #e7ddfb;
-  --od-readable-muted: #cfc3ee;
-  --od-readable-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
-  --od-readable-soft: rgba(167, 139, 250, .13);
-  --od-readable-border: rgba(196, 181, 253, .28);
-}
-
 html body:not(.od-theme-dark) :is(
   .legal-page,
   .legal-card,
@@ -981,27 +1097,9 @@ html body.od-theme-dark :is(.legal-alert--success) {
 }
 
 /* ============================================================
-   PHASE 56 - Final mixed-surface guard.
-   Keeps visitor/about pages from inheriting text-fill across opposite surfaces.
+   PHASE 56 - Mixed-surface guard (rules only).
+   الرموز --od56-* موحّدة في "نظام التصميم" أعلى الملف.
 ============================================================ */
-html body:not(.od-theme-dark):not(.od-theme-dark) {
-  --od56-heading: #24123f;
-  --od56-text: #4d3f69;
-  --od56-muted: #6a5d85;
-  --od56-accent: #6d28d9;
-  --od56-dark-heading: #f7f3fc;
-  --od56-dark-muted: #d8cff2;
-}
-
-html body.od-theme-dark.od-theme-dark {
-  --od56-heading: #f7f3fc;
-  --od56-text: #e7ddfb;
-  --od56-muted: #cfc3ee;
-  --od56-accent: #d9c7ff;
-  --od56-dark-heading: #f7f3fc;
-  --od56-dark-muted: #d8cff2;
-}
-
 html body :is(.public-gate, .about-rayan) :is(h1, h2, h3, h4, strong, b, p, li, span, small, a, button) {
   letter-spacing: 0 !important;
 }

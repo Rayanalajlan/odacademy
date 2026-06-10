@@ -1256,14 +1256,15 @@ export default function CourseJourney({
     <section className="journey-lab" dir="rtl">
       <style>{`
         .journey-lab {
-          --ink:#18102e;
-          --muted:#7a6c9a;
-          --line:rgba(167, 139, 250,.23);
-          --primary:#8b5cf6;
-          --violet:#7c3aed;
-          --gold:#a855f7;
-          --green:#10b981;
-          --red:#ef4444;
+          /* الرموز المحلية تُشتقّ الآن من نظام التصميم الموحّد */
+          --ink:var(--text);
+          --muted:var(--text-muted);
+          --line:var(--border);
+          --primary:var(--accent);
+          --violet:var(--accent-hover);
+          --gold:var(--accent);
+          --green:var(--success);
+          --red:var(--danger);
           min-height:100vh;
           position:relative;
           overflow:hidden;
@@ -1272,7 +1273,7 @@ export default function CourseJourney({
           background:
             radial-gradient(circle at 12% 12%, rgba(139, 92, 246,.18), transparent 31%),
             radial-gradient(circle at 86% 18%, rgba(139,92,246,.16), transparent 28%),
-            radial-gradient(circle at 50% 88%, rgba(16,185,129,.13), transparent 31%),
+            radial-gradient(circle at 50% 88%, rgba(168, 85, 247,.13), transparent 31%),
             linear-gradient(135deg,#f4f0fb 0%,#efe9fb 48%,#f4f0fb 100%);
         }
 
@@ -1398,8 +1399,8 @@ export default function CourseJourney({
         .jl-mini-progress {
           border-radius:24px;
           padding:16px;
-          background:rgba(255,255,255,.80);
-          border:1px solid rgba(255,255,255,.92);
+          background:var(--surface);
+          border:1px solid var(--line);
           box-shadow:0 16px 38px rgba(28, 17, 48,.08);
           backdrop-filter:blur(18px);
         }
@@ -1478,9 +1479,9 @@ export default function CourseJourney({
         .jl-crumb {
           padding:10px 14px;
           border-radius:999px;
-          background:rgba(255,255,255,.78);
-          border:1px solid rgba(255,255,255,.92);
-          color:#5b4f78;
+          background:var(--surface);
+          border:1px solid var(--line);
+          color:var(--muted);
           font-size:12px;
           font-weight:950;
           box-shadow:0 10px 28px rgba(28, 17, 48,.06);
