@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
-import { initializeTheme } from "../lib/themeService";
+import { useState } from "react";
 
-const BRAND_LOGO_SRC = "/rayan-logo.png";
+const BRAND_LOGO_CANDIDATES = [
+  "/brand/munsaqah-approved-horizontal.png",
+  "/brand/munsaqah-horizontal-official.png",
+  "/logo-horizontal.png",
+  "/brand/logo-horizontal.svg",
+  "/logo-horizontal.svg"
+];
 
 const styles = {
   page: {
     minHeight: "100vh",
     direction: "rtl",
     background:
-      "radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 34%), linear-gradient(135deg, #18102e 0%, #111827 48%, #281748 100%)",
-    color: "#e9e4f5",
+      "radial-gradient(circle at 100% 0%, rgba(183,148,244,0.20), transparent 34%), radial-gradient(circle at 0% 100%, rgba(126,96,205,0.12), transparent 30%), linear-gradient(180deg, #fbf7ff 0%, #f6efff 48%, #fffafc 100%)",
+    color: "#211336",
     padding: "28px 16px"
   },
   shell: {
@@ -29,37 +34,44 @@ const styles = {
     alignItems: "center",
     gap: "12px",
     textDecoration: "none",
-    color: "#ffffff"
+    color: "#211336",
+    background: "rgba(255,255,255,0.82)",
+    border: "1px solid rgba(126,96,205,0.16)",
+    borderRadius: "24px",
+    padding: "10px 14px",
+    boxShadow: "0 16px 42px rgba(60,37,98,0.08)"
   },
   logo: {
-    width: "52px",
-    height: "52px",
-    borderRadius: "18px",
+    width: "150px",
+    maxWidth: "44vw",
+    height: "auto",
+    maxHeight: "58px",
     objectFit: "contain",
-    background: "rgba(255,255,255,0.08)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    padding: "7px"
+    display: "block",
+    filter: "none"
   },
   fallbackLogo: {
-    width: "52px",
-    height: "52px",
+    width: "58px",
+    height: "58px",
     borderRadius: "18px",
     display: "grid",
     placeItems: "center",
-    background: "rgba(255,255,255,0.1)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    color: "#ffffff",
+    background: "linear-gradient(135deg, #efe7ff, #ffffff)",
+    border: "1px solid rgba(126,96,205,0.18)",
+    color: "#5b2bbd",
     fontWeight: 900
   },
   brandTitle: {
     margin: 0,
     fontSize: "1rem",
-    fontWeight: 900
+    fontWeight: 950,
+    color: "#211336"
   },
   brandSub: {
     margin: "4px 0 0",
     fontSize: "0.82rem",
-    color: "#c9bdf0"
+    color: "#6d607d",
+    fontWeight: 800
   },
   nav: {
     display: "flex",
@@ -67,45 +79,50 @@ const styles = {
     flexWrap: "wrap"
   },
   navLink: {
-    color: "#dbeafe",
+    color: "#5b2bbd",
     textDecoration: "none",
-    border: "1px solid rgba(219, 234, 254, 0.22)",
+    border: "1px solid rgba(126,96,205,0.18)",
     borderRadius: "999px",
     padding: "9px 13px",
-    background: "rgba(28, 17, 48, 0.42)",
-    fontSize: "0.9rem"
+    background: "rgba(255,255,255,0.78)",
+    fontSize: "0.9rem",
+    fontWeight: 900,
+    boxShadow: "0 10px 28px rgba(60,37,98,0.06)"
   },
   card: {
-    background: "rgba(255, 255, 255, 0.96)",
-    color: "#18102e",
+    background:
+      "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,247,255,0.92))",
+    color: "#211336",
     borderRadius: "30px",
     padding: "clamp(22px, 4vw, 44px)",
-    boxShadow: "0 24px 70px rgba(0,0,0,0.28)",
-    border: "1px solid rgba(255,255,255,0.22)"
+    boxShadow: "0 24px 70px rgba(60,37,98,0.14)",
+    border: "1px solid rgba(126,96,205,0.16)"
   },
   eyebrow: {
     margin: 0,
-    color: "#8b5cf6",
-    fontWeight: 900,
+    color: "#5b2bbd",
+    fontWeight: 950,
     letterSpacing: "0.02em"
   },
   title: {
     margin: "10px 0 12px",
     fontSize: "clamp(1.9rem, 4vw, 3.2rem)",
     lineHeight: 1.2,
-    color: "#18102e"
+    color: "#211336"
   },
   intro: {
     margin: "0 0 28px",
-    color: "#5b4f78",
+    color: "#5b4a72",
     lineHeight: 1.9,
-    fontSize: "1.02rem"
+    fontSize: "1.02rem",
+    fontWeight: 750
   },
   footer: {
     marginTop: "20px",
-    color: "#c9bdf0",
+    color: "#6d607d",
     fontSize: "0.86rem",
-    textAlign: "center"
+    textAlign: "center",
+    fontWeight: 800
   }
 };
 
@@ -115,138 +132,53 @@ export default function LegalLayout({
   intro,
   children
 }) {
-  const [logoFailed, setLogoFailed] = useState(false);
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [logoIndex, setLogoIndex] = useState(0);
+  const logoSrc = BRAND_LOGO_CANDIDATES[logoIndex];
 
-  useEffect(() => {
-    initializeTheme();
-  }, []);
-
-  function handleDeleteLink(event) {
-    event.preventDefault();
-    setConfirmDeleteOpen(true);
+  function handleLogoError() {
+    setLogoIndex((current) => current + 1);
   }
 
   return (
-    <main className="legal-page" style={styles.page}>
-      <div className="legal-shell" style={styles.shell}>
-        <header className="legal-header" style={styles.header}>
-          <a className="legal-brand" href="/" style={styles.brand} aria-label="العودة إلى الصفحة الرئيسية">
-            {logoFailed ? (
-              <span className="legal-fallback-logo" style={styles.fallbackLogo} aria-hidden="true">م</span>
-            ) : (
+    <main style={styles.page}>
+      <div style={styles.shell}>
+        <header style={styles.header}>
+          <a href="/" style={styles.brand} aria-label="العودة إلى الصفحة الرئيسية">
+            {logoSrc ? (
               <img
-                className="legal-logo"
-                src={BRAND_LOGO_SRC}
-                alt="شعار ريان العجلان"
+                src={logoSrc}
+                alt="شعار منسقة"
                 style={styles.logo}
-                onError={() => setLogoFailed(true)}
+                onError={handleLogoError}
               />
+            ) : (
+              <span style={styles.fallbackLogo} aria-hidden="true">م</span>
             )}
+
             <div>
-              <p className="legal-brand-title" style={styles.brandTitle}>منسقة</p>
-              <p className="legal-brand-sub" style={styles.brandSub}>منصة تعليمية للتطوير التنظيمي</p>
+              <p style={styles.brandTitle}>منسقة</p>
+              <p style={styles.brandSub}>منصة تعليمية للتطوير التنظيمي</p>
             </div>
           </a>
 
-          <nav className="legal-nav" style={styles.nav} aria-label="روابط الصفحات القانونية">
-            <a className="legal-nav-link" href="/" style={styles.navLink}>الرئيسية</a>
-            <a className="legal-nav-link" href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
-            <a className="legal-nav-link" href="/terms" style={styles.navLink}>شروط الاستخدام</a>
-            <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
+          <nav style={styles.nav} aria-label="روابط الصفحات القانونية">
+            <a href="/" style={styles.navLink}>الرئيسية</a>
+            <a href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
+            <a href="/terms" style={styles.navLink}>شروط الاستخدام</a>
+            <a href="/data-deletion" style={styles.navLink}>طلب حذف البيانات</a>
           </nav>
         </header>
 
-        <section className="legal-card legal-content-card" style={styles.card}>
-          <p className="legal-eyebrow" style={styles.eyebrow}>{eyebrow}</p>
-          <h1 className="legal-title" style={styles.title}>{title}</h1>
-          {intro ? <p className="legal-intro" style={styles.intro}>{intro}</p> : null}
+        <section style={styles.card}>
+          <p style={styles.eyebrow}>{eyebrow}</p>
+          <h1 style={styles.title}>{title}</h1>
+          {intro ? <p style={styles.intro}>{intro}</p> : null}
           {children}
         </section>
 
-        <footer className="legal-footer" style={styles.footer}>
+        <footer style={styles.footer}>
           © 2026 — منصة منسقة. جميع الحقوق محفوظة.
         </footer>
-
-        {confirmDeleteOpen ? (
-          <div
-            className="legal-confirm-backdrop"
-            role="dialog"
-            aria-modal="true"
-            aria-label="تنبيه قبل طلب حذف البيانات"
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 1000,
-              display: "grid",
-              placeItems: "center",
-              padding: "18px",
-              background: "rgba(12, 7, 23, .72)",
-              backdropFilter: "blur(10px)"
-            }}
-          >
-            <div
-              className="legal-confirm-dialog"
-              style={{
-                width: "min(520px, 100%)",
-                borderRadius: "26px",
-                padding: "22px",
-                background: "#ffffff",
-                color: "#18102e",
-                border: "1px solid rgba(239, 68, 68, .26)",
-                boxShadow: "0 26px 80px rgba(0, 0, 0, .28)",
-                textAlign: "right"
-              }}
-            >
-              <h2 style={{ margin: "0 0 10px", color: "#7f1d1d", fontSize: "1.25rem", lineHeight: 1.7 }}>
-                تنبيه قبل طلب حذف البيانات
-              </h2>
-              <p style={{ margin: 0, color: "#463c63", fontSize: ".96rem", lineHeight: 2, fontWeight: 800 }}>
-                هذا المسار مخصص لطلب حساس قد يؤدي بعد المراجعة والتحقق إلى حذف
-                حسابك، تقدمك، ملاحظاتك، وإنجازاتك داخل منسقة. لا تتابع إلا إذا
-                كنت تقصد فعلًا طلب حذف بياناتك.
-              </p>
-              <div className="legal-confirm-actions" style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "18px" }}>
-                <button
-                  className="legal-confirm-cancel"
-                  type="button"
-                  onClick={() => setConfirmDeleteOpen(false)}
-                  style={{
-                    border: 0,
-                    borderRadius: "16px",
-                    padding: "12px 16px",
-                    font: "inherit",
-                    fontWeight: 900,
-                    color: "#463c63",
-                    background: "#efe9fb",
-                    cursor: "pointer"
-                  }}
-                >
-                  إلغاء
-                </button>
-                <button
-                  className="legal-confirm-continue"
-                  type="button"
-                  onClick={() => {
-                    window.location.href = "/data-deletion";
-                  }}
-                  style={{
-                    border: 0,
-                    borderRadius: "16px",
-                    padding: "12px 16px",
-                    font: "inherit",
-                    fontWeight: 900,
-                    color: "#ffffff",
-                    background: "#991b1b",
-                    cursor: "pointer"
-                  }}
-                >
-                  أفهم وأريد المتابعة
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : null}
       </div>
     </main>
   );

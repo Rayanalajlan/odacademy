@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { initializeTheme, toggleTheme } from "../lib/themeService";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     setTheme(initializeTheme());
@@ -35,7 +35,7 @@ export default function ThemeToggle() {
           --container-height: 2.5em;
           --container-radius: 6.25em;
 
-          --container-light-bg: #efe9fb;
+          --container-light-bg: #efe7ff;
           --container-night-bg: #1d1f2c;
 
           --circle-container-diameter: 3.375em;
@@ -53,7 +53,7 @@ export default function ThemeToggle() {
 
           --stars-color: #fff;
           --clouds-color: #fbf7ff;
-          --back-clouds-color: #cfd6e6;
+          --back-clouds-color: #d8c3ff;
 
           --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
           --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
@@ -95,10 +95,10 @@ export default function ThemeToggle() {
           box-shadow:
             0em -0.062em 0.062em rgba(0, 0, 0, 0.25),
             0em 0.062em 0.125em rgba(255, 255, 255, 0.94),
-            0 12px 26px rgba(139, 92, 246, .16);
+            0 12px 26px rgba(126, 96, 205, .16);
           transition: var(--transition);
           position: relative;
-          border: 1px solid rgba(139, 92, 246, 0.20);
+          border: 1px solid rgba(126, 96, 205, 0.20);
         }
 
         .theme-switch__container::before {
@@ -234,7 +234,7 @@ export default function ThemeToggle() {
 
         .theme-switch__checkbox:checked + .theme-switch__container {
           background-color: var(--container-night-bg);
-          border-color: rgba(167, 139, 250, .18);
+          border-color: rgba(216, 195, 255, .18);
           box-shadow:
             0em -0.062em 0.062em rgba(0, 0, 0, 0.25),
             0em 0.062em 0.125em rgba(255, 255, 255, 0.16),
@@ -267,7 +267,7 @@ export default function ThemeToggle() {
         }
 
         .theme-switch:focus-within .theme-switch__container {
-          outline: 3px solid rgba(167, 139, 250, .80);
+          outline: 3px solid rgba(216, 195, 255, .80);
           outline-offset: 3px;
         }
 
