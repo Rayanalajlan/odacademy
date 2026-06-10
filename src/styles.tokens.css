@@ -1,0 +1,491 @@
+/* ============================================================================
+   OD Academy / منسقة — Design Tokens (Single Source of Truth)
+   ----------------------------------------------------------------------------
+   هذا الملف هو المصدر الوحيد لكل ألوان الموقع. لا تكتب أي لون بصري مباشر
+   (hex / rgb / hsl) داخل المكوّنات بعد اليوم — اسحب دائمًا من هذه الرموز.
+
+   • كل رمز اسمه مبني على وظيفته (semantic) لا على شكله.
+   • كل أزواج (نص/خلفية) و(حد/سطح) تم التحقق من تباينها وفق WCAG 2.1 AA
+     عبر فاحص تباين آلي قبل الاعتماد (انظر تقرير التباين في مخرجات المهمة).
+   • الهوية بنفسجية (Munsaqah) في الوضعين، لكن بتباين صحيح وقراءة عالية.
+
+   التفعيل:
+     الوضع الفاتح  → html[data-theme="light"]  أو  body.od-theme-light
+     الوضع الداكن  → html[data-theme="dark"]   أو  body.od-theme-dark
+   (themeService.js يضبط كليهما، وسكربت مضمّن في index.html يمنع وميض FOUC.)
+
+   ملاحظة على الأولوية (Specificity):
+     نعرّف الرموز على محدّدات `html[data-theme] / html body.od-theme-*`
+     لأن أولويتها أعلى من `:root`، فتتغلّب على أي `:root { --lab-*: ... }`
+     يُحقَن وقت التشغيل من المكوّنات (مثل ExperienceDesignSkin) بغضّ النظر
+     عن ترتيب الحقن. هذا ما يجعل الإصلاح "جذريًا" لا موضعيًا.
+   ========================================================================== */
+
+/* ===========================================================================
+   1) الوضع الفاتح — Light theme
+   =========================================================================== */
+:root,
+html[data-theme="light"],
+html body.od-theme-light {
+  color-scheme: light;
+
+  /* ---- الخلفيات (Backgrounds) ---- */
+  --color-bg-page: #f4eefb;            /* خلفية الصفحة العامة، بنفسجي فاتح مريح */
+  --color-bg-app: #fbf9fe;             /* خلفية منطقة التطبيق */
+  --color-bg-surface: #ffffff;         /* سطح أساسي */
+  --color-bg-surface-elevated: #faf7ff;/* سطح مرتفع (لوحات/نوافذ) */
+  --color-bg-surface-muted: #f1ebfb;   /* سطح ثانوي هادئ */
+
+  /* ---- البطاقات (Cards) ---- */
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f6f1ff;
+  --color-bg-card-selected: #eaddff;
+
+  /* ---- الإدخال (Inputs) ---- */
+  --color-bg-input: #ffffff;
+  --color-bg-input-disabled: #f1ecf9;
+
+  /* ---- الأزرار (Buttons) ---- */
+  --color-bg-button-primary: #7c3aed;          /* أبيض عليه = 5.70:1 */
+  --color-bg-button-primary-hover: #6d28d9;     /* أبيض عليه = 7.10:1 */
+  --color-bg-button-primary-active: #5b21b6;
+  --color-bg-button-secondary: #ede6fb;
+  --color-bg-button-secondary-hover: #e0d2f8;
+  --color-bg-button-disabled: #e6def3;
+
+  /* ---- النصوص (Text) ---- */
+  --color-text-primary: #1c1033;       /* 17.9:1 على الأبيض */
+  --color-text-secondary: #3a2860;     /* 12.7:1 */
+  --color-text-muted: #574874;         /*  8.1:1 */
+  --color-text-disabled: #867aa0;      /*  3.96:1 (للنص المعطّل غير الحيوي) */
+  --color-text-inverse: #ffffff;
+  --color-text-on-primary: #ffffff;    /* نص فوق الأزرار/الأسطح الأساسية */
+  --color-text-on-card: #1c1033;
+  --color-text-link: #6d28d9;          /* 7.10:1 على الأبيض */
+  --color-text-link-hover: #5b21b6;
+
+  /* ---- الحدود (Borders) ---- */
+  --color-border-default: #cdb8f0;     /* 1.6:1 (حدّ ناعم تزييني) */
+  --color-border-muted: #e4d8f8;
+  --color-border-strong: #7c3aed;      /* 5.70:1 على الأبيض (حدود مهمّة/تركيز) */
+  --color-border-focus: #7c3aed;       /* 5.01:1 على خلفية الصفحة */
+
+  /* ---- اللون الأساسي والثانوي (Accents) ---- */
+  --color-accent-primary: #7c3aed;
+  --color-accent-primary-soft: rgba(124, 58, 237, .12);
+  --color-accent-secondary: #0d9488;   /* فيروزي ثانوي للتقدّم/النجاح */
+  --color-accent-secondary-soft: rgba(13, 148, 136, .12);
+
+  /* ---- الحالات (Status) ---- */
+  --color-success: #1b9c83;
+  --color-success-bg: #e6f7f1;
+  --color-success-text: #0e6b58;       /* 5.80:1 */
+  --color-success-border: rgba(27, 156, 131, .34);
+
+  --color-warning: #b45309;
+  --color-warning-bg: #fbf1df;
+  --color-warning-text: #8a5a00;       /* 5.29:1 */
+  --color-warning-border: rgba(180, 83, 9, .32);
+
+  --color-danger: #dc2654;
+  --color-danger-bg: #fce9ee;
+  --color-danger-text: #a4163a;        /* 6.55:1 */
+  --color-danger-border: rgba(220, 38, 84, .34);
+
+  --color-info: #2563eb;
+  --color-info-bg: #eadffb;
+  --color-info-text: #3f2f72;          /* 8.84:1 */
+  --color-info-border: rgba(124, 58, 237, .26);
+
+  /* ---- الشارات (Badges / Pills) — متغيّرات قاعدية + variants ---- */
+  --color-badge-bg: #ede6fb;
+  --color-badge-text: #46357e;         /* 8.36:1 */
+  --color-badge-border: rgba(124, 58, 237, .26);
+  --color-badge-success-bg: var(--color-success-bg);
+  --color-badge-success-text: var(--color-success-text);
+  --color-badge-warning-bg: var(--color-warning-bg);
+  --color-badge-warning-text: var(--color-warning-text);
+  --color-badge-danger-bg: var(--color-danger-bg);
+  --color-badge-danger-text: var(--color-danger-text);
+  --color-badge-info-bg: var(--color-info-bg);
+  --color-badge-info-text: var(--color-info-text);
+  --color-badge-locked-bg: #efe9fb;
+  --color-badge-locked-text: #5b4d7a;  /* 6.36:1 */
+  --color-badge-available-bg: var(--color-success-bg);
+  --color-badge-available-text: var(--color-success-text);
+
+  /* ---- التنقّل والتبويبات (Nav / Tabs) ---- */
+  --color-nav-bg: rgba(255, 255, 255, .82);
+  --color-nav-pill-bg: #ede6fb;
+  --color-nav-pill-text: #46357e;      /* 8.36:1 */
+  --color-nav-pill-hover-bg: #e0d2f8;
+  --color-nav-pill-hover-text: #2a1758;
+  --color-nav-pill-active-bg: linear-gradient(135deg, #7c3aed, #a855f7);
+  --color-nav-pill-active-text: #ffffff;
+
+  /* ---- اختيارات الاختبار (Quiz option states) ---- */
+  --color-quiz-bg: #ffffff;
+  --color-quiz-text: #1c1033;
+  --color-quiz-border: #d8c9f4;
+  --color-quiz-hover-bg: #f6f1ff;
+  --color-quiz-hover-border: #b794f4;
+  --color-quiz-selected-bg: #eaddff;
+  --color-quiz-selected-text: #2a1758;
+  --color-quiz-selected-border: #7c3aed;
+  --color-quiz-correct-bg: #e6f7f1;
+  --color-quiz-correct-text: #0e6b58;
+  --color-quiz-correct-border: #1b9c83;
+  --color-quiz-wrong-bg: #fce9ee;
+  --color-quiz-wrong-text: #a4163a;
+  --color-quiz-wrong-border: #dc2654;
+  --color-quiz-disabled-bg: #f1ecf9;
+  --color-quiz-disabled-text: #6b5f86;
+  --color-quiz-disabled-border: #e0d8f0;
+  --color-quiz-marker-bg: #ede6fb;     /* دائرة حرف الخيار */
+  --color-quiz-marker-text: #46357e;
+
+  /* ---- أشرطة التقدّم (Progress) ---- */
+  --color-progress-track: #e4d8f8;
+  --color-progress-fill: #7c3aed;
+  --color-progress-text: #1c1033;
+
+  /* ---- حالات القفل/التعطيل (Locked / Disabled) ---- */
+  --color-locked-bg: #efe9fb;
+  --color-locked-text: #5b4d7a;        /* 6.36:1 — مقروء رغم كونه "مقفلاً" */
+  --color-locked-border: rgba(124, 58, 237, .22);
+  --color-locked-icon: #7c5fb0;
+
+  /* ---- الجداول (Tables) ---- */
+  --color-table-header-bg: #f1ebfb;
+  --color-table-header-text: #2a1758;
+  --color-table-row-bg: #ffffff;
+  --color-table-row-alt-bg: #faf7ff;
+  --color-table-row-hover-bg: #f3ecff;
+  --color-table-border: #e4d8f8;
+
+  /* ---- الأسطح الداكنة المقصودة (heroes/gauges) — داكنة في الوضعين ---- */
+  --color-bg-invert: #18102e;
+  --color-bg-invert-2: #281748;
+  --color-text-on-invert: #f7f3fc;
+  --color-text-on-invert-muted: #d8cff2;
+  --color-text-on-invert-eyebrow: #c4b5fd;
+
+  /* ---- الطبقات والظلال (Overlays / Shadows) ---- */
+  --color-overlay: rgba(28, 17, 48, .45);
+  --color-overlay-soft: rgba(28, 17, 48, .28);
+  --color-overlay-strong: rgba(13, 7, 24, .62);
+  --color-shadow: 0 28px 90px rgba(18, 11, 34, .12);
+  --color-shadow-sm: 0 8px 24px rgba(18, 11, 34, .08);
+  --color-shadow-lg: 0 36px 110px rgba(18, 11, 34, .16);
+}
+
+/* ===========================================================================
+   2) الوضع الداكن — Dark theme
+   =========================================================================== */
+html[data-theme="dark"],
+html body.od-theme-dark {
+  color-scheme: dark;
+
+  /* ---- الخلفيات ---- */
+  --color-bg-page: #0c0717;
+  --color-bg-app: #11071f;
+  --color-bg-surface: #1b1130;
+  --color-bg-surface-elevated: #241640;
+  --color-bg-surface-muted: #160d2a;
+
+  /* ---- البطاقات (داكنة دائمًا — لا أبيض عشوائي) ---- */
+  --color-bg-card: #1b1130;
+  --color-bg-card-hover: #261747;
+  --color-bg-card-selected: #33205c;
+
+  /* ---- الإدخال ---- */
+  --color-bg-input: #150b28;
+  --color-bg-input-disabled: #1a1030;
+
+  /* ---- الأزرار ---- */
+  --color-bg-button-primary: #7c3aed;          /* أبيض عليه = 5.70:1 */
+  --color-bg-button-primary-hover: #8b4df0;     /* أبيض عليه = 4.75:1 */
+  --color-bg-button-primary-active: #6d28d9;
+  --color-bg-button-secondary: #271843;
+  --color-bg-button-secondary-hover: #33205c;
+  --color-bg-button-disabled: #221634;
+
+  /* ---- النصوص (فاتحة على الأسطح الداكنة) ---- */
+  --color-text-primary: #f4effc;       /* 15.9:1 على البطاقة */
+  --color-text-secondary: #d7caf3;     /* 11.7:1 */
+  --color-text-muted: #b3a4d6;         /*  7.9:1 */
+  --color-text-disabled: #897bac;      /*  4.70:1 */
+  --color-text-inverse: #1c1033;
+  --color-text-on-primary: #ffffff;
+  --color-text-on-card: #f4effc;
+  --color-text-link: #c4b5fd;          /* 9.73:1 على البطاقة */
+  --color-text-link-hover: #ddd6fe;
+
+  /* ---- الحدود ---- */
+  --color-border-default: #3e2c66;     /* مرئي على السطح الداكن */
+  --color-border-muted: #2a1c46;
+  --color-border-strong: #a855f7;      /* 4.54:1 على السطح (حدود/تركيز مهمّة) */
+  --color-border-focus: #b98cff;       /* 7.80:1 على الصفحة */
+
+  /* ---- اللون الأساسي والثانوي ---- */
+  --color-accent-primary: #b98cff;     /* أمامي على الأسطح الداكنة = 7.06:1 */
+  --color-accent-primary-soft: rgba(167, 139, 250, .16);
+  --color-accent-secondary: #2dd4bf;
+  --color-accent-secondary-soft: rgba(45, 212, 191, .16);
+
+  /* ---- الحالات ---- */
+  --color-success: #34d3b3;
+  --color-success-bg: #0f2a24;
+  --color-success-text: #7ff0d4;       /* 11.1:1 */
+  --color-success-border: rgba(52, 211, 179, .38);
+
+  --color-warning: #fbbf24;
+  --color-warning-bg: #2e2410;
+  --color-warning-text: #fcd34d;       /* 10.6:1 */
+  --color-warning-border: rgba(251, 191, 36, .38);
+
+  --color-danger: #fb7185;
+  --color-danger-bg: #2e1620;
+  --color-danger-text: #fda4af;        /* 8.87:1 */
+  --color-danger-border: rgba(251, 113, 133, .40);
+
+  --color-info: #60a5fa;
+  --color-info-bg: #1e1240;
+  --color-info-text: #cdbcf8;          /* 9.99:1 */
+  --color-info-border: rgba(167, 139, 250, .32);
+
+  /* ---- الشارات ---- */
+  --color-badge-bg: #241640;
+  --color-badge-text: #d9cdf2;         /* 11.05:1 */
+  --color-badge-border: rgba(167, 139, 250, .34);
+  --color-badge-success-bg: var(--color-success-bg);
+  --color-badge-success-text: var(--color-success-text);
+  --color-badge-warning-bg: var(--color-warning-bg);
+  --color-badge-warning-text: var(--color-warning-text);
+  --color-badge-danger-bg: var(--color-danger-bg);
+  --color-badge-danger-text: var(--color-danger-text);
+  --color-badge-info-bg: var(--color-info-bg);
+  --color-badge-info-text: var(--color-info-text);
+  --color-badge-locked-bg: #1a1230;
+  --color-badge-locked-text: #a99fce;  /* 7.28:1 */
+  --color-badge-available-bg: var(--color-success-bg);
+  --color-badge-available-text: var(--color-success-text);
+
+  /* ---- التنقّل والتبويبات ---- */
+  --color-nav-bg: rgba(20, 12, 36, .82);
+  --color-nav-pill-bg: #241640;
+  --color-nav-pill-text: #d9cdf2;      /* 11.05:1 */
+  --color-nav-pill-hover-bg: #33205c;
+  --color-nav-pill-hover-text: #ffffff;
+  --color-nav-pill-active-bg: linear-gradient(135deg, #a855f7, #7c3aed);
+  --color-nav-pill-active-text: #ffffff;
+
+  /* ---- اختيارات الاختبار ---- */
+  --color-quiz-bg: #1b1130;
+  --color-quiz-text: #f4effc;
+  --color-quiz-border: #3e2c66;
+  --color-quiz-hover-bg: #261747;
+  --color-quiz-hover-border: #6d4aa8;
+  --color-quiz-selected-bg: #33205c;
+  --color-quiz-selected-text: #f4effc;
+  --color-quiz-selected-border: #b98cff;
+  --color-quiz-correct-bg: #0f2a24;
+  --color-quiz-correct-text: #7ff0d4;
+  --color-quiz-correct-border: #34d3b3;
+  --color-quiz-wrong-bg: #2e1620;
+  --color-quiz-wrong-text: #fda4af;
+  --color-quiz-wrong-border: #fb7185;
+  --color-quiz-disabled-bg: #160d2a;
+  --color-quiz-disabled-text: #897bac;
+  --color-quiz-disabled-border: #2a1c46;
+  --color-quiz-marker-bg: #33205c;
+  --color-quiz-marker-text: #e9e0fb;
+
+  /* ---- أشرطة التقدّم ---- */
+  --color-progress-track: #2a1c46;
+  --color-progress-fill: #2dd4bf;
+  --color-progress-text: #f4effc;
+
+  /* ---- حالات القفل/التعطيل ---- */
+  --color-locked-bg: #1a1230;
+  --color-locked-text: #a99fce;        /* 7.28:1 — مقروء */
+  --color-locked-border: rgba(167, 139, 250, .22);
+  --color-locked-icon: #9a8fc0;
+
+  /* ---- الجداول ---- */
+  --color-table-header-bg: #241640;
+  --color-table-header-text: #e9e0fb;
+  --color-table-row-bg: #1b1130;
+  --color-table-row-alt-bg: #190f2c;
+  --color-table-row-hover-bg: #261747;
+  --color-table-border: #2a1c46;
+
+  /* ---- الأسطح الداكنة المقصودة — نفس قيم الفاتح (الـhero داكن دائمًا) ---- */
+  --color-bg-invert: #18102e;
+  --color-bg-invert-2: #281748;
+  --color-text-on-invert: #f7f3fc;
+  --color-text-on-invert-muted: #d8cff2;
+  --color-text-on-invert-eyebrow: #c4b5fd;
+
+  /* ---- الطبقات والظلال ---- */
+  --color-overlay: rgba(0, 0, 0, .6);
+  --color-overlay-soft: rgba(0, 0, 0, .42);
+  --color-overlay-strong: rgba(0, 0, 0, .76);
+  --color-shadow: 0 28px 90px rgba(0, 0, 0, .42);
+  --color-shadow-sm: 0 8px 24px rgba(0, 0, 0, .32);
+  --color-shadow-lg: 0 36px 110px rgba(0, 0, 0, .54);
+}
+
+/* ===========================================================================
+   3) جسر التوافق (Legacy aliases)
+   ----------------------------------------------------------------------------
+   يربط أسماء المتغيّرات القديمة المستخدمة في styles.css وفي المكوّنات بالرموز
+   الدلالية الجديدة، فتتبدّل تلقائيًا بين الوضعين دون لمس كل ملف على حدة.
+   نعرّفها بنفس محدّدات الثيم عالية الأولوية لتتغلّب على التعريفات المحقونة.
+   =========================================================================== */
+:root,
+html[data-theme="light"],
+html body.od-theme-light,
+html[data-theme="dark"],
+html body.od-theme-dark {
+  /* خلفيات/أسطح */
+  --bg: var(--color-bg-page);
+  --bg-soft: var(--color-bg-surface-muted);
+  --bg-tint: var(--color-bg-surface-elevated);
+  --surface: var(--color-bg-surface);
+  --surface-elevated: var(--color-bg-surface-elevated);
+  --surface-muted: var(--color-bg-surface-muted);
+  --card: var(--color-bg-card);
+  --card-header: var(--color-bg-surface-muted);
+
+  /* نصوص */
+  --text: var(--color-text-primary);
+  --text-muted: var(--color-text-muted);
+  --text-soft: var(--color-text-muted);
+  --heading: var(--color-text-primary);
+  --slate-900: var(--color-text-primary);
+  --ink: var(--color-text-primary);
+  --muted: var(--color-text-muted);
+
+  /* إطارات */
+  --border: var(--color-border-default);
+  --border-strong: var(--color-border-strong);
+  --line: var(--color-border-default);
+  --line-strong: var(--color-border-strong);
+
+  /* أساسي/علامة */
+  --primary: var(--color-accent-primary);
+  --primary-dark: var(--color-text-link);
+  --primary-soft: var(--color-accent-primary-soft);
+  --accent: var(--color-accent-primary);
+  --accent-hover: var(--color-bg-button-primary-hover);
+  --accent-contrast: var(--color-text-on-primary);
+  --accent-soft: var(--color-accent-primary-soft);
+  --violet: var(--color-accent-primary);
+  --indigo: var(--color-accent-primary);
+  --link: var(--color-text-link);
+  --gold: var(--color-text-link);
+  --gold-soft: var(--color-accent-primary-soft);
+
+  /* حقول */
+  --field-bg: var(--color-bg-input);
+  --field-text: var(--color-text-primary);
+  --field-placeholder: var(--color-text-muted);
+  --field-border: var(--color-border-default);
+
+  /* حالات */
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --success-soft: var(--color-success-bg);
+  --success-text: var(--color-success-text);
+  --success-border: var(--color-success-border);
+  --green: var(--color-success);
+  --warning: var(--color-warning);
+  --warning-bg: var(--color-warning-bg);
+  --warning-text: var(--color-warning-text);
+  --warning-border: var(--color-warning-border);
+  --danger: var(--color-danger);
+  --danger-bg: var(--color-danger-bg);
+  --danger-text: var(--color-danger-text);
+  --danger-border: var(--color-danger-border);
+  --red: var(--color-danger);
+  --info-bg: var(--color-info-bg);
+  --info-text: var(--color-info-text);
+  --info-border: var(--color-info-border);
+
+  /* مقاييس/شارات/تنقّل */
+  --metric-bg: var(--color-bg-surface);
+  --metric-text: var(--color-text-primary);
+  --nav-pill-bg: var(--color-nav-pill-bg);
+  --nav-pill-text: var(--color-nav-pill-text);
+  --nav-pill-hover-bg: var(--color-nav-pill-hover-bg);
+  --nav-pill-hover-text: var(--color-nav-pill-hover-text);
+  --nav-pill-active-bg: var(--color-nav-pill-active-bg);
+  --nav-pill-active-text: var(--color-nav-pill-active-text);
+
+  /* قفل */
+  --locked: var(--color-locked-text);
+  --locked-soft: var(--color-locked-bg);
+
+  /* أسطح مقلوبة داكنة */
+  --surface-invert: var(--color-bg-invert);
+  --surface-invert-2: var(--color-bg-invert-2);
+  --dark-surface: var(--color-bg-invert);
+  --dark-surface-2: var(--color-bg-invert-2);
+  --text-on-invert: var(--color-text-on-invert);
+  --text-on-invert-muted: var(--color-text-on-invert-muted);
+  --dark-text: var(--color-text-on-invert);
+  --dark-muted: var(--color-text-on-invert-muted);
+  --eyebrow-on-invert: var(--color-text-on-invert-eyebrow);
+
+  /* ظلال */
+  --shadow: var(--color-shadow);
+  --shadow-card: var(--color-shadow);
+  --shadow-soft: var(--color-shadow-sm);
+
+  /* ====== عائلة ExperienceDesignSkin ( --lab-* ) ====== */
+  --lab-ink: var(--color-text-primary);
+  --lab-deep: var(--color-bg-page);
+  --lab-navy: var(--color-bg-app);
+  --lab-panel: var(--color-bg-card);
+  --lab-panel-soft: var(--color-bg-surface-muted);   /* كان أبيض شبه صريح — أكبر سبب لبطاقات بيضاء في الوضع الداكن */
+  --lab-line: var(--color-border-default);
+  --lab-line-strong: var(--color-border-strong);
+  --lab-warm: var(--color-text-primary);             /* كان نصًّا فاتحًا ثابتًا */
+  --lab-paper: var(--color-bg-surface-muted);
+  --lab-muted: var(--color-text-muted);
+  --lab-muted-dark: var(--color-text-muted);
+  --lab-gold: var(--color-accent-primary);
+  --lab-gold-soft: var(--color-accent-primary-soft);
+  --lab-indigo: var(--color-accent-primary);
+  --lab-violet: var(--color-accent-primary);
+  --lab-cyan: var(--color-accent-secondary);
+  --lab-green: var(--color-success);
+  --lab-shadow-deep: var(--color-shadow);
+  --lab-shadow-soft: var(--color-shadow-sm);
+
+  /* ====== أسماء مراحل سابقة موحّدة ====== */
+  --od-readable-heading: var(--color-text-primary);
+  --od-readable-text: var(--color-text-secondary);
+  --od-readable-muted: var(--color-text-muted);
+  --od-readable-soft: var(--color-bg-surface-elevated);
+  --od-readable-border: var(--color-border-default);
+  --od56-heading: var(--color-text-primary);
+  --od56-text: var(--color-text-secondary);
+  --od56-muted: var(--color-text-muted);
+  --od56-accent: var(--color-text-link);
+  --od56-dark-heading: var(--color-text-on-invert);
+  --od56-dark-muted: var(--color-text-on-invert-muted);
+}
+
+/* السطح المقروء كان متدرّجًا (gradient) لذا لا يصلح كـ var لوني بسيط:
+   نعرّفه لكل ثيم على حدة. */
+:root,
+html[data-theme="light"],
+html body.od-theme-light {
+  --od-readable-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+}
+html[data-theme="dark"],
+html body.od-theme-dark {
+  --od-readable-surface: linear-gradient(180deg, #1f1337 0%, #160d2a 100%);
+}
