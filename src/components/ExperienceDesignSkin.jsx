@@ -12,31 +12,31 @@ export default function ExperienceDesignSkin() {
       */
 
       :root {
-        --lab-ink: #0b1220;
-        --lab-deep: #07111f;
-        --lab-navy: #0d1b2d;
-        --lab-panel: rgba(10, 22, 38, .88);
+        --lab-ink: #120a22;
+        --lab-deep: #0e0820;
+        --lab-navy: #170d2c;
+        --lab-panel: rgba(28, 16, 52, .88);
         --lab-panel-soft: rgba(255, 255, 255, .78);
-        --lab-line: rgba(148, 163, 184, .22);
-        --lab-line-strong: rgba(226, 232, 240, .38);
-        --lab-warm: #fffaf0;
-        --lab-paper: #f7f2e8;
-        --lab-muted: #64748b;
-        --lab-muted-dark: #b6c2d3;
-        --lab-gold: #9f7aea;
-        --lab-gold-soft: rgba(159, 122, 234, .16);
-        --lab-indigo: #4f46e5;
-        --lab-violet: #6d5dfc;
-        --lab-cyan: #b794f4;
-        --lab-green: #8f65df;
+        --lab-line: rgba(167, 139, 250, .22);
+        --lab-line-strong: rgba(196, 181, 253, .38);
+        --lab-warm: #f7f3fc;
+        --lab-paper: #ede6f7;
+        --lab-muted: #7a6c9a;
+        --lab-muted-dark: #b6a8d6;
+        --lab-gold: #a855f7;
+        --lab-gold-soft: rgba(168, 85, 247, .16);
+        --lab-indigo: #8b5cf6;
+        --lab-violet: #a78bfa;
+        --lab-cyan: #7c3aed;
+        --lab-green: #7c3aed;
         --lab-radius-xl: 34px;
         --lab-radius-lg: 24px;
         --lab-radius-md: 16px;
-        --lab-shadow-deep: 0 30px 110px rgba(2, 6, 23, .30);
-        --lab-shadow-soft: 0 20px 60px rgba(15, 23, 42, .10);
+        --lab-shadow-deep: 0 30px 110px rgba(12, 7, 23, .30);
+        --lab-shadow-soft: 0 20px 60px rgba(28, 17, 48, .10);
         --lab-grid:
-          linear-gradient(rgba(148, 163, 184, .075) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, .075) 1px, transparent 1px);
+          linear-gradient(rgba(167, 139, 250, .075) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(167, 139, 250, .075) 1px, transparent 1px);
       }
 
       html {
@@ -45,14 +45,14 @@ export default function ExperienceDesignSkin() {
 
       body {
         background:
-          radial-gradient(circle at 7% 4%, rgba(79, 70, 229, .10), transparent 32%),
-          radial-gradient(circle at 93% 16%, rgba(159, 122, 234, .12), transparent 30%),
-          linear-gradient(180deg, #fffaf0 0%, #eef2ff 46%, #fffaf0 100%) !important;
+          radial-gradient(circle at 7% 4%, rgba(139, 92, 246, .10), transparent 32%),
+          radial-gradient(circle at 93% 16%, rgba(168, 85, 247, .12), transparent 30%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 46%, #f7f3fc 100%) !important;
       }
 
       body::selection {
         color: #fff;
-        background: #4f46e5;
+        background: #8b5cf6;
       }
 
       button,
@@ -74,7 +74,7 @@ export default function ExperienceDesignSkin() {
       input:focus-visible,
       textarea:focus-visible,
       select:focus-visible {
-        outline: 3px solid rgba(159, 122, 234, .78) !important;
+        outline: 3px solid rgba(168, 85, 247, .78) !important;
         outline-offset: 3px !important;
       }
 
@@ -86,10 +86,10 @@ export default function ExperienceDesignSkin() {
         position: relative !important;
         overflow-x: clip !important;
         background:
-          radial-gradient(circle at 12% 8%, rgba(126, 96, 205, .18), transparent 30%),
-          radial-gradient(circle at 88% 10%, rgba(159, 122, 234, .15), transparent 34%),
-          linear-gradient(180deg, #fbf8ff 0%, #efe7ff 42%, #fffaf0 42%, #fffaf0 100%) !important;
-        color: #0f172a !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .18), transparent 30%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .15), transparent 34%),
+          linear-gradient(180deg, #0c0717 0%, #120a22 60%, #0c0717 100%) !important;
+        color: #ece6f8 !important;
         padding-top: clamp(14px, 3vw, 28px) !important;
       }
 
@@ -112,10 +112,10 @@ export default function ExperienceDesignSkin() {
         z-index: 0;
         pointer-events: none;
         background:
-          radial-gradient(circle at 18% 26%, rgba(159,122,234,.18), transparent 3px),
-          radial-gradient(circle at 64% 18%, rgba(183,148,244,.18), transparent 3px),
-          radial-gradient(circle at 76% 38%, rgba(109,93,252,.20), transparent 3px),
-          linear-gradient(120deg, transparent 0 22%, rgba(226,232,240,.08) 22% 22.2%, transparent 22.4% 100%);
+          radial-gradient(circle at 18% 26%, rgba(168, 85, 247,.18), transparent 3px),
+          radial-gradient(circle at 64% 18%, rgba(124, 58, 237,.18), transparent 3px),
+          radial-gradient(circle at 76% 38%, rgba(167, 139, 250,.20), transparent 3px),
+          linear-gradient(120deg, transparent 0 22%, rgba(196, 181, 253,.08) 22% 22.2%, transparent 22.4% 100%);
         opacity: .8;
         mask-image: linear-gradient(to bottom, #000 0%, transparent 56%);
       }
@@ -135,12 +135,12 @@ export default function ExperienceDesignSkin() {
         padding: clamp(24px, 5vw, 58px) !important;
         border-radius: clamp(26px, 4vw, 46px) !important;
         overflow: hidden !important;
-        border: 1px solid rgba(226,232,240,.18) !important;
+        border: 1px solid rgba(196, 181, 253,.18) !important;
         background:
-          radial-gradient(circle at 8% 12%, rgba(126,96,205,.18), transparent 30%),
-          radial-gradient(circle at 88% 18%, rgba(159,122,234,.18), transparent 28%),
-          linear-gradient(135deg, #ffffff 0%, #f4ecff 48%, #fff7df 100%) !important;
-        box-shadow: 0 34px 100px rgba(65, 41, 111, .18) !important;
+          radial-gradient(circle at 8% 12%, rgba(139, 92, 246,.18), transparent 30%),
+          radial-gradient(circle at 88% 18%, rgba(168, 85, 247,.18), transparent 28%),
+          linear-gradient(135deg, #160c2a 0%, #120a22 55%, #1a1030 100%) !important;
+        box-shadow: 0 34px 100px rgba(59, 29, 110, .18) !important;
       }
 
       .public-hero::before {
@@ -149,12 +149,12 @@ export default function ExperienceDesignSkin() {
         inset: -25%;
         z-index: -2;
         background:
-          radial-gradient(circle at 25% 35%, rgba(183, 148, 244, .35), transparent 4px),
-          radial-gradient(circle at 33% 62%, rgba(159, 122, 234, .38), transparent 3px),
-          radial-gradient(circle at 70% 32%, rgba(109, 93, 252, .42), transparent 5px),
-          radial-gradient(circle at 80% 66%, rgba(183, 148, 244, .32), transparent 3px),
+          radial-gradient(circle at 25% 35%, rgba(124, 58, 237, .35), transparent 4px),
+          radial-gradient(circle at 33% 62%, rgba(168, 85, 247, .38), transparent 3px),
+          radial-gradient(circle at 70% 32%, rgba(167, 139, 250, .42), transparent 5px),
+          radial-gradient(circle at 80% 66%, rgba(124, 58, 237, .32), transparent 3px),
           linear-gradient(90deg, transparent 0 22%, rgba(255,255,255,.10) 22.1% 22.2%, transparent 22.3% 100%),
-          linear-gradient(140deg, transparent 0 37%, rgba(159,122,234,.10) 37.1% 37.3%, transparent 37.4% 100%);
+          linear-gradient(140deg, transparent 0 37%, rgba(168, 85, 247,.10) 37.1% 37.3%, transparent 37.4% 100%);
         background-size: 520px 520px, 480px 480px, 620px 620px, 540px 540px, 100% 100%, 100% 100%;
         animation: labNodeDrift 22s ease-in-out infinite alternate;
         opacity: .78;
@@ -166,8 +166,8 @@ export default function ExperienceDesignSkin() {
         inset-inline-start: clamp(18px, 4vw, 52px);
         bottom: clamp(14px, 3vw, 30px);
         z-index: -1;
-        color: rgba(33,21,50,.07);
-        font-size: clamp(42px, 7vw, 96px);
+        color: rgba(196, 181, 253,.06);
+        font-size: clamp(32px, 5.4vw, 68px);
         line-height: 1;
         font-weight: 950;
         letter-spacing: 0;
@@ -189,9 +189,9 @@ export default function ExperienceDesignSkin() {
         margin-bottom: clamp(20px, 4vw, 34px) !important;
         padding: 8px 12px !important;
         border-radius: 18px !important;
-        background: rgba(255, 255, 255, .72) !important;
-        border: 1px solid rgba(126, 96, 205, .18) !important;
-        box-shadow: 0 16px 40px rgba(65, 41, 111, .08) !important;
+        background: rgba(30, 18, 55, .5) !important;
+        border: 1px solid rgba(139, 92, 246, .18) !important;
+        box-shadow: 0 16px 40px rgba(59, 29, 110, .08) !important;
         backdrop-filter: blur(12px) !important;
       }
 
@@ -220,18 +220,19 @@ export default function ExperienceDesignSkin() {
         width: fit-content !important;
         border-radius: 999px !important;
         padding: 9px 15px !important;
-        color: #f8e5b3 !important;
-        background: rgba(159, 122, 234, .12) !important;
-        border: 1px solid rgba(159, 122, 234, .28) !important;
-        box-shadow: 0 0 40px rgba(159, 122, 234, .10) !important;
+        color: #ddd6fe !important;
+        background: rgba(168, 85, 247, .12) !important;
+        border: 1px solid rgba(168, 85, 247, .28) !important;
+        box-shadow: 0 0 40px rgba(168, 85, 247, .10) !important;
       }
 
       .public-hero h1 {
         max-width: 760px !important;
         margin: clamp(18px, 3vw, 26px) 0 16px !important;
-        color: #211532 !important;
-        font-size: clamp(46px, 7.8vw, 104px) !important;
-        line-height: .98 !important;
+        color: #f1ecfb !important;
+        font-size: clamp(32px, 4vw, 54px) !important;
+        line-height: 1.22 !important;
+        font-weight: 850 !important;
         letter-spacing: 0 !important;
         text-wrap: balance !important;
         text-shadow: none !important;
@@ -239,7 +240,7 @@ export default function ExperienceDesignSkin() {
 
       .public-hero p {
         max-width: 680px !important;
-        color: #4a3c5f !important;
+        color: #b6a8d6 !important;
         font-size: clamp(15px, 1.35vw, 18px) !important;
         line-height: 2.05 !important;
       }
@@ -258,7 +259,7 @@ export default function ExperienceDesignSkin() {
         top: 30px;
         inset-inline: 40px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(183,148,244,.36), rgba(159,122,234,.34), transparent);
+        background: linear-gradient(90deg, transparent, rgba(124, 58, 237,.36), rgba(168, 85, 247,.34), transparent);
         pointer-events: none;
       }
 
@@ -267,8 +268,8 @@ export default function ExperienceDesignSkin() {
         overflow: hidden !important;
         border-radius: 18px !important;
         padding: 18px !important;
-        background: rgba(255,255,255,.70) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        background: rgba(28, 17, 48, .6) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
         backdrop-filter: blur(16px) !important;
         box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
       }
@@ -283,17 +284,17 @@ export default function ExperienceDesignSkin() {
       }
 
       .hero-point b {
-        background: rgba(183, 148, 244, .12) !important;
-        color: #eadcff !important;
-        border: 1px solid rgba(183, 148, 244, .24) !important;
+        background: rgba(124, 58, 237, .12) !important;
+        color: #e6daf9 !important;
+        border: 1px solid rgba(124, 58, 237, .24) !important;
       }
 
       .hero-point strong {
-        color: #211532 !important;
+        color: #f1ecfb !important;
       }
 
       .hero-point span {
-        color: #5f5270 !important;
+        color: #b6a8d6 !important;
       }
 
       .auth-card {
@@ -303,12 +304,12 @@ export default function ExperienceDesignSkin() {
         border-radius: 26px !important;
         padding: clamp(18px, 2.6vw, 28px) !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.12), transparent 34%),
-          linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
+          linear-gradient(180deg, rgba(30,18,55,.94), rgba(18,11,34,.96)) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
         box-shadow:
-          0 22px 68px rgba(65,41,111,.16),
-          inset 0 1px 0 rgba(255,255,255,.80) !important;
+          0 22px 68px rgba(59, 29, 110,.16),
+          inset 0 1px 0 rgba(255,255,255,.06) !important;
         backdrop-filter: blur(22px) !important;
       }
 
@@ -316,7 +317,7 @@ export default function ExperienceDesignSkin() {
         content: "ACCESS PANEL";
         display: block;
         margin-bottom: 12px;
-        color: #7e60cd;
+        color: #8b5cf6;
         font-size: 11px;
         font-weight: 950;
         letter-spacing: .12em;
@@ -324,62 +325,62 @@ export default function ExperienceDesignSkin() {
 
       .auth-tabs {
         border-radius: 16px !important;
-        background: rgba(126,96,205,.09) !important;
-        border: 1px solid rgba(126,96,205,.14) !important;
+        background: rgba(139, 92, 246,.09) !important;
+        border: 1px solid rgba(139, 92, 246,.14) !important;
         padding: 6px !important;
       }
 
       .auth-tabs button {
         border-radius: 12px !important;
-        color: #4a3c5f !important;
+        color: #b6a8d6 !important;
         background: transparent !important;
       }
 
       .auth-tabs button.active {
-        color: #07111f !important;
-        background: linear-gradient(135deg, #fffaf0, #9f7aea) !important;
-        box-shadow: 0 12px 30px rgba(159, 122, 234, .22) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+        box-shadow: 0 12px 30px rgba(168, 85, 247, .22) !important;
       }
 
       .auth-title {
-        color: #211532 !important;
+        color: #f1ecfb !important;
       }
 
       .auth-field label {
-        color: #4a3c5f !important;
+        color: #b6a8d6 !important;
       }
 
       .auth-field input,
       .password-row input {
         min-height: 48px !important;
         border-radius: 14px !important;
-        color: #211532 !important;
-        background: rgba(255,255,255,.92) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.86) !important;
+        color: #f1ecfb !important;
+        background: rgba(12, 7, 23, .55) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
       }
 
       .auth-field input::placeholder,
       .password-row input::placeholder {
-        color: rgba(74,60,95,.62) !important;
+        color: rgba(111, 99, 145,.62) !important;
       }
 
       .hint {
-        color: #7a6a91 !important;
+        color: #9d8fc0 !important;
       }
 
       .toggle-password,
       .forgot-button,
       .auth-ghost {
-        color: #9f7aea !important;
+        color: #a855f7 !important;
       }
 
       .auth-primary {
         min-height: 50px !important;
         border-radius: 15px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 18px 46px rgba(159, 122, 234, .28) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+        box-shadow: 0 18px 46px rgba(168, 85, 247, .28) !important;
       }
 
       .auth-primary:hover,
@@ -390,9 +391,9 @@ export default function ExperienceDesignSkin() {
 
       .auth-notice {
         border-radius: 14px !important;
-        background: rgba(183,148,244,.10) !important;
-        border-color: rgba(183,148,244,.24) !important;
-        color: #eadcff !important;
+        background: rgba(124, 58, 237,.10) !important;
+        border-color: rgba(124, 58, 237,.24) !important;
+        color: #e6daf9 !important;
       }
 
       .public-section {
@@ -401,9 +402,9 @@ export default function ExperienceDesignSkin() {
         border-radius: 28px !important;
         padding: clamp(20px, 4vw, 34px) !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.08), transparent 30%),
-          rgba(255, 250, 240, .88) !important;
-        border: 1px solid rgba(148,163,184,.16) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.08), transparent 30%),
+          rgba(18, 11, 34, .82) !important;
+        border: 1px solid rgba(167, 139, 250,.16) !important;
         box-shadow: var(--lab-shadow-soft) !important;
       }
 
@@ -414,7 +415,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head h2 {
-        color: #0b1220 !important;
+        color: #f1ecfb !important;
         font-size: clamp(28px, 4.4vw, 58px) !important;
         line-height: 1.08 !important;
         letter-spacing: 0 !important;
@@ -422,7 +423,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .section-head p {
-        color: #64748b !important;
+        color: #9d8fc0 !important;
         line-height: 2 !important;
       }
 
@@ -438,10 +439,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 20px !important;
         padding: 20px !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.12), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.12), transparent 34%),
+          linear-gradient(135deg, rgba(30,18,55,.94), rgba(18,11,34,.95)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .counter-card::before {
@@ -455,13 +456,13 @@ export default function ExperienceDesignSkin() {
       }
 
       .counter-card strong {
-        color: #211532 !important;
+        color: #f1ecfb !important;
         font-size: clamp(34px, 4vw, 54px) !important;
         line-height: 1 !important;
       }
 
       .counter-card span {
-        color: #5f5270 !important;
+        color: #b6a8d6 !important;
       }
 
       .path-grid {
@@ -480,7 +481,7 @@ export default function ExperienceDesignSkin() {
         top: 42px;
         inset-inline: 30px;
         height: 1px;
-        background: linear-gradient(90deg, rgba(183,148,244,.12), rgba(159,122,234,.42), rgba(79,70,229,.24));
+        background: linear-gradient(90deg, rgba(124, 58, 237,.12), rgba(168, 85, 247,.42), rgba(139, 92, 246,.24));
         pointer-events: none;
       }
 
@@ -490,9 +491,9 @@ export default function ExperienceDesignSkin() {
         border-radius: 20px !important;
         padding: 18px !important;
         background:
-          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
-        border: 1px solid rgba(148,163,184,.20) !important;
-        box-shadow: 0 18px 52px rgba(15,23,42,.08) !important;
+          linear-gradient(180deg, rgba(28,17,48,.85), rgba(18,11,34,.92)) !important;
+        border: 1px solid rgba(167, 139, 250,.20) !important;
+        box-shadow: 0 18px 52px rgba(28, 17, 48,.08) !important;
       }
 
       .path-card::after {
@@ -503,23 +504,23 @@ export default function ExperienceDesignSkin() {
         width: 10px;
         height: 10px;
         border-radius: 99px;
-        background: #b794f4;
-        box-shadow: 0 0 0 7px rgba(183,148,244,.12), 0 0 22px rgba(183,148,244,.42);
+        background: #7c3aed;
+        box-shadow: 0 0 0 7px rgba(124, 58, 237,.12), 0 0 22px rgba(124, 58, 237,.42);
       }
 
       .path-card b {
-        color: #9f7aea !important;
-        background: rgba(159,122,234,.12) !important;
-        border-color: rgba(159,122,234,.20) !important;
+        color: #a855f7 !important;
+        background: rgba(168, 85, 247,.12) !important;
+        border-color: rgba(168, 85, 247,.20) !important;
       }
 
       .path-card strong {
-        color: #0b1220 !important;
+        color: #f1ecfb !important;
         font-size: 16px !important;
       }
 
       .path-card span {
-        color: #475569 !important;
+        color: #b6a8d6 !important;
         line-height: 1.9 !important;
       }
 
@@ -534,10 +535,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 22px !important;
         padding: clamp(20px, 3vw, 28px) !important;
         background:
-          radial-gradient(circle at 88% 10%, rgba(126,96,205,.14), transparent 28%),
-          linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,240,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 88% 10%, rgba(139, 92, 246,.14), transparent 28%),
+          linear-gradient(135deg, rgba(30,18,55,.94), rgba(18,11,34,.95)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .sample-box::before {
@@ -545,33 +546,33 @@ export default function ExperienceDesignSkin() {
         position: absolute;
         inset-inline-end: 18px;
         top: 18px;
-        color: rgba(159,122,234,.62);
+        color: rgba(168, 85, 247,.62);
         font-size: 10px;
         font-weight: 950;
         letter-spacing: .16em;
       }
 
       .sample-kicker {
-        color: #5b3c8f !important;
-        background: rgba(126,96,205,.12) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        color: #6d28d9 !important;
+        background: rgba(139, 92, 246,.12) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
       }
 
       .sample-box h3 {
-        color: #211532 !important;
+        color: #f1ecfb !important;
         font-size: clamp(22px, 3vw, 34px) !important;
       }
 
       .sample-box p,
       .sample-bullets li {
-        color: #5f5270 !important;
+        color: #b6a8d6 !important;
       }
 
       .sample-button {
         border-radius: 14px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 18px 42px rgba(159,122,234,.22) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+        box-shadow: 0 18px 42px rgba(168, 85, 247,.22) !important;
       }
 
       .about-panel {
@@ -589,29 +590,29 @@ export default function ExperienceDesignSkin() {
       .vt-card {
         border-radius: 18px !important;
         background:
-          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
-        border: 1px solid rgba(148,163,184,.18) !important;
-        box-shadow: 0 16px 44px rgba(15,23,42,.07) !important;
+          linear-gradient(180deg, rgba(28,17,48,.85), rgba(18,11,34,.92)) !important;
+        border: 1px solid rgba(167, 139, 250,.18) !important;
+        box-shadow: 0 16px 44px rgba(28, 17, 48,.07) !important;
       }
 
       .info-card strong,
       .legal-card strong,
       .faq-question span:first-child {
-        color: #0b1220 !important;
+        color: #f1ecfb !important;
       }
 
       .info-card span,
       .legal-card span,
       .faq-answer {
-        color: #475569 !important;
+        color: #b6a8d6 !important;
         line-height: 1.95 !important;
       }
 
       .about-links a {
         border-radius: 999px !important;
-        color: #07111f !important;
-        background: rgba(159,122,234,.14) !important;
-        border: 1px solid rgba(159,122,234,.20) !important;
+        color: #ffffff !important;
+        background: rgba(168, 85, 247,.14) !important;
+        border: 1px solid rgba(168, 85, 247,.20) !important;
       }
 
       .faq-list {
@@ -628,7 +629,7 @@ export default function ExperienceDesignSkin() {
       }
 
       .faq-question[aria-expanded="true"] {
-        background: rgba(79,70,229,.08) !important;
+        background: rgba(139, 92, 246,.08) !important;
       }
 
       .legal-grid {
@@ -642,17 +643,17 @@ export default function ExperienceDesignSkin() {
         margin-top: clamp(26px, 5vw, 60px) !important;
         border-radius: 26px !important;
         padding: 22px !important;
-        color: #4a3c5f !important;
+        color: #b6a8d6 !important;
         background:
-          radial-gradient(circle at 0% 100%, rgba(159,122,234,.16), transparent 30%),
-          linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
-        box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+          radial-gradient(circle at 0% 100%, rgba(168, 85, 247,.16), transparent 30%),
+          linear-gradient(135deg, rgba(26,15,48,.92), rgba(16,9,28,.96)) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110,.10) !important;
       }
 
       .public-footer span,
       .site-footer span {
-        color: #7a6a91 !important;
+        color: #9d8fc0 !important;
       }
 
       .public-footer-logo .munsaqah-logo--footer .munsaqah-logo__mark img {
@@ -675,9 +676,9 @@ export default function ExperienceDesignSkin() {
         min-height: 100vh !important;
         overflow-x: clip !important;
         background:
-          radial-gradient(circle at 8% 6%, rgba(126,96,205,.16), transparent 28%),
-          radial-gradient(circle at 88% 12%, rgba(159,122,234,.13), transparent 26%),
-          linear-gradient(180deg, #fbf8ff 0%, #efe7ff 26%, #fffaf0 26%, #f7f2e8 100%) !important;
+          radial-gradient(circle at 8% 6%, rgba(139, 92, 246,.16), transparent 28%),
+          radial-gradient(circle at 88% 12%, rgba(168, 85, 247,.13), transparent 26%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 26%, #f7f3fc 26%, #ede6f7 100%) !important;
       }
 
       .site-frame::before {
@@ -701,10 +702,10 @@ export default function ExperienceDesignSkin() {
         border-radius: 26px !important;
         padding: 14px !important;
         background:
-          linear-gradient(135deg, rgba(255,255,255,.90), rgba(241,231,255,.90)) !important;
-        border: 1px solid rgba(126,96,205,.20) !important;
+          linear-gradient(135deg, rgba(255,255,255,.90), rgba(237, 230, 251,.90)) !important;
+        border: 1px solid rgba(139, 92, 246,.20) !important;
         backdrop-filter: blur(20px) !important;
-        box-shadow: 0 18px 52px rgba(65, 41, 111, .12) !important;
+        box-shadow: 0 18px 52px rgba(59, 29, 110, .12) !important;
       }
 
       .main-nav {
@@ -715,24 +716,24 @@ export default function ExperienceDesignSkin() {
       .educational-tools-trigger {
         min-height: 42px !important;
         border-radius: 999px !important;
-        color: #4a3c5f !important;
+        color: #6f6391 !important;
         background: rgba(255,255,255,.62) !important;
-        border: 1px solid rgba(126,96,205,.14) !important;
+        border: 1px solid rgba(139, 92, 246,.14) !important;
         box-shadow: none !important;
       }
 
       .main-nav button:hover,
       .educational-tools-trigger:hover {
-        color: #211532 !important;
+        color: #1a1030 !important;
         transform: translateY(-1px) !important;
         background: rgba(255,255,255,.12) !important;
       }
 
       .main-nav button.active,
       .educational-tools-trigger.active {
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
-        box-shadow: 0 16px 36px rgba(159,122,234,.22) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
+        box-shadow: 0 16px 36px rgba(168, 85, 247,.22) !important;
       }
 
       .logout-button {
@@ -766,30 +767,30 @@ export default function ExperienceDesignSkin() {
       [class*="card"],
       [class*="panel"] {
         border-radius: 24px !important;
-        border-color: rgba(148,163,184,.18) !important;
-        box-shadow: 0 18px 56px rgba(15,23,42,.08) !important;
+        border-color: rgba(167, 139, 250,.18) !important;
+        box-shadow: 0 18px 56px rgba(28, 17, 48,.08) !important;
       }
 
       .profile-strip {
         width: min(1160px, calc(100% - 28px)) !important;
         margin: 0 auto 18px !important;
         background:
-          radial-gradient(circle at 100% 0%, rgba(183,148,244,.08), transparent 28%),
+          radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.08), transparent 28%),
           rgba(255,255,255,.82) !important;
-        border: 1px solid rgba(226,232,240,.62) !important;
+        border: 1px solid rgba(196, 181, 253,.62) !important;
         backdrop-filter: blur(18px) !important;
       }
 
       .page-loader {
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 30%),
-          rgba(255,250,240,.92) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 30%),
+          rgba(247, 243, 252,.92) !important;
       }
 
       .mobile-menu-button {
         border-radius: 16px !important;
-        color: #07111f !important;
-        background: linear-gradient(135deg, #dcc7ff, #9f7aea) !important;
+        color: #0e0820 !important;
+        background: linear-gradient(135deg, #d9c9fa, #a855f7) !important;
       }
 
 
@@ -802,58 +803,64 @@ export default function ExperienceDesignSkin() {
 
       body:not(.od-theme-dark) .site-frame {
         background:
-          radial-gradient(circle at 12% 8%, rgba(126,96,205,.14), transparent 30%),
-          radial-gradient(circle at 90% 14%, rgba(159,122,234,.12), transparent 28%),
-          linear-gradient(180deg, #07111f 0%, #101b34 34%, #f4ecff 34%, #fffaf0 100%) !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.14), transparent 30%),
+          radial-gradient(circle at 90% 14%, rgba(168, 85, 247,.12), transparent 28%),
+          linear-gradient(180deg, #0e0820 0%, #1c1138 34%, #efe9fb 34%, #f7f3fc 100%) !important;
       }
 
       body:not(.od-theme-dark) .od-timer-command {
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.13), transparent 34%),
-          linear-gradient(135deg, rgba(7,17,31,.96), rgba(17,26,53,.94)) !important;
-        border-color: rgba(226,232,240,.16) !important;
-        box-shadow: 0 24px 80px rgba(2,6,23,.22) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.13), transparent 34%),
+          linear-gradient(135deg, rgba(16, 9, 30,.96), rgba(30, 18, 58,.94)) !important;
+        border-color: rgba(196, 181, 253,.16) !important;
+        box-shadow: 0 24px 80px rgba(12, 7, 23,.22) !important;
       }
 
-      body:not(.od-theme-dark) .od-timer-content h2,
-      body:not(.od-theme-dark) .od-section-head h2 {
-        color: #fffaf0 !important;
+      body:not(.od-theme-dark) .od-timer-content h2 {
+        color: #f7f3fc !important;
         text-shadow: 0 14px 34px rgba(0,0,0,.24) !important;
       }
+      body:not(.od-theme-dark) .od-section-head h2 {
+        /* عنوان القسم على سطح فاتح -> نص داكن مقروء (كان فاتحًا فيختفي) */
+        color: #1b1233 !important;
+        text-shadow: none !important;
+      }
 
-      body:not(.od-theme-dark) .od-timer-content p,
+      body:not(.od-theme-dark) .od-timer-content p {
+        color: #d6cdec !important;
+      }
       body:not(.od-theme-dark) .od-section-head p {
-        color: #d5deea !important;
+        color: #4c4170 !important;
       }
 
       body:not(.od-theme-dark) .od-section-kicker {
-        color: #5b21b6 !important;
+        color: #6d28d9 !important;
         background: rgba(255,255,255,.82) !important;
-        border: 1px solid rgba(126,96,205,.18) !important;
+        border: 1px solid rgba(139, 92, 246,.18) !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card {
-        background: rgba(15,23,42,.92) !important;
-        border-color: rgba(226,232,240,.14) !important;
-        color: #f8fafc !important;
-        box-shadow: 0 20px 52px rgba(2,6,23,.20) !important;
+        background: rgba(28, 17, 48,.92) !important;
+        border-color: rgba(196, 181, 253,.14) !important;
+        color: #f4f0fb !important;
+        box-shadow: 0 20px 52px rgba(12, 7, 23,.20) !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card strong,
       body:not(.od-theme-dark) .od-stat-card b {
-        color: #fffaf0 !important;
+        color: #f7f3fc !important;
       }
 
       body:not(.od-theme-dark) .od-stat-card span,
       body:not(.od-theme-dark) .od-stat-card small,
       body:not(.od-theme-dark) .od-stat-card p {
-        color: #cbd5e1 !important;
+        color: #c9bdf0 !important;
       }
 
       body:not(.od-theme-dark) .public-section {
         background:
-          radial-gradient(circle at 100% 0%, rgba(126,96,205,.07), transparent 30%),
-          rgba(255,250,240,.92) !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.07), transparent 30%),
+          rgba(247, 243, 252,.92) !important;
       }
 
       body.od-theme-dark,
@@ -868,10 +875,10 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .content,
       body.od-theme-dark .main-content {
         background:
-          radial-gradient(circle at 12% 8%, rgba(79,70,229,.15), transparent 30%),
-          radial-gradient(circle at 88% 14%, rgba(143,101,223,.08), transparent 26%),
-          #020617 !important;
-        color: #e5e7eb !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.15), transparent 30%),
+          radial-gradient(circle at 88% 14%, rgba(124, 58, 237,.08), transparent 26%),
+          #0c0717 !important;
+        color: #e9e4f5 !important;
       }
 
       body.od-theme-dark::before,
@@ -882,9 +889,9 @@ export default function ExperienceDesignSkin() {
         z-index: -1;
         pointer-events: none;
         background:
-          radial-gradient(circle at 12% 8%, rgba(79,70,229,.22), transparent 30%),
-          radial-gradient(circle at 88% 16%, rgba(143,101,223,.12), transparent 26%),
-          #020617 !important;
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246,.22), transparent 30%),
+          radial-gradient(circle at 88% 16%, rgba(124, 58, 237,.12), transparent 26%),
+          #0c0717 !important;
       }
 
       @keyframes munsaqahLettersFloat {
@@ -900,15 +907,42 @@ export default function ExperienceDesignSkin() {
       ========================= */
 
       body.od-theme-dark {
-        background: #020617 !important;
+        background: #0c0717 !important;
       }
 
       body.od-theme-dark .site-frame,
-      body.od-theme-dark .public-gate {
+      body.od-theme-dark .public-gate,
+      body.od-theme-dark .od-home-v2,
+      body.od-theme-dark .about-rayan,
+      body.od-theme-dark .admin-dashboard,
+      body.od-theme-dark .ai-command-page,
+      body.od-theme-dark .journey-lab,
+      body.od-theme-dark .learning-journey,
+      body.od-theme-dark .mastery-page,
+      body.od-theme-dark .roi-page,
+      body.od-theme-dark .sim-root,
+      body.od-theme-dark .verify-page,
+      body.od-theme-dark .learning-portfolio {
         background:
-          radial-gradient(circle at 10% 8%, rgba(183,148,244,.10), transparent 28%),
-          radial-gradient(circle at 88% 10%, rgba(159,122,234,.10), transparent 26%),
-          linear-gradient(180deg, #020617 0%, #07111f 100%) !important;
+          radial-gradient(circle at 10% 8%, rgba(124, 58, 237,.10), transparent 28%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247,.10), transparent 26%),
+          linear-gradient(180deg, #0c0717 0%, #0e0820 100%) !important;
+        color: #ece6f8 !important;
+      }
+
+      body.od-theme-dark .od-home-v2::before,
+      body.od-theme-dark .about-rayan::before,
+      body.od-theme-dark .admin-dashboard::before,
+      body.od-theme-dark .ai-command-page::before,
+      body.od-theme-dark .journey-lab::before,
+      body.od-theme-dark .learning-journey::before,
+      body.od-theme-dark .mastery-page::before,
+      body.od-theme-dark .roi-page::before,
+      body.od-theme-dark .sim-root::before,
+      body.od-theme-dark .verify-page::before {
+        background-image:
+          linear-gradient(rgba(167, 139, 250,.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(167, 139, 250,.05) 1px, transparent 1px) !important;
       }
 
       body.od-theme-dark .public-section,
@@ -924,13 +958,55 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .vt-form,
       body.od-theme-dark .vt-card,
       body.od-theme-dark [class*="card"],
-      body.od-theme-dark [class*="panel"] {
+      body.od-theme-dark [class*="panel"],
+      body.od-theme-dark [class*="od-timer"],
+      body.od-theme-dark [class*="command"],
+      body.od-theme-dark [class*="tracker"],
+      body.od-theme-dark [class*="-strip"],
+      body.od-theme-dark [class*="-tile"],
+      body.od-theme-dark [class*="-box"],
+      body.od-theme-dark .profile-metric,
+      body.od-theme-dark .profile-stat,
+      body.od-theme-dark .day-step,
+      body.od-theme-dark .portfolio-stat,
+      body.od-theme-dark .portfolio-section,
+      body.od-theme-dark .portfolio-notice,
+      body.od-theme-dark .roi-reading,
+      body.od-theme-dark .roi-source,
+      body.od-theme-dark .roi-disclaimer,
+      body.od-theme-dark .scenario-node,
+      body.od-theme-dark .scenario-mini,
+      body.od-theme-dark .message-bubble,
+      body.od-theme-dark .archive-item,
+      body.od-theme-dark .quota-timer,
+      body.od-theme-dark .monthly-certificates,
+      body.od-theme-dark .issued,
+      body.od-theme-dark .course-search-result,
+      body.od-theme-dark .course-search-empty,
+      body.od-theme-dark .admin-notice,
+      body.od-theme-dark .report-section,
+      body.od-theme-dark .report-body,
+      body.od-theme-dark .jl-week-intro,
+      body.od-theme-dark .jl-reader,
+      body.od-theme-dark .jl-mini-progress,
+      body.od-theme-dark .ar-section {
         background:
-          radial-gradient(circle at 100% 0%, rgba(79,70,229,.10), transparent 28%),
-          rgba(15, 23, 42, .94) !important;
-        border-color: rgba(148,163,184,.22) !important;
-        color: #e5e7eb !important;
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 28%),
+          rgba(28, 17, 48, .94) !important;
+        border-color: rgba(167, 139, 250,.22) !important;
+        color: #e9e4f5 !important;
         box-shadow: 0 20px 70px rgba(0,0,0,.28) !important;
+      }
+
+      /* text inside the darkened content cards stays light/readable */
+      body.od-theme-dark :is(
+        .profile-metric, .profile-stat, .day-step, .portfolio-stat,
+        .portfolio-section, .roi-reading, .roi-source, .scenario-node,
+        .scenario-mini, .message-bubble, .archive-item, .quota-timer,
+        .monthly-certificates, .issued, .course-search-result,
+        .jl-week-intro, .jl-reader, .jl-mini-progress
+      ) :is(strong, b, span, p, small, label, time, div, h1, h2, h3, h4) {
+        color: #ece6f8 !important;
       }
 
       body.od-theme-dark h1,
@@ -938,7 +1014,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark h3,
       body.od-theme-dark strong,
       body.od-theme-dark b {
-        color: #fffaf0 !important;
+        color: #f7f3fc !important;
       }
 
       body.od-theme-dark p,
@@ -950,7 +1026,7 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .info-card span,
       body.od-theme-dark .legal-card span,
       body.od-theme-dark .faq-answer {
-        color: #cbd5e1 !important;
+        color: #c9bdf0 !important;
       }
 
       body.od-theme-dark .auth-card,
@@ -960,87 +1036,9 @@ export default function ExperienceDesignSkin() {
       body.od-theme-dark .public-footer,
       body.od-theme-dark .site-footer {
         background:
-          radial-gradient(circle at 100% 0%, rgba(183,148,244,.10), transparent 30%),
-          linear-gradient(135deg, #07111f, #111a35) !important;
+          radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.10), transparent 30%),
+          linear-gradient(135deg, #0e0820, #1e1240) !important;
       }
-
-
-      /* =========================
-         Phase 53 - Visitor + Light Mode Contrast Fix
-         - إلغاء أثر تلاشي النصوص في الوضع الفاتح.
-         - توحيد اللون مع البنفسجي/اللافندر.
-         - لا يؤثر على المنطق أو Supabase.
-      ========================= */
-
-      body:not(.od-theme-dark) .public-gate {
-        background:
-          radial-gradient(circle at 12% 8%, rgba(126,96,205,.12), transparent 30%),
-          radial-gradient(circle at 90% 16%, rgba(183,148,244,.12), transparent 30%),
-          linear-gradient(180deg, #fbf7ff 0%, #f6efff 48%, #fffafc 100%) !important;
-        color: #211336 !important;
-      }
-
-      body:not(.od-theme-dark) .public-section {
-        background:
-          radial-gradient(circle at 100% 0%, rgba(183,148,244,.08), transparent 30%),
-          rgba(255,255,255,.92) !important;
-        border-color: rgba(126,96,205,.16) !important;
-        box-shadow: 0 18px 54px rgba(60,37,98,.09) !important;
-      }
-
-      body:not(.od-theme-dark) .section-head h2,
-      body:not(.od-theme-dark) .public-section h2,
-      body:not(.od-theme-dark) .path-card strong,
-      body:not(.od-theme-dark) .info-card strong,
-      body:not(.od-theme-dark) .legal-card strong,
-      body:not(.od-theme-dark) .faq-question span:first-child,
-      body:not(.od-theme-dark) .counter-card strong {
-        color: #211336 !important;
-        text-shadow: none !important;
-      }
-
-      body:not(.od-theme-dark) .section-head p,
-      body:not(.od-theme-dark) .public-section p,
-      body:not(.od-theme-dark) .path-card span,
-      body:not(.od-theme-dark) .info-card span,
-      body:not(.od-theme-dark) .legal-card span,
-      body:not(.od-theme-dark) .faq-answer,
-      body:not(.od-theme-dark) .counter-card span {
-        color: #5b4a72 !important;
-        text-shadow: none !important;
-      }
-
-      body:not(.od-theme-dark) .counter-card,
-      body:not(.od-theme-dark) .path-card,
-      body:not(.od-theme-dark) .info-card,
-      body:not(.od-theme-dark) .legal-card,
-      body:not(.od-theme-dark) .faq-item {
-        background:
-          linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,247,255,.90)) !important;
-        border-color: rgba(126,96,205,.16) !important;
-        color: #211336 !important;
-        box-shadow: 0 14px 36px rgba(60,37,98,.08) !important;
-      }
-
-      body:not(.od-theme-dark) .path-card b {
-        color: #5b2bbd !important;
-        background: rgba(240,232,255,.92) !important;
-        border: 1px solid rgba(126,96,205,.16) !important;
-      }
-
-      body:not(.od-theme-dark) .about-links a {
-        color: #fbf7ff !important;
-        background: linear-gradient(135deg, #5b2bbd, #8f65df) !important;
-      }
-
-      body:not(.od-theme-dark) .public-footer {
-        color: #5b4a72 !important;
-      }
-
-      body:not(.od-theme-dark) .public-footer span {
-        color: #8a789d !important;
-      }
-
 
       /* =========================
          Motion, responsive, accessibility
@@ -1092,8 +1090,8 @@ export default function ExperienceDesignSkin() {
         }
 
         .public-hero h1 {
-          font-size: clamp(38px, 13vw, 58px) !important;
-          line-height: 1.02 !important;
+          font-size: clamp(31px, 10vw, 48px) !important;
+          line-height: 1.18 !important;
         }
 
         .hero-points,
@@ -1128,6 +1126,293 @@ export default function ExperienceDesignSkin() {
         }
       }
 
+      /* =========================
+         #5  Light-mode landing (visitor page follows the toggle)
+         Base landing is dark; these restore a clean LIGHT landing
+         only when the light theme is active.
+      ========================= */
+      body:not(.od-theme-dark) .public-gate {
+        background:
+          radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .16), transparent 30%),
+          radial-gradient(circle at 88% 10%, rgba(168, 85, 247, .13), transparent 34%),
+          linear-gradient(180deg, #f7f3fc 0%, #efe9fb 45%, #f7f3fc 100%) !important;
+        color: #24123f !important;
+      }
+      body:not(.od-theme-dark) .public-hero {
+        background:
+          radial-gradient(circle at 8% 12%, rgba(139, 92, 246, .16), transparent 30%),
+          radial-gradient(circle at 88% 18%, rgba(168, 85, 247, .16), transparent 28%),
+          linear-gradient(135deg, #ffffff 0%, #efe9fb 48%, #f3eefb 100%) !important;
+      }
+      body:not(.od-theme-dark) .public-hero::after { color: rgba(26, 16, 48, .06) !important; }
+      body:not(.od-theme-dark) .public-hero h1 { color: #24123f !important; }
+      body:not(.od-theme-dark) .public-hero p { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-brand-logo { background: rgba(255, 255, 255, .72) !important; }
+      body:not(.od-theme-dark) .hero-point { background: rgba(255, 255, 255, .72) !important; }
+      body:not(.od-theme-dark) .hero-point strong { color: #24123f !important; }
+      body:not(.od-theme-dark) .hero-point span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-badge {
+        color: #5b21b6 !important;
+        background: rgba(168, 85, 247, 0.14) !important;
+        border-color: rgba(124, 58, 237, 0.32) !important;
+      }
+      body:not(.od-theme-dark) .hero-point b {
+        color: #6d28d9 !important;
+        background: rgba(124, 58, 237, 0.12) !important;
+        border-color: rgba(124, 58, 237, 0.28) !important;
+      }
+      body:not(.od-theme-dark) .auth-card {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
+          linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .auth-title { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .auth-tabs button { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .auth-field label { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .auth-field input,
+      body:not(.od-theme-dark) .password-row input {
+        color: #1a1030 !important;
+        background: rgba(255, 255, 255, .94) !important;
+      }
+      body:not(.od-theme-dark) .auth-field input::placeholder,
+      body:not(.od-theme-dark) .password-row input::placeholder { color: rgba(91, 79, 120, .6) !important; }
+      body:not(.od-theme-dark) .hint { color: #6f6391 !important; }
+      body:not(.od-theme-dark) .public-section {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .08), transparent 30%),
+          rgba(247, 243, 252, .9) !important;
+      }
+      body:not(.od-theme-dark) .section-head h2 { color: #120a22 !important; }
+      body:not(.od-theme-dark) .section-head p { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .counter-card {
+        background:
+          radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
+          linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .counter-card strong { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .counter-card span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .path-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .76)) !important;
+      }
+      body:not(.od-theme-dark) .path-card strong { color: #120a22 !important; }
+      body:not(.od-theme-dark) .path-card span { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .sample-box {
+        background:
+          radial-gradient(circle at 88% 10%, rgba(139, 92, 246, .12), transparent 28%),
+          linear-gradient(135deg, rgba(255, 255, 255, .97), rgba(243, 236, 253, .92)) !important;
+      }
+      body:not(.od-theme-dark) .sample-box h3 { color: #1a1030 !important; }
+      body:not(.od-theme-dark) .sample-box p,
+      body:not(.od-theme-dark) .sample-bullets li { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .info-card,
+      body:not(.od-theme-dark) .legal-card,
+      body:not(.od-theme-dark) .faq-item,
+      body:not(.od-theme-dark) .visitor-testimonials,
+      body:not(.od-theme-dark) .vt-form,
+      body:not(.od-theme-dark) .vt-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .76)) !important;
+      }
+      body:not(.od-theme-dark) .info-card strong,
+      body:not(.od-theme-dark) .legal-card strong,
+      body:not(.od-theme-dark) .faq-question span:first-child { color: #120a22 !important; }
+      body:not(.od-theme-dark) .info-card span,
+      body:not(.od-theme-dark) .legal-card span,
+      body:not(.od-theme-dark) .faq-answer { color: #5b4f78 !important; }
+      body:not(.od-theme-dark) .public-footer,
+      body:not(.od-theme-dark) .site-footer {
+        color: #5b4f78 !important;
+        background:
+          radial-gradient(circle at 0% 100%, rgba(168, 85, 247, .14), transparent 30%),
+          linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(237, 230, 251, .92)) !important;
+      }
+      body:not(.od-theme-dark) .public-footer span,
+      body:not(.od-theme-dark) .site-footer span { color: #6f6391 !important; }
+
+      /* =========================
+         #2  Theme text safety net — guarantees readable contrast both ways.
+         High specificity (double class) beats most component rules.
+         Targets block-level text only, so accent spans/buttons keep color.
+      ========================= */
+      html body.od-theme-dark.od-theme-dark :is(h1, h2, h3, h4, h5, h6) { color: #f1ecfb !important; }
+      html body.od-theme-dark.od-theme-dark :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #c9bdf0 !important; }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) { color: #18102e !important; }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, th, td, blockquote, figcaption) { color: #463c63 !important; }
+
+      /* =========================
+         Gradient-filled display headings (background-clip:text) were invisible
+         in dark mode. Repaint them with a LIGHT gradient so they stay readable.
+      ========================= */
+      body.od-theme-dark :is(
+        .od-hero h1 span, .jl-title span, .ar-title span,
+        .roi-hero h1 span, .hero h1 span
+      ) {
+        /* كان: نص شفّاف بتدرّج (يختفي عند فشل القص). الآن: لون صلب مرئي دائمًا */
+        background-image: none !important;
+        -webkit-text-fill-color: #f1ecfb !important;
+        color: #f1ecfb !important;
+      }
+
+      body.od-theme-dark :is(
+        .od-timer-content h2, .od-section-head h2, .od-hero h1,
+        .jl-title, .ar-title, .roi-hero h1,
+        .od-feature-card h3, .od-lab-card h3, .od-quote-bar p
+      ) {
+        color: #f1ecfb !important;
+        -webkit-text-fill-color: #f1ecfb !important;
+      }
+
+      /* =========================
+         Light mode: unify the home cards to one clean surface
+         (was a mix of white + purple-tinted boxes).
+      ========================= */
+      body:not(.od-theme-dark) :is(
+        .od-stat-card, .od-feature-card, .od-quote-bar, .od-lab-card
+      ) {
+        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
+        border: 1px solid rgba(124, 58, 237, 0.16) !important;
+        box-shadow: 0 16px 40px rgba(124, 58, 237, 0.08) !important;
+      }
+
+      /* =========================
+         Light mode: guarantee the authed surfaces (home / profile / journey)
+         render light + consistent. Belt-and-suspenders against any dark leak.
+      ========================= */
+      body:not(.od-theme-dark) :is(
+        .od-home-v2, .about-rayan, .admin-dashboard, .ai-command-page,
+        .journey-lab, .learning-journey, .mastery-page, .roi-page,
+        .sim-root, .verify-page, .learning-portfolio
+      ) {
+        color: #18102e !important;
+      }
+
+      body:not(.od-theme-dark) :is(
+        .profile-strip, .profile-card, .profile-metric, .profile-stat,
+        .day-step, .jl-reader, .jl-week-intro, .jl-crumb, .jl-notice,
+        .portfolio-stat, .portfolio-section, .roi-reading, .roi-source,
+        .scenario-node, .scenario-mini, .message-bubble, .archive-item,
+        .monthly-certificates, .issued, .course-search-result
+      ) {
+        background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%) !important;
+        border-color: rgba(124, 58, 237, 0.16) !important;
+        box-shadow: 0 14px 36px rgba(124, 58, 237, 0.08) !important;
+      }
+
+      body:not(.od-theme-dark) :is(
+        .profile-strip, .profile-card, .profile-metric, .profile-stat,
+        .day-step, .portfolio-stat, .portfolio-section
+      ) :is(strong, b, span, p, small, label, time, h1, h2, h3, h4) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+      }
+
+      /* ============================================================
+         #FINAL — Full contrast + typography treatment (dark + light).
+         Supersedes earlier partial fixes: guarantees every text layer
+         is readable in BOTH themes, neutralises invisible clipped-text
+         headings, restores card numbers + eyebrows, and right-sizes the
+         oversized display headings.
+      ============================================================ */
+
+      /* 1) Display heading SPANS -> visible, theme-appropriate gradient.
+            Catches od-hero / ar-title / roi-hero / jl-title / sim-hero /
+            mastery / radar and any other clipped-text heading. */
+      html body.od-theme-dark.od-theme-dark
+        :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
+        /* السبان يتبع لون العنوان (مرئي دائمًا) بدل النص الشفّاف */
+        background-image: none !important;
+        -webkit-text-fill-color: currentColor !important;
+        color: inherit !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(h1, h2, h3) span:not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]) {
+        /* السبان يتبع لون العنوان حسب السطح (يمنع نص داكن على لوحة داكنة) */
+        background-image: none !important;
+        -webkit-text-fill-color: currentColor !important;
+        color: inherit !important;
+      }
+
+      /* 2) Plain heading text (no span) -> solid, readable, gradients off. */
+      html body.od-theme-dark.od-theme-dark :is(h1, h2, h3, h4, h5, h6) {
+        color: #f4effc !important;
+        background-image: none !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) {
+        color: #190f30 !important;
+        background-image: none !important;
+      }
+
+      /* 3) Decorative numerals / marks (01 02 03, step numbers) -> visible, subtle. */
+      html body.od-theme-dark.od-theme-dark
+        :is(.ar-lens b, .ar-domain-mark, .hero-point b, .jl-index, [class*="-mark"], [class*="-numeral"]) {
+        color: rgba(201, 184, 255, 0.5) !important;
+        -webkit-text-fill-color: rgba(201, 184, 255, 0.5) !important;
+        background-image: none !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.ar-lens b, .ar-domain-mark, .hero-point b, .jl-index, [class*="-mark"], [class*="-numeral"]) {
+        color: rgba(109, 40, 217, 0.42) !important;
+        -webkit-text-fill-color: rgba(109, 40, 217, 0.42) !important;
+        background-image: none !important;
+      }
+
+      /* 4) Eyebrows / kickers -> theme-aware pill + label.
+            Fixes the light-mode disappearance (purple / lilac text on light bg). */
+      html body.od-theme-dark.od-theme-dark
+        :is(.od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
+        color: #ece4ff !important;
+        -webkit-text-fill-color: #ece4ff !important;
+        background: rgba(139, 92, 246, 0.18) !important;
+        border: 1px solid rgba(167, 139, 250, 0.30) !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
+        color: #6d28d9 !important;
+        -webkit-text-fill-color: #6d28d9 !important;
+        background: rgba(139, 92, 246, 0.12) !important;
+        border: 1px solid rgba(124, 58, 237, 0.26) !important;
+      }
+
+      /* 5) Body / descriptions -> readable + comfortable line-height. */
+      html body.od-theme-dark.od-theme-dark :is(p, li, dd, dt, blockquote, figcaption) {
+        color: #d2c7f1 !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(p, li, dd, dt, blockquote, figcaption) {
+        color: #443a60 !important;
+      }
+      :is(.od-hero, .od-section-head, .ar-hero, .ar-section-head, .roi-hero,
+          .jl-intro, .hero, .mastery-hero, [class*="section-head"], [class*="-hero"]) p {
+        line-height: 1.9 !important;
+        font-weight: 600 !important;
+      }
+
+      /* 6) Text inside dark/light surfaces stays on-theme (values, labels, captions). */
+      html body.od-theme-dark.od-theme-dark
+        :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
+            .profile-metric, .day-step)
+        :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
+        color: #e7ddfb !important;
+        -webkit-text-fill-color: #e7ddfb !important;
+      }
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is([class*="card"], [class*="panel"], .ar-lens, .ar-domain, .profile-strip,
+            .profile-metric, .day-step)
+        :is(strong, span, small, label, time, p, li):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="-mark"]) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+      }
+
+      /* 7) Right-size oversized display headings to fit the layout. */
+      :is(.od-hero h1, .ar-title, .roi-hero h1, .jl-title, .hero h1, .mastery-hero h1) {
+        font-size: clamp(1.8rem, 3.8vw, 3rem) !important;
+        line-height: 1.22 !important;
+        letter-spacing: 0 !important;
+      }
+      :is(.od-section-head h2, .ar-section-head h2, .od-timer-content h2, [class*="section-head"] h2) {
+        font-size: clamp(1.5rem, 3.1vw, 2.45rem) !important;
+        line-height: 1.3 !important;
+        letter-spacing: 0 !important;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1137,6 +1422,867 @@ export default function ExperienceDesignSkin() {
           scroll-behavior: auto !important;
         }
       }
+
+      /* ============================================================
+         PHASE 53 — Contrast & typography hardening (final layer)
+         طبقة تقوية نهائية: ألوان وتنسيق فقط — لا منطق، لا نصوص، لا RTL.
+         تُحمَّل أخيرًا وبأولوية عالية لتتغلّب على أنماط المكوّنات المحقونة
+         بغضّ النظر عن ترتيب الحقن. تضمن قراءة كل عنوان/نص/رقم على سطحه
+         في الوضعين، ومصفوفة كاملة لأزرار الأقسام العلوية، وأشرطة تقدّم واضحة.
+      ============================================================ */
+
+      /* 0) نظام المتغيّرات الموحّد (هوية بنفسجية موحّدة، فاتح + داكن) */
+      :root,
+      html[data-theme="light"],
+      html body.od-theme-light {
+        --bg: #f3eefb;
+        --bg-soft: #ece4f6;
+        --surface: #ffffff;
+        --surface-elevated: #faf7ff;
+        --surface-muted: #f1ebfb;
+        --card: #ffffff;
+        --card-header: #f3edfc;
+        --text: #190f30;
+        --text-muted: #4c4170;
+        --text-soft: #6f6391;
+        --heading: #190f30;
+        --border: rgba(124, 58, 237, .18);
+        --accent: #7c3aed;
+        --accent-hover: #6d28d9;
+        --accent-contrast: #ffffff;
+        --gold: #6d28d9;
+        --gold-soft: rgba(124, 58, 237, .14);
+        --success: #1b9c83;
+        --warning: #6d28d9;
+        --danger: #dc2654;
+        --metric-bg: #1c1130;
+        --metric-text: #f4f0fb;
+        --nav-pill-bg: rgba(124, 58, 237, .07);
+        --nav-pill-text: #4c3a82;
+        --nav-pill-active-text: #ffffff;
+      }
+      html[data-theme="dark"],
+      html body.od-theme-dark {
+        --bg: #0c0717;
+        --bg-soft: #0e0820;
+        --surface: rgba(28, 17, 48, .94);
+        --surface-elevated: rgba(38, 24, 66, .96);
+        --surface-muted: rgba(24, 14, 42, .92);
+        --card: rgba(28, 17, 48, .94);
+        --card-header: rgba(38, 24, 66, .9);
+        --text: #ece6f8;
+        --text-muted: #c9bdf0;
+        --text-soft: #a99fce;
+        --heading: #f4effc;
+        --border: rgba(167, 139, 250, .22);
+        --accent: #a855f7;
+        --accent-hover: #bb8ff6;
+        --accent-contrast: #10081f;
+        --gold: #c4b5fd;
+        --gold-soft: rgba(167, 139, 250, .16);
+        --success: #34d3b3;
+        --warning: #c4b5fd;
+        --danger: #fb7185;
+        --metric-bg: rgba(20, 12, 36, .96);
+        --metric-text: #f4f0fb;
+        --nav-pill-bg: rgba(167, 139, 250, .10);
+        --nav-pill-text: #d9cdf2;
+        --nav-pill-active-text: #ffffff;
+      }
+
+      /* 1) أمان عام: كل عنوان أو سبان داخل عنوان يرسم نصًّا صلبًا (لا شفافية).
+            يبطل أي background-clip:text متبقٍّ في المكوّنات. */
+      html body :is(h1, h2, h3, h4, h5, h6),
+      html body :is(h1, h2, h3, h4, h5, h6) :is(span, b, strong, em, i, a) {
+        -webkit-text-fill-color: currentColor !important;
+      }
+
+      /* 2) استثناء اللوحات الداكنة (داكنة في الوضعين) -> نصّها فاتح دائمًا.
+            يمنع "نص داكن على لوحة داكنة" في الوضع الفاتح:
+            البطل العام، بطل اللوحة، العدّاد الدائري، ومرصد الوقت. */
+      html body:not(.od-theme-dark):not(.od-theme-dark)
+        :is(.public-hero, .od-hero, .od-main-gauge, .od-timer-command, .od-timer-content)
+        :is(h1, h2, h3, h4, h5, h6, span, strong, b, small, p, time, label) {
+        color: #f4f0fb !important;
+        -webkit-text-fill-color: #f4f0fb !important;
+      }
+      html body.od-theme-dark.od-theme-dark
+        :is(.public-hero, .od-hero, .od-main-gauge, .od-timer-command, .od-timer-content)
+        :is(h1, h2, h3, h4, h5, h6, span, strong, b, small, p, time, label) {
+        color: #f4f0fb !important;
+        -webkit-text-fill-color: #f4f0fb !important;
+      }
+
+      /* 3) أزرار الأقسام العلوية (.main-nav) — مصفوفة كاملة لكل حالة وثيم.
+            يصلح: تحويم بنص أسود غير مرئي في الداكن + تباين منخفض في الفاتح. */
+      /* --- الوضع الفاتح --- */
+      html body:not(.od-theme-dark) .main-nav button,
+      html body:not(.od-theme-dark) .educational-tools-trigger {
+        color: #4c3a82 !important;
+        -webkit-text-fill-color: #4c3a82 !important;
+        background: rgba(124, 58, 237, .07) !important;
+        border: 1px solid rgba(124, 58, 237, .16) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button .nav-label,
+      html body:not(.od-theme-dark) .main-nav button span,
+      html body:not(.od-theme-dark) .educational-tools-trigger span {
+        color: #4c3a82 !important;
+        -webkit-text-fill-color: #4c3a82 !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button:hover,
+      html body:not(.od-theme-dark) .educational-tools-trigger:hover {
+        color: #2a1758 !important;
+        -webkit-text-fill-color: #2a1758 !important;
+        background: rgba(124, 58, 237, .13) !important;
+        border-color: rgba(124, 58, 237, .30) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button:hover .nav-label,
+      html body:not(.od-theme-dark) .main-nav button:hover span {
+        color: #2a1758 !important;
+        -webkit-text-fill-color: #2a1758 !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button.active,
+      html body:not(.od-theme-dark) .educational-tools-trigger.active {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(124, 58, 237, .26) !important;
+      }
+      html body:not(.od-theme-dark) .main-nav button.active .nav-label,
+      html body:not(.od-theme-dark) .main-nav button.active span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+      /* --- الوضع الداكن --- */
+      html body.od-theme-dark .main-nav button,
+      html body.od-theme-dark .educational-tools-trigger {
+        color: #d9cdf2 !important;
+        -webkit-text-fill-color: #d9cdf2 !important;
+        background: rgba(167, 139, 250, .10) !important;
+        border: 1px solid rgba(167, 139, 250, .22) !important;
+      }
+      html body.od-theme-dark .main-nav button .nav-label,
+      html body.od-theme-dark .main-nav button span,
+      html body.od-theme-dark .educational-tools-trigger span {
+        color: #d9cdf2 !important;
+        -webkit-text-fill-color: #d9cdf2 !important;
+      }
+      html body.od-theme-dark .main-nav button:hover,
+      html body.od-theme-dark .educational-tools-trigger:hover {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: rgba(167, 139, 250, .20) !important;
+        border-color: rgba(196, 181, 253, .42) !important;
+      }
+      html body.od-theme-dark .main-nav button:hover .nav-label,
+      html body.od-theme-dark .main-nav button:hover span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+      html body.od-theme-dark .main-nav button.active,
+      html body.od-theme-dark .educational-tools-trigger.active {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+        border-color: transparent !important;
+        box-shadow: 0 16px 36px rgba(168, 85, 247, .30) !important;
+      }
+      html body.od-theme-dark .main-nav button.active .nav-label,
+      html body.od-theme-dark .main-nav button.active span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* 4) أشرطة التقدّم — مسار فارغ مرئي في الوضعين (التعبئة تبقى بلونها). */
+      html body:not(.od-theme-dark)
+        :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+            .monthly-progress, .weekly-reflection-progress, .mini-bar-track) {
+        background-color: rgba(124, 58, 237, .14) !important;
+      }
+      html body.od-theme-dark
+        :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+            .monthly-progress, .weekly-reflection-progress, .mini-bar-track) {
+        background-color: rgba(167, 139, 250, .18) !important;
+      }
+
+      /* ============================================================
+         PHASE 54 — Targeted contrast repair without changing visitor layout
+         نطاق ضيق وموجّه: يعالج اختفاء النصوص في الوضعين دون قلب صفحة الزائر.
+      ============================================================ */
+
+      :root,
+      html[data-theme="light"],
+      html body.od-theme-light {
+        --odx-light-heading: #190f30;
+        --odx-light-text: #443a60;
+        --odx-light-muted: #6a5d85;
+        --odx-dark-heading: #f7f3fc;
+        --odx-dark-text: #e6def8;
+        --odx-dark-muted: #cfc3ee;
+        --odx-gold: #c4b5fd;
+        --odx-purple: #7c3aed;
+        --odx-purple-2: #a855f7;
+        --odx-light-card: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+        --odx-dark-panel-border: rgba(255, 255, 255, .18);
+      }
+
+      html[data-theme="dark"],
+      html body.od-theme-dark {
+        --odx-light-heading: #f7f3fc;
+        --odx-light-text: #e6def8;
+        --odx-light-muted: #cfc3ee;
+        --odx-dark-heading: #f7f3fc;
+        --odx-dark-text: #e6def8;
+        --odx-dark-muted: #cfc3ee;
+        --odx-gold: #c4b5fd;
+        --odx-purple: #a855f7;
+        --odx-purple-2: #c084fc;
+        --odx-light-card: rgba(28, 17, 48, .94);
+        --odx-dark-panel-border: rgba(196, 181, 253, .26);
+      }
+
+      html body :is(h1, h2, h3, h4, h5, h6),
+      html body :is(h1, h2, h3, h4, h5, h6) :is(span, strong, b, em, i) {
+        letter-spacing: 0 !important;
+        text-shadow: none;
+      }
+
+      html body :is(button, a, input, textarea, select) {
+        line-height: 1.55 !important;
+      }
+
+      html body :is(.od-button, .portfolio-button, .profile-button, .radar-tab,
+        .radar-actions button, .educational-tools-trigger, .main-nav button,
+        .onboarding-action, .auth-primary, .auth-ghost) {
+        min-height: 44px !important;
+        white-space: normal !important;
+        overflow: visible !important;
+      }
+
+      /* صفحة الزائر — الوضع الفاتح: لا نص فاتح على بطاقة فاتحة. */
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .public-hero,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .public-section {
+        color: var(--odx-light-heading) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .public-hero :is(h1, h1 span),
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .section-head h2,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.hero-point strong, .counter-card strong,
+        .path-card strong, .sample-box h3, .info-card strong, .legal-card strong, .faq-question span:first-child) {
+        color: var(--odx-light-heading) !important;
+        -webkit-text-fill-color: var(--odx-light-heading) !important;
+        background-image: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .public-hero :is(p, .hero-point span),
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.section-head p, .counter-card span,
+        .path-card span, .sample-box p, .sample-bullets li, .info-card span, .legal-card span, .faq-answer,
+        .public-footer span, .site-footer span) {
+        color: var(--odx-light-text) !important;
+        -webkit-text-fill-color: var(--odx-light-text) !important;
+        opacity: 1 !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.public-badge, .hero-point b,
+        .sample-kicker, .od-section-kicker, .ar-eyebrow, .mastery-eyebrow, [class*="eyebrow"], [class*="kicker"]) {
+        color: #6d28d9 !important;
+        -webkit-text-fill-color: #6d28d9 !important;
+        background: rgba(124, 58, 237, .12) !important;
+        border-color: rgba(124, 58, 237, .28) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.hero-point, .auth-card, .counter-card,
+        .path-card, .sample-box, .info-card, .legal-card, .faq-item, .visitor-testimonials, .vt-form, .vt-card) {
+        background: var(--odx-light-card) !important;
+        border-color: rgba(124, 58, 237, .18) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.auth-title, .auth-tabs button,
+        .auth-field label, .hint, .auth-ghost, .toggle-password, .forgot-button) {
+        color: var(--odx-light-text) !important;
+        -webkit-text-fill-color: var(--odx-light-text) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(.auth-field input, .password-row input) {
+        color: var(--odx-light-heading) !important;
+        -webkit-text-fill-color: var(--odx-light-heading) !important;
+        background: rgba(255, 255, 255, .96) !important;
+        border-color: rgba(124, 58, 237, .22) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .auth-tabs button.active,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .auth-primary,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate .sample-button {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* صفحة الزائر — الوضع الداكن: تبقى فاتحة وواضحة. */
+      html body.od-theme-dark.od-theme-dark .public-gate .public-hero :is(h1, h1 span, .hero-point strong),
+      html body.od-theme-dark.od-theme-dark .public-gate :is(.section-head h2, .auth-title, .counter-card strong,
+        .path-card strong, .sample-box h3, .info-card strong, .legal-card strong, .faq-question span:first-child) {
+        color: var(--odx-dark-heading) !important;
+        -webkit-text-fill-color: var(--odx-dark-heading) !important;
+        background-image: none !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark .public-gate .public-hero :is(p, .hero-point span),
+      html body.od-theme-dark.od-theme-dark .public-gate :is(.section-head p, .counter-card span,
+        .path-card span, .sample-box p, .sample-bullets li, .info-card span, .legal-card span, .faq-answer) {
+        color: var(--odx-dark-muted) !important;
+        -webkit-text-fill-color: var(--odx-dark-muted) !important;
+        opacity: 1 !important;
+      }
+
+      /* اللوحات الداكنة داخل التطبيق المصادق عليه — نص فاتح دائمًا في الوضعين. */
+      html body :is(.od-hero, .od-command-card, .portfolio-hero, .radar-card-dark,
+        .radar-assessment-page > .section-hero, .mastery-hero, .ar-hero, .roi-hero,
+        .command-hero, .jl-hero, .sim-root .hero, .learning-journey .journey-hero) {
+        color: var(--odx-dark-heading) !important;
+        border-color: var(--odx-dark-panel-border) !important;
+      }
+
+      html body :is(.od-hero, .od-command-card, .portfolio-hero, .radar-card-dark,
+        .radar-assessment-page > .section-hero, .mastery-hero, .ar-hero, .roi-hero,
+        .command-hero, .jl-hero, .sim-root .hero, .learning-journey .journey-hero)
+        :is(h1, h2, h3, h4, h5, h6, strong, b):not(.portfolio-kicker):not(.radar-kicker):not(.od-section-kicker):not([class*="eyebrow"]):not([class*="kicker"]) {
+        color: var(--odx-dark-heading) !important;
+        -webkit-text-fill-color: var(--odx-dark-heading) !important;
+        background-image: none !important;
+        opacity: 1 !important;
+      }
+
+      html body :is(.od-hero, .od-command-card, .portfolio-hero, .radar-card-dark,
+        .radar-assessment-page > .section-hero, .mastery-hero, .ar-hero, .roi-hero,
+        .command-hero, .jl-hero, .sim-root .hero, .learning-journey .journey-hero)
+        :is(p, li, span, small, label, time, div):not(button):not(.portfolio-kicker):not(.radar-kicker):not(.od-section-kicker):not([class*="eyebrow"]):not([class*="kicker"]):not([class*="badge"]):not([class*="pill"]):not([class*="button"]) {
+        color: var(--odx-dark-muted) !important;
+        -webkit-text-fill-color: var(--odx-dark-muted) !important;
+        opacity: 1 !important;
+      }
+
+      html body :is(.od-hero h1 span, .portfolio-hero h1 span, .mastery-hero h1 span,
+        .ar-title span, .roi-hero h1 span, .jl-title span, .sim-root .hero h1 span,
+        .command-hero h1 span) {
+        color: #e9d5ff !important;
+        -webkit-text-fill-color: #e9d5ff !important;
+        background-image: none !important;
+      }
+
+      html body :is(.portfolio-kicker, .radar-card-dark .radar-kicker,
+        .radar-assessment-page > .section-hero [class*="kicker"], .od-hero .od-chip,
+        .mastery-eyebrow, .ar-eyebrow) {
+        color: var(--odx-gold) !important;
+        -webkit-text-fill-color: var(--odx-gold) !important;
+        background: rgba(255, 255, 255, .10) !important;
+        border: 1px solid rgba(255, 255, 255, .18) !important;
+        opacity: 1 !important;
+      }
+
+      html body :is(.od-command-mini > div, .radar-card-dark .radar-metrics span,
+        .radar-card-dark .radar-summary-box, .radar-card-dark .radar-legend-box,
+        .portfolio-hero .portfolio-button.soft) {
+        border-color: rgba(255, 255, 255, .16) !important;
+      }
+
+      html body :is(.od-main-gauge, .portfolio-orb, .od-live-core) :is(strong, b) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      html body :is(.od-main-gauge, .portfolio-orb, .od-live-core) :is(span, small) {
+        color: #d8cff2 !important;
+        -webkit-text-fill-color: #d8cff2 !important;
+      }
+
+      /* البطاقات الفاتحة داخل لوحات داكنة تبقى بنص داكن في الوضع الفاتح. */
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-timer-command .od-stat-card,
+        .od-timer-command .od-progress-line, .portfolio-stat, .profile-metric,
+        .radar-card:not(.radar-card-dark), .onboarding-card .onboarding-step,
+        .onboarding-action:not(.primary), .portfolio-section, .portfolio-row) {
+        color: var(--odx-light-heading) !important;
+        background: var(--odx-light-card) !important;
+        border-color: rgba(124, 58, 237, .18) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-timer-command .od-stat-card,
+        .od-timer-command .od-progress-line, .portfolio-stat, .profile-metric,
+        .radar-card:not(.radar-card-dark), .onboarding-card .onboarding-step,
+        .onboarding-action:not(.primary), .portfolio-section, .portfolio-row)
+        :is(h1, h2, h3, h4, strong, b, span, small, p, label, time):not([class*="badge"]):not([class*="pill"]):not([class*="tag"]) {
+        color: #2c2342 !important;
+        -webkit-text-fill-color: #2c2342 !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-timer-command .od-stat-card span,
+        .od-timer-command .od-progress-line span, .portfolio-stat span, .profile-metric b,
+        .radar-card:not(.radar-card-dark) p, .portfolio-section p, .portfolio-row small) {
+        color: var(--odx-light-muted) !important;
+        -webkit-text-fill-color: var(--odx-light-muted) !important;
+      }
+
+      /* البطاقات الداكنة في الوضع الداكن لها حدود وخلفية تفصلها عن الخلفية العامة. */
+      html body.od-theme-dark.od-theme-dark :is(.profile-metric, .portfolio-stat, .od-stat-card,
+        .od-progress-line, .radar-card, .portfolio-section, .portfolio-row, .onboarding-card,
+        .onboarding-step, .onboarding-action:not(.primary)) {
+        background: rgba(28, 17, 48, .94) !important;
+        border-color: rgba(167, 139, 250, .24) !important;
+        color: var(--odx-dark-text) !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(.profile-metric, .portfolio-stat, .od-stat-card,
+        .od-progress-line, .radar-card, .portfolio-section, .portfolio-row, .onboarding-card,
+        .onboarding-step, .onboarding-action:not(.primary))
+        :is(h1, h2, h3, h4, strong, b, span, small, p, label, time):not([class*="badge"]):not([class*="pill"]):not([class*="tag"]) {
+        color: var(--odx-dark-text) !important;
+        -webkit-text-fill-color: var(--odx-dark-text) !important;
+        opacity: 1 !important;
+      }
+
+      html body :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+        .monthly-progress, .weekly-reflection-progress, .mini-bar-track, .od-progress-track,
+        .radar-progress-line, .radar-score-track, [class*="progress-track"]) {
+        min-height: 8px !important;
+        border-radius: 999px !important;
+        background-color: rgba(124, 58, 237, .16) !important;
+        box-shadow: inset 0 0 0 1px rgba(124, 58, 237, .08) !important;
+        overflow: hidden !important;
+      }
+
+      html body.od-theme-dark :is(.mini-progress, .profile-progress-line, .mastery-track, .jl-mini-progress,
+        .monthly-progress, .weekly-reflection-progress, .mini-bar-track, .od-progress-track,
+        .radar-progress-line, .radar-score-track, [class*="progress-track"]) {
+        background-color: rgba(167, 139, 250, .20) !important;
+        box-shadow: inset 0 0 0 1px rgba(196, 181, 253, .12) !important;
+      }
+
+      html body :is(.od-progress-track b, .profile-progress-line span, .radar-progress-line i,
+        .mini-progress span, .mastery-track span, .monthly-progress span,
+        .weekly-reflection-progress span, .radar-score-fill) {
+        background: linear-gradient(90deg, #8b5cf6, #10b981) !important;
+      }
+
+      /* العناوين الكبيرة: جذابة ولكن لا تُقصّ ولا تخرج من الحاويات. */
+      html body :is(.public-hero h1, .od-hero h1, .portfolio-hero h1, .radar-assessment-page .section-hero h2,
+        .mastery-hero h1, .ar-title, .roi-hero h1, .jl-title, .sim-root .hero h1,
+        .command-hero h1, .journey-hero h1) {
+        font-size: clamp(2rem, 4.2vw, 3.45rem) !important;
+        line-height: 1.15 !important;
+        letter-spacing: 0 !important;
+        overflow: visible !important;
+        text-wrap: balance;
+      }
+
+      html body :is(.od-section-head h2, .section-head h2, .portfolio-section-head h2,
+        .radar-card h3, .od-timer-content h2) {
+        font-size: clamp(1.45rem, 3.1vw, 2.45rem) !important;
+        line-height: 1.3 !important;
+        letter-spacing: 0 !important;
+        overflow: visible !important;
+      }
+
+      @media (max-width: 760px) {
+        html body :is(.public-hero h1, .od-hero h1, .portfolio-hero h1,
+          .radar-assessment-page .section-hero h2, .mastery-hero h1, .ar-title,
+          .roi-hero h1, .jl-title, .sim-root .hero h1, .command-hero h1,
+          .journey-hero h1) {
+          font-size: clamp(1.85rem, 9vw, 2.75rem) !important;
+        }
+
+        html body :is(.hero-points, .od-hero-inner, .portfolio-hero-grid,
+          .radar-intro-grid, .radar-two-columns, .radar-question-layout,
+          .od-timer-command, .od-timer-grid, .profile-strip, .profile-metrics,
+          .portfolio-stats) {
+          grid-template-columns: 1fr !important;
+        }
+
+        html body :is(.od-button, .portfolio-button, .profile-button, .radar-actions button) {
+          width: 100% !important;
+          justify-content: center !important;
+        }
+      }
+
+
+      /* PHASE 54.1 — Higher-specificity overrides for dark cards that contain the word "card". */
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-command-card, .radar-card.radar-card-dark)
+        :is(h1, h2, h3, h4, h5, h6, strong, b),
+      html body.od-theme-dark.od-theme-dark :is(.od-command-card, .radar-card.radar-card-dark)
+        :is(h1, h2, h3, h4, h5, h6, strong, b) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+        background-image: none !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-command-card, .radar-card.radar-card-dark)
+        :is(p, li, span, small, label, time):not(button):not([class*="badge"]):not([class*="pill"]):not([class*="button"]),
+      html body.od-theme-dark.od-theme-dark :is(.od-command-card, .radar-card.radar-card-dark)
+        :is(p, li, span, small, label, time):not(button):not([class*="badge"]):not([class*="pill"]):not([class*="button"]) {
+        color: #d8cff2 !important;
+        -webkit-text-fill-color: #d8cff2 !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-command-card, .radar-card.radar-card-dark) :is(.od-main-gauge, .portfolio-orb, .od-live-core) strong,
+      html body.od-theme-dark.od-theme-dark :is(.od-command-card, .radar-card.radar-card-dark) :is(.od-main-gauge, .portfolio-orb, .od-live-core) strong {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-command-card, .radar-card.radar-card-dark) :is(.od-main-gauge, .portfolio-orb, .od-live-core) :is(span, small),
+      html body.od-theme-dark.od-theme-dark :is(.od-command-card, .radar-card.radar-card-dark) :is(.od-main-gauge, .portfolio-orb, .od-live-core) :is(span, small) {
+        color: #d8cff2 !important;
+        -webkit-text-fill-color: #d8cff2 !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .radar-card.radar-card-dark .radar-kicker,
+      html body.od-theme-dark.od-theme-dark .radar-card.radar-card-dark .radar-kicker {
+        color: #c4b5fd !important;
+        -webkit-text-fill-color: #c4b5fd !important;
+        background: rgba(255,255,255,.10) !important;
+        border-color: rgba(255,255,255,.18) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-hero, .portfolio-hero, .radar-card.radar-card-dark, .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero, .sim-root .hero)
+        :is(.od-button--light, .portfolio-button.soft, .secondary-button, .ghost-button, .od-button--ghost),
+      html body.od-theme-dark.od-theme-dark :is(.od-hero, .portfolio-hero, .radar-card.radar-card-dark, .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero, .sim-root .hero)
+        :is(.od-button--light, .portfolio-button.soft, .secondary-button, .ghost-button, .od-button--ghost) {
+        color: #18102e !important;
+        -webkit-text-fill-color: #18102e !important;
+        background: #ffffff !important;
+        border-color: rgba(255,255,255,.18) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-hero, .portfolio-hero, .radar-card.radar-card-dark, .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero, .sim-root .hero)
+        :is(.od-button--primary, .portfolio-button.primary, .portfolio-button.export, .primary-button),
+      html body.od-theme-dark.od-theme-dark :is(.od-hero, .portfolio-hero, .radar-card.radar-card-dark, .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero, .sim-root .hero)
+        :is(.od-button--primary, .portfolio-button.primary, .portfolio-button.export, .primary-button) {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+
+      /* PHASE 54.2 — Specific dark-surface exception after generic light-card rules. */
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card :is(strong, b, h1, h2, h3, h4, h5, h6),
+      html body.od-theme-dark.od-theme-dark .od-hero .od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card :is(strong, b, h1, h2, h3, h4, h5, h6),
+      html body:not(.od-theme-dark):not(.od-theme-dark) .radar-card.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark :is(strong, b, h1, h2, h3, h4, h5, h6),
+      html body.od-theme-dark.od-theme-dark .radar-card.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark :is(strong, b, h1, h2, h3, h4, h5, h6) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+        background-image: none !important;
+        opacity: 1 !important;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, .22) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card :is(span, small, p, label, time, li),
+      html body.od-theme-dark.od-theme-dark .od-hero .od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card.od-command-card :is(span, small, p, label, time, li),
+      html body:not(.od-theme-dark):not(.od-theme-dark) .radar-card.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark :is(span, small, p, label, time, li),
+      html body.od-theme-dark.od-theme-dark .radar-card.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark.radar-card-dark :is(span, small, p, label, time, li) {
+        color: #d8cff2 !important;
+        -webkit-text-fill-color: #d8cff2 !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-main-gauge.od-main-gauge.od-main-gauge.od-main-gauge strong,
+      html body.od-theme-dark.od-theme-dark .od-hero .od-main-gauge.od-main-gauge.od-main-gauge.od-main-gauge strong {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, .32) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-command-mini.od-command-mini.od-command-mini.od-command-mini > div strong,
+      html body.od-theme-dark.od-theme-dark .od-hero .od-command-mini.od-command-mini.od-command-mini.od-command-mini > div strong,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-rank.od-rank.od-rank.od-rank strong,
+      html body.od-theme-dark.od-theme-dark .od-hero .od-rank.od-rank.od-rank.od-rank strong {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-command-mini.od-command-mini.od-command-mini.od-command-mini > div span,
+      html body.od-theme-dark.od-theme-dark .od-hero .od-command-mini.od-command-mini.od-command-mini.od-command-mini > div span,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .od-hero .od-rank.od-rank.od-rank.od-rank span,
+      html body.od-theme-dark.od-theme-dark .od-hero .od-rank.od-rank.od-rank.od-rank span {
+        color: #d8cff2 !important;
+        -webkit-text-fill-color: #d8cff2 !important;
+      }
+
+
+      /* PHASE 54.3 — Final spacing and small-pill readability fixes. */
+      html body .od-hero .od-rank.od-rank > div {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        min-width: 0 !important;
+      }
+
+      html body .od-hero .od-rank.od-rank span,
+      html body .od-hero .od-rank.od-rank strong,
+      html body .od-hero .od-command-mini.od-command-mini span,
+      html body .od-hero .od-command-mini.od-command-mini strong {
+        display: block !important;
+        line-height: 1.55 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark .profile-name.profile-name small,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .profile-name.profile-name small {
+        color: #5b21b6 !important;
+        -webkit-text-fill-color: #5b21b6 !important;
+        background: #f4f0fb !important;
+        border: 1px solid rgba(124, 58, 237, .16) !important;
+        opacity: 1 !important;
+      }
+
+      html body .radar-assessment-page.radar-assessment-page .section-hero.section-hero {
+        max-width: min(980px, 100%) !important;
+        padding: clamp(28px, 4vw, 48px) clamp(18px, 4vw, 42px) !important;
+        border-radius: clamp(28px, 4vw, 42px) !important;
+        overflow: visible !important;
+        background:
+          radial-gradient(circle at 16% 20%, rgba(139, 92, 246, .20), transparent 35%),
+          radial-gradient(circle at 88% 72%, rgba(139, 92, 246, .16), transparent 34%),
+          linear-gradient(135deg, rgba(24, 16, 46, .97), rgba(55, 28, 110, .94)) !important;
+        border: 1px solid rgba(255, 255, 255, .16) !important;
+        box-shadow: 0 26px 70px rgba(24, 16, 46, .20) !important;
+      }
+
+      html body .radar-assessment-page.radar-assessment-page .section-hero.section-hero h2 {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+        margin-bottom: 14px !important;
+      }
+
+      html body .radar-assessment-page.radar-assessment-page .section-hero.section-hero p {
+        color: #ded6f4 !important;
+        -webkit-text-fill-color: #ded6f4 !important;
+        max-width: 820px !important;
+        line-height: 1.9 !important;
+        opacity: 1 !important;
+      }
+
+
+      /* PHASE 54.4 — Profile identity small pill must stay readable over light pill in dark mode. */
+      html body.od-theme-dark.od-theme-dark .profile-strip.profile-strip.profile-strip .profile-name.profile-name.profile-name small,
+      html body:not(.od-theme-dark):not(.od-theme-dark) .profile-strip.profile-strip.profile-strip .profile-name.profile-name.profile-name small {
+        color: #5b21b6 !important;
+        -webkit-text-fill-color: #5b21b6 !important;
+        background: #f4f0fb !important;
+        border: 1px solid rgba(124, 58, 237, .18) !important;
+        text-shadow: none !important;
+        opacity: 1 !important;
+      }
+
+      /* PHASE 55 - Surface-aware final contrast for authenticated app screens. */
+      html body:not(.od-theme-dark):not(.od-theme-dark) {
+        --app-heading-readable: #2b155f;
+        --app-text-readable: #46345f;
+        --app-muted-readable: #6a5d85;
+        --app-light-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+        --app-light-border: rgba(124, 58, 237, .18);
+      }
+
+      html body.od-theme-dark.od-theme-dark {
+        --app-heading-readable: #f7f3fc;
+        --app-text-readable: #e7ddfb;
+        --app-muted-readable: #cfc3ee;
+        --app-dark-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
+        --app-dark-border: rgba(196, 181, 253, .26);
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-hero, .od-command-card, .portfolio-hero, .radar-card-dark,
+        .mastery-hero, .ar-hero, .roi-hero, .command-hero, .jl-hero,
+        .sim-root .hero, .learning-journey .journey-hero
+      ) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) {
+        background: var(--app-light-surface) !important;
+        border-color: var(--app-light-border) !important;
+        color: var(--app-text-readable) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(h1, h2, h3, h4, strong, b) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(p, span, small, label, time, li) {
+        color: var(--app-muted-readable) !important;
+        -webkit-text-fill-color: var(--app-muted-readable) !important;
+        opacity: 1 !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) {
+        background: var(--app-dark-surface) !important;
+        border-color: var(--app-dark-border) !important;
+        color: var(--app-text-readable) !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(h1, h2, h3, h4, strong, b) {
+        color: var(--app-heading-readable) !important;
+        -webkit-text-fill-color: var(--app-heading-readable) !important;
+        background-image: none !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(
+        .od-feature-card,
+        .od-lab-card,
+        .od-milestone,
+        .od-stat-card,
+        .od-progress-line,
+        .profile-metric,
+        .profile-stat,
+        .portfolio-stat,
+        .portfolio-section,
+        .portfolio-row,
+        .radar-card:not(.radar-card-dark),
+        .onboarding-card,
+        .onboarding-step,
+        .monthly-certificates,
+        .issued,
+        .course-search-result,
+        .course-search-empty,
+        .jl-reader,
+        .jl-week-intro
+      ) :is(p, span, small, label, time, li) {
+        color: var(--app-muted-readable) !important;
+        -webkit-text-fill-color: var(--app-muted-readable) !important;
+        opacity: 1 !important;
+      }
+
+      html body.od-theme-dark.od-theme-dark :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+        color: #f7f3fc !important;
+        -webkit-text-fill-color: #f7f3fc !important;
+        background: rgba(167, 139, 250, .15) !important;
+        border-color: rgba(196, 181, 253, .30) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+        color: #4c2a86 !important;
+        -webkit-text-fill-color: #4c2a86 !important;
+        background: rgba(124, 58, 237, .10) !important;
+        border-color: rgba(124, 58, 237, .24) !important;
+      }
+
     `}</style>
   );
 }
