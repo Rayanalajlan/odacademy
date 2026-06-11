@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { initializeTheme } from "../lib/themeService";
+import ThemeToggle from "./ThemeToggle";
 
 /* شعار منسقة الفاتح يُوضع داخل شريحة بنفسجية غامقة ليظهر بوضوح فوق الخلفية الفاتحة */
 const BRAND_LOGO_CANDIDATES = [
@@ -73,10 +74,23 @@ const styles = {
     color: "#6a5d85",
     fontWeight: 800
   },
+  headerActions: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: "12px",
+    flexWrap: "wrap"
+  },
   nav: {
     display: "flex",
     gap: "10px",
     flexWrap: "wrap"
+  },
+  themeToggleWrap: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: "0 0 auto"
   },
   navLink: {
     color: "#6d28d9",
@@ -173,12 +187,17 @@ export default function LegalLayout({
             </div>
           </a>
 
-          <nav className="legal-nav" style={styles.nav} aria-label="روابط الصفحات القانونية">
-            <a className="legal-nav-link" href="/" style={styles.navLink}>الرئيسية</a>
-            <a className="legal-nav-link" href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
-            <a className="legal-nav-link" href="/terms" style={styles.navLink}>شروط الاستخدام</a>
-            <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
-          </nav>
+          <div className="legal-header-actions" style={styles.headerActions}>
+            <nav className="legal-nav" style={styles.nav} aria-label="روابط الصفحات القانونية">
+              <a className="legal-nav-link" href="/" style={styles.navLink}>الرئيسية</a>
+              <a className="legal-nav-link" href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
+              <a className="legal-nav-link" href="/terms" style={styles.navLink}>شروط الاستخدام</a>
+              <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
+            </nav>
+            <div className="legal-theme-toggle" style={styles.themeToggleWrap}>
+              <ThemeToggle />
+            </div>
+          </div>
         </header>
 
         <section className="legal-card legal-content-card" style={styles.card}>
