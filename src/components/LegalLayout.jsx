@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { initializeTheme } from "../lib/themeService";
 import ThemeToggle from "./ThemeToggle";
+import SiteLogo from "./SiteLogo";
 
 /* شعار منسقة الفاتح يُوضع داخل شريحة بنفسجية غامقة ليظهر بوضوح فوق الخلفية الفاتحة */
 const BRAND_LOGO_CANDIDATES = [
@@ -192,12 +193,57 @@ const styles = {
   },
   footer: {
     marginTop: "20px",
-    color: "#6a5d85",
-    fontSize: "0.86rem",
-    textAlign: "center",
-    fontWeight: 800
+    display: "grid",
+    justifyItems: "center",
+    gap: "12px",
+    padding: "28px 24px 34px",
+    textAlign: "center"
+  },
+  footerBrand: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  footerMessage: {
+    margin: 0,
+    maxWidth: "920px",
+    fontSize: "0.96rem",
+    lineHeight: 1.9,
+    fontWeight: 900
+  },
+  footerRights: {
+    fontSize: "0.9rem",
+    lineHeight: 1.7,
+    fontWeight: 900
   }
 };
+
+const legalFooterStyles = `
+  .legal-footer--home-match .munsaqah-logo--footer img {
+    height: clamp(54px, 6vw, 76px);
+    max-width: min(320px, 74vw);
+  }
+
+  .legal-footer--home-match .legal-footer-message {
+    color: #382a58 !important;
+    -webkit-text-fill-color: #382a58 !important;
+  }
+
+  .legal-footer--home-match .legal-footer-rights {
+    color: #6f6391 !important;
+    -webkit-text-fill-color: #6f6391 !important;
+  }
+
+  body.od-theme-dark .legal-footer--home-match .legal-footer-message {
+    color: #efe9ff !important;
+    -webkit-text-fill-color: #efe9ff !important;
+  }
+
+  body.od-theme-dark .legal-footer--home-match .legal-footer-rights {
+    color: #c9bdf0 !important;
+    -webkit-text-fill-color: #c9bdf0 !important;
+  }
+`;
 
 export default function LegalLayout({
   eyebrow = "منسقة",
@@ -278,8 +324,15 @@ export default function LegalLayout({
           {children}
         </section>
 
-        <footer className="legal-footer" style={styles.footer}>
-          © 2026 — جميع الحقوق محفوظة
+        <footer className="legal-footer legal-footer--home-match" style={styles.footer}>
+          <style>{legalFooterStyles}</style>
+          <div className="legal-footer-brand" style={styles.footerBrand}>
+            <SiteLogo context="footer" />
+          </div>
+          <p className="legal-footer-message" style={styles.footerMessage}>
+            صنع بواسطة ريان العجلان كأثر معرفي هادئ؛ لمن يبحث عن المعنى خلف السلوك، والنظام خلف المشكلة.
+          </p>
+          <span className="legal-footer-rights" style={styles.footerRights}>© 2026 — جميع الحقوق محفوظة</span>
         </footer>
 
         {confirmDeleteOpen ? (
