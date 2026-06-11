@@ -11,6 +11,53 @@ const BRAND_LOGO_CANDIDATES = [
   "/rayan-logo.png"
 ];
 
+function LegalNavIcon({ type }) {
+  return (
+    <span className="legal-nav-icon" aria-hidden="true" style={styles.navIcon}>
+      <svg
+        viewBox="0 0 24 24"
+        style={{ width: "100%", height: "100%", display: "block" }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {type === "home" && (
+          <>
+            <path d="M4.4 11.2 12 4.6l7.6 6.6" />
+            <path d="M6.6 10.2v9h10.8v-9" />
+            <path d="M10 19.2v-5h4v5" />
+          </>
+        )}
+        {type === "privacy" && (
+          <>
+            <path d="M12 3.4 5.2 6.1v5.5c0 4.3 2.8 7.5 6.8 8.9 4-1.4 6.8-4.6 6.8-8.9V6.1z" />
+            <path d="M9.5 12.1 11.3 14l3.4-4" />
+          </>
+        )}
+        {type === "terms" && (
+          <>
+            <path d="M7 3.8h7.2L18 7.6v12.6H7z" />
+            <path d="M14 3.8v4h4" />
+            <path d="M9.7 12h4.6" />
+            <path d="M9.7 15.2h4.6" />
+          </>
+        )}
+        {type === "delete" && (
+          <>
+            <path d="M5 7h14" />
+            <path d="M9 7V5.4c0-.8.6-1.4 1.4-1.4h3.2c.8 0 1.4.6 1.4 1.4V7" />
+            <path d="M7.2 7.8 8 20h8l.8-12.2" />
+            <path d="M10.3 11v5.2" />
+            <path d="M13.7 11v5.2" />
+          </>
+        )}
+      </svg>
+    </span>
+  );
+}
+
 const styles = {
   page: {
     minHeight: "100vh",
@@ -93,6 +140,10 @@ const styles = {
     flex: "0 0 auto"
   },
   navLink: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px",
     color: "#6d28d9",
     textDecoration: "none",
     border: "1px solid rgba(124,58,237,0.22)",
@@ -102,6 +153,14 @@ const styles = {
     fontSize: "0.9rem",
     fontWeight: 900,
     boxShadow: "0 10px 28px rgba(60,37,98,0.06)"
+  },
+  navIcon: {
+    width: "19px",
+    height: "19px",
+    display: "inline-grid",
+    placeItems: "center",
+    flex: "0 0 auto",
+    color: "inherit"
   },
   card: {
     background:
@@ -189,10 +248,22 @@ export default function LegalLayout({
 
           <div className="legal-header-actions" style={styles.headerActions}>
             <nav className="legal-nav" style={styles.nav} aria-label="روابط الصفحات القانونية">
-              <a className="legal-nav-link" href="/" style={styles.navLink}>الرئيسية</a>
-              <a className="legal-nav-link" href="/privacy" style={styles.navLink}>سياسة الخصوصية</a>
-              <a className="legal-nav-link" href="/terms" style={styles.navLink}>شروط الاستخدام</a>
-              <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>طلب حذف البيانات</a>
+              <a className="legal-nav-link" href="/" style={styles.navLink}>
+                <LegalNavIcon type="home" />
+                الرئيسية
+              </a>
+              <a className="legal-nav-link" href="/privacy" style={styles.navLink}>
+                <LegalNavIcon type="privacy" />
+                سياسة الخصوصية
+              </a>
+              <a className="legal-nav-link" href="/terms" style={styles.navLink}>
+                <LegalNavIcon type="terms" />
+                شروط الاستخدام
+              </a>
+              <a className="legal-nav-link" href="/data-deletion" style={styles.navLink} onClick={handleDeleteLink}>
+                <LegalNavIcon type="delete" />
+                طلب حذف البيانات
+              </a>
             </nav>
             <div className="legal-theme-toggle" style={styles.themeToggleWrap}>
               <ThemeToggle />
@@ -208,7 +279,7 @@ export default function LegalLayout({
         </section>
 
         <footer className="legal-footer" style={styles.footer}>
-          © 2026 — منصة منسقة. جميع الحقوق محفوظة.
+          © 2026 — جميع الحقوق محفوظة
         </footer>
 
         {confirmDeleteOpen ? (
