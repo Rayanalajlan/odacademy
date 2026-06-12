@@ -505,10 +505,12 @@ html[data-theme="dark"] body.od-theme-dark :is(
   .hero-actions,
   .actions
 ) {
-  background: rgba(36, 22, 64, .58) !important;
-  border-color: var(--border-soft) !important;
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
   border-radius: 24px !important;
   box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 html[data-theme="dark"] body.od-theme-dark :is(
@@ -537,6 +539,9 @@ html[data-theme="dark"] body.od-theme-dark :is(
   .application-pill,
   .mode-button,
   .roi-switch button,
+  .toggle-password,
+  .course-search-clear,
+  .course-search-suggestions button,
   .radar-actions .secondary-button,
   .radar-card .secondary-button
 ):not(.active):not(.primary) {
@@ -772,27 +777,227 @@ html[data-theme="dark"] body.od-theme-dark :is(
   .od-hero-actions,
   .hero-actions,
   .button-row,
+  .ar-hero-actions,
+  .profile-actions,
+  .monthly-actions,
+  .onboarding-actions,
+  .auth-actions,
+  .visitor-auth-actions,
+  .legal-header-actions,
   .portfolio-actions,
   .mastery-actions,
   .radar-actions,
   .od-timer-actions,
   .composer-footer,
   .header-actions,
-  .certificate-verification-actions
+  .certificate-verification-actions,
+  .search-actions,
+  .course-search-actions,
+  .mobile-nav-actions
 ) {
   padding: 0 !important;
   background: transparent !important;
+  background-image: none !important;
   border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 html[data-theme="dark"] body.od-theme-dark :is(
   .sim-root .nav,
   .main-nav,
+  .radar-tabs,
+  .panel-tabs,
+  .auth-tabs,
+  .roi-switch,
+  .course-search-row,
+  .course-search-suggestions,
+  .password-row,
+  .auth-form-row,
+  .auth-field,
+  .field-row,
+  .input-row,
+  .form-row,
+  .filters,
+  .toolbar,
+  .controls,
+  .educational-tools-menu
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .sim-root .nav,
+  .main-nav,
+  .radar-tabs,
   .panel-tabs,
   .auth-tabs,
   .roi-switch
 ) {
-  padding: 8px !important;
+  padding: 0 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .course-search-box,
+  .quick-search-box,
+  .search-box,
+  .search-panel,
+  .search-shell
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-box {
+  padding: 0 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .course-search-counter,
+  .course-search-clear,
+  .course-search-suggestions button,
+  .toggle-password,
+  .forgot-button,
+  .quota-timer
+) {
+  background: var(--bg-button-secondary) !important;
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  border-color: var(--border-default) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .course-search-counter,
+  .course-search-clear,
+  .course-search-suggestions button,
+  .toggle-password,
+  .forgot-button,
+  .quota-timer
+) :is(span, strong, b, small) {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-title :is(strong, span) {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-title span {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+}
+
+/* Broad dark-only guardrail for layout wrappers whose only job is grouping. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  [class*="actions"],
+  [class*="tabs"],
+  [class*="toolbar"],
+  [class*="controls"],
+  [class*="filters"],
+  [class*="search-row"],
+  [class*="input-row"],
+  [class*="form-row"],
+  [class*="button-row"]
+):not(button):not(input):not(textarea):not(select):not(.card):not([class*="card"]):not(.panel):not([class*="panel"]):not(.dropdown):not([class*="dropdown"]):not(.popover):not([class*="popover"]):not(.modal):not([class*="modal"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .od-hero-actions,
+  .hero-actions,
+  .button-row,
+  .ar-hero-actions,
+  .profile-actions,
+  .monthly-actions,
+  .onboarding-actions,
+  .auth-actions,
+  .visitor-auth-actions,
+  .portfolio-actions,
+  .mastery-actions,
+  .radar-actions,
+  .od-timer-actions,
+  .composer-footer,
+  .header-actions,
+  .certificate-verification-actions,
+  .sim-root .nav,
+  .main-nav,
+  .radar-tabs,
+  .panel-tabs,
+  .auth-tabs,
+  .roi-switch,
+  .course-search-row,
+  .course-search-suggestions,
+  .password-row,
+  .auth-form-row,
+  .field-row,
+  .input-row,
+  .form-row,
+  .filters,
+  .toolbar,
+  .controls,
+  .educational-tools-menu
+)::before,
+html[data-theme="dark"] body.od-theme-dark :is(
+  .od-hero-actions,
+  .hero-actions,
+  .button-row,
+  .ar-hero-actions,
+  .profile-actions,
+  .monthly-actions,
+  .onboarding-actions,
+  .auth-actions,
+  .visitor-auth-actions,
+  .portfolio-actions,
+  .mastery-actions,
+  .radar-actions,
+  .od-timer-actions,
+  .composer-footer,
+  .header-actions,
+  .certificate-verification-actions,
+  .sim-root .nav,
+  .main-nav,
+  .radar-tabs,
+  .panel-tabs,
+  .auth-tabs,
+  .roi-switch,
+  .course-search-row,
+  .course-search-suggestions,
+  .password-row,
+  .auth-form-row,
+  .field-row,
+  .input-row,
+  .form-row,
+  .filters,
+  .toolbar,
+  .controls,
+  .educational-tools-menu
+)::after {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .educational-tools-dropdown::before {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border-default) !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 760px) {
