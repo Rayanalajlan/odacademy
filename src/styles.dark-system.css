@@ -1255,3 +1255,229 @@ html[data-theme="dark"] body.od-theme-dark .roi-orbit-inner {
     border-radius: 22px !important;
   }
 }
+
+/* Unified circular progress/readiness indicators. */
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator {
+  --od-indicator-size: clamp(190px, 20vw, 236px);
+  --od-indicator-progress: var(--p, var(--score, 0%));
+  --od-indicator-core: #18102e;
+  --od-indicator-track: rgba(124, 104, 168, .32);
+  --od-indicator-active-start: #7c3aed;
+  --od-indicator-active-end: #a855f7;
+  position: relative !important;
+  z-index: 1 !important;
+  isolation: isolate !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 6px !important;
+  width: var(--od-indicator-size) !important;
+  height: var(--od-indicator-size) !important;
+  min-width: var(--od-indicator-size) !important;
+  min-height: var(--od-indicator-size) !important;
+  max-width: var(--od-indicator-size) !important;
+  max-height: var(--od-indicator-size) !important;
+  aspect-ratio: 1 !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  color: var(--text-primary) !important;
+  background:
+    radial-gradient(circle at center, var(--od-indicator-core) 0 56%, transparent 57%),
+    conic-gradient(
+      from -90deg,
+      var(--od-indicator-active-start) 0%,
+      var(--od-indicator-active-end) var(--od-indicator-progress),
+      var(--od-indicator-track) var(--od-indicator-progress) 100%
+    ) !important;
+  border: 1px solid rgba(196, 181, 253, .20) !important;
+  box-shadow:
+    inset 0 0 0 14px rgba(255, 255, 255, .055),
+    inset 0 0 46px rgba(0, 0, 0, .24),
+    0 24px 72px rgba(0, 0, 0, .28) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 12% !important;
+  z-index: 0 !important;
+  border-radius: inherit !important;
+  border: 1px solid rgba(196, 181, 253, .16) !important;
+  box-shadow: inset 0 0 34px rgba(0, 0, 0, .28) !important;
+  pointer-events: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  border-radius: inherit !important;
+  background:
+    radial-gradient(circle at 35% 22%, rgba(255, 255, 255, .18), transparent 16%),
+    radial-gradient(circle at 70% 80%, rgba(45, 212, 191, .10), transparent 26%) !important;
+  opacity: .72 !important;
+  pointer-events: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+  .roi-orbit-card,
+  .mastery-progress-orb,
+  .score-orb,
+  .od-indicator-readiness,
+  .od-indicator-completion,
+  .od-indicator-score
+) {
+  --od-indicator-track: rgba(74, 58, 124, .36);
+  --od-indicator-active-start: #8b5cf6;
+  --od-indicator-active-end: #2dd4bf;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+  .od-main-gauge,
+  .portfolio-orb,
+  .mastery-progress-orb,
+  .jl-orb
+) {
+  --od-indicator-size: clamp(210px, 22vw, 236px);
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+  .roi-orbit-card
+) {
+  --od-indicator-size: clamp(248px, 26vw, 300px);
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+  .journey-ring,
+  .onboarding-progress-orb,
+  .score-orb
+) {
+  --od-indicator-size: 158px;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator.radar-summary-box {
+  --od-indicator-size: clamp(190px, 18vw, 224px);
+  justify-self: center !important;
+  margin-block: 18px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator.score-orb {
+  flex: 0 0 var(--od-indicator-size) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator > :is(div, span),
+html[data-theme="dark"] body.od-theme-dark .mastery-progress-orb.od-circular-indicator .mastery-progress-inner,
+html[data-theme="dark"] body.od-theme-dark .roi-orbit-card.od-circular-indicator .roi-orbit-inner {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 7px !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator :is(
+  .mastery-progress-inner > div,
+  .roi-orbit-inner > div
+),
+html[data-theme="dark"] body.od-theme-dark .portfolio-orb.od-circular-indicator > div > span,
+html[data-theme="dark"] body.od-theme-dark .onboarding-progress-orb.od-circular-indicator > div > span {
+  display: grid !important;
+  place-items: center !important;
+  gap: 7px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator :is(strong),
+html[data-theme="dark"] body.od-theme-dark .journey-ring.od-circular-indicator > span {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #f8f5ff !important;
+  -webkit-text-fill-color: #f8f5ff !important;
+  font-size: var(--od-indicator-value-size, clamp(30px, 4vw, 52px)) !important;
+  line-height: 1 !important;
+  font-weight: 950 !important;
+  letter-spacing: 0 !important;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, .28) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(.journey-ring, .onboarding-progress-orb, .score-orb) {
+  --od-indicator-value-size: 30px;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(.roi-orbit-card) {
+  --od-indicator-value-size: 48px;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator :is(small, b),
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(.od-main-gauge, .mastery-progress-orb, .radar-summary-box) span,
+html[data-theme="dark"] body.od-theme-dark .roi-orbit-card.od-circular-indicator .roi-orbit-inner > span,
+html[data-theme="dark"] body.od-theme-dark .journey-ring.od-circular-indicator .journey-ring-label,
+html[data-theme="dark"] body.od-theme-dark .score-orb.od-circular-indicator span {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  max-width: 82% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+  font-size: clamp(10px, 1.3vw, 13px) !important;
+  line-height: 1.55 !important;
+  font-weight: 900 !important;
+  white-space: normal !important;
+  text-align: center !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+  .roi-orbit-card,
+  .mastery-progress-orb,
+  .score-orb
+) :is(small, b, span) {
+  color: #bff7e9 !important;
+  -webkit-text-fill-color: #bff7e9 !important;
+}
+
+@media (max-width: 760px) {
+  html[data-theme="dark"] body.od-theme-dark .od-circular-indicator {
+    --od-indicator-size: 168px;
+    --od-indicator-value-size: 30px;
+  }
+
+  html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
+    .od-main-gauge,
+    .portfolio-orb,
+    .mastery-progress-orb,
+    .jl-orb
+  ) {
+    --od-indicator-size: 190px;
+  }
+
+  html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(.roi-orbit-card) {
+    --od-indicator-size: 232px;
+  }
+}

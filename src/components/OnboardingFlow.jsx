@@ -327,7 +327,10 @@ export default function OnboardingFlow({
 
             <aside className="onboarding-route" aria-label="ملخص تقدمك الحالي">
               <h3>أنت داخل رحلة من 180 يومًا</h3>
-              <div className="onboarding-progress-orb">
+              <div
+                className="onboarding-progress-orb od-circular-indicator od-indicator-general"
+                style={{ "--od-indicator-progress": `${progress}%` }}
+              >
                 <div>
                   <span>
                     <strong>{progress}%</strong>

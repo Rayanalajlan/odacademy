@@ -866,7 +866,11 @@ export default function MasteryCertificate({
               </p>
             </div>
 
-            <div className="mastery-progress-orb" aria-label="نسبة إتمام الرحلة">
+            <div
+              className="mastery-progress-orb od-circular-indicator od-indicator-completion"
+              style={{ "--od-indicator-progress": `${progress}%` }}
+              aria-label="نسبة إتمام الرحلة"
+            >
               <div className="mastery-progress-inner">
                 <div>
                   <strong>{progress}%</strong>

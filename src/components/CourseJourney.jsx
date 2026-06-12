@@ -2284,7 +2284,10 @@ export default function CourseJourney({
             </div>
 
             <div className="jl-orb-card">
-              <div className="jl-orb">
+              <div
+                className="jl-orb od-circular-indicator od-indicator-general"
+                style={{ "--od-indicator-progress": `${Math.min(100, Math.max(0, overallProgress))}%` }}
+              >
                 <div>
                   <strong>{arabicPercent(overallProgress)}</strong>
                   <small>من الرحلة الكاملة</small>

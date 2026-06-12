@@ -1148,7 +1148,10 @@ function PreAssessmentPanel({ setActivePage }) {
           <p>
             نتيجتك لا تعني حكمًا نهائيًا عليك؛ هي خط أساس ذكي يساعدك تعرف أين تبدأ، وأين تحتاج ممارسة أعمق خلال الرحلة.
           </p>
-          <div className="radar-summary-box">
+          <div
+            className="radar-summary-box od-circular-indicator od-indicator-score"
+            style={{ "--od-indicator-progress": `${clamp(result.overall, 0, 5) * 20}%` }}
+          >
             <span>المتوسط العام</span>
             <strong>{result.overall}/5</strong>
             <small>{levelFromScore(result.overall)}</small>
@@ -1329,7 +1332,10 @@ function LearningRadarPanel({ progressRows: progressRowsProp }) {
           هذا الرادار لا يعتمد على رأيك في نفسك، بل على تقدمك داخل الرحلة: الأيام المفتوحة تعطي أثرًا بسيطًا، والأيام المكتملة ترفع الجدارة المرتبطة بها.
         </p>
 
-        <div className="radar-summary-box">
+        <div
+          className="radar-summary-box od-circular-indicator od-indicator-general"
+          style={{ "--od-indicator-progress": `${clamp(learningRadar.progressPercentage, 0, 100)}%` }}
+        >
           <span>إنجاز الرحلة</span>
           <strong>{arabicPercent(learningRadar.progressPercentage)}</strong>
           <small>{learningRadar.completedDays} من {learningRadar.totalDays} يومًا مكتملًا · متوسط الرادار {learningOverall}/5</small>

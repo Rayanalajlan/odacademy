@@ -2014,7 +2014,10 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
                 </div>
               </div>
 
-              <div className="od-main-gauge">
+              <div
+                className="od-main-gauge od-circular-indicator od-indicator-general"
+                style={{ "--od-indicator-progress": `${progress}%` }}
+              >
                 <div>
                   <strong>{progress}%</strong>
                   <span>إنجاز الرحلة التعليمية</span>

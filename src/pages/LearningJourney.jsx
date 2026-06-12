@@ -104,8 +104,13 @@ function normalizePercent(value) {
 function ProgressRing({ percent, label }) {
   const p = normalizePercent(percent);
   return (
-    <div className="journey-ring" style={{ "--p": `${p}%` }} aria-label={`${label}: ${p}%`}>
+    <div
+      className="journey-ring od-circular-indicator od-indicator-general"
+      style={{ "--p": `${p}%`, "--od-indicator-progress": `${p}%` }}
+      aria-label={`${label}: ${p}%`}
+    >
       <span>{p}%</span>
+      <small className="journey-ring-label">{label}</small>
     </div>
   );
 }
@@ -711,6 +716,7 @@ const journeyCss = `
   font-size: 24px;
   font-weight: 950;
 }
+.journey-ring-label { display: none; }
 .mastery-gate {
   display: flex;
   justify-content: space-between;

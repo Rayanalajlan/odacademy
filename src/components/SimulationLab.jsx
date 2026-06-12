@@ -2397,7 +2397,10 @@ export default function Simulation() {
                 </div>
               </div>
 
-              <div className="score-orb" style={{ "--score": `${score}%` }}>
+              <div
+                className="score-orb od-circular-indicator od-indicator-score"
+                style={{ "--score": `${score}%`, "--od-indicator-progress": `${score}%` }}
+              >
                 <div>
                   <strong>{score}%</strong>
                   <span>{getGrade(score)}</span>
@@ -2537,7 +2540,10 @@ export default function Simulation() {
                 </p>
               </div>
 
-              <div className="score-orb" style={{ "--score": `${score}%` }}>
+              <div
+                className="score-orb od-circular-indicator od-indicator-score"
+                style={{ "--score": `${score}%`, "--od-indicator-progress": `${score}%` }}
+              >
                 <div>
                   <strong>{score}%</strong>
                   <span>نضج القرار</span>

@@ -513,7 +513,10 @@ export default function LearningPortfolio({
             </div>
           </div>
 
-          <div className="portfolio-orb">
+          <div
+            className="portfolio-orb od-circular-indicator od-indicator-general"
+            style={{ "--od-indicator-progress": `${summary.progressPercent}%` }}
+          >
             <div>
               <span>
                 <strong>{summary.progressPercent}%</strong>
