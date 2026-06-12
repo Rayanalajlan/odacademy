@@ -779,7 +779,7 @@ export default function AuthGate({
           justify-content: center;
           width: 34px;
           height: 34px;
-          border-radius: 11px;
+          border-radius: 16px;
           margin-bottom: 12px;
           color: var(--gold-2);
           background: var(--gold-soft);
@@ -1273,7 +1273,7 @@ export default function AuthGate({
           content: "";
           width: 6px;
           height: 6px;
-          border-radius: 2px;
+          border-radius: 999px;
           background: var(--gold);
         }
 
@@ -1515,7 +1515,7 @@ export default function AuthGate({
           flex: none;
           width: 30px;
           height: 30px;
-          border-radius: 10px;
+          border-radius: 999px;
           background: rgba(16, 9, 30, 0.6);
           border: 1px solid var(--line-2);
           color: var(--teal-2);

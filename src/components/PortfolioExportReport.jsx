@@ -412,7 +412,7 @@ export default function PortfolioExportReport({
           .portfolio-export-report {
             width: 100% !important;
             margin: 0 !important;
-            border-radius: 0 !important;
+            border-radius: 24px !important;
             box-shadow: none !important;
             border: 0 !important;
           }

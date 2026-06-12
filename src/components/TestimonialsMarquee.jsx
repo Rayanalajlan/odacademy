@@ -260,7 +260,7 @@ export default function TestimonialsMarquee() {
         }
 
         .tm-card {
-          border-radius: 8px;
+          border-radius: 22px;
           padding: 15px;
           background: rgba(255,255,255,.92);
           border: 1px solid var(--tm-line);

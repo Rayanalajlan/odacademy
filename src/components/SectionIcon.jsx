@@ -38,7 +38,7 @@ export default function SectionIcon({
         .section-icon--nav {
           width: 30px;
           height: 30px;
-          border-radius: 11px;
+          border-radius: 16px;
         }
 
         .section-icon--mobile {

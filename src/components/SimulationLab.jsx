@@ -795,7 +795,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
     @media print {
       body { background: white; }
       .deck { padding: 0; gap: 0; }
-      .slide { box-shadow: none; border-radius: 0; min-height: auto; height: calc(100vh - 24mm); }
+      .slide { box-shadow: none; border-radius: 24px; min-height: auto; height: calc(100vh - 24mm); }
     }
   </style>
 </head>
@@ -1930,7 +1930,7 @@ export default function Simulation() {
         .choice-letter {
           width: 26px;
           height: 26px;
-          border-radius: 10px;
+          border-radius: 999px;
           display: grid;
           place-items: center;
           background: rgba(255,255,255,.12);

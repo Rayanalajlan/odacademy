@@ -1383,7 +1383,7 @@ html[data-theme="dark"] body.od-theme-dark .roi-orbit-card.od-circular-indicator
   min-height: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 999px !important;
   background: transparent !important;
   box-shadow: none !important;
   text-align: center !important;
@@ -1410,7 +1410,7 @@ html[data-theme="dark"] body.od-theme-dark .journey-ring.od-circular-indicator >
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 999px !important;
   background: transparent !important;
   color: #f8f5ff !important;
   -webkit-text-fill-color: #f8f5ff !important;
@@ -1441,7 +1441,7 @@ html[data-theme="dark"] body.od-theme-dark .score-orb.od-circular-indicator span
   margin: 0 auto !important;
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 999px !important;
   background: transparent !important;
   color: #d8cff2 !important;
   -webkit-text-fill-color: #d8cff2 !important;

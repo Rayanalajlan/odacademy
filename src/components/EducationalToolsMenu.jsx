@@ -249,7 +249,7 @@ export default function EducationalToolsMenu({
           grid-row: 1 / 3;
           width: 36px;
           height: 36px;
-          border-radius: 11px;
+          border-radius: 18px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
