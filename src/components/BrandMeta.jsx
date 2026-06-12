@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { MUNSAQAH_ALT_AR, MUNSAQAH_ASSETS } from "../lib/munsaqahBrand";
 
+const SITE_TITLE = "منسقة | تعلّم ما وراء السلوك";
+const SITE_DESCRIPTION =
+  "رحلة تعليمية في التطوير التنظيمي تساعدك على قراءة السلوك، فهم النظام، وتشخيص جذور المشكلات قبل القفز إلى الحلول.";
+const SITE_NAME = "منسقة";
+
 function ensureLink(rel, href, attrs = {}) {
   if (typeof document === "undefined") return;
 
@@ -56,10 +61,26 @@ export default function BrandMeta() {
     ensureLink("manifest", MUNSAQAH_ASSETS.manifest);
     ensureLink("preload", MUNSAQAH_ASSETS.horizontal, { as: "image" });
 
+    const siteUrl = `${window.location.origin}/`;
     const absoluteOg = new URL(MUNSAQAH_ASSETS.ogImage, window.location.origin).toString();
 
+    document.title = SITE_TITLE;
+    ensureNameMeta("description", SITE_DESCRIPTION);
+    ensureNameMeta("application-name", SITE_NAME);
+    ensureNameMeta("apple-mobile-web-app-title", SITE_NAME);
+
+    ensureMeta("og:type", "website");
+    ensureMeta("og:locale", "ar_SA");
+    ensureMeta("og:site_name", SITE_NAME);
+    ensureMeta("og:title", SITE_TITLE);
+    ensureMeta("og:description", SITE_DESCRIPTION);
+    ensureMeta("og:url", siteUrl);
     ensureMeta("og:image", absoluteOg);
     ensureMeta("og:image:alt", MUNSAQAH_ALT_AR);
+
+    ensureNameMeta("twitter:card", "summary_large_image");
+    ensureNameMeta("twitter:title", SITE_TITLE);
+    ensureNameMeta("twitter:description", SITE_DESCRIPTION);
     ensureNameMeta("twitter:image", absoluteOg);
     ensureNameMeta("twitter:image:alt", MUNSAQAH_ALT_AR);
 
@@ -72,10 +93,12 @@ export default function BrandMeta() {
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
-      name: "منسقة",
+      name: SITE_NAME,
       alternateName: "Munsaqah",
-      url: window.location.origin,
-      logo: new URL(MUNSAQAH_ASSETS.horizontal, window.location.origin).toString()
+      description: SITE_DESCRIPTION,
+      url: siteUrl,
+      logo: new URL(MUNSAQAH_ASSETS.horizontal, window.location.origin).toString(),
+      image: absoluteOg
     });
 
     document.head.appendChild(script);
