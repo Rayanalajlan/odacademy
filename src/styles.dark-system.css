@@ -1481,3 +1481,288 @@ html[data-theme="dark"] body.od-theme-dark .od-circular-indicator:is(
     --od-indicator-size: 232px;
   }
 }
+
+/* Final geometry parity with light mode: clickable cards stay cards. */
+html[data-theme="dark"] body.od-theme-dark #root :is(
+  .section-icon-grid__item,
+  .od-feature-card,
+  .home-card,
+  .sim-root .home-card,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .month-card,
+  .week-card,
+  .day-step,
+  .option-button,
+  .jl-option,
+  .quiz-option,
+  .sim-root .choice,
+  .archive-item,
+  .message-bubble,
+  .messages-box,
+  .roi-source,
+  .portfolio-cert,
+  .mastery-stat,
+  .about-rayan .ar-card,
+  .about-rayan .ar-lens,
+  .about-rayan .ar-domain
+) {
+  border-radius: 28px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(
+  .jl-stage-panel,
+  .jl-reader,
+  .jl-week-intro,
+  .portfolio-section,
+  .mastery-hero,
+  .roi-panel,
+  .command-panel,
+  .sim-root .page,
+  .sim-root .decision-card,
+  .about-rayan .ar-section
+) {
+  border-radius: 34px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(
+  .section-icon-grid__item,
+  .od-feature-card,
+  .sim-root .home-card,
+  .jl-month-card,
+  .jl-week-card
+) {
+  aspect-ratio: auto !important;
+  min-height: 190px !important;
+  padding: 22px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 0% 100%, rgba(139, 92, 246, .16), transparent 32%),
+    linear-gradient(180deg, rgba(35, 22, 57, .94) 0%, rgba(24, 14, 43, .96) 100%) !important;
+  border: 1px solid rgba(167, 139, 250, .22) !important;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .24) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .section-icon-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  width: min(1180px, calc(100% - 32px)) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .section-icon-grid__item {
+  display: grid !important;
+  align-content: center !important;
+  justify-items: center !important;
+  color: #fbf7ff !important;
+  -webkit-text-fill-color: #fbf7ff !important;
+  text-align: center !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .section-icon-grid__item span:last-child {
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card {
+  min-height: 260px !important;
+  padding: 22px !important;
+  border-radius: 30px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: right !important;
+  background:
+    radial-gradient(circle at 0% 100%, currentColor 0%, transparent 30%),
+    linear-gradient(180deg, rgba(35, 22, 57, .94) 0%, rgba(24, 14, 43, .96) 100%) !important;
+  background-blend-mode: soft-light, normal !important;
+  border: 1px solid rgba(167, 139, 250, .22) !important;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .24) !important;
+  color: #8b5cf6 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card::before {
+  border-radius: 50% !important;
+  opacity: .16 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card :is(h3, strong) {
+  color: #fbf7ff !important;
+  -webkit-text-fill-color: #fbf7ff !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card :is(p, span) {
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card .od-feature-badge {
+  background: rgba(139, 92, 246, .18) !important;
+  border: 1px solid rgba(167, 139, 250, .28) !important;
+  color: #e9ddff !important;
+  -webkit-text-fill-color: #e9ddff !important;
+  border-radius: 999px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card .od-feature-icon {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 20px !important;
+  background: currentColor !important;
+  color: #160d28 !important;
+  -webkit-text-fill-color: #160d28 !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .22) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card .od-feature-icon--logo {
+  background: rgba(139, 92, 246, .14) !important;
+  border: 1px solid rgba(167, 139, 250, .24) !important;
+  color: currentColor !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--indigo { color: #a78bfa !important; }
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--violet { color: #c084fc !important; }
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--emerald { color: #5eead4 !important; }
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--amber { color: #d8b4fe !important; }
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--slate { color: #d8cff2 !important; }
+html[data-theme="dark"] body.od-theme-dark #root .od-feature-card--rose { color: #f9a8d4 !important; }
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card, .jl-week-card) {
+  min-height: 214px !important;
+  text-align: right !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .jl-day-card {
+  min-height: 142px !important;
+  aspect-ratio: auto !important;
+  padding: 16px 14px !important;
+  text-align: center !important;
+  border-radius: 26px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .jl-days-grid {
+  grid-template-columns: repeat(7, minmax(110px, 1fr)) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-index, .jl-month-card > span:first-child, .jl-week-card > span:first-child) {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  padding-inline: 12px !important;
+  border-radius: 20px !important;
+  background: rgba(139, 92, 246, .18) !important;
+  border: 1px solid rgba(167, 139, 250, .28) !important;
+  color: #e9ddff !important;
+  -webkit-text-fill-color: #e9ddff !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card h3, .jl-week-card h3, .jl-day-card strong, .sim-root .home-card strong) {
+  color: #fbf7ff !important;
+  -webkit-text-fill-color: #fbf7ff !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card p, .jl-week-card p, .jl-day-card small, .sim-root .home-card span) {
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card--completed, .jl-week-card--completed, .month-card.done, .week-card.done) {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(16, 185, 129, .18), transparent 32%),
+    linear-gradient(180deg, rgba(25, 49, 45, .94) 0%, rgba(20, 38, 39, .96) 100%) !important;
+  border-color: rgba(45, 212, 191, .30) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card--active, .jl-week-card--active, .month-card.open, .week-card.open) {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(139, 92, 246, .20), transparent 32%),
+    linear-gradient(180deg, rgba(42, 26, 70, .96) 0%, rgba(28, 17, 50, .96) 100%) !important;
+  border-color: rgba(167, 139, 250, .34) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.jl-month-card--locked, .jl-week-card--locked, .month-card.locked, .week-card.locked) {
+  background: linear-gradient(180deg, rgba(31, 25, 45, .90) 0%, rgba(24, 19, 36, .94) 100%) !important;
+  border-color: rgba(148, 139, 171, .20) !important;
+  filter: none !important;
+  opacity: .88 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .jl-day-card--completed {
+  background: linear-gradient(180deg, rgba(20, 62, 51, .92) 0%, rgba(16, 44, 43, .94) 100%) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .jl-day-card--active {
+  background: linear-gradient(180deg, rgba(42, 26, 70, .96) 0%, rgba(28, 17, 50, .96) 100%) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .jl-day-card--locked {
+  background: linear-gradient(180deg, rgba(31, 25, 45, .90) 0%, rgba(24, 19, 36, .94) 100%) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.quiz-message.success, .jl-quiz-result--pass, .feedback-success) {
+  background: rgba(16, 185, 129, .16) !important;
+  border: 1px solid rgba(45, 212, 191, .30) !important;
+  color: #bff7e9 !important;
+  -webkit-text-fill-color: #bff7e9 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.quiz-message.error, .quiz-message.warn, .jl-quiz-result--fail, .feedback-error) {
+  background: rgba(190, 24, 93, .18) !important;
+  border: 1px solid rgba(251, 113, 133, .30) !important;
+  color: #fecdd3 !important;
+  -webkit-text-fill-color: #fecdd3 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(
+  .about-rayan .ar-primary-action,
+  .about-rayan .ar-secondary-action,
+  .about-rayan .ar-consultation-button
+) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(
+  .about-rayan .ar-primary-action,
+  .about-rayan .ar-secondary-action,
+  .about-rayan .ar-consultation-button
+) svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+@media (max-width: 980px) {
+  html[data-theme="dark"] body.od-theme-dark #root .section-icon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  html[data-theme="dark"] body.od-theme-dark #root .jl-days-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  html[data-theme="dark"] body.od-theme-dark #root .section-icon-grid,
+  html[data-theme="dark"] body.od-theme-dark #root .jl-days-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

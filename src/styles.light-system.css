@@ -1811,6 +1811,32 @@ html[data-theme="light"] body.od-theme-light #root :is(
   stroke: currentColor !important;
 }
 
+html[data-theme="light"] body.od-theme-light #root :is(
+  .about-rayan .ar-primary-action,
+  .about-rayan .ar-secondary-action,
+  .about-rayan .ar-consultation-button
+) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .about-rayan .ar-primary-action,
+  .about-rayan .ar-secondary-action,
+  .about-rayan .ar-consultation-button
+) svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: currentColor !important;
+  fill: currentColor !important;
+}
+
 html[data-theme="light"] body.od-theme-light #root .about-links a.social-mail svg {
   width: 18px !important;
   height: 18px !important;
@@ -1856,4 +1882,449 @@ html[data-theme="light"] body.od-theme-light #root .jl-complete {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   border-radius: 999px !important;
+}
+
+/* Final geometry and contrast lock: clickable cards are cards, not pills. */
+html[data-theme="light"] body.od-theme-light #root :is(
+  .section-icon-grid__item,
+  .od-feature-card,
+  .home-card,
+  .sim-root .home-card,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .month-card,
+  .week-card,
+  .day-step,
+  .option-button,
+  .jl-option,
+  .quiz-option,
+  .sim-root .choice,
+  .archive-item,
+  .message-bubble,
+  .messages-box,
+  .roi-source,
+  .portfolio-cert,
+  .mastery-stat,
+  .about-rayan .ar-card,
+  .about-rayan .ar-lens,
+  .about-rayan .ar-domain
+) {
+  border-radius: 28px !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .jl-stage-panel,
+  .jl-reader,
+  .jl-week-intro,
+  .portfolio-section,
+  .mastery-hero,
+  .roi-panel,
+  .command-panel,
+  .sim-root .page,
+  .sim-root .decision-card,
+  .about-rayan .ar-section
+) {
+  border-radius: 34px !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .section-icon-grid__item,
+  .od-feature-card,
+  .sim-root .home-card,
+  .jl-month-card,
+  .jl-week-card
+) {
+  aspect-ratio: auto !important;
+  min-height: 190px !important;
+  padding: 22px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 0% 100%, rgba(124, 58, 237, .10), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f6f0ff 100%) !important;
+  border: 1px solid #d9c9ff !important;
+  box-shadow: 0 22px 54px rgba(36, 22, 63, .10) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .section-icon-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  width: min(1180px, calc(100% - 32px)) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .section-icon-grid__item {
+  display: grid !important;
+  align-content: center !important;
+  justify-items: center !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+  text-align: center !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .section-icon-grid__item span:last-child {
+  color: #4e3a72 !important;
+  -webkit-text-fill-color: #4e3a72 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card {
+  min-height: 260px !important;
+  padding: 22px !important;
+  border-radius: 30px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: right !important;
+  background:
+    radial-gradient(circle at 0% 100%, currentColor 0%, transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, .92) 0%, rgba(246, 240, 255, .94) 100%) !important;
+  background-blend-mode: soft-light, normal !important;
+  border: 1px solid #d9c9ff !important;
+  box-shadow: 0 22px 54px rgba(36, 22, 63, .10) !important;
+  color: var(--lm-accent) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card::before {
+  border-radius: 50% !important;
+  opacity: .12 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card :is(h3, strong) {
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card :is(p, span) {
+  color: #4e3a72 !important;
+  -webkit-text-fill-color: #4e3a72 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card .od-feature-badge {
+  background: #ede4ff !important;
+  border: 1px solid #cdb8ff !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  border-radius: 999px !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card .od-feature-icon {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 20px !important;
+  background: currentColor !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(36, 22, 63, .10) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card .od-feature-icon--logo {
+  background: #f5eeff !important;
+  border: 1px solid #d9c9ff !important;
+  color: currentColor !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--indigo { color: #7c3aed !important; }
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--violet { color: #8b5cf6 !important; }
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--emerald { color: #0f766e !important; }
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--amber { color: #a855f7 !important; }
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--slate { color: #5e4b84 !important; }
+html[data-theme="light"] body.od-theme-light #root .od-feature-card--rose { color: #be185d !important; }
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card, .jl-week-card) {
+  min-height: 214px !important;
+  text-align: right !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .jl-day-card {
+  min-height: 142px !important;
+  aspect-ratio: auto !important;
+  padding: 16px 14px !important;
+  text-align: center !important;
+  border-radius: 26px !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .jl-days-grid {
+  grid-template-columns: repeat(7, minmax(110px, 1fr)) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-index, .jl-month-card > span:first-child, .jl-week-card > span:first-child) {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  padding-inline: 12px !important;
+  border-radius: 20px !important;
+  background: #ede4ff !important;
+  border: 1px solid #cdb8ff !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card h3, .jl-week-card h3, .jl-day-card strong, .sim-root .home-card strong) {
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card p, .jl-week-card p, .jl-day-card small, .sim-root .home-card span) {
+  color: #4e3a72 !important;
+  -webkit-text-fill-color: #4e3a72 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card--completed, .jl-week-card--completed, .month-card.done, .week-card.done) {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(16, 185, 129, .16), transparent 32%),
+    linear-gradient(180deg, #f7fffb 0%, #ddfbea 100%) !important;
+  border-color: rgba(16, 185, 129, .42) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card--active, .jl-week-card--active, .month-card.open, .week-card.open) {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(124, 58, 237, .16), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f1e8ff 100%) !important;
+  border-color: #bda5ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.jl-month-card--locked, .jl-week-card--locked, .month-card.locked, .week-card.locked) {
+  background: linear-gradient(180deg, #f8f5ff 0%, #ece6f7 100%) !important;
+  border-color: #dacff0 !important;
+  filter: none !important;
+  opacity: .9 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .jl-day-card--completed {
+  background: linear-gradient(180deg, #f7fffb 0%, #ddfbea 100%) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .jl-day-card--active {
+  background: linear-gradient(180deg, #ffffff 0%, #f1e8ff 100%) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .jl-day-card--locked {
+  background: linear-gradient(180deg, #f5f1fb 0%, #e9e4f2 100%) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.option-button, .jl-option, .quiz-option, .sim-root .choice) {
+  background: linear-gradient(180deg, #ffffff 0%, #f5eeff 100%) !important;
+  border: 1px solid #d9c9ff !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.option-button, .jl-option, .quiz-option, .sim-root .choice) :is(strong, span, p) {
+  opacity: 1 !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .choice-letter,
+  .option-button > span:first-child,
+  .jl-option > span:first-child,
+  .radar-options-list button > span:first-child
+) {
+  background: linear-gradient(135deg, #ede4ff, #dcccff) !important;
+  border: 1px solid #c6adff !important;
+  color: #4c1d95 !important;
+  -webkit-text-fill-color: #4c1d95 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.option-button.correct, .jl-option--correct, .quiz-option.correct, .sim-root .choice.correct) {
+  background: #dff7ed !important;
+  border-color: rgba(16, 185, 129, .42) !important;
+  color: #0f6b45 !important;
+  -webkit-text-fill-color: #0f6b45 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.option-button.wrong, .jl-option--wrong, .quiz-option.wrong, .sim-root .choice.wrong) {
+  background: #fbe3ea !important;
+  border-color: rgba(190, 24, 93, .32) !important;
+  color: #8a1f3d !important;
+  -webkit-text-fill-color: #8a1f3d !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.quiz-message.success, .jl-quiz-result--pass, .feedback-success) {
+  background: #dff7ed !important;
+  border: 1px solid rgba(16, 185, 129, .36) !important;
+  color: #0f6b45 !important;
+  -webkit-text-fill-color: #0f6b45 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.quiz-message.error, .quiz-message.warn, .jl-quiz-result--fail, .feedback-error) {
+  background: #fbe3ea !important;
+  border: 1px solid rgba(190, 24, 93, .30) !important;
+  color: #8a1f3d !important;
+  -webkit-text-fill-color: #8a1f3d !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.quiz-message.success, .quiz-message.error, .quiz-message.warn, .jl-quiz-result) :is(strong, span, p) {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.radar-tab, .radar-tabs button) {
+  border-radius: 28px !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f1e8ff 100%) !important;
+  border: 1px solid #d9c9ff !important;
+  color: #4e3a72 !important;
+  -webkit-text-fill-color: #4e3a72 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.radar-tab.active, .radar-tabs button.active) {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 20px 42px rgba(124, 58, 237, .28) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.radar-tab.active, .radar-tabs button.active) :is(strong, span, small, b) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator,
+  .od-main-gauge,
+  .portfolio-orb,
+  .radar-summary-box,
+  .mastery-progress-orb,
+  .roi-orbit-card,
+  .journey-ring,
+  .jl-orb,
+  .score-orb,
+  .onboarding-progress-orb
+) {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  background:
+    conic-gradient(var(--lm-accent) 0 var(--od-indicator-progress, 0%), #d9c9ff var(--od-indicator-progress, 0%) 100%) !important;
+  border: 1px solid #cdb8ff !important;
+  box-shadow: 0 24px 60px rgba(36, 22, 63, .14) !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator,
+  .od-main-gauge,
+  .portfolio-orb,
+  .radar-summary-box,
+  .mastery-progress-orb,
+  .roi-orbit-card,
+  .journey-ring,
+  .jl-orb,
+  .score-orb,
+  .onboarding-progress-orb
+)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 17% !important;
+  border-radius: 50% !important;
+  background: #fbf9ff !important;
+  border: 2px solid rgba(255, 255, 255, .95) !important;
+  box-shadow: inset 0 0 0 1px rgba(203, 184, 255, .52), 0 12px 30px rgba(36, 22, 63, .08) !important;
+  z-index: 0 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator,
+  .od-main-gauge,
+  .portfolio-orb,
+  .radar-summary-box,
+  .mastery-progress-orb,
+  .roi-orbit-card,
+  .journey-ring,
+  .jl-orb,
+  .score-orb,
+  .onboarding-progress-orb
+)::after {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator.od-indicator-readiness,
+  .od-circular-indicator.od-indicator-completion,
+  .od-circular-indicator.od-indicator-score,
+  .roi-orbit-card,
+  .mastery-progress-orb
+) {
+  background:
+    conic-gradient(#14b8a6 0 var(--od-indicator-progress, 0%), #d9c9ff var(--od-indicator-progress, 0%) 100%) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator > *,
+  .od-main-gauge > *,
+  .portfolio-orb > *,
+  .radar-summary-box > *,
+  .mastery-progress-orb > *,
+  .roi-orbit-card > *,
+  .journey-ring > *,
+  .jl-orb > *,
+  .score-orb > *,
+  .onboarding-progress-orb > *
+) {
+  position: relative !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator strong,
+  .od-circular-indicator .value,
+  .od-circular-indicator [class*="value"],
+  .journey-ring > span,
+  .roi-orbit-inner strong,
+  .mastery-progress-inner strong
+) {
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator small,
+  .od-circular-indicator b,
+  .od-circular-indicator span,
+  .journey-ring-label,
+  .roi-orbit-inner span,
+  .mastery-progress-inner span
+) {
+  color: #5e4b84 !important;
+  -webkit-text-fill-color: #5e4b84 !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 980px) {
+  html[data-theme="light"] body.od-theme-light #root .section-icon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  html[data-theme="light"] body.od-theme-light #root .jl-days-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  html[data-theme="light"] body.od-theme-light #root .section-icon-grid,
+  html[data-theme="light"] body.od-theme-light #root .jl-days-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
