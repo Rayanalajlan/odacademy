@@ -1,0 +1,814 @@
+/* ============================================================================
+   Dark semantic system
+   ---------------------------------------------------------------------------
+   Dark-only guardrail loaded last. It consumes styles.tokens.css semantic tokens
+   and normalizes repeated UI families that are still hard-coded in component
+   style tags. Light mode is intentionally untouched.
+   ========================================================================== */
+
+html[data-theme="dark"] body.od-theme-dark {
+  --bg: var(--bg-page);
+  --bg-soft: #100821;
+  --bg-tint: #150b2b;
+  --surface: var(--bg-surface);
+  --surface-elevated: var(--bg-elevated);
+  --surface-muted: var(--bg-card-soft);
+  --card: var(--bg-card);
+  --card-header: var(--bg-card-soft);
+  --text: var(--text-primary);
+  --heading: var(--text-primary);
+  --muted: var(--text-muted);
+  --text-soft: var(--text-muted);
+  --border: var(--border-default);
+  --line: var(--border-default);
+  --line-strong: var(--border-focus);
+  --primary: var(--accent-primary);
+  --primary-dark: var(--accent-primary);
+  --primary-soft: rgba(185, 140, 255, .14);
+  --accent: var(--accent-primary);
+  --accent-hover: var(--accent-primary-hover);
+  --accent-contrast: var(--text-on-primary);
+  --accent-soft: rgba(185, 140, 255, .15);
+  --field-bg: var(--bg-input);
+  --field-text: var(--text-primary);
+  --field-placeholder: var(--text-muted);
+  --field-border: var(--border-default);
+  --metric-bg: var(--bg-card);
+  --metric-text: var(--text-primary);
+  --nav-pill-bg: var(--bg-button-secondary);
+  --nav-pill-text: var(--text-secondary);
+  --nav-pill-hover-bg: #33205c;
+  --nav-pill-hover-text: var(--text-primary);
+  --nav-pill-active-bg: linear-gradient(135deg, #a855f7, #7c3aed);
+  --nav-pill-active-text: #ffffff;
+  --locked: var(--color-locked-text);
+  --locked-soft: var(--color-locked-bg);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(139, 92, 246, .16), transparent 30%),
+    radial-gradient(circle at 88% 10%, rgba(45, 212, 191, .06), transparent 28%),
+    linear-gradient(160deg, var(--bg-page) 0%, #120923 58%, #0c0717 100%) !important;
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .site-frame,
+  .page-shell,
+  .app-shell,
+  .od-home-v2,
+  .journey-lab,
+  .learning-journey,
+  .radar-assessment-page,
+  .sim-root,
+  .roi-page,
+  .mastery-page,
+  .learning-portfolio,
+  .ai-command-page,
+  .about-rayan,
+  .verify-page,
+  .public-gate,
+  .auth-screen,
+  .boot-screen
+) {
+  --ink: var(--text-primary);
+  --muted: var(--text-muted);
+  --line: var(--border-default);
+  --primary: var(--accent-primary);
+  --violet: var(--accent-primary-hover);
+  --gold: var(--accent-primary);
+  --green: var(--color-success);
+  --red: var(--color-danger);
+  --od-ink: var(--text-primary);
+  --od-muted: var(--text-muted);
+  --od-soft: var(--bg-card);
+  --od-line: var(--border-default);
+  --od-indigo: var(--accent-primary);
+  --od-violet: var(--accent-primary-hover);
+  --od-emerald: var(--color-success);
+  --od-amber: var(--accent-primary);
+  --od-rose: var(--color-danger);
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .od-home-v2,
+  .journey-lab,
+  .learning-journey,
+  .radar-assessment-page,
+  .sim-root,
+  .roi-page,
+  .mastery-page,
+  .ai-command-page
+) {
+  background:
+    radial-gradient(circle at 14% 12%, rgba(139, 92, 246, .16), transparent 30%),
+    radial-gradient(circle at 84% 14%, rgba(168, 85, 247, .10), transparent 28%),
+    radial-gradient(circle at 50% 96%, rgba(45, 212, 191, .06), transparent 32%),
+    linear-gradient(145deg, var(--bg-page) 0%, #130a25 54%, #0c0717 100%) !important;
+}
+
+/* Real surfaces: cards, panels, meters, rows, list items and option blocks. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .site-header,
+  .site-footer,
+  .hero-card,
+  .navigation-card,
+  .content-container,
+  .progress-card,
+  .auth-panel,
+  .auth-card-integrated,
+  .home-hero,
+  .feature-card,
+  .stat-card,
+  .lab-card,
+  .radar-card:not(.radar-card-dark),
+  .chat-shell,
+  .about-main,
+  .about-side > div,
+  .profile-card,
+  .profile-strip,
+  .profile-metric,
+  .full-profile-modal,
+  .profile-drawer,
+  .notifications-popover,
+  .educational-tools-dropdown,
+  .educational-tool-option,
+  .jl-mini-progress,
+  .jl-reader,
+  .jl-week-intro,
+  .jl-empty,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .lesson-body,
+  .question-card,
+  .radar-chip,
+  .radar-options-list button,
+  .radar-history-item,
+  .sim-root .page,
+  .sim-root .home-card,
+  .sim-root .card,
+  .sim-root .scenario-node,
+  .sim-root .briefing-card,
+  .sim-root .feedback-panel,
+  .sim-root .breakdown,
+  .sim-root .scenario-mini,
+  .sim-root .mastery-card,
+  .sim-root .rubric-item,
+  .tree-card,
+  .main-center,
+  .causal-reading-box,
+  .causal-loop,
+  .bento-causal,
+  .roi-panel,
+  .roi-result-card,
+  .value-step,
+  .roi-reading,
+  .roi-source,
+  .learning-portfolio .portfolio-stat,
+  .learning-portfolio .portfolio-section,
+  .learning-portfolio .portfolio-row,
+  .learning-portfolio .portfolio-empty,
+  .learning-portfolio .portfolio-cert,
+  .mastery-stat,
+  .mastery-lock,
+  .linkedin-panel,
+  .certificate-verification-panel,
+  .certificate-verification-card,
+  .command-panel,
+  .mode-button,
+  .messages-box,
+  .message.assistant .message-bubble,
+  .archive-item,
+  .quota-timer,
+  .monthly-card,
+  .monthly-certificates,
+  .monthly-mini div,
+  .monthly-cert,
+  .monthly-certificate,
+  .saved-lessons-panel,
+  .saved-lesson,
+  .lesson-notes-panel,
+  .weekly-reflection-panel,
+  .weekly-reflection-card,
+  .verify-card,
+  .legal-card,
+  .legal-content-card,
+  .legal-info-card,
+  .legal-confirm-dialog,
+  .report-section,
+  .report-stat,
+  .report-list,
+  .report-item,
+  .profile-stat,
+  .field-item,
+  .quick-links button,
+  .close-button,
+  .onboarding-card,
+  .onboarding-step,
+  .onboarding-action
+) {
+  background:
+    linear-gradient(180deg, rgba(36, 22, 64, .96), rgba(27, 17, 48, .97)) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-default) !important;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, .28) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .portfolio-row,
+  .portfolio-empty,
+  .portfolio-cert,
+  .portfolio-mini-tag,
+  .radar-question-meta span,
+  .radar-question-meta strong,
+  .radar-question-meta small,
+  .briefing-focus,
+  .briefing-note,
+  .breakdown,
+  .rubric-item,
+  .value-step,
+  .roi-switch,
+  .od-stat-card,
+  .od-progress-line,
+  .od-feature-card,
+  .od-feature-badge,
+  .application-pill:not(.active),
+  .mode-button:not(.active),
+  .archive-item:not(.active),
+  .soft-button,
+  .verify-state.locked,
+  .pill--locked,
+  .status-icon--locked,
+  .monthly-lock,
+  .monthly-button.ghost,
+  .educational-tool-option:not(.active),
+  .profile-button.soft,
+  .quick-links button:not(.important),
+  .onboarding-badge,
+  .onboarding-step b,
+  .onboarding-action:not(.primary),
+  .empty-content,
+  .week-intro,
+  .content-body,
+  .choice-list button,
+  .option-button
+) {
+  background: var(--bg-card-soft) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border-default) !important;
+  box-shadow: none !important;
+}
+
+/* Typography on dark surfaces. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .hero-card,
+  .navigation-card,
+  .content-container,
+  .progress-card,
+  .auth-panel,
+  .auth-card-integrated,
+  .home-hero,
+  .feature-card,
+  .stat-card,
+  .lab-card,
+  .radar-card,
+  .chat-shell,
+  .profile-card,
+  .profile-strip,
+  .profile-metric,
+  .jl-mini-progress,
+  .jl-reader,
+  .jl-week-intro,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .lesson-body,
+  .question-card,
+  .sim-root .page,
+  .sim-root .home-card,
+  .sim-root .card,
+  .sim-root .scenario-node,
+  .sim-root .briefing-card,
+  .tree-card,
+  .main-center,
+  .roi-panel,
+  .roi-result-card,
+  .roi-reading,
+  .learning-portfolio .portfolio-section,
+  .learning-portfolio .portfolio-stat,
+  .learning-portfolio .portfolio-row,
+  .learning-portfolio .portfolio-cert,
+  .mastery-stat,
+  .mastery-lock,
+  .command-panel,
+  .mode-button,
+  .archive-item,
+  .verify-card,
+  .monthly-certificates,
+  .monthly-card,
+  .monthly-mini div,
+  .profile-strip,
+  .profile-card,
+  .profile-stat,
+  .field-item,
+  .educational-tools-dropdown,
+  .educational-tool-option,
+  .onboarding-card,
+  .onboarding-step,
+  .onboarding-action
+) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .hero-card,
+  .navigation-card,
+  .content-container,
+  .progress-card,
+  .auth-panel,
+  .auth-card-integrated,
+  .home-hero,
+  .feature-card,
+  .stat-card,
+  .lab-card,
+  .radar-card,
+  .chat-shell,
+  .profile-card,
+  .profile-strip,
+  .profile-metric,
+  .jl-mini-progress,
+  .jl-reader,
+  .jl-week-intro,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .lesson-body,
+  .question-card,
+  .sim-root .page,
+  .sim-root .home-card,
+  .sim-root .card,
+  .sim-root .scenario-node,
+  .sim-root .briefing-card,
+  .tree-card,
+  .main-center,
+  .roi-panel,
+  .roi-result-card,
+  .roi-reading,
+  .learning-portfolio .portfolio-section,
+  .learning-portfolio .portfolio-stat,
+  .learning-portfolio .portfolio-row,
+  .learning-portfolio .portfolio-cert,
+  .mastery-stat,
+  .mastery-lock,
+  .command-panel,
+  .mode-button,
+  .archive-item,
+  .verify-card,
+  .monthly-certificates,
+  .monthly-card,
+  .monthly-mini div,
+  .profile-strip,
+  .profile-card,
+  .profile-stat,
+  .field-item,
+  .educational-tools-dropdown,
+  .educational-tool-option,
+  .onboarding-card,
+  .onboarding-step,
+  .onboarding-action
+) :is(p, span, small, label, li, td, th) {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .muted,
+  .text-muted,
+  .subtle,
+  .hint,
+  .caption,
+  .meta,
+  .portfolio-row small,
+  .roi-result-card span,
+  .mode-button span,
+  .archive-item span,
+  .message-label,
+  .radar-score-row small,
+  .jl-mini-progress small,
+  .od-stat-card small,
+  .od-progress-line small
+) {
+  color: var(--text-muted) !important;
+  -webkit-text-fill-color: var(--text-muted) !important;
+}
+
+/* Badges, counters and compact labels. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .badge,
+  .pill,
+  .chip,
+  .tag,
+  .kicker,
+  .od-kicker,
+  .eyebrow,
+  .jl-eyebrow,
+  .jl-crumb,
+  .journey-pill,
+  .radar-kicker,
+  .portfolio-kicker,
+  .portfolio-mini-tag,
+  .roi-kicker,
+  .command-kicker,
+  .mastery-eyebrow,
+  .od-chip,
+  .od-section-kicker,
+  .od-feature-badge,
+  .points-badge,
+  .verify-state,
+  .radar-question-meta span,
+  .radar-question-meta strong,
+  .radar-question-meta small,
+  .score-list span,
+  .status-icon,
+  .day-number,
+  .option-letter,
+  .choice-letter,
+  .answer-key,
+  .mode-badge,
+  .node-badge
+):not(.active):not(.selected):not(.correct):not(.wrong) {
+  background: var(--badge-bg) !important;
+  color: var(--badge-text) !important;
+  -webkit-text-fill-color: var(--badge-text) !important;
+  border-color: var(--badge-border) !important;
+  box-shadow: none !important;
+}
+
+/* Inputs and editable controls. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  input,
+  textarea,
+  select,
+  .auth-form-row input,
+  .auth-form-integrated input,
+  .chat-input textarea,
+  .composer textarea,
+  .archive-search,
+  .linkedin-textarea,
+  .roi-field select,
+  .roi-field input,
+  .field input,
+  .field select,
+  .field textarea
+) {
+  background: var(--bg-input) !important;
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  border-color: var(--border-default) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(input, textarea, select)::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(input, textarea, select):focus {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 4px rgba(185, 140, 255, .18) !important;
+  outline: none !important;
+}
+
+/* Buttons, tabs and segmented controls. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .main-nav,
+  .auth-tabs,
+  .radar-tabs,
+  .panel-tabs,
+  .sim-root .nav,
+  .roi-switch,
+  .header-actions,
+  .portfolio-actions,
+  .mastery-actions,
+  .radar-actions,
+  .od-hero-actions,
+  .od-timer-actions,
+  .button-row,
+  .hero-actions,
+  .actions
+) {
+  background: rgba(36, 22, 64, .58) !important;
+  border-color: var(--border-soft) !important;
+  border-radius: 24px !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .main-nav button,
+  .educational-tools-trigger,
+  .auth-tabs button,
+  .radar-tab,
+  .nav-btn,
+  .panel-btn,
+  .tab,
+  .journey-pill,
+  .jl-pill,
+  .mobile-nav-item,
+  .secondary-button,
+  .ghost-button,
+  .btn.light,
+  .btn.ghost,
+  .btn.dark,
+  .portfolio-button.soft,
+  .portfolio-button.dark,
+  .mastery-button.ghost,
+  .mastery-button.dark,
+  .od-button--light,
+  .od-button--dark,
+  .soft-button,
+  .application-pill,
+  .mode-button,
+  .roi-switch button,
+  .radar-actions .secondary-button,
+  .radar-card .secondary-button
+):not(.active):not(.primary) {
+  background: var(--bg-button-secondary) !important;
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .primary-button,
+  .complete-button,
+  .btn.primary,
+  .btn.success,
+  .od-button--primary,
+  .portfolio-button.primary,
+  .mastery-button.primary,
+  .send-button,
+  .journey-primary,
+  .radar-actions .primary-button,
+  .radar-card .primary-button,
+  .application-pill.active,
+  .mode-button.active,
+  .main-nav button.active,
+  .educational-tools-trigger.active,
+  .radar-tab.active,
+  .nav-btn.active,
+  .panel-btn.active,
+  .auth-tabs button.active,
+  .roi-switch button.active
+) {
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 16px 34px rgba(168, 85, 247, .24) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .primary-button,
+  .complete-button,
+  .btn.primary,
+  .btn.success,
+  .od-button--primary,
+  .portfolio-button.primary,
+  .mastery-button.primary,
+  .send-button,
+  .journey-primary,
+  .radar-actions .primary-button,
+  .radar-card .primary-button,
+  .application-pill.active,
+  .mode-button.active,
+  .main-nav button.active,
+  .educational-tools-trigger.active,
+  .radar-tab.active,
+  .nav-btn.active,
+  .panel-btn.active,
+  .auth-tabs button.active,
+  .roi-switch button.active
+) :is(span, strong, b, small, svg, path) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(button, .btn, [class*="button"], .tab) {
+  border-radius: 18px;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.pill, .badge, .chip, .tag, .kicker, .eyebrow) {
+  border-radius: 999px;
+}
+
+/* Quiz and decision choices. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .option-button,
+  .radar-options-list button,
+  .choice-list button,
+  .choice,
+  .answer,
+  .quiz-option
+):not(.selected):not(.correct):not(.wrong):not(.disabled) {
+  background: var(--color-quiz-bg) !important;
+  color: var(--color-quiz-text) !important;
+  -webkit-text-fill-color: var(--color-quiz-text) !important;
+  border-color: var(--color-quiz-border) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.option-button, .choice, .quiz-option, .answer).selected {
+  background: var(--color-quiz-selected-bg) !important;
+  color: var(--color-quiz-selected-text) !important;
+  border-color: var(--color-quiz-selected-border) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.option-button, .choice, .quiz-option, .answer).correct {
+  background: var(--color-quiz-correct-bg) !important;
+  color: var(--color-quiz-correct-text) !important;
+  border-color: var(--color-quiz-correct-border) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.option-button, .choice, .quiz-option, .answer).wrong {
+  background: var(--color-quiz-wrong-bg) !important;
+  color: var(--color-quiz-wrong-text) !important;
+  border-color: var(--color-quiz-wrong-border) !important;
+}
+
+/* Progress tracks and fills. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .progress-track,
+  .mini-progress,
+  .jl-mini-track,
+  .radar-progress-line,
+  .radar-score-track,
+  .od-progress-track,
+  .profile-progress-line,
+  .mastery-track,
+  .monthly-progress,
+  .weekly-reflection-progress,
+  .mini-bar-track
+) {
+  background: var(--color-progress-track) !important;
+  border-color: var(--border-soft) !important;
+  box-shadow: inset 0 0 0 1px rgba(185, 140, 255, .10) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .progress-track span,
+  .mini-progress i,
+  .jl-mini-track i,
+  .radar-progress-line i,
+  .radar-score-track i,
+  .od-progress-track b,
+  .profile-progress-line span,
+  .mastery-track span,
+  .monthly-progress span,
+  .weekly-reflection-progress span,
+  .mini-bar-track i
+) {
+  background: linear-gradient(90deg, #a855f7, #7c3aed, #2dd4bf) !important;
+}
+
+/* Intentional dark hero/invert areas keep their rich look and readable text. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .public-hero,
+  .od-hero,
+  .jl-hero,
+  .hero,
+  .sim-hero,
+  .roi-hero,
+  .mastery-hero,
+  .portfolio-hero,
+  .command-hero,
+  .radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .od-timer-orbit,
+  .od-main-gauge,
+  .portfolio-orb,
+  .roi-orbit-card,
+  .mastery-progress-orb
+) {
+  color: var(--color-text-on-invert) !important;
+  border-color: rgba(185, 140, 255, .22) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .public-hero,
+  .od-hero,
+  .jl-hero,
+  .hero,
+  .sim-hero,
+  .roi-hero,
+  .mastery-hero,
+  .portfolio-hero,
+  .command-hero,
+  .radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .od-timer-orbit,
+  .od-main-gauge
+) :is(h1, h2, h3, h4, strong, b, span, small, p, label, li) {
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .public-hero,
+  .od-hero,
+  .jl-hero,
+  .hero,
+  .sim-hero,
+  .roi-hero,
+  .mastery-hero,
+  .portfolio-hero,
+  .command-hero,
+  .radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .od-timer-orbit,
+  .od-main-gauge
+) :is(p, li, small, label) {
+  color: var(--color-text-on-invert-muted) !important;
+  -webkit-text-fill-color: var(--color-text-on-invert-muted) !important;
+}
+
+/* Status surfaces. */
+html[data-theme="dark"] body.od-theme-dark :is(.success, .available, .issued, .verify-state.enabled):not(button):not(.btn):not([class*="button"]) {
+  background: var(--color-success-bg) !important;
+  color: var(--color-success-text) !important;
+  border-color: var(--color-success-border) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.warning, .portfolio-notice, .roi-disclaimer, .quota-card):not(button):not(.btn):not([class*="button"]) {
+  background: var(--color-warning-bg) !important;
+  color: var(--color-warning-text) !important;
+  border-color: var(--color-warning-border) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.danger, .error-card, .radar-actions .danger, .delete-mini):not(.btn):not([class*="button"]) {
+  background: var(--color-danger-bg) !important;
+  color: var(--color-danger-text) !important;
+  border-color: var(--color-danger-border) !important;
+}
+
+/* Remove heavy square slabs behind action clusters. */
+html[data-theme="dark"] body.od-theme-dark :is(
+  .od-hero-actions,
+  .hero-actions,
+  .button-row,
+  .portfolio-actions,
+  .mastery-actions,
+  .radar-actions,
+  .od-timer-actions,
+  .composer-footer,
+  .header-actions,
+  .certificate-verification-actions
+) {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(
+  .sim-root .nav,
+  .main-nav,
+  .panel-tabs,
+  .auth-tabs,
+  .roi-switch
+) {
+  padding: 8px !important;
+}
+
+@media (max-width: 760px) {
+  html[data-theme="dark"] body.od-theme-dark :is(
+    .site-header,
+    .hero-card,
+    .navigation-card,
+    .content-container,
+    .progress-card,
+    .radar-card,
+    .roi-panel,
+    .command-panel,
+    .portfolio-section,
+    .mastery-lock,
+    .sim-root .page
+  ) {
+    border-radius: 22px !important;
+  }
+}

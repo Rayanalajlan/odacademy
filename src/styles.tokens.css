@@ -348,6 +348,31 @@ html[data-theme="light"],
 html body.od-theme-light,
 html[data-theme="dark"],
 html body.od-theme-dark {
+  /* Semantic application tokens */
+  --bg-page: var(--color-bg-page);
+  --bg-surface: var(--color-bg-surface);
+  --bg-card: var(--color-bg-card);
+  --bg-card-soft: var(--color-bg-surface-muted);
+  --bg-elevated: var(--color-bg-surface-elevated);
+  --bg-input: var(--color-bg-input);
+  --bg-button-secondary: var(--color-bg-button-secondary);
+  --bg-button-primary: var(--color-bg-button-primary);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --text-disabled: var(--color-text-disabled);
+  --text-on-primary: var(--color-text-on-primary);
+  --border-default: var(--color-border-default);
+  --border-soft: var(--color-border-muted);
+  --border-focus: var(--color-border-focus);
+  --accent-primary: var(--color-accent-primary);
+  --accent-primary-hover: var(--color-bg-button-primary-hover);
+  --badge-bg: var(--color-badge-bg);
+  --badge-text: var(--color-badge-text);
+  --badge-border: var(--color-badge-border);
+  --surface-shadow: var(--color-shadow);
+  --surface-shadow-sm: var(--color-shadow-sm);
+
   /* خلفيات/أسطح */
   --bg: var(--color-bg-page);
   --bg-soft: var(--color-bg-surface-muted);
