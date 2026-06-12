@@ -1280,7 +1280,10 @@ export default function LearningROICalculator({
             </div>
 
             <div className="roi-orbit" aria-label="مؤشر الجاهزية المهنية">
-              <div className="roi-orbit-card">
+              <div
+                className="roi-orbit-card"
+                style={{ "--roi-readiness-deg": `${result.readinessScore * 3.6}deg` }}
+              >
                 <div className="roi-orbit-inner">
                   <span>مؤشر الجاهزية</span>
                   <strong>{result.readinessScore}%</strong>
