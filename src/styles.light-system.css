@@ -1,0 +1,1347 @@
+/* Final Light Mode system pass.
+   This file only applies when themeService activates light mode. */
+
+html[data-theme="light"],
+html[data-theme="light"] body.od-theme-light,
+html body.od-theme-light {
+  color-scheme: light;
+  --lm-page: #faf7ff;
+  --lm-page-2: #f4eeff;
+  --lm-page-3: #eee6ff;
+  --lm-surface: #ffffff;
+  --lm-surface-soft: #f5eeff;
+  --lm-surface-lavender: #efe6ff;
+  --lm-surface-elevated: #fbf9ff;
+  --lm-heading: #24163f;
+  --lm-text: #5e4b84;
+  --lm-muted: #7b6a9e;
+  --lm-disabled: #a291c5;
+  --lm-border: #d9c9ff;
+  --lm-border-soft: #e7dcff;
+  --lm-accent: #7c3aed;
+  --lm-accent-2: #a855f7;
+  --lm-accent-text: #5b2ccf;
+  --lm-teal: #14b8a6;
+  --lm-shadow: 0 26px 78px rgba(36, 22, 63, .10);
+  --lm-shadow-soft: 0 12px 32px rgba(36, 22, 63, .07);
+
+  --color-bg-page: var(--lm-page);
+  --color-bg-app: var(--lm-page);
+  --color-bg-surface: var(--lm-surface);
+  --color-bg-surface-elevated: var(--lm-surface-elevated);
+  --color-bg-surface-muted: var(--lm-surface-soft);
+  --color-bg-card: var(--lm-surface);
+  --color-bg-card-hover: var(--lm-surface-soft);
+  --color-bg-card-selected: var(--lm-surface-lavender);
+  --color-bg-button-secondary: #f1e8ff;
+  --color-bg-button-secondary-hover: #e9dcff;
+  --color-text-primary: var(--lm-heading);
+  --color-text-secondary: var(--lm-text);
+  --color-text-muted: var(--lm-muted);
+  --color-text-disabled: var(--lm-disabled);
+  --color-border-default: var(--lm-border);
+  --color-border-muted: var(--lm-border-soft);
+  --color-badge-bg: #ede4ff;
+  --color-badge-text: #6a35d4;
+  --color-badge-border: #cdb8ff;
+
+  background:
+    radial-gradient(circle at 12% 8%, rgba(168, 85, 247, .08), transparent 30%),
+    radial-gradient(circle at 88% 0%, rgba(124, 58, 237, .08), transparent 32%),
+    linear-gradient(145deg, var(--lm-page) 0%, var(--lm-page-2) 52%, var(--lm-page-3) 100%) !important;
+  color: var(--lm-heading) !important;
+}
+
+html[data-theme="light"] body.od-theme-light,
+html[data-theme="light"] body.od-theme-light #root,
+html body.od-theme-light,
+html body.od-theme-light #root {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(168, 85, 247, .09), transparent 34%),
+    radial-gradient(circle at 92% 6%, rgba(20, 184, 166, .055), transparent 30%),
+    linear-gradient(145deg, var(--lm-page) 0%, var(--lm-page-2) 54%, var(--lm-page-3) 100%) !important;
+  color: var(--lm-heading) !important;
+}
+
+html[data-theme="light"] body.od-theme-light::before,
+html[data-theme="light"] body.od-theme-light :is(
+  .od-home-v2,
+  .about-rayan,
+  .admin-dashboard,
+  .ai-command-page,
+  .journey-lab,
+  .learning-journey,
+  .mastery-page,
+  .roi-page,
+  .sim-root,
+  .verify-page,
+  .learning-portfolio,
+  .public-gate
+)::before {
+  background:
+    radial-gradient(circle at 14% 10%, rgba(124, 58, 237, .06), transparent 30%),
+    radial-gradient(circle at 84% 8%, rgba(168, 85, 247, .06), transparent 28%) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .site-frame,
+  main,
+  .content,
+  .main-content,
+  .od-home-v2,
+  .about-rayan,
+  .admin-dashboard,
+  .ai-command-page,
+  .journey-lab,
+  .learning-journey,
+  .mastery-page,
+  .roi-page,
+  .sim-root,
+  .verify-page,
+  .learning-portfolio,
+  .public-gate,
+  .public-wrap,
+  .jl-wrap,
+  .sim-wrap,
+  .command-wrap,
+  .about-rayan-wrap
+) {
+  background: transparent !important;
+  color: var(--lm-heading) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .site-header,
+  .navigation-card,
+  .content-container,
+  .profile-strip,
+  .public-section,
+  .auth-card,
+  .hero-card,
+  .home-card,
+  .feature-card,
+  .od-card,
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .path-card,
+  .visitor-testimonials,
+  .vt-form,
+  .vt-card,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .portfolio-stat,
+  .portfolio-cert,
+  .portfolio-notice,
+  .progress-card,
+  .od-stat-card,
+  .od-progress-line,
+  .od-command-mini > div,
+  .radar-card,
+  .radar-summary-box,
+  .radar-history-item,
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .lesson-progress-card,
+  .journey-note,
+  .intro-panel,
+  .week-intro-reader,
+  .references-panel,
+  .jl-stage-panel,
+  .jl-reader,
+  .jl-week-intro,
+  .jl-quiz,
+  .jl-question,
+  .jl-option,
+  .jl-mini-progress,
+  .sim-root .page,
+  .sim-root .card,
+  .sim-root .home-card,
+  .sim-root .hero-metric,
+  .sim-root .decision-card,
+  .sim-root .breakdown,
+  .sim-root .briefing-card,
+  .sim-root .bento-causal,
+  .sim-root .tree-card,
+  .command-panel,
+  .command-live-card,
+  .mode-button,
+  .messages-box,
+  .message-bubble,
+  .archive-item,
+  .quota-card,
+  .roi-panel,
+  .roi-reading,
+  .roi-source,
+  .roi-disclaimer,
+  .mastery-lock,
+  .mastery-stat,
+  .ar-section,
+  .ar-bio-box,
+  .ar-lens,
+  .ar-domain,
+  .ar-consultation,
+  .ar-consultation-panel,
+  .ar-social
+) {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .96) 0%, rgba(245, 238, 255, .92) 100%) !important;
+  border: 1px solid var(--lm-border) !important;
+  color: var(--lm-text) !important;
+  box-shadow: var(--lm-shadow-soft) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social
+) {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(124, 58, 237, .10), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(20, 184, 166, .055), transparent 28%),
+    linear-gradient(145deg, #ffffff 0%, #f5eeff 58%, #eee6ff 100%) !important;
+  border: 1px solid var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  box-shadow: var(--lm-shadow) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-section,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .command-panel,
+  .jl-quiz,
+  .sim-root .page
+) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-section,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .command-panel,
+  .jl-quiz,
+  .sim-root .page
+) :is(p, span, small, label, li, time) {
+  background-image: none !important;
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  background-image: none !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(p, li, label, time) {
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(input, textarea, select, .archive-search) {
+  background: #ffffff !important;
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  border: 1px solid var(--lm-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72), 0 10px 28px rgba(36, 22, 63, .06) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(input, textarea, select, .archive-search)::placeholder {
+  color: var(--lm-muted) !important;
+  -webkit-text-fill-color: var(--lm-muted) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .primary-button,
+  .auth-primary,
+  .sample-button,
+  .hero-cta,
+  .main-cta,
+  .send-button,
+  .jl-main-btn,
+  .jl-complete,
+  .jl-quiz-submit,
+  .btn.primary,
+  .btn.success,
+  .onboarding-action.primary,
+  .portfolio-button.primary,
+  .ar-consultation-button,
+  button[class*="primary"]
+) {
+  background: linear-gradient(135deg, var(--lm-accent), var(--lm-accent-2)) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(124, 58, 237, .22) !important;
+  box-shadow: 0 18px 44px rgba(124, 58, 237, .24) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .secondary-button,
+  .soft-button,
+  .ghost-button,
+  .jl-back,
+  .jl-ghost-btn,
+  .jl-crumb,
+  .btn.light,
+  .btn.ghost,
+  .nav-btn,
+  .panel-btn,
+  .portfolio-button.dark,
+  .portfolio-button.soft,
+  .profile-button.soft,
+  .profile-button.myfile,
+  .onboarding-action:not(.primary),
+  .auth-tabs button,
+  .modal-actions button
+) {
+  background: #f1e8ff !important;
+  color: var(--lm-accent-text) !important;
+  -webkit-text-fill-color: var(--lm-accent-text) !important;
+  border: 1px solid #cdb8ff !important;
+  box-shadow: 0 12px 28px rgba(36, 22, 63, .07) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .nav-btn.active,
+  .panel-btn.active,
+  .auth-tabs button.active,
+  .portfolio-button.dark:hover,
+  .mode-button.active
+) {
+  background: linear-gradient(135deg, var(--lm-accent), var(--lm-accent-2)) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .pill,
+  .badge,
+  .chip,
+  .tag,
+  .kicker,
+  .eyebrow,
+  .public-badge,
+  .od-kicker,
+  .command-kicker,
+  .jl-eyebrow,
+  .jl-pill,
+  .journey-pill,
+  .radar-kicker,
+  .mode-badge,
+  .rank-pill,
+  .monthly-lock,
+  .verify-state,
+  .od-pill,
+  .od-data-pill,
+  .points-badge,
+  .causal-chip,
+  .ar-section-head > div > span,
+  .ar-eyebrow,
+  .ar-domain-mark
+) {
+  background: #ede4ff !important;
+  color: #6a35d4 !important;
+  -webkit-text-fill-color: #6a35d4 !important;
+  border: 1px solid #cdb8ff !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .jl-quiz-header span,
+  .jl-quiz-header strong,
+  .radar-question-meta span,
+  .radar-question-meta strong,
+  .radar-question-meta small
+) {
+  background: #ede4ff !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  border: 1px solid #cdb8ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .option-button,
+  .choice,
+  .quiz-option,
+  .answer,
+  .jl-option,
+  .radar-options-list button,
+  .learning-journey .option-button,
+  .sim-root .choice,
+  .mode-button,
+  .scenario-mini
+) {
+  background: linear-gradient(180deg, #ffffff 0%, #f5eeff 100%) !important;
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  border: 1px solid var(--lm-border) !important;
+  box-shadow: 0 10px 26px rgba(36, 22, 63, .06) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .option-button,
+  .choice,
+  .quiz-option,
+  .answer,
+  .jl-option,
+  .radar-options-list button,
+  .learning-journey .option-button,
+  .sim-root .choice,
+  .mode-button,
+  .scenario-mini
+) :is(strong, b) {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .option-button,
+  .choice,
+  .quiz-option,
+  .answer,
+  .jl-option,
+  .radar-options-list button,
+  .learning-journey .option-button,
+  .sim-root .choice,
+  .mode-button,
+  .scenario-mini
+) :is(p, span, small, label) {
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .option-button > span:first-child,
+  .jl-option > span:first-child,
+  .radar-options-list button > span:first-child,
+  .choice-letter
+) {
+  display: grid !important;
+  place-items: center !important;
+  background: #ede4ff !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  border: 1px solid #cdb8ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(.option-button.selected, .choice.selected, .jl-option--selected, .quiz-option.selected) {
+  background: #eadcff !important;
+  border-color: var(--lm-accent) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(.option-button.correct, .choice.correct, .jl-option--correct, .quiz-option.correct) {
+  background: #e7f8f4 !important;
+  border-color: rgba(20, 184, 166, .45) !important;
+  color: #0f6f65 !important;
+  -webkit-text-fill-color: #0f6f65 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(.option-button.wrong, .choice.wrong, .jl-option--wrong, .quiz-option.wrong) {
+  background: #fff0f4 !important;
+  border-color: rgba(220, 38, 84, .38) !important;
+  color: #9f1239 !important;
+  -webkit-text-fill-color: #9f1239 !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .progress-track,
+  .mini-progress,
+  .mastery-track,
+  .jl-mini-track,
+  .radar-progress-line,
+  .decision-progress,
+  .od-progress-track,
+  .profile-progress-line,
+  .monthly-progress,
+  .weekly-reflection-progress,
+  .mini-bar-track
+) {
+  background: #e8dfff !important;
+  border: 1px solid #d9c9ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .progress-track span,
+  .mini-progress i,
+  .mini-progress span,
+  .mastery-track span,
+  .jl-mini-track i,
+  .radar-progress-line i,
+  .decision-progress i,
+  .od-progress-track b,
+  .profile-progress-line span,
+  .monthly-progress span,
+  .monthly-progress i,
+  .weekly-reflection-progress span,
+  .mini-bar-track i
+) {
+  background: linear-gradient(90deg, var(--lm-accent), var(--lm-accent-2), var(--lm-teal)) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .od-circular-indicator {
+  --od-indicator-core: #fbf9ff;
+  --od-indicator-track: #e8dfff;
+  --od-indicator-active-start: #7c3aed;
+  --od-indicator-active-end: #a855f7;
+  color: var(--lm-heading) !important;
+  background:
+    radial-gradient(circle at center, var(--od-indicator-core) 0 56%, transparent 57%),
+    conic-gradient(
+      from -90deg,
+      var(--od-indicator-active-start) 0%,
+      var(--od-indicator-active-end) var(--od-indicator-progress),
+      var(--od-indicator-track) var(--od-indicator-progress) 100%
+    ) !important;
+  border: 1px solid var(--lm-border) !important;
+  box-shadow:
+    inset 0 0 0 14px rgba(124, 58, 237, .08),
+    0 22px 60px rgba(36, 22, 63, .12) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .od-circular-indicator:is(
+  .roi-orbit-card,
+  .mastery-progress-orb,
+  .score-orb,
+  .od-indicator-readiness,
+  .od-indicator-completion,
+  .od-indicator-score
+) {
+  --od-indicator-active-start: #7c3aed;
+  --od-indicator-active-end: #14b8a6;
+}
+
+html[data-theme="light"] body.od-theme-light .od-circular-indicator::before {
+  border-color: rgba(124, 58, 237, .16) !important;
+  box-shadow: inset 0 0 28px rgba(124, 58, 237, .08) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .od-circular-indicator :is(strong),
+html[data-theme="light"] body.od-theme-light .journey-ring.od-circular-indicator > span {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light .od-circular-indicator :is(small, b, span),
+html[data-theme="light"] body.od-theme-light .journey-ring.od-circular-indicator .journey-ring-label {
+  color: #6e5a96 !important;
+  -webkit-text-fill-color: #6e5a96 !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(
+  .ar-lens b,
+  .ar-domain-mark,
+  .jl-index,
+  .jl-day-number,
+  .node-badge
+) {
+  background: linear-gradient(135deg, #ede4ff, #f7f2ff) !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  border: 1px solid #cdb8ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-links a.social-link,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-links a.social-linkedin,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social.linkedin .ar-social-icon {
+  background: linear-gradient(135deg, #0a66c2, #2563eb) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: rgba(10, 102, 194, .24) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-links a.social-x,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social.x .ar-social-icon {
+  background: linear-gradient(135deg, #24163f, #3f315f) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: rgba(36, 22, 63, .24) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-links a.social-mail,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-consultation-button {
+  background: linear-gradient(135deg, var(--lm-accent), var(--lm-accent-2)) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-links a.social-link :is(span, svg, path),
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social-icon,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social-icon * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social h3,
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social p {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+}
+
+html[data-theme="light"] body.od-theme-light .about-rayan .ar-social p {
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+}
+
+html[data-theme="light"] body.od-theme-light :is(.disabled, :disabled, [aria-disabled="true"]) {
+  opacity: .72 !important;
+}
+
+@media (max-width: 760px) {
+  html[data-theme="light"] body.od-theme-light :is(
+    .site-header,
+    .hero-card,
+    .navigation-card,
+    .content-container,
+    .progress-card,
+    .radar-card,
+    .roi-panel,
+    .command-panel,
+    .portfolio-section,
+    .mastery-lock,
+    .sim-root .page
+  ) {
+    border-radius: 22px !important;
+  }
+}
+
+/* Specificity guard: component-level style tags are rendered after CSS imports. */
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-section,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .command-panel,
+  .jl-quiz,
+  .sim-root .page
+) {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(124, 58, 237, .10), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(20, 184, 166, .055), transparent 28%),
+    linear-gradient(145deg, #ffffff 0%, #f5eeff 58%, #eee6ff 100%) !important;
+  border-color: var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  box-shadow: var(--lm-shadow) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-section,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .command-panel,
+  .jl-quiz,
+  .sim-root .page
+) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-hero,
+  .portfolio-hero,
+  .mastery-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .radar-card.radar-card-dark,
+  .decision-shell,
+  .certificate-frame,
+  .certificate-inner,
+  .od-command-card,
+  .ar-hero,
+  .ar-section,
+  .ar-consultation,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .command-panel,
+  .jl-quiz,
+  .sim-root .page
+) :is(p, span, small, label, li, time) {
+  background-image: none !important;
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-command-mini > div,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .portfolio-cert,
+  .hero-metric,
+  .mastery-stat,
+  .radar-summary-box,
+  .command-live-card,
+  .mode-button,
+  .archive-item,
+  .jl-question,
+  .jl-option,
+  .sim-root .card,
+  .sim-root .home-card,
+  .sim-root .decision-card,
+  .sim-root .breakdown
+) {
+  background: linear-gradient(180deg, #ffffff 0%, #f5eeff 100%) !important;
+  border-color: var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  box-shadow: var(--lm-shadow-soft) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-command-mini > div,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .portfolio-cert,
+  .hero-metric,
+  .mastery-stat,
+  .radar-summary-box,
+  .command-live-card,
+  .mode-button,
+  .archive-item,
+  .jl-question,
+  .jl-option,
+  .sim-root .card,
+  .sim-root .home-card,
+  .sim-root .decision-card,
+  .sim-root .breakdown
+) :is(strong, b, h2, h3, h4) {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-command-mini > div,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .portfolio-cert,
+  .hero-metric,
+  .mastery-stat,
+  .radar-summary-box,
+  .command-live-card,
+  .mode-button,
+  .archive-item,
+  .jl-question,
+  .jl-option,
+  .sim-root .card,
+  .sim-root .home-card,
+  .sim-root .decision-card,
+  .sim-root .breakdown
+) :is(p, span, small, label, li) {
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .secondary-button,
+  .soft-button,
+  .ghost-button,
+  .jl-back,
+  .jl-ghost-btn,
+  .jl-crumb,
+  .btn.light,
+  .btn.ghost,
+  .nav-btn,
+  .panel-btn,
+  .portfolio-button.dark,
+  .portfolio-button.soft,
+  .profile-button.soft,
+  .profile-button.myfile,
+  .onboarding-action:not(.primary),
+  .auth-tabs button,
+  .modal-actions button
+) {
+  background: #f1e8ff !important;
+  color: var(--lm-accent-text) !important;
+  -webkit-text-fill-color: var(--lm-accent-text) !important;
+  border: 1px solid #cdb8ff !important;
+  box-shadow: 0 12px 28px rgba(36, 22, 63, .07) !important;
+}
+
+/* Page-specific light regressions: keep the same design language without touching behavior. */
+html[data-theme="light"] body.od-theme-light #root :is(
+  .public-hero,
+  .about-panel,
+  .sample-box,
+  .sample-modal-card,
+  .simulation-choice,
+  .hero-point,
+  .counter-card,
+  .section-icon-grid,
+  .badges-strip,
+  .monthly-certificates,
+  .monthly-status,
+  .monthly-card,
+  .journey-hero,
+  .journey-stage,
+  .lesson-reader,
+  .quiz-panel,
+  .quiz-list,
+  .quiz-message,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .lesson-progress-card,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .jl-quiz-warning,
+  .course-search-box,
+  .course-search-suggestions,
+  .saved-lessons-panel,
+  .weekly-reflection-panel,
+  .lesson-notes-panel,
+  .roi-field,
+  .roi-result-card,
+  .roi-switch,
+  .roi-sources-toggle,
+  .application-pill,
+  .certificate-verification-card,
+  .certificate-pillar,
+  .linkedin-panel,
+  .ar-card,
+  .ar-consultation-copy,
+  .ar-consultation-panel,
+  .ar-logo-card,
+  .sim-root .nav,
+  .sim-root .panel-tabs,
+  .sim-root .home-grid,
+  .sim-root .home-card,
+  .sim-root .hero-metrics,
+  .sim-root .decision-progress,
+  .sim-root .choice-list,
+  .sim-root .notes-area,
+  .sim-root .library-filters,
+  .sim-root .scenario-node,
+  .sim-root .mastery-card,
+  .sim-root .rubric-item,
+  .command-layout,
+  .chat-header,
+  .composer,
+  .archive-list,
+  .message-bubble,
+  .error-card
+) {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(124, 58, 237, .06), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, .97) 0%, rgba(245, 238, 255, .94) 100%) !important;
+  border-color: var(--lm-border) !important;
+  color: var(--lm-text) !important;
+  box-shadow: var(--lm-shadow-soft) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .public-hero,
+  .about-panel,
+  .sample-box,
+  .sample-modal-card,
+  .simulation-choice,
+  .hero-point,
+  .counter-card,
+  .journey-hero,
+  .lesson-reader,
+  .quiz-panel,
+  .quiz-list,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .roi-field,
+  .roi-result-card,
+  .certificate-verification-card,
+  .certificate-pillar,
+  .linkedin-panel,
+  .ar-card,
+  .ar-consultation-copy,
+  .ar-consultation-panel,
+  .ar-logo-card,
+  .sim-root .home-card,
+  .sim-root .scenario-node,
+  .sim-root .mastery-card,
+  .command-layout,
+  .chat-header,
+  .composer,
+  .message-bubble
+) :is(h1, h2, h3, h4, strong, b) {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .public-hero,
+  .about-panel,
+  .sample-box,
+  .sample-modal-card,
+  .simulation-choice,
+  .hero-point,
+  .counter-card,
+  .journey-hero,
+  .lesson-reader,
+  .quiz-panel,
+  .quiz-list,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .roi-field,
+  .roi-result-card,
+  .certificate-verification-card,
+  .certificate-pillar,
+  .linkedin-panel,
+  .ar-card,
+  .ar-consultation-copy,
+  .ar-consultation-panel,
+  .ar-logo-card,
+  .sim-root .home-card,
+  .sim-root .scenario-node,
+  .sim-root .mastery-card,
+  .command-layout,
+  .chat-header,
+  .composer,
+  .message-bubble
+) :is(p, span, small, label, li, dd, dt) {
+  color: var(--lm-text) !important;
+  -webkit-text-fill-color: var(--lm-text) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .primary-button,
+  .auth-primary,
+  .sample-button,
+  .send-button,
+  .btn.primary,
+  .btn.success,
+  .od-button--primary,
+  .portfolio-button.primary,
+  .portfolio-button.export,
+  .profile-button.primary,
+  .jl-main-btn,
+  .jl-quiz-submit,
+  .mastery-button.primary,
+  .ar-primary-action,
+  .ar-consultation-button,
+  .onboarding-action.primary
+) {
+  background: linear-gradient(135deg, var(--lm-accent) 0%, var(--lm-accent-2) 100%) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 22px 48px rgba(124, 58, 237, .24) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .btn.light,
+  .btn.ghost,
+  .od-button--light,
+  .od-button--ghost,
+  .sample-button.secondary,
+  .portfolio-button.dark,
+  .profile-button.myfile,
+  .mastery-button.dark,
+  .mastery-button.ghost,
+  .radar-actions button,
+  .radar-tabs button,
+  .sim-root .nav button,
+  .sim-root .panel-tabs button,
+  .sim-root .actions .btn.light,
+  .sim-root .library-filters button,
+  .header-actions button,
+  .delete-mini
+) {
+  background: #f1e8ff !important;
+  border: 1px solid #cdb8ff !important;
+  color: var(--lm-accent-text) !important;
+  -webkit-text-fill-color: var(--lm-accent-text) !important;
+  box-shadow: 0 12px 28px rgba(36, 22, 63, .07) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .sim-root .nav button.active,
+  .sim-root .panel-tabs button.active,
+  .radar-tabs button.active,
+  .mode-button.active,
+  .archive-item.active,
+  .application-pill.active,
+  .auth-tabs button.active
+) {
+  background: linear-gradient(135deg, var(--lm-accent), var(--lm-accent-2)) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .badge,
+  .pill,
+  .chip,
+  .kicker,
+  .od-kicker,
+  .public-badge,
+  .cred-badge,
+  .sample-kicker,
+  .od-section-kicker,
+  .od-feature-badge,
+  .command-kicker,
+  .roi-kicker,
+  .mastery-eyebrow,
+  .ar-eyebrow,
+  .ar-section-head > div > span,
+  .radar-kicker,
+  .portfolio-kicker,
+  .portfolio-mini-tag,
+  .journey-pill,
+  .journey-pill.locked,
+  .jl-pill,
+  .jl-status,
+  .jl-quiz-header span,
+  .jl-quiz-header strong,
+  .mode-badge,
+  .points-badge,
+  .od-pill,
+  .od-data-pill,
+  .causal-chip,
+  .node-badge,
+  .verify-state,
+  .monthly-badge,
+  .badge-pill,
+  .rank-pill,
+  .profile-name small,
+  .certificate-code,
+  .certificate-verify-line
+) {
+  background: #ede4ff !important;
+  border: 1px solid #cdb8ff !important;
+  color: #6a35d4 !important;
+  -webkit-text-fill-color: #6a35d4 !important;
+  box-shadow: 0 10px 22px rgba(124, 58, 237, .10) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .option-button,
+  .quiz-option,
+  .jl-option,
+  .radar-options-list button,
+  .choice,
+  .simulation-choice
+) {
+  background: linear-gradient(180deg, #ffffff 0%, #f5eeff 100%) !important;
+  border: 1px solid var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+  box-shadow: 0 12px 28px rgba(36, 22, 63, .06) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .option-button > span:first-child,
+  .quiz-option > span:first-child,
+  .jl-option > span:first-child,
+  .radar-options-list button > span:first-child,
+  .choice-letter,
+  .simulation-choice b,
+  .ar-lens b,
+  .ar-domain-mark,
+  .home-card b,
+  .od-milestone
+) {
+  background: linear-gradient(135deg, #ede4ff, #dac7ff) !important;
+  border: 1px solid #cdb8ff !important;
+  color: #5b2ccf !important;
+  -webkit-text-fill-color: #5b2ccf !important;
+  box-shadow: 0 10px 22px rgba(124, 58, 237, .10) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .option-button.selected,
+  .quiz-option.selected,
+  .jl-option--selected,
+  .choice.selected,
+  .simulation-choice.selected
+) {
+  background: linear-gradient(135deg, #f0e7ff, #e8dbff) !important;
+  border-color: #a78bfa !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .option-button.correct,
+  .quiz-option.correct,
+  .jl-option--correct,
+  .choice.correct,
+  .simulation-choice.correct
+) {
+  background: linear-gradient(135deg, rgba(20, 184, 166, .14), rgba(245, 238, 255, .96)) !important;
+  border-color: rgba(20, 184, 166, .44) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .option-button.wrong,
+  .quiz-option.wrong,
+  .jl-option--wrong,
+  .choice.wrong,
+  .simulation-choice.wrong
+) {
+  background: linear-gradient(135deg, rgba(239, 68, 68, .10), rgba(245, 238, 255, .96)) !important;
+  border-color: rgba(239, 68, 68, .34) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-timer-command,
+  .od-timer-grid,
+  .od-timer-content,
+  .od-lab-card,
+  .profile-drawer,
+  .full-profile-modal,
+  .profile-form,
+  .badge-row,
+  .radar-row
+) {
+  background:
+    radial-gradient(circle at 16% 12%, rgba(20, 184, 166, .055), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(245, 238, 255, .94)) !important;
+  border-color: var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  box-shadow: var(--lm-shadow-soft) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-live-core {
+  background:
+    radial-gradient(circle at center, #ffffff 0 56%, transparent 57%),
+    conic-gradient(var(--lm-teal) 0 var(--od-indicator-progress, 42%), #e8dfff var(--od-indicator-progress, 42%) 100%) !important;
+  border: 1px solid var(--lm-border) !important;
+  color: var(--lm-heading) !important;
+  box-shadow: 0 20px 48px rgba(36, 22, 63, .12) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-live-core :is(strong, span, small, b) {
+  color: var(--lm-heading) !important;
+  -webkit-text-fill-color: var(--lm-heading) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator,
+  .od-main-gauge,
+  .portfolio-orb,
+  .radar-summary-box,
+  .mastery-progress-orb,
+  .roi-orbit-card,
+  .journey-ring,
+  .jl-orb,
+  .score-orb,
+  .onboarding-progress-orb
+) {
+  background:
+    radial-gradient(circle at center, #ffffff 0 55%, transparent 56%),
+    conic-gradient(var(--lm-accent) 0 var(--od-indicator-progress, 0%), #e8dfff var(--od-indicator-progress, 0%) 100%) !important;
+  color: var(--lm-heading) !important;
+  border-color: var(--lm-border) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-circular-indicator.od-indicator-readiness,
+  .od-circular-indicator.od-indicator-completion,
+  .od-circular-indicator.od-indicator-score
+) {
+  background:
+    radial-gradient(circle at center, #ffffff 0 55%, transparent 56%),
+    conic-gradient(var(--lm-teal) 0 var(--od-indicator-progress, 0%), #e8dfff var(--od-indicator-progress, 0%) 100%) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-progress-track,
+  .mini-progress,
+  .jl-mini-progress,
+  .radar-progress-line,
+  .profile-progress-line,
+  .mastery-track,
+  .monthly-progress,
+  .decision-progress,
+  .weekly-reflection-progress
+) {
+  background: #e8dfff !important;
+  border-color: #d9c9ff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .od-progress-track i,
+  .mini-progress i,
+  .mini-progress span,
+  .jl-mini-progress i,
+  .radar-progress-line i,
+  .profile-progress-line i,
+  .mastery-track span,
+  .monthly-progress span,
+  .decision-progress span,
+  .weekly-reflection-progress span
+) {
+  background: linear-gradient(90deg, var(--lm-accent), var(--lm-accent-2), var(--lm-teal)) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .about-rayan .ar-social.linkedin .ar-social-icon,
+  .public-gate .about-links a.social-linkedin
+) {
+  background: #0a66c2 !important;
+  border-color: #0a66c2 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(
+  .about-rayan .ar-social.x .ar-social-icon,
+  .public-gate .about-links a.social-x
+) {
+  background: #18102e !important;
+  border-color: rgba(36, 22, 63, .18) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .public-gate .about-links a.social-mail {
+  background: linear-gradient(135deg, var(--lm-accent), var(--lm-accent-2)) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}

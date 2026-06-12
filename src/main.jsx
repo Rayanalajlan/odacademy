@@ -6,6 +6,7 @@ import "./styles.tokens.css";
 import "./styles.css";
 import "./styles.theme-fix.css";
 import "./styles.dark-system.css";
+import "./styles.light-system.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
