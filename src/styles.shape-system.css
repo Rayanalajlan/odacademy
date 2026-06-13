@@ -1,39 +1,33 @@
 /* ============================================================================
    OD Academy Shape System
    ----------------------------------------------------------------------------
-   Geometry-only parity layer.
-   Dark mode is the geometry reference; both themes share these shape tokens.
-   Keep this file limited to radius and border geometry.
+   Geometry-only layer. Dark mode is the shape reference; this file applies the
+   same radius, border thickness, spacing, and proportions to both themes.
+   It intentionally does not define colors.
    ========================================================================== */
 
 :root {
-  --radius-shell: 42px;
-  --radius-hero: 42px;
-  --radius-hero-sm: 38px;
-  --radius-hero-md: 40px;
-  --radius-hero-xl: 44px;
-  --radius-stage: 34px;
-  --radius-panel: 32px;
-  --radius-card-lg: 30px;
-  --radius-card-md: 28px;
-  --radius-card-sm: 24px;
-  --radius-card-xs: 22px;
-  --radius-card-xxs: 20px;
-  --radius-control: 18px;
-  --radius-control-sm: 16px;
-  --radius-marker-lg: 17px;
-  --radius-marker: 14px;
-  --radius-marker-md: 13px;
-  --radius-marker-sm: 12px;
-  --radius-day: 20px;
-  --radius-jl-day: 21px;
-  --radius-pill: 999px;
-  --radius-circle: 50%;
-  --border-card-width: 1px;
-  --border-control-width: 1px;
+  --shape-radius-shell: 42px;
+  --shape-radius-section: 36px;
+  --shape-radius-panel: 34px;
+  --shape-radius-card: 30px;
+  --shape-radius-card-sm: 26px;
+  --shape-radius-control: 999px;
+  --shape-radius-chip: 999px;
+  --shape-radius-marker: 20px;
+  --shape-border-width: 1px;
+  --shape-pad-panel: 24px;
+  --shape-pad-card: 22px;
+  --shape-pad-card-sm: 16px;
+  --shape-gap-grid: 16px;
+  --shape-gap-tight: 10px;
+  --shape-card-min: 190px;
+  --shape-feature-min: 260px;
+  --shape-day-min: 142px;
+  --shape-control-min-height: 48px;
 }
 
-html body #root :is(
+html[data-theme] body :is(
   .site-frame,
   .page-shell,
   .app-shell,
@@ -43,7 +37,12 @@ html body #root :is(
   .jl-wrap,
   .sim-wrap,
   .command-wrap,
-  .about-rayan-wrap,
+  .about-rayan-wrap
+) {
+  border-radius: var(--shape-radius-shell) !important;
+}
+
+html[data-theme] body :is(
   .site-header,
   .navigation-card,
   .hero-card,
@@ -52,305 +51,177 @@ html body #root :is(
   .auth-card,
   .about-panel,
   .od-hero,
+  .portfolio-hero,
   .journey-hero,
+  .jl-hero,
   .roi-hero,
-  .ar-hero
+  .mastery-hero,
+  .command-hero,
+  .sim-root .hero,
+  .radar-card,
+  .ar-hero,
+  .ar-section,
+  .certificate-frame,
+  .certificate-inner
 ) {
-  border-radius: var(--radius-shell) !important;
-  border-width: var(--border-card-width) !important;
+  border-radius: var(--shape-radius-shell) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
 }
 
-html body #root :is(.jl-hero, .portfolio-hero) {
-  border-radius: var(--radius-hero-sm) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(.command-hero) {
-  border-radius: var(--radius-hero-md) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(.sim-root .hero) {
-  border-radius: var(--radius-hero-xl) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
+html[data-theme] body :is(
+  .od-timer-command,
+  .od-lab-card,
+  .portfolio-section,
   .jl-stage-panel,
-  .lesson-reader,
+  .jl-reader,
+  .jl-week-intro,
+  .jl-lesson-shell,
+  .jl-quiz,
   .quiz-panel,
   .sim-root .page,
-  .mastery-hero,
-  .certificate-frame,
-  .ar-logo-card,
-  .ar-bio-box,
-  .ar-dua-card
-) {
-  border-radius: var(--radius-stage) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .journey-dashboard-card,
+  .sim-root .decision-card,
+  .sim-root .hero-metrics,
   .command-panel,
+  .command-live-card,
+  .messages-box,
   .roi-panel,
-  .od-lab-card,
-  .ar-lens,
+  .roi-result-card,
+  .mastery-lock,
   .monthly-certificates,
-  .feedback-panel
+  .lesson-notes-panel,
+  .weekly-reflection-panel,
+  .about-rayan .ar-consultation,
+  .about-rayan .ar-consultation-panel
 ) {
-  border-radius: var(--radius-panel) !important;
-  border-width: var(--border-card-width) !important;
+  border-radius: var(--shape-radius-section) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
+  padding: var(--shape-pad-panel) !important;
 }
 
-html body #root :is(
-  .od-command-card,
-  .od-feature-card,
+html[data-theme] body :is(
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .profile-strip,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-row,
+  .portfolio-stat,
+  .portfolio-cert,
+  .portfolio-empty,
+  .onboarding-card,
+  .onboarding-step,
   .month-card,
+  .week-card,
+  .day-step,
   .jl-month-card,
   .jl-week-card,
   .jl-day-card,
-  .week-card,
-  .radar-card,
-  .saved-lessons-panel,
-  .jl-lesson-side,
-  .jl-reader,
-  .portfolio-section,
-  .weekly-reflection-panel,
-  .scenario-node,
-  .section-icon-grid__item,
-  .section-icon--hero,
-  .mastery-lock,
-  .linkedin-panel,
-  .certificate-verification-panel,
-  .sim-root .home-card,
-  .sim-root .briefing-card,
-  .sim-root .bento-causal
-) {
-  border-radius: var(--radius-card-lg) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .journey-note,
-  .intro-panel,
-  .week-intro-reader,
-  .references-panel,
-  .lesson-progress-card,
-  .jl-quiz,
-  .command-live-card,
-  .messages-box,
-  .sim-root .card,
-  .sim-root .tree-card,
-  .sim-root .decision-card,
-  .ar-card,
-  .ar-consultation-copy,
-  .ar-consultation-panel,
-  .ar-social,
-  .hero-metric,
-  .causal-loop
-) {
-  border-radius: var(--radius-card-md) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .day-step,
-  .portfolio-stat,
-  .monthly-card,
-  .lesson-notes-panel,
-  .certificate-inner,
-  .ar-domain,
-  .mastery-lock-icon,
-  .roi-reading,
-  .sim-root .nav
-) {
-  border-radius: 26px !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .question-card,
-  .jl-week-intro,
-  .message-bubble,
-  .composer textarea,
-  .mastery-stat,
-  .radar-tab,
-  .roi-result-card,
-  .causal-reading-box,
-  .mastery-card,
-  .certificate-pillar,
-  .od-stat-card,
-  .section-icon--card
-) {
-  border-radius: var(--radius-card-sm) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .mode-button,
-  .od-progress-line,
-  .od-feature-icon,
-  .portfolio-row,
-  .portfolio-cert,
-  .portfolio-empty,
-  .monthly-cert,
-  .monthly-certificate,
-  .scenario-mini,
-  .quota-card,
-  .error-card,
-  .quota-timer,
   .jl-question,
-  .saved-lesson-card,
-  .saved-lesson,
-  .certificate-verification-card,
-  .ar-social-icon,
-  .value-step,
-  .roi-switch
-) {
-  border-radius: var(--radius-card-xs) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .archive-item,
-  .saved-lessons-empty,
-  .radar-options-list button,
-  .radar-summary-box,
-  .radar-legend-box,
-  .radar-warning,
-  .radar-chip,
-  .score-block,
-  .weekly-reflection-progress,
-  .briefing-focus,
-  .od-milestone,
-  .ar-domain-mark,
-  .roi-source
-) {
-  border-radius: var(--radius-card-xxs) !important;
-  border-width: var(--border-card-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  button,
-  input,
-  textarea,
-  select,
-  .od-button,
-  .primary-button,
-  .secondary-button,
-  .complete-button,
-  .send-button,
-  .btn,
-  .mastery-button,
-  .journey-primary,
-  .journey-secondary,
-  .jl-main-btn,
-  .jl-complete,
-  .jl-quiz-submit,
-  .radar-actions button,
-  .radar-card .primary-button,
-  .radar-card .secondary-button,
-  .roi-sources-toggle button,
-  .ar-primary-action,
-  .ar-secondary-action,
-  .ar-consultation-button,
   .jl-option,
   .option-button,
   .quiz-option,
+  .radar-history-item,
+  .radar-options-list button,
+  .sim-root .card,
+  .sim-root .home-card,
   .sim-root .choice,
-  .points-badge,
-  .breakdown,
-  .briefing-note,
-  .rubric-item,
-  .monthly-badge,
-  .references-panel button,
-  .weekly-reflection-panel input,
-  .weekly-reflection-panel textarea,
-  .weekly-reflection-panel select,
-  .jl-quiz-warning,
-  .jl-quiz-result,
-  .quiz-message,
-  .field input,
-  .field select,
-  .field textarea,
-  .roi-field input,
-  .roi-field select
+  .sim-root .briefing-card,
+  .sim-root .breakdown,
+  .sim-root .scenario-node,
+  .sim-root .tree-card,
+  .archive-item,
+  .message-bubble,
+  .roi-source,
+  .mastery-stat,
+  .monthly-card,
+  .monthly-cert,
+  .monthly-certificate,
+  .saved-lesson,
+  .about-rayan .ar-card,
+  .about-rayan .ar-lens,
+  .about-rayan .ar-domain,
+  .about-rayan .ar-social,
+  .section-icon-grid__item,
+  .od-feature-card
 ) {
-  border-radius: var(--radius-control) !important;
-  border-width: var(--border-control-width) !important;
+  border-radius: var(--shape-radius-card) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
 }
 
-html body #root :is(
-  .journey-back,
-  .jl-back,
-  .jl-ghost-btn,
-  .saved-lessons-refresh,
-  .lesson-notes-actions button,
-  .archive-search,
-  .lesson-notes-panel input,
-  .lesson-notes-panel textarea,
-  .weekly-reflection-actions button,
-  .roi-switch button,
-  .mode-button span,
-  .section-icon--nav
+html[data-theme] body :is(
+  .section-icon-grid,
+  .od-feature-grid,
+  .jl-month-grid,
+  .jl-weeks-grid,
+  .home-grid
 ) {
-  border-radius: var(--radius-control-sm) !important;
-  border-width: var(--border-control-width) !important;
-  border-style: solid !important;
+  gap: var(--shape-gap-grid) !important;
 }
 
-html body #root :is(
+html[data-theme] body .section-icon-grid {
+  width: min(1180px, calc(100% - 32px)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+html[data-theme] body :is(.section-icon-grid__item, .od-feature-card, .sim-root .home-card, .jl-month-card, .jl-week-card) {
+  aspect-ratio: auto !important;
+  min-height: var(--shape-card-min) !important;
+  padding: var(--shape-pad-card) !important;
+  overflow: hidden !important;
+}
+
+html[data-theme] body .od-feature-card {
+  min-height: var(--shape-feature-min) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html[data-theme] body :is(.jl-month-card, .jl-week-card) {
+  min-height: 214px !important;
+}
+
+html[data-theme] body .jl-day-card {
+  min-height: var(--shape-day-min) !important;
+  aspect-ratio: auto !important;
+  padding: var(--shape-pad-card-sm) 14px !important;
+  border-radius: var(--shape-radius-card-sm) !important;
+}
+
+html[data-theme] body .jl-days-grid {
+  grid-template-columns: repeat(7, minmax(110px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+html[data-theme] body :is(
   .jl-index,
+  .jl-status,
+  .jl-day-number,
+  .day-number,
+  .choice-letter,
+  .option-button > span:first-child,
+  .jl-option > span:first-child,
   .radar-options-list button > span:first-child,
-  .radar-history-item b,
-  .section-icon--mobile
+  .about-rayan .ar-domain-mark,
+  .about-rayan .ar-lens b,
+  .od-feature-icon,
+  .section-icon
 ) {
-  border-radius: var(--radius-marker) !important;
-  border-width: var(--border-control-width) !important;
-  border-style: solid !important;
+  border-radius: var(--shape-radius-marker) !important;
 }
 
-html body #root :is(
-  .jl-question-title b,
-  .section-icon--menu
-) {
-  border-radius: var(--radius-marker-md) !important;
-  border-width: var(--border-control-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
-  .jl-option > span:first-child
-) {
-  border-radius: var(--radius-marker-sm) !important;
-  border-width: var(--border-control-width) !important;
-  border-style: solid !important;
-}
-
-html body #root :is(
+html[data-theme] body :is(
   .badge,
   .pill,
   .chip,
-  .tag,
   .kicker,
-  .eyebrow,
   .od-kicker,
   .od-chip,
   .od-section-kicker,
+  .od-hero-note,
   .od-feature-badge,
   .public-badge,
   .sample-kicker,
@@ -358,68 +229,131 @@ html body #root :is(
   .jl-pill,
   .jl-status,
   .radar-kicker,
+  .radar-chip,
   .portfolio-mini-tag,
+  .monthly-badge,
   .verify-state,
   .rank-pill,
   .ar-eyebrow,
   .ar-credential,
+  .about-rayan .ar-section-head > div > span,
   .mode-badge,
-  .soft-button,
-  .nav-btn,
-  .panel-btn,
-  .causal-chip,
-  .briefing-head span,
-  .certificate-title .badge,
-  .progress-track,
-  .mini-progress,
-  .mastery-track,
-  .jl-mini-track,
-  .radar-progress-line,
-  .radar-score-track,
-  .od-progress-track,
-  .profile-progress-line,
-  .monthly-progress,
-  .weekly-reflection-progress,
-  .mini-bar-track,
-  .option-button > span:first-child,
-  .choice-letter,
-  .delete-mini,
-  .node-badge,
-  .od-pill,
-  .od-data-pill,
-  .monthly-kicker,
-  .weekly-reflection-kicker,
-  .command-kicker,
-  .typing i,
-  .center-kicker,
-  .decision-progress,
-  .decision-progress i
+  .points-badge
 ) {
-  border-radius: var(--radius-pill) !important;
-}
-
-html body #root :is(.day-number) {
-  border-radius: var(--radius-day) !important;
-  border-width: var(--border-control-width) !important;
+  border-radius: var(--shape-radius-chip) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
 }
 
-html body #root :is(.jl-day-number) {
-  border-radius: var(--radius-jl-day) !important;
-  border-width: var(--border-control-width) !important;
+html[data-theme] body :is(
+  button,
+  .od-button,
+  .portfolio-button,
+  .profile-button,
+  .btn,
+  .soft-button,
+  .ghost-button,
+  .secondary-button,
+  .primary-button,
+  .complete-button,
+  .send-button,
+  .sample-button,
+  .mastery-button,
+  .radar-actions button,
+  .sim-root .nav button,
+  .sim-root .panel-tabs button,
+  .auth-tabs button,
+  .about-links a,
+  .ar-primary-action,
+  .ar-secondary-action,
+  .ar-consultation-button
+):not(.section-icon-grid__item):not(.od-feature-card):not(.home-card):not(.jl-month-card):not(.jl-week-card):not(.jl-day-card):not(.option-button):not(.jl-option):not(.quiz-option):not(.choice) {
+  min-height: var(--shape-control-min-height) !important;
+  border-radius: var(--shape-radius-control) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: var(--shape-gap-tight) !important;
 }
 
-html body #root :is(.home-card b) {
-  border-radius: var(--radius-marker-lg) !important;
-  border-width: var(--border-control-width) !important;
+html[data-theme] body :is(
+  input,
+  select,
+  .search-field,
+  .course-search-input,
+  .command-search,
+  .auth-input,
+  .field-input
+) {
+  min-height: 56px !important;
+  border-radius: var(--shape-radius-control) !important;
+  border-width: var(--shape-border-width) !important;
   border-style: solid !important;
+  padding-inline: 20px !important;
 }
 
-html body #root :is(
+html[data-theme] body :is(
+  textarea,
+  .notes-textarea,
+  .field-textarea,
+  .comment-box
+) {
+  border-radius: var(--shape-radius-card) !important;
+  border-width: var(--shape-border-width) !important;
+  border-style: solid !important;
+  padding: 20px !important;
+}
+
+html[data-theme] body :is(
+  .radar-tabs,
+  .sim-root .panel-tabs,
+  .auth-tabs,
+  .roi-switch,
+  .mode-switch,
+  .tab-list
+) {
+  border-radius: var(--shape-radius-section) !important;
+  border-width: var(--shape-border-width) !important;
+  border-style: solid !important;
+  padding: 8px !important;
+  gap: 8px !important;
+}
+
+html[data-theme] body :is(
+  .radar-tab,
+  .radar-tabs button,
+  .sim-root .panel-tabs button,
+  .auth-tabs button,
+  .roi-switch button,
+  .mode-button
+) {
+  border-radius: var(--shape-radius-control) !important;
+  min-height: var(--shape-control-min-height) !important;
+}
+
+html[data-theme] body :is(
+  .quiz-message,
+  .jl-quiz-result,
+  .feedback-panel,
+  .feedback-success,
+  .feedback-error,
+  .notice,
+  .alert,
+  .toast
+) {
+  border-radius: var(--shape-radius-card-sm) !important;
+  border-width: var(--shape-border-width) !important;
+  border-style: solid !important;
+  padding: 16px 18px !important;
+}
+
+html[data-theme] body :is(
   .od-circular-indicator,
   .od-main-gauge,
   .portfolio-orb,
+  .radar-summary-box,
   .mastery-progress-orb,
   .roi-orbit-card,
   .journey-ring,
@@ -428,13 +362,51 @@ html body #root :is(
   .onboarding-progress-orb,
   .od-live-core
 ) {
-  border-radius: var(--radius-circle) !important;
+  border-radius: 50% !important;
+  border-width: var(--shape-border-width) !important;
+  border-style: solid !important;
+  aspect-ratio: 1 / 1 !important;
 }
 
-html body #root :is(.message.user .message-bubble) {
-  border-top-left-radius: 10px !important;
+html[data-theme] body :is(
+  .od-circular-indicator > *,
+  .od-main-gauge > *,
+  .portfolio-orb > *,
+  .radar-summary-box > *,
+  .mastery-progress-orb > *,
+  .roi-orbit-card > *,
+  .journey-ring > *,
+  .jl-orb > *,
+  .score-orb > *,
+  .onboarding-progress-orb > *
+) {
+  border-radius: var(--shape-radius-control) !important;
 }
 
-html body #root :is(.message.assistant .message-bubble) {
-  border-top-right-radius: 10px !important;
+html[data-theme] body :is(
+  .ar-primary-action,
+  .ar-secondary-action,
+  .ar-consultation-button,
+  .about-links a
+) svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+}
+
+@media (max-width: 980px) {
+  html[data-theme] body .section-icon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  html[data-theme] body .jl-days-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  html[data-theme] body .section-icon-grid,
+  html[data-theme] body .jl-days-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
