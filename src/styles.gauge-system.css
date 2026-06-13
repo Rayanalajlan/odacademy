@@ -1,0 +1,233 @@
+/* ============================================================================
+   Unified Metric Gauge — Orbital Ring (single visual system for ALL counters)
+   ----------------------------------------------------------------------------
+   هذا الملف هو المرجع الوحيد لشكل كل العدادات/المؤشرات الدائرية في الموقع.
+   يطبَّق على الكلاس المشترك `.od-circular-indicator` الموجود أصلًا على كل عداد
+   (od-main-gauge / portfolio-orb / radar-summary-box / mastery-progress-orb /
+   roi-orbit-card / journey-ring / jl-orb / score-orb / onboarding-progress-orb).
+
+   • نفس الشكل والهندسة في الوضعين — الاختلاف في اللون فقط.
+   • ثلاثة أحجام من نفس العائلة: compact / default / hero.
+   • دلالة لونية للمسار: بنفسجي = تقدّم عام، تركواز/أخضر = إنجاز/تقييم.
+   • لا يغيّر أي منطق أو حساب أو نص أو ترتيب أو أيقونة — CSS بحت.
+   • يُستورد آخرًا في main.jsx ليتغلّب على كل تنسيقات العدادات القديمة المبعثرة.
+
+   يعتمد على متغيّر التقدّم الذي تمرّره المكوّنات أصلًا:
+     --od-indicator-progress (أو --p أو --score كاحتياط).
+   ========================================================================== */
+
+/* مجموعة محدّدات بنفس أولوية ملف الوضع الفاتح (#root + سمة الثيم) لتضمن الفوز
+   عبر ترتيب التحميل دون رفع الأولوية أكثر من اللازم. */
+
+/* --------------------------------------------------------------------------
+   1) لوحة ألوان كل ثيم (دلالة عامة = بنفسجي)
+   -------------------------------------------------------------------------- */
+html[data-theme="light"] body.od-theme-light #root .od-circular-indicator {
+  --g-face: #ffffff;                 /* وجه العداد القارئ */
+  --g-face-2: #f6f0ff;
+  --g-track: #e5d8ff;                /* مسار الخلفية */
+  --g-arc-a: #7c3aed;                /* بداية مسار التقدّم */
+  --g-arc-b: #a855f7;                /* نهاية مسار التقدّم/اللمعة */
+  --g-num: #24163f;                  /* الرقم الرئيسي */
+  --g-label: #5e4b84;                /* الوصف */
+  --g-rim: #cfbbff;                  /* حافّة العداد */
+  --g-glow: rgba(124, 58, 237, .22);
+  --g-shadow: 0 22px 54px rgba(36, 22, 63, .12);
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-circular-indicator {
+  --g-face: #1f1337;
+  --g-face-2: #160d2a;
+  --g-track: rgba(216, 199, 255, .18);
+  --g-arc-a: #9b5cff;
+  --g-arc-b: #c084fc;
+  --g-num: #f4eeff;
+  --g-label: #d8c7ff;
+  --g-rim: rgba(196, 181, 253, .22);
+  --g-glow: rgba(155, 92, 255, .30);
+  --g-shadow: 0 24px 70px rgba(0, 0, 0, .30);
+}
+
+/* دلالة الإنجاز/التقييم/الجاهزية = تركواز/أخضر (نفس الشكل، لون مسار مختلف) */
+html[data-theme="light"] body.od-theme-light #root .od-circular-indicator:is(.od-indicator-completion, .od-indicator-score, .od-indicator-readiness) {
+  --g-arc-a: #10b981;
+  --g-arc-b: #14b8a6;
+  --g-glow: rgba(20, 184, 166, .22);
+}
+
+html[data-theme="dark"] body.od-theme-dark #root .od-circular-indicator:is(.od-indicator-completion, .od-indicator-score, .od-indicator-readiness) {
+  --g-arc-a: #2dd4bf;
+  --g-arc-b: #34d399;
+  --g-glow: rgba(45, 212, 191, .28);
+}
+
+/* --------------------------------------------------------------------------
+   2) هندسة موحّدة + الحلقة المدارية (نفس البنية في الوضعين)
+   -------------------------------------------------------------------------- */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator {
+  --od-indicator-progress: var(--od-indicator-progress, var(--p, var(--score, 0%)));
+  --od-gauge-size: clamp(170px, 19vw, 210px);     /* default */
+
+  position: relative !important;
+  z-index: 1 !important;
+  isolation: isolate !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 4px !important;
+  box-sizing: border-box !important;
+  width: var(--od-gauge-size) !important;
+  height: var(--od-gauge-size) !important;
+  min-width: var(--od-gauge-size) !important;
+  min-height: var(--od-gauge-size) !important;
+  max-width: var(--od-gauge-size) !important;
+  max-height: var(--od-gauge-size) !important;
+  aspect-ratio: 1 !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  text-align: center !important;
+  color: var(--g-num) !important;
+  background:
+    radial-gradient(circle at center, var(--g-face) 0 55%, var(--g-face-2) 55.5% 56%, transparent 56.5%),
+    conic-gradient(
+      from -90deg,
+      var(--g-arc-a) 0%,
+      var(--g-arc-b) var(--od-indicator-progress),
+      var(--g-track) var(--od-indicator-progress) 100%
+    ) !important;
+  border: 1px solid var(--g-rim) !important;
+  box-shadow:
+    inset 0 0 0 12px color-mix(in srgb, var(--g-face) 78%, transparent),
+    0 0 22px var(--g-glow),
+    var(--g-shadow) !important;
+  transition: background .6s ease, box-shadow .4s ease !important;
+  animation: odGaugeReveal .55s cubic-bezier(.22, 1, .36, 1) both !important;
+}
+
+/* الوجه الداخلي القارئ: قرص نظيف يضمن وضوح الرقم فوق الحلقة في كل الحالات */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 13% !important;
+  z-index: 0 !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle at 38% 30%, var(--g-face), var(--g-face-2)) !important;
+  border: 1px solid color-mix(in srgb, var(--g-rim) 60%, transparent) !important;
+  box-shadow: inset 0 1px 10px color-mix(in srgb, var(--g-glow) 40%, transparent) !important;
+  pointer-events: none !important;
+}
+
+/* إلغاء أي ::after زخرفي قديم حتى يبقى الشكل موحّدًا */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator::after {
+  content: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3) تحييد الأقراص الداخلية القديمة (مصدر اختفاء النص في الوضع الفاتح)
+      كانت تستخدم خلفية #18102e ثابتة — نجعلها شفافة فيظهر الوجه الموحّد.
+   -------------------------------------------------------------------------- */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator :is(
+  > div,
+  > span,
+  > a,
+  .mastery-progress-inner,
+  .roi-orbit-inner,
+  .journey-ring-inner
+) {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 2px !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 82% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+
+/* --------------------------------------------------------------------------
+   4) النص: رقم كبير واضح + وصف هادئ (نفس النظام، لون حسب الثيم)
+   -------------------------------------------------------------------------- */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator :is(strong) {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  font-size: clamp(30px, 4.4vw, 44px) !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  letter-spacing: -.01em !important;
+  color: var(--g-num) !important;
+  -webkit-text-fill-color: var(--g-num) !important;
+  background: none !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator :is(span, small, b) {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  font-size: 12.5px !important;
+  font-weight: 850 !important;
+  line-height: 1.25 !important;
+  color: var(--g-label) !important;
+  -webkit-text-fill-color: var(--g-label) !important;
+  background: none !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* journey-ring يكتب النسبة داخل <span> (وليس <strong>) → نعامله كرقم رئيسي */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator.journey-ring > span {
+  font-size: clamp(26px, 3.4vw, 34px) !important;
+  font-weight: 950 !important;
+  color: var(--g-num) !important;
+  -webkit-text-fill-color: var(--g-num) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5) ثلاثة أحجام من نفس العائلة
+   -------------------------------------------------------------------------- */
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator:is(.journey-ring, .score-orb, .od-gauge-compact) {
+  --od-gauge-size: clamp(132px, 15vw, 158px);     /* compact */
+}
+
+:is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator:is(.od-main-gauge, .roi-orbit-card, .od-gauge-hero) {
+  --od-gauge-size: clamp(200px, 22vw, 240px);     /* hero */
+}
+
+@media (max-width: 760px) {
+  :is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator {
+    --od-gauge-size: clamp(150px, 44vw, 188px);
+  }
+  :is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator:is(.journey-ring, .score-orb, .od-gauge-compact) {
+    --od-gauge-size: clamp(124px, 36vw, 150px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6) حركة فاخرة هادئة (ظهور لطيف فقط) — مع احترام تفضيل تقليل الحركة
+   -------------------------------------------------------------------------- */
+@keyframes odGaugeReveal {
+  from { opacity: 0; transform: scale(.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(html[data-theme="light"] body.od-theme-light, html[data-theme="dark"] body.od-theme-dark) #root .od-circular-indicator {
+    animation: none !important;
+    transition: none !important;
+  }
+}
