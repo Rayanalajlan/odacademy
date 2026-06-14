@@ -1,0 +1,436 @@
+/* ============================================================================
+   OD Academy / منسقة — Experience 3D Layer  (styles.experience-3d.css)
+   ----------------------------------------------------------------------------
+   طبقة بصرية إضافية فقط: عمق ثلاثي الأبعاد، زجاجية، إضاءة، حركة عند التمرير،
+   وتأثير مغناطيسي/إمالة على البطاقات والأزرار — مستوحاة من الاتجاه "3D" الراقي،
+   لكنها مطبّقة على منصّة منسقة التعليمية كما هي.
+
+   مبادئ صارمة (مطبّقة في هذا الملف):
+   • لا ألوان جديدة إطلاقًا. كل تدرّج/توهّج/ظل/زجاج مشتقّ حصريًا من رموز المشروع
+     (--color-* / --accent / --surface / --radius-* / --color-shadow-*). نستخدم
+     color-mix(... , transparent) لاشتقاق درجات شفافية من نفس الرمز، مع بديل صلب.
+   • RTL مصون: نعتمد الخصائص المنطقية (inset-inline/block) ولا نغيّر direction.
+   • الوضعان الفاتح/الداكن: نسحب من الرموز التي تتبدّل تلقائيًا بين الثيمين.
+   • prefers-reduced-motion: تُلغى كل الحركات غير الضرورية بالكامل.
+   • لا نلمس مبدّل الثيم إطلاقًا (theme-switch__* / .theme-toggle / .visitor-theme-toggle).
+   • لا opacity دائمة على حاويات النص؛ حركة الظهور تنتهي دائمًا عند opacity:1.
+   • أولوية محسوبة: نسبق المحدّدات بـ html / body لتتغلّب على الأنماط المضمّنة
+     داخل Home.jsx دون الحاجة إلى !important.
+
+   التفعيل التدرّجي:
+   • الطبقة الثابتة (عمق/زجاج/ظلال/لمعان) تعمل دائمًا بلا جافاسكربت.
+   • طبقة الإمالة المغناطيسية والظهور عند التمرير تُفعَّل فقط بإضافة الكلاس
+     html.od3d-ready من lib/experience3d.js (ولا يُضاف عند تفضيل تقليل الحركة)،
+     لذا الموقع يبقى سليمًا تمامًا إذا تعذّر تشغيل الجافاسكربت.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   0) متغيّرات مساعدة مشتقّة من الرموز القائمة فقط
+   --------------------------------------------------------------------------- */
+:root,
+html[data-theme="light"],
+html body.od-theme-light,
+html[data-theme="dark"],
+html body.od-theme-dark {
+  /* توهّج بنفسجي ناعم مشتقّ من اللون الأساسي (يتبدّل مع الثيم تلقائيًا) */
+  --od3d-glow-soft: var(--color-accent-primary-soft);
+  --od3d-glow-12: color-mix(in srgb, var(--accent) 12%, transparent);
+  --od3d-glow-18: color-mix(in srgb, var(--accent) 18%, transparent);
+  --od3d-glow-26: color-mix(in srgb, var(--accent) 26%, transparent);
+  --od3d-rim: color-mix(in srgb, var(--accent) 34%, transparent);
+
+  /* حافّة ضوئية علوية لإيحاء الإضاءة (من سطح مرتفع موجود) */
+  --od3d-sheen: color-mix(in srgb, var(--surface-elevated) 70%, transparent);
+
+  /* ظلال عمق متدرّجة مبنية من ظلال المشروع + توهّج الأكسنت */
+  --od3d-lift-rest: var(--color-shadow-sm);
+  --od3d-lift-hover:
+    var(--color-shadow-lg),
+    0 0 0 1px var(--od3d-rim);
+
+  /* منحنى الحركة الموحّد */
+  --od3d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* قيم الإمالة/الإزاحة الافتراضية (يضبطها الجافاسكربت لكل عنصر) */
+  --od3d-rx: 0deg;
+  --od3d-ry: 0deg;
+  --od3d-mx: 0px;
+  --od3d-my: 0px;
+}
+
+/* ===========================================================================
+   1) عمق ثلاثي الأبعاد للحاويات الشبكية (perspective)
+   نمنح الشبكات منظورًا حتى تبدو البطاقات داخلها طافية فعلًا عند الإمالة.
+   =========================================================================== */
+html .od-feature-grid,
+html .od-lab-strip,
+html .counter-grid,
+html .hero-points,
+html .od-command-mini,
+html .od-timer-grid,
+html .grid-2 {
+  perspective: 1400px;
+  perspective-origin: center top;
+}
+
+/* ===========================================================================
+   2) البطاقات واللوحات — طبقة عمق/زجاج/إضاءة ثابتة (تعمل دائمًا)
+   نضيف خصائص جديدة (transition/transform-style/حافّة ضوئية) دون تغيير الألوان.
+   =========================================================================== */
+html .od-feature-card,
+html .od-stat-card,
+html .od-lab-card,
+html .od-command-card,
+html .home-card,
+html .counter-card,
+html .auth-card,
+html .legal-card,
+html .roi-result-card,
+html .profile-card,
+html .radar-card,
+html .tree-card,
+html .report-section,
+html .admin-panel,
+html .panel,
+html .certificate-pillar,
+html .hero-metric,
+html .mastery-stat,
+html .od-error-card,
+html .tm-card {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.42s var(--od3d-ease),
+    box-shadow 0.42s var(--od3d-ease);
+}
+
+/* حافّة ضوئية علوية رقيقة (إيحاء زجاج/إضاءة) عبر ::after دون لمس ::before القائم */
+html .od-feature-card::after,
+html .od-stat-card::after,
+html .od-lab-card::after,
+html .od-command-card::after,
+html .counter-card::after,
+html .roi-result-card::after,
+html .radar-card::after,
+html .certificate-pillar::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 38%;
+  pointer-events: none;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    var(--od3d-sheen) 0%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  z-index: 1;
+}
+
+/* نبقي محتوى البطاقة فوق الحافّة الضوئية حتى لا يتأثر تباين النص إطلاقًا */
+html .od-feature-card > *,
+html .od-stat-card > *,
+html .od-lab-card > *,
+html .od-command-card > *,
+html .counter-card > *,
+html .roi-result-card > *,
+html .radar-card > *,
+html .certificate-pillar > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===========================================================================
+   3) طبقة الإمالة المغناطيسية (تُفعَّل فقط مع html.od3d-ready)
+   البطاقات تميل برفق نحو المؤشّر وترتفع، مع توهّج بنفسجي محيط من رمز الأكسنت.
+   الأولوية (0,2,x) تتغلّب على hover المضمّن في Home.jsx بلا !important.
+   =========================================================================== */
+html.od3d-ready .od3d-tilt {
+  transform:
+    perspective(1100px)
+    rotateX(var(--od3d-rx))
+    rotateY(var(--od3d-ry))
+    translate3d(0, 0, 0);
+}
+
+html.od3d-ready .od3d-tilt:hover,
+html.od3d-ready .od3d-tilt:focus-within {
+  transform:
+    perspective(1100px)
+    rotateX(var(--od3d-rx))
+    rotateY(var(--od3d-ry))
+    translate3d(0, -8px, 28px);
+  box-shadow: var(--od3d-lift-hover);
+}
+
+/* توهّج محيط ناعم يظهر عند التحويم (مشتقّ من الأكسنت) */
+html.od3d-ready .od3d-tilt {
+  box-shadow: var(--od3d-lift-rest);
+}
+
+/* ===========================================================================
+   4) الأزرار — لمعان زجاجي + تأثير مغناطيسي + ضغط فيزيائي
+   =========================================================================== */
+html .od-button,
+html .btn,
+html .auth-primary,
+html .auth-ghost,
+html .portfolio-button,
+html .mastery-button,
+html .profile-button,
+html .secondary-button,
+html .primary-button,
+html .od-error-btn,
+html .logout-button {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.32s var(--od3d-ease),
+    box-shadow 0.32s var(--od3d-ease),
+    filter 0.32s var(--od3d-ease);
+}
+
+/* لمعان يمرّ عبر الزر (من حافّة ضوئية مشتقّة من سطح مرتفع) */
+html .od-button::after,
+html .auth-primary::after,
+html .portfolio-button::after,
+html .mastery-button::after,
+html .primary-button::after,
+html .od-error-btn--primary::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -130%;
+  inline-size: 60%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    var(--od3d-sheen) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  opacity: 0.0;
+}
+
+html.od3d-ready .od-button:hover::after,
+html.od3d-ready .auth-primary:hover::after,
+html.od3d-ready .portfolio-button:hover::after,
+html.od3d-ready .mastery-button:hover::after,
+html.od3d-ready .primary-button:hover::after,
+html.od3d-ready .od-error-btn--primary:hover::after {
+  animation: od3dSheen 0.85s var(--od3d-ease);
+}
+
+@keyframes od3dSheen {
+  from { inset-inline-start: -130%; opacity: 0.0; }
+  35%  { opacity: 0.9; }
+  to   { inset-inline-start: 170%; opacity: 0.0; }
+}
+
+/* تأثير مغناطيسي خفيف على الأزرار الموسومة */
+html.od3d-ready .od3d-magnet {
+  transform: translate3d(var(--od3d-mx), var(--od3d-my), 0);
+}
+
+html.od3d-ready .od3d-magnet:hover {
+  box-shadow:
+    var(--color-shadow),
+    0 0 0 1px var(--od3d-rim);
+}
+
+/* ضغط فيزيائي عند النقر */
+html .od-button:active,
+html .btn:active,
+html .auth-primary:active,
+html .portfolio-button:active,
+html .mastery-button:active,
+html .primary-button:active,
+html .secondary-button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* ===========================================================================
+   5) الشارات والرقاقات — رفعة عمق خفيفة
+   =========================================================================== */
+html .od-chip,
+html .public-badge,
+html .od-feature-badge,
+html .portfolio-mini-tag {
+  transition: transform 0.3s var(--od3d-ease), box-shadow 0.3s var(--od3d-ease);
+}
+
+html.od3d-ready .od-feature-card:hover .od-feature-badge,
+html.od3d-ready .od-chip:hover {
+  transform: translateZ(18px);
+}
+
+/* ===========================================================================
+   6) التبويبات والتنقّل — عمق على العنصر النشط
+   (لا نلمس مبدّل الثيم نهائيًا)
+   =========================================================================== */
+html .auth-tabs button,
+html .main-nav button {
+  transition:
+    transform 0.3s var(--od3d-ease),
+    box-shadow 0.3s var(--od3d-ease);
+}
+
+html.od3d-ready .main-nav button.active {
+  box-shadow: 0 8px 22px var(--od3d-glow-18);
+}
+
+/* ===========================================================================
+   7) الأبطال (Hero) — أجرام طافية محيطة بإضاءة الأكسنت
+   نضيفها على لوحة القيادة في الرئيسية وبطاقة الدخول العامة، فوق موجات الخلفية
+   القائمة (لا نلغيها). كلها مشتقّة من رموز اللون.
+   =========================================================================== */
+html .od-command-card,
+html .auth-card {
+  position: relative;
+  isolation: isolate;
+}
+
+html .od-command-card::before {
+  /* جرم طافٍ علوي خارجي — لا يحجب المحتوى (z تحت) */
+  content: "";
+  position: absolute;
+  inset-block-start: -42px;
+  inset-inline-end: -28px;
+  inline-size: 150px;
+  block-size: 150px;
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--od3d-glow-26) 0%,
+    transparent 70%
+  );
+  filter: blur(2px);
+}
+
+html.od3d-ready .od-command-card::before {
+  animation: od3dFloat 9s var(--od3d-ease) infinite alternate;
+}
+
+@keyframes od3dFloat {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-10px, 16px, 0) scale(1.08); }
+}
+
+/* ===========================================================================
+   8) الظهور عند التمرير (Scroll reveal) — يُفعَّل فقط مع html.od3d-ready
+   آمن تمامًا: في الوضع الافتراضي (بلا جافاسكربت / مع تقليل الحركة) يبقى كل شيء
+   ظاهرًا. الإخفاء المبدئي يسري فقط عندما يضيف الجافاسكربت od3d-ready، ثم يضيف
+   المراقِب od3d-in لإظهار العنصر. ينتهي دائمًا عند opacity:1.
+   =========================================================================== */
+html.od3d-ready .od3d-reveal {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 0.7s var(--od3d-ease),
+    transform 0.7s var(--od3d-ease);
+}
+
+html.od3d-ready .od3d-reveal.od3d-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* تدرّج زمني لطيف داخل الشبكات */
+html.od3d-ready .od-feature-grid .od3d-reveal.od3d-in { transition-delay: calc(var(--od3d-i, 0) * 70ms); }
+html.od3d-ready .counter-grid .od3d-reveal.od3d-in   { transition-delay: calc(var(--od3d-i, 0) * 70ms); }
+
+/* ===========================================================================
+   9) حالات التحميل/الفراغ/الخطأ — عمق هادئ متّسق
+   =========================================================================== */
+html .page-loader,
+html .boot-screen,
+html .portfolio-empty,
+html .report-empty,
+html .global-notice,
+html .od-error-card {
+  transition: box-shadow 0.4s var(--od3d-ease), transform 0.4s var(--od3d-ease);
+}
+
+html.od3d-ready .page-loader,
+html.od3d-ready .boot-screen {
+  animation: od3dBreathe 3.4s ease-in-out infinite;
+}
+
+@keyframes od3dBreathe {
+  0%, 100% { box-shadow: var(--color-shadow-sm); }
+  50%      { box-shadow: var(--color-shadow); }
+}
+
+/* ===========================================================================
+   10) دخول الصفحة — ارتفاع متدرّج للأبطال والشبكات (مرّة واحدة)
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html.od3d-ready .od-hero-inner > *,
+  html.od3d-ready .public-hero > * {
+    animation: od3dRiseIn 0.7s var(--od3d-ease) both;
+  }
+  html.od3d-ready .od-hero-inner > *:nth-child(2),
+  html.od3d-ready .public-hero > *:nth-child(2) { animation-delay: 0.08s; }
+  html.od3d-ready .od-hero-inner > *:nth-child(3),
+  html.od3d-ready .public-hero > *:nth-child(3) { animation-delay: 0.16s; }
+  html.od3d-ready .od-hero-inner > *:nth-child(4),
+  html.od3d-ready .public-hero > *:nth-child(4) { animation-delay: 0.24s; }
+}
+
+@keyframes od3dRiseIn {
+  from { opacity: 0; transform: translate3d(0, 22px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* ===========================================================================
+   11) احترام تقليل الحركة — إلغاء كل ما هو غير ضروري
+   (الجافاسكربت أصلًا لا يضيف od3d-ready عند تقليل الحركة، وهذا حزام أمان ثانٍ)
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html .od-feature-card,
+  html .od-stat-card,
+  html .od-lab-card,
+  html .od-command-card,
+  html .home-card,
+  html .counter-card,
+  html .auth-card,
+  html .legal-card,
+  html .roi-result-card,
+  html .profile-card,
+  html .radar-card,
+  html .tree-card,
+  html .report-section,
+  html .admin-panel,
+  html .panel,
+  html .certificate-pillar,
+  html .hero-metric,
+  html .mastery-stat,
+  html .od-error-card,
+  html .tm-card,
+  html .od-button,
+  html .btn,
+  html .auth-primary,
+  html .auth-ghost {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  html .od-command-card::before,
+  html .od-feature-card::after,
+  html .od-button::after,
+  html .page-loader,
+  html .boot-screen {
+    animation: none !important;
+  }
+
+  html.od3d-ready .od3d-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

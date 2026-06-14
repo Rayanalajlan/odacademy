@@ -7,7 +7,8 @@ import "./styles.css";
 import "./styles.theme-fix.css";
 import "./styles.dark-system.css";
 import "./styles.light-system.css";
-import "./styles.gauge-system.css";
+import "./styles.experience-3d.css";
+import { initExperience3D } from "./lib/experience3d.js";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,6 +17,10 @@ createRoot(document.getElementById("root")).render(
     </ErrorBoundary>
   </React.StrictMode>
 );
+
+// تحسين بصري تدرّجي اختياري (إمالة/مغناطيسية/ظهور عند التمرير).
+// لا يلمس أي منطق؛ ويُلغى تلقائيًا عند تفضيل تقليل الحركة.
+initExperience3D();
 
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
