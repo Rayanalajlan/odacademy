@@ -29,14 +29,14 @@ initExperience3D();
    ==================================================================== */
 (function odBuildStamp() {
   try {
-    var TAG = "OD3D BUILD v4 — 2026-06-15";
+    var TAG = "OD3D BUILD v5 — 2026-06-15";
     // eslint-disable-next-line no-console
     console.log("%c✅ " + TAG + " — النسخة الجديدة محمّلة", "background:#7c3aed;color:#fff;padding:4px 10px;border-radius:6px;font-weight:bold;");
     var mount = function () {
       if (document.getElementById("od-build-stamp")) return;
       var b = document.createElement("button");
       b.id = "od-build-stamp";
-      b.textContent = "منسقة • تحديث مرئي ✓ v4";
+      b.textContent = "منسقة • تحديث مرئي ✓ v5";
       b.title = "اضغط للإخفاء — هذه شارة تشخيص مؤقّتة";
       b.setAttribute(
         "style",

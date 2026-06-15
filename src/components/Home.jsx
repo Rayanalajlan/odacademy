@@ -1202,26 +1202,27 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           margin: 10px auto 18px;
           border-radius: 50%;
           background:
-            radial-gradient(circle at 50% 38%, rgba(72, 48, 120, .98) 0 40%, rgba(30, 18, 52, .98) 41% 57%, transparent 58%),
+            radial-gradient(circle at 50% 40%, rgba(56, 34, 98, .98) 0 44%, rgba(24, 14, 44, .99) 45% 60%, transparent 61%),
             conic-gradient(from -90deg,
-              #a855f7 0%,
-              #c4b5fd ${progress}%,
-              rgba(255, 255, 255, .08) ${progress}% 100%);
+              #8b5cf6 0%,
+              #a855f7 ${Math.max(progress * 0.5, 1)}%,
+              #10b981 ${progress}%,
+              rgba(196, 181, 253, .30) ${progress}% 100%);
           box-shadow:
-            0 30px 80px rgba(124, 58, 237, .38),
-            0 0 0 1px rgba(196, 181, 253, .20),
-            inset 0 0 34px rgba(124, 58, 237, .30);
+            0 34px 90px rgba(124, 58, 237, .45),
+            0 0 0 2px rgba(196, 181, 253, .28),
+            inset 0 0 40px rgba(124, 58, 237, .34);
         }
 
         .od-main-gauge::after {
           content: "";
           position: absolute;
-          inset: -12px;
+          inset: -16px;
           border-radius: 50%;
           z-index: -1;
-          background: radial-gradient(circle, rgba(168, 85, 247, .34) 0%, transparent 66%);
-          filter: blur(10px);
-          animation: odGaugePulse 3.6s ease-in-out infinite;
+          background: radial-gradient(circle, rgba(139, 92, 246, .45) 0%, rgba(16, 185, 129, .18) 45%, transparent 70%);
+          filter: blur(12px);
+          animation: odGaugePulse 3.4s ease-in-out infinite;
         }
 
         .od-main-gauge::before {
