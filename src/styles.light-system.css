@@ -1428,6 +1428,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .about-rayan .ar-consultation,
   .about-rayan .ar-consultation-panel
 ) {
+  border-radius: 32px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root :is(
@@ -1453,6 +1454,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   textarea,
   select
 ) {
+  border-radius: 999px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root :is(
@@ -1489,6 +1491,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .jl-option > span:first-child,
   .radar-options-list button > span:first-child
 ) {
+  border-radius: 999px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root :is(
@@ -1693,6 +1696,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   border: 1px solid rgba(16, 185, 129, .34) !important;
   color: #0f6b45 !important;
   -webkit-text-fill-color: #0f6b45 !important;
+  border-radius: 24px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root :is(
@@ -1704,6 +1708,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   border: 1px solid rgba(190, 24, 93, .28) !important;
   color: #8a1f3d !important;
   -webkit-text-fill-color: #8a1f3d !important;
+  border-radius: 24px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root .radar-tab.active {
@@ -1721,6 +1726,7 @@ html[data-theme="light"] body.od-theme-light #root .radar-tab.active :is(strong,
 html[data-theme="light"] body.od-theme-light #root .sim-root .hero-metrics {
   background: linear-gradient(135deg, rgba(255, 255, 255, .72), rgba(245, 238, 255, .88)) !important;
   border: 1px solid #d9c9ff !important;
+  border-radius: 36px !important;
   padding: 12px !important;
   box-shadow: 0 20px 54px rgba(36, 22, 63, .10) !important;
 }
@@ -1728,6 +1734,7 @@ html[data-theme="light"] body.od-theme-light #root .sim-root .hero-metrics {
 html[data-theme="light"] body.od-theme-light #root .sim-root .hero-metric {
   background: linear-gradient(180deg, #ffffff 0%, #f5eeff 100%) !important;
   border: 1px solid #d9c9ff !important;
+  border-radius: 28px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root .sim-root .hero-metric span {
@@ -1840,6 +1847,7 @@ html[data-theme="light"] body.od-theme-light #root :is(.jl-ghost-btn, .od-button
   border: 1px solid #cdb8ff !important;
   color: #5b2ccf !important;
   -webkit-text-fill-color: #5b2ccf !important;
+  border-radius: 999px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root .jl-complete {
@@ -1847,6 +1855,7 @@ html[data-theme="light"] body.od-theme-light #root .jl-complete {
   border: 1px solid rgba(16, 185, 129, .32) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+  border-radius: 999px !important;
 }
 
 /* Regression recovery: light-only soft corners without layout changes. */
@@ -1873,6 +1882,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .certificate-frame,
   .certificate-inner
 ) {
+  border-radius: 42px !important;
   border-width: 1px !important;
 }
 
@@ -1899,6 +1909,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .about-rayan .ar-consultation,
   .about-rayan .ar-consultation-panel
 ) {
+  border-radius: 34px !important;
   border-width: 1px !important;
 }
 
@@ -1949,6 +1960,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .section-icon-grid__item,
   .od-feature-card
 ) {
+  border-radius: 30px !important;
   border-width: 1px !important;
 }
 
@@ -1965,6 +1977,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .od-feature-icon,
   .section-icon
 ) {
+  border-radius: 20px !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root :is(
@@ -1993,6 +2006,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .mode-badge,
   .points-badge
 ) {
+  border-radius: 999px !important;
   border-width: 1px !important;
 }
 
@@ -2009,6 +2023,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .field-textarea,
   .comment-box
 ) {
+  border-radius: 30px !important;
   border-width: 1px !important;
 }
 
@@ -2020,6 +2035,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .mode-switch,
   .tab-list
 ) {
+  border-radius: 34px !important;
   border-width: 1px !important;
 }
 
@@ -2047,6 +2063,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .ar-secondary-action,
   .ar-consultation-button
 ) {
+  border-radius: 999px !important;
   border-width: 1px !important;
 }
 
@@ -2060,6 +2077,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
   .alert,
   .toast
 ) {
+  border-radius: 26px !important;
   border-width: 1px !important;
 }
 
@@ -2080,24 +2098,4 @@ html[data-theme="light"] body.od-theme-light #root :is(
 ) {
   color: #8a1f3d !important;
   -webkit-text-fill-color: #8a1f3d !important;
-}
-
-/* ===========================================================================
-   Shape parity with Dark Mode (geometry-only)
-   ---------------------------------------------------------------------------
-   Light mode no longer overrides component/base geometry. Cards, panels,
-   inputs, tabs, stats, month/week/day cards and number badges now inherit the
-   exact same border-radius the Dark theme renders (it lives in the shared,
-   theme-agnostic component/base layer). Only the two canonical control radii
-   that Dark sets via dark-only rules are mirrored here, with identical values,
-   so the single remaining difference between the themes is colour, not shape.
-   =========================================================================== */
-html[data-theme="light"] body.od-theme-light #root :is(button, .btn, [class*="button"], .tab) {
-  border-radius: var(--radius-control, 18px) !important;
-}
-html[data-theme="light"] body.od-theme-light #root :is(.pill, .badge, .chip, .tag, .kicker, .eyebrow) {
-  border-radius: var(--radius-pill, 999px) !important;
-}
-html[data-theme="light"] body.od-theme-light #root .about-rayan .ar-lens b {
-  border-radius: 22px !important;
 }
