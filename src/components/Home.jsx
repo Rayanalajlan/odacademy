@@ -1202,32 +1202,67 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           margin: 10px auto 18px;
           border-radius: 50%;
           background:
-            radial-gradient(circle at center, rgba(28, 17, 48,.94) 0 58%, transparent 59%),
-            conic-gradient(#a855f7 0 ${progress}%, rgba(255,255,255,.16) ${progress}% 100%);
-          box-shadow: 0 24px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.14);
+            radial-gradient(circle at 50% 38%, rgba(72, 48, 120, .98) 0 40%, rgba(30, 18, 52, .98) 41% 57%, transparent 58%),
+            conic-gradient(from -90deg,
+              #a855f7 0%,
+              #c4b5fd ${progress}%,
+              rgba(255, 255, 255, .08) ${progress}% 100%);
+          box-shadow:
+            0 30px 80px rgba(124, 58, 237, .38),
+            0 0 0 1px rgba(196, 181, 253, .20),
+            inset 0 0 34px rgba(124, 58, 237, .30);
+        }
+
+        .od-main-gauge::after {
+          content: "";
+          position: absolute;
+          inset: -12px;
+          border-radius: 50%;
+          z-index: -1;
+          background: radial-gradient(circle, rgba(168, 85, 247, .34) 0%, transparent 66%);
+          filter: blur(10px);
+          animation: odGaugePulse 3.6s ease-in-out infinite;
         }
 
         .od-main-gauge::before {
           content: "";
           position: absolute;
-          inset: 18px;
+          inset: 20px;
           border-radius: 50%;
-          border: 1px solid rgba(255,255,255,.16);
+          border: 1px solid rgba(196, 181, 253, .32);
+          box-shadow:
+            inset 0 2px 0 rgba(255, 255, 255, .22),
+            inset 0 -14px 32px rgba(0, 0, 0, .42);
         }
 
         .od-main-gauge strong {
-          font-size: clamp(38px, 5vw, 52px);
+          position: relative;
+          z-index: 1;
+          font-size: clamp(40px, 5.2vw, 56px);
           line-height: 1;
           font-weight: 950;
+          color: #ffffff;
+          text-shadow: 0 2px 18px rgba(124, 58, 237, .6);
         }
 
         .od-main-gauge span {
+          position: relative;
+          z-index: 1;
           margin-top: 8px;
           display: block;
-          color: rgba(196, 181, 253,.72);
+          color: rgba(221, 212, 252, .95);
           font-size: 11px;
-          font-weight: 950;
+          font-weight: 900;
           text-align: center;
+        }
+
+        @keyframes odGaugePulse {
+          0%, 100% { opacity: .55; transform: scale(1); }
+          50%      { opacity: 1; transform: scale(1.05); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .od-main-gauge::after { animation: none; }
         }
 
         .od-command-mini {
