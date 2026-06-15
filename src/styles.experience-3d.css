@@ -304,3 +304,100 @@ html.od3d-ready .counter-grid   .od3d-reveal.od3d-in {
   html.od3d-ready .od-hero-inner > *,
   html.od3d-ready .public-hero > * { animation: none !important; }
 }
+
+/* ===========================================================================
+   8) توحيد الأشكال (v2.1) — معالجة الخانات/الشارات ذات الزوايا الحادة
+      وتوحيد العدّادات/المؤشّرات ضمن نظام 3D واحد. الهندسة موحّدة في الوضعين
+      (الألوان تبقى لكل وضع). نضبط الشكل فقط دون تحريك أو تغيير نص/ترتيب.
+   ملاحظة: styles.shape-system.css غير مُستورَد في المشروع، لذا الكبسولات
+   لم تكن تُطبَّق؛ نطبّقها هنا بدقّة وبأولوية كافية.
+   =========================================================================== */
+
+/* (أ) كل الشارات/الكبسولات/التسميات الصغيرة → كبسولة كاملة (لا زوايا حادة) */
+html body :is(
+  .od-chip,
+  .od-kicker,
+  .od-section-kicker,
+  .od-hero-note,
+  .od-feature-badge,
+  .public-badge,
+  .sample-kicker,
+  .kicker,
+  .chip,
+  .pill,
+  .badge,
+  .journey-pill,
+  .jl-pill,
+  .jl-status,
+  .radar-chip,
+  .radar-kicker,
+  .portfolio-mini-tag,
+  .monthly-badge,
+  .verify-state,
+  .rank-pill,
+  .mode-badge,
+  .points-badge,
+  .ar-eyebrow,
+  .ar-credential,
+  .ar-domain-mark,
+  .ar-section-head > div > span
+) {
+  border-radius: 999px !important;
+}
+
+/* (ب) أيقونات/مربّعات صغيرة كانت بزوايا حادة → زوايا ناعمة موحّدة */
+html body :is(
+  .od-feature-icon,
+  .section-icon,
+  .ar-domain-icon,
+  .ar-lens-icon,
+  .radar-domain-icon
+) {
+  border-radius: var(--radius-md) !important;
+}
+
+/* (ج) توحيد العدّادات/المؤشّرات المستطيلة ضمن نظام 3D واحد:
+       نفس الانحناء + نفس العمق (حافّة ضوئية علوية + ظلّ + حافّة بنفسجية). */
+html body :is(
+  .counter-card,
+  .od-stat-card,
+  .hero-metric,
+  .mastery-stat,
+  .profile-stat,
+  .report-stat,
+  .profile-metric,
+  .portfolio-stat,
+  .tm-counter
+) {
+  border-radius: var(--radius-md) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-sheen),
+    var(--color-shadow-lg),
+    0 0 0 1px var(--od3d-rim-soft) !important;
+  transition:
+    transform 0.42s var(--od3d-ease),
+    box-shadow 0.42s var(--od3d-ease) !important;
+}
+
+/* (د) العدّادات الدائرية/الحلقية (Orbs/Gauges) → نُبقي استدارتها ونمنحها نفس
+       لغة العمق والتوهّج، دون فرض زاوية مستطيلة عليها. */
+html body :is(
+  .score-orb,
+  .onboarding-progress-orb,
+  .roi-orbit-inner,
+  .od-indicator-score
+) {
+  box-shadow:
+    inset 0 2px 6px var(--od3d-glow-16),
+    0 12px 32px var(--od3d-glow-22),
+    0 0 0 1px var(--od3d-rim-soft) !important;
+}
+
+/* (هـ) ضمان وضوح الأرقام/النصوص داخل العدّادات (لا نخفّض الشفافية إطلاقًا) */
+html body :is(
+  .counter-card, .od-stat-card, .hero-metric, .mastery-stat,
+  .profile-stat, .report-stat, .profile-metric, .portfolio-stat,
+  .tm-counter, .score-orb, .od-indicator-score
+) :is(strong, b, span, small, em, time, h2, h3, h4) {
+  opacity: 1 !important;
+}
