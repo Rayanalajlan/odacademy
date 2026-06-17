@@ -1,0 +1,441 @@
+.neo-metric-gauge {
+  --neo-size: 176px;
+  --neo-pad: 13px;
+  --neo-value-size: 31px;
+  --neo-label-size: 11px;
+  --neo-sub-size: 10px;
+  --neo-main-text: #24163f;
+  --neo-label-text: #5e4b84;
+  --neo-sub-text: #6f5b96;
+  --neo-shell-a: rgba(255, 255, 255, .72);
+  --neo-shell-b: rgba(238, 229, 255, .78);
+  --neo-core-a: rgba(255, 255, 255, .93);
+  --neo-core-b: rgba(231, 220, 255, .82);
+  --neo-depth: rgba(85, 48, 138, .22);
+  --neo-track: rgba(94, 75, 132, .18);
+  --neo-accent: #7c3aed;
+  --neo-accent-bright: #a855f7;
+  --neo-accent-soft: #22d3ee;
+  --neo-glow: rgba(124, 58, 237, .28);
+  --neo-glow-strong: rgba(34, 211, 238, .34);
+  display: inline-grid;
+  inline-size: min(100%, var(--neo-size));
+  aspect-ratio: 1;
+  place-items: center;
+  margin: 0;
+  isolation: isolate;
+  direction: rtl;
+}
+
+.neo-metric-gauge--compact {
+  --neo-size: 132px;
+  --neo-pad: 9px;
+  --neo-value-size: 21px;
+  --neo-label-size: 9px;
+  --neo-sub-size: 8px;
+}
+
+.neo-metric-gauge--default {
+  --neo-size: 176px;
+}
+
+.neo-metric-gauge--hero {
+  --neo-size: 232px;
+  --neo-pad: 16px;
+  --neo-value-size: 46px;
+  --neo-label-size: 13px;
+  --neo-sub-size: 11px;
+}
+
+.neo-metric-gauge--complete {
+  --neo-accent: #10b981;
+  --neo-accent-bright: #34d399;
+  --neo-accent-soft: #22d3ee;
+  --neo-glow: rgba(16, 185, 129, .28);
+  --neo-glow-strong: rgba(34, 211, 238, .38);
+}
+
+.neo-metric-gauge--readiness,
+.neo-metric-gauge--available {
+  --neo-accent: #8b5cf6;
+  --neo-accent-bright: #c084fc;
+  --neo-accent-soft: #2dd4bf;
+  --neo-glow: rgba(139, 92, 246, .30);
+  --neo-glow-strong: rgba(45, 212, 191, .36);
+}
+
+.neo-metric-gauge--score {
+  --neo-accent: #22c55e;
+  --neo-accent-bright: #fde68a;
+  --neo-accent-soft: #8b5cf6;
+  --neo-glow: rgba(34, 197, 94, .24);
+  --neo-glow-strong: rgba(253, 230, 138, .28);
+}
+
+.neo-metric-gauge--warning {
+  --neo-accent: #d97706;
+  --neo-accent-bright: #fbbf24;
+  --neo-accent-soft: #a855f7;
+  --neo-glow: rgba(217, 119, 6, .24);
+  --neo-glow-strong: rgba(168, 85, 247, .24);
+}
+
+.neo-metric-gauge--locked {
+  --neo-accent: #8b8797;
+  --neo-accent-bright: #c4bdd4;
+  --neo-accent-soft: #a7a1b7;
+  --neo-main-text: #3f3654;
+  --neo-label-text: #706882;
+  --neo-sub-text: #847b94;
+  --neo-glow: rgba(104, 96, 120, .18);
+  --neo-glow-strong: rgba(104, 96, 120, .18);
+}
+
+.neo-metric-gauge__glass {
+  position: relative;
+  display: grid;
+  inline-size: 100%;
+  aspect-ratio: 1;
+  padding: var(--neo-pad);
+  place-items: center;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, var(--neo-shell-a), var(--neo-shell-b)),
+    radial-gradient(circle at 22% 16%, rgba(255, 255, 255, .86), transparent 34%);
+  border: 1px solid rgba(167, 139, 250, .24);
+  box-shadow:
+    0 28px 62px rgba(36, 22, 63, .15),
+    0 10px 26px var(--neo-glow),
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    inset 0 -18px 34px var(--neo-depth);
+  transform: perspective(800px) rotateX(7deg);
+}
+
+.neo-metric-gauge__glass::before,
+.neo-metric-gauge__glass::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.neo-metric-gauge__glass::before {
+  inset: 9%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .70), transparent 18%),
+    radial-gradient(circle at 70% 82%, var(--neo-glow), transparent 34%);
+  filter: blur(1px);
+  opacity: .78;
+}
+
+.neo-metric-gauge__glass::after {
+  inset: -9%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 48% 45%, var(--neo-glow-strong), transparent 46%),
+    radial-gradient(circle at 50% 80%, rgba(36, 22, 63, .18), transparent 55%);
+  filter: blur(13px);
+  opacity: .72;
+}
+
+.neo-metric-gauge__orb {
+  position: relative;
+  display: grid;
+  inline-size: 100%;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  overflow: visible;
+  background:
+    radial-gradient(circle at 31% 23%, rgba(255, 255, 255, .96) 0 8%, rgba(255, 255, 255, .42) 9% 20%, transparent 21%),
+    radial-gradient(circle at 50% 44%, var(--neo-core-a) 0 43%, var(--neo-core-b) 44% 69%, rgba(124, 58, 237, .16) 70% 100%);
+  box-shadow:
+    inset 10px 14px 30px rgba(255, 255, 255, .45),
+    inset -18px -24px 42px rgba(36, 22, 63, .18),
+    inset 0 0 0 1px rgba(255, 255, 255, .44);
+}
+
+.neo-metric-gauge__orbit {
+  position: absolute;
+  inset: -5%;
+  inline-size: 110%;
+  block-size: 110%;
+  overflow: visible;
+  transform: rotate(-90deg) rotateX(58deg) rotateZ(-11deg);
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 0 10px var(--neo-glow-strong));
+}
+
+.neo-metric-gauge__orbit-track,
+.neo-metric-gauge__orbit-progress {
+  fill: none;
+  stroke-width: 7.5;
+}
+
+.neo-metric-gauge__orbit-track {
+  stroke: var(--neo-track);
+}
+
+.neo-metric-gauge__orbit-progress {
+  stroke-linecap: round;
+  stroke-dasharray: var(--neo-circ);
+  stroke-dashoffset: var(--neo-offset);
+  animation: neoMetricOrbitDraw .95s cubic-bezier(.2, .8, .2, 1) both;
+  transition: stroke-dashoffset .65s cubic-bezier(.2, .8, .2, 1);
+}
+
+.neo-metric-gauge__spark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0 18%, var(--neo-accent-soft) 20% 55%, transparent 72%);
+  box-shadow:
+    0 0 12px var(--neo-accent-soft),
+    0 0 24px var(--neo-glow-strong);
+  transform: translate(-50%, -50%) rotate(var(--neo-angle)) translateY(calc(var(--neo-size) * -.43));
+  transform-origin: center;
+  transition: transform .65s cubic-bezier(.2, .8, .2, 1), opacity .35s ease;
+}
+
+.neo-metric-gauge__inner-shadow {
+  position: absolute;
+  inset: 17%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 24%, rgba(255, 255, 255, .74), transparent 22%),
+    radial-gradient(circle at 52% 66%, rgba(124, 58, 237, .08), transparent 55%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .42),
+    inset 0 -16px 30px rgba(36, 22, 63, .14),
+    0 12px 34px rgba(36, 22, 63, .08);
+  pointer-events: none;
+}
+
+.neo-metric-gauge__core {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  max-inline-size: 74%;
+  min-block-size: 48%;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  color: var(--neo-main-text);
+  animation: neoMetricValueIn .5s ease both;
+}
+
+.neo-metric-gauge__icon {
+  display: grid;
+  inline-size: 24px;
+  block-size: 24px;
+  margin-block-end: 2px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .56);
+  color: var(--neo-accent);
+  font-size: 14px;
+  line-height: 1;
+  box-shadow: inset 0 -5px 12px rgba(36, 22, 63, .10);
+}
+
+.neo-metric-gauge--hero .neo-metric-gauge__icon {
+  inline-size: 32px;
+  block-size: 32px;
+  font-size: 18px;
+}
+
+.neo-metric-gauge__value {
+  display: block;
+  max-inline-size: 100%;
+  color: var(--neo-main-text);
+  font-size: var(--neo-value-size);
+  font-weight: 950;
+  line-height: 1.04;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .35), 0 10px 22px var(--neo-glow);
+}
+
+.neo-metric-gauge__label {
+  display: block;
+  max-inline-size: 100%;
+  margin-block-start: 6px;
+  color: var(--neo-label-text);
+  font-size: var(--neo-label-size);
+  font-weight: 900;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.neo-metric-gauge__sub-label {
+  display: block;
+  max-inline-size: 100%;
+  margin-block-start: 4px;
+  color: var(--neo-sub-text);
+  font-size: var(--neo-sub-size);
+  font-weight: 830;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.od-timer-grid,
+.od-command-mini,
+.portfolio-stats,
+.mastery-stats,
+.profile-metrics,
+.profile-stats-grid,
+.counter-grid,
+.radar-metrics,
+.hero-metrics,
+.report-stats-grid,
+.admin-metrics {
+  align-items: center;
+  justify-items: center;
+}
+
+.od-progress-gauge,
+.od-main-neo-gauge,
+.portfolio-hero-gauge,
+.mastery-hero-gauge,
+.roi-readiness-gauge,
+.radar-summary-gauge,
+.onboarding-progress-gauge,
+.jl-hero-gauge,
+.journey-ring-gauge,
+.weekly-reflection-gauge,
+.mobile-nav-progress-gauge,
+.monthly-status-gauge,
+.tm-counter-gauge {
+  margin-inline: auto;
+}
+
+.profile-metrics .neo-metric-gauge,
+.profile-stats-grid .neo-metric-gauge,
+.radar-metrics .neo-metric-gauge,
+.hero-metrics .neo-metric-gauge,
+.admin-metrics .neo-metric-gauge,
+.report-stats-grid .neo-metric-gauge {
+  inline-size: min(100%, 132px);
+}
+
+.roi-result-gauge-card {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  align-content: start;
+  min-block-size: 100%;
+  text-align: center;
+}
+
+.roi-result-gauge-card p {
+  margin: 0;
+  color: var(--muted, #5e4b84);
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.8;
+}
+
+body.od-theme-dark .roi-result-gauge-card p,
+html[data-theme="dark"] body.od-theme-dark .roi-result-gauge-card p {
+  color: #d8c7ff;
+}
+
+.radar-score-row {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.radar-question-gauge,
+.decision-progress-gauge,
+.mastery-lock-gauge,
+.monthly-card-gauge,
+.course-search-gauge,
+.verify-days-gauge {
+  justify-self: center;
+}
+
+.mobile-nav-panel .mobile-nav-progress-gauge,
+.course-search-shell .course-search-gauge {
+  inline-size: min(100%, 132px);
+}
+
+.lesson-progress-card .neo-metric-gauge,
+.radar-row .neo-metric-gauge,
+.achievement-row .neo-metric-gauge {
+  margin-block: 10px;
+}
+
+html[data-theme="dark"] body.od-theme-dark .neo-metric-gauge,
+body.od-theme-dark .neo-metric-gauge {
+  --neo-main-text: #f4eeff;
+  --neo-label-text: #d8c7ff;
+  --neo-sub-text: #c7b9ee;
+  --neo-shell-a: rgba(44, 26, 76, .72);
+  --neo-shell-b: rgba(18, 10, 34, .90);
+  --neo-core-a: rgba(62, 37, 106, .96);
+  --neo-core-b: rgba(21, 12, 39, .98);
+  --neo-depth: rgba(0, 0, 0, .42);
+  --neo-track: rgba(216, 199, 255, .18);
+}
+
+html[data-theme="dark"] body.od-theme-dark .neo-metric-gauge__glass,
+body.od-theme-dark .neo-metric-gauge__glass {
+  border-color: rgba(216, 199, 255, .20);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, .34),
+    0 10px 28px var(--neo-glow),
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    inset 0 -22px 40px var(--neo-depth);
+}
+
+html[data-theme="dark"] body.od-theme-dark .neo-metric-gauge__orb,
+body.od-theme-dark .neo-metric-gauge__orb {
+  box-shadow:
+    inset 10px 14px 30px rgba(255, 255, 255, .08),
+    inset -20px -26px 46px rgba(0, 0, 0, .54),
+    inset 0 0 0 1px rgba(255, 255, 255, .12);
+}
+
+html[data-theme="dark"] body.od-theme-dark .neo-metric-gauge--locked,
+body.od-theme-dark .neo-metric-gauge--locked {
+  --neo-main-text: #ebe7f4;
+  --neo-label-text: #c7c1d4;
+  --neo-sub-text: #aaa2bb;
+}
+
+@keyframes neoMetricOrbitDraw {
+  from {
+    stroke-dashoffset: var(--neo-circ);
+  }
+}
+
+@keyframes neoMetricValueIn {
+  from {
+    opacity: 0;
+    transform: translateY(7px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-metric-gauge__orbit-progress,
+  .neo-metric-gauge__core,
+  .neo-metric-gauge__spark {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .neo-metric-gauge--hero {
+    --neo-size: 204px;
+    --neo-value-size: 40px;
+  }
+}

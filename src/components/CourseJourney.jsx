@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
 import SavedLessonsPanel from "./SavedLessonsPanel";
+import NeoMetricGauge from "./NeoMetricGauge";
 import {
   deleteLessonBookmarkByLocation,
   listLessonBookmarks,
@@ -11,71 +12,71 @@ import {
 } from "../lib/lessonBookmarkService";
 
 const stateLabels = {
-  locked: "مقفل",
-  active: "متاح",
-  completed: "مكتمل"
+  locked: "Ù…Ù‚ÙÙ„",
+  active: "Ù…ØªØ§Ø­",
+  completed: "Ù…ÙƒØªÙ…Ù„"
 };
 
 const stageMeta = {
   months: {
-    kicker: "بوابة الرحلة",
-    title: "اختر الشهر",
-    note: "لا يظهر لك كل المحتوى دفعة واحدة. ابدأ بالشهر، ثم افتح الأسبوع، ثم اليوم، ثم الدرس والاختبار.",
-    quote: "لا تبدأ بالحل. افهم النظام أولًا."
+    kicker: "Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„Ø±Ø­Ù„Ø©",
+    title: "Ø§Ø®ØªØ± Ø§Ù„Ø´Ù‡Ø±",
+    note: "Ù„Ø§ ÙŠØ¸Ù‡Ø± Ù„Ùƒ ÙƒÙ„ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©. Ø§Ø¨Ø¯Ø£ Ø¨Ø§Ù„Ø´Ù‡Ø±ØŒ Ø«Ù… Ø§ÙØªØ­ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ØŒ Ø«Ù… Ø§Ù„ÙŠÙˆÙ…ØŒ Ø«Ù… Ø§Ù„Ø¯Ø±Ø³ ÙˆØ§Ù„Ø§Ø®ØªØ¨Ø§Ø±.",
+    quote: "Ù„Ø§ ØªØ¨Ø¯Ø£ Ø¨Ø§Ù„Ø­Ù„. Ø§ÙÙ‡Ù… Ø§Ù„Ù†Ø¸Ø§Ù… Ø£ÙˆÙ„Ù‹Ø§."
   },
   weeks: {
-    kicker: "خريطة الشهر",
-    title: "اختر الأسبوع",
-    note: "كل أسبوع بوابة معرفية مستقلة. لا تنتقل للبوابة التالية إلا بعد إكمال ما قبلها.",
-    quote: "الإتقان ليس سرعة الوصول؛ بل جودة العبور."
+    kicker: "Ø®Ø±ÙŠØ·Ø© Ø§Ù„Ø´Ù‡Ø±",
+    title: "Ø§Ø®ØªØ± Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹",
+    note: "ÙƒÙ„ Ø£Ø³Ø¨ÙˆØ¹ Ø¨ÙˆØ§Ø¨Ø© Ù…Ø¹Ø±ÙÙŠØ© Ù…Ø³ØªÙ‚Ù„Ø©. Ù„Ø§ ØªÙ†ØªÙ‚Ù„ Ù„Ù„Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„ØªØ§Ù„ÙŠØ© Ø¥Ù„Ø§ Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ù…Ø§ Ù‚Ø¨Ù„Ù‡Ø§.",
+    quote: "Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ù„ÙŠØ³ Ø³Ø±Ø¹Ø© Ø§Ù„ÙˆØµÙˆÙ„Ø› Ø¨Ù„ Ø¬ÙˆØ¯Ø© Ø§Ù„Ø¹Ø¨ÙˆØ±."
   },
   days: {
-    kicker: "مسار الأسبوع",
-    title: "اختر اليوم",
-    note: "كل أسبوع يحتوي على سبعة أيام تعليمية. كل يوم يفتح بعد إكمال اليوم السابق.",
-    quote: "اليوم الصغير المتقن يصنع عقلًا مهنيًا كبيرًا."
+    kicker: "Ù…Ø³Ø§Ø± Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹",
+    title: "Ø§Ø®ØªØ± Ø§Ù„ÙŠÙˆÙ…",
+    note: "ÙƒÙ„ Ø£Ø³Ø¨ÙˆØ¹ ÙŠØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ Ø³Ø¨Ø¹Ø© Ø£ÙŠØ§Ù… ØªØ¹Ù„ÙŠÙ…ÙŠØ©. ÙƒÙ„ ÙŠÙˆÙ… ÙŠÙØªØ­ Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„ÙŠÙˆÙ… Ø§Ù„Ø³Ø§Ø¨Ù‚.",
+    quote: "Ø§Ù„ÙŠÙˆÙ… Ø§Ù„ØµØºÙŠØ± Ø§Ù„Ù…ØªÙ‚Ù† ÙŠØµÙ†Ø¹ Ø¹Ù‚Ù„Ù‹Ø§ Ù…Ù‡Ù†ÙŠÙ‹Ø§ ÙƒØ¨ÙŠØ±Ù‹Ø§."
   },
   lesson: {
-    kicker: "غرفة الدرس والاختبار",
-    title: "اقرأ الدرس ثم اختبر فهمك",
-    note: "الدرس منسق إلى فقرات وأقسام، ثم يأتي اختبار اليوم بثلاثة أسئلة متعددة الخيارات.",
-    quote: "لا تحفظ النص؛ استخرج منه حكمًا مهنيًا."
+    kicker: "ØºØ±ÙØ© Ø§Ù„Ø¯Ø±Ø³ ÙˆØ§Ù„Ø§Ø®ØªØ¨Ø§Ø±",
+    title: "Ø§Ù‚Ø±Ø£ Ø§Ù„Ø¯Ø±Ø³ Ø«Ù… Ø§Ø®ØªØ¨Ø± ÙÙ‡Ù…Ùƒ",
+    note: "Ø§Ù„Ø¯Ø±Ø³ Ù…Ù†Ø³Ù‚ Ø¥Ù„Ù‰ ÙÙ‚Ø±Ø§Øª ÙˆØ£Ù‚Ø³Ø§Ù…ØŒ Ø«Ù… ÙŠØ£ØªÙŠ Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ… Ø¨Ø«Ù„Ø§Ø«Ø© Ø£Ø³Ø¦Ù„Ø© Ù…ØªØ¹Ø¯Ø¯Ø© Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª.",
+    quote: "Ù„Ø§ ØªØ­ÙØ¸ Ø§Ù„Ù†ØµØ› Ø§Ø³ØªØ®Ø±Ø¬ Ù…Ù†Ù‡ Ø­ÙƒÙ…Ù‹Ø§ Ù…Ù‡Ù†ÙŠÙ‹Ø§."
   }
 };
 
 const ARABIC_ORDINAL = {
-  1: "الأول",
-  2: "الثاني",
-  3: "الثالث",
-  4: "الرابع",
-  5: "الخامس",
-  6: "السادس",
-  7: "السابع"
+  1: "Ø§Ù„Ø£ÙˆÙ„",
+  2: "Ø§Ù„Ø«Ø§Ù†ÙŠ",
+  3: "Ø§Ù„Ø«Ø§Ù„Ø«",
+  4: "Ø§Ù„Ø±Ø§Ø¨Ø¹",
+  5: "Ø§Ù„Ø®Ø§Ù…Ø³",
+  6: "Ø§Ù„Ø³Ø§Ø¯Ø³",
+  7: "Ø§Ù„Ø³Ø§Ø¨Ø¹"
 };
 
 const HEADING_PHRASES = [
-  "الفكرة المركزية",
-  "ما المقصود بالتطوير التنظيمي؟",
-  "لماذا لا تبدأ بالحل؟",
-  "الفرق بين الشكوى والفرضية والدليل",
-  "قاعدة اليوم",
-  "تطبيق اليوم",
-  "أداة اليوم",
-  "مثال تطبيقي",
-  "لماذا هذا مهم؟",
-  "متى نستخدمه؟",
-  "متى لا نستخدمه؟",
-  "أخطاء شائعة",
-  "مكونات الخطة",
-  "مؤشرات النجاح",
-  "المهمة النهائية",
-  "الحصيلة المعرفية",
-  "القراءة المهنية",
-  "البيانات المطلوبة",
-  "مخاطر التطبيق",
-  "خطة التنفيذ",
-  "خطة القياس",
-  "خطة الاستدامة"
+  "Ø§Ù„ÙÙƒØ±Ø© Ø§Ù„Ù…Ø±ÙƒØ²ÙŠØ©",
+  "Ù…Ø§ Ø§Ù„Ù…Ù‚ØµÙˆØ¯ Ø¨Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØŸ",
+  "Ù„Ù…Ø§Ø°Ø§ Ù„Ø§ ØªØ¨Ø¯Ø£ Ø¨Ø§Ù„Ø­Ù„ØŸ",
+  "Ø§Ù„ÙØ±Ù‚ Ø¨ÙŠÙ† Ø§Ù„Ø´ÙƒÙˆÙ‰ ÙˆØ§Ù„ÙØ±Ø¶ÙŠØ© ÙˆØ§Ù„Ø¯Ù„ÙŠÙ„",
+  "Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„ÙŠÙˆÙ…",
+  "ØªØ·Ø¨ÙŠÙ‚ Ø§Ù„ÙŠÙˆÙ…",
+  "Ø£Ø¯Ø§Ø© Ø§Ù„ÙŠÙˆÙ…",
+  "Ù…Ø«Ø§Ù„ ØªØ·Ø¨ÙŠÙ‚ÙŠ",
+  "Ù„Ù…Ø§Ø°Ø§ Ù‡Ø°Ø§ Ù…Ù‡Ù…ØŸ",
+  "Ù…ØªÙ‰ Ù†Ø³ØªØ®Ø¯Ù…Ù‡ØŸ",
+  "Ù…ØªÙ‰ Ù„Ø§ Ù†Ø³ØªØ®Ø¯Ù…Ù‡ØŸ",
+  "Ø£Ø®Ø·Ø§Ø¡ Ø´Ø§Ø¦Ø¹Ø©",
+  "Ù…ÙƒÙˆÙ†Ø§Øª Ø§Ù„Ø®Ø·Ø©",
+  "Ù…Ø¤Ø´Ø±Ø§Øª Ø§Ù„Ù†Ø¬Ø§Ø­",
+  "Ø§Ù„Ù…Ù‡Ù…Ø© Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©",
+  "Ø§Ù„Ø­ØµÙŠÙ„Ø© Ø§Ù„Ù…Ø¹Ø±ÙÙŠØ©",
+  "Ø§Ù„Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„Ù…Ù‡Ù†ÙŠØ©",
+  "Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©",
+  "Ù…Ø®Ø§Ø·Ø± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚",
+  "Ø®Ø·Ø© Ø§Ù„ØªÙ†ÙÙŠØ°",
+  "Ø®Ø·Ø© Ø§Ù„Ù‚ÙŠØ§Ø³",
+  "Ø®Ø·Ø© Ø§Ù„Ø§Ø³ØªØ¯Ø§Ù…Ø©"
 ];
 
 function toNumber(value, fallback = 0) {
@@ -104,7 +105,7 @@ function progressKey(monthIndex, weekIndex, dayIndex) {
 
 function arabicPercent(value) {
   const clean = Number.isFinite(value) ? value : 0;
-  return `${Math.round(clean)}٪`;
+  return `${Math.round(clean)}Ùª`;
 }
 
 function seededHash(text) {
@@ -179,8 +180,8 @@ function normalizeCourse(raw = []) {
           monthIndex,
           weekIndex,
           dayIndex,
-          label: day.label || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
-          title: day.title || day.name || `اليوم ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          label: day.label || `Ø§Ù„ÙŠÙˆÙ… ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
+          title: day.title || day.name || `Ø§Ù„ÙŠÙˆÙ… ${ARABIC_ORDINAL[dayIndex] || dayIndex}`,
           content,
           quiz: day.quiz || day.questions || null,
           quizAnswerKey: day.quizAnswerKey || day.answerKey || day.correctAnswers || null
@@ -192,7 +193,7 @@ function normalizeCourse(raw = []) {
         id: week.id || `m${monthIndex}-w${weekIndex}`,
         monthIndex,
         weekIndex,
-        title: week.title || week.name || `الأسبوع ${ARABIC_ORDINAL[weekIndex] || weekIndex}`,
+        title: week.title || week.name || `Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ${ARABIC_ORDINAL[weekIndex] || weekIndex}`,
         subtitle: week.subtitle || week.description || "",
         intro: safeText(week.intro ?? week.summary ?? ""),
         days
@@ -203,7 +204,7 @@ function normalizeCourse(raw = []) {
       ...month,
       id: month.id || `m${monthIndex}`,
       monthIndex,
-      title: month.title || month.name || `الشهر ${monthIndex}`,
+      title: month.title || month.name || `Ø§Ù„Ø´Ù‡Ø± ${monthIndex}`,
       subtitle: month.subtitle || month.description || "",
       weeks
     };
@@ -266,11 +267,11 @@ function splitQuizFromText(rawText) {
   const text = safeText(rawText);
 
   const cleanText = text
-    .replace(/ملحق غير مخصص لنسخة المتدرب[\s\S]*$/g, "")
-    .replace(/مفتاح إجابات[\s\S]*$/g, "")
+    .replace(/Ù…Ù„Ø­Ù‚ ØºÙŠØ± Ù…Ø®ØµØµ Ù„Ù†Ø³Ø®Ø© Ø§Ù„Ù…ØªØ¯Ø±Ø¨[\s\S]*$/g, "")
+    .replace(/Ù…ÙØªØ§Ø­ Ø¥Ø¬Ø§Ø¨Ø§Øª[\s\S]*$/g, "")
     .trim();
 
-  const quizMatch = cleanText.match(/اختبار\s+اليوم[\s\S]*$/);
+  const quizMatch = cleanText.match(/Ø§Ø®ØªØ¨Ø§Ø±\s+Ø§Ù„ÙŠÙˆÙ…[\s\S]*$/);
   if (!quizMatch) {
     return { lessonText: cleanText, quizText: "" };
   }
@@ -342,26 +343,26 @@ function normalizeStructuredQuiz(day) {
 }
 
 const ARABIC_DAY_NAMES = {
-  1: ["الأول", "الاول", "١", "1"],
-  2: ["الثاني", "٢", "2"],
-  3: ["الثالث", "٣", "3"],
-  4: ["الرابع", "٤", "4"],
-  5: ["الخامس", "٥", "5"],
-  6: ["السادس", "٦", "6"],
-  7: ["السابع", "٧", "7"]
+  1: ["Ø§Ù„Ø£ÙˆÙ„", "Ø§Ù„Ø§ÙˆÙ„", "Ù¡", "1"],
+  2: ["Ø§Ù„Ø«Ø§Ù†ÙŠ", "Ù¢", "2"],
+  3: ["Ø§Ù„Ø«Ø§Ù„Ø«", "Ù£", "3"],
+  4: ["Ø§Ù„Ø±Ø§Ø¨Ø¹", "Ù¤", "4"],
+  5: ["Ø§Ù„Ø®Ø§Ù…Ø³", "Ù¥", "5"],
+  6: ["Ø§Ù„Ø³Ø§Ø¯Ø³", "Ù¦", "6"],
+  7: ["Ø§Ù„Ø³Ø§Ø¨Ø¹", "Ù§", "7"]
 };
 
 function normalizeAnswerLetter(value) {
   const letter = safeText(value).trim().toUpperCase();
   const map = {
-    "أ": "A",
-    "ا": "A",
+    "Ø£": "A",
+    "Ø§": "A",
     "A": "A",
-    "ب": "B",
+    "Ø¨": "B",
     "B": "B",
-    "ج": "C",
+    "Ø¬": "C",
     "C": "C",
-    "د": "D",
+    "Ø¯": "D",
     "D": "D"
   };
 
@@ -370,24 +371,24 @@ function normalizeAnswerLetter(value) {
 
 function normalizeArabicDigits(value) {
   const digits = {
-    "٠": "0",
-    "١": "1",
-    "٢": "2",
-    "٣": "3",
-    "٤": "4",
-    "٥": "5",
-    "٦": "6",
-    "٧": "7",
-    "٨": "8",
-    "٩": "9"
+    "Ù ": "0",
+    "Ù¡": "1",
+    "Ù¢": "2",
+    "Ù£": "3",
+    "Ù¤": "4",
+    "Ù¥": "5",
+    "Ù¦": "6",
+    "Ù§": "7",
+    "Ù¨": "8",
+    "Ù©": "9"
   };
 
-  return safeText(value).replace(/[٠-٩]/g, (digit) => digits[digit] || digit);
+  return safeText(value).replace(/[Ù -Ù©]/g, (digit) => digits[digit] || digit);
 }
 
 function getAnswerKeyBlockForDay(day, fullText) {
   const text = normalizeArabicDigits(fullText);
-  const answerKeyIndex = text.search(/مفتاح\s+إجابات|مفتاح\s+الاجابات|مفاتيح\s+الإجابة|مفاتيح\s+الاجابة/);
+  const answerKeyIndex = text.search(/Ù…ÙØªØ§Ø­\s+Ø¥Ø¬Ø§Ø¨Ø§Øª|Ù…ÙØªØ§Ø­\s+Ø§Ù„Ø§Ø¬Ø§Ø¨Ø§Øª|Ù…ÙØ§ØªÙŠØ­\s+Ø§Ù„Ø¥Ø¬Ø§Ø¨Ø©|Ù…ÙØ§ØªÙŠØ­\s+Ø§Ù„Ø§Ø¬Ø§Ø¨Ø©/);
 
   if (answerKeyIndex < 0) return "";
 
@@ -395,7 +396,7 @@ function getAnswerKeyBlockForDay(day, fullText) {
   const dayNames = ARABIC_DAY_NAMES[Number(day?.dayIndex)] || [];
 
   for (const dayName of dayNames) {
-    const pattern = new RegExp(`اليوم\\s+${escapeRegExp(dayName)}\\s*[:：]?([\\s\\S]*?)(?=\\n\\s*اليوم\\s+(?:الأول|الاول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|[1-7])\\s*[:：]?|$)`);
+    const pattern = new RegExp(`Ø§Ù„ÙŠÙˆÙ…\\s+${escapeRegExp(dayName)}\\s*[:ï¼š]?([\\s\\S]*?)(?=\\n\\s*Ø§Ù„ÙŠÙˆÙ…\\s+(?:Ø§Ù„Ø£ÙˆÙ„|Ø§Ù„Ø§ÙˆÙ„|Ø§Ù„Ø«Ø§Ù†ÙŠ|Ø§Ù„Ø«Ø§Ù„Ø«|Ø§Ù„Ø±Ø§Ø¨Ø¹|Ø§Ù„Ø®Ø§Ù…Ø³|Ø§Ù„Ø³Ø§Ø¯Ø³|Ø§Ù„Ø³Ø§Ø¨Ø¹|[1-7])\\s*[:ï¼š]?|$)`);
     const match = answerText.match(pattern);
     if (match?.[1]) return match[1];
   }
@@ -434,7 +435,7 @@ function extractAnswerKeyMap(day, fullText) {
 
   if (!block) return map;
 
-  const regex = /(?:السؤال\s*)?([1-9]\d*)\s*[-–—:：]\s*([A-Dأابجد])/gi;
+  const regex = /(?:Ø§Ù„Ø³Ø¤Ø§Ù„\s*)?([1-9]\d*)\s*[-â€“â€”:ï¼š]\s*([A-DØ£Ø§Ø¨Ø¬Ø¯])/gi;
   let match;
 
   while ((match = regex.exec(block)) !== null) {
@@ -481,27 +482,27 @@ function parseQuizText(day, quizText, fullText = "") {
 
   const blocks = text
     .replace(/\r/g, "")
-    .split(/(?=السؤال\s+\d+)/g)
+    .split(/(?=Ø§Ù„Ø³Ø¤Ø§Ù„\s+\d+)/g)
     .map((item) => item.trim())
-    .filter((item) => /^السؤال\s+\d+/.test(item));
+    .filter((item) => /^Ø§Ù„Ø³Ø¤Ø§Ù„\s+\d+/.test(item));
 
   const questions = blocks.map((block, index) => {
-    const withoutLabel = block.replace(/^السؤال\s+\d+\s*/g, "").trim();
+    const withoutLabel = block.replace(/^Ø§Ù„Ø³Ø¤Ø§Ù„\s+\d+\s*/g, "").trim();
 
-    // يدعم الخيارات الإنجليزية A/B/C/D والخيارات العربية أ/ب/ج/د.
-    const questionMatch = withoutLabel.match(/^([\s\S]*?)(?=\s+(?:[A-D]|أ|ب|ج|د)\.)/);
+    // ÙŠØ¯Ø¹Ù… Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© A/B/C/D ÙˆØ§Ù„Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ø£/Ø¨/Ø¬/Ø¯.
+    const questionMatch = withoutLabel.match(/^([\s\S]*?)(?=\s+(?:[A-D]|Ø£|Ø¨|Ø¬|Ø¯)\.)/);
     const question = questionMatch ? questionMatch[1].trim() : withoutLabel;
 
     const options = [];
-    const optionRegex = /([A-D]|أ|ب|ج|د)\.\s*([\s\S]*?)(?=(?:\s+(?:[A-D]|أ|ب|ج|د)\.)|$)/g;
+    const optionRegex = /([A-D]|Ø£|Ø¨|Ø¬|Ø¯)\.\s*([\s\S]*?)(?=(?:\s+(?:[A-D]|Ø£|Ø¨|Ø¬|Ø¯)\.)|$)/g;
     let match;
 
     while ((match = optionRegex.exec(withoutLabel)) !== null) {
       const optionKeyMap = {
-        "أ": "A",
-        "ب": "B",
-        "ج": "C",
-        "د": "D"
+        "Ø£": "A",
+        "Ø¨": "B",
+        "Ø¬": "C",
+        "Ø¯": "D"
       };
 
       options.push({
@@ -515,7 +516,7 @@ function parseQuizText(day, quizText, fullText = "") {
     return {
       id: `${day.id}-parsed-q-${index + 1}`,
       question,
-      // تعديل مهم: لا نعيد ترتيب الخيارات؛ حتى تبقى كما وردت في المحتوى التعليمي.
+      // ØªØ¹Ø¯ÙŠÙ„ Ù…Ù‡Ù…: Ù„Ø§ Ù†Ø¹ÙŠØ¯ ØªØ±ØªÙŠØ¨ Ø§Ù„Ø®ÙŠØ§Ø±Ø§ØªØ› Ø­ØªÙ‰ ØªØ¨Ù‚Ù‰ ÙƒÙ…Ø§ ÙˆØ±Ø¯Øª ÙÙŠ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ.
       options,
       hasKnownCorrectAnswer: false
     };
@@ -530,7 +531,7 @@ function prepareLesson(day) {
   const parsedQuiz = parseQuizText(day, quizText, fullText);
 
   return {
-    // النص الكامل محفوظ داخليًا للمعالجة، ولا يُعرض للمتدرب كملف مصدر.
+    // Ø§Ù„Ù†Øµ Ø§Ù„ÙƒØ§Ù…Ù„ Ù…Ø­ÙÙˆØ¸ Ø¯Ø§Ø®Ù„ÙŠÙ‹Ø§ Ù„Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©ØŒ ÙˆÙ„Ø§ ÙŠÙØ¹Ø±Ø¶ Ù„Ù„Ù…ØªØ¯Ø±Ø¨ ÙƒÙ…Ù„Ù Ù…ØµØ¯Ø±.
     fullText,
     lessonText,
     quizText,
@@ -544,13 +545,13 @@ function prepareReadableText(rawText) {
     .replace(/\r/g, "")
     .replace(/[ \t]+/g, " ")
     .replace(/([^\n])(\d+\.\s)/g, "$1\n\n$2")
-    .replace(/([^\n])([•·]\s)/g, "$1\n$2")
-    .replace(/([^\n])(السؤال\s+\d+)/g, "$1\n\n$2")
-    .replace(/([؟.!])(?=[اأإآء-ي])/g, "$1\n")
-    .replace(/(:)(?=[اأإآء-ي])/g, "$1\n");
+    .replace(/([^\n])([â€¢Â·]\s)/g, "$1\n$2")
+    .replace(/([^\n])(Ø§Ù„Ø³Ø¤Ø§Ù„\s+\d+)/g, "$1\n\n$2")
+    .replace(/([ØŸ.!])(?=[Ø§Ø£Ø¥Ø¢Ø¡-ÙŠ])/g, "$1\n")
+    .replace(/(:)(?=[Ø§Ø£Ø¥Ø¢Ø¡-ÙŠ])/g, "$1\n");
 
   HEADING_PHRASES.forEach((heading) => {
-    const pattern = new RegExp(`(\\d+\\.\\s*${escapeRegExp(heading)})(?=[اأإآء-ي])`, "g");
+    const pattern = new RegExp(`(\\d+\\.\\s*${escapeRegExp(heading)})(?=[Ø§Ø£Ø¥Ø¢Ø¡-ÙŠ])`, "g");
     text = text.replace(pattern, "$1\n");
   });
 
@@ -564,7 +565,7 @@ function RichLesson({ text }) {
   const lines = prepareReadableText(text);
 
   if (!lines.length) {
-    return <div className="jl-empty">لا يوجد نص لهذا اليوم بعد.</div>;
+    return <div className="jl-empty">Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù†Øµ Ù„Ù‡Ø°Ø§ Ø§Ù„ÙŠÙˆÙ… Ø¨Ø¹Ø¯.</div>;
   }
 
   return (
@@ -572,15 +573,15 @@ function RichLesson({ text }) {
       {lines.map((line, index) => {
         const key = `${index}-${line.slice(0, 16)}`;
 
-        if (/^الشهر\s+/.test(line)) {
+        if (/^Ø§Ù„Ø´Ù‡Ø±\s+/.test(line)) {
           return <h1 key={key}>{line}</h1>;
         }
 
-        if (/^الأسبوع\s+/.test(line)) {
+        if (/^Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹\s+/.test(line)) {
           return <h2 key={key}>{line}</h2>;
         }
 
-        if (/^اليوم\s+/.test(line)) {
+        if (/^Ø§Ù„ÙŠÙˆÙ…\s+/.test(line)) {
           return <h2 key={key}>{line}</h2>;
         }
 
@@ -588,8 +589,8 @@ function RichLesson({ text }) {
           return <h3 key={key}>{line}</h3>;
         }
 
-        if (/^[•·-]\s/.test(line)) {
-          return <div key={key} className="jl-bullet">{line.replace(/^[•·-]\s/, "")}</div>;
+        if (/^[â€¢Â·-]\s/.test(line)) {
+          return <div key={key} className="jl-bullet">{line.replace(/^[â€¢Â·-]\s/, "")}</div>;
         }
 
         if (line.endsWith(":") && line.length < 80) {
@@ -603,30 +604,30 @@ function RichLesson({ text }) {
 }
 
 function ExactSourcePanel() {
-  // لا نعرض النص الخام للمتدرب؛ المحتوى يظهر فقط كدرس منسق.
+  // Ù„Ø§ Ù†Ø¹Ø±Ø¶ Ø§Ù„Ù†Øµ Ø§Ù„Ø®Ø§Ù… Ù„Ù„Ù…ØªØ¯Ø±Ø¨Ø› Ø§Ù„Ù…Ø­ØªÙˆÙ‰ ÙŠØ¸Ù‡Ø± ÙÙ‚Ø· ÙƒØ¯Ø±Ø³ Ù…Ù†Ø³Ù‚.
   return null;
 }
 
 function StatusMark({ state }) {
-  if (state === "completed") return <span className="jl-status jl-status--completed">✓</span>;
-  if (state === "locked") return <span className="jl-status jl-status--locked">🔒</span>;
-  return <span className="jl-status jl-status--active">●</span>;
+  if (state === "completed") return <span className="jl-status jl-status--completed">âœ“</span>;
+  if (state === "locked") return <span className="jl-status jl-status--locked">ðŸ”’</span>;
+  return <span className="jl-status jl-status--active">â—</span>;
 }
 
 function MiniProgress({ label, value, help }) {
+  const safeValue = Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0));
+
   return (
-    <div className="jl-mini-progress">
-      <div className="jl-mini-head">
-        <span>{label}</span>
-        <strong>{arabicPercent(value)}</strong>
-      </div>
-
-      <div className="jl-mini-track">
-        <i style={{ width: `${Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0))}%` }} />
-      </div>
-
-      {help && <small>{help}</small>}
-    </div>
+    <NeoMetricGauge
+      className="jl-neo-metric-inline"
+      value={safeValue}
+      max={100}
+      displayValue={arabicPercent(value)}
+      label={label}
+      subLabel={help}
+      status={safeValue >= 100 ? "complete" : "progress"}
+      size="compact"
+    />
   );
 }
 
@@ -660,43 +661,43 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   if (!questions.length) {
     return (
       <div className="jl-quiz jl-quiz-soft">
-        <h3>اختبار اليوم</h3>
+        <h3>Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ…</h3>
         {hasQuizText ? (
           <>
             <p>
-              يوجد اختبار في النص الأصلي، لكن لم أستطع تحويله تلقائيًا إلى أزرار اختيار.
-              اقرأ اختبار اليوم من الدرس، ثم اضغط الزر التالي لتأكيد أنك أجبت عنه.
+              ÙŠÙˆØ¬Ø¯ Ø§Ø®ØªØ¨Ø§Ø± ÙÙŠ Ø§Ù„Ù†Øµ Ø§Ù„Ø£ØµÙ„ÙŠØŒ Ù„ÙƒÙ† Ù„Ù… Ø£Ø³ØªØ·Ø¹ ØªØ­ÙˆÙŠÙ„Ù‡ ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§ Ø¥Ù„Ù‰ Ø£Ø²Ø±Ø§Ø± Ø§Ø®ØªÙŠØ§Ø±.
+              Ø§Ù‚Ø±Ø£ Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ… Ù…Ù† Ø§Ù„Ø¯Ø±Ø³ØŒ Ø«Ù… Ø§Ø¶ØºØ· Ø§Ù„Ø²Ø± Ø§Ù„ØªØ§Ù„ÙŠ Ù„ØªØ£ÙƒÙŠØ¯ Ø£Ù†Ùƒ Ø£Ø¬Ø¨Øª Ø¹Ù†Ù‡.
             </p>
             <button type="button" className="jl-quiz-submit" onClick={() => onPass(true)}>
-              أجبت على اختبار اليوم من النص الأصلي
+              Ø£Ø¬Ø¨Øª Ø¹Ù„Ù‰ Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ… Ù…Ù† Ø§Ù„Ù†Øµ Ø§Ù„Ø£ØµÙ„ÙŠ
             </button>
           </>
         ) : (
-          <p>لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء اليوم بعد قراءة الدرس.</p>
+          <p>Ù„Ù… ÙŠØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø§Ø®ØªØ¨Ø§Ø± Ù…Ù†ÙØµÙ„ Ø¯Ø§Ø®Ù„ Ø¨ÙŠØ§Ù†Ø§Øª Ù‡Ø°Ø§ Ø§Ù„ÙŠÙˆÙ…. ÙŠÙ…ÙƒÙ†Ùƒ Ø¥Ù†Ù‡Ø§Ø¡ Ø§Ù„ÙŠÙˆÙ… Ø¨Ø¹Ø¯ Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„Ø¯Ø±Ø³.</p>
         )}
       </div>
     );
   }
 
   return (
-    <section className="jl-quiz" aria-label="اختبار اليوم">
+    <section className="jl-quiz" aria-label="Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ…">
       <div className="jl-quiz-header">
-        <span>اختبار اليوم</span>
+        <span>Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ…</span>
         <strong>{answeredCount} / {total}</strong>
       </div>
 
-      <h3>اختبر فهمك قبل حفظ الإنجاز</h3>
+      <h3>Ø§Ø®ØªØ¨Ø± ÙÙ‡Ù…Ùƒ Ù‚Ø¨Ù„ Ø­ÙØ¸ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²</h3>
 
       {total !== 3 && (
         <div className="jl-quiz-warning">
-          تنبيه: المتوقع أن يحتوي اختبار كل يوم على 3 أسئلة. هذا اليوم ظهر فيه {total} سؤال/أسئلة بعد التحويل الآلي.
-          راجع الدرس مرة أخرى إذا احتجت قبل المتابعة.
+          ØªÙ†Ø¨ÙŠÙ‡: Ø§Ù„Ù…ØªÙˆÙ‚Ø¹ Ø£Ù† ÙŠØ­ØªÙˆÙŠ Ø§Ø®ØªØ¨Ø§Ø± ÙƒÙ„ ÙŠÙˆÙ… Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø©. Ù‡Ø°Ø§ Ø§Ù„ÙŠÙˆÙ… Ø¸Ù‡Ø± ÙÙŠÙ‡ {total} Ø³Ø¤Ø§Ù„/Ø£Ø³Ø¦Ù„Ø© Ø¨Ø¹Ø¯ Ø§Ù„ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ø¢Ù„ÙŠ.
+          Ø±Ø§Ø¬Ø¹ Ø§Ù„Ø¯Ø±Ø³ Ù…Ø±Ø© Ø£Ø®Ø±Ù‰ Ø¥Ø°Ø§ Ø§Ø­ØªØ¬Øª Ù‚Ø¨Ù„ Ø§Ù„Ù…ØªØ§Ø¨Ø¹Ø©.
         </div>
       )}
 
       {!hasKnownAnswers && (
         <div className="jl-quiz-warning">
-          تم استخراج الأسئلة من النص، لكن لم توجد مفاتيح إجابة منظمة في بيانات هذا اليوم. سيتم اعتبار الاختبار مكتملًا بعد الإجابة عن كل الأسئلة.
+          ØªÙ… Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ø£Ø³Ø¦Ù„Ø© Ù…Ù† Ø§Ù„Ù†ØµØŒ Ù„ÙƒÙ† Ù„Ù… ØªÙˆØ¬Ø¯ Ù…ÙØ§ØªÙŠØ­ Ø¥Ø¬Ø§Ø¨Ø© Ù…Ù†Ø¸Ù…Ø© ÙÙŠ Ø¨ÙŠØ§Ù†Ø§Øª Ù‡Ø°Ø§ Ø§Ù„ÙŠÙˆÙ…. Ø³ÙŠØªÙ… Ø§Ø¹ØªØ¨Ø§Ø± Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø± Ù…ÙƒØªÙ…Ù„Ù‹Ø§ Ø¨Ø¹Ø¯ Ø§Ù„Ø¥Ø¬Ø§Ø¨Ø© Ø¹Ù† ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¦Ù„Ø©.
         </div>
       )}
 
@@ -737,7 +738,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
                         }));
                       }}
                     >
-                      <span>{["أ", "ب", "ج", "د"][optionIndex] || optionIndex + 1}</span>
+                      <span>{["Ø£", "Ø¨", "Ø¬", "Ø¯"][optionIndex] || optionIndex + 1}</span>
                       <strong>{option.text}</strong>
                     </button>
                   );
@@ -747,8 +748,8 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
               {submitted && hasKnownAnswers && correctOption && (
                 <div className={answeredCorrectly ? "jl-answer-note jl-answer-note--correct" : "jl-answer-note jl-answer-note--wrong"}>
                   {answeredCorrectly
-                    ? "إجابتك صحيحة."
-                    : `الإجابة الصحيحة: ${correctOption.text}`}
+                    ? "Ø¥Ø¬Ø§Ø¨ØªÙƒ ØµØ­ÙŠØ­Ø©."
+                    : `Ø§Ù„Ø¥Ø¬Ø§Ø¨Ø© Ø§Ù„ØµØ­ÙŠØ­Ø©: ${correctOption.text}`}
                 </div>
               )}
             </div>
@@ -763,16 +764,16 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
           disabled={!allAnswered}
           onClick={submitQuiz}
         >
-          تحقق من الاختبار
+          ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø±
         </button>
 
         {submitted && (
           <div className={passed ? "jl-quiz-result jl-quiz-result--pass" : "jl-quiz-result jl-quiz-result--fail"}>
             {hasKnownAnswers
               ? passed
-                ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
-                : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
-              : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
+                ? `Ù…Ù…ØªØ§Ø². Ù†ØªÙŠØ¬ØªÙƒ ${score} Ù…Ù† ${total}. ÙŠÙ…ÙƒÙ†Ùƒ Ø­ÙØ¸ Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„ÙŠÙˆÙ….`
+                : `Ù†ØªÙŠØ¬ØªÙƒ ${score} Ù…Ù† ${total}. Ø±Ø§Ø¬Ø¹ Ø¥Ø¬Ø§Ø¨Ø§ØªÙƒ Ø«Ù… Ø­Ø§ÙˆÙ„ Ù…Ø±Ø© Ø£Ø®Ø±Ù‰.`
+              : "ØªÙ… ØªØ³Ø¬ÙŠÙ„ Ù…Ø­Ø§ÙˆÙ„Ø© Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø±. ÙŠÙ…ÙƒÙ†Ùƒ Ø­ÙØ¸ Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„ÙŠÙˆÙ…."}
           </div>
         )}
       </div>
@@ -820,7 +821,7 @@ export default function CourseJourney({
   const currentLessonPath = useMemo(() => {
     return [selectedMonth?.title, selectedWeek?.title, selectedDay?.title]
       .filter(Boolean)
-      .join(" ← ");
+      .join(" â† ");
   }, [selectedMonth?.title, selectedWeek?.title, selectedDay?.title]);
 
   const currentLessonExcerpt = useMemo(() => {
@@ -842,8 +843,8 @@ export default function CourseJourney({
     }) || null;
   }, [lessonBookmarks, selectedDay]);
 
-  // العدد الفعلي داخل المحتوى يبقى كما هو حتى لا ينكسر فتح الأسابيع والشهور.
-  // أما العرض أمام المتدرب فيكون حسب الخطة المعتمدة: 6 أشهر × 30 يوم = 180 يومًا.
+  // Ø§Ù„Ø¹Ø¯Ø¯ Ø§Ù„ÙØ¹Ù„ÙŠ Ø¯Ø§Ø®Ù„ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ ÙŠØ¨Ù‚Ù‰ ÙƒÙ…Ø§ Ù‡Ùˆ Ø­ØªÙ‰ Ù„Ø§ ÙŠÙ†ÙƒØ³Ø± ÙØªØ­ Ø§Ù„Ø£Ø³Ø§Ø¨ÙŠØ¹ ÙˆØ§Ù„Ø´Ù‡ÙˆØ±.
+  // Ø£Ù…Ø§ Ø§Ù„Ø¹Ø±Ø¶ Ø£Ù…Ø§Ù… Ø§Ù„Ù…ØªØ¯Ø±Ø¨ ÙÙŠÙƒÙˆÙ† Ø­Ø³Ø¨ Ø§Ù„Ø®Ø·Ø© Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©: 6 Ø£Ø´Ù‡Ø± Ã— 30 ÙŠÙˆÙ… = 180 ÙŠÙˆÙ…Ù‹Ø§.
   const actualCourseDays = getCourseTotalDays(course);
   const totalCourseDays = COURSE_TOTALS?.totalDays || 180;
   const daysPerMonth = COURSE_TOTALS?.daysPerMonth || 30;
@@ -1068,7 +1069,7 @@ export default function CourseJourney({
     const targetDay = targetWeek?.days?.find((day) => day.dayIndex === result.dayIndex);
 
     if (!targetMonth || !targetWeek || !targetDay) {
-      setNotice("لم أستطع العثور على هذه النتيجة داخل خريطة الرحلة.");
+      setNotice("Ù„Ù… Ø£Ø³ØªØ·Ø¹ Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ù‡Ø°Ù‡ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¯Ø§Ø®Ù„ Ø®Ø±ÙŠØ·Ø© Ø§Ù„Ø±Ø­Ù„Ø©.");
       return;
     }
 
@@ -1078,19 +1079,19 @@ export default function CourseJourney({
 
     if (!isMonthUnlocked(targetMonth)) {
       setStage("months");
-      setNotice("هذه النتيجة ضمن شهر لم يُفتح بعد. أكمل الشهر السابق أولًا.");
+      setNotice("Ù‡Ø°Ù‡ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¶Ù…Ù† Ø´Ù‡Ø± Ù„Ù… ÙŠÙÙØªØ­ Ø¨Ø¹Ø¯. Ø£ÙƒÙ…Ù„ Ø§Ù„Ø´Ù‡Ø± Ø§Ù„Ø³Ø§Ø¨Ù‚ Ø£ÙˆÙ„Ù‹Ø§.");
       return;
     }
 
     if (!isWeekUnlocked(targetWeek, targetMonth)) {
       setStage("weeks");
-      setNotice("هذه النتيجة ضمن أسبوع لم يُفتح بعد. أكمل الأسبوع السابق أولًا.");
+      setNotice("Ù‡Ø°Ù‡ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¶Ù…Ù† Ø£Ø³Ø¨ÙˆØ¹ Ù„Ù… ÙŠÙÙØªØ­ Ø¨Ø¹Ø¯. Ø£ÙƒÙ…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ Ø§Ù„Ø³Ø§Ø¨Ù‚ Ø£ÙˆÙ„Ù‹Ø§.");
       return;
     }
 
     if (!isDayUnlocked(targetDay, targetWeek, targetMonth)) {
       setStage("days");
-      setNotice("هذه النتيجة ضمن يوم لم يُفتح بعد. أكمل اليوم السابق أولًا.");
+      setNotice("Ù‡Ø°Ù‡ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¶Ù…Ù† ÙŠÙˆÙ… Ù„Ù… ÙŠÙÙØªØ­ Ø¨Ø¹Ø¯. Ø£ÙƒÙ…Ù„ Ø§Ù„ÙŠÙˆÙ… Ø§Ù„Ø³Ø§Ø¨Ù‚ Ø£ÙˆÙ„Ù‹Ø§.");
       return;
     }
 
@@ -1109,7 +1110,7 @@ export default function CourseJourney({
       const rows = await listLessonBookmarks();
       setLessonBookmarks(Array.isArray(rows) ? rows : []);
     } catch (error) {
-      console.warn("تعذر تحميل الدروس المحفوظة:", error);
+      console.warn("ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø©:", error);
     } finally {
       setBookmarksLoading(false);
     }
@@ -1144,7 +1145,7 @@ export default function CourseJourney({
             Number(bookmark.day_index) === Number(selectedDay.dayIndex)
           );
         }));
-        setBookmarkStatus("تمت إزالة الدرس من المحفوظات.");
+        setBookmarkStatus("ØªÙ…Øª Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ø¯Ø±Ø³ Ù…Ù† Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø§Øª.");
         return;
       }
 
@@ -1168,9 +1169,9 @@ export default function CourseJourney({
 
         return [saved, ...filtered];
       });
-      setBookmarkStatus("تم حفظ الدرس في قائمتك.");
+      setBookmarkStatus("ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø¯Ø±Ø³ ÙÙŠ Ù‚Ø§Ø¦Ù…ØªÙƒ.");
     } catch (error) {
-      setBookmarkStatus(error?.message || "تعذر تحديث الدروس المحفوظة.");
+      setBookmarkStatus(error?.message || "ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø©.");
     } finally {
       setBookmarkSaving(false);
       window.setTimeout(() => setBookmarkStatus(""), 2600);
@@ -1186,7 +1187,7 @@ export default function CourseJourney({
     const quizPassed = quizPassedByDay[selectedDay.id];
 
     if (hasQuiz && !quizPassed) {
-      setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
+      setNotice("Ø£Ø¬Ø¨ Ø¹Ù† Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„ÙŠÙˆÙ… Ø£ÙˆÙ„Ù‹Ø§ØŒ Ø«Ù… Ø§Ø­ÙØ¸ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø².");
       return;
     }
 
@@ -1223,9 +1224,9 @@ export default function CourseJourney({
         ]);
       }
 
-      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
+      setNotice("ØªÙ… Ø­ÙØ¸ Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„ÙŠÙˆÙ…. ÙÙØªØ­Øª Ù„Ùƒ Ø§Ù„Ù…Ø­Ø·Ø© Ø§Ù„ØªØ§Ù„ÙŠØ©.");
     } catch (error) {
-      setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
+      setNotice(error?.message || "ØªØ¹Ø°Ø± Ø­ÙØ¸ Ø§Ù„ØªÙ‚Ø¯Ù…. ØªØ£ÙƒØ¯ Ù…Ù† ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø£Ùˆ Ø¥Ø¹Ø¯Ø§Ø¯ Supabase.");
     } finally {
       setSaving(false);
     }
@@ -1240,7 +1241,7 @@ export default function CourseJourney({
   if (!course.length) {
     return (
       <section className="journey-lab" dir="rtl">
-        <div className="jl-empty">لم يتم العثور على محتوى الرحلة داخل courseContent.</div>
+        <div className="jl-empty">Ù„Ù… ÙŠØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ø±Ø­Ù„Ø© Ø¯Ø§Ø®Ù„ courseContent.</div>
       </section>
     );
   }
@@ -1256,7 +1257,7 @@ export default function CourseJourney({
     <section className="journey-lab" dir="rtl">
       <style>{`
         .journey-lab {
-          /* الرموز المحلية تُشتقّ الآن من نظام التصميم الموحّد */
+          /* Ø§Ù„Ø±Ù…ÙˆØ² Ø§Ù„Ù…Ø­Ù„ÙŠØ© ØªÙØ´ØªÙ‚Ù‘ Ø§Ù„Ø¢Ù† Ù…Ù† Ù†Ø¸Ø§Ù… Ø§Ù„ØªØµÙ…ÙŠÙ… Ø§Ù„Ù…ÙˆØ­Ù‘Ø¯ */
           --ink:var(--text);
           --muted:var(--text-muted);
           --line:var(--border);
@@ -1354,39 +1355,10 @@ export default function CourseJourney({
           font-weight:750;
         }
 
-        .jl-orb-card {
+        .jl-gauge-stage {
           min-height:230px;
           display:grid;
           place-items:center;
-        }
-
-        .jl-orb {
-          width:210px;
-          height:210px;
-          border-radius:999px;
-          display:grid;
-          place-items:center;
-          background:
-            radial-gradient(circle at 38% 32%, rgba(255,255,255,.96), rgba(199,210,254,.35) 19%, rgba(139, 92, 246,.24) 42%, rgba(28, 17, 48,.08) 66%),
-            conic-gradient(from 0deg,#8b5cf6,#7c3aed,#a855f7,#10b981,#8b5cf6);
-          box-shadow:inset 0 0 38px rgba(255,255,255,.35),0 30px 90px rgba(139, 92, 246,.34);
-        }
-
-        .jl-orb strong {
-          display:block;
-          color:white;
-          font-size:46px;
-          font-weight:950;
-          text-align:center;
-          text-shadow:0 8px 24px rgba(28, 17, 48,.35);
-        }
-
-        .jl-orb small {
-          display:block;
-          color:rgba(255,255,255,.82);
-          font-size:11px;
-          font-weight:900;
-          text-align:center;
         }
 
         .jl-control-deck {
@@ -2270,57 +2242,57 @@ export default function CourseJourney({
         <header className="jl-hero">
           <div className="jl-hero-inner">
             <div>
-              <span className="jl-eyebrow">رحلتك التعليمية · 6 أشهر · OD Mastery</span>
+              <span className="jl-eyebrow">Ø±Ø­Ù„ØªÙƒ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ© Â· 6 Ø£Ø´Ù‡Ø± Â· OD Mastery</span>
 
               <h1 className="jl-title">
-                رحلة تعليمية متدرجة
-                <span>شهر ← أسبوع ← يوم ← درس ← اختبار</span>
+                Ø±Ø­Ù„Ø© ØªØ¹Ù„ÙŠÙ…ÙŠØ© Ù…ØªØ¯Ø±Ø¬Ø©
+                <span>Ø´Ù‡Ø± â† Ø£Ø³Ø¨ÙˆØ¹ â† ÙŠÙˆÙ… â† Ø¯Ø±Ø³ â† Ø§Ø®ØªØ¨Ø§Ø±</span>
               </h1>
 
               <p>
-                تم تصميم الرحلة كبوابات إتقان لا كصفحة طويلة مشتتة. كل شهر يفتح أسابيعه،
-                وكل أسبوع يفتح أيامه، وكل يوم يحتوي على درس منسق واختبار فهم قبل حفظ الإنجاز.
+                ØªÙ… ØªØµÙ…ÙŠÙ… Ø§Ù„Ø±Ø­Ù„Ø© ÙƒØ¨ÙˆØ§Ø¨Ø§Øª Ø¥ØªÙ‚Ø§Ù† Ù„Ø§ ÙƒØµÙØ­Ø© Ø·ÙˆÙŠÙ„Ø© Ù…Ø´ØªØªØ©. ÙƒÙ„ Ø´Ù‡Ø± ÙŠÙØªØ­ Ø£Ø³Ø§Ø¨ÙŠØ¹Ù‡ØŒ
+                ÙˆÙƒÙ„ Ø£Ø³Ø¨ÙˆØ¹ ÙŠÙØªØ­ Ø£ÙŠØ§Ù…Ù‡ØŒ ÙˆÙƒÙ„ ÙŠÙˆÙ… ÙŠØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ Ø¯Ø±Ø³ Ù…Ù†Ø³Ù‚ ÙˆØ§Ø®ØªØ¨Ø§Ø± ÙÙ‡Ù… Ù‚Ø¨Ù„ Ø­ÙØ¸ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø².
               </p>
             </div>
 
-            <div className="jl-orb-card">
-              <div
-                className="jl-orb od-circular-indicator od-indicator-general"
-                style={{ "--od-indicator-progress": `${Math.min(100, Math.max(0, overallProgress))}%` }}
-              >
-                <div>
-                  <strong>{arabicPercent(overallProgress)}</strong>
-                  <small>من الرحلة الكاملة</small>
-                </div>
+            <div className="jl-gauge-stage">
+              <NeoMetricGauge
+                className="jl-hero-gauge"
+                value={Math.min(100, Math.max(0, overallProgress))}
+                max={100}
+                displayValue={arabicPercent(overallProgress)}
+                label="من الرحلة الكاملة"
+                status={overallProgress >= 100 ? "complete" : "progress"}
+                size="hero"
+              />
               </div>
             </div>
-          </div>
         </header>
 
         <section className="jl-control-deck">
           <MiniProgress
-            label="التقدم الكلي"
+            label="Ø§Ù„ØªÙ‚Ø¯Ù… Ø§Ù„ÙƒÙ„ÙŠ"
             value={overallProgress}
-            help={`${totalCompletedDays} من ${totalCourseDays} يومًا`}
+            help={`${totalCompletedDays} Ù…Ù† ${totalCourseDays} ÙŠÙˆÙ…Ù‹Ø§`}
           />
 
           <MiniProgress
-            label={`تقدم ${selectedMonth?.title || "الشهر"}`}
+            label={`ØªÙ‚Ø¯Ù… ${selectedMonth?.title || "Ø§Ù„Ø´Ù‡Ø±"}`}
             value={monthProgress}
-            help={`${monthCompletedDays} من ${monthTotalDays} يومًا`}
+            help={`${monthCompletedDays} Ù…Ù† ${monthTotalDays} ÙŠÙˆÙ…Ù‹Ø§`}
           />
 
           <MiniProgress
-            label={`تقدم ${selectedWeek?.title || "الأسبوع"}`}
+            label={`ØªÙ‚Ø¯Ù… ${selectedWeek?.title || "Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹"}`}
             value={weekProgress}
-            help={`${weekCompletedDays} من ${weekTotalDays} أيام`}
+            help={`${weekCompletedDays} Ù…Ù† ${weekTotalDays} Ø£ÙŠØ§Ù…`}
           />
         </section>
 
         <CourseSearch
           course={course}
           onJump={jumpToSearchResult}
-          placeholder="ابحث عن RACI، الثقافة، التغيير، الوصف الوظيفي، قياس الأثر..."
+          placeholder="Ø§Ø¨Ø­Ø« Ø¹Ù† RACIØŒ Ø§Ù„Ø«Ù‚Ø§ÙØ©ØŒ Ø§Ù„ØªØºÙŠÙŠØ±ØŒ Ø§Ù„ÙˆØµÙ Ø§Ù„ÙˆØ¸ÙŠÙÙŠØŒ Ù‚ÙŠØ§Ø³ Ø§Ù„Ø£Ø«Ø±..."
         />
 
         <SavedLessonsPanel
@@ -2333,7 +2305,7 @@ export default function CourseJourney({
         <div className="jl-top-actions">
           <div className="jl-breadcrumbs">
             <button type="button" className="jl-crumb" onClick={() => setStage("months")}>
-              الشهور
+              Ø§Ù„Ø´Ù‡ÙˆØ±
             </button>
 
             <button
@@ -2342,7 +2314,7 @@ export default function CourseJourney({
               onClick={() => setStage("weeks")}
               disabled={stage === "months"}
             >
-              {selectedMonth?.title || "الشهر"}
+              {selectedMonth?.title || "Ø§Ù„Ø´Ù‡Ø±"}
             </button>
 
             <button
@@ -2351,7 +2323,7 @@ export default function CourseJourney({
               onClick={() => setStage("days")}
               disabled={stage === "months" || stage === "weeks"}
             >
-              {selectedWeek?.title || "الأسبوع"}
+              {selectedWeek?.title || "Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹"}
             </button>
 
             <button
@@ -2359,25 +2331,25 @@ export default function CourseJourney({
               className="jl-crumb"
               disabled={stage !== "lesson"}
             >
-              {selectedDay?.label || "اليوم"}
+              {selectedDay?.label || "Ø§Ù„ÙŠÙˆÙ…"}
             </button>
           </div>
 
           <div className="jl-breadcrumbs">
             {stage !== "months" && (
               <button type="button" className="jl-back" onClick={goBack}>
-                رجوع خطوة
+                Ø±Ø¬ÙˆØ¹ Ø®Ø·ÙˆØ©
               </button>
             )}
 
             <button type="button" className="jl-main-btn" onClick={openNextPoint}>
-              واصل من آخر محطة
+              ÙˆØ§ØµÙ„ Ù…Ù† Ø¢Ø®Ø± Ù…Ø­Ø·Ø©
             </button>
           </div>
         </div>
 
         {notice && <div className="jl-notice">{notice}</div>}
-        {loading && <div className="jl-notice jl-loading">جارٍ تحميل تقدمك...</div>}
+        {loading && <div className="jl-notice jl-loading">Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ ØªÙ‚Ø¯Ù…Ùƒ...</div>}
 
         <main className="jl-stage-panel">
           <div className="jl-stage-head">
@@ -2416,7 +2388,7 @@ export default function CourseJourney({
 
                     <div className="jl-card-foot">
                       <span>{stateLabels[state]}</span>
-                      <span>{done} من {total} يومًا · {arabicPercent(percent)}</span>
+                      <span>{done} Ù…Ù† {total} ÙŠÙˆÙ…Ù‹Ø§ Â· {arabicPercent(percent)}</span>
                     </div>
                   </button>
                 );
@@ -2450,7 +2422,7 @@ export default function CourseJourney({
 
                     <div className="jl-card-foot">
                       <span>{stateLabels[state]}</span>
-                      <span>{done} من {total} أيام · {arabicPercent(percent)}</span>
+                      <span>{done} Ù…Ù† {total} Ø£ÙŠØ§Ù… Â· {arabicPercent(percent)}</span>
                     </div>
                   </button>
                 );
@@ -2472,7 +2444,7 @@ export default function CourseJourney({
                     disabled={state === "locked"}
                   >
                     <div className="jl-day-number">
-                      {state === "completed" ? "✓" : state === "locked" ? "🔒" : day.dayIndex}
+                      {state === "completed" ? "âœ“" : state === "locked" ? "ðŸ”’" : day.dayIndex}
                     </div>
 
                     <strong>{day.label}</strong>
@@ -2493,7 +2465,7 @@ export default function CourseJourney({
                 <h3>{selectedDay.title}</h3>
 
                 <p>
-                  {selectedMonth.title} · {selectedWeek.title} · {selectedDay.label}
+                  {selectedMonth.title} Â· {selectedWeek.title} Â· {selectedDay.label}
                 </p>
 
                 <div className="jl-lesson-actions">
@@ -2504,10 +2476,10 @@ export default function CourseJourney({
                     disabled={bookmarkSaving || currentDayState === "locked"}
                   >
                     {bookmarkSaving
-                      ? "جارٍ تحديث المحفوظات..."
+                      ? "Ø¬Ø§Ø±Ù ØªØ­Ø¯ÙŠØ« Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø§Øª..."
                       : currentBookmark
-                        ? "إزالة من الدروس المحفوظة ★"
-                        : "حفظ هذا الدرس ☆"}
+                        ? "Ø¥Ø²Ø§Ù„Ø© Ù…Ù† Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø© â˜…"
+                        : "Ø­ÙØ¸ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ â˜†"}
                   </button>
 
                   {bookmarkStatus && <div className="jl-bookmark-status">{bookmarkStatus}</div>}
@@ -2519,22 +2491,22 @@ export default function CourseJourney({
                     disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
                     {currentDayState === "completed"
-                      ? "تم إكمال اليوم"
+                      ? "ØªÙ… Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„ÙŠÙˆÙ…"
                       : saving
-                        ? "جارٍ الحفظ..."
+                        ? "Ø¬Ø§Ø±Ù Ø§Ù„Ø­ÙØ¸..."
                         : dayHasQuiz && !quizPassedByDay[selectedDay.id]
-                          ? "أكمل الاختبار أولًا"
-                          : "إنهاء اليوم وحفظ التقدم"}
+                          ? "Ø£ÙƒÙ…Ù„ Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø± Ø£ÙˆÙ„Ù‹Ø§"
+                          : "Ø¥Ù†Ù‡Ø§Ø¡ Ø§Ù„ÙŠÙˆÙ… ÙˆØ­ÙØ¸ Ø§Ù„ØªÙ‚Ø¯Ù…"}
                   </button>
 
                   {currentDayState === "completed" && (
                     <button type="button" className="jl-ghost-btn" onClick={openNextPoint}>
-                      افتح المحطة التالية
+                      Ø§ÙØªØ­ Ø§Ù„Ù…Ø­Ø·Ø© Ø§Ù„ØªØ§Ù„ÙŠØ©
                     </button>
                   )}
 
                   <button type="button" className="jl-ghost-btn" onClick={() => setStage("days")}>
-                    العودة لأيام الأسبوع
+                    Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ø£ÙŠØ§Ù… Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹
                   </button>
                 </div>
               </aside>
@@ -2550,7 +2522,7 @@ export default function CourseJourney({
                   monthIndex={selectedDay.monthIndex}
                   weekIndex={selectedDay.weekIndex}
                   dayIndex={selectedDay.dayIndex}
-                  title="ملاحظتك المهنية على هذا اليوم"
+                  title="Ù…Ù„Ø§Ø­Ø¸ØªÙƒ Ø§Ù„Ù…Ù‡Ù†ÙŠØ© Ø¹Ù„Ù‰ Ù‡Ø°Ø§ Ø§Ù„ÙŠÙˆÙ…"
                 />
 
                 <QuizPanel
@@ -2573,3 +2545,4 @@ export default function CourseJourney({
     </section>
   );
 }
+

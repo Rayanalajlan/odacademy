@@ -1,5 +1,7 @@
+﻿import NeoMetricGauge from "./NeoMetricGauge";
+
 function formatDate(value) {
-  if (!value) return "غير محدد";
+  if (!value) return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
 
   try {
     return new Intl.DateTimeFormat("ar-SA", {
@@ -8,12 +10,12 @@ function formatDate(value) {
       day: "numeric"
     }).format(new Date(value));
   } catch {
-    return "غير محدد";
+    return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
   }
 }
 
 function formatDateTime(value) {
-  if (!value) return "غير محدد";
+  if (!value) return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
 
   try {
     return new Intl.DateTimeFormat("ar-SA", {
@@ -24,25 +26,25 @@ function formatDateTime(value) {
       minute: "2-digit"
     }).format(new Date(value));
   } catch {
-    return "غير محدد";
+    return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
   }
 }
 
 function shortText(value, limit = 360) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
 
-  if (!text) return "لا يوجد نص محفوظ.";
-  return text.length > limit ? `${text.slice(0, limit)}…` : text;
+  if (!text) return "Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù†Øµ Ù…Ø­ÙÙˆØ¸.";
+  return text.length > limit ? `${text.slice(0, limit)}â€¦` : text;
 }
 
 function locationLabel(item) {
-  return `الشهر ${item?.month_index || "-"} · الأسبوع ${item?.week_index || "-"} · اليوم ${item?.day_index || "-"}`;
+  return `Ø§Ù„Ø´Ù‡Ø± ${item?.month_index || "-"} Â· Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ${item?.week_index || "-"} Â· Ø§Ù„ÙŠÙˆÙ… ${item?.day_index || "-"}`;
 }
 
 function certificateStatus(status) {
-  if (status === "issued") return "مفتوحة";
-  if (status === "revoked") return "ملغاة";
-  return "مقفلة";
+  if (status === "issued") return "Ù…ÙØªÙˆØ­Ø©";
+  if (status === "revoked") return "Ù…Ù„ØºØ§Ø©";
+  return "Ù…Ù‚ÙÙ„Ø©";
 }
 
 function printReport() {
@@ -52,7 +54,7 @@ function printReport() {
 }
 
 export default function PortfolioExportReport({
-  userName = "متدرب",
+  userName = "Ù…ØªØ¯Ø±Ø¨",
   generatedAt = new Date().toISOString(),
   data,
   summary,
@@ -76,7 +78,7 @@ export default function PortfolioExportReport({
   const latestRadar = data?.latestRadar || null;
 
   return (
-    <section className="portfolio-export-shell" dir="rtl" aria-label="تقرير ملفي التعليمي">
+    <section className="portfolio-export-shell" dir="rtl" aria-label="ØªÙ‚Ø±ÙŠØ± Ù…Ù„ÙÙŠ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ">
       <style>{`
         .portfolio-export-shell {
           position: fixed;
@@ -435,132 +437,149 @@ export default function PortfolioExportReport({
 
       <article className="portfolio-export-report">
         <div className="report-toolbar report-no-print">
-          <strong>تقرير ملفي التعليمي</strong>
+          <strong>ØªÙ‚Ø±ÙŠØ± Ù…Ù„ÙÙŠ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ</strong>
           <div className="report-toolbar-actions">
             <button type="button" className="primary" onClick={printReport}>
-              طباعة / حفظ PDF
+              Ø·Ø¨Ø§Ø¹Ø© / Ø­ÙØ¸ PDF
             </button>
             <button type="button" onClick={onClose}>
-              إغلاق
+              Ø¥ØºÙ„Ø§Ù‚
             </button>
           </div>
         </div>
 
         <header className="report-cover">
-          <span className="report-kicker">OD Academy · Learning Portfolio Report</span>
-          <h1>تقرير الملف التعليمي</h1>
+          <span className="report-kicker">OD Academy Â· Learning Portfolio Report</span>
+          <h1>ØªÙ‚Ø±ÙŠØ± Ø§Ù„Ù…Ù„Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ</h1>
           <p>
-            تقرير موجز يجمع أثر التعلم داخل المنصة: التقدم، المحفوظات، الملاحظات،
-            الرادار، التأملات الأسبوعية، والشهادات.
+            ØªÙ‚Ø±ÙŠØ± Ù…ÙˆØ¬Ø² ÙŠØ¬Ù…Ø¹ Ø£Ø«Ø± Ø§Ù„ØªØ¹Ù„Ù… Ø¯Ø§Ø®Ù„ Ø§Ù„Ù…Ù†ØµØ©: Ø§Ù„ØªÙ‚Ø¯Ù…ØŒ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø§ØªØŒ Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§ØªØŒ
+            Ø§Ù„Ø±Ø§Ø¯Ø§Ø±ØŒ Ø§Ù„ØªØ£Ù…Ù„Ø§Øª Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠØ©ØŒ ÙˆØ§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª.
           </p>
 
           <div className="report-meta">
             <div>
-              <span>اسم المتدرب</span>
-              <strong>{userName || "متدرب"}</strong>
+              <span>Ø§Ø³Ù… Ø§Ù„Ù…ØªØ¯Ø±Ø¨</span>
+              <strong>{userName || "Ù…ØªØ¯Ø±Ø¨"}</strong>
             </div>
             <div>
-              <span>تاريخ التوليد</span>
+              <span>ØªØ§Ø±ÙŠØ® Ø§Ù„ØªÙˆÙ„ÙŠØ¯</span>
               <strong>{formatDateTime(generatedAt)}</strong>
             </div>
             <div>
-              <span>حالة التقرير</span>
-              <strong>{loading ? "جارٍ تحميل البيانات" : "جاهز للتصدير"}</strong>
+              <span>Ø­Ø§Ù„Ø© Ø§Ù„ØªÙ‚Ø±ÙŠØ±</span>
+              <strong>{loading ? "Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª" : "Ø¬Ø§Ù‡Ø² Ù„Ù„ØªØµØ¯ÙŠØ±"}</strong>
             </div>
           </div>
         </header>
 
         <div className="report-body">
           <section className="report-stats-grid" aria-label="ملخص التقرير">
-            <div className="report-stat">
-              <span>نسبة الإنجاز</span>
-              <strong>{safeSummary.progressPercent}%</strong>
-            </div>
-            <div className="report-stat">
-              <span>الأيام المكتملة</span>
-              <strong>{safeSummary.completedDays} / {safeSummary.totalDays}</strong>
-            </div>
-            <div className="report-stat">
-              <span>المتبقي</span>
-              <strong>{safeSummary.remainingDays}</strong>
-            </div>
-            <div className="report-stat">
-              <span>وقت تعلم تقديري</span>
-              <strong>{Math.round(Number(safeSummary.estimatedHours || 0))} ساعة</strong>
-            </div>
+            <NeoMetricGauge
+              value={safeSummary.progressPercent}
+              max={100}
+              displayValue={`${safeSummary.progressPercent}%`}
+              label="نسبة الإنجاز"
+              status={safeSummary.progressPercent >= 100 ? "complete" : "progress"}
+              size="compact"
+            />
+            <NeoMetricGauge
+              value={safeSummary.completedDays}
+              max={safeSummary.totalDays}
+              displayValue={`${safeSummary.completedDays} / ${safeSummary.totalDays}`}
+              label="الأيام المكتملة"
+              status={safeSummary.completedDays >= safeSummary.totalDays ? "complete" : "progress"}
+              size="compact"
+            />
+            <NeoMetricGauge
+              value={safeSummary.remainingDays}
+              max={safeSummary.totalDays}
+              displayValue={safeSummary.remainingDays}
+              label="المتبقي"
+              status={safeSummary.remainingDays === 0 ? "complete" : "warning"}
+              size="compact"
+            />
+            <NeoMetricGauge
+              value={1}
+              max={1}
+              progress={100}
+              displayValue={`${Math.round(Number(safeSummary.estimatedHours || 0))} ساعة`}
+              label="وقت تعلم تقديري"
+              status="readiness"
+              size="compact"
+            />
           </section>
 
           <section className="report-section">
-            <h2>الدروس المحفوظة</h2>
-            <p>أبرز الدروس التي اختار المتدرب العودة لها لاحقًا.</p>
+            <h2>Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø©</h2>
+            <p>Ø£Ø¨Ø±Ø² Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„ØªÙŠ Ø§Ø®ØªØ§Ø± Ø§Ù„Ù…ØªØ¯Ø±Ø¨ Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‡Ø§ Ù„Ø§Ø­Ù‚Ù‹Ø§.</p>
 
             {bookmarks.length ? (
               <div className="report-list">
                 {bookmarks.slice(0, 8).map((bookmark) => (
                   <div className="report-row" key={`${bookmark.month_index}-${bookmark.week_index}-${bookmark.day_index}`}>
                     <small>{bookmark.lesson_path || locationLabel(bookmark)}</small>
-                    <strong>{bookmark.lesson_title || "درس محفوظ"}</strong>
+                    <strong>{bookmark.lesson_title || "Ø¯Ø±Ø³ Ù…Ø­ÙÙˆØ¸"}</strong>
                     <p>{shortText(bookmark.excerpt, 260)}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="report-empty">لا توجد دروس محفوظة حتى الآن.</div>
+              <div className="report-empty">Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¯Ø±ÙˆØ³ Ù…Ø­ÙÙˆØ¸Ø© Ø­ØªÙ‰ Ø§Ù„Ø¢Ù†.</div>
             )}
           </section>
 
           <section className="report-section">
-            <h2>الملاحظات المثبتة</h2>
-            <p>أهم الملاحظات التي اختار المتدرب تثبيتها داخل الدروس.</p>
+            <h2>Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø§Ù„Ù…Ø«Ø¨ØªØ©</h2>
+            <p>Ø£Ù‡Ù… Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø§Ù„ØªÙŠ Ø§Ø®ØªØ§Ø± Ø§Ù„Ù…ØªØ¯Ø±Ø¨ ØªØ«Ø¨ÙŠØªÙ‡Ø§ Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¯Ø±ÙˆØ³.</p>
 
             {pinnedNotes.length ? (
               <div className="report-list">
                 {pinnedNotes.slice(0, 6).map((note) => (
                   <div className="report-row" key={note.id}>
-                    <small>{locationLabel(note)} · {formatDate(note.updated_at)}</small>
-                    <strong>{note.note_title || "ملاحظة مثبتة"}</strong>
+                    <small>{locationLabel(note)} Â· {formatDate(note.updated_at)}</small>
+                    <strong>{note.note_title || "Ù…Ù„Ø§Ø­Ø¸Ø© Ù…Ø«Ø¨ØªØ©"}</strong>
                     <p>{shortText(note.note, 300)}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="report-empty">لا توجد ملاحظات مثبتة حتى الآن.</div>
+              <div className="report-empty">Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ù…Ø«Ø¨ØªØ© Ø­ØªÙ‰ Ø§Ù„Ø¢Ù†.</div>
             )}
           </section>
 
           <section className="report-section">
-            <h2>التأملات الأسبوعية وخطط التطبيق</h2>
-            <p>تأملات المتدرب التي تربط المفاهيم بتطبيق عملي.</p>
+            <h2>Ø§Ù„ØªØ£Ù…Ù„Ø§Øª Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠØ© ÙˆØ®Ø·Ø· Ø§Ù„ØªØ·Ø¨ÙŠÙ‚</h2>
+            <p>ØªØ£Ù…Ù„Ø§Øª Ø§Ù„Ù…ØªØ¯Ø±Ø¨ Ø§Ù„ØªÙŠ ØªØ±Ø¨Ø· Ø§Ù„Ù…ÙØ§Ù‡ÙŠÙ… Ø¨ØªØ·Ø¨ÙŠÙ‚ Ø¹Ù…Ù„ÙŠ.</p>
 
             {weeklyReflections.length ? (
               <div className="report-list">
                 {weeklyReflections.slice(0, 8).map((reflection) => (
                   <div className="report-row" key={reflection.id || `${reflection.month_index}-${reflection.week_index}`}>
-                    <small>الشهر {reflection.month_index} · الأسبوع {reflection.week_index} · {formatDate(reflection.updated_at)}</small>
-                    <strong>{reflection.week_title || "تأمل أسبوعي"}</strong>
-                    <p><b>أهم فكرة:</b> {shortText(reflection.key_learning, 260)}</p>
-                    <p><b>الإجراء القادم:</b> {shortText(reflection.next_action, 260)}</p>
-                    <p>مستوى الثقة بالتطبيق: {reflection.confidence_score || "-"} / 5</p>
+                    <small>Ø§Ù„Ø´Ù‡Ø± {reflection.month_index} Â· Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ {reflection.week_index} Â· {formatDate(reflection.updated_at)}</small>
+                    <strong>{reflection.week_title || "ØªØ£Ù…Ù„ Ø£Ø³Ø¨ÙˆØ¹ÙŠ"}</strong>
+                    <p><b>Ø£Ù‡Ù… ÙÙƒØ±Ø©:</b> {shortText(reflection.key_learning, 260)}</p>
+                    <p><b>Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ø§Ù„Ù‚Ø§Ø¯Ù…:</b> {shortText(reflection.next_action, 260)}</p>
+                    <p>Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø«Ù‚Ø© Ø¨Ø§Ù„ØªØ·Ø¨ÙŠÙ‚: {reflection.confidence_score || "-"} / 5</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="report-empty">لا توجد تأملات أسبوعية محفوظة حتى الآن.</div>
+              <div className="report-empty">Ù„Ø§ ØªÙˆØ¬Ø¯ ØªØ£Ù…Ù„Ø§Øª Ø£Ø³Ø¨ÙˆØ¹ÙŠØ© Ù…Ø­ÙÙˆØ¸Ø© Ø­ØªÙ‰ Ø§Ù„Ø¢Ù†.</div>
             )}
           </section>
 
           <section className="report-section">
-            <h2>رادار الأداء</h2>
-            <p>آخر تقييمات محفوظة في رادار الأداء.</p>
+            <h2>Ø±Ø§Ø¯Ø§Ø± Ø§Ù„Ø£Ø¯Ø§Ø¡</h2>
+            <p>Ø¢Ø®Ø± ØªÙ‚ÙŠÙŠÙ…Ø§Øª Ù…Ø­ÙÙˆØ¸Ø© ÙÙŠ Ø±Ø§Ø¯Ø§Ø± Ø§Ù„Ø£Ø¯Ø§Ø¡.</p>
 
             {latestRadar ? (
               <div className="report-row">
-                <small>آخر تقييم · {formatDate(latestRadar.created_at)}</small>
+                <small>Ø¢Ø®Ø± ØªÙ‚ÙŠÙŠÙ… Â· {formatDate(latestRadar.created_at)}</small>
                 <strong>{latestRadar.assessment_title}</strong>
-                <p>الدرجة العامة: {latestRadar.overall_score} من 5</p>
+                <p>Ø§Ù„Ø¯Ø±Ø¬Ø© Ø§Ù„Ø¹Ø§Ù…Ø©: {latestRadar.overall_score} Ù…Ù† 5</p>
               </div>
             ) : (
-              <div className="report-empty">لا توجد نتيجة رادار محفوظة حتى الآن.</div>
+              <div className="report-empty">Ù„Ø§ ØªÙˆØ¬Ø¯ Ù†ØªÙŠØ¬Ø© Ø±Ø§Ø¯Ø§Ø± Ù…Ø­ÙÙˆØ¸Ø© Ø­ØªÙ‰ Ø§Ù„Ø¢Ù†.</div>
             )}
 
             {radarHistory.length > 1 ? (
@@ -569,7 +588,7 @@ export default function PortfolioExportReport({
                   <div className="report-row" key={item.id}>
                     <small>{formatDate(item.created_at)}</small>
                     <strong>{item.assessment_title}</strong>
-                    <p>الدرجة العامة: {item.overall_score} من 5</p>
+                    <p>Ø§Ù„Ø¯Ø±Ø¬Ø© Ø§Ù„Ø¹Ø§Ù…Ø©: {item.overall_score} Ù…Ù† 5</p>
                   </div>
                 ))}
               </div>
@@ -577,8 +596,8 @@ export default function PortfolioExportReport({
           </section>
 
           <section className="report-section">
-            <h2>الشهادات والإنجازات</h2>
-            <p>حالة الشهادات الشهرية ووثيقة الإتقان النهائية.</p>
+            <h2>Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª ÙˆØ§Ù„Ø¥Ù†Ø¬Ø§Ø²Ø§Øª</h2>
+            <p>Ø­Ø§Ù„Ø© Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ© ÙˆÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©.</p>
 
             <div className="report-cert-grid">
               {monthlyCertificates.slice(0, 6).map((certificate) => (
@@ -596,12 +615,12 @@ export default function PortfolioExportReport({
               className={`report-cert ${data?.masteryReady ? "issued" : ""}`}
               style={{ marginTop: 10 }}
             >
-              <b>وثيقة الإتقان النهائية</b>
-              <span>{data?.masteryReady ? "جاهزة" : "تفتح بعد إكمال الرحلة"}</span>
+              <b>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©</b>
+              <span>{data?.masteryReady ? "Ø¬Ø§Ù‡Ø²Ø©" : "ØªÙØªØ­ Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„Ø±Ø­Ù„Ø©"}</span>
             </div>
 
             <p className="report-footer-note">
-              عدد الشهادات الشهرية المفتوحة: {issuedCertificates.length} من 6. هذا التقرير يعكس البيانات المتاحة وقت التوليد داخل المنصة.
+              Ø¹Ø¯Ø¯ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ© Ø§Ù„Ù…ÙØªÙˆØ­Ø©: {issuedCertificates.length} Ù…Ù† 6. Ù‡Ø°Ø§ Ø§Ù„ØªÙ‚Ø±ÙŠØ± ÙŠØ¹ÙƒØ³ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…ØªØ§Ø­Ø© ÙˆÙ‚Øª Ø§Ù„ØªÙˆÙ„ÙŠØ¯ Ø¯Ø§Ø®Ù„ Ø§Ù„Ù…Ù†ØµØ©.
             </p>
           </section>
         </div>
@@ -609,3 +628,4 @@ export default function PortfolioExportReport({
     </section>
   );
 }
+

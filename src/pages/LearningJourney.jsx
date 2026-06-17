@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import NeoMetricGauge from "../components/NeoMetricGauge";
 import { learningJourneyData, learningJourneyMeta } from "../data/learningJourneyData";
 
 const STORAGE_KEY = "od.learning.journey.progress.v2";
@@ -104,14 +105,16 @@ function normalizePercent(value) {
 function ProgressRing({ percent, label }) {
   const p = normalizePercent(percent);
   return (
-    <div
-      className="journey-ring od-circular-indicator od-indicator-general"
-      style={{ "--p": `${p}%`, "--od-indicator-progress": `${p}%` }}
-      aria-label={`${label}: ${p}%`}
-    >
-      <span>{p}%</span>
-      <small className="journey-ring-label">{label}</small>
-    </div>
+    <NeoMetricGauge
+      className="journey-ring-gauge"
+      value={p}
+      max={100}
+      displayValue={`${p}%`}
+      label={label}
+      status={p >= 100 ? "complete" : "progress"}
+      size="hero"
+      ariaLabel={`${label}: ${p}%`}
+    />
   );
 }
 
@@ -402,7 +405,14 @@ export default function LearningJourney() {
                 </div>
                 <h3>{month.title}</h3>
                 <p>{MONTH_TONES[index]}</p>
-                <div className="mini-progress"><i style={{ width: `${normalizePercent(percent)}%` }} /></div>
+                <NeoMetricGauge
+                  value={normalizePercent(percent)}
+                  max={100}
+                  displayValue={`${normalizePercent(percent)}%`}
+                  label="نسبة الإنجاز"
+                  status={normalizePercent(percent) >= 100 ? "complete" : "progress"}
+                  size="compact"
+                />
                 <small>{weeksDone} من {month.weeks.length} أسابيع مكتملة</small>
               </button>
             );
@@ -450,7 +460,14 @@ export default function LearningJourney() {
                 </div>
                 <h3>{week.title}</h3>
                 <p>{week.intro?.[0] || "أسبوع تطبيقي ضمن مسار التطوير التنظيمي."}</p>
-                <div className="mini-progress"><i style={{ width: `${normalizePercent(percent)}%` }} /></div>
+                <NeoMetricGauge
+                  value={normalizePercent(percent)}
+                  max={100}
+                  displayValue={`${normalizePercent(percent)}%`}
+                  label="نسبة الإنجاز"
+                  status={normalizePercent(percent) >= 100 ? "complete" : "progress"}
+                  size="compact"
+                />
                 <small>{daysDone} من {week.days.length} أيام مكتملة</small>
               </button>
             );
@@ -604,7 +621,14 @@ export default function LearningJourney() {
 
           <div className="lesson-progress-card">
             <b>موقعك داخل الأسبوع</b>
-            <div className="mini-progress"><i style={{ width: `${normalizePercent(((dayIndex + (isDone ? 1 : 0)) / selectedWeek.days.length) * 100)}%` }} /></div>
+            <NeoMetricGauge
+              value={normalizePercent(((dayIndex + (isDone ? 1 : 0)) / selectedWeek.days.length) * 100)}
+              max={100}
+              displayValue={`${normalizePercent(((dayIndex + (isDone ? 1 : 0)) / selectedWeek.days.length) * 100)}%`}
+              label="نسبة الإنجاز"
+              status={isDone ? "complete" : "progress"}
+              size="compact"
+            />
             <small>{selectedWeek.days.filter((d) => dayIsComplete(d.id)).length} من {selectedWeek.days.length} أيام مكتملة في هذا الأسبوع</small>
           </div>
         </aside>

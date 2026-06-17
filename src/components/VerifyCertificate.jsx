@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { verifyCertificatePublic } from "../lib/masteryCertificateService";
+import NeoMetricGauge from "./NeoMetricGauge";
 
 export default function VerifyCertificate({ slug }) {
   const [loading, setLoading] = useState(true);
@@ -21,10 +22,10 @@ export default function VerifyCertificate({ slug }) {
         if (data) {
           setRecord(data);
         } else {
-          setError("لم يتم العثور على وثيقة أو شهادة مفعّلة بهذا الرقم.");
+          setError("Ù„Ù… ÙŠØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ ÙˆØ«ÙŠÙ‚Ø© Ø£Ùˆ Ø´Ù‡Ø§Ø¯Ø© Ù…ÙØ¹Ù‘Ù„Ø© Ø¨Ù‡Ø°Ø§ Ø§Ù„Ø±Ù‚Ù….");
         }
       } catch (err) {
-        if (active) setError(err?.message || "تعذر التحقق من الوثيقة.");
+        if (active) setError(err?.message || "ØªØ¹Ø°Ø± Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©.");
       } finally {
         if (active) setLoading(false);
       }
@@ -42,12 +43,12 @@ export default function VerifyCertificate({ slug }) {
     Number.isFinite(Number(record?.month_number));
 
   const certificateTitle = isMonthly
-    ? "شهادة إنجاز شهرية موثّقة"
-    : "وثيقة إتقان موثّقة";
+    ? "Ø´Ù‡Ø§Ø¯Ø© Ø¥Ù†Ø¬Ø§Ø² Ø´Ù‡Ø±ÙŠØ© Ù…ÙˆØ«Ù‘Ù‚Ø©"
+    : "ÙˆØ«ÙŠÙ‚Ø© Ø¥ØªÙ‚Ø§Ù† Ù…ÙˆØ«Ù‘Ù‚Ø©";
 
   const certificateDescription = isMonthly
-    ? "تم العثور على شهادة شهرية مفعّلة وصادرة بعد إكمال محطة شهرية من رحلة التطوير التنظيمي."
-    : "تم العثور على وثيقة مفعّلة وصادرة بعد إكمال رحلة التطوير التنظيمي.";
+    ? "ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø´Ù‡Ø§Ø¯Ø© Ø´Ù‡Ø±ÙŠØ© Ù…ÙØ¹Ù‘Ù„Ø© ÙˆØµØ§Ø¯Ø±Ø© Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ù…Ø­Ø·Ø© Ø´Ù‡Ø±ÙŠØ© Ù…Ù† Ø±Ø­Ù„Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ."
+    : "ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ ÙˆØ«ÙŠÙ‚Ø© Ù…ÙØ¹Ù‘Ù„Ø© ÙˆØµØ§Ø¯Ø±Ø© Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø±Ø­Ù„Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ.";
 
   return (
     <main className="verify-page" dir="rtl">
@@ -189,55 +190,31 @@ export default function VerifyCertificate({ slug }) {
       <section className={`verify-card ${record ? "success" : ""}`}>
         {loading ? (
           <>
-            <div className="verify-mark">…</div>
-            <h1>جارٍ التحقق من الوثيقة</h1>
-            <p>نراجع رقم الوثيقة في قاعدة بيانات رحلة التطوير التنظيمي.</p>
+            <div className="verify-mark">â€¦</div>
+            <h1>Ø¬Ø§Ø±Ù Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</h1>
+            <p>Ù†Ø±Ø§Ø¬Ø¹ Ø±Ù‚Ù… Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© ÙÙŠ Ù‚Ø§Ø¹Ø¯Ø© Ø¨ÙŠØ§Ù†Ø§Øª Ø±Ø­Ù„Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ.</p>
           </>
         ) : record ? (
           <>
-            <div className="verify-mark">✓</div>
+            <div className="verify-mark">âœ“</div>
             <h1>{certificateTitle}</h1>
             <p>{certificateDescription}</p>
 
-            <span className="verify-state">صالحة ومفعّلة</span>
+            <span className="verify-state">ØµØ§Ù„Ø­Ø© ÙˆÙ…ÙØ¹Ù‘Ù„Ø©</span>
 
             <div className="verify-grid">
-              <div className="verify-field">
-                <span>رقم الوثيقة</span>
-                <strong>{record.certificate_code}</strong>
-              </div>
+              <NeoMetricGauge
+                className="verify-days-gauge"
+                value={record.completed_days}
+                max={record.total_days}
+                displayValue={`${record.completed_days} / ${record.total_days}`}
+                label="الأيام المكتملة"
+                status={record.completed_days >= record.total_days ? "complete" : "progress"}
+                size="compact"
+              />
 
               <div className="verify-field">
-                <span>اسم المتدرب</span>
-                <strong>{record.certificate_name}</strong>
-              </div>
-
-              {isMonthly ? (
-                <>
-                  <div className="verify-field">
-                    <span>نوع الشهادة</span>
-                    <strong>شهادة شهرية · الشهر {record.month_number}</strong>
-                  </div>
-
-                  <div className="verify-field">
-                    <span>عنوان الشهر</span>
-                    <strong>{record.month_title || "إنجاز شهري في رحلة OD"}</strong>
-                  </div>
-                </>
-              ) : (
-                <div className="verify-field">
-                  <span>نوع الوثيقة</span>
-                  <strong>وثيقة إتقان نهائية</strong>
-                </div>
-              )}
-
-              <div className="verify-field">
-                <span>الأيام المكتملة</span>
-                <strong>{record.completed_days} / {record.total_days}</strong>
-              </div>
-
-              <div className="verify-field">
-                <span>تاريخ الإصدار</span>
+                <span>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¥ØµØ¯Ø§Ø±</span>
                 <strong>
                   {record.issued_at
                     ? new Intl.DateTimeFormat("ar-SA", {
@@ -245,13 +222,13 @@ export default function VerifyCertificate({ slug }) {
                         month: "long",
                         day: "numeric"
                       }).format(new Date(record.issued_at))
-                    : "غير محدد"}
+                    : "ØºÙŠØ± Ù…Ø­Ø¯Ø¯"}
                 </strong>
               </div>
             </div>
 
             <a className="verify-home" href="/">
-              العودة للمنصة
+              Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„Ù…Ù†ØµØ©
             </a>
           </>
         ) : (
@@ -259,13 +236,13 @@ export default function VerifyCertificate({ slug }) {
             <div className="verify-mark" style={{ background: "linear-gradient(135deg,#ef4444,#991b1b)" }}>
               !
             </div>
-            <h1>لم يتم التحقق من الوثيقة</h1>
+            <h1>Ù„Ù… ÙŠØªÙ… Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</h1>
             <div className="verify-error">
-              {error || "الرابط غير صحيح أو الوثيقة غير مفعّلة."}
+              {error || "Ø§Ù„Ø±Ø§Ø¨Ø· ØºÙŠØ± ØµØ­ÙŠØ­ Ø£Ùˆ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© ØºÙŠØ± Ù…ÙØ¹Ù‘Ù„Ø©."}
             </div>
 
             <a className="verify-home" href="/">
-              العودة للمنصة
+              Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„Ù…Ù†ØµØ©
             </a>
           </>
         )}
@@ -273,3 +250,4 @@ export default function VerifyCertificate({ slug }) {
     </main>
   );
 }
+

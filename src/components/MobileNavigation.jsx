@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from "react";
+﻿import { useEffect, useMemo } from "react";
 import SiteLogo from "./SiteLogo";
+import NeoMetricGauge from "./NeoMetricGauge";
 
 function safeNumber(value, fallback = 0) {
   const number = Number(value);
@@ -7,8 +8,8 @@ function safeNumber(value, fallback = 0) {
 }
 
 function firstNameOf(value) {
-  const clean = String(value || "متدرب").trim();
-  return clean.split(/\s+/)[0] || "متدرب";
+  const clean = String(value || "Ù…ØªØ¯Ø±Ø¨").trim();
+  return clean.split(/\s+/)[0] || "Ù…ØªØ¯Ø±Ø¨";
 }
 
 export default function MobileNavigation({
@@ -16,7 +17,7 @@ export default function MobileNavigation({
   pages = [],
   toolPages = [],
   activePage = "home",
-  userName = "متدرب",
+  userName = "Ù…ØªØ¯Ø±Ø¨",
   completedDays = 0,
   totalDays = 180,
   onNavigate,
@@ -367,46 +368,41 @@ export default function MobileNavigation({
       <button
         type="button"
         className="mobile-nav-backdrop"
-        aria-label="إغلاق قائمة الجوال"
+        aria-label="Ø¥ØºÙ„Ø§Ù‚ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¬ÙˆØ§Ù„"
         onClick={onClose}
       />
 
-      <aside className="mobile-nav-panel" aria-label="قائمة التنقل للجوال">
+      <aside className="mobile-nav-panel" aria-label="Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„ØªÙ†Ù‚Ù„ Ù„Ù„Ø¬ÙˆØ§Ù„">
         <div className="mobile-nav-top">
           <div className="mobile-nav-title">
             <div className="mobile-nav-logo">
               <SiteLogo variant="horizontal" context="mobile" />
             </div>
-            <strong>حياك يا {firstNameOf(userName)}</strong>
-            <span>تنقل سريع داخل مختبر التطوير التنظيمي</span>
+            <strong>Ø­ÙŠØ§Ùƒ ÙŠØ§ {firstNameOf(userName)}</strong>
+            <span>ØªÙ†Ù‚Ù„ Ø³Ø±ÙŠØ¹ Ø¯Ø§Ø®Ù„ Ù…Ø®ØªØ¨Ø± Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ</span>
           </div>
 
-          <button type="button" className="mobile-nav-close" onClick={onClose} aria-label="إغلاق">
-            ×
+          <button type="button" className="mobile-nav-close" onClick={onClose} aria-label="Ø¥ØºÙ„Ø§Ù‚">
+            Ã—
           </button>
         </div>
 
-        <div
-          className="mobile-nav-progress"
-          style={{ "--progress-width": `${progress.percent}%` }}
-        >
-          <div className="mobile-nav-progress-head">
-            <span>تقدم الرحلة</span>
-            <strong>{progress.percent}%</strong>
-          </div>
-
-          <div className="mobile-nav-track">
-            <i />
-          </div>
-
-          <small>{progress.completed} من {progress.total} يومًا مكتملًا</small>
-        </div>
+        <NeoMetricGauge
+          className="mobile-nav-progress-gauge"
+          value={progress.percent}
+          max={100}
+          displayValue={`${progress.percent}%`}
+          label="تقدم الرحلة"
+          subLabel={`${progress.completed} من ${progress.total} يومًا مكتملًا`}
+          status={progress.percent >= 100 ? "complete" : "progress"}
+          size="default"
+        />
 
         <button type="button" className="mobile-nav-resume" onClick={onResumeJourney}>
-          متابعة من آخر محطة
+          Ù…ØªØ§Ø¨Ø¹Ø© Ù…Ù† Ø¢Ø®Ø± Ù…Ø­Ø·Ø©
         </button>
 
-        <nav className="mobile-nav-list" aria-label="أقسام المنصة للجوال">
+        <nav className="mobile-nav-list" aria-label="Ø£Ù‚Ø³Ø§Ù… Ø§Ù„Ù…Ù†ØµØ© Ù„Ù„Ø¬ÙˆØ§Ù„">
           {pages.map((page, index) => (
             <FragmentLike
               keyValue={page.id}
@@ -424,7 +420,7 @@ export default function MobileNavigation({
 
         <div className="mobile-nav-bottom">
           <button type="button" className="mobile-nav-signout" onClick={onSignOut}>
-            تسجيل الخروج
+            ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬
           </button>
         </div>
       </aside>
@@ -455,8 +451,8 @@ function FragmentLike({
       {showTools && (
         <div className={`mobile-tools-group ${toolsActive ? "active" : ""}`}>
           <div className="mobile-tools-title">
-            <strong>الأدوات التعليمية</strong>
-            <span>قياس وتطبيق</span>
+            <strong>Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ©</strong>
+            <span>Ù‚ÙŠØ§Ø³ ÙˆØªØ·Ø¨ÙŠÙ‚</span>
           </div>
 
           {toolPages.map((tool) => (
@@ -475,3 +471,4 @@ function FragmentLike({
     </>
   );
 }
+

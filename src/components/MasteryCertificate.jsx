@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "../data/courseContent";
 import MonthlyCertificates from "./MonthlyCertificates";
+import NeoMetricGauge from "./NeoMetricGauge";
 import {
   buildVerificationUrl,
   copyTextSafely,
@@ -46,7 +47,7 @@ export default function MasteryCertificate({
   const totalHours = totalDays * 4;
   const isUnlocked = safeCompletedDays >= totalDays;
 
-  const learnerName = userName?.trim() || "متدرب";
+  const learnerName = userName?.trim() || "Ù…ØªØ¯Ø±Ø¨";
   const fallbackCertificateId = buildCertificateId(learnerName, safeCompletedDays);
   const certificateCode = certificateRecord?.certificate_code || fallbackCertificateId;
   const verificationSlug =
@@ -85,8 +86,8 @@ export default function MasteryCertificate({
 
         if (active) setCertificateRecord(record);
       } catch (error) {
-        console.warn("تعذر مزامنة وثيقة الإتقان:", error);
-        if (active) setCertificateError(error?.message || "تعذر مزامنة بيانات الوثيقة.");
+        console.warn("ØªØ¹Ø°Ø± Ù…Ø²Ø§Ù…Ù†Ø© ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†:", error);
+        if (active) setCertificateError(error?.message || "ØªØ¹Ø°Ø± Ù…Ø²Ø§Ù…Ù†Ø© Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©.");
       } finally {
         if (active) setCertificateLoading(false);
       }
@@ -101,21 +102,21 @@ export default function MasteryCertificate({
 
 
   const linkedInPost = useMemo(() => {
-    return `أتممت بحمد الله رحلة معرفية امتدت 6 أشهر في هندسة التطوير التنظيمي OD، عبر مسار مكثف جمع بين التشخيص التنظيمي، تصميم الهياكل والأدوار، قيادة التغيير، الثقافة التنظيمية، التعلم المؤسسي، قياس الأثر، واستدامة تدخلات التطوير التنظيمي.
+    return `Ø£ØªÙ…Ù…Øª Ø¨Ø­Ù…Ø¯ Ø§Ù„Ù„Ù‡ Ø±Ø­Ù„Ø© Ù…Ø¹Ø±ÙÙŠØ© Ø§Ù…ØªØ¯Øª 6 Ø£Ø´Ù‡Ø± ÙÙŠ Ù‡Ù†Ø¯Ø³Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ ODØŒ Ø¹Ø¨Ø± Ù…Ø³Ø§Ø± Ù…ÙƒØ«Ù Ø¬Ù…Ø¹ Ø¨ÙŠÙ† Ø§Ù„ØªØ´Ø®ÙŠØµ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØŒ ØªØµÙ…ÙŠÙ… Ø§Ù„Ù‡ÙŠØ§ÙƒÙ„ ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Ø±ØŒ Ù‚ÙŠØ§Ø¯Ø© Ø§Ù„ØªØºÙŠÙŠØ±ØŒ Ø§Ù„Ø«Ù‚Ø§ÙØ© Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØ©ØŒ Ø§Ù„ØªØ¹Ù„Ù… Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠØŒ Ù‚ÙŠØ§Ø³ Ø§Ù„Ø£Ø«Ø±ØŒ ÙˆØ§Ø³ØªØ¯Ø§Ù…Ø© ØªØ¯Ø®Ù„Ø§Øª Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ.
 
-لم تكن الرحلة مجرد محتوى تعليمي؛ بل تدريبًا عمليًا على سؤال جوهري:
-لا تبدأ بالحل، افهم النظام الذي جعل السلوك منطقيًا داخله.
+Ù„Ù… ØªÙƒÙ† Ø§Ù„Ø±Ø­Ù„Ø© Ù…Ø¬Ø±Ø¯ Ù…Ø­ØªÙˆÙ‰ ØªØ¹Ù„ÙŠÙ…ÙŠØ› Ø¨Ù„ ØªØ¯Ø±ÙŠØ¨Ù‹Ø§ Ø¹Ù…Ù„ÙŠÙ‹Ø§ Ø¹Ù„Ù‰ Ø³Ø¤Ø§Ù„ Ø¬ÙˆÙ‡Ø±ÙŠ:
+Ù„Ø§ ØªØ¨Ø¯Ø£ Ø¨Ø§Ù„Ø­Ù„ØŒ Ø§ÙÙ‡Ù… Ø§Ù„Ù†Ø¸Ø§Ù… Ø§Ù„Ø°ÙŠ Ø¬Ø¹Ù„ Ø§Ù„Ø³Ù„ÙˆÙƒ Ù…Ù†Ø·Ù‚ÙŠÙ‹Ø§ Ø¯Ø§Ø®Ù„Ù‡.
 
-خرجت من هذه التجربة بمنهجية أكثر نضجًا في قراءة المنظمات:
-تشخيص → فرضيات → بيانات → تدخل → تبنّي → أثر → استدامة → تعلم.
+Ø®Ø±Ø¬Øª Ù…Ù† Ù‡Ø°Ù‡ Ø§Ù„ØªØ¬Ø±Ø¨Ø© Ø¨Ù…Ù†Ù‡Ø¬ÙŠØ© Ø£ÙƒØ«Ø± Ù†Ø¶Ø¬Ù‹Ø§ ÙÙŠ Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„Ù…Ù†Ø¸Ù…Ø§Øª:
+ØªØ´Ø®ÙŠØµ â†’ ÙØ±Ø¶ÙŠØ§Øª â†’ Ø¨ÙŠØ§Ù†Ø§Øª â†’ ØªØ¯Ø®Ù„ â†’ ØªØ¨Ù†Ù‘ÙŠ â†’ Ø£Ø«Ø± â†’ Ø§Ø³ØªØ¯Ø§Ù…Ø© â†’ ØªØ¹Ù„Ù….
 
-شكرًا لريان العجلان على بناء هذا المختبر المعرفي الملهم في التطوير التنظيمي.
+Ø´ÙƒØ±Ù‹Ø§ Ù„Ø±ÙŠØ§Ù† Ø§Ù„Ø¹Ø¬Ù„Ø§Ù† Ø¹Ù„Ù‰ Ø¨Ù†Ø§Ø¡ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø®ØªØ¨Ø± Ø§Ù„Ù…Ø¹Ø±ÙÙŠ Ø§Ù„Ù…Ù„Ù‡Ù… ÙÙŠ Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ.
 
-#التطوير_التنظيمي
+#Ø§Ù„ØªØ·ÙˆÙŠØ±_Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ
 #OD
-#الموارد_البشرية
-#قيادة_التغيير
-#التعلم_المؤسسي`;
+#Ø§Ù„Ù…ÙˆØ§Ø±Ø¯_Ø§Ù„Ø¨Ø´Ø±ÙŠØ©
+#Ù‚ÙŠØ§Ø¯Ø©_Ø§Ù„ØªØºÙŠÙŠØ±
+#Ø§Ù„ØªØ¹Ù„Ù…_Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠ`;
   }, []);
 
   async function copyLinkedInPost() {
@@ -125,7 +126,7 @@ export default function MasteryCertificate({
       setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(false);
-      alert("لم يتم النسخ تلقائيًا. انسخ النص يدويًا من مربع المشاركة.");
+      alert("Ù„Ù… ÙŠØªÙ… Ø§Ù„Ù†Ø³Ø® ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§. Ø§Ù†Ø³Ø® Ø§Ù„Ù†Øµ ÙŠØ¯ÙˆÙŠÙ‹Ø§ Ù…Ù† Ù…Ø±Ø¨Ø¹ Ø§Ù„Ù…Ø´Ø§Ø±ÙƒØ©.");
     }
   }
 
@@ -136,7 +137,7 @@ export default function MasteryCertificate({
       setVerificationCopied(true);
       setTimeout(() => setVerificationCopied(false), 2500);
     } else {
-      alert("لم يتم نسخ رابط التحقق تلقائيًا. انسخه يدويًا من البطاقة.");
+      alert("Ù„Ù… ÙŠØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§. Ø§Ù†Ø³Ø®Ù‡ ÙŠØ¯ÙˆÙŠÙ‹Ø§ Ù…Ù† Ø§Ù„Ø¨Ø·Ø§Ù‚Ø©.");
     }
   }
 
@@ -853,89 +854,103 @@ export default function MasteryCertificate({
         <div className="mastery-hero mastery-no-print">
           <div className="mastery-hero-content">
             <div>
-              <span className="mastery-eyebrow">📜 وثيقة الإتقان</span>
+              <span className="mastery-eyebrow">ðŸ“œ ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†</span>
               <h1>
-                لا تُمنح الوثيقة عند الدخول،
+                Ù„Ø§ ØªÙÙ…Ù†Ø­ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ø¹Ù†Ø¯ Ø§Ù„Ø¯Ø®ÙˆÙ„ØŒ
                 <br />
-                بل عند اكتمال <span>الرحلة كاملة</span>.
+                Ø¨Ù„ Ø¹Ù†Ø¯ Ø§ÙƒØªÙ…Ø§Ù„ <span>Ø§Ù„Ø±Ø­Ù„Ø© ÙƒØ§Ù…Ù„Ø©</span>.
               </h1>
               <p>
-                هذه الوثيقة ليست شهادة حضور؛ إنها سجل إتمام لمسار معرفي تطبيقي
-                يمتد عبر 180 يومًا في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
-                اكتمال جميع أيام الرحلة التعليمية.
+                Ù‡Ø°Ù‡ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ù„ÙŠØ³Øª Ø´Ù‡Ø§Ø¯Ø© Ø­Ø¶ÙˆØ±Ø› Ø¥Ù†Ù‡Ø§ Ø³Ø¬Ù„ Ø¥ØªÙ…Ø§Ù… Ù„Ù…Ø³Ø§Ø± Ù…Ø¹Ø±ÙÙŠ ØªØ·Ø¨ÙŠÙ‚ÙŠ
+                ÙŠÙ…ØªØ¯ Ø¹Ø¨Ø± 180 ÙŠÙˆÙ…Ù‹Ø§ ÙÙŠ Ù‡Ù†Ø¯Ø³Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØŒ ÙˆÙ„Ø§ ØªØ¸Ù‡Ø± Ø¥Ù„Ø§ Ø¨Ø¹Ø¯
+                Ø§ÙƒØªÙ…Ø§Ù„ Ø¬Ù…ÙŠØ¹ Ø£ÙŠØ§Ù… Ø§Ù„Ø±Ø­Ù„Ø© Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ©.
               </p>
             </div>
 
-            <div
-              className="mastery-progress-orb od-circular-indicator od-indicator-completion"
-              style={{ "--od-indicator-progress": `${progress}%` }}
-              aria-label="نسبة إتمام الرحلة"
-            >
-              <div className="mastery-progress-inner">
-                <div>
-                  <strong>{progress}%</strong>
-                  <span>إتمام الرحلة</span>
-                </div>
-              </div>
-            </div>
+            <NeoMetricGauge
+              className="mastery-hero-gauge"
+              value={progress}
+              max={100}
+              displayValue={`${progress}%`}
+              label="إتمام الرحلة"
+              status={progress >= 100 ? "complete" : "progress"}
+              size="hero"
+              ariaLabel="نسبة إتمام الرحلة"
+            />
           </div>
         </div>
 
         <div className="mastery-stats mastery-no-print">
-          <div className="mastery-stat">
-            <span>الأيام المكتملة</span>
-            <strong>{safeCompletedDays} / {totalDays}</strong>
-          </div>
-          <div className="mastery-stat">
-            <span>الساعات المحتسبة</span>
-            <strong>{hours} / {totalHours}</strong>
-          </div>
-          <div className="mastery-stat">
-            <span>الأيام المتبقية</span>
-            <strong>{remainingDays}</strong>
-          </div>
-          <div className="mastery-stat">
-            <span>حالة الوثيقة</span>
-            <strong>{isUnlocked ? "مفتوحة" : "مقفلة"}</strong>
-          </div>
+          <NeoMetricGauge
+            value={safeCompletedDays}
+            max={totalDays}
+            displayValue={`${safeCompletedDays} / ${totalDays}`}
+            label="الأيام المكتملة"
+            status={safeCompletedDays >= totalDays ? "complete" : "progress"}
+            size="compact"
+          />
+          <NeoMetricGauge
+            value={hours}
+            max={totalHours}
+            displayValue={`${hours} / ${totalHours}`}
+            label="الساعات المحتسبة"
+            status={hours >= totalHours ? "complete" : "readiness"}
+            size="compact"
+          />
+          <NeoMetricGauge
+            value={remainingDays}
+            max={totalDays}
+            displayValue={remainingDays}
+            label="الأيام المتبقية"
+            status={remainingDays === 0 ? "complete" : "warning"}
+            size="compact"
+          />
+          <NeoMetricGauge
+            value={isUnlocked ? 1 : 0}
+            max={1}
+            displayValue={isUnlocked ? "مفتوحة" : "مقفلة"}
+            label="حالة الوثيقة"
+            status={isUnlocked ? "complete" : "locked"}
+            size="compact"
+          />
         </div>
 
-        {/* Phase 22: شهادات الإنجاز الشهرية قبل وثيقة الإتقان النهائية */}
+        {/* Phase 22: Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„Ø´Ù‡Ø±ÙŠØ© Ù‚Ø¨Ù„ ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ© */}
         <MonthlyCertificates
           userName={learnerName}
           completedDays={safeCompletedDays}
           totalDays={totalDays}
         />
 
-        <section className="certificate-verification-panel mastery-no-print" aria-label="بيانات التحقق من الوثيقة">
+        <section className="certificate-verification-panel mastery-no-print" aria-label="Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©">
           <div className="certificate-verification-grid">
             <div className="certificate-verification-card">
-              <span>رقم الوثيقة</span>
+              <span>Ø±Ù‚Ù… Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</span>
               <strong>{certificateCode}</strong>
               <small>
                 {certificateLoading
-                  ? "جارٍ مزامنة رقم الوثيقة مع قاعدة البيانات..."
-                  : certificateError || "يرتبط هذا الرقم بإنجازك الفعلي داخل الرحلة."}
+                  ? "Ø¬Ø§Ø±Ù Ù…Ø²Ø§Ù…Ù†Ø© Ø±Ù‚Ù… Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ù…Ø¹ Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª..."
+                  : certificateError || "ÙŠØ±ØªØ¨Ø· Ù‡Ø°Ø§ Ø§Ù„Ø±Ù‚Ù… Ø¨Ø¥Ù†Ø¬Ø§Ø²Ùƒ Ø§Ù„ÙØ¹Ù„ÙŠ Ø¯Ø§Ø®Ù„ Ø§Ù„Ø±Ø­Ù„Ø©."}
               </small>
             </div>
 
             <div className="certificate-verification-card">
-              <span>حالة التحقق العام</span>
+              <span>Ø­Ø§Ù„Ø© Ø§Ù„ØªØ­Ù‚Ù‚ Ø§Ù„Ø¹Ø§Ù…</span>
               <strong>
                 <i className={`verify-state ${verificationEnabled ? "enabled" : "locked"}`}>
-                  {verificationEnabled ? "مفعّل بعد الإكمال" : "غير مفعّل قبل الإكمال"}
+                  {verificationEnabled ? "Ù…ÙØ¹Ù‘Ù„ Ø¨Ø¹Ø¯ Ø§Ù„Ø¥ÙƒÙ…Ø§Ù„" : "ØºÙŠØ± Ù…ÙØ¹Ù‘Ù„ Ù‚Ø¨Ù„ Ø§Ù„Ø¥ÙƒÙ…Ø§Ù„"}
                 </i>
               </strong>
               <small>
                 {isUnlocked
-                  ? "يمكن مشاركة رابط التحقق بعد صدور الوثيقة."
-                  : "سيظهر رابط التحقق بعد إكمال جميع أيام الرحلة."}
+                  ? "ÙŠÙ…ÙƒÙ† Ù…Ø´Ø§Ø±ÙƒØ© Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ Ø¨Ø¹Ø¯ ØµØ¯ÙˆØ± Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©."
+                  : "Ø³ÙŠØ¸Ù‡Ø± Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø¬Ù…ÙŠØ¹ Ø£ÙŠØ§Ù… Ø§Ù„Ø±Ø­Ù„Ø©."}
               </small>
 
               {isUnlocked && (
                 <div className="certificate-verification-actions">
                   <button type="button" className="mastery-button ghost" onClick={copyVerificationLink}>
-                    {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
+                    {verificationCopied ? "ØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ âœ…" : "Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚"}
                   </button>
                 </div>
               )}
@@ -946,15 +961,15 @@ export default function MasteryCertificate({
         {!isUnlocked && (
           <div className="mastery-lock mastery-no-print">
             <div className="mastery-lock-grid">
-              <div className="mastery-lock-icon">🔒</div>
+              <div className="mastery-lock-icon">ðŸ”’</div>
 
               <div>
-                <h2>وثيقة الإتقان لم تُفتح بعد</h2>
+                <h2>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ù„Ù… ØªÙÙØªØ­ Ø¨Ø¹Ø¯</h2>
                 <p>
-                  أكمل جميع أيام الرحلة التعليمية أولًا. بقي أمامك{" "}
-                  <strong>{remainingDays}</strong> يومًا حتى تُفتح الوثيقة
-                  تلقائيًا. هذا الإقفال مقصود حتى تبقى الوثيقة مرتبطة بالإنجاز
-                  الفعلي لا بمجرد دخول الصفحة.
+                  Ø£ÙƒÙ…Ù„ Ø¬Ù…ÙŠØ¹ Ø£ÙŠØ§Ù… Ø§Ù„Ø±Ø­Ù„Ø© Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ© Ø£ÙˆÙ„Ù‹Ø§. Ø¨Ù‚ÙŠ Ø£Ù…Ø§Ù…Ùƒ{" "}
+                  <strong>{remainingDays}</strong> ÙŠÙˆÙ…Ù‹Ø§ Ø­ØªÙ‰ ØªÙÙØªØ­ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©
+                  ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§. Ù‡Ø°Ø§ Ø§Ù„Ø¥Ù‚ÙØ§Ù„ Ù…Ù‚ØµÙˆØ¯ Ø­ØªÙ‰ ØªØ¨Ù‚Ù‰ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ù…Ø±ØªØ¨Ø·Ø© Ø¨Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²
+                  Ø§Ù„ÙØ¹Ù„ÙŠ Ù„Ø§ Ø¨Ù…Ø¬Ø±Ø¯ Ø¯Ø®ÙˆÙ„ Ø§Ù„ØµÙØ­Ø©.
                 </p>
               </div>
 
@@ -962,13 +977,19 @@ export default function MasteryCertificate({
                 className="mastery-button primary"
                 onClick={() => setActivePage?.("journey")}
               >
-                العودة إلى رحلتك التعليمية 🧭
+                Ø§Ù„Ø¹ÙˆØ¯Ø© Ø¥Ù„Ù‰ Ø±Ø­Ù„ØªÙƒ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ© ðŸ§­
               </button>
             </div>
 
-            <div className="mastery-track">
-              <span />
-            </div>
+            <NeoMetricGauge
+              className="mastery-lock-gauge"
+              value={progress}
+              max={100}
+              displayValue={`${progress}%`}
+              label="نسبة الإنجاز"
+              status={progress >= 100 ? "complete" : "progress"}
+              size="compact"
+            />
           </div>
         )}
 
@@ -982,69 +1003,69 @@ export default function MasteryCertificate({
                       <div className="brand-mark">RA</div>
                       <div>
                         <strong>OD Engineering LAB</strong>
-                        <span>مختبر التطوير التنظيمي المستقل</span>
+                        <span>Ù…Ø®ØªØ¨Ø± Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ Ø§Ù„Ù…Ø³ØªÙ‚Ù„</span>
                       </div>
                     </div>
 
                     <div className="certificate-code">
-                      <strong>رقم الوثيقة: {certificateCode}</strong>
-                      <span>تاريخ الإتمام: {completionDate}</span>
+                      <strong>Ø±Ù‚Ù… Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©: {certificateCode}</strong>
+                      <span>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¥ØªÙ…Ø§Ù…: {completionDate}</span>
                       <div className="certificate-verify-line">
-                        حالة التحقق: <strong>{verificationEnabled ? "مفعّل" : "قيد التفعيل"}</strong>
+                        Ø­Ø§Ù„Ø© Ø§Ù„ØªØ­Ù‚Ù‚: <strong>{verificationEnabled ? "Ù…ÙØ¹Ù‘Ù„" : "Ù‚ÙŠØ¯ Ø§Ù„ØªÙØ¹ÙŠÙ„"}</strong>
                         <br />
-                        {verificationEnabled ? verificationUrl : "يُفعّل الرابط عند صدور الوثيقة."}
+                        {verificationEnabled ? verificationUrl : "ÙŠÙÙØ¹Ù‘Ù„ Ø§Ù„Ø±Ø§Ø¨Ø· Ø¹Ù†Ø¯ ØµØ¯ÙˆØ± Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©."}
                       </div>
                     </div>
                   </div>
 
                   <div className="certificate-title">
-                    <span className="badge">وثيقة إتقان معرفي وتطبيقي</span>
+                    <span className="badge">ÙˆØ«ÙŠÙ‚Ø© Ø¥ØªÙ‚Ø§Ù† Ù…Ø¹Ø±ÙÙŠ ÙˆØªØ·Ø¨ÙŠÙ‚ÙŠ</span>
 
-                    <h2>إتمام رحلة هندسة التطوير التنظيمي</h2>
+                    <h2>Ø¥ØªÙ…Ø§Ù… Ø±Ø­Ù„Ø© Ù‡Ù†Ø¯Ø³Ø© Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ</h2>
 
                     <div className="learner">{learnerName}</div>
 
                     <p>
-                      تُمنح هذه الوثيقة تقديرًا لإتمام رحلة معرفية تطبيقية
-                      امتدت ستة أشهر كاملة، شملت التشخيص التنظيمي، تصميم
-                      المنظمة، الأدوار والأوصاف الوظيفية، قيادة التغيير،
-                      الثقافة التنظيمية، التعلم المؤسسي، قياس الأثر،
-                      واستدامة تدخلات التطوير التنظيمي.
+                      ØªÙÙ…Ù†Ø­ Ù‡Ø°Ù‡ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© ØªÙ‚Ø¯ÙŠØ±Ù‹Ø§ Ù„Ø¥ØªÙ…Ø§Ù… Ø±Ø­Ù„Ø© Ù…Ø¹Ø±ÙÙŠØ© ØªØ·Ø¨ÙŠÙ‚ÙŠØ©
+                      Ø§Ù…ØªØ¯Øª Ø³ØªØ© Ø£Ø´Ù‡Ø± ÙƒØ§Ù…Ù„Ø©ØŒ Ø´Ù…Ù„Øª Ø§Ù„ØªØ´Ø®ÙŠØµ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØŒ ØªØµÙ…ÙŠÙ…
+                      Ø§Ù„Ù…Ù†Ø¸Ù…Ø©ØŒ Ø§Ù„Ø£Ø¯ÙˆØ§Ø± ÙˆØ§Ù„Ø£ÙˆØµØ§Ù Ø§Ù„ÙˆØ¸ÙŠÙÙŠØ©ØŒ Ù‚ÙŠØ§Ø¯Ø© Ø§Ù„ØªØºÙŠÙŠØ±ØŒ
+                      Ø§Ù„Ø«Ù‚Ø§ÙØ© Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØ©ØŒ Ø§Ù„ØªØ¹Ù„Ù… Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠØŒ Ù‚ÙŠØ§Ø³ Ø§Ù„Ø£Ø«Ø±ØŒ
+                      ÙˆØ§Ø³ØªØ¯Ø§Ù…Ø© ØªØ¯Ø®Ù„Ø§Øª Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ.
                     </p>
                   </div>
 
                   <div className="certificate-pillars">
                     <div className="certificate-pillar">
                       <strong>{totalDays}</strong>
-                      <span>يومًا تعليميًا</span>
+                      <span>ÙŠÙˆÙ…Ù‹Ø§ ØªØ¹Ù„ÙŠÙ…ÙŠÙ‹Ø§</span>
                     </div>
                     <div className="certificate-pillar">
                       <strong>{totalHours}</strong>
-                      <span>ساعة تعلم محتسبة</span>
+                      <span>Ø³Ø§Ø¹Ø© ØªØ¹Ù„Ù… Ù…Ø­ØªØ³Ø¨Ø©</span>
                     </div>
                     <div className="certificate-pillar">
                       <strong>24</strong>
-                      <span>أسبوعًا تطبيقيًا</span>
+                      <span>Ø£Ø³Ø¨ÙˆØ¹Ù‹Ø§ ØªØ·Ø¨ÙŠÙ‚ÙŠÙ‹Ø§</span>
                     </div>
                     <div className="certificate-pillar">
                       <strong>6</strong>
-                      <span>أشهر إتقان</span>
+                      <span>Ø£Ø´Ù‡Ø± Ø¥ØªÙ‚Ø§Ù†</span>
                     </div>
                   </div>
 
                   <div className="certificate-footer">
                     <div>
-                      <strong>المرجعيات العلمية للمسار</strong>
+                      <strong>Ø§Ù„Ù…Ø±Ø¬Ø¹ÙŠØ§Øª Ø§Ù„Ø¹Ù„Ù…ÙŠØ© Ù„Ù„Ù…Ø³Ø§Ø±</strong>
                       <span>
-                        Cummings & Worley • Donald Anderson • Burke-Litwin •
-                        Peter Senge • Hackman & Oldham
+                        Cummings & Worley â€¢ Donald Anderson â€¢ Burke-Litwin â€¢
+                        Peter Senge â€¢ Hackman & Oldham
                       </span>
                     </div>
 
                     <div className="signature">
-                      <strong>اعتماد معرفي مستقل</strong>
+                      <strong>Ø§Ø¹ØªÙ…Ø§Ø¯ Ù…Ø¹Ø±ÙÙŠ Ù…Ø³ØªÙ‚Ù„</strong>
                       <div className="name">Rayan Alajlan</div>
-                      <small>SHRM-SCP • SPHRi • CPTD • PMP</small>
+                      <small>SHRM-SCP â€¢ SPHRi â€¢ CPTD â€¢ PMP</small>
                     </div>
                   </div>
                 </div>
@@ -1052,35 +1073,35 @@ export default function MasteryCertificate({
 
               <div className="mastery-actions mastery-no-print">
                 <button className="mastery-button dark" onClick={printCertificate}>
-                  طباعة الوثيقة / حفظ PDF 🖨️
+                  Ø·Ø¨Ø§Ø¹Ø© Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© / Ø­ÙØ¸ PDF ðŸ–¨ï¸
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyVerificationLink}>
-                  {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
+                  {verificationCopied ? "ØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ âœ…" : "Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚"}
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyLinkedInPost}>
-                  {copied ? "تم نسخ نص البوست ✅" : "نسخ نص بوست LinkedIn ✍️"}
+                  {copied ? "ØªÙ… Ù†Ø³Ø® Ù†Øµ Ø§Ù„Ø¨ÙˆØ³Øª âœ…" : "Ù†Ø³Ø® Ù†Øµ Ø¨ÙˆØ³Øª LinkedIn âœï¸"}
                 </button>
 
                 <button className="mastery-button linkedin" onClick={shareOnLinkedIn}>
-                  فتح LinkedIn للمشاركة 🔗
+                  ÙØªØ­ LinkedIn Ù„Ù„Ù…Ø´Ø§Ø±ÙƒØ© ðŸ”—
                 </button>
               </div>
             </div>
 
             <div className="linkedin-panel mastery-no-print">
-              <h3>نص مقترح للمشاركة على LinkedIn</h3>
+              <h3>Ù†Øµ Ù…Ù‚ØªØ±Ø­ Ù„Ù„Ù…Ø´Ø§Ø±ÙƒØ© Ø¹Ù„Ù‰ LinkedIn</h3>
               <p>
-                انسخ النص أو استخدم زر المشاركة. عند فتح LinkedIn الصق النص في
-                المنشور ثم انشره.
+                Ø§Ù†Ø³Ø® Ø§Ù„Ù†Øµ Ø£Ùˆ Ø§Ø³ØªØ®Ø¯Ù… Ø²Ø± Ø§Ù„Ù…Ø´Ø§Ø±ÙƒØ©. Ø¹Ù†Ø¯ ÙØªØ­ LinkedIn Ø§Ù„ØµÙ‚ Ø§Ù„Ù†Øµ ÙÙŠ
+                Ø§Ù„Ù…Ù†Ø´ÙˆØ± Ø«Ù… Ø§Ù†Ø´Ø±Ù‡.
               </p>
 
               <textarea
                 className="linkedin-textarea"
                 value={linkedInPost}
                 readOnly
-                aria-label="نص مقترح لمنشور لينكدإن"
+                aria-label="Ù†Øµ Ù…Ù‚ØªØ±Ø­ Ù„Ù…Ù†Ø´ÙˆØ± Ù„ÙŠÙ†ÙƒØ¯Ø¥Ù†"
               />
             </div>
           </>
@@ -1089,3 +1110,5 @@ export default function MasteryCertificate({
     </section>
   );
 }
+
+

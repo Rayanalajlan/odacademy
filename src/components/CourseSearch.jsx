@@ -1,13 +1,14 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import {
   COURSE_SEARCH_SUGGESTIONS,
   searchCourse
 } from "../lib/courseSearchService";
+import NeoMetricGauge from "./NeoMetricGauge";
 
 export default function CourseSearch({
   course = [],
   onJump,
-  placeholder = "ابحث داخل الرحلة..."
+  placeholder = "Ø§Ø¨Ø­Ø« Ø¯Ø§Ø®Ù„ Ø§Ù„Ø±Ø­Ù„Ø©..."
 }) {
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
@@ -30,7 +31,7 @@ export default function CourseSearch({
   }
 
   return (
-    <section className="course-search-box" aria-label="البحث داخل الرحلة التعليمية">
+    <section className="course-search-box" aria-label="Ø§Ù„Ø¨Ø­Ø« Ø¯Ø§Ø®Ù„ Ø§Ù„Ø±Ø­Ù„Ø© Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ©">
       <style>{`
         .course-search-box {
           margin: 18px 0;
@@ -215,15 +216,22 @@ export default function CourseSearch({
 
       <div className="course-search-head">
         <div className="course-search-title">
-          <strong>بحث سريع داخل 180 يومًا</strong>
+          <strong>Ø¨Ø­Ø« Ø³Ø±ÙŠØ¹ Ø¯Ø§Ø®Ù„ 180 ÙŠÙˆÙ…Ù‹Ø§</strong>
           <span>
-            ابحث عن مفهوم أو أداة أو موضوع، ثم انتقل مباشرة إلى اليوم المرتبط إذا كان مفتوحًا في رحلتك.
+            Ø§Ø¨Ø­Ø« Ø¹Ù† Ù…ÙÙ‡ÙˆÙ… Ø£Ùˆ Ø£Ø¯Ø§Ø© Ø£Ùˆ Ù…ÙˆØ¶ÙˆØ¹ØŒ Ø«Ù… Ø§Ù†ØªÙ‚Ù„ Ù…Ø¨Ø§Ø´Ø±Ø© Ø¥Ù„Ù‰ Ø§Ù„ÙŠÙˆÙ… Ø§Ù„Ù…Ø±ØªØ¨Ø· Ø¥Ø°Ø§ ÙƒØ§Ù† Ù…ÙØªÙˆØ­Ù‹Ø§ ÙÙŠ Ø±Ø­Ù„ØªÙƒ.
           </span>
         </div>
 
-        <span className="course-search-counter">
-          {hasQuery ? `${results.length} نتيجة` : "جاهز للبحث"}
-        </span>
+        <NeoMetricGauge
+          className="course-search-gauge"
+          value={hasQuery ? results.length : 0}
+          max={Math.max(1, results.length)}
+          progress={hasQuery ? 100 : 0}
+          displayValue={hasQuery ? `${results.length} نتيجة` : "جاهز للبحث"}
+          label="بحث سريع"
+          status={hasQuery ? "readiness" : "locked"}
+          size="compact"
+        />
       </div>
 
       <div className="course-search-row">
@@ -237,7 +245,7 @@ export default function CourseSearch({
           onFocus={() => setExpanded(true)}
           placeholder={placeholder}
           type="search"
-          aria-label="ابحث داخل محتوى الرحلة"
+          aria-label="Ø§Ø¨Ø­Ø« Ø¯Ø§Ø®Ù„ Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ø±Ø­Ù„Ø©"
         />
 
         <button
@@ -248,11 +256,11 @@ export default function CourseSearch({
             setExpanded(false);
           }}
         >
-          مسح
+          Ù…Ø³Ø­
         </button>
       </div>
 
-      <div className="course-search-suggestions" aria-label="اقتراحات بحث">
+      <div className="course-search-suggestions" aria-label="Ø§Ù‚ØªØ±Ø§Ø­Ø§Øª Ø¨Ø­Ø«">
         {COURSE_SEARCH_SUGGESTIONS.map((suggestion) => (
           <button
             type="button"
@@ -283,9 +291,10 @@ export default function CourseSearch({
 
       {expanded && hasQuery && results.length === 0 && (
         <div className="course-search-empty">
-          لم أجد نتيجة واضحة. جرّب كلمة أقصر مثل: ثقافة، صلاحيات، RACI، قياس، تغيير.
+          Ù„Ù… Ø£Ø¬Ø¯ Ù†ØªÙŠØ¬Ø© ÙˆØ§Ø¶Ø­Ø©. Ø¬Ø±Ù‘Ø¨ ÙƒÙ„Ù…Ø© Ø£Ù‚ØµØ± Ù…Ø«Ù„: Ø«Ù‚Ø§ÙØ©ØŒ ØµÙ„Ø§Ø­ÙŠØ§ØªØŒ RACIØŒ Ù‚ÙŠØ§Ø³ØŒ ØªØºÙŠÙŠØ±.
         </div>
       )}
     </section>
   );
 }
+
