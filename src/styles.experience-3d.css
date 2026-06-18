@@ -1,0 +1,403 @@
+/* ============================================================================
+   OD Academy / منسقة — Experience 3D Layer  (styles.experience-3d.css) — v2
+   ----------------------------------------------------------------------------
+   طبقة بصرية إضافية فقط: عمق ثلاثي الأبعاد ظاهر دائمًا (ظلال عميقة، حافّة بنفسجية،
+   زجاجية، توهّج خلفي) + حركة عند التمرير/التحويم. مستوحاة من الاتجاه «3D» الراقي
+   ومطبّقة على منصّتك كما هي دون تغيير المحتوى/الألوان/الهوية/المسارات/المنطق.
+
+   لماذا v2؟ ملفات light/dark-system تضع box-shadow بـ!important على البطاقات،
+   لذا نفرض العمق هنا بأولوية أعلى (html body + !important على خصائص الرفع فقط)
+   كي يظهر التغيير فعليًا. والعمق غير مرتبط بالحركة، فيظهر حتى مع تقليل الحركة.
+
+   صفر ألوان مكتوبة يدويًا: كل قيمة لونية من رموزك عبر var()/color-mix(var,...).
+   RTL مصون (خصائص منطقية). الوضعان يتكيّفان تلقائيًا. الحركة تُلغى عند تقليلها.
+   لا نلمس مبدّل الثيم (theme-switch__* / .theme-toggle / .visitor-theme-toggle).
+   ========================================================================== */
+
+/* ---------- متغيّرات مشتقّة من الرموز القائمة فقط ---------- */
+:root,
+html[data-theme="light"], html body.od-theme-light,
+html[data-theme="dark"],  html body.od-theme-dark {
+  --od3d-glow-10: color-mix(in srgb, var(--accent) 10%, transparent);
+  --od3d-glow-16: color-mix(in srgb, var(--accent) 16%, transparent);
+  --od3d-glow-22: color-mix(in srgb, var(--accent) 22%, transparent);
+  --od3d-glow-30: color-mix(in srgb, var(--accent) 30%, transparent);
+  --od3d-rim:     color-mix(in srgb, var(--accent) 42%, transparent);
+  --od3d-rim-soft:color-mix(in srgb, var(--accent) 24%, transparent);
+  /* حافّة ضوئية علوية (إيحاء زجاج) من سطح مرتفع موجود */
+  --od3d-sheen:   color-mix(in srgb, var(--surface-elevated) 85%, transparent);
+  --od3d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --od3d-rx: 0deg; --od3d-ry: 0deg; --od3d-mx: 0px; --od3d-my: 0px;
+}
+
+/* ===========================================================================
+   1) توهّج خلفي محيط (ambient) — ظاهر دائمًا في الصفحات الرئيسية، الوضعين
+   نضيفه كصورة خلفية فوق خلفية الصفحة الموجودة (الحاويات شفّافة، فلا نمسح شيئًا).
+   =========================================================================== */
+html body .site-frame,
+html body .public-gate {
+  background-image:
+    radial-gradient(60% 45% at 85% 0%, var(--od3d-glow-16) 0%, transparent 60%),
+    radial-gradient(55% 40% at 0% 18%, var(--od3d-glow-10) 0%, transparent 55%),
+    radial-gradient(70% 50% at 50% 100%, var(--od3d-glow-10) 0%, transparent 60%) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+}
+
+/* ===========================================================================
+   2) عمق ثلاثي الأبعاد ظاهر دائمًا على البطاقات واللوحات
+   ظلّ عميق متعدّد الطبقات + حافّة بنفسجية + حافّة ضوئية علوية (زجاج).
+   نستخدم !important على خاصية الرفع فقط لنتغلّب على ظلال النظام الموجودة.
+   =========================================================================== */
+html body .od-feature-card,
+html body .od-stat-card,
+html body .od-lab-card,
+html body .od-command-card,
+html body .home-card,
+html body .counter-card,
+html body .auth-card,
+html body .legal-card,
+html body .roi-result-card,
+html body .profile-card,
+html body .radar-card,
+html body .tree-card,
+html body .report-section,
+html body .admin-panel,
+html body .panel,
+html body .certificate-pillar,
+html body .hero-metric,
+html body .mastery-stat,
+html body .od-error-card,
+html body .tm-card {
+  box-shadow:
+    inset 0 1px 0 var(--od3d-sheen),
+    var(--color-shadow-lg),
+    0 0 0 1px var(--od3d-rim-soft) !important;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.42s var(--od3d-ease),
+    box-shadow 0.42s var(--od3d-ease) !important;
+}
+
+/* تحويم: رفعة + ظلّ أعمق + حافّة أوضح (الرفعة نفسها تُلغى مع تقليل الحركة لاحقًا) */
+html body .od-feature-card:hover,
+html body .od-stat-card:hover,
+html body .od-lab-card:hover,
+html body .od-command-card:hover,
+html body .home-card:hover,
+html body .counter-card:hover,
+html body .roi-result-card:hover,
+html body .radar-card:hover,
+html body .tree-card:hover,
+html body .certificate-pillar:hover,
+html body .tm-card:hover {
+  box-shadow:
+    inset 0 1px 0 var(--od3d-sheen),
+    var(--color-shadow-lg),
+    0 24px 60px var(--od3d-glow-22),
+    0 0 0 1px var(--od3d-rim) !important;
+}
+
+/* حافّة ضوئية علوية رقيقة عبر ::after (لا تمسّ ::before الموجود) */
+html body .od-feature-card::after,
+html body .od-stat-card::after,
+html body .od-lab-card::after,
+html body .od-command-card::after,
+html body .counter-card::after,
+html body .roi-result-card::after,
+html body .certificate-pillar::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 34%;
+  pointer-events: none;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+  background: linear-gradient(180deg, var(--od3d-sheen) 0%, transparent 100%);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+/* المحتوى دائمًا فوق الحافّة الضوئية حتى لا يتأثر التباين */
+html body .od-feature-card > *,
+html body .od-stat-card > *,
+html body .od-lab-card > *,
+html body .od-command-card > *,
+html body .counter-card > *,
+html body .roi-result-card > *,
+html body .certificate-pillar > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* منظور للحاويات الشبكية كي تبدو البطاقات طافية عند الإمالة */
+html .od-feature-grid,
+html .od-lab-strip,
+html .counter-grid,
+html .hero-points,
+html .grid-2 {
+  perspective: 1400px;
+  perspective-origin: center top;
+}
+
+/* ===========================================================================
+   3) رأس وتذييل الصفحة — عمق زجاجي خفيف
+   =========================================================================== */
+html body .site-header {
+  box-shadow: 0 10px 30px var(--od3d-glow-10), inset 0 -1px 0 var(--od3d-rim-soft) !important;
+}
+
+/* ===========================================================================
+   4) الأزرار — زجاجية دائمة + لمعان عند التحويم + ضغط فيزيائي
+   =========================================================================== */
+html body .od-button,
+html body .btn,
+html body .auth-primary,
+html body .portfolio-button,
+html body .mastery-button,
+html body .primary-button,
+html body .secondary-button,
+html body .profile-button,
+html body .od-error-btn,
+html body .logout-button {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-sheen),
+    0 8px 22px var(--od3d-glow-16) !important;
+  transition:
+    transform 0.3s var(--od3d-ease),
+    box-shadow 0.3s var(--od3d-ease) !important;
+}
+
+html body .od-button::after,
+html body .auth-primary::after,
+html body .portfolio-button::after,
+html body .mastery-button::after,
+html body .primary-button::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -130%;
+  inline-size: 55%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, var(--od3d-sheen) 50%, transparent);
+  transform: skewX(-18deg);
+  opacity: 0;
+}
+
+html body .od-button:active,
+html body .btn:active,
+html body .auth-primary:active,
+html body .portfolio-button:active,
+html body .mastery-button:active,
+html body .primary-button:active,
+html body .secondary-button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* ===========================================================================
+   5) الأبطال — جرم بنفسجي طافٍ ظاهر دائمًا حول لوحة القيادة وبطاقة الدخول
+   =========================================================================== */
+html body .od-command-card,
+html body .auth-card { position: relative; isolation: isolate; }
+
+html body .od-command-card::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -46px;
+  inset-inline-end: -30px;
+  inline-size: 170px; block-size: 170px;
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, var(--od3d-glow-30) 0%, transparent 70%);
+}
+
+/* ===========================================================================
+   6) طبقة الحركة (إمالة/مغناطيسية/ظهور) — مع html.od3d-ready فقط
+   =========================================================================== */
+html.od3d-ready .od3d-tilt {
+  transform: perspective(1100px) rotateX(var(--od3d-rx)) rotateY(var(--od3d-ry));
+}
+html.od3d-ready .od3d-tilt:hover,
+html.od3d-ready .od3d-tilt:focus-within {
+  transform: perspective(1100px) rotateX(var(--od3d-rx)) rotateY(var(--od3d-ry)) translate3d(0,-8px,28px);
+}
+html.od3d-ready .od3d-magnet { transform: translate3d(var(--od3d-mx), var(--od3d-my), 0); }
+
+html.od3d-ready .od-button:hover::after,
+html.od3d-ready .auth-primary:hover::after,
+html.od3d-ready .portfolio-button:hover::after,
+html.od3d-ready .mastery-button:hover::after,
+html.od3d-ready .primary-button:hover::after {
+  animation: od3dSheen 0.85s var(--od3d-ease);
+}
+@keyframes od3dSheen {
+  from { inset-inline-start: -130%; opacity: 0; }
+  35%  { opacity: 0.9; }
+  to   { inset-inline-start: 175%; opacity: 0; }
+}
+
+html.od3d-ready .od-command-card::before {
+  animation: od3dFloat 9s var(--od3d-ease) infinite alternate;
+}
+@keyframes od3dFloat {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to   { transform: translate3d(-10px,16px,0) scale(1.08); }
+}
+
+/* ظهور عند التمرير — آمن: الإخفاء المبدئي مرتبط بـod3d-ready فقط، وينتهي عند opacity:1 */
+html.od3d-ready .od3d-reveal {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity 0.7s var(--od3d-ease), transform 0.7s var(--od3d-ease);
+}
+html.od3d-ready .od3d-reveal.od3d-in {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+html.od3d-ready .od-feature-grid .od3d-reveal.od3d-in,
+html.od3d-ready .counter-grid   .od3d-reveal.od3d-in {
+  transition-delay: calc(var(--od3d-i, 0) * 70ms);
+}
+
+/* دخول الأبطال مرّة واحدة */
+@media (prefers-reduced-motion: no-preference) {
+  html.od3d-ready .od-hero-inner > *,
+  html.od3d-ready .public-hero > * { animation: od3dRiseIn 0.7s var(--od3d-ease) both; }
+  html.od3d-ready .od-hero-inner > *:nth-child(2),
+  html.od3d-ready .public-hero > *:nth-child(2) { animation-delay: 0.08s; }
+  html.od3d-ready .od-hero-inner > *:nth-child(3),
+  html.od3d-ready .public-hero > *:nth-child(3) { animation-delay: 0.16s; }
+}
+@keyframes od3dRiseIn {
+  from { opacity: 0; transform: translate3d(0,22px,0); }
+  to   { opacity: 1; transform: translate3d(0,0,0); }
+}
+
+/* ===========================================================================
+   7) تقليل الحركة — نُلغي الحركة فقط، ونُبقي العمق/الزجاج/التوهّج ظاهرًا
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html body .od-feature-card,
+  html body .od-stat-card,
+  html body .od-lab-card,
+  html body .od-command-card,
+  html body .home-card,
+  html body .counter-card,
+  html body .roi-result-card,
+  html body .radar-card,
+  html body .tree-card,
+  html body .certificate-pillar,
+  html body .tm-card,
+  html body .od-button,
+  html body .btn,
+  html body .auth-primary {
+    transition: none !important;
+    transform: none !important;
+  }
+  html body .od-command-card::before,
+  html body .od-button::after { animation: none !important; }
+  html.od3d-ready .od3d-reveal { opacity: 1 !important; transform: none !important; }
+  html.od3d-ready .od-hero-inner > *,
+  html.od3d-ready .public-hero > * { animation: none !important; }
+}
+
+/* ===========================================================================
+   8) توحيد الأشكال (v2.1) — معالجة الخانات/الشارات ذات الزوايا الحادة
+      وتوحيد العدّادات/المؤشّرات ضمن نظام 3D واحد. الهندسة موحّدة في الوضعين
+      (الألوان تبقى لكل وضع). نضبط الشكل فقط دون تحريك أو تغيير نص/ترتيب.
+   ملاحظة: styles.shape-system.css غير مُستورَد في المشروع، لذا الكبسولات
+   لم تكن تُطبَّق؛ نطبّقها هنا بدقّة وبأولوية كافية.
+   =========================================================================== */
+
+/* (أ) كل الشارات/الكبسولات/التسميات الصغيرة → كبسولة كاملة (لا زوايا حادة) */
+html body :is(
+  .od-chip,
+  .od-kicker,
+  .od-section-kicker,
+  .od-hero-note,
+  .od-feature-badge,
+  .public-badge,
+  .sample-kicker,
+  .kicker,
+  .chip,
+  .pill,
+  .badge,
+  .journey-pill,
+  .jl-pill,
+  .jl-status,
+  .radar-chip,
+  .radar-kicker,
+  .portfolio-mini-tag,
+  .monthly-badge,
+  .verify-state,
+  .rank-pill,
+  .mode-badge,
+  .points-badge,
+  .ar-eyebrow,
+  .ar-credential,
+  .ar-domain-mark,
+  .ar-section-head > div > span
+) {
+  border-radius: 999px !important;
+}
+
+/* (ب) أيقونات/مربّعات صغيرة كانت بزوايا حادة → زوايا ناعمة موحّدة */
+html body :is(
+  .od-feature-icon,
+  .section-icon,
+  .ar-domain-icon,
+  .ar-lens-icon,
+  .radar-domain-icon
+) {
+  border-radius: var(--radius-md) !important;
+}
+
+/* (ج) توحيد العدّادات/المؤشّرات المستطيلة ضمن نظام 3D واحد:
+       نفس الانحناء + نفس العمق (حافّة ضوئية علوية + ظلّ + حافّة بنفسجية). */
+html body :is(
+  .counter-card,
+  .od-stat-card,
+  .hero-metric,
+  .mastery-stat,
+  .profile-stat,
+  .report-stat,
+  .profile-metric,
+  .portfolio-stat,
+  .tm-counter
+) {
+  border-radius: var(--radius-md) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-sheen),
+    var(--color-shadow-lg),
+    0 0 0 1px var(--od3d-rim-soft) !important;
+  transition:
+    transform 0.42s var(--od3d-ease),
+    box-shadow 0.42s var(--od3d-ease) !important;
+}
+
+/* (د) العدّادات الدائرية/الحلقية (Orbs/Gauges) → نُبقي استدارتها ونمنحها نفس
+       لغة العمق والتوهّج، دون فرض زاوية مستطيلة عليها. */
+html body :is(
+  .score-orb,
+  .onboarding-progress-orb,
+  .roi-orbit-inner,
+  .od-indicator-score
+) {
+  box-shadow:
+    inset 0 2px 6px var(--od3d-glow-16),
+    0 12px 32px var(--od3d-glow-22),
+    0 0 0 1px var(--od3d-rim-soft) !important;
+}
+
+/* (هـ) ضمان وضوح الأرقام/النصوص داخل العدّادات (لا نخفّض الشفافية إطلاقًا) */
+html body :is(
+  .counter-card, .od-stat-card, .hero-metric, .mastery-stat,
+  .profile-stat, .report-stat, .profile-metric, .portfolio-stat,
+  .tm-counter, .score-orb, .od-indicator-score
+) :is(strong, b, span, small, em, time, h2, h3, h4) {
+  opacity: 1 !important;
+}
