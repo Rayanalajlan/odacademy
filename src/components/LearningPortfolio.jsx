@@ -1,10 +1,9 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchLearningPortfolioData } from "../lib/learningPortfolioService";
-import NeoMetricGauge from "./NeoMetricGauge";
 import PortfolioExportReport from "./PortfolioExportReport";
 
 function formatDate(value) {
-  if (!value) return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
+  if (!value) return "غير محدد";
 
   try {
     return new Intl.DateTimeFormat("ar-SA", {
@@ -13,34 +12,34 @@ function formatDate(value) {
       day: "numeric"
     }).format(new Date(value));
   } catch {
-    return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
+    return "غير محدد";
   }
 }
 
 function hoursLabel(value) {
   const number = Number(value || 0);
-  if (number < 1) return "0 Ø³Ø§Ø¹Ø©";
-  return `${Math.round(number)} Ø³Ø§Ø¹Ø©`;
+  if (number < 1) return "0 ساعة";
+  return `${Math.round(number)} ساعة`;
 }
 
 function shortText(value, limit = 150) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   if (!text) return "";
-  return text.length > limit ? `${text.slice(0, limit)}â€¦` : text;
+  return text.length > limit ? `${text.slice(0, limit)}…` : text;
 }
 
 function locationLabel(item) {
-  return `Ø§Ù„Ø´Ù‡Ø± ${item.month_index || item.monthIndex || "-"} Â· Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ${item.week_index || item.weekIndex || "-"} Â· Ø§Ù„ÙŠÙˆÙ… ${item.day_index || item.dayIndex || "-"}`;
+  return `الشهر ${item.month_index || item.monthIndex || "-"} · الأسبوع ${item.week_index || item.weekIndex || "-"} · اليوم ${item.day_index || item.dayIndex || "-"}`;
 }
 
 function certificateStatusLabel(status) {
-  if (status === "issued") return "Ù…ÙØªÙˆØ­Ø©";
-  if (status === "revoked") return "Ù…Ù„ØºØ§Ø©";
-  return "Ù…Ù‚ÙÙ„Ø©";
+  if (status === "issued") return "مفتوحة";
+  if (status === "revoked") return "ملغاة";
+  return "مقفلة";
 }
 
 export default function LearningPortfolio({
-  userName = "Ù…ØªØ¯Ø±Ø¨",
+  userName = "متدرب",
   completedDays = 0,
   totalDays = 180,
   setActivePage,
@@ -64,8 +63,8 @@ export default function LearningPortfolio({
 
       setData(result);
     } catch (error) {
-      console.warn("ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù„Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ:", error);
-      setNotice(error?.message || "ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø¨Ø¹Ø¶ Ø¨ÙŠØ§Ù†Ø§Øª Ù…Ù„ÙÙƒ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ Ø§Ù„Ø¢Ù†.");
+      console.warn("تعذر تحميل الملف التعليمي:", error);
+      setNotice(error?.message || "تعذر تحميل بعض بيانات ملفك التعليمي الآن.");
     } finally {
       setLoading(false);
     }
@@ -85,8 +84,8 @@ export default function LearningPortfolio({
   };
 
   const firstName = useMemo(() => {
-    const clean = String(userName || "Ù…ØªØ¯Ø±Ø¨").trim();
-    return clean.split(/\s+/)[0] || "Ù…ØªØ¯Ø±Ø¨";
+    const clean = String(userName || "متدرب").trim();
+    return clean.split(/\s+/)[0] || "متدرب";
   }, [userName]);
 
   function go(pageId) {
@@ -483,47 +482,48 @@ export default function LearningPortfolio({
           <div>
             <span className="portfolio-kicker">Learning Portfolio Center</span>
             <h1>
-              Ù…Ù„ÙÙƒ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ ÙŠØ§ <span>{firstName}</span>
+              ملفك التعليمي يا <span>{firstName}</span>
             </h1>
             <p>
-              Ù‡Ù†Ø§ ÙŠØªØ¬Ù…Ø¹ Ø£Ø«Ø± ØªØ¹Ù„Ù…Ùƒ: ØªÙ‚Ø¯Ù… Ø§Ù„Ø±Ø­Ù„Ø©ØŒ Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„ØªÙŠ Ø­ÙØ¸ØªÙ‡Ø§ØŒ Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§Øª
-              Ø§Ù„Ù…Ø«Ø¨ØªØ©ØŒ Ù†ØªØ§Ø¦Ø¬ Ø§Ù„Ø±Ø§Ø¯Ø§Ø±ØŒ ÙˆØ§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ©. Ù‡Ø°Ø§ Ù‡Ùˆ Ù…ÙƒØ§Ù† Ø§Ù„Ø±Ø¬ÙˆØ¹
-              Ø§Ù„Ù‡Ø§Ø¯Ø¦ Ø¹Ù†Ø¯Ù…Ø§ ØªØ±ÙŠØ¯ Ø£Ù† ØªØ±Ù‰ Ù…Ø§Ø°Ø§ Ø¨Ù†ÙŠØª ÙØ¹Ù„Ù‹Ø§.
+              هنا يتجمع أثر تعلمك: تقدم الرحلة، الدروس التي حفظتها، الملاحظات
+              المثبتة، نتائج الرادار، والشهادات الشهرية. هذا هو مكان الرجوع
+              الهادئ عندما تريد أن ترى ماذا بنيت فعلًا.
             </p>
 
             <div className="portfolio-actions">
               <button type="button" className="portfolio-button primary" onClick={resume}>
-                Ù…ØªØ§Ø¨Ø¹Ø© Ù…Ù† Ø¢Ø®Ø± Ù…Ø­Ø·Ø©
+                متابعة من آخر محطة
               </button>
               <button type="button" className="portfolio-button soft" onClick={() => go("journey")}>
-                ÙØªØ­ Ø§Ù„Ø±Ø­Ù„Ø©
+                فتح الرحلة
               </button>
               <button type="button" className="portfolio-button soft" onClick={() => go("radar")}>
-                ÙØªØ­ Ø§Ù„Ø±Ø§Ø¯Ø§Ø±
+                فتح الرادار
               </button>
               <button type="button" className="portfolio-button soft" onClick={() => go("mastery")}>
-                ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†
+                وثيقة الإتقان
               </button>
               <button
                 type="button"
                 className="portfolio-button export"
                 onClick={() => setReportOpen(true)}
               >
-                ØªØµØ¯ÙŠØ± ØªÙ‚Ø±ÙŠØ± Ù…Ù„ÙÙŠ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ
+                تصدير تقرير ملفي التعليمي
               </button>
             </div>
           </div>
 
-          <NeoMetricGauge
-            className="portfolio-hero-gauge"
-            value={summary.progressPercent}
-            max={100}
-            displayValue={`${summary.progressPercent}%`}
-            label="إنجاز الرحلة"
-            subLabel={`${summary.completedDays} / ${summary.totalDays} يوم`}
-            status={summary.progressPercent >= 100 ? "complete" : "progress"}
-            size="hero"
-          />
+          <div
+            className="portfolio-orb od-circular-indicator od-indicator-general"
+            style={{ "--od-indicator-progress": `${summary.progressPercent}%` }}
+          >
+            <div>
+              <span>
+                <strong>{summary.progressPercent}%</strong>
+                <small>{summary.completedDays} / {summary.totalDays} يوم</small>
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -541,39 +541,22 @@ export default function LearningPortfolio({
       )}
 
       <section className="portfolio-stats" aria-label="ملخص الملف التعليمي">
-        <NeoMetricGauge
-          value={summary.completedDays}
-          max={summary.totalDays}
-          displayValue={summary.completedDays}
-          label="الأيام المكتملة"
-          status={summary.completedDays >= summary.totalDays ? "complete" : "progress"}
-          size="compact"
-        />
-        <NeoMetricGauge
-          value={summary.remainingDays}
-          max={summary.totalDays}
-          displayValue={summary.remainingDays}
-          label="المتبقي في الرحلة"
-          status={summary.remainingDays === 0 ? "complete" : "warning"}
-          size="compact"
-        />
-        <NeoMetricGauge
-          value={1}
-          max={1}
-          progress={100}
-          displayValue={hoursLabel(summary.estimatedHours)}
-          label="وقت تعلم تقديري"
-          status="readiness"
-          size="compact"
-        />
-        <NeoMetricGauge
-          value={data?.issuedCertificates?.length || 0}
-          max={6}
-          displayValue={`${data?.issuedCertificates?.length || 0}/6`}
-          label="الشهادات الشهرية"
-          status={(data?.issuedCertificates?.length || 0) >= 6 ? "complete" : "progress"}
-          size="compact"
-        />
+        <div className="portfolio-stat">
+          <span>الأيام المكتملة</span>
+          <strong>{summary.completedDays}</strong>
+        </div>
+        <div className="portfolio-stat">
+          <span>المتبقي في الرحلة</span>
+          <strong>{summary.remainingDays}</strong>
+        </div>
+        <div className="portfolio-stat">
+          <span>وقت تعلم تقديري</span>
+          <strong>{hoursLabel(summary.estimatedHours)}</strong>
+        </div>
+        <div className="portfolio-stat">
+          <span>الشهادات الشهرية</span>
+          <strong>{data?.issuedCertificates?.length || 0}/6</strong>
+        </div>
       </section>
 
       <div className="portfolio-layout">
@@ -581,14 +564,14 @@ export default function LearningPortfolio({
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø©</h2>
-                <p>Ø¢Ø®Ø± Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„ØªÙŠ Ø§Ø®ØªØ±Øª Ø§Ù„Ø±Ø¬ÙˆØ¹ Ù„Ù‡Ø§ Ù„Ø§Ø­Ù‚Ù‹Ø§.</p>
+                <h2>الدروس المحفوظة</h2>
+                <p>آخر الدروس التي اخترت الرجوع لها لاحقًا.</p>
               </div>
-              <span className="portfolio-mini-tag">{data?.bookmarks?.length || 0} Ù…Ø­ÙÙˆØ¸</span>
+              <span className="portfolio-mini-tag">{data?.bookmarks?.length || 0} محفوظ</span>
             </div>
 
             {loading ? (
-              <div className="portfolio-empty">Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…Ø­ÙÙˆØ¸Ø©...</div>
+              <div className="portfolio-empty">جارٍ تحميل الدروس المحفوظة...</div>
             ) : data?.bookmarks?.length ? (
               <div className="portfolio-list">
                 {data.bookmarks.map((bookmark) => (
@@ -599,14 +582,14 @@ export default function LearningPortfolio({
                     onClick={openBookmark}
                   >
                     <small>{bookmark.lesson_path || locationLabel(bookmark)}</small>
-                    <strong>{bookmark.lesson_title || "Ø¯Ø±Ø³ Ù…Ø­ÙÙˆØ¸"}</strong>
+                    <strong>{bookmark.lesson_title || "درس محفوظ"}</strong>
                     {bookmark.excerpt ? <p>{shortText(bookmark.excerpt, 170)}</p> : null}
                   </button>
                 ))}
               </div>
             ) : (
               <div className="portfolio-empty">
-                Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¯Ø±ÙˆØ³ Ù…Ø­ÙÙˆØ¸Ø© Ø¨Ø¹Ø¯. Ø§ÙØªØ­ Ø£ÙŠ Ø¯Ø±Ø³ ÙˆØ§Ø¶ØºØ· "Ø­ÙØ¸ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³".
+                لا توجد دروس محفوظة بعد. افتح أي درس واضغط "حفظ هذا الدرس".
               </div>
             )}
           </section>
@@ -614,27 +597,27 @@ export default function LearningPortfolio({
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø§Ù„Ù…Ø«Ø¨ØªØ©</h2>
-                <p>Ø£ÙÙƒØ§Ø±Ùƒ Ø§Ù„Ù…Ù‡Ù…Ø© Ø§Ù„ØªÙŠ Ø«Ø¨ØªÙ‘Ù‡Ø§ Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¯Ø±ÙˆØ³.</p>
+                <h2>الملاحظات المثبتة</h2>
+                <p>أفكارك المهمة التي ثبتّها داخل الدروس.</p>
               </div>
-              <span className="portfolio-mini-tag">{data?.pinnedNotes?.length || 0} Ù…Ø«Ø¨ØªØ©</span>
+              <span className="portfolio-mini-tag">{data?.pinnedNotes?.length || 0} مثبتة</span>
             </div>
 
             {loading ? (
-              <div className="portfolio-empty">Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§Øª...</div>
+              <div className="portfolio-empty">جارٍ تحميل الملاحظات...</div>
             ) : data?.pinnedNotes?.length ? (
               <div className="portfolio-list">
                 {data.pinnedNotes.map((note) => (
                   <div className="portfolio-row" key={note.id}>
-                    <small>{locationLabel(note)} Â· {formatDate(note.updated_at)}</small>
-                    <strong>{note.note_title || "Ù…Ù„Ø§Ø­Ø¸Ø© Ù…Ø«Ø¨ØªØ©"}</strong>
+                    <small>{locationLabel(note)} · {formatDate(note.updated_at)}</small>
+                    <strong>{note.note_title || "ملاحظة مثبتة"}</strong>
                     <p>{shortText(note.note, 210)}</p>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="portfolio-empty">
-                Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ù…Ø«Ø¨ØªØ© Ø¨Ø¹Ø¯. Ø§ÙƒØªØ¨ Ù…Ù„Ø§Ø­Ø¸Ø© Ø¯Ø§Ø®Ù„ Ø£ÙŠ Ø¯Ø±Ø³ ÙˆÙØ¹Ù„ Ø®ÙŠØ§Ø± Ø§Ù„ØªØ«Ø¨ÙŠØª.
+                لا توجد ملاحظات مثبتة بعد. اكتب ملاحظة داخل أي درس وفعل خيار التثبيت.
               </div>
             )}
           </section>
@@ -642,38 +625,38 @@ export default function LearningPortfolio({
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø§Ù„ØªØ£Ù…Ù„Ø§Øª Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠØ© ÙˆØ®Ø·Ø· Ø§Ù„ØªØ·Ø¨ÙŠÙ‚</h2>
-                <p>Ø£Ø«Ø± Ø§Ù„ØªØ¹Ù„Ù… Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠ: ÙÙƒØ±Ø©ØŒ Ù†Ù…Ø· ØªÙ†Ø¸ÙŠÙ…ÙŠØŒ ÙˆØ®Ø·ÙˆØ© ØªØ·Ø¨ÙŠÙ‚ Ø¹Ù…Ù„ÙŠØ©.</p>
+                <h2>التأملات الأسبوعية وخطط التطبيق</h2>
+                <p>أثر التعلم الأسبوعي: فكرة، نمط تنظيمي، وخطوة تطبيق عملية.</p>
               </div>
-              <span className="portfolio-mini-tag">{data?.weeklyReflections?.length || 0} ØªØ£Ù…Ù„</span>
+              <span className="portfolio-mini-tag">{data?.weeklyReflections?.length || 0} تأمل</span>
             </div>
 
             {loading ? (
-              <div className="portfolio-empty">Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØªØ£Ù…Ù„Ø§Øª Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠØ©...</div>
+              <div className="portfolio-empty">جارٍ تحميل التأملات الأسبوعية...</div>
             ) : data?.weeklyReflections?.length ? (
               <div className="portfolio-list">
                 {data.weeklyReflections.map((reflection) => (
                   <div className="portfolio-row" key={reflection.id || `${reflection.month_index}-${reflection.week_index}`}>
                     <small>
-                      Ø§Ù„Ø´Ù‡Ø± {reflection.month_index} Â· Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ {reflection.week_index}
-                      {reflection.updated_at ? ` Â· ${formatDate(reflection.updated_at)}` : ""}
+                      الشهر {reflection.month_index} · الأسبوع {reflection.week_index}
+                      {reflection.updated_at ? ` · ${formatDate(reflection.updated_at)}` : ""}
                     </small>
-                    <strong>{reflection.week_title || "ØªØ£Ù…Ù„ Ø£Ø³Ø¨ÙˆØ¹ÙŠ"}</strong>
+                    <strong>{reflection.week_title || "تأمل أسبوعي"}</strong>
                     {reflection.key_learning ? (
-                      <p><b>Ø£Ù‡Ù… ÙÙƒØ±Ø©:</b> {shortText(reflection.key_learning, 180)}</p>
+                      <p><b>أهم فكرة:</b> {shortText(reflection.key_learning, 180)}</p>
                     ) : null}
                     {reflection.next_action ? (
-                      <p><b>Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ø§Ù„Ù‚Ø§Ø¯Ù…:</b> {shortText(reflection.next_action, 180)}</p>
+                      <p><b>الإجراء القادم:</b> {shortText(reflection.next_action, 180)}</p>
                     ) : null}
                     {reflection.confidence_score ? (
-                      <p>Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø«Ù‚Ø© Ø¨Ø§Ù„ØªØ·Ø¨ÙŠÙ‚: {reflection.confidence_score} / 5</p>
+                      <p>مستوى الثقة بالتطبيق: {reflection.confidence_score} / 5</p>
                     ) : null}
                   </div>
                 ))}
               </div>
             ) : (
               <div className="portfolio-empty">
-                Ù„Ø§ ØªÙˆØ¬Ø¯ ØªØ£Ù…Ù„Ø§Øª Ø£Ø³Ø¨ÙˆØ¹ÙŠØ© Ø¨Ø¹Ø¯. Ø§ÙØªØ­ Ø§Ù„Ø±Ø­Ù„Ø© ÙˆØ§ÙƒØªØ¨ ØªØ£Ù…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ÙˆØ®Ø·Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚.
+                لا توجد تأملات أسبوعية بعد. افتح الرحلة واكتب تأمل الأسبوع وخطة التطبيق.
               </div>
             )}
           </section>
@@ -683,23 +666,23 @@ export default function LearningPortfolio({
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø¢Ø®Ø± Ù†ØªÙŠØ¬Ø© Ø±Ø§Ø¯Ø§Ø±</h2>
-                <p>Ø£Ø­Ø¯Ø« ØªÙ‚ÙŠÙŠÙ… Ù…Ø­ÙÙˆØ¸ Ù…Ù† Ø±Ø§Ø¯Ø§Ø± Ø§Ù„Ø£Ø¯Ø§Ø¡.</p>
+                <h2>آخر نتيجة رادار</h2>
+                <p>أحدث تقييم محفوظ من رادار الأداء.</p>
               </div>
               <span className="portfolio-mini-tag">Radar</span>
             </div>
 
             {loading ? (
-              <div className="portfolio-empty">Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø±Ø§Ø¯Ø§Ø±...</div>
+              <div className="portfolio-empty">جارٍ تحميل الرادار...</div>
             ) : data?.latestRadar ? (
               <div className="portfolio-row">
                 <small>{formatDate(data.latestRadar.created_at)}</small>
                 <strong>{data.latestRadar.assessment_title}</strong>
-                <p>Ø§Ù„Ø¯Ø±Ø¬Ø© Ø§Ù„Ø¹Ø§Ù…Ø©: {data.latestRadar.overall_score} Ù…Ù† 5</p>
+                <p>الدرجة العامة: {data.latestRadar.overall_score} من 5</p>
               </div>
             ) : (
               <div className="portfolio-empty">
-                Ù„Ø§ ØªÙˆØ¬Ø¯ Ù†ØªÙŠØ¬Ø© Ø±Ø§Ø¯Ø§Ø± Ù…Ø­ÙÙˆØ¸Ø© Ø¨Ø¹Ø¯. Ø§ÙØªØ­ Ø§Ù„Ø±Ø§Ø¯Ø§Ø± ÙˆØ§Ø­ÙØ¸ ØªÙ‚ÙŠÙŠÙ…Ùƒ.
+                لا توجد نتيجة رادار محفوظة بعد. افتح الرادار واحفظ تقييمك.
               </div>
             )}
           </section>
@@ -707,8 +690,8 @@ export default function LearningPortfolio({
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª</h2>
-                <p>Ø­Ø§Ù„Ø© Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ© ÙˆÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†.</p>
+                <h2>الشهادات</h2>
+                <p>حالة الشهادات الشهرية ووثيقة الإتقان.</p>
               </div>
               <span className="portfolio-mini-tag">{data?.issuedCertificates?.length || 0}/6</span>
             </div>
@@ -726,28 +709,28 @@ export default function LearningPortfolio({
             </div>
 
             <div className={`portfolio-cert ${data?.masteryReady ? "issued" : ""}`} style={{ marginTop: 10 }}>
-              <b>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©</b>
-              <span>{data?.masteryReady ? "Ø¬Ø§Ù‡Ø²Ø©" : "ØªÙØªØ­ Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„Ø±Ø­Ù„Ø©"}</span>
+              <b>وثيقة الإتقان النهائية</b>
+              <span>{data?.masteryReady ? "جاهزة" : "تفتح بعد إكمال الرحلة"}</span>
             </div>
           </section>
 
           <section className="portfolio-section">
             <div className="portfolio-section-head">
               <div>
-                <h2>Ø§Ø®ØªØµØ§Ø±Ø§Øª</h2>
-                <p>ØªÙ†Ù‚Ù„ Ø³Ø±ÙŠØ¹ Ù„Ø£Ù‡Ù… Ù…Ù†Ø§Ø·Ù‚ Ø§Ù„Ø£Ø«Ø±.</p>
+                <h2>اختصارات</h2>
+                <p>تنقل سريع لأهم مناطق الأثر.</p>
               </div>
             </div>
 
             <div className="portfolio-actions" style={{ marginTop: 0 }}>
               <button type="button" className="portfolio-button dark" onClick={() => go("journey")}>
-                Ø§Ù„Ø±Ø­Ù„Ø©
+                الرحلة
               </button>
               <button type="button" className="portfolio-button dark" onClick={() => go("radar")}>
-                Ø§Ù„Ø±Ø§Ø¯Ø§Ø±
+                الرادار
               </button>
               <button type="button" className="portfolio-button dark" onClick={() => go("mastery")}>
-                Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª
+                الشهادات
               </button>
             </div>
           </section>
@@ -756,5 +739,3 @@ export default function LearningPortfolio({
     </main>
   );
 }
-
-

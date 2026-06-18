@@ -1,5 +1,4 @@
-﻿import { useMemo, useState } from "react";
-import NeoMetricGauge from "./NeoMetricGauge";
+import { useMemo, useState } from "react";
 
 function clamp(value, min, max) {
   const number = Number(value || 0);
@@ -7,7 +6,7 @@ function clamp(value, min, max) {
 }
 
 export default function OnboardingFlow({
-  userName = "Ù…ØªØ¯Ø±Ø¨",
+  userName = "متدرب",
   completedDays = 0,
   totalDays = 180,
   loading = false,
@@ -19,8 +18,8 @@ export default function OnboardingFlow({
   const progress = Math.round((safeCompleted / Math.max(1, totalDays)) * 100);
 
   const firstName = useMemo(() => {
-    const clean = String(userName || "Ù…ØªØ¯Ø±Ø¨").trim();
-    return clean.split(/\s+/)[0] || "Ù…ØªØ¯Ø±Ø¨";
+    const clean = String(userName || "متدرب").trim();
+    return clean.split(/\s+/)[0] || "متدرب";
   }, [userName]);
 
   async function choose(choice) {
@@ -36,7 +35,7 @@ export default function OnboardingFlow({
   const disabled = loading || Boolean(busyChoice);
 
   return (
-    <section className="onboarding-overlay" dir="rtl" aria-label="Ø§Ù„ØªØ±Ø­ÙŠØ¨ Ø§Ù„Ø°ÙƒÙŠ">
+    <section className="onboarding-overlay" dir="rtl" aria-label="الترحيب الذكي">
       <style>{`
         .onboarding-overlay {
           position: fixed;
@@ -315,61 +314,62 @@ export default function OnboardingFlow({
         <div className="onboarding-inner">
           <div className="onboarding-hero">
             <div>
-              <span className="onboarding-badge">Ø¨Ø¯Ø§ÙŠØ© Ø°ÙƒÙŠØ© Ø¯Ø§Ø®Ù„ Ù…Ø®ØªØ¨Ø± OD</span>
+              <span className="onboarding-badge">بداية ذكية داخل مختبر OD</span>
               <h2 id="onboarding-title" className="onboarding-title">
-                Ø­ÙŠØ§Ùƒ ÙŠØ§ <span>{firstName}</span>ØŒ Ø®Ù„Ù‘Ù†Ø§ Ù†Ø®ØªØµØ± Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø·Ø±ÙŠÙ‚.
+                حياك يا <span>{firstName}</span>، خلّنا نختصر عليك الطريق.
               </h2>
               <p className="onboarding-lead">
-                Ù‡Ø°Ù‡ Ù„ÙŠØ³Øª ØµÙØ­Ø© ØªØ±Ø­ÙŠØ¨ Ø´ÙƒÙ„ÙŠØ©. Ø§Ù„Ù‡Ø¯Ù Ù…Ù†Ù‡Ø§ Ø£Ù† ØªØ¹Ø±Ù Ø£ÙŠÙ† ØªØ¨Ø¯Ø£: ØªÙ‚ÙŠØ³
-                Ù…Ø³ØªÙˆØ§Ùƒ Ø£ÙˆÙ„Ù‹Ø§ØŒ Ø£Ùˆ ØªØ¯Ø®Ù„ Ø§Ù„Ø±Ø­Ù„Ø© Ù…Ø¨Ø§Ø´Ø±Ø©ØŒ Ø«Ù… ØªØªØ§Ø¨Ø¹ ØªØ·ÙˆØ±Ùƒ Ø¹Ø¨Ø± Ø§Ù„Ø±Ø§Ø¯Ø§Ø±
-                ÙˆØ§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ© Ø­ØªÙ‰ ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†.
+                هذه ليست صفحة ترحيب شكلية. الهدف منها أن تعرف أين تبدأ: تقيس
+                مستواك أولًا، أو تدخل الرحلة مباشرة، ثم تتابع تطورك عبر الرادار
+                والشهادات الشهرية حتى وثيقة الإتقان.
               </p>
             </div>
 
-            <aside className="onboarding-route" aria-label="Ù…Ù„Ø®Øµ ØªÙ‚Ø¯Ù…Ùƒ Ø§Ù„Ø­Ø§Ù„ÙŠ">
-              <h3>Ø£Ù†Øª Ø¯Ø§Ø®Ù„ Ø±Ø­Ù„Ø© Ù…Ù† 180 ÙŠÙˆÙ…Ù‹Ø§</h3>
-              <NeoMetricGauge
-                className="onboarding-progress-gauge"
-                value={progress}
-                max={100}
-                displayValue={`${progress}%`}
-                label="إنجاز الرحلة"
-                subLabel={`${safeCompleted} / ${totalDays}`}
-                status={progress >= 100 ? "complete" : "progress"}
-                size="default"
-              />
+            <aside className="onboarding-route" aria-label="ملخص تقدمك الحالي">
+              <h3>أنت داخل رحلة من 180 يومًا</h3>
+              <div
+                className="onboarding-progress-orb od-circular-indicator od-indicator-general"
+                style={{ "--od-indicator-progress": `${progress}%` }}
+              >
+                <div>
+                  <span>
+                    <strong>{progress}%</strong>
+                    <small>{safeCompleted} / {totalDays}</small>
+                  </span>
+                </div>
+              </div>
               <p>
-                ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¨Ø¯Ø§ÙŠØ© Ø£Ùˆ Ø¥Ø®ÙØ§Ø¡ Ù‡Ø°Ù‡ Ø§Ù„Ø´Ø§Ø´Ø© Ù†Ù‡Ø§Ø¦ÙŠÙ‹Ø§. Ø³Ù†Ø­ÙØ¸ Ø§Ø®ØªÙŠØ§Ø±Ùƒ Ø­ØªÙ‰ Ù„Ø§ ØªØ¸Ù‡Ø± ÙÙŠ ÙƒÙ„ Ø¯Ø®ÙˆÙ„. ØªØ³ØªØ·ÙŠØ¹
-                Ø¯Ø§Ø¦Ù…Ù‹Ø§ Ø§Ù„ÙˆØµÙˆÙ„ Ù„ÙƒÙ„ Ø§Ù„Ø£Ù‚Ø³Ø§Ù… Ù…Ù† Ø§Ù„Ø´Ø±ÙŠØ· Ø§Ù„Ø¹Ù„ÙˆÙŠ.
+                يمكنك اختيار البداية أو إخفاء هذه الشاشة نهائيًا. سنحفظ اختيارك حتى لا تظهر في كل دخول. تستطيع
+                دائمًا الوصول لكل الأقسام من الشريط العلوي.
               </p>
             </aside>
           </div>
 
-          <div className="onboarding-steps" aria-label="Ø®Ø±ÙŠØ·Ø© Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ù…Ù‚ØªØ±Ø­Ø©">
+          <div className="onboarding-steps" aria-label="خريطة الاستخدام المقترحة">
             <div className="onboarding-step">
               <b>01</b>
-              <strong>Ø§Ø®ØªØ¨Ø§Ø± Ù‚Ø¨Ù„ÙŠ</strong>
-              <span>ÙŠÙ‚ÙŠØ³ Ø¨ØµÙ…ØªÙƒ Ø§Ù„Ø§Ø³ØªØ´Ø§Ø±ÙŠØ© Ø¹Ø¨Ø± Ø³Øª Ø¬Ø¯Ø§Ø±Ø§Øª.</span>
+              <strong>اختبار قبلي</strong>
+              <span>يقيس بصمتك الاستشارية عبر ست جدارات.</span>
             </div>
             <div className="onboarding-step">
               <b>02</b>
-              <strong>Ø±Ø­Ù„Ø© ÙŠÙˆÙ…ÙŠØ©</strong>
-              <span>ØªÙØªØ­ Ø§Ù„Ø£ÙŠØ§Ù… ÙˆØªÙƒÙ…Ù„Ù‡Ø§ Ø¨Ø§Ù„ØªØ¯Ø±Ø¬ Ø­ØªÙ‰ 180 ÙŠÙˆÙ…Ù‹Ø§.</span>
+              <strong>رحلة يومية</strong>
+              <span>تفتح الأيام وتكملها بالتدرج حتى 180 يومًا.</span>
             </div>
             <div className="onboarding-step">
               <b>03</b>
-              <strong>Ø±Ø§Ø¯Ø§Ø± Ø§Ù„Ø£Ø¯Ø§Ø¡</strong>
-              <span>ÙŠØ±Ø¨Ø· ØªÙ‚Ø¯Ù…Ùƒ Ø§Ù„ÙØ¹Ù„ÙŠ Ø¨Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø¬Ø¯Ø§Ø±Ø§Øª.</span>
+              <strong>رادار الأداء</strong>
+              <span>يربط تقدمك الفعلي بمستوى الجدارات.</span>
             </div>
             <div className="onboarding-step">
               <b>04</b>
-              <strong>Ø´Ù‡Ø§Ø¯Ø§Øª Ø´Ù‡Ø±ÙŠØ©</strong>
-              <span>ØªØ¸Ù‡Ø± Ø¹Ù†Ø¯ ÙƒÙ„ 30 ÙŠÙˆÙ…Ù‹Ø§ Ù…ÙƒØªÙ…Ù„Ù‹Ø§.</span>
+              <strong>شهادات شهرية</strong>
+              <span>تظهر عند كل 30 يومًا مكتملًا.</span>
             </div>
             <div className="onboarding-step">
               <b>05</b>
-              <strong>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†</strong>
-              <span>ØªÙØªØ­ Ø¹Ù†Ø¯ Ø¥ÙƒÙ…Ø§Ù„ ÙƒØ§Ù…Ù„ Ø§Ù„Ø±Ø­Ù„Ø©.</span>
+              <strong>وثيقة الإتقان</strong>
+              <span>تفتح عند إكمال كامل الرحلة.</span>
             </div>
           </div>
 
@@ -380,8 +380,8 @@ export default function OnboardingFlow({
               onClick={() => choose("pre-assessment")}
               disabled={disabled}
             >
-              <strong>{busyChoice === "pre-assessment" ? "Ø¬Ø§Ø±Ù Ø§Ù„ØªÙˆØ¬ÙŠÙ‡..." : "Ø§Ø¨Ø¯Ø£ Ø¨Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„Ù‚Ø¨Ù„ÙŠ"}</strong>
-              <span>Ø£ÙØ¶Ù„ Ø¨Ø¯Ø§ÙŠØ© Ù„Ù…Ù† ÙŠØ±ÙŠØ¯ Ù‚ÙŠØ§Ø³ Ù…Ø³ØªÙˆÙ‰ Ø§Ù„ØªÙÙƒÙŠØ± Ù‚Ø¨Ù„ Ø§Ù„Ø¯Ø®ÙˆÙ„ ÙÙŠ Ø§Ù„Ù…Ø³Ø§Ø±.</span>
+              <strong>{busyChoice === "pre-assessment" ? "جارٍ التوجيه..." : "ابدأ بالاختبار القبلي"}</strong>
+              <span>أفضل بداية لمن يريد قياس مستوى التفكير قبل الدخول في المسار.</span>
             </button>
 
             <button
@@ -390,8 +390,8 @@ export default function OnboardingFlow({
               onClick={() => choose("journey")}
               disabled={disabled}
             >
-              <strong>{busyChoice === "journey" ? "Ø¬Ø§Ø±Ù Ø§Ù„ØªÙˆØ¬ÙŠÙ‡..." : "Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© Ù…Ø¨Ø§Ø´Ø±Ø©"}</strong>
-              <span>ÙŠÙ†Ù‚Ù„Ùƒ Ø¥Ù„Ù‰ Ø§Ù„Ø±Ø­Ù„Ø© Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠØ© Ø£Ùˆ Ø¢Ø®Ø± Ù…Ø­Ø·Ø© ÙˆØµÙ„Øª Ø¥Ù„ÙŠÙ‡Ø§.</span>
+              <strong>{busyChoice === "journey" ? "جارٍ التوجيه..." : "ابدأ الرحلة مباشرة"}</strong>
+              <span>ينقلك إلى الرحلة التعليمية أو آخر محطة وصلت إليها.</span>
             </button>
 
             <button
@@ -400,14 +400,14 @@ export default function OnboardingFlow({
               onClick={() => choose("home")}
               disabled={disabled}
             >
-              <strong>{busyChoice === "home" ? "Ø¬Ø§Ø±Ù Ø§Ù„Ø­ÙØ¸..." : "Ø§Ø³ØªÙƒØ´Ù Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ø£ÙˆÙ„Ù‹Ø§"}</strong>
-              <span>ÙŠØºÙ„Ù‚ Ø§Ù„ØªØ±Ø­ÙŠØ¨ ÙˆÙŠØ¨Ù‚ÙŠÙƒ ÙÙŠ Ø§Ù„ØµÙØ­Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ù„ØªØªØ¹Ø±Ù Ø¹Ù„Ù‰ Ø§Ù„Ù…Ù†ØµØ©.</span>
+              <strong>{busyChoice === "home" ? "جارٍ الحفظ..." : "استكشف الرئيسية أولًا"}</strong>
+              <span>يغلق الترحيب ويبقيك في الصفحة الرئيسية لتتعرف على المنصة.</span>
             </button>
           </div>
 
           <div className="onboarding-skip">
             <button type="button" onClick={() => choose("later")} disabled={disabled}>
-              Ø¹Ø¯Ù… Ø¥Ø¸Ù‡Ø§Ø± Ø§Ù„ØªØ±Ø­ÙŠØ¨ Ù…Ø¬Ø¯Ø¯Ù‹Ø§
+              عدم إظهار الترحيب مجددًا
             </button>
           </div>
         </div>
@@ -415,4 +415,3 @@ export default function OnboardingFlow({
     </section>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   fetchProfileCenterData,
   formatLearningHours,
@@ -10,12 +10,11 @@ import {
   updateAccountEmail,
   updateAccountPassword
 } from "../lib/accountSecurityService";
-import NeoMetricGauge from "./NeoMetricGauge";
 
 function firstLetter(name = "") {
   const cleaned = String(name || "").trim();
 
-  if (!cleaned) return "Ù…";
+  if (!cleaned) return "م";
 
   return cleaned.slice(0, 1).toUpperCase();
 }
@@ -24,15 +23,15 @@ function progressWidth(value) {
   return `${Math.max(0, Math.min(100, Number(value || 0)))}%`;
 }
 
-function fieldValue(value, fallback = "ØºÙŠØ± Ù…Ø­Ø¯Ø¯") {
+function fieldValue(value, fallback = "غير محدد") {
   return value ? value : fallback;
 }
 
 function statusLabel(value) {
-  if (value === "issued") return "ØµØ§Ø¯Ø±Ø©";
-  if (value === "ready") return "Ø¬Ø§Ù‡Ø²Ø©";
-  if (value === "locked") return "ØºÙŠØ± Ù…ÙƒØªÙ…Ù„Ø©";
-  return value || "ØºÙŠØ± Ù…ÙƒØªÙ…Ù„Ø©";
+  if (value === "issued") return "صادرة";
+  if (value === "ready") return "جاهزة";
+  if (value === "locked") return "غير مكتملة";
+  return value || "غير مكتملة";
 }
 
 export default function LearnerProfileCenter({
@@ -93,7 +92,7 @@ export default function LearnerProfileCenter({
         email: result?.profile?.email || session?.user?.email || ""
       }));
     } catch (error) {
-      console.warn("ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ù…Ø±ÙƒØ² Ù‡ÙˆÙŠØ© Ø§Ù„Ù…ØªØ¯Ø±Ø¨:", error);
+      console.warn("تعذر تحميل مركز هوية المتدرب:", error);
       setData(null);
     } finally {
       setLoading(false);
@@ -123,13 +122,13 @@ export default function LearnerProfileCenter({
     profile.full_name ||
     userName ||
     session?.user?.email ||
-    "Ù…ØªØ¯Ø±Ø¨";
+    "متدرب";
 
   const email = profile.email || session?.user?.email || "";
   const rank = data?.rank || {
-    title: "Ù…Ø³ØªÙƒØ´Ù OD",
-    subtitle: "ÙÙŠ Ø¨Ø¯Ø§ÙŠØ© Ø§Ù„Ø±Ø­Ù„Ø©",
-    nextTitle: "Ù‚Ø§Ø±Ø¦ Ø§Ù„Ù…Ù†Ø¸Ù…Ø©",
+    title: "مستكشف OD",
+    subtitle: "في بداية الرحلة",
+    nextTitle: "قارئ المنظمة",
     nextIn: 7
   };
   const progressPercent =
@@ -145,8 +144,8 @@ export default function LearnerProfileCenter({
   const unreadNotifications = (data?.notifications || []).filter((item) => !item.read_at).length;
 
   const nextActionLabel = useMemo(() => {
-    if (Number(data?.completedDays || completedDays) >= totalDays) return "Ù…Ø¹Ø§ÙŠÙ†Ø© ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†";
-    return "Ù…ØªØ§Ø¨Ø¹Ø© Ù…Ù† Ø¢Ø®Ø± Ù…Ø­Ø·Ø©";
+    if (Number(data?.completedDays || completedDays) >= totalDays) return "معاينة وثيقة الإتقان";
+    return "متابعة من آخر محطة";
   }, [completedDays, data?.completedDays, totalDays]);
 
   async function saveProfile(event) {
@@ -168,7 +167,7 @@ export default function LearnerProfileCenter({
       setEditing(false);
       await loadProfile();
     } catch (error) {
-      alert(error?.message || "ØªØ¹Ø°Ø± Ø­ÙØ¸ Ø§Ù„Ù…Ù„Ù.");
+      alert(error?.message || "تعذر حفظ الملف.");
     } finally {
       setSaving(false);
     }
@@ -181,9 +180,9 @@ export default function LearnerProfileCenter({
 
     try {
       await updateAccountEmail(accountForm.email);
-      setAccountStatus("ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø±Ø§Ø¨Ø· ØªØ£ÙƒÙŠØ¯ ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ø±ÙŠØ¯. Ø§ÙØªØ­ Ø¨Ø±ÙŠØ¯Ùƒ Ù„Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„Ø¹Ù…Ù„ÙŠØ©.");
+      setAccountStatus("تم إرسال رابط تأكيد تغيير البريد. افتح بريدك لإكمال العملية.");
     } catch (error) {
-      setAccountStatus(error?.message || "ØªØ¹Ø°Ø± Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ø±ÙŠØ¯.");
+      setAccountStatus(error?.message || "تعذر إرسال طلب تغيير البريد.");
     } finally {
       setAccountSaving(false);
     }
@@ -196,11 +195,11 @@ export default function LearnerProfileCenter({
 
     try {
       if (!accountForm.password || accountForm.password.length < 8) {
-        throw new Error("ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± ÙŠØ¬Ø¨ Ø£Ù„Ø§ ØªÙ‚Ù„ Ø¹Ù† 8 Ø£Ø­Ø±Ù.");
+        throw new Error("كلمة المرور يجب ألا تقل عن 8 أحرف.");
       }
 
       if (accountForm.password !== accountForm.confirmPassword) {
-        throw new Error("ØªØ£ÙƒÙŠØ¯ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± ØºÙŠØ± Ù…Ø·Ø§Ø¨Ù‚.");
+        throw new Error("تأكيد كلمة المرور غير مطابق.");
       }
 
       await updateAccountPassword(accountForm.password);
@@ -209,9 +208,9 @@ export default function LearnerProfileCenter({
         password: "",
         confirmPassword: ""
       }));
-      setAccountStatus("ØªÙ… ØªØ­Ø¯ÙŠØ« ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø¨Ù†Ø¬Ø§Ø­.");
+      setAccountStatus("تم تحديث كلمة المرور بنجاح.");
     } catch (error) {
-      setAccountStatus(error?.message || "ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ« ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±.");
+      setAccountStatus(error?.message || "تعذر تحديث كلمة المرور.");
     } finally {
       setAccountSaving(false);
     }
@@ -273,101 +272,101 @@ export default function LearnerProfileCenter({
       <div className="profile-card edit-card" ref={editPanelRef}>
         <div className="edit-card-head">
           <div>
-            <h3>ØªØ¹Ø¯ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ù„Ù</h3>
-            <p>Ù‡Ø°Ù‡ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ØªØ¸Ù‡Ø± Ø¯Ø§Ø®Ù„ Ù…Ù„ÙÙƒ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ ÙˆÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†.</p>
+            <h3>تعديل بيانات الملف</h3>
+            <p>هذه البيانات تظهر داخل ملفك التعليمي ووثيقة الإتقان.</p>
           </div>
           <button type="button" className="tiny-soft-button" onClick={() => setEditing(false)}>
-            Ø¥Ù„ØºØ§Ø¡
+            إلغاء
           </button>
         </div>
 
         <form className="profile-form" onSubmit={saveProfile}>
           <label>
-            Ø§Ù„Ø§Ø³Ù… ÙƒÙ…Ø§ ÙŠØ¸Ù‡Ø± ÙÙŠ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©
+            الاسم كما يظهر في الوثيقة
             <input
               value={form.certificate_name}
               onChange={(event) =>
                 setForm((current) => ({ ...current, certificate_name: event.target.value }))
               }
-              placeholder="Ø§ÙƒØªØ¨ Ø§Ø³Ù…Ùƒ ÙƒÙ…Ø§ ØªØ­Ø¨ Ø¸Ù‡ÙˆØ±Ù‡"
+              placeholder="اكتب اسمك كما تحب ظهوره"
             />
           </label>
 
           <label>
-            Ù‡Ø¯ÙÙƒ Ù…Ù† Ø§Ù„Ø±Ø­Ù„Ø©
+            هدفك من الرحلة
             <textarea
               value={form.professional_goal}
               onChange={(event) =>
                 setForm((current) => ({ ...current, professional_goal: event.target.value }))
               }
-              placeholder="Ù…Ø«Ø§Ù„: Ø¨Ù†Ø§Ø¡ Ù‚Ø¯Ø±Ø© Ø§Ø³ØªØ´Ø§Ø±ÙŠØ© ÙÙŠ Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ"
+              placeholder="مثال: بناء قدرة استشارية في التطوير التنظيمي"
             />
           </label>
 
           <div className="two-fields">
             <label>
-              Ø§Ù„Ù…Ø¬Ø§Ù„ Ø§Ù„Ø£Ù‚Ø±Ø¨ Ù„Ùƒ
+              المجال الأقرب لك
               <select
                 value={form.professional_track}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, professional_track: event.target.value }))
                 }
               >
-                <option value="">Ø§Ø®ØªØ± Ø§Ù„Ù…Ø¬Ø§Ù„</option>
-                <option value="Ø§Ù„Ù…ÙˆØ§Ø±Ø¯ Ø§Ù„Ø¨Ø´Ø±ÙŠØ©">Ø§Ù„Ù…ÙˆØ§Ø±Ø¯ Ø§Ù„Ø¨Ø´Ø±ÙŠØ©</option>
-                <option value="Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ">Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ</option>
-                <option value="Ø§Ù„Ù‚ÙŠØ§Ø¯Ø© ÙˆØ§Ù„Ø¥Ø¯Ø§Ø±Ø©">Ø§Ù„Ù‚ÙŠØ§Ø¯Ø© ÙˆØ§Ù„Ø¥Ø¯Ø§Ø±Ø©</option>
-                <option value="Ø§Ù„Ø§Ø³ØªØ´Ø§Ø±Ø§Øª">Ø§Ù„Ø§Ø³ØªØ´Ø§Ø±Ø§Øª</option>
-                <option value="Ø·Ø§Ù„Ø¨ / Ø¨Ø§Ø­Ø« Ø¹Ù† ÙØ±ØµØ©">Ø·Ø§Ù„Ø¨ / Ø¨Ø§Ø­Ø« Ø¹Ù† ÙØ±ØµØ©</option>
-                <option value="Ù…Ø¬Ø§Ù„ Ø¢Ø®Ø±">Ù…Ø¬Ø§Ù„ Ø¢Ø®Ø±</option>
+                <option value="">اختر المجال</option>
+                <option value="الموارد البشرية">الموارد البشرية</option>
+                <option value="التطوير التنظيمي">التطوير التنظيمي</option>
+                <option value="القيادة والإدارة">القيادة والإدارة</option>
+                <option value="الاستشارات">الاستشارات</option>
+                <option value="طالب / باحث عن فرصة">طالب / باحث عن فرصة</option>
+                <option value="مجال آخر">مجال آخر</option>
               </select>
             </label>
 
             <label>
-              Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø®Ø¨Ø±Ø©
+              مستوى الخبرة
               <select
                 value={form.experience_level}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, experience_level: event.target.value }))
                 }
               >
-                <option value="">Ø§Ø®ØªØ± Ø§Ù„Ù…Ø³ØªÙˆÙ‰</option>
-                <option value="Ù…Ø¨ØªØ¯Ø¦">Ù…Ø¨ØªØ¯Ø¦</option>
-                <option value="Ø£Ø®ØµØ§Ø¦ÙŠ">Ø£Ø®ØµØ§Ø¦ÙŠ</option>
-                <option value="Ø£Ø®ØµØ§Ø¦ÙŠ Ø£ÙˆÙ„">Ø£Ø®ØµØ§Ø¦ÙŠ Ø£ÙˆÙ„</option>
-                <option value="Ù…Ø´Ø±Ù / Ù‚Ø§Ø¦Ø¯ ÙØ±ÙŠÙ‚">Ù…Ø´Ø±Ù / Ù‚Ø§Ø¦Ø¯ ÙØ±ÙŠÙ‚</option>
-                <option value="Ù…Ø¯ÙŠØ±">Ù…Ø¯ÙŠØ±</option>
-                <option value="Ù‚Ø§Ø¦Ø¯ / Ù…Ø³ØªØ´Ø§Ø±">Ù‚Ø§Ø¦Ø¯ / Ù…Ø³ØªØ´Ø§Ø±</option>
+                <option value="">اختر المستوى</option>
+                <option value="مبتدئ">مبتدئ</option>
+                <option value="أخصائي">أخصائي</option>
+                <option value="أخصائي أول">أخصائي أول</option>
+                <option value="مشرف / قائد فريق">مشرف / قائد فريق</option>
+                <option value="مدير">مدير</option>
+                <option value="قائد / مستشار">قائد / مستشار</option>
               </select>
             </label>
           </div>
 
           <div className="two-fields">
             <label>
-              Ø§Ù„Ø¯ÙˆÙ„Ø©ØŒ Ø§Ø®ØªÙŠØ§Ø±ÙŠ
+              الدولة، اختياري
               <input
                 value={form.country}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, country: event.target.value }))
                 }
-                placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„Ø³Ø¹ÙˆØ¯ÙŠØ©"
+                placeholder="مثال: السعودية"
               />
             </label>
 
             <label>
-              Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©ØŒ Ø§Ø®ØªÙŠØ§Ø±ÙŠ
+              المدينة، اختياري
               <input
                 value={form.city}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, city: event.target.value }))
                 }
-                placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„Ø±ÙŠØ§Ø¶"
+                placeholder="مثال: الرياض"
               />
             </label>
           </div>
 
           <button type="submit" className="profile-button primary" disabled={saving}>
-            {saving ? "Ø¬Ø§Ø±Ù Ø§Ù„Ø­ÙØ¸..." : "Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª"}
+            {saving ? "جارٍ الحفظ..." : "حفظ التعديلات"}
           </button>
         </form>
       </div>
@@ -377,56 +376,56 @@ export default function LearnerProfileCenter({
   function renderAccountSecurity() {
     return (
       <div className="profile-card account-card">
-        <h3>Ø£Ù…Ø§Ù† Ø§Ù„Ø­Ø³Ø§Ø¨</h3>
-        <p>ÙŠÙ…ÙƒÙ†Ùƒ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø£Ùˆ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±. ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ø±ÙŠØ¯ Ù‚Ø¯ ÙŠØ­ØªØ§Ø¬ ØªØ£ÙƒÙŠØ¯Ù‹Ø§ Ù…Ù† Ø±Ø³Ø§Ù„Ø© ØªØµÙ„ Ø¥Ù„Ù‰ Ø¨Ø±ÙŠØ¯Ùƒ.</p>
+        <h3>أمان الحساب</h3>
+        <p>يمكنك تحديث البريد أو كلمة المرور. تغيير البريد قد يحتاج تأكيدًا من رسالة تصل إلى بريدك.</p>
 
         <form className="profile-form" onSubmit={handleEmailChange}>
           <label>
-            Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ
+            البريد الإلكتروني
             <input
               type="email"
               value={accountForm.email}
               onChange={(event) =>
                 setAccountForm((current) => ({ ...current, email: event.target.value }))
               }
-              placeholder="Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¬Ø¯ÙŠØ¯"
+              placeholder="البريد الجديد"
             />
           </label>
 
           <button type="submit" className="profile-button soft" disabled={accountSaving}>
-            Ø¥Ø±Ø³Ø§Ù„ Ø±Ø§Ø¨Ø· ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ø±ÙŠØ¯
+            إرسال رابط تغيير البريد
           </button>
         </form>
 
         <form className="profile-form account-password-form" onSubmit={handlePasswordChange}>
           <div className="two-fields">
             <label>
-              ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø©
+              كلمة المرور الجديدة
               <input
                 type="password"
                 value={accountForm.password}
                 onChange={(event) =>
                   setAccountForm((current) => ({ ...current, password: event.target.value }))
                 }
-                placeholder="8 Ø£Ø­Ø±Ù Ø¹Ù„Ù‰ Ø§Ù„Ø£Ù‚Ù„"
+                placeholder="8 أحرف على الأقل"
               />
             </label>
 
             <label>
-              ØªØ£ÙƒÙŠØ¯ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±
+              تأكيد كلمة المرور
               <input
                 type="password"
                 value={accountForm.confirmPassword}
                 onChange={(event) =>
                   setAccountForm((current) => ({ ...current, confirmPassword: event.target.value }))
                 }
-                placeholder="Ø£Ø¹Ø¯ ÙƒØªØ§Ø¨Ø© ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±"
+                placeholder="أعد كتابة كلمة المرور"
               />
             </label>
           </div>
 
           <button type="submit" className="profile-button primary" disabled={accountSaving}>
-            ØªØ­Ø¯ÙŠØ« ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±
+            تحديث كلمة المرور
           </button>
         </form>
 
@@ -1040,58 +1039,44 @@ export default function LearnerProfileCenter({
           type="button"
           className="profile-identity"
           onClick={openDrawer}
-          aria-label="ÙØªØ­ Ù…Ù„ÙÙŠ"
+          aria-label="فتح ملفي"
         >
           <div className="profile-avatar" aria-hidden="true">{firstLetter(displayName)}</div>
           <div className="profile-name">
-            <strong>{loading ? "Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ù…Ù„ÙÙƒ..." : displayName}</strong>
-            <span>{rank.title} Â· {rank.subtitle}</span>
-            <small>Ø§Ø¶ØºØ· Ù„ÙØªØ­ Ù…Ù„ÙÙƒ</small>
+            <strong>{loading ? "جارٍ تحميل ملفك..." : displayName}</strong>
+            <span>{rank.title} · {rank.subtitle}</span>
+            <small>اضغط لفتح ملفك</small>
           </div>
         </button>
 
         <div className="profile-metrics">
-          <NeoMetricGauge
-            value={progressPercent}
-            max={100}
-            displayValue={`${progressPercent}%`}
-            label="إنجاز الرحلة"
-            status={progressPercent >= 100 ? "complete" : "progress"}
-            size="compact"
-          />
-          <NeoMetricGauge
-            value={data?.completedDays ?? completedDays}
-            max={totalDays}
-            displayValue={`${data?.completedDays ?? completedDays} / ${totalDays}`}
-            label="الأيام المكتملة"
-            status={(data?.completedDays ?? completedDays) >= totalDays ? "complete" : "progress"}
-            size="compact"
-          />
-          <NeoMetricGauge
-            value={1}
-            max={1}
-            progress={100}
-            displayValue={formatLearningHours(hoursCounted)}
-            label="وقت التعلم"
-            status="readiness"
-            size="compact"
-          />
-          <NeoMetricGauge
-            value={unreadNotifications}
-            max={Math.max(1, unreadNotifications)}
-            displayValue={unreadNotifications}
-            label="تنبيهات جديدة"
-            status={unreadNotifications > 0 ? "warning" : "complete"}
-            size="compact"
-          />
+          <div className="profile-metric">
+            <b>إنجاز الرحلة</b>
+            <strong>{progressPercent}%</strong>
+          </div>
+          <div className="profile-metric">
+            <b>الأيام المكتملة</b>
+            <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+          </div>
+          <div className="profile-metric">
+            <b>وقت التعلم</b>
+            <strong>{formatLearningHours(hoursCounted)}</strong>
+          </div>
+          <div className="profile-metric">
+            <b>تنبيهات جديدة</b>
+            <strong>{unreadNotifications}</strong>
+          </div>
+          <div className="profile-progress-line" aria-label={`إنجاز الرحلة ${progressPercent}%`}>
+            <span style={{ width: progressWidth(progressPercent) }} />
+          </div>
         </div>
 
         <div className="profile-actions">
           <button type="button" className="profile-button myfile" onClick={() => navigate("portfolio")}>
-            Ù…Ù„ÙÙŠ Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ
+            ملفي التعليمي
           </button>
           <button type="button" className="profile-button soft" onClick={openDrawer}>
-            Ù…Ù„ÙÙŠ
+            ملفي
           </button>
           <button type="button" className="profile-button soft" onClick={resumeJourney}>
             {nextActionLabel}
@@ -1102,13 +1087,13 @@ export default function LearnerProfileCenter({
       {drawerOpen && (
         <>
           <div className="profile-drawer-backdrop" onClick={() => setDrawerOpen(false)} />
-          <aside className="profile-drawer" role="dialog" aria-modal="true" aria-label="Ù…Ù„ÙÙŠ">
+          <aside className="profile-drawer" role="dialog" aria-modal="true" aria-label="ملفي">
             <div className="drawer-head">
               <div>
-                <h2>Ù…Ù„ÙÙŠ</h2>
-                <p>Ù…Ù„Ø®Øµ Ø³Ø±ÙŠØ¹ Ù„ØªÙ‚Ø¯Ù…ÙƒØŒ ÙˆÙ‚ØªÙƒØŒ Ø´Ø§Ø±Ø§ØªÙƒØŒ ÙˆØ¢Ø®Ø± Ù†Ø´Ø§Ø·Ø§ØªÙƒ.</p>
+                <h2>ملفي</h2>
+                <p>ملخص سريع لتقدمك، وقتك، شاراتك، وآخر نشاطاتك.</p>
               </div>
-              <button type="button" className="close-button" onClick={() => setDrawerOpen(false)}>Ã—</button>
+              <button type="button" className="close-button" onClick={() => setDrawerOpen(false)}>×</button>
             </div>
 
             <div className="profile-card gradient">
@@ -1116,77 +1101,62 @@ export default function LearnerProfileCenter({
                 <div className="profile-avatar">{firstLetter(displayName)}</div>
                 <div>
                   <h3>{displayName}</h3>
-                  <p>{email || "Ø§Ù„Ø¨Ø±ÙŠØ¯ ØºÙŠØ± Ù…ØªÙˆÙØ±"}</p>
+                  <p>{email || "البريد غير متوفر"}</p>
                   <span className="rank-pill">{rank.title}</span>
                 </div>
               </div>
             </div>
 
             <div className="profile-card">
-              <h3>Ø§Ù„ØªÙ‚Ø¯Ù… Ø§Ù„Ø¹Ø§Ù…</h3>
+              <h3>التقدم العام</h3>
               <div className="profile-stats-grid">
-                <NeoMetricGauge
-                  value={progressPercent}
-                  max={100}
-                  displayValue={`${progressPercent}%`}
-                  label="نسبة الرحلة"
-                  status={progressPercent >= 100 ? "complete" : "progress"}
-                  size="compact"
-                />
-                <NeoMetricGauge
-                  value={data?.completedDays ?? completedDays}
-                  max={totalDays}
-                  displayValue={`${data?.completedDays ?? completedDays} / ${totalDays}`}
-                  label="الأيام المكتملة"
-                  status={(data?.completedDays ?? completedDays) >= totalDays ? "complete" : "progress"}
-                  size="compact"
-                />
-                <NeoMetricGauge
-                  value={1}
-                  max={1}
-                  progress={100}
-                  displayValue={formatLearningHours(hoursCounted)}
-                  label="وقت التعلم الحقيقي"
-                  status="readiness"
-                  size="compact"
-                />
-                <NeoMetricGauge
-                  value={streak}
-                  max={Math.max(1, streak)}
-                  progress={streak > 0 ? 100 : 0}
-                  displayValue={`${streak} أيام`}
-                  label="سلسلة التعلم"
-                  status={streak > 0 ? "complete" : "locked"}
-                  size="compact"
-                />
+                <div className="profile-stat">
+                  <b>نسبة الرحلة</b>
+                  <strong>{progressPercent}%</strong>
+                </div>
+                <div className="profile-stat">
+                  <b>الأيام المكتملة</b>
+                  <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+                </div>
+                <div className="profile-stat">
+                  <b>وقت التعلم الحقيقي</b>
+                  <strong>{formatLearningHours(hoursCounted)}</strong>
+                </div>
+                <div className="profile-stat">
+                  <b>سلسلة التعلم</b>
+                  <strong>{streak} أيام</strong>
+                </div>
+              </div>
+              <div className="mini-progress">
+                <span style={{ width: progressWidth(progressPercent) }} />
               </div>
             </div>
 
             <div className="profile-card">
-              <h3>Ø§Ù„Ø®Ø·ÙˆØ© Ø§Ù„ØªØ§Ù„ÙŠØ©</h3>
+              <h3>الخطوة التالية</h3>
               <p>
                 {rank.nextIn > 0
-                  ? `Ø£ÙƒÙ…Ù„ ${rank.nextIn} ÙŠÙˆÙ…Ù‹Ø§ Ù„Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø±ØªØ¨Ø© ${rank.nextTitle}.`
-                  : "Ø£Ù†Øª ÙÙŠ Ø£Ø¹Ù„Ù‰ Ø±ØªØ¨Ø© Ø­Ø§Ù„ÙŠØ© Ø¯Ø§Ø®Ù„ Ø§Ù„Ø±Ø­Ù„Ø©."}
+                  ? `أكمل ${rank.nextIn} يومًا للوصول إلى رتبة ${rank.nextTitle}.`
+                  : "أنت في أعلى رتبة حالية داخل الرحلة."}
               </p>
 
               <div className="quick-links">
-                <button type="button" onClick={resumeJourney}>Ù…ØªØ§Ø¨Ø¹Ø© Ø§Ù„Ø±Ø­Ù„Ø©</button>
-                <button type="button" onClick={() => navigate("mastery")}>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†</button>
-                <button type="button" className="important" onClick={openEditDirectly}>ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</button>
-                <button type="button" onClick={openFullProfile}>Ø¹Ø±Ø¶ Ø§Ù„Ù…Ù„Ù Ø§Ù„ÙƒØ§Ù…Ù„</button>
+                <button type="button" onClick={resumeJourney}>متابعة الرحلة</button>
+                <button type="button" onClick={() => navigate("mastery")}>وثيقة الإتقان</button>
+                <button type="button" className="important" onClick={openEditDirectly}>تعديل البيانات</button>
+                <button type="button" onClick={openFullProfile}>عرض الملف الكامل</button>
               </div>
             </div>
 
             {!!(data?.badges || []).length && (
               <div className="profile-card">
-                <h3>Ø¢Ø®Ø± Ø§Ù„Ø´Ø§Ø±Ø§Øª</h3>
+                <h3>آخر الشارات</h3>
                 <div className="badge-list">
                   {data.badges.slice(0, 4).map((item) => (
                     <div className="badge-row" key={item.badge_id}>
                       <div className="badge-row-top">
                         <span>{item.badges?.title || item.badge_id}</span>
-                        <span>{item.badges?.icon || "ðŸ…"}</span>
+                        <span>{item.badges?.icon || "🏅"}</span>
                       </div>
                       <small>{formatProfileDate(item.awarded_at)}</small>
                     </div>
@@ -1203,13 +1173,13 @@ export default function LearnerProfileCenter({
       {fullOpen && (
         <>
           <div className="profile-modal-backdrop" onClick={() => setFullOpen(false)} />
-          <section className="full-profile-modal" role="dialog" aria-modal="true" aria-label="Ø§Ù„Ù…Ù„Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ Ø§Ù„ÙƒØ§Ù…Ù„">
+          <section className="full-profile-modal" role="dialog" aria-modal="true" aria-label="الملف التعليمي الكامل">
             <div className="profile-modal-head">
               <div>
-                <h2>Ø§Ù„Ù…Ù„Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ…ÙŠ Ø§Ù„ÙƒØ§Ù…Ù„</h2>
-                <p>Ù…Ø±ÙƒØ² Ø§Ù„Ù‡ÙˆÙŠØ©ØŒ Ø§Ù„ØªÙ‚Ø¯Ù…ØŒ Ø§Ù„ÙˆÙ‚ØªØŒ Ø§Ù„Ø±Ø§Ø¯Ø§Ø±ØŒ Ø§Ù„Ø´Ø§Ø±Ø§ØªØŒ Ø§Ù„Ù…Ù„Ø§Ø­Ø¸Ø§ØªØŒ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©ØŒ ÙˆØ£Ù…Ø§Ù† Ø§Ù„Ø­Ø³Ø§Ø¨.</p>
+                <h2>الملف التعليمي الكامل</h2>
+                <p>مركز الهوية، التقدم، الوقت، الرادار، الشارات، الملاحظات، الوثيقة، وأمان الحساب.</p>
               </div>
-              <button type="button" className="close-button" onClick={() => setFullOpen(false)}>Ã—</button>
+              <button type="button" className="close-button" onClick={() => setFullOpen(false)}>×</button>
             </div>
 
             <div className="full-profile-grid">
@@ -1218,118 +1188,98 @@ export default function LearnerProfileCenter({
                   <div className="profile-avatar">{firstLetter(displayName)}</div>
                   <div>
                     <h3>{displayName}</h3>
-                    <p>{fieldValue(profile.professional_goal, "Ù„Ù… ØªØ­Ø¯Ø¯ Ù‡Ø¯ÙÙƒ Ù…Ù† Ø§Ù„Ø±Ø­Ù„Ø© Ø¨Ø¹Ø¯.")}</p>
+                    <p>{fieldValue(profile.professional_goal, "لم تحدد هدفك من الرحلة بعد.")}</p>
                     <span className="rank-pill">{rank.title}</span>
                   </div>
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ù…ØªØ¯Ø±Ø¨</h3>
+                <h3>بطاقة المتدرب</h3>
                 <div className="field-grid">
                   <div className="field-item">
-                    <b>Ø§Ù„Ø¨Ø±ÙŠØ¯</b>
+                    <b>البريد</b>
                     <span>{fieldValue(email)}</span>
                   </div>
                   <div className="field-item">
-                    <b>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø§Ù†Ø¶Ù…Ø§Ù…</b>
+                    <b>تاريخ الانضمام</b>
                     <span>{formatProfileDate(profile.created_at)}</span>
                   </div>
                   <div className="field-item">
-                    <b>Ø§Ù„Ù…Ø¬Ø§Ù„</b>
+                    <b>المجال</b>
                     <span>{fieldValue(profile.professional_track)}</span>
                   </div>
                   <div className="field-item">
-                    <b>Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø®Ø¨Ø±Ø©</b>
+                    <b>مستوى الخبرة</b>
                     <span>{fieldValue(profile.experience_level)}</span>
                   </div>
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ù…Ù„Ø®Øµ Ø§Ù„Ø±Ø­Ù„Ø©</h3>
+                <h3>ملخص الرحلة</h3>
                 <div className="profile-stats-grid">
-                  <NeoMetricGauge
-                    value={progressPercent}
-                    max={100}
-                    displayValue={`${progressPercent}%`}
-                    label="نسبة الإنجاز"
-                    status={progressPercent >= 100 ? "complete" : "progress"}
-                    size="compact"
-                  />
-                  <NeoMetricGauge
-                    value={data?.completedDays ?? completedDays}
-                    max={totalDays}
-                    displayValue={`${data?.completedDays ?? completedDays} / ${totalDays}`}
-                    label="الأيام المكتملة"
-                    status={(data?.completedDays ?? completedDays) >= totalDays ? "complete" : "progress"}
-                    size="compact"
-                  />
-                  <NeoMetricGauge
-                    value={1}
-                    max={1}
-                    progress={100}
-                    displayValue={formatLearningHours(hoursCounted)}
-                    label="وقت التعلم الحقيقي"
-                    status="readiness"
-                    size="compact"
-                  />
-                  <NeoMetricGauge
-                    value={streak}
-                    max={Math.max(1, streak)}
-                    progress={streak > 0 ? 100 : 0}
-                    displayValue={`${streak} أيام`}
-                    label="سلسلة التعلم"
-                    status={streak > 0 ? "complete" : "locked"}
-                    size="compact"
-                  />
+                  <div className="profile-stat">
+                    <b>نسبة الإنجاز</b>
+                    <strong>{progressPercent}%</strong>
+                  </div>
+                  <div className="profile-stat">
+                    <b>الأيام المكتملة</b>
+                    <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+                  </div>
+                  <div className="profile-stat">
+                    <b>وقت التعلم الحقيقي</b>
+                    <strong>{formatLearningHours(hoursCounted)}</strong>
+                  </div>
+                  <div className="profile-stat">
+                    <b>سلسلة التعلم</b>
+                    <strong>{streak} أيام</strong>
+                  </div>
+                </div>
+                <div className="mini-progress">
+                  <span style={{ width: progressWidth(progressPercent) }} />
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø±Ø§Ø¯Ø§Ø± Ø§Ù„Ø¬Ø¯Ø§Ø±Ø§Øª</h3>
+                <h3>رادار الجدارات</h3>
                 <div className="radar-list">
                   {(data?.radar || []).map((item) => (
                     <div className="radar-row" key={item.label}>
                       <div className="radar-row-top">
                         <span>{item.label}</span>
-                        <span>{item.score === null ? "Ù„Ù… ÙŠÙ‚Ø§Ø³ Ø¨Ø¹Ø¯" : `${item.score}%`}</span>
+                        <span>{item.score === null ? "لم يقاس بعد" : `${item.score}%`}</span>
                       </div>
-                      <NeoMetricGauge
-                        value={item.score || 0}
-                        max={100}
-                        displayValue={item.score === null ? "لم يقاس بعد" : `${item.score}%`}
-                        label="درجة الرادار"
-                        status={(item.score || 0) >= 100 ? "complete" : "score"}
-                        size="compact"
-                      />
+                      <div className="mini-progress">
+                        <span style={{ width: progressWidth(item.score || 0) }} />
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø§Ù„Ø´Ø§Ø±Ø§Øª Ø§Ù„Ù…Ù‡Ù†ÙŠØ©</h3>
+                <h3>الشارات المهنية</h3>
                 <div className="badge-list">
                   {(data?.badges || []).length ? (
                     data.badges.map((item) => (
                       <div className="badge-row" key={item.badge_id}>
                         <div className="badge-row-top">
                           <span>{item.badges?.title || item.badge_id}</span>
-                          <span>{item.badges?.icon || "ðŸ…"}</span>
+                          <span>{item.badges?.icon || "🏅"}</span>
                         </div>
-                        <small>{item.badges?.description || "Ø´Ø§Ø±Ø© Ù…Ù‡Ù†ÙŠØ© Ø¶Ù…Ù† Ø§Ù„Ø±Ø­Ù„Ø©."}</small>
+                        <small>{item.badges?.description || "شارة مهنية ضمن الرحلة."}</small>
                         <small>{formatProfileDate(item.awarded_at)}</small>
                       </div>
                     ))
                   ) : (
-                    <p>Ù„Ù… ØªØ­ØµÙ„ Ø¹Ù„Ù‰ Ø´Ø§Ø±Ø§Øª Ø¨Ø¹Ø¯. Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© Ù„ØªØ¸Ù‡Ø± Ù‡Ù†Ø§.</p>
+                    <p>لم تحصل على شارات بعد. ابدأ الرحلة لتظهر هنا.</p>
                   )}
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø¥Ù†Ø¬Ø§Ø²Ø§Øª Ù…Ø¹Ø±ÙÙŠØ©</h3>
+                <h3>إنجازات معرفية</h3>
                 <div className="achievement-list">
                   {(data?.achievements || []).map((item) => (
                     <div className="achievement-row" key={item.key}>
@@ -1338,38 +1288,33 @@ export default function LearnerProfileCenter({
                         <span>{item.status}</span>
                       </div>
                       <small>{item.value} / {item.target}</small>
-                      <NeoMetricGauge
-                        value={(item.value / item.target) * 100}
-                        max={100}
-                        displayValue={`${item.value} / ${item.target}`}
-                        label="تقدم الإنجاز"
-                        status={item.value >= item.target ? "complete" : "progress"}
-                        size="compact"
-                      />
+                      <div className="mini-progress">
+                        <span style={{ width: progressWidth((item.value / item.target) * 100) }} />
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ù…Ù„Ø§Ø­Ø¸Ø§ØªÙƒ Ø§Ù„Ù…Ù‡Ù†ÙŠØ© Ø§Ù„Ø£Ø®ÙŠØ±Ø©</h3>
+                <h3>ملاحظاتك المهنية الأخيرة</h3>
                 <div className="notes-list">
                   {(data?.recentNotes || []).length ? (
                     data.recentNotes.map((note) => (
                       <div className="note-row" key={note.id}>
-                        <strong>{note.note_title || "Ù…Ù„Ø§Ø­Ø¸Ø© Ø¯Ø±Ø³"}</strong>
-                        <small>{`Ø§Ù„Ø´Ù‡Ø± ${note.month_index} Â· Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ${note.week_index} Â· Ø§Ù„ÙŠÙˆÙ… ${note.day_index}`}</small>
+                        <strong>{note.note_title || "ملاحظة درس"}</strong>
+                        <small>{`الشهر ${note.month_index} · الأسبوع ${note.week_index} · اليوم ${note.day_index}`}</small>
                         <small>{String(note.note || "").slice(0, 130)}{String(note.note || "").length > 130 ? "..." : ""}</small>
                       </div>
                     ))
                   ) : (
-                    <p>Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ù…Ø­ÙÙˆØ¸Ø© Ø¨Ø¹Ø¯.</p>
+                    <p>لا توجد ملاحظات محفوظة بعد.</p>
                   )}
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ø£Ø®ÙŠØ±Ø©</h3>
+                <h3>التنبيهات الأخيرة</h3>
                 <div className="notification-list">
                   {(data?.notifications || []).length ? (
                     data.notifications.slice(0, 6).map((item) => (
@@ -1380,39 +1325,39 @@ export default function LearnerProfileCenter({
                       </div>
                     ))
                   ) : (
-                    <p>Ù„Ø§ ØªÙˆØ¬Ø¯ ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø­Ø§Ù„ÙŠÙ‹Ø§.</p>
+                    <p>لا توجد تنبيهات حاليًا.</p>
                   )}
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†</h3>
+                <h3>وثيقة الإتقان</h3>
                 <div className="field-grid">
                   <div className="field-item">
-                    <b>Ø­Ø§Ù„Ø© Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</b>
+                    <b>حالة الوثيقة</b>
                     <span>{statusLabel(masteryStatus)}</span>
                   </div>
                   <div className="field-item">
-                    <b>Ø±Ù‚Ù… Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</b>
-                    <span>{fieldValue(mastery?.certificate_code, "ÙŠØ¸Ù‡Ø± Ø¨Ø¹Ø¯ Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©")}</span>
+                    <b>رقم الوثيقة</b>
+                    <span>{fieldValue(mastery?.certificate_code, "يظهر بعد إنشاء الوثيقة")}</span>
                   </div>
                   <div className="field-item">
-                    <b>Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚</b>
-                    <span>{mastery?.verification_enabled ? "Ù…ÙØ¹Ù‘Ù„" : "ØºÙŠØ± Ù…ÙØ¹Ù‘Ù„"}</span>
+                    <b>رابط التحقق</b>
+                    <span>{mastery?.verification_enabled ? "مفعّل" : "غير مفعّل"}</span>
                   </div>
                   <div className="field-item">
-                    <b>Ø¢Ø®Ø± ØªØ­Ø¯ÙŠØ«</b>
+                    <b>آخر تحديث</b>
                     <span>{formatProfileDate(mastery?.updated_at || mastery?.created_at)}</span>
                   </div>
                 </div>
                 <div className="quick-links">
-                  <button type="button" onClick={() => navigate("mastery")}>Ù…Ø¹Ø§ÙŠÙ†Ø© Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©</button>
-                  <button type="button" disabled>Ø±Ø§Ø¨Ø· ØªØ­Ù‚Ù‚ Ù„Ø§Ø­Ù‚Ù‹Ø§</button>
+                  <button type="button" onClick={() => navigate("mastery")}>معاينة الوثيقة</button>
+                  <button type="button" disabled>رابط تحقق لاحقًا</button>
                 </div>
               </div>
 
               <div className="profile-card">
-                <h3>Ø¢Ø®Ø± Ø§Ù„Ù†Ø´Ø§Ø·</h3>
+                <h3>آخر النشاط</h3>
                 <div className="activity-list">
                   {(data?.recentActivity || []).length ? (
                     data.recentActivity.map((item, index) => (
@@ -1423,20 +1368,20 @@ export default function LearnerProfileCenter({
                       </div>
                     ))
                   ) : (
-                    <p>Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù†Ø´Ø§Ø· Ù…Ø­ÙÙˆØ¸ Ø¨Ø¹Ø¯. Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© Ù„ÙŠØ¸Ù‡Ø± Ø§Ù„Ø³Ø¬Ù„ Ù‡Ù†Ø§.</p>
+                    <p>لا يوجد نشاط محفوظ بعد. ابدأ الرحلة ليظهر السجل هنا.</p>
                   )}
                 </div>
               </div>
 
               <div className="profile-card wide">
-                <h3>Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø­Ø³Ø§Ø¨ ÙˆØ§Ù„Ø®ØµÙˆØµÙŠØ©</h3>
+                <h3>إعدادات الحساب والخصوصية</h3>
                 <div className="quick-links">
                   <button type="button" className="important" onClick={startEditInsideFullProfile}>
-                    ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ø§Ø³Ù… ÙˆØ§Ù„Ù‡Ø¯Ù
+                    تعديل الاسم والهدف
                   </button>
-                  <button type="button" onClick={() => navigate("mastery")}>ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù†</button>
-                  <button type="button" onClick={onSignOut}>ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬</button>
-                  <button type="button" disabled>Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ù„Ø§Ø­Ù‚Ù‹Ø§</button>
+                  <button type="button" onClick={() => navigate("mastery")}>وثيقة الإتقان</button>
+                  <button type="button" onClick={onSignOut}>تسجيل الخروج</button>
+                  <button type="button" disabled>طلب حذف البيانات لاحقًا</button>
                 </div>
               </div>
 
@@ -1454,6 +1399,3 @@ export default function LearnerProfileCenter({
     </section>
   );
 }
-
-
-

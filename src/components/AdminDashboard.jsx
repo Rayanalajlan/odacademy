@@ -9,7 +9,6 @@ import {
   isCurrentUserAdmin,
   moderateFeedback
 } from "../lib/adminDashboardService";
-import NeoMetricGauge from "./NeoMetricGauge";
 
 function safeDate(value) {
   if (!value) return "غير محدد";
@@ -40,17 +39,11 @@ function Stars({ value = 0 }) {
 
 function MetricCard({ label, value, hint }) {
   return (
-    <NeoMetricGauge
-      className="admin-metric-gauge"
-      value={Number(value || 0)}
-      max={Math.max(1, Number(value || 0))}
-      progress={Number(value || 0) > 0 ? 100 : 0}
-      displayValue={value ?? 0}
-      label={label}
-      subLabel={hint}
-      status={Number(value || 0) > 0 ? "readiness" : "locked"}
-      size="compact"
-    />
+    <div className="admin-metric">
+      <span>{label}</span>
+      <strong>{value ?? 0}</strong>
+      {hint && <small>{hint}</small>}
+    </div>
   );
 }
 

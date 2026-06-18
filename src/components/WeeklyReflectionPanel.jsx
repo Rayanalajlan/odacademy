@@ -1,9 +1,8 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getWeeklyReflection,
   saveWeeklyReflection
 } from "../lib/weeklyReflectionService";
-import NeoMetricGauge from "./NeoMetricGauge";
 
 const initialForm = {
   keyLearning: "",
@@ -28,10 +27,10 @@ export default function WeeklyReflectionPanel({
   const [status, setStatus] = useState("");
 
   const title = useMemo(() => {
-    return weekTitle || `Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ ${weekIndex || ""}`.trim();
+    return weekTitle || `الأسبوع ${weekIndex || ""}`.trim();
   }, [weekTitle, weekIndex]);
 
-  const progressLabel = `${Number(completedDaysInWeek || 0)} / ${Number(totalDaysInWeek || 7)} Ø£ÙŠØ§Ù…`;
+  const progressLabel = `${Number(completedDaysInWeek || 0)} / ${Number(totalDaysInWeek || 7)} أيام`;
 
   async function loadReflection() {
     if (!monthIndex || !weekIndex) return;
@@ -59,8 +58,8 @@ export default function WeeklyReflectionPanel({
         setSavedAt("");
       }
     } catch (error) {
-      console.warn("ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØªØ£Ù…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠ:", error);
-      setStatus("ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØªØ£Ù…Ù„ Ø§Ù„Ø³Ø§Ø¨Ù‚ Ù„Ù‡Ø°Ø§ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹.");
+      console.warn("تعذر تحميل التأمل الأسبوعي:", error);
+      setStatus("تعذر تحميل التأمل السابق لهذا الأسبوع.");
     } finally {
       setLoading(false);
     }
@@ -82,7 +81,7 @@ export default function WeeklyReflectionPanel({
     event.preventDefault();
 
     if (!monthIndex || !weekIndex) {
-      setStatus("Ø§Ø®ØªØ± Ø£Ø³Ø¨ÙˆØ¹Ù‹Ø§ ØµØ­ÙŠØ­Ù‹Ø§ Ù‚Ø¨Ù„ Ø§Ù„Ø­ÙØ¸.");
+      setStatus("اختر أسبوعًا صحيحًا قبل الحفظ.");
       return;
     }
 
@@ -93,7 +92,7 @@ export default function WeeklyReflectionPanel({
       const saved = await saveWeeklyReflection({
         monthIndex,
         weekIndex,
-        weekTitle: [monthTitle, title].filter(Boolean).join(" Â· "),
+        weekTitle: [monthTitle, title].filter(Boolean).join(" · "),
         keyLearning: form.keyLearning,
         observedPattern: form.observedPattern,
         applicationIdea: form.applicationIdea,
@@ -103,9 +102,9 @@ export default function WeeklyReflectionPanel({
       });
 
       setSavedAt(saved.updated_at || saved.created_at || new Date().toISOString());
-      setStatus("ØªÙ… Ø­ÙØ¸ Ø§Ù„ØªØ£Ù…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠ ÙˆØ®Ø·Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚.");
+      setStatus("تم حفظ التأمل الأسبوعي وخطة التطبيق.");
     } catch (error) {
-      setStatus(error?.message || "ØªØ¹Ø°Ø± Ø­ÙØ¸ Ø§Ù„ØªØ£Ù…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠ.");
+      setStatus(error?.message || "تعذر حفظ التأمل الأسبوعي.");
     } finally {
       setSaving(false);
     }
@@ -128,7 +127,7 @@ export default function WeeklyReflectionPanel({
   }
 
   return (
-    <section className="weekly-reflection-panel" aria-label="Ø§Ù„ØªØ£Ù…Ù„ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ÙŠ ÙˆØ®Ø·Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚" dir="rtl">
+    <section className="weekly-reflection-panel" aria-label="التأمل الأسبوعي وخطة التطبيق" dir="rtl">
       <style>{`
         .weekly-reflection-panel {
           margin: 18px 0;
@@ -298,86 +297,81 @@ export default function WeeklyReflectionPanel({
 
       <div className="weekly-reflection-head">
         <div>
-          <span className="weekly-reflection-kicker">ØªØ£Ù…Ù„ Ø£Ø³Ø¨ÙˆØ¹ÙŠ + Ø®Ø·Ø© ØªØ·Ø¨ÙŠÙ‚</span>
+          <span className="weekly-reflection-kicker">تأمل أسبوعي + خطة تطبيق</span>
           <h3>{title}</h3>
           <p>
-            ÙÙŠ Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹ØŒ Ø­ÙˆÙ‘Ù„ Ø§Ù„ØªØ¹Ù„Ù… Ø¥Ù„Ù‰ Ø£Ø«Ø±: ÙÙƒØ±Ø© Ø±Ø¦ÙŠØ³ÙŠØ©ØŒ Ù†Ù…Ø· ØªÙ†Ø¸ÙŠÙ…ÙŠ Ø£ØµØ¨Ø­Øª
-            ØªØ±Ø§Ù‡ØŒ ÙˆØªØ·Ø¨ÙŠÙ‚ Ø¹Ù…Ù„ÙŠ Ø³ØªÙ†ÙØ°Ù‡ ÙÙŠ Ø¹Ù…Ù„Ùƒ Ø£Ùˆ Ø¯Ø±Ø§Ø³ØªÙƒ.
+            في نهاية الأسبوع، حوّل التعلم إلى أثر: فكرة رئيسية، نمط تنظيمي أصبحت
+            تراه، وتطبيق عملي ستنفذه في عملك أو دراستك.
           </p>
         </div>
 
-        <NeoMetricGauge
-          className="weekly-reflection-gauge"
-          value={Number(completedDaysInWeek || 0)}
-          max={Number(totalDaysInWeek || 7)}
-          displayValue={progressLabel}
-          label="تقدم هذا الأسبوع"
-          status={Number(completedDaysInWeek || 0) >= Number(totalDaysInWeek || 7) ? "complete" : "progress"}
-          size="default"
-        />
+        <div className="weekly-reflection-progress">
+          <strong>{progressLabel}</strong>
+          <span>تقدم هذا الأسبوع</span>
+        </div>
       </div>
 
       <form onSubmit={handleSave}>
         <div className="weekly-reflection-grid">
           <label>
-            Ø£Ù‡Ù… ÙÙƒØ±Ø© ØªØ¹Ù„Ù…ØªÙ‡Ø§ Ù‡Ø°Ø§ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹
+            أهم فكرة تعلمتها هذا الأسبوع
             <textarea
               value={form.keyLearning}
               onChange={(event) => updateField("keyLearning", event.target.value)}
-              placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„ØªØ´Ø®ÙŠØµ Ù„Ø§ ÙŠØ¨Ø¯Ø£ Ù…Ù† Ø§Ù„Ø´ÙƒÙˆÙ‰ Ø¨Ù„ Ù…Ù† ÙÙ‡Ù… Ø§Ù„Ù†Ø¸Ø§Ù…..."
+              placeholder="مثال: التشخيص لا يبدأ من الشكوى بل من فهم النظام..."
             />
           </label>
 
           <label>
-            Ù…Ø§ Ø§Ù„Ù†Ù…Ø· Ø£Ùˆ Ø§Ù„Ø®Ø·Ø£ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠ Ø§Ù„Ø°ÙŠ Ø£ØµØ¨Ø­Øª ØªØ±Ø§Ù‡ Ø£ÙˆØ¶Ø­ØŸ
+            ما النمط أو الخطأ التنظيمي الذي أصبحت تراه أوضح؟
             <textarea
               value={form.observedPattern}
               onChange={(event) => updateField("observedPattern", event.target.value)}
-              placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„Ø®Ù„Ø· Ø¨ÙŠÙ† Ø§Ù„Ù…Ø´ÙƒÙ„Ø© Ø§Ù„Ø¸Ø§Ù‡Ø±Ø© ÙˆØ§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ø¬Ø°Ø±ÙŠ..."
+              placeholder="مثال: الخلط بين المشكلة الظاهرة والسبب الجذري..."
             />
           </label>
 
           <label>
-            ÙƒÙŠÙ Ø³ØªØ·Ø¨Ù‚ Ù…Ø§ ØªØ¹Ù„Ù…ØªÙ‡ØŸ
+            كيف ستطبق ما تعلمته؟
             <textarea
               value={form.applicationIdea}
               onChange={(event) => updateField("applicationIdea", event.target.value)}
-              placeholder="Ø§ÙƒØªØ¨ Ù…ÙˆÙ‚ÙÙ‹Ø§ Ø¹Ù…Ù„ÙŠÙ‹Ø§ Ø£Ùˆ ØªØ¬Ø±Ø¨Ø© Ø³ØªØ·Ø¨Ù‚ ÙÙŠÙ‡Ø§ Ø§Ù„ÙÙƒØ±Ø©."
+              placeholder="اكتب موقفًا عمليًا أو تجربة ستطبق فيها الفكرة."
             />
           </label>
 
           <label>
-            Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ø§Ù„Ø¹Ù…Ù„ÙŠ Ø§Ù„Ù‚Ø§Ø¯Ù…
+            الإجراء العملي القادم
             <textarea
               value={form.nextAction}
               onChange={(event) => updateField("nextAction", event.target.value)}
-              placeholder="Ù…Ø«Ø§Ù„: Ø³Ø£Ø¨Ù†ÙŠ Ø£Ø³Ø¦Ù„Ø© ØªØ´Ø®ÙŠØµÙŠØ© Ù‚Ø¨Ù„ Ø§Ù‚ØªØ±Ø§Ø­ Ø£ÙŠ Ø­Ù„..."
+              placeholder="مثال: سأبني أسئلة تشخيصية قبل اقتراح أي حل..."
             />
           </label>
 
           <label className="weekly-reflection-wide">
-            Ù…Ø³ØªÙˆÙ‰ Ø«Ù‚ØªÙƒ Ø¨ØªØ·Ø¨ÙŠÙ‚ Ø§Ù„Ø®Ø·Ø©
+            مستوى ثقتك بتطبيق الخطة
             <select
               value={form.confidenceScore}
               onChange={(event) => updateField("confidenceScore", Number(event.target.value))}
             >
-              <option value={1}>1 - Ù…Ù†Ø®ÙØ¶ Ø¬Ø¯Ù‹Ø§</option>
-              <option value={2}>2 - Ù…Ù†Ø®ÙØ¶</option>
-              <option value={3}>3 - Ù…ØªÙˆØ³Ø·</option>
-              <option value={4}>4 - Ù…Ø±ØªÙØ¹</option>
-              <option value={5}>5 - Ù…Ø±ØªÙØ¹ Ø¬Ø¯Ù‹Ø§</option>
+              <option value={1}>1 - منخفض جدًا</option>
+              <option value={2}>2 - منخفض</option>
+              <option value={3}>3 - متوسط</option>
+              <option value={4}>4 - مرتفع</option>
+              <option value={5}>5 - مرتفع جدًا</option>
             </select>
           </label>
         </div>
 
         <div className="weekly-reflection-actions">
           <button type="submit" disabled={saving || loading}>
-            {saving ? "Ø¬Ø§Ø±Ù Ø§Ù„Ø­ÙØ¸..." : "Ø­ÙØ¸ Ø§Ù„ØªØ£Ù…Ù„ ÙˆØ®Ø·Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚"}
+            {saving ? "جارٍ الحفظ..." : "حفظ التأمل وخطة التطبيق"}
           </button>
 
           {(status || savedAt) && (
             <span className="weekly-reflection-status">
-              {status || `Ø¢Ø®Ø± Ø­ÙØ¸: ${formatDate(savedAt)}`}
+              {status || `آخر حفظ: ${formatDate(savedAt)}`}
             </span>
           )}
         </div>
@@ -385,4 +379,3 @@ export default function WeeklyReflectionPanel({
     </section>
   );
 }
-

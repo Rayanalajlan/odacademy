@@ -1,10 +1,9 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getOrCreateMonthlyCertificates,
   MONTHLY_MILESTONES
 } from "../lib/monthlyCertificateService";
 import { buildVerificationUrl, copyTextSafely } from "../lib/masteryCertificateService";
-import NeoMetricGauge from "./NeoMetricGauge";
 
 function safeNumber(value, fallback = 0) {
   const parsed = Number(value);
@@ -12,7 +11,7 @@ function safeNumber(value, fallback = 0) {
 }
 
 function formatDate(value) {
-  if (!value) return "ØºÙŠØ± ØµØ§Ø¯Ø± Ø¨Ø¹Ø¯";
+  if (!value) return "غير صادر بعد";
 
   try {
     return new Intl.DateTimeFormat("ar-SA", {
@@ -21,12 +20,12 @@ function formatDate(value) {
       day: "numeric"
     }).format(new Date(value));
   } catch {
-    return "ØºÙŠØ± Ù…Ø­Ø¯Ø¯";
+    return "غير محدد";
   }
 }
 
 export default function MonthlyCertificates({
-  userName = "Ù…ØªØ¯Ø±Ø¨",
+  userName = "متدرب",
   completedDays = 0,
   totalDays = 180
 }) {
@@ -50,8 +49,8 @@ export default function MonthlyCertificates({
 
       setRecords(data);
     } catch (syncError) {
-      console.warn("ØªØ¹Ø°Ø± Ù…Ø²Ø§Ù…Ù†Ø© Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„Ø´Ù‡Ø±ÙŠØ©:", syncError);
-      setError(syncError?.message || "ØªØ¹Ø°Ø± Ù…Ø²Ø§Ù…Ù†Ø© Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„Ø´Ù‡Ø±ÙŠØ© Ø§Ù„Ø¢Ù†.");
+      console.warn("تعذر مزامنة شهادات الإنجاز الشهرية:", syncError);
+      setError(syncError?.message || "تعذر مزامنة شهادات الإنجاز الشهرية الآن.");
     } finally {
       setLoading(false);
     }
@@ -74,7 +73,7 @@ export default function MonthlyCertificates({
       setCopiedSlug(record.verification_slug || record.certificate_code);
       setTimeout(() => setCopiedSlug(""), 2400);
     } else {
-      alert("Ù„Ù… ÙŠØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§. Ø§Ù†Ø³Ø®Ù‡ ÙŠØ¯ÙˆÙŠÙ‹Ø§ Ù…Ù† Ø§Ù„Ø¨Ø·Ø§Ù‚Ø©.");
+      alert("لم يتم نسخ رابط التحقق تلقائيًا. انسخه يدويًا من البطاقة.");
     }
   }
 
@@ -93,7 +92,7 @@ export default function MonthlyCertificates({
       }));
 
   return (
-    <section className="monthly-certificates mastery-no-print" aria-label="Ø´Ù‡Ø§Ø¯Ø§Øª Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„Ø´Ù‡Ø±ÙŠØ©">
+    <section className="monthly-certificates mastery-no-print" aria-label="شهادات الإنجاز الشهرية">
       <style>{`
         .monthly-certificates {
           margin-top: 24px;
@@ -354,12 +353,12 @@ export default function MonthlyCertificates({
 
       <div className="monthly-head">
         <div>
-          <span className="monthly-kicker">Phase 22 Â· Monthly Milestones</span>
-          <h2>Ø´Ù‡Ø§Ø¯Ø§Øª Ø¥Ù†Ø¬Ø§Ø² Ø´Ù‡Ø±ÙŠØ© Ù‚Ø¨Ù„ ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ø¥ØªÙ‚Ø§Ù† Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©</h2>
+          <span className="monthly-kicker">Phase 22 · Monthly Milestones</span>
+          <h2>شهادات إنجاز شهرية قبل وثيقة الإتقان النهائية</h2>
           <p>
-            Ø¨Ø¯Ù„ Ø§Ù†ØªØ¸Ø§Ø± Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø±Ø­Ù„Ø© ÙƒØ§Ù…Ù„Ø©ØŒ ÙŠØ­ØµÙ„ Ø§Ù„Ù…ØªØ¯Ø±Ø¨ Ø¹Ù„Ù‰ Ø´Ù‡Ø§Ø¯Ø© Ø¥Ù†Ø¬Ø§Ø² Ù…ÙˆØ«Ù‚Ø©
-            Ø¹Ù†Ø¯ Ø¥ÙƒÙ…Ø§Ù„ ÙƒÙ„ 30 ÙŠÙˆÙ…Ù‹Ø§. Ù‡Ø°Ù‡ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ù…Ø±ØªØ¨Ø·Ø© Ø¨ØªÙ‚Ø¯Ù…Ù‡ Ø§Ù„ÙØ¹Ù„ÙŠ Ø¯Ø§Ø®Ù„
-            Ø§Ù„Ù…Ù†ØµØ© ÙˆØªØ¸Ù‡Ø± ØªØ¯Ø±ÙŠØ¬ÙŠÙ‹Ø§ Ù…Ø¹ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø².
+            بدل انتظار نهاية الرحلة كاملة، يحصل المتدرب على شهادة إنجاز موثقة
+            عند إكمال كل 30 يومًا. هذه الشهادات مرتبطة بتقدمه الفعلي داخل
+            المنصة وتظهر تدريجيًا مع الإنجاز.
           </p>
 
           <div className="monthly-actions">
@@ -369,20 +368,15 @@ export default function MonthlyCertificates({
               onClick={syncMonthlyCertificates}
               disabled={loading}
             >
-              {loading ? "Ø¬Ø§Ø±Ù Ù…Ø²Ø§Ù…Ù†Ø© Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª..." : "ØªØ­Ø¯ÙŠØ« Ø´Ù‡Ø§Ø¯Ø§ØªÙŠ Ø§Ù„Ø´Ù‡Ø±ÙŠØ©"}
+              {loading ? "جارٍ مزامنة الشهادات..." : "تحديث شهاداتي الشهرية"}
             </button>
           </div>
         </div>
 
-        <NeoMetricGauge
-          className="monthly-status-gauge"
-          value={unlockedCount}
-          max={6}
-          displayValue={`${unlockedCount}/6`}
-          label="شهادات شهرية مفتوحة"
-          status={unlockedCount >= 6 ? "complete" : "progress"}
-          size="default"
-        />
+        <div className="monthly-status">
+          <strong>{unlockedCount}/6</strong>
+          <span>شهادات شهرية مفتوحة</span>
+        </div>
       </div>
 
       {error ? <div className="monthly-warning">{error}</div> : null}
@@ -404,38 +398,30 @@ export default function MonthlyCertificates({
             >
               <div className="monthly-card-top">
                 <div className="monthly-badge">M{record.month_number}</div>
-                <span className="monthly-lock">{issued ? "Ù…ÙØªÙˆØ­Ø©" : "Ù…Ù‚ÙÙ„Ø©"}</span>
+                <span className="monthly-lock">{issued ? "مفتوحة" : "مقفلة"}</span>
               </div>
 
               <h3>{record.month_title}</h3>
               <p>{record.month_subtitle}</p>
 
-              <NeoMetricGauge
-                className="monthly-card-gauge"
-                value={percent}
-                max={100}
-                displayValue={`${percent}%`}
-                label="تقدم الشهر"
-                subLabel={`${Math.min(safeCompletedDays, requiredDays)} / ${requiredDays} يومًا`}
-                status={issued ? "complete" : "progress"}
-                size="compact"
-                ariaLabel={`تقدم الشهر ${record.month_number}`}
-              />
+              <div className="monthly-progress" aria-label={`تقدم الشهر ${record.month_number}`}>
+                <i style={{ width: `${percent}%` }} />
+              </div>
 
               <div className="monthly-mini">
                 <div>
-                  <span>Ø´Ø±Ø· Ø§Ù„ÙØªØ­</span>
-                  <strong>{Math.min(safeCompletedDays, requiredDays)} / {requiredDays} ÙŠÙˆÙ…Ù‹Ø§</strong>
+                  <span>شرط الفتح</span>
+                  <strong>{Math.min(safeCompletedDays, requiredDays)} / {requiredDays} يومًا</strong>
                 </div>
 
                 <div>
-                  <span>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¥ØµØ¯Ø§Ø±</span>
-                  <strong>{issued ? formatDate(record.issued_at) : "Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø§Ù„Ø´Ø±Ø·"}</strong>
+                  <span>تاريخ الإصدار</span>
+                  <strong>{issued ? formatDate(record.issued_at) : "بعد إكمال الشرط"}</strong>
                 </div>
 
                 <div>
-                  <span>Ø±Ù‚Ù… Ø§Ù„Ø´Ù‡Ø§Ø¯Ø©</span>
-                  <strong>{issued ? record.certificate_code : "ÙŠØ¸Ù‡Ø± Ø¨Ø¹Ø¯ Ø§Ù„ÙØªØ­"}</strong>
+                  <span>رقم الشهادة</span>
+                  <strong>{issued ? record.certificate_code : "يظهر بعد الفتح"}</strong>
                 </div>
               </div>
 
@@ -447,7 +433,7 @@ export default function MonthlyCertificates({
                     onClick={() => copyVerification(record)}
                     disabled={!canVerify}
                   >
-                    {copied ? "ØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚ âœ…" : canVerify ? "Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„ØªØ­Ù‚Ù‚" : "Ø§Ù„ØªØ­Ù‚Ù‚ ØºÙŠØ± Ù…ÙØ¹Ù„"}
+                    {copied ? "تم نسخ رابط التحقق ✅" : canVerify ? "نسخ رابط التحقق" : "التحقق غير مفعل"}
                   </button>
                 </div>
               ) : null}
@@ -458,5 +444,3 @@ export default function MonthlyCertificates({
     </section>
   );
 }
-
-
