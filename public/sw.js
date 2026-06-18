@@ -1,4 +1,4 @@
-const CACHE_NAME = "odacademy-static-v5";
+const CACHE_NAME = "odacademy-static-v3";
 const STATIC_ASSETS = [
   "/",
   "/site.webmanifest",

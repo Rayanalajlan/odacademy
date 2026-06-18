@@ -514,3 +514,23 @@ html[data-theme="dark"],
 html body.od-theme-dark {
   --od-readable-surface: linear-gradient(180deg, #1f1337 0%, #160d2a 100%);
 }
+
+/* ===========================================================================
+   Shared SHAPE tokens (geometry) — identical for both themes
+   ---------------------------------------------------------------------------
+   Geometry is theme-agnostic: only colour changes between light and dark.
+   These canonical radii mirror what the Dark theme already renders, and the
+   light theme now consumes the same values, so Light Mode matches Dark Mode in
+   shape (border-radius / corners) while keeping its own colour tokens above.
+   Card / panel / input / stat radii are intentionally NOT redefined here —
+   they live in the shared component/base layer that both themes read directly.
+   =========================================================================== */
+:root,
+html[data-theme="light"],
+html[data-theme="dark"],
+html body.od-theme-light,
+html body.od-theme-dark {
+  --radius-control: 18px;   /* buttons, .btn, [class*="button"], .tab */
+  --radius-pill: 999px;     /* .pill, .badge, .chip, .tag, .kicker, .eyebrow */
+  --radius-card-mobile: 22px;
+}
