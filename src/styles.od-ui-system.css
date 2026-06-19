@@ -416,3 +416,405 @@ html body :is(input, select, textarea):focus {
     width: fit-content;
   }
 }
+
+/* Final repair pass for the reported pages. These selectors intentionally sit
+   last so they beat older theme-skin rules that reintroduced sharp dark blocks. */
+html body .ai-command-page .mode-button {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  gap: 14px !important;
+}
+
+html body .ai-command-page .mode-badge {
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: center !important;
+  font-family: Arial, var(--font-display), sans-serif !important;
+  font-size: 17px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+  border: 1px solid rgba(255, 255, 255, .26) !important;
+  box-shadow: 0 14px 30px rgba(91, 33, 182, .18) !important;
+}
+
+html body .course-search-box.course-search-box {
+  width: auto !important;
+  min-height: 0 !important;
+  margin: 18px 0 !important;
+  padding: 20px !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .10), transparent 32%),
+    var(--od-surface) !important;
+  border: 1px solid var(--od-border) !important;
+  box-shadow: var(--od-shadow-soft) !important;
+}
+
+html body .course-search-box .course-search-head,
+html body .course-search-box .course-search-row,
+html body .course-search-box .course-search-suggestions {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .course-search-box .course-search-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 14px !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 0 14px !important;
+}
+
+html body .course-search-box .course-search-title {
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+html body .course-search-box .course-search-title strong {
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+}
+
+html body .course-search-box .course-search-title span {
+  color: var(--od-text-secondary) !important;
+  -webkit-text-fill-color: var(--od-text-secondary) !important;
+}
+
+html body .course-search-box .course-search-counter {
+  min-width: 0 !important;
+  width: fit-content !important;
+  min-height: 38px !important;
+  padding: 8px 14px !important;
+  border-radius: var(--od-radius-pill) !important;
+  color: var(--color-text-link, var(--primary)) !important;
+  -webkit-text-fill-color: var(--color-text-link, var(--primary)) !important;
+  background: var(--color-badge-bg, var(--od-surface-muted)) !important;
+  border: 1px solid var(--color-badge-border, var(--od-border-soft)) !important;
+}
+
+html body .course-search-box .course-search-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html body .course-search-box .course-search-input {
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 15px !important;
+  border-radius: 18px !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  background: var(--color-bg-input, var(--field-bg, var(--od-surface))) !important;
+  border: 1px solid var(--od-border) !important;
+  box-shadow: none !important;
+}
+
+html body .course-search-box .course-search-clear {
+  width: auto !important;
+  min-width: 72px !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 15px !important;
+  border-radius: 18px !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  background: var(--od-surface-muted) !important;
+  border: 1px solid var(--od-border-soft) !important;
+  box-shadow: none !important;
+}
+
+html body .course-search-box .course-search-suggestions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  margin: 12px 0 0 !important;
+}
+
+html body .course-search-box .course-search-suggestions button {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 8px 11px !important;
+  border-radius: var(--od-radius-pill) !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  background: var(--od-surface) !important;
+  border: 1px solid var(--od-border-soft) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-box.course-search-box {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(167, 139, 250, .14), transparent 32%),
+    #1b1130 !important;
+  color: #f7f2ff !important;
+  border-color: rgba(167, 139, 250, .28) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .18) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-box :is(.course-search-input, .course-search-suggestions button) {
+  background: #130b24 !important;
+  border-color: rgba(167, 139, 250, .28) !important;
+  color: #f7f2ff !important;
+  -webkit-text-fill-color: #f7f2ff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .course-search-box .course-search-clear,
+html[data-theme="dark"] body.od-theme-dark .course-search-box .course-search-counter {
+  background: rgba(167, 139, 250, .12) !important;
+  border-color: rgba(167, 139, 250, .30) !important;
+  color: #f4effc !important;
+  -webkit-text-fill-color: #f4effc !important;
+}
+
+html body .profile-card.profile-card,
+html body .portfolio-section.portfolio-section,
+html body .portfolio-stat.portfolio-stat {
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .08), transparent 34%),
+    var(--od-surface) !important;
+  border: 1px solid var(--od-border-soft) !important;
+  box-shadow: var(--od-shadow-soft) !important;
+  color: var(--od-text-primary) !important;
+  overflow: hidden !important;
+}
+
+html body .edit-card.edit-card,
+html body .account-card.account-card {
+  padding: 18px !important;
+  border-radius: 30px !important;
+}
+
+html body .edit-card .edit-card-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 14px !important;
+  align-items: start !important;
+  margin: 0 0 16px !important;
+  padding: 16px !important;
+  border-radius: 24px !important;
+  background: var(--od-surface-muted) !important;
+  border: 1px solid var(--od-border-soft) !important;
+}
+
+html body .edit-card .edit-card-head h3,
+html body .account-card h3,
+html body .profile-card h3,
+html body .portfolio-section h2 {
+  margin: 0 0 6px !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+}
+
+html body .edit-card .edit-card-head p,
+html body .account-card p,
+html body .profile-card p,
+html body .portfolio-section p {
+  margin: 0 !important;
+  color: var(--od-text-secondary) !important;
+  -webkit-text-fill-color: var(--od-text-secondary) !important;
+}
+
+html body .tiny-soft-button.tiny-soft-button {
+  min-width: 0 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 14px !important;
+  border-radius: var(--od-radius-pill) !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  background: var(--od-surface) !important;
+  border: 1px solid var(--od-border-soft) !important;
+}
+
+html body .profile-form.profile-form {
+  display: grid !important;
+  gap: 14px !important;
+  margin-top: 0 !important;
+}
+
+html body .profile-form .two-fields,
+html body .two-fields.two-fields {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+html body .profile-form label {
+  display: grid !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  color: var(--od-text-secondary) !important;
+  -webkit-text-fill-color: var(--od-text-secondary) !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+  font-weight: 900 !important;
+}
+
+html body .profile-form :is(input, select, textarea) {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 48px !important;
+  padding: 0 14px !important;
+  border-radius: 18px !important;
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  background: var(--color-bg-input, var(--field-bg, var(--od-surface))) !important;
+  border: 1px solid var(--od-border) !important;
+  box-shadow: none !important;
+}
+
+html body .profile-form textarea {
+  min-height: 112px !important;
+  padding: 14px !important;
+  resize: vertical;
+}
+
+html body .profile-button.profile-button {
+  min-height: 50px !important;
+  border-radius: var(--od-radius-pill) !important;
+  padding: 0 18px !important;
+}
+
+html body .account-password-form.account-password-form {
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid var(--od-border-soft) !important;
+}
+
+html body :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row).badge-row,
+html body :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) {
+  border-radius: 22px !important;
+  padding: 13px 14px !important;
+  background: var(--od-surface-muted) !important;
+  border: 1px solid var(--od-border-soft) !important;
+  color: var(--od-text-primary) !important;
+  box-shadow: none !important;
+}
+
+html body :is(.badge-row-top, .radar-row-top, .achievement-row-top) {
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+}
+
+html body :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) :is(strong, b, span) {
+  color: var(--od-text-primary) !important;
+  -webkit-text-fill-color: var(--od-text-primary) !important;
+  opacity: 1 !important;
+}
+
+html body :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) :is(small, p) {
+  color: var(--od-text-secondary) !important;
+  -webkit-text-fill-color: var(--od-text-secondary) !important;
+  opacity: 1 !important;
+}
+
+html body .badge-row-top > span:last-child {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  min-width: 42px !important;
+  min-height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px 10px !important;
+  border-radius: var(--od-radius-pill) !important;
+  background: var(--color-badge-bg, var(--od-surface)) !important;
+  border: 1px solid var(--color-badge-border, var(--od-border-soft)) !important;
+}
+
+html body :is(.mini-progress, .profile-progress-line, .radar-progress-line, .portfolio-progress, .progress-track, [class*="progress-track"]) {
+  border-radius: var(--od-radius-pill) !important;
+  overflow: hidden !important;
+  background: var(--color-progress-track, rgba(167, 139, 250, .20)) !important;
+}
+
+html body :is(.mini-progress span, .profile-progress-line span, .radar-progress-line i, .portfolio-progress span, [class*="progress-track"] span, [class*="progress-track"] b) {
+  border-radius: inherit !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.profile-card.profile-card, .edit-card.edit-card, .account-card.account-card, .portfolio-section.portfolio-section, .portfolio-stat.portfolio-stat) {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(167, 139, 250, .13), transparent 34%),
+    #1b1130 !important;
+  border-color: rgba(167, 139, 250, .28) !important;
+  color: #f7f2ff !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .18) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .edit-card .edit-card-head {
+  background: rgba(167, 139, 250, .10) !important;
+  border-color: rgba(167, 139, 250, .25) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.profile-card h3, .account-card h3, .edit-card h3, .portfolio-section h2),
+html[data-theme="dark"] body.od-theme-dark :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) :is(strong, b, span) {
+  color: #f7f2ff !important;
+  -webkit-text-fill-color: #f7f2ff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.profile-card p, .account-card p, .edit-card p, .portfolio-section p, .profile-form label),
+html[data-theme="dark"] body.od-theme-dark :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) :is(small, p) {
+  color: #d8ccf3 !important;
+  -webkit-text-fill-color: #d8ccf3 !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .profile-form :is(input, select, textarea) {
+  background: #130b24 !important;
+  border-color: rgba(167, 139, 250, .30) !important;
+  color: #f7f2ff !important;
+  -webkit-text-fill-color: #f7f2ff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .tiny-soft-button.tiny-soft-button,
+html[data-theme="dark"] body.od-theme-dark :is(.badge-row, .radar-row, .achievement-row, .activity-row, .note-row, .notification-row, .portfolio-row) {
+  background: #241640 !important;
+  border-color: rgba(167, 139, 250, .26) !important;
+  color: #f7f2ff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark .badge-row-top > span:last-child {
+  background: rgba(167, 139, 250, .12) !important;
+  border-color: rgba(167, 139, 250, .26) !important;
+  color: #f7f2ff !important;
+  -webkit-text-fill-color: #f7f2ff !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark :is(.mini-progress, .profile-progress-line, .radar-progress-line, .portfolio-progress, .progress-track, [class*="progress-track"]) {
+  background: rgba(167, 139, 250, .18) !important;
+}
+
+@media (max-width: 680px) {
+  html body .course-search-box .course-search-head,
+  html body .course-search-box .course-search-row,
+  html body .profile-form .two-fields,
+  html body .two-fields.two-fields {
+    grid-template-columns: 1fr !important;
+  }
+
+  html body .course-search-box .course-search-counter {
+    justify-self: start !important;
+  }
+}
