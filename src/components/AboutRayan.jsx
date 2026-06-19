@@ -75,10 +75,14 @@ function MailIcon() {
       aria-hidden="true"
       focusable="false"
     >
-      <rect x="4" y="6.25" width="16" height="11.5" rx="3.2" />
-      <path d="M5.25 8.1 12 12.9l6.75-4.8" />
-      <path d="m5.4 16.55 4.25-4" opacity=".72" />
-      <path d="m18.6 16.55-4.25-4" opacity=".72" />
+      <line x1="5" y1="7" x2="19" y2="7" />
+      <line x1="5" y1="17" x2="19" y2="17" />
+      <line x1="5" y1="7" x2="5" y2="17" />
+      <line x1="19" y1="7" x2="19" y2="17" />
+      <line x1="5.35" y1="8.05" x2="12" y2="13" />
+      <line x1="18.65" y1="8.05" x2="12" y2="13" />
+      <line x1="5.55" y1="16.25" x2="9.7" y2="12.55" opacity=".72" />
+      <line x1="18.45" y1="16.25" x2="14.3" y2="12.55" opacity=".72" />
     </svg>
   );
 }
@@ -285,7 +289,7 @@ export default function AboutRayan() {
           box-shadow:none !important;
         }
 
-        .about-rayan :is(.ar-primary-action, .ar-consultation-button) .consultation-mail-icon :is(rect, path) {
+        .about-rayan :is(.ar-primary-action, .ar-consultation-button) .consultation-mail-icon :is(rect, path, line, polyline) {
           fill:none !important;
           stroke:currentColor !important;
           vector-effect:non-scaling-stroke;

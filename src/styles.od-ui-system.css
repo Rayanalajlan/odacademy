@@ -105,7 +105,7 @@ html body .consultation-mail-icon {
   box-shadow: none !important;
 }
 
-html body .consultation-mail-icon :is(rect, path) {
+html body .consultation-mail-icon :is(rect, path, line, polyline) {
   fill: none !important;
   stroke: currentColor !important;
   vector-effect: non-scaling-stroke;
