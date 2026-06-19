@@ -190,6 +190,7 @@ export default function AdminDashboard() {
           display: inline-flex;
           margin-bottom: 10px;
           color: #fde68a;
+          -webkit-text-fill-color: #fde68a;
           font-size: 12px;
           font-weight: 950;
         }
@@ -200,12 +201,16 @@ export default function AdminDashboard() {
           line-height: 1.14;
           font-weight: 950;
           letter-spacing: -1px;
+          color: #f8f2ff !important;
+          -webkit-text-fill-color: #f8f2ff !important;
+          text-shadow: 0 12px 34px rgba(0,0,0,.28);
         }
 
         .admin-hero p {
           margin: 14px 0 0;
           max-width: 820px;
           color: rgba(196, 181, 253,.9);
+          -webkit-text-fill-color: rgba(196, 181, 253,.9);
           font-size: 14px;
           line-height: 2;
           font-weight: 760;
@@ -470,10 +475,6 @@ export default function AdminDashboard() {
         <header className="admin-hero">
           <span>لوحة إدارة المنصة</span>
           <h1>مركز قرارات سريع للتقييمات، المتدربين، الوثائق، والتنبيهات.</h1>
-          <p>
-            هذه الصفحة مخصصة لحسابات الإدارة فقط. كل إجراء هنا يعتمد على صلاحية المدير
-            في Supabase، ولا تظهر للمتدربين العاديين.
-          </p>
         </header>
 
         {loading && <div className="admin-loading">جارٍ تحميل لوحة الإدارة...</div>}
