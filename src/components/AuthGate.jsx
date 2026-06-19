@@ -32,6 +32,27 @@ function ConsultationMailIcon() {
   );
 }
 
+function ForgotPasswordIcon() {
+  return (
+    <svg
+      className="forgot-password-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle cx="8.5" cy="12" r="3.2" />
+      <line x1="11.7" y1="12" x2="20" y2="12" />
+      <line x1="17" y1="12" x2="17" y2="15" />
+      <line x1="20" y1="12" x2="20" y2="14.4" />
+    </svg>
+  );
+}
+
 const MONTHS = [
   {
     number: "01",
@@ -981,20 +1002,57 @@ export default function AuthGate({
         }
 
         .forgot-button {
-          border: 0;
-          background: transparent;
-          color: var(--teal-2);
+          width: fit-content;
+          border: 1px solid rgba(139, 92, 246, .22);
+          border-radius: 999px;
+          background: rgba(139, 92, 246, .10);
+          color: #6d28d9;
           font-family: inherit;
           font-size: 12px;
-          font-weight: 800;
+          font-weight: 900;
           cursor: pointer;
-          padding: 6px 0 0;
-          text-align: right;
+          min-height: 36px;
+          padding: 7px 12px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          text-align: center;
+          text-decoration: none;
+          line-height: 1.4;
+          transition: .2s ease;
         }
 
         .forgot-button:hover {
-          color: var(--teal);
-          text-decoration: underline;
+          color: #5b21b6;
+          background: rgba(139, 92, 246, .16);
+          transform: translateY(-1px);
+          text-decoration: none;
+        }
+
+        .forgot-button:disabled {
+          cursor: wait;
+          opacity: .72;
+          transform: none;
+        }
+
+        .forgot-password-icon {
+          width: 17px;
+          height: 17px;
+          flex: 0 0 17px;
+          display: block;
+          color: currentColor;
+          fill: none !important;
+          stroke: currentColor !important;
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .forgot-password-icon :is(circle, line, path) {
+          fill: none !important;
+          stroke: currentColor !important;
+          vector-effect: non-scaling-stroke;
         }
 
         .auth-notice {
@@ -2243,6 +2301,29 @@ export default function AuthGate({
           vector-effect: non-scaling-stroke;
         }
 
+        html body .public-gate .forgot-button {
+          color: #6d28d9 !important;
+          -webkit-text-fill-color: #6d28d9 !important;
+          background: rgba(139, 92, 246, .10) !important;
+          border: 1px solid rgba(139, 92, 246, .24) !important;
+          text-decoration: none !important;
+          box-shadow: none !important;
+        }
+
+        html body.od-theme-dark .public-gate .forgot-button {
+          color: #d8c8ff !important;
+          -webkit-text-fill-color: #d8c8ff !important;
+          background: rgba(167, 139, 250, .13) !important;
+          border-color: rgba(196, 181, 253, .28) !important;
+        }
+
+        html body .public-gate .forgot-button :is(span, svg, circle, line, path) {
+          color: currentColor !important;
+          -webkit-text-fill-color: currentColor !important;
+          fill: none !important;
+          stroke: currentColor !important;
+        }
+
       `}</style>
 
       <div className="public-wrap">
@@ -2429,7 +2510,8 @@ export default function AuthGate({
                       onClick={handleForgotPassword}
                       disabled={busy}
                     >
-                      نسيت كلمة المرور؟
+                      <ForgotPasswordIcon />
+                      <span>نسيت كلمة المرور؟</span>
                     </button>
                   )}
                 </div>
