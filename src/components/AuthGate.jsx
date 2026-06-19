@@ -1012,6 +1012,7 @@ export default function AuthGate({
           font-weight: 900;
           cursor: pointer;
           min-height: 36px;
+          margin-top: 12px;
           padding: 7px 12px;
           display: inline-flex;
           align-items: center;
@@ -2306,6 +2307,7 @@ export default function AuthGate({
           -webkit-text-fill-color: #6d28d9 !important;
           background: rgba(139, 92, 246, .10) !important;
           border: 1px solid rgba(139, 92, 246, .24) !important;
+          margin-top: 12px !important;
           text-decoration: none !important;
           box-shadow: none !important;
         }
