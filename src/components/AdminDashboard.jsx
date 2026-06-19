@@ -186,16 +186,18 @@ export default function AdminDashboard() {
           box-shadow: 0 24px 70px rgba(28, 17, 48,.18);
         }
 
-        .admin-hero span {
+        .admin-hero span,
+        .admin-hero-kicker {
           display: inline-flex;
           margin-bottom: 10px;
           color: #fde68a;
-          -webkit-text-fill-color: #fde68a;
+          -webkit-text-fill-color: #fde68a !important;
           font-size: 12px;
           font-weight: 950;
         }
 
-        .admin-hero h1 {
+        .admin-hero h1,
+        .admin-hero-title {
           margin: 0;
           font-size: clamp(28px, 5vw, 52px);
           line-height: 1.14;
@@ -203,6 +205,7 @@ export default function AdminDashboard() {
           letter-spacing: -1px;
           color: #f8f2ff !important;
           -webkit-text-fill-color: #f8f2ff !important;
+          background-image: none !important;
           text-shadow: 0 12px 34px rgba(0,0,0,.28);
         }
 

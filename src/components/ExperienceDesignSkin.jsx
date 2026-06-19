@@ -2283,6 +2283,22 @@ export default function ExperienceDesignSkin() {
         border-color: rgba(124, 58, 237, .24) !important;
       }
 
+      html body:not(.od-theme-dark):not(.od-theme-dark) .admin-dashboard .admin-hero :is(h1, .admin-hero-title) {
+        color: #f8f2ff !important;
+        -webkit-text-fill-color: #f8f2ff !important;
+        background-image: none !important;
+        opacity: 1 !important;
+        text-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
+      }
+
+      html body:not(.od-theme-dark):not(.od-theme-dark) .admin-dashboard .admin-hero :is(span, .admin-hero-kicker) {
+        color: #fde68a !important;
+        -webkit-text-fill-color: #fde68a !important;
+        background: transparent !important;
+        border: 0 !important;
+        opacity: 1 !important;
+      }
+
     `}</style>
   );
 }
