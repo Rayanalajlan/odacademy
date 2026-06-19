@@ -2127,3 +2127,17 @@ html[data-theme="light"] body.od-theme-light #root :is(.pill, .badge, .chip, .ta
 html[data-theme="light"] body.od-theme-light #root .about-rayan .ar-lens b {
   border-radius: 22px !important;
 }
+
+html[data-theme="light"] body.od-theme-light #root .radar-assessment-page .radar-tabs > button.radar-tab.active {
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  background-color: #7c3aed !important;
+  border-color: rgba(255, 255, 255, .18) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 18px 42px rgba(124, 58, 237, .24) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .radar-assessment-page .radar-tabs > button.radar-tab.active :is(strong, span) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}

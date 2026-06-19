@@ -1427,13 +1427,18 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
           box-shadow:0 20px 44px rgba(139, 92, 246,.11);
         }
 
-        .radar-tab.active {
-          background:linear-gradient(135deg,#a855f7,#7c3aed);
-          color:#ffffff;
+        .radar-assessment-page .radar-tabs > .radar-tab.active {
+          background:linear-gradient(135deg,#a855f7,#7c3aed) !important;
+          background-color:#7c3aed !important;
+          border-color:rgba(255,255,255,.18) !important;
+          color:#ffffff !important;
+          -webkit-text-fill-color:#ffffff !important;
+          box-shadow:0 18px 42px rgba(124,58,237,.24) !important;
         }
 
-        .radar-tab.active :is(strong, span) {
-          color:#ffffff;
+        .radar-assessment-page .radar-tabs > .radar-tab.active :is(strong, span) {
+          color:#ffffff !important;
+          -webkit-text-fill-color:#ffffff !important;
         }
 
         .radar-tab strong {
