@@ -7,6 +7,27 @@ import ExperienceDesignSkin from "./ExperienceDesignSkin";
 import ThemeToggle from "./ThemeToggle";
 import { LegalFooterLinks } from "./LegalLinks";
 
+function ConsultationMailIcon() {
+  return (
+    <svg
+      className="consultation-mail-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="4" y="6.25" width="16" height="11.5" rx="3.2" />
+      <path d="M5.25 8.1 12 12.9l6.75-4.8" />
+      <path d="m5.4 16.55 4.25-4" opacity=".72" />
+      <path d="m18.6 16.55-4.25-4" opacity=".72" />
+    </svg>
+  );
+}
+
 const MONTHS = [
   {
     number: "01",
@@ -2198,6 +2219,26 @@ export default function AuthGate({
           -webkit-text-fill-color: currentColor !important;
         }
 
+        html body .public-gate .about-links a.social-mail .consultation-mail-icon {
+          width: 20px !important;
+          height: 20px !important;
+          flex: 0 0 20px !important;
+          display: block !important;
+          color: currentColor !important;
+          fill: none !important;
+          stroke: currentColor !important;
+          stroke-width: 1.9 !important;
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
+        }
+
+        html body .public-gate .about-links a.social-mail .consultation-mail-icon :is(rect, path) {
+          fill: none !important;
+          stroke: currentColor !important;
+          vector-effect: non-scaling-stroke;
+        }
+
       `}</style>
 
       <div className="public-wrap">
@@ -2555,10 +2596,7 @@ export default function AuthGate({
                   <span>منصة X</span>
                 </a>
                 <a className="social-link social-mail" href="mailto:Rayansalajlan@gmail.com">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="3" y="5" width="18" height="14" rx="2.5" />
-                    <path d="m3.5 7 8.5 6 8.5-6" />
-                  </svg>
+                  <ConsultationMailIcon />
                   <span>طلب استشارة</span>
                 </a>
               </div>

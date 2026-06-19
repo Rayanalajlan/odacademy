@@ -64,9 +64,21 @@ const duaText =
 
 function MailIcon() {
   return (
-    <svg className="ar-mail-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M4.75 6.75h14.5v10.5H4.75z" />
-      <path d="m5.25 7.25 6.75 5.25 6.75-5.25" />
+    <svg
+      className="ar-mail-icon consultation-mail-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="4" y="6.25" width="16" height="11.5" rx="3.2" />
+      <path d="M5.25 8.1 12 12.9l6.75-4.8" />
+      <path d="m5.4 16.55 4.25-4" opacity=".72" />
+      <path d="m18.6 16.55-4.25-4" opacity=".72" />
     </svg>
   );
 }
@@ -257,6 +269,26 @@ export default function AboutRayan() {
           color:white;
           background:rgba(255,255,255,.10);
           border:1px solid rgba(255,255,255,.16);
+        }
+
+        .about-rayan :is(.ar-primary-action, .ar-consultation-button) .consultation-mail-icon {
+          width:20px !important;
+          height:20px !important;
+          flex:0 0 20px !important;
+          display:block !important;
+          color:currentColor !important;
+          fill:none !important;
+          stroke:currentColor !important;
+          stroke-width:1.9 !important;
+          background:transparent !important;
+          border:0 !important;
+          box-shadow:none !important;
+        }
+
+        .about-rayan :is(.ar-primary-action, .ar-consultation-button) .consultation-mail-icon :is(rect, path) {
+          fill:none !important;
+          stroke:currentColor !important;
+          vector-effect:non-scaling-stroke;
         }
 
         .ar-primary-action:hover,

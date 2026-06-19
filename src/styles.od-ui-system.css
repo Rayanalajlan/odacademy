@@ -89,15 +89,26 @@ html body .about-rayan .ar-section-head > div > span {
 }
 
 html body .about-rayan .ar-mail-icon,
-html body .social-mail svg {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
+html body .social-mail svg,
+html body .consultation-mail-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex: 0 0 20px !important;
+  display: block !important;
   fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
+  stroke: currentColor !important;
+  stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html body .consultation-mail-icon :is(rect, path) {
+  fill: none !important;
+  stroke: currentColor !important;
+  vector-effect: non-scaling-stroke;
 }
 
 html body .about-rayan :is(.ar-primary-action, .ar-consultation-button),
