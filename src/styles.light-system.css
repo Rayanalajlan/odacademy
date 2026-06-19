@@ -1727,15 +1727,20 @@ html[data-theme="light"] body.od-theme-light #root :is(
 }
 
 html[data-theme="light"] body.od-theme-light #root .radar-tab.active {
-  background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
-  border-color: transparent !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  background: linear-gradient(135deg, #f0e7ff, #fbf8ff) !important;
+  border-color: rgba(167, 139, 250, .46) !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root .radar-tab.active :is(strong, span) {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: #211536 !important;
+  -webkit-text-fill-color: #211536 !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .radar-tab.active span {
+  color: #4e3a72 !important;
+  -webkit-text-fill-color: #4e3a72 !important;
 }
 
 html[data-theme="light"] body.od-theme-light #root .sim-root .hero-metrics {
