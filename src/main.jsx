@@ -8,6 +8,7 @@ import "./styles.theme-fix.css";
 import "./styles.dark-system.css";
 import "./styles.light-system.css";
 import "./styles.gauge-system.css";
+import "./styles.od-ui-system.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

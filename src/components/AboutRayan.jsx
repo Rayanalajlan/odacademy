@@ -62,6 +62,15 @@ const socialLinks = [
 const duaText =
   "أجمل ما قد يهديه لي العابرون بعد الفائدة: دعوة صادقة بظهر الغيب لوالديّ، وللمسلمين والمسلمات، الأحياء منهم والأموات؛ أن يشملهم الله بعفوه، ويعمّهم برضوانه.";
 
+function MailIcon() {
+  return (
+    <svg className="ar-mail-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4.75 6.75h14.5v10.5H4.75z" />
+      <path d="m5.25 7.25 6.75 5.25 6.75-5.25" />
+    </svg>
+  );
+}
+
 function buildConsultationMailto() {
   const to = "Rayansalajlan@gmail.com";
   const subject = "طلب استشارة مهنية";
@@ -230,6 +239,7 @@ export default function AboutRayan() {
           display:inline-flex;
           align-items:center;
           justify-content:center;
+          gap:8px;
           border-radius:18px;
           padding:13px 18px;
           font-size:13px;
@@ -646,6 +656,7 @@ export default function AboutRayan() {
           display:flex;
           align-items:center;
           justify-content:center;
+          gap:8px;
           width:100%;
           min-height:48px;
           border-radius:18px;
@@ -658,6 +669,17 @@ export default function AboutRayan() {
 
         .ar-consultation-button:hover {
           transform:translateY(-3px);
+        }
+
+        .ar-mail-icon {
+          width:18px;
+          height:18px;
+          flex:0 0 18px;
+          fill:none;
+          stroke:currentColor;
+          stroke-width:2;
+          stroke-linecap:round;
+          stroke-linejoin:round;
         }
 
         .ar-social {
@@ -987,6 +1009,7 @@ export default function AboutRayan() {
 
               <div className="ar-hero-actions">
                 <a className="ar-primary-action" href={consultationMailto}>
+                  <MailIcon />
                   طلب استشارة
                 </a>
 
@@ -1139,6 +1162,7 @@ export default function AboutRayan() {
               </p>
 
               <a className="ar-consultation-button" href={consultationMailto}>
+                <MailIcon />
                 إرسال طلب استشارة
               </a>
             </aside>

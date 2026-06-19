@@ -384,6 +384,21 @@ export default function AuthGate({
     setNotice(message);
   }
 
+  function friendlyAuthError(error) {
+    const message = String(error?.message || error || "").toLowerCase();
+
+    if (
+      message.includes("invalid login credentials") ||
+      message.includes("invalid credentials") ||
+      message.includes("email not confirmed") ||
+      message.includes("invalid grant")
+    ) {
+      return "يا هلا، البريد الإلكتروني أو كلمة المرور غير صحيحة. تأكد منها وحاول مرة ثانية.";
+    }
+
+    return "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.";
+  }
+
   function switchMode(nextMode) {
     setMode(nextMode);
     setNotice("");
@@ -562,7 +577,7 @@ export default function AuthGate({
       onEnter?.({ session, name });
       onAuthenticated?.(session);
     } catch (error) {
-      showNotice(error?.message || "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.");
+      showNotice(mode === "signin" ? friendlyAuthError(error) : error?.message || "تعذر تنفيذ العملية. تحقق من البيانات وحاول مرة أخرى.");
     } finally {
       setBusy(false);
     }

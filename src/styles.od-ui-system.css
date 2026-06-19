@@ -1,0 +1,354 @@
+/* OD Academy unified UI system pass.
+   Loaded last to normalize shape, contrast, and shared controls across pages. */
+
+:root,
+html[data-theme="light"],
+html body.od-theme-light,
+html[data-theme="dark"],
+html body.od-theme-dark {
+  --od-radius-page: 42px;
+  --od-radius-section: 34px;
+  --od-radius-card: 28px;
+  --od-radius-field: 18px;
+  --od-radius-button: 999px;
+  --od-radius-badge: 999px;
+  --od-surface: var(--color-bg-surface, var(--surface));
+  --od-surface-muted: var(--color-bg-surface-muted, var(--surface-muted));
+  --od-surface-elevated: var(--color-bg-surface-elevated, var(--surface-elevated));
+  --od-text-primary: var(--color-text-primary, var(--text));
+  --od-text-secondary: var(--color-text-secondary, var(--text-muted));
+  --od-border-soft: var(--color-border-muted, var(--border));
+  --od-border: var(--color-border-default, var(--border));
+  --od-error-bg: var(--color-danger-bg, var(--danger-bg));
+  --od-error-text: var(--color-danger-text, var(--danger-text));
+  --od-error-border: var(--color-danger-border, var(--danger-border));
+  --od-success-bg: var(--color-success-bg, var(--success-bg));
+  --od-success-text: var(--color-success-text, var(--success-text));
+  --od-success-border: var(--color-success-border, var(--success-border));
+  --od-warning-bg: var(--color-warning-bg, var(--warning-bg));
+  --od-warning-text: var(--color-warning-text, var(--warning-text));
+  --od-warning-border: var(--color-warning-border, var(--warning-border));
+  --od-focus-ring: 0 0 0 4px rgba(139, 92, 246, .14);
+  --od-card-shadow: var(--color-shadow-sm, var(--shadow-soft));
+}
+
+html[data-theme="dark"] body.od-theme-dark {
+  --od-card-shadow: 0 22px 64px rgba(0, 0, 0, .32);
+}
+
+html body :is(.auth-notice, .error-card, .quota-card, .quiz-message, .account-status, .monthly-warning, .radar-warning, .verify-error) {
+  border-radius: var(--od-radius-card) !important;
+  padding: 14px 16px !important;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.85;
+  font-weight: 850;
+}
+
+html body :is(.auth-notice, .error-card, .quiz-message.error, .verify-error, .radar-warning) {
+  color: var(--od-error-text) !important;
+  background: var(--od-error-bg) !important;
+  border: 1px solid var(--od-error-border) !important;
+}
+
+html body :is(.quiz-message.success, .account-status) {
+  color: var(--od-success-text) !important;
+  background: var(--od-success-bg) !important;
+  border: 1px solid var(--od-success-border) !important;
+}
+
+html body :is(.quota-card, .quiz-message.warn, .monthly-warning) {
+  color: var(--od-warning-text) !important;
+  background: var(--od-warning-bg) !important;
+  border: 1px solid var(--od-warning-border) !important;
+}
+
+html body :is(
+  .ar-section,
+  .ar-bio-box,
+  .ar-consultation-copy,
+  .ar-card,
+  .ar-domain,
+  .ar-social,
+  .ar-dua-card,
+  .command-panel,
+  .messages-box,
+  .archive-item,
+  .mode-button,
+  .composer,
+  .course-search-box,
+  .course-search-result,
+  .course-search-empty,
+  .mastery-gate,
+  .month-card,
+  .week-card,
+  .day-step,
+  .journey-note,
+  .intro-panel,
+  .week-intro-reader,
+  .references-panel,
+  .lesson-progress-card,
+  .lesson-reader,
+  .quiz-panel,
+  .question-card,
+  .roi-panel,
+  .roi-field,
+  .roi-switch,
+  .roi-result-card,
+  .roi-reading,
+  .roi-source,
+  .roi-disclaimer,
+  .profile-card,
+  .profile-strip,
+  .profile-metric,
+  .profile-stat,
+  .field-item,
+  .badge-row,
+  .note-row,
+  .notification-row,
+  .achievement-row,
+  .radar-card,
+  .learning-portfolio .portfolio-section,
+  .learning-portfolio .portfolio-row,
+  .learning-portfolio .portfolio-stat,
+  .od-home-v2 :is(.home-card, .od-card, .od-stat-card, .od-progress-line, .od-command-card, .od-command-mini > div, .feature-card)
+) {
+  border-radius: var(--od-radius-card) !important;
+  border-color: var(--od-border) !important;
+  background: linear-gradient(180deg, var(--od-surface) 0%, var(--od-surface-elevated) 100%) !important;
+  color: var(--od-text-primary) !important;
+  box-shadow: var(--od-card-shadow) !important;
+}
+
+html body :is(.ar-section, .command-panel, .roi-panel, .profile-card, .lesson-reader, .quiz-panel) {
+  border-radius: var(--od-radius-section) !important;
+}
+
+html body :is(
+  button,
+  .soft-button,
+  .send-button,
+  .course-search-clear,
+  .course-search-suggestions button,
+  .journey-primary,
+  .journey-secondary,
+  .journey-back,
+  .profile-button,
+  .tiny-soft-button,
+  .quick-links button,
+  .ar-primary-action,
+  .ar-secondary-action,
+  .ar-consultation-button
+) {
+  border-radius: var(--od-radius-button) !important;
+}
+
+html body :is(
+  input,
+  select,
+  textarea,
+  .course-search-input,
+  .archive-search,
+  .composer textarea,
+  .profile-form input,
+  .profile-form select,
+  .profile-form textarea,
+  .roi-field select,
+  .roi-field input[type="number"]
+) {
+  border-radius: var(--od-radius-field) !important;
+  border: 1px solid var(--od-border) !important;
+  background: var(--color-bg-input, var(--field-bg)) !important;
+  color: var(--od-text-primary) !important;
+}
+
+html body :is(input, select, textarea):focus {
+  border-color: var(--color-border-focus, var(--accent));
+  box-shadow: var(--od-focus-ring);
+  outline: none;
+}
+
+html body :is(.journey-pill, .stage-heading span, .lesson-head span, .quiz-head span, .course-search-counter, .mode-badge, .day-number, .ar-domain-mark, .rank-pill) {
+  border-radius: var(--od-radius-badge) !important;
+}
+
+html body .ai-command-page .header-actions {
+  align-items: center;
+  padding: 6px;
+  border-radius: var(--od-radius-button);
+  background: var(--od-surface-muted);
+  border: 1px solid var(--od-border-soft);
+}
+
+html body .ai-command-page .soft-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--od-border-soft);
+  background: var(--od-surface);
+  color: var(--od-text-primary);
+  box-shadow: none;
+}
+
+html body .ai-command-page .soft-button:hover {
+  background: var(--color-bg-button-secondary-hover, var(--od-surface-elevated));
+}
+
+html body .ai-command-page .mode-badge {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--color-bg-button-primary, #7c3aed), var(--color-bg-button-primary-hover, #6d28d9));
+  color: var(--color-text-on-primary, #fff);
+}
+
+html body .ai-command-page .composer {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--od-border-soft);
+  background: var(--od-surface-muted);
+  box-shadow: none;
+}
+
+html body .ai-command-page .composer textarea {
+  min-height: 104px;
+  resize: vertical;
+  background: var(--od-surface);
+}
+
+html body .ai-command-page .composer-footer {
+  align-items: center;
+}
+
+html body .ai-command-page .composer-footer small {
+  max-width: 620px;
+  color: var(--od-text-secondary);
+}
+
+html body .course-search-box {
+  min-height: 0;
+  padding: 20px;
+}
+
+html body .course-search-counter,
+html body .course-search-suggestions button {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+html body .course-search-suggestions button,
+html body .course-search-clear {
+  background: var(--od-surface);
+  color: var(--od-text-primary);
+  border: 1px solid var(--od-border-soft);
+}
+
+html body .learning-journey :is(.mini-progress, .progress-bar, .achievement-progress, .radar-progress) {
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--color-progress-track, var(--od-surface-muted));
+}
+
+html body .learning-journey :is(.mini-progress i, .progress-bar i, .achievement-progress i, .radar-progress i) {
+  border-radius: inherit;
+}
+
+html body .learning-journey .month-card .card-topline > span,
+html body .learning-journey .quiz-head > span,
+html body .learning-journey .quiz-head h3 {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html body .learning-journey .option-button {
+  border-radius: var(--od-radius-field);
+  background: var(--color-quiz-bg, var(--od-surface));
+  color: var(--color-quiz-text, var(--od-text-primary));
+  border-color: var(--color-quiz-border, var(--od-border));
+}
+
+html body .learning-journey .option-button.selected {
+  color: var(--color-quiz-selected-text);
+  background: var(--color-quiz-selected-bg);
+  border-color: var(--color-quiz-selected-border);
+}
+
+html body .learning-journey .option-button.correct {
+  color: var(--color-quiz-correct-text);
+  background: var(--color-quiz-correct-bg);
+  border-color: var(--color-quiz-correct-border);
+}
+
+html body .learning-journey .option-button.wrong {
+  color: var(--color-quiz-wrong-text);
+  background: var(--color-quiz-wrong-bg);
+  border-color: var(--color-quiz-wrong-border);
+}
+
+html body .learning-journey .option-button span {
+  border-radius: 999px;
+  background: var(--color-quiz-marker-bg);
+  color: var(--color-quiz-marker-text);
+}
+
+html body .roi-page .roi-field {
+  padding: 14px;
+  margin-bottom: 14px;
+  background: var(--od-surface-muted);
+  border: 1px solid var(--od-border-soft);
+}
+
+html body .roi-page .roi-switch {
+  overflow: hidden;
+  padding: 6px;
+  background: var(--od-surface-muted);
+  border: 1px solid var(--od-border-soft);
+}
+
+html body .profile-form :is(input, select, textarea),
+html body .profile-button,
+html body .tiny-soft-button {
+  min-height: 46px;
+}
+
+html body .badge-row {
+  background: var(--od-surface-muted);
+}
+
+html body .badge-row-top > span:last-child {
+  display: inline-grid;
+  min-width: 40px;
+  min-height: 40px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-badge-bg);
+  color: var(--color-badge-text);
+  border: 1px solid var(--color-badge-border);
+}
+
+html body :is(.ar-primary-action, .ar-consultation-button) {
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-bg-button-primary, #7c3aed), var(--color-bg-button-primary-hover, #6d28d9));
+}
+
+html body .about-rayan :is(.ar-primary-action, .ar-consultation-button) {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+@media (max-width: 680px) {
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"],
+  html body.od-theme-light,
+  html body.od-theme-dark {
+    --od-radius-page: 30px;
+    --od-radius-section: 26px;
+    --od-radius-card: 22px;
+  }
+}
