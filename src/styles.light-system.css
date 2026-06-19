@@ -1727,7 +1727,7 @@ html[data-theme="light"] body.od-theme-light #root :is(
 }
 
 html[data-theme="light"] body.od-theme-light #root .radar-tab.active {
-  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 48%, #7c3aed 100%) !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
   border-color: rgba(255, 255, 255, .18) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;

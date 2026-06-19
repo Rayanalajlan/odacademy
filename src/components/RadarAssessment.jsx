@@ -1428,7 +1428,12 @@ export default function RadarAssessment({ setActivePage, progressRows = [] }) {
         }
 
         .radar-tab.active {
-          background:linear-gradient(135deg,#efe9fb,#ffffff);
+          background:linear-gradient(135deg,#a855f7,#7c3aed);
+          color:#ffffff;
+        }
+
+        .radar-tab.active :is(strong, span) {
+          color:#ffffff;
         }
 
         .radar-tab strong {
