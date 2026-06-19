@@ -285,6 +285,17 @@ const insights = [
   "حين تصبح البنية مفهومة، تقل الدراما ويزيد العمل الذي يمكن الوثوق به."
 ];
 
+function createRandomInsightOrder() {
+  const order = insights.map((_, index) => index);
+
+  for (let index = order.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [order[index], order[randomIndex]] = [order[randomIndex], order[index]];
+  }
+
+  return order;
+}
+
 function getTodayKey() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -892,28 +903,21 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
   const { snapshot: timer, pause, resume, resetToday } = useLearningTimer();
 
-  const initialQuoteIndex = useMemo(() => {
-    return Math.abs(Math.floor((safeCompletedDays + timer.completedHours) % insights.length));
-  }, [safeCompletedDays, timer.completedHours]);
-
-  const [quoteIndex, setQuoteIndex] = useState(initialQuoteIndex);
+  const quoteOrder = useMemo(() => createRandomInsightOrder(), []);
+  const [quoteIndex, setQuoteIndex] = useState(0);
   const [isQuotePaused, setIsQuotePaused] = useState(false);
-
-  useEffect(() => {
-    setQuoteIndex(initialQuoteIndex);
-  }, [initialQuoteIndex]);
 
   useEffect(() => {
     if (isQuotePaused || typeof window === "undefined") return undefined;
 
     const intervalId = window.setInterval(() => {
-      setQuoteIndex((currentIndex) => (currentIndex + 1) % insights.length);
+      setQuoteIndex((currentIndex) => (currentIndex + 1) % quoteOrder.length);
     }, 5200);
 
     return () => window.clearInterval(intervalId);
-  }, [isQuotePaused]);
+  }, [isQuotePaused, quoteOrder.length]);
 
-  const quote = insights[quoteIndex % insights.length];
+  const quote = insights[quoteOrder[quoteIndex % quoteOrder.length]];
   const quoteVariant = quoteIndex % 6;
 
   const learningRank = useMemo(() => {
