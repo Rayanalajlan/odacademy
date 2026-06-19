@@ -375,21 +375,22 @@ export default function AboutRayan() {
 
         .ar-dua-section {
           margin-top:20px;
-          padding:0;
-          background:transparent;
-          border:0;
-          box-shadow:none;
-          backdrop-filter:none;
+          border-radius:34px;
+          padding:26px;
+          background:rgba(255,255,255,.84);
+          border:1px solid rgba(255,255,255,.94);
+          box-shadow:0 22px 60px rgba(28, 17, 48,.08);
+          backdrop-filter:blur(20px);
         }
 
         .ar-dua-card {
           position:relative;
           overflow:hidden;
-          border-radius:34px;
-          padding:30px;
-          background:
-            radial-gradient(circle at top left, rgba(139,92,246,.22), transparent 34%),
-            linear-gradient(135deg,#ffffff,#f5f0ff);
+          border-radius:28px;
+          padding:22px;
+          background:white;
+          border:1px solid var(--line);
+          box-shadow:0 16px 44px rgba(28, 17, 48,.06);
         }
 
         .ar-dua-card::before {
@@ -407,8 +408,15 @@ export default function AboutRayan() {
           position:relative;
           z-index:1;
           display:inline-flex;
+          width:fit-content;
+          min-height:38px;
+          align-items:center;
           margin-bottom:10px;
-          color:#5b21b6;
+          padding:8px 14px;
+          border-radius:999px;
+          color:var(--gold);
+          background:#f5f0ff;
+          border:1px solid rgba(139,92,246,.18);
           font-size:12px;
           font-weight:950;
         }
@@ -417,10 +425,10 @@ export default function AboutRayan() {
           position:relative;
           z-index:1;
           margin:0;
-          color:#4c1d95;
-          font-size:18px;
+          color:#281748;
+          font-size:15px;
           line-height:2.15;
-          font-weight:900;
+          font-weight:700;
         }
 
         .ar-bio-box {
@@ -816,6 +824,7 @@ export default function AboutRayan() {
 
         html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(
           .ar-section,
+          .ar-dua-section,
           .ar-bio-box,
           .ar-consultation-copy,
           .ar-card,
@@ -830,6 +839,7 @@ export default function AboutRayan() {
 
         html body.od-theme-dark.od-theme-dark .about-rayan :is(
           .ar-section,
+          .ar-dua-section,
           .ar-bio-box,
           .ar-consultation-copy,
           .ar-card,
@@ -913,9 +923,19 @@ export default function AboutRayan() {
         html body .about-rayan .ar-social.linkedin span,
         html body .about-rayan .ar-social.x span,
         html body .about-rayan .ar-section-head span,
+        html body .about-rayan .ar-dua-card span,
         html body .about-rayan .ar-card strong {
           color:var(--ar-accent-readable) !important;
           -webkit-text-fill-color:var(--ar-accent-readable) !important;
+        }
+
+        html body .about-rayan .ar-dua-card p {
+          color:var(--ar-muted-readable) !important;
+          -webkit-text-fill-color:var(--ar-muted-readable) !important;
+          font-size:15px !important;
+          line-height:2.15 !important;
+          font-weight:650 !important;
+          opacity:1 !important;
         }
 
         html body .about-rayan :is(.ar-primary-action, .ar-consultation-button) {
@@ -962,6 +982,7 @@ export default function AboutRayan() {
 
           .ar-hero,
           .ar-section,
+          .ar-dua-section,
           .ar-dua-card {
             border-radius:28px;
             padding:22px;
