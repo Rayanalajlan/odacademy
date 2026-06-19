@@ -30,7 +30,7 @@ export default function CourseSearch({
   }
 
   return (
-    <section className="course-search-box" aria-label="البحث داخل الرحلة التعليمية">
+    <section className="course-search-box course-search-box--stable" aria-label="البحث داخل الرحلة التعليمية">
       <style>{`
         .course-search-box {
           margin: 18px 0;
@@ -209,6 +209,255 @@ export default function CourseSearch({
 
           .course-search-counter {
             width: fit-content;
+          }
+        }
+
+        html body .course-search-box--stable.course-search-box--stable {
+          width: auto !important;
+          min-height: 0 !important;
+          margin: 18px 0 !important;
+          padding: 20px !important;
+          border-radius: 30px !important;
+          overflow: hidden !important;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 32%),
+            rgba(255,255,255,.94) !important;
+          border: 1px solid rgba(167, 139, 250,.20) !important;
+          box-shadow: 0 18px 48px rgba(28, 17, 48,.07) !important;
+          backdrop-filter: none !important;
+        }
+
+        html body .course-search-box--stable .course-search-head,
+        html body .course-search-box--stable .course-search-row,
+        html body .course-search-box--stable .course-search-suggestions {
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          backdrop-filter: none !important;
+        }
+
+        html body .course-search-box--stable .course-search-head {
+          display: grid !important;
+          grid-template-columns: minmax(0, 1fr) auto !important;
+          gap: 14px !important;
+          align-items: center !important;
+          padding: 0 !important;
+          margin: 0 0 14px !important;
+        }
+
+        html body .course-search-box--stable .course-search-row {
+          display: grid !important;
+          grid-template-columns: minmax(0, 1fr) auto !important;
+          gap: 10px !important;
+          align-items: stretch !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        html body .course-search-box--stable .course-search-title {
+          display: grid !important;
+          gap: 4px !important;
+          padding: 0 !important;
+          min-width: 0 !important;
+        }
+
+        html body .course-search-box--stable .course-search-title strong {
+          color: #18102e !important;
+          -webkit-text-fill-color: #18102e !important;
+          font-size: 18px !important;
+          line-height: 1.5 !important;
+          font-weight: 950 !important;
+        }
+
+        html body .course-search-box--stable .course-search-title span {
+          color: #7a6c9a !important;
+          -webkit-text-fill-color: #7a6c9a !important;
+          font-size: 12px !important;
+          line-height: 1.8 !important;
+          font-weight: 780 !important;
+        }
+
+        html body .course-search-box--stable .course-search-counter {
+          width: fit-content !important;
+          min-width: 0 !important;
+          min-height: 38px !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          padding: 8px 14px !important;
+          border-radius: 999px !important;
+          color: #6d28d9 !important;
+          -webkit-text-fill-color: #6d28d9 !important;
+          background: #efe9fb !important;
+          border: 1px solid rgba(139, 92, 246,.18) !important;
+          box-shadow: none !important;
+          white-space: nowrap !important;
+        }
+
+        html body .course-search-box--stable .course-search-input {
+          width: 100% !important;
+          height: 52px !important;
+          min-height: 52px !important;
+          padding: 0 15px !important;
+          border-radius: 18px !important;
+          color: #18102e !important;
+          -webkit-text-fill-color: #18102e !important;
+          background: #fff !important;
+          border: 1px solid #c9bdf0 !important;
+          box-shadow: none !important;
+          box-sizing: border-box !important;
+        }
+
+        html body .course-search-box--stable .course-search-clear {
+          width: auto !important;
+          min-width: 72px !important;
+          height: 52px !important;
+          min-height: 52px !important;
+          padding: 0 15px !important;
+          border-radius: 18px !important;
+          color: #18102e !important;
+          -webkit-text-fill-color: #18102e !important;
+          background: #efe9fb !important;
+          border: 1px solid transparent !important;
+          box-shadow: none !important;
+        }
+
+        html body .course-search-box--stable .course-search-suggestions {
+          display: flex !important;
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+          padding: 0 !important;
+          margin: 12px 0 0 !important;
+        }
+
+        html body .course-search-box--stable .course-search-suggestions button {
+          height: 38px !important;
+          min-height: 38px !important;
+          padding: 8px 11px !important;
+          border-radius: 999px !important;
+          color: #463c63 !important;
+          -webkit-text-fill-color: #463c63 !important;
+          background: #fff !important;
+          border: 1px solid rgba(167, 139, 250,.22) !important;
+          box-shadow: none !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable.course-search-box--stable {
+          width: auto !important;
+          min-height: 0 !important;
+          margin: 18px 0 !important;
+          padding: 20px !important;
+          border-radius: 30px !important;
+          overflow: hidden !important;
+          background:
+            radial-gradient(circle at 100% 0%, rgba(167, 139, 250,.14), transparent 32%),
+            #1b1130 !important;
+          border: 1px solid rgba(167, 139, 250,.28) !important;
+          box-shadow: 0 18px 48px rgba(0, 0, 0,.18) !important;
+          backdrop-filter: none !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-head,
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-row,
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-suggestions {
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          backdrop-filter: none !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-head {
+          display: grid !important;
+          grid-template-columns: minmax(0, 1fr) auto !important;
+          gap: 14px !important;
+          align-items: center !important;
+          padding: 0 !important;
+          margin: 0 0 14px !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-row {
+          display: grid !important;
+          grid-template-columns: minmax(0, 1fr) auto !important;
+          gap: 10px !important;
+          align-items: stretch !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-title strong {
+          color: #f7f2ff !important;
+          -webkit-text-fill-color: #f7f2ff !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-title span {
+          color: #d8ccf3 !important;
+          -webkit-text-fill-color: #d8ccf3 !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-counter {
+          min-height: 38px !important;
+          padding: 8px 14px !important;
+          border-radius: 999px !important;
+          color: #f4effc !important;
+          -webkit-text-fill-color: #f4effc !important;
+          background: rgba(167, 139, 250,.12) !important;
+          border: 1px solid rgba(167, 139, 250,.30) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-input {
+          height: 52px !important;
+          min-height: 52px !important;
+          padding: 0 15px !important;
+          border-radius: 18px !important;
+          color: #f7f2ff !important;
+          -webkit-text-fill-color: #f7f2ff !important;
+          background: #130b24 !important;
+          border: 1px solid rgba(167, 139, 250,.28) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-clear {
+          width: auto !important;
+          min-width: 72px !important;
+          height: 52px !important;
+          min-height: 52px !important;
+          padding: 0 15px !important;
+          border-radius: 18px !important;
+          color: #f4effc !important;
+          -webkit-text-fill-color: #f4effc !important;
+          background: rgba(167, 139, 250,.12) !important;
+          border: 1px solid rgba(167, 139, 250,.30) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-suggestions {
+          display: flex !important;
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+          padding: 0 !important;
+          margin: 12px 0 0 !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-suggestions button {
+          height: 38px !important;
+          min-height: 38px !important;
+          padding: 8px 11px !important;
+          border-radius: 999px !important;
+          color: #f7f2ff !important;
+          -webkit-text-fill-color: #f7f2ff !important;
+          background: #241640 !important;
+          border: 1px solid rgba(167, 139, 250,.26) !important;
+        }
+
+        @media (max-width: 680px) {
+          html body .course-search-box--stable .course-search-head,
+          html body .course-search-box--stable .course-search-row,
+          html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-head,
+          html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-row {
+            grid-template-columns: 1fr !important;
+          }
+
+          html body .course-search-box--stable .course-search-counter,
+          html[data-theme="dark"] body.od-theme-dark .course-search-box--stable .course-search-counter {
+            justify-self: start !important;
           }
         }
       `}</style>
