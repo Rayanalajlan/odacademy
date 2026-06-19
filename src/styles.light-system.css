@@ -1655,6 +1655,26 @@ html[data-theme="light"] body.od-theme-light #root :is(
   opacity: 1 !important;
 }
 
+html[data-theme="light"] body.od-theme-light #root .od-timer-orbit .od-live-core {
+  background:
+    radial-gradient(circle at 40% 32%, rgba(255, 255, 255, .9), rgba(255, 255, 255, .18) 18%, transparent 46%),
+    conic-gradient(from 0deg, #8b5cf6, #7c3aed, #10b981, #a855f7, #8b5cf6) !important;
+  border: 0 !important;
+  color: #ffffff !important;
+  box-shadow: 0 26px 70px rgba(139, 92, 246, .28) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-timer-orbit .od-live-core strong {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 10px 24px rgba(28, 17, 48, .32) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .od-timer-orbit .od-live-core :is(span, small) {
+  color: rgba(255, 255, 255, .86) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, .86) !important;
+}
+
 html[data-theme="light"] body.od-theme-light #root :is(
   .jl-day-card--completed,
   .day-step.done,
