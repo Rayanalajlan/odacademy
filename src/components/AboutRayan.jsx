@@ -970,6 +970,26 @@ export default function AboutRayan() {
           opacity:1 !important;
         }
 
+        html body.od-theme-dark.od-theme-dark .about-rayan .ar-dua-section,
+        html body.od-theme-dark.od-theme-dark .about-rayan .ar-dua-card {
+          background:var(--ar-light-surface) !important;
+          border-color:var(--ar-border-readable) !important;
+          color:var(--ar-text-readable) !important;
+          box-shadow:0 20px 58px rgba(0,0,0,.24) !important;
+        }
+
+        html body.od-theme-dark.od-theme-dark .about-rayan .ar-dua-card::before {
+          background:rgba(167,139,250,.10) !important;
+        }
+
+        html body.od-theme-dark.od-theme-dark .about-rayan .ar-dua-card span {
+          color:var(--ar-accent-readable) !important;
+          -webkit-text-fill-color:var(--ar-accent-readable) !important;
+          background:rgba(167,139,250,.10) !important;
+          border-color:var(--ar-border-readable) !important;
+          box-shadow:none !important;
+        }
+
         html body .about-rayan :is(.ar-primary-action, .ar-consultation-button) {
           color:#24123f !important;
           -webkit-text-fill-color:#24123f !important;
