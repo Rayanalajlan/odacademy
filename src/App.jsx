@@ -571,9 +571,281 @@ export default function App() {
       <>
         <BrandMeta />
         <ExperienceDesignSkin />
-        <div className="boot-screen">
-          <SiteLogo variant="icon" context="loader" englishAlt />
-          <span>يا هلا، نرتب لك الطريق في منسقة</span>
+        <div className="boot-screen boot-screen--signature" role="status" aria-live="polite">
+          <style>{`
+            html,
+            body,
+            #root {
+              min-height: 100%;
+              background: #0c0717;
+            }
+
+            .boot-screen--signature {
+              position: fixed;
+              inset: 0;
+              z-index: 9999;
+              min-height: 100svh;
+              display: grid;
+              place-items: center;
+              overflow: hidden;
+              isolation: isolate;
+              padding: clamp(24px, 6vw, 72px);
+              text-align: center;
+              color: #f8f4ff;
+              background:
+                radial-gradient(circle at 50% 18%, rgba(167, 139, 250, .28), transparent 24%),
+                radial-gradient(circle at 82% 72%, rgba(56, 189, 248, .14), transparent 28%),
+                radial-gradient(circle at 18% 76%, rgba(236, 72, 153, .12), transparent 26%),
+                linear-gradient(180deg, #120a22 0%, #090412 100%);
+              perspective: 1100px;
+            }
+
+            .boot-screen--signature::before,
+            .boot-screen--signature::after {
+              content: "";
+              position: absolute;
+              inset: auto;
+              z-index: -2;
+              border-radius: 999px;
+              filter: blur(2px);
+              opacity: .72;
+              transform-style: preserve-3d;
+            }
+
+            .boot-screen--signature::before {
+              width: clamp(300px, 52vw, 760px);
+              height: clamp(300px, 52vw, 760px);
+              top: 7%;
+              left: 50%;
+              translate: -50% 0;
+              background:
+                linear-gradient(135deg, rgba(139, 92, 246, .15), transparent 58%),
+                repeating-conic-gradient(from 16deg, rgba(196, 181, 253, .18) 0 7deg, transparent 7deg 18deg);
+              mask: radial-gradient(circle, transparent 42%, #000 43% 44%, transparent 45% 58%, #000 59% 60%, transparent 61%);
+              animation: bootOrbitalTurn 15s linear infinite;
+            }
+
+            .boot-screen--signature::after {
+              width: 86vw;
+              max-width: 920px;
+              height: 280px;
+              bottom: -120px;
+              left: 50%;
+              translate: -50% 0;
+              background: radial-gradient(ellipse at center, rgba(139, 92, 246, .32), transparent 66%);
+              transform: rotateX(72deg);
+            }
+
+            .boot-stage {
+              position: relative;
+              width: min(520px, 92vw);
+              min-height: min(620px, 82svh);
+              display: grid;
+              place-items: center;
+              align-content: center;
+              gap: clamp(18px, 4vw, 28px);
+              transform-style: preserve-3d;
+            }
+
+            .boot-visual {
+              position: relative;
+              width: clamp(210px, 42vw, 360px);
+              height: clamp(210px, 42vw, 360px);
+              display: grid;
+              place-items: center;
+              transform-style: preserve-3d;
+              animation: bootFloat 4.6s ease-in-out infinite;
+            }
+
+            .boot-ring {
+              position: absolute;
+              inset: 12%;
+              border-radius: 999px;
+              border: 1px solid rgba(196, 181, 253, .28);
+              box-shadow:
+                inset 0 0 26px rgba(167, 139, 250, .14),
+                0 0 34px rgba(124, 58, 237, .16);
+              transform-style: preserve-3d;
+            }
+
+            .boot-ring--one {
+              transform: rotateX(68deg) rotateZ(18deg);
+              animation: bootRingOne 7s linear infinite;
+            }
+
+            .boot-ring--two {
+              inset: 22%;
+              border-color: rgba(56, 189, 248, .25);
+              transform: rotateY(66deg) rotateZ(-22deg);
+              animation: bootRingTwo 8.5s linear infinite;
+            }
+
+            .boot-ring--three {
+              inset: 31%;
+              border-color: rgba(244, 114, 182, .22);
+              transform: rotateX(52deg) rotateY(42deg);
+              animation: bootRingThree 9s linear infinite;
+            }
+
+            .boot-logo-shell {
+              position: relative;
+              width: clamp(128px, 24vw, 210px);
+              height: clamp(128px, 24vw, 210px);
+              display: grid;
+              place-items: center;
+              border-radius: 46px;
+              background:
+                linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035)),
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,.22), transparent 35%);
+              border: 1px solid rgba(216, 204, 243, .28);
+              box-shadow:
+                0 34px 90px rgba(0, 0, 0, .38),
+                0 0 0 10px rgba(139, 92, 246, .055),
+                inset 0 1px 0 rgba(255, 255, 255, .18);
+              transform: translateZ(80px) rotateX(7deg) rotateY(-10deg);
+            }
+
+            .boot-logo-shell .munsaqah-logo--loader img {
+              height: clamp(108px, 20vw, 180px);
+              max-width: clamp(108px, 20vw, 180px);
+              animation: none;
+              filter: drop-shadow(0 18px 26px rgba(139, 92, 246, .24)) !important;
+            }
+
+            .boot-cube {
+              position: absolute;
+              width: 34px;
+              height: 34px;
+              border-radius: 12px;
+              background:
+                linear-gradient(145deg, rgba(255,255,255,.28), rgba(167, 139, 250, .20)),
+                #7c3aed;
+              border: 1px solid rgba(255,255,255,.18);
+              box-shadow: 0 22px 42px rgba(0, 0, 0, .25);
+              transform-style: preserve-3d;
+              animation: bootCube 5.4s ease-in-out infinite;
+            }
+
+            .boot-cube--a {
+              top: 17%;
+              right: 14%;
+            }
+
+            .boot-cube--b {
+              bottom: 20%;
+              left: 13%;
+              width: 24px;
+              height: 24px;
+              border-radius: 9px;
+              background:
+                linear-gradient(145deg, rgba(255,255,255,.26), rgba(56, 189, 248, .22)),
+                #38bdf8;
+              animation-delay: -1.7s;
+            }
+
+            .boot-copy {
+              display: grid;
+              gap: 10px;
+              justify-items: center;
+              max-width: 620px;
+              transform: translateZ(42px);
+            }
+
+            .boot-copy strong {
+              margin: 0;
+              color: #ffffff;
+              font-size: clamp(26px, 5.8vw, 48px);
+              line-height: 1.35;
+              font-weight: 950;
+              letter-spacing: 0;
+              text-shadow: 0 18px 38px rgba(0, 0, 0, .34);
+            }
+
+            .boot-copy span {
+              color: #d8ccf3;
+              font-size: clamp(15px, 3.2vw, 19px);
+              line-height: 1.9;
+              font-weight: 850;
+            }
+
+            .boot-progress {
+              position: relative;
+              width: min(320px, 70vw);
+              height: 8px;
+              overflow: hidden;
+              border-radius: 999px;
+              background: rgba(216, 204, 243, .14);
+              border: 1px solid rgba(216, 204, 243, .16);
+            }
+
+            .boot-progress::before {
+              content: "";
+              position: absolute;
+              inset: 0;
+              width: 42%;
+              border-radius: inherit;
+              background: linear-gradient(90deg, #8b5cf6, #c4b5fd, #38bdf8);
+              box-shadow: 0 0 22px rgba(167, 139, 250, .42);
+              animation: bootProgress 1.8s ease-in-out infinite;
+            }
+
+            @keyframes bootFloat {
+              0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+              50% { transform: translateY(-12px) rotateX(4deg) rotateY(-5deg); }
+            }
+
+            @keyframes bootOrbitalTurn {
+              to { rotate: 360deg; }
+            }
+
+            @keyframes bootRingOne {
+              to { transform: rotateX(68deg) rotateZ(378deg); }
+            }
+
+            @keyframes bootRingTwo {
+              to { transform: rotateY(66deg) rotateZ(-382deg); }
+            }
+
+            @keyframes bootRingThree {
+              to { transform: rotateX(52deg) rotateY(42deg) rotateZ(360deg); }
+            }
+
+            @keyframes bootCube {
+              0%, 100% { transform: translateZ(44px) rotateX(18deg) rotateY(24deg); }
+              50% { transform: translateY(-16px) translateZ(88px) rotateX(54deg) rotateY(82deg); }
+            }
+
+            @keyframes bootProgress {
+              0% { transform: translateX(135%); }
+              50% { transform: translateX(0); }
+              100% { transform: translateX(-235%); }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              .boot-screen--signature *,
+              .boot-screen--signature::before,
+              .boot-progress::before {
+                animation: none !important;
+              }
+            }
+          `}</style>
+          <div className="boot-stage">
+            <div className="boot-visual" aria-hidden="true">
+              <span className="boot-ring boot-ring--one" />
+              <span className="boot-ring boot-ring--two" />
+              <span className="boot-ring boot-ring--three" />
+              <span className="boot-cube boot-cube--a" />
+              <span className="boot-cube boot-cube--b" />
+              <div className="boot-logo-shell">
+                <SiteLogo variant="icon" context="loader" englishAlt />
+              </div>
+            </div>
+            <div className="boot-copy">
+              <strong>يا هلا، ثواني ونجهّز لك رحلة تفتح النفس</strong>
+              <span>نرتّب المحتوى ونضبط تجربتك، وبعدها تدخل بثقة على خطوتك الجاية.</span>
+            </div>
+            <div className="boot-progress" aria-hidden="true" />
+          </div>
         </div>
       </>
     );

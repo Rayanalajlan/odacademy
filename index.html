@@ -14,7 +14,263 @@
 
     <meta name="theme-color" content="#0c0717" />
     <style>
-      html { background-color: #0c0717; }
+      html,
+      body,
+      #root {
+        min-height: 100%;
+        margin: 0;
+        background: #0c0717;
+      }
+
+      .od-initial-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        isolation: isolate;
+        padding: clamp(24px, 6vw, 72px);
+        text-align: center;
+        box-sizing: border-box;
+        color: #f8f4ff;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(167, 139, 250, .30), transparent 24%),
+          radial-gradient(circle at 82% 72%, rgba(56, 189, 248, .14), transparent 28%),
+          radial-gradient(circle at 18% 76%, rgba(236, 72, 153, .12), transparent 26%),
+          linear-gradient(180deg, #120a22 0%, #090412 100%);
+        perspective: 1100px;
+        font-family: "IBM Plex Sans Arabic", "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+      }
+
+      .od-initial-loader::before,
+      .od-initial-loader::after {
+        content: "";
+        position: absolute;
+        z-index: -2;
+        border-radius: 999px;
+        pointer-events: none;
+      }
+
+      .od-initial-loader::before {
+        width: clamp(300px, 52vw, 760px);
+        height: clamp(300px, 52vw, 760px);
+        top: 7%;
+        left: 50%;
+        translate: -50% 0;
+        background:
+          linear-gradient(135deg, rgba(139, 92, 246, .15), transparent 58%),
+          repeating-conic-gradient(from 16deg, rgba(196, 181, 253, .18) 0 7deg, transparent 7deg 18deg);
+        mask: radial-gradient(circle, transparent 42%, #000 43% 44%, transparent 45% 58%, #000 59% 60%, transparent 61%);
+        animation: odInitialOrbit 15s linear infinite;
+      }
+
+      .od-initial-loader::after {
+        width: 86vw;
+        max-width: 920px;
+        height: 280px;
+        bottom: -120px;
+        left: 50%;
+        translate: -50% 0;
+        background: radial-gradient(ellipse at center, rgba(139, 92, 246, .34), transparent 66%);
+        transform: rotateX(72deg);
+        filter: blur(2px);
+      }
+
+      .od-initial-stage {
+        position: relative;
+        width: min(540px, 92vw);
+        min-height: min(640px, 84svh);
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: clamp(18px, 4vw, 30px);
+        transform-style: preserve-3d;
+      }
+
+      .od-initial-visual {
+        position: relative;
+        width: clamp(220px, 42vw, 370px);
+        height: clamp(220px, 42vw, 370px);
+        display: grid;
+        place-items: center;
+        transform-style: preserve-3d;
+        animation: odInitialFloat 4.6s ease-in-out infinite;
+      }
+
+      .od-initial-ring {
+        position: absolute;
+        inset: 12%;
+        border-radius: 999px;
+        border: 1px solid rgba(196, 181, 253, .28);
+        box-shadow:
+          inset 0 0 26px rgba(167, 139, 250, .14),
+          0 0 34px rgba(124, 58, 237, .16);
+        transform-style: preserve-3d;
+      }
+
+      .od-initial-ring.one {
+        transform: rotateX(68deg) rotateZ(18deg);
+        animation: odInitialRingOne 7s linear infinite;
+      }
+
+      .od-initial-ring.two {
+        inset: 22%;
+        border-color: rgba(56, 189, 248, .25);
+        transform: rotateY(66deg) rotateZ(-22deg);
+        animation: odInitialRingTwo 8.5s linear infinite;
+      }
+
+      .od-initial-ring.three {
+        inset: 31%;
+        border-color: rgba(244, 114, 182, .22);
+        transform: rotateX(52deg) rotateY(42deg);
+        animation: odInitialRingThree 9s linear infinite;
+      }
+
+      .od-initial-logo {
+        position: relative;
+        width: clamp(142px, 25vw, 220px);
+        height: clamp(142px, 25vw, 220px);
+        display: grid;
+        place-items: center;
+        border-radius: 46px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .035)),
+          radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .22), transparent 35%);
+        border: 1px solid rgba(216, 204, 243, .28);
+        box-shadow:
+          0 34px 90px rgba(0, 0, 0, .38),
+          0 0 0 10px rgba(139, 92, 246, .055),
+          inset 0 1px 0 rgba(255, 255, 255, .18);
+        transform: translateZ(80px) rotateX(7deg) rotateY(-10deg);
+      }
+
+      .od-initial-logo img {
+        width: clamp(112px, 20vw, 180px);
+        height: clamp(112px, 20vw, 180px);
+        object-fit: contain;
+        display: block;
+        filter: drop-shadow(0 18px 26px rgba(139, 92, 246, .24));
+      }
+
+      .od-initial-cube {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, .28), rgba(167, 139, 250, .20)),
+          #7c3aed;
+        border: 1px solid rgba(255, 255, 255, .18);
+        box-shadow: 0 22px 42px rgba(0, 0, 0, .25);
+        transform-style: preserve-3d;
+        animation: odInitialCube 5.4s ease-in-out infinite;
+      }
+
+      .od-initial-cube.a {
+        top: 17%;
+        right: 14%;
+      }
+
+      .od-initial-cube.b {
+        bottom: 20%;
+        left: 13%;
+        width: 24px;
+        height: 24px;
+        border-radius: 9px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, .26), rgba(56, 189, 248, .22)),
+          #38bdf8;
+        animation-delay: -1.7s;
+      }
+
+      .od-initial-copy {
+        display: grid;
+        gap: 10px;
+        justify-items: center;
+        max-width: 640px;
+        transform: translateZ(42px);
+      }
+
+      .od-initial-copy strong {
+        margin: 0;
+        color: #fff;
+        font-size: clamp(26px, 5.8vw, 48px);
+        line-height: 1.35;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-shadow: 0 18px 38px rgba(0, 0, 0, .34);
+      }
+
+      .od-initial-copy span {
+        color: #d8ccf3;
+        font-size: clamp(15px, 3.2vw, 19px);
+        line-height: 1.9;
+        font-weight: 850;
+      }
+
+      .od-initial-progress {
+        position: relative;
+        width: min(320px, 70vw);
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(216, 204, 243, .14);
+        border: 1px solid rgba(216, 204, 243, .16);
+      }
+
+      .od-initial-progress::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 42%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #8b5cf6, #c4b5fd, #38bdf8);
+        box-shadow: 0 0 22px rgba(167, 139, 250, .42);
+        animation: odInitialProgress 1.8s ease-in-out infinite;
+      }
+
+      @keyframes odInitialFloat {
+        0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+        50% { transform: translateY(-12px) rotateX(4deg) rotateY(-5deg); }
+      }
+
+      @keyframes odInitialOrbit {
+        to { rotate: 360deg; }
+      }
+
+      @keyframes odInitialRingOne {
+        to { transform: rotateX(68deg) rotateZ(378deg); }
+      }
+
+      @keyframes odInitialRingTwo {
+        to { transform: rotateY(66deg) rotateZ(-382deg); }
+      }
+
+      @keyframes odInitialRingThree {
+        to { transform: rotateX(52deg) rotateY(42deg) rotateZ(360deg); }
+      }
+
+      @keyframes odInitialCube {
+        0%, 100% { transform: translateZ(44px) rotateX(18deg) rotateY(24deg); }
+        50% { transform: translateY(-16px) translateZ(88px) rotateX(54deg) rotateY(82deg); }
+      }
+
+      @keyframes odInitialProgress {
+        0% { transform: translateX(135%); }
+        50% { transform: translateX(0); }
+        100% { transform: translateX(-235%); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .od-initial-loader *,
+        .od-initial-loader::before,
+        .od-initial-progress::before {
+          animation: none !important;
+        }
+      }
     </style>
     <meta name="description" content="رحلة تعليمية في التطوير التنظيمي تساعدك على قراءة السلوك، فهم النظام، وتشخيص جذور المشكلات قبل القفز إلى الحلول." />
     <meta name="application-name" content="منسقة" />
@@ -66,7 +322,27 @@
         } catch (e) {}
       })();
     </script>
-    <div id="root"></div>
+    <div id="root">
+      <div class="od-initial-loader" role="status" aria-live="polite">
+        <div class="od-initial-stage">
+          <div class="od-initial-visual" aria-hidden="true">
+            <span class="od-initial-ring one"></span>
+            <span class="od-initial-ring two"></span>
+            <span class="od-initial-ring three"></span>
+            <span class="od-initial-cube a"></span>
+            <span class="od-initial-cube b"></span>
+            <div class="od-initial-logo">
+              <img src="/brand/munsaqah-icon-official.png" alt="شعار منسقة" />
+            </div>
+          </div>
+          <div class="od-initial-copy">
+            <strong>يا هلا، ثواني ونجهّز لك رحلة تفتح النفس</strong>
+            <span>نرتّب المحتوى ونضبط تجربتك، وبعدها تدخل بثقة على خطوتك الجاية.</span>
+          </div>
+          <div class="od-initial-progress" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
