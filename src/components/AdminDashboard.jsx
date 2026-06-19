@@ -463,6 +463,100 @@ export default function AdminDashboard() {
           gap: 12px;
         }
 
+        html[data-theme="dark"] body.od-theme-dark .admin-dashboard {
+          color: #f7f3fc;
+          background:
+            radial-gradient(circle at 10% 10%, rgba(168, 85, 247,.16), transparent 30%),
+            radial-gradient(circle at 90% 14%, rgba(124, 58, 237,.14), transparent 28%),
+            linear-gradient(180deg,#10091f 0%, #170d2c 54%, #0d0719 100%);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-hero {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(245,158,11,.18), transparent 34%),
+            linear-gradient(135deg, #18102e, #3b1d6e);
+          border: 1px solid rgba(196, 181, 253,.18);
+          box-shadow: 0 24px 70px rgba(0,0,0,.36);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-metric,
+        html[data-theme="dark"] body.od-theme-dark .admin-panel,
+        html[data-theme="dark"] body.od-theme-dark .admin-loading,
+        html[data-theme="dark"] body.od-theme-dark .admin-denied,
+        html[data-theme="dark"] body.od-theme-dark .admin-notice {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(168, 85, 247,.10), transparent 34%),
+            linear-gradient(180deg, rgba(35, 22, 62,.96), rgba(25, 14, 45,.96));
+          border-color: rgba(196, 181, 253,.22);
+          box-shadow: 0 18px 48px rgba(0,0,0,.28);
+          color: #e9ddff;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-metric span,
+        html[data-theme="dark"] body.od-theme-dark .admin-metric small,
+        html[data-theme="dark"] body.od-theme-dark .admin-row-head small,
+        html[data-theme="dark"] body.od-theme-dark .admin-row span,
+        html[data-theme="dark"] body.od-theme-dark .admin-empty,
+        html[data-theme="dark"] body.od-theme-dark .admin-form label {
+          color: #cdbcf8;
+          -webkit-text-fill-color: #cdbcf8;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-metric strong,
+        html[data-theme="dark"] body.od-theme-dark .admin-panel h2,
+        html[data-theme="dark"] body.od-theme-dark .admin-panel h3,
+        html[data-theme="dark"] body.od-theme-dark .admin-row-head strong {
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-row,
+        html[data-theme="dark"] body.od-theme-dark .admin-empty {
+          background: rgba(20, 12, 36,.82);
+          border-color: rgba(196, 181, 253,.18);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-row p {
+          color: #e9ddff;
+          -webkit-text-fill-color: #e9ddff;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-tabs button {
+          color: #d9cdf2;
+          -webkit-text-fill-color: #d9cdf2;
+          background: rgba(36, 22, 64,.92);
+          border-color: rgba(196, 181, 253,.20);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-tabs button.active {
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+          background: linear-gradient(135deg, #a855f7, #7c3aed);
+          border-color: transparent;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-soft-button {
+          color: #efe7ff;
+          -webkit-text-fill-color: #efe7ff;
+          background: rgba(167, 139, 250,.16);
+          border: 1px solid rgba(196, 181, 253,.22);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-form input,
+        html[data-theme="dark"] body.od-theme-dark .admin-form select,
+        html[data-theme="dark"] body.od-theme-dark .admin-form textarea {
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+          background: #10091f;
+          border-color: rgba(196, 181, 253,.24);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-form input::placeholder,
+        html[data-theme="dark"] body.od-theme-dark .admin-form textarea::placeholder {
+          color: #a99fce;
+          -webkit-text-fill-color: #a99fce;
+        }
+
         @media (max-width: 920px) {
           .admin-metrics,
           .admin-layout-2 {
