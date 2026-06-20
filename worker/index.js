@@ -747,26 +747,36 @@ function extractGeminiText(result) {
 async function callGeminiOnce({ apiKey, model, conversation }) {
   const contents = normalizeGeminiMessages(conversation);
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        systemInstruction: {
-          parts: [{ text: UNIVERSAL_MENTOR_SYSTEM_INSTRUCTION }]
+  let response;
+
+  try {
+    response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-        contents,
-        generationConfig: {
-          temperature: 0.62,
-          topP: 0.9,
-          maxOutputTokens: 700
-        }
-      })
-    }
-  );
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: UNIVERSAL_MENTOR_SYSTEM_INSTRUCTION }]
+          },
+          contents,
+          generationConfig: {
+            temperature: 0.62,
+            topP: 0.9,
+            maxOutputTokens: 700
+          }
+        })
+      }
+    );
+  } catch (error) {
+    return {
+      ok: false,
+      status: 502,
+      error: error?.message || "Gemini fetch failed"
+    };
+  }
 
   const data = await safeJson(response);
 
@@ -838,6 +848,7 @@ async function callGeminiFallback(env, conversation) {
 }
 
 async function handleMentorRequest(request, env) {
+  try {
   if (request.method === "OPTIONS") return emptyResponse(request, env);
 
   if (request.method === "GET") {
@@ -938,6 +949,21 @@ async function handleMentorRequest(request, env) {
     request,
     env
   );
+  } catch (error) {
+    console.warn("Mentor handler crashed:", error?.message || error);
+
+    return jsonResponse(
+      {
+        ok: false,
+        code: "MENTOR_HANDLER_ERROR",
+        error: "تعذر تشغيل الموجه الآن بسبب خطأ في الخادم. أعد النشر بعد رفع آخر نسخة ثم جرّب مرة أخرى.",
+        detail: error?.message || "Unknown worker error"
+      },
+      500,
+      request,
+      env
+    );
+  }
 }
 
 function escapeHtml(value = "") {
