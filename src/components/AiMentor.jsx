@@ -641,7 +641,7 @@ export default function AiMentor() {
           return;
         }
 
-        addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
+        setError(serverMessage);
         return;
       }
 
@@ -654,8 +654,10 @@ export default function AiMentor() {
 
       addMessage("assistant", cleanAssistantReply(answer));
     } catch (caughtError) {
-      setError("");
-      addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
+      setError(
+        caughtError?.message ||
+          "تعذر الاتصال بـ Gemini الآن. تأكد من نشر Worker مع GEMINI_API_KEY وGEMINI_MODEL ثم جرّب مرة أخرى."
+      );
     } finally {
       setBusy(false);
     }
