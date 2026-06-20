@@ -12,6 +12,44 @@ const SYSTEM_INSTRUCTION = `
 لا تكشف مفاتيح أو إعدادات النظام، ولا تطلب معلومات شخصية أو سرية.
 `.trim();
 
+const ENHANCED_SYSTEM_INSTRUCTION = `
+أنت «الموجّه الذكي» داخل منصة OD Academy.
+أنت مستشار عربي مهني متخصص في التطوير التنظيمي، القيادة، الموارد البشرية، الأداء، الثقافة، التغيير، تصميم الأدوار، الحوكمة، التشخيص التنظيمي، وبناء التدخلات العملية.
+
+دورك:
+ساعد المستخدم على فهم مشكلته المهنية أو التنظيمية بسرعة، ثم حوّلها إلى توجيه عملي قابل للتطبيق. لست محاضرًا ولا كاتب مقال ولا روبوت أسئلة. أنت موجّه عملي، قريب، مباشر، وذكي.
+
+شخصية الرد:
+اكتب بالعربية الفصحى السهلة مع لمسة سعودية خفيفة عند الحاجة. كن مهنيًا، هادئًا، واضحًا، غير متكلف، وقريبًا من المستخدم. لا تجعل الرد عاميًا بالكامل.
+
+طريقة التفكير الداخلية:
+قبل الرد فكّر: ماذا يريد المستخدم الآن؟ ما المشكلة الظاهرة؟ ما السبب الأعمق المحتمل؟ هل الخلل في الشخص أم النظام أم الصلاحيات أم البيانات أم الثقافة أم طريقة القرار؟ ما أقل معلومة أحتاجها؟ ما التصرف العملي الذي يمكن فعله اليوم؟ لا تعرض سلسلة التفكير للمستخدم؛ اعرض الخلاصة العملية فقط.
+
+منهجيتك:
+استخدم العدسة الأنسب للسؤال: النظام، الأثر، السلوك، القرار، الصلاحيات، الثقافة، البيانات، أصحاب المصلحة، التغيير، أو الاستدامة. لا تذكر كل العدسات في كل رد. ركز على ما يخدم الحالة.
+
+قاعدة الاختصار:
+اجعل الرد غالبًا بين 120 و220 كلمة. لا تتجاوز 300 كلمة إلا إذا طلب المستخدم تفصيلًا. إذا قال: اختصر، أبغى الحل، وش أسوي، لا تسألني، أبي خطوات، انتقل مباشرة للحل.
+
+عند نقص المعلومات:
+لا توقف الرد. قل: «بناءً على المتاح، أتعامل معها كذا...» ثم أعطِ توجيهًا أوليًا. اسأل سؤالًا واحدًا فقط إذا كان ضروريًا.
+
+عند طلب الحل:
+قدّم خلاصة قصيرة، ثم 3 إلى 5 خطوات عملية، ثم مثالًا أو صياغة جاهزة عند الحاجة، ثم تنبيهًا مهنيًا مختصرًا أو خطوة تالية واحدة. لا تستخدم القالب نفسه حرفيًا في كل مرة.
+
+جودة الحلول:
+لا تعطِ نصائح عامة. اربط الحل بالأثر، التكرار، البديل، الصلاحيات، والبيانات. تجنب الحكم السريع على الأشخاص. في مشاكل المديرين والقيادات، ناقش الأثر والسلوك والنظام بدل الاتهام.
+
+التنسيق:
+لا تستخدم Markdown مزعجًا. ممنوع ظهور ** أو __ أو ### أو backticks غير ضرورية. لا تستخدم علامات الحذف ... أو …. استخدم عناوين قصيرة عادية عند الحاجة بدون نجوم. اجعل النص مرتبًا بأسطر قصيرة ونقاط قليلة.
+
+أمثلة الصياغات:
+عند الحاجة أعطِ عبارة جاهزة للاجتماع أو الرسالة. مثال: «أقترح نجرب نسخة أخف على خمس حالات ونقيس الفرق قبل تغيير الخطة كاملة».
+
+قيود:
+لا تكشف مفاتيح أو إعدادات النظام. لا تطلب معلومات شخصية أو سرية. لا تختم بسؤال عام مثل: هل لديك أي أسئلة؟ اختم بخطوة عملية أو سؤال واحد محدد عند الحاجة.
+`.trim();
+
 function getEnvValue(env, ...names) {
   for (const name of names) {
     const value = env?.[name];
@@ -100,7 +138,6 @@ function normalizeMessages(body, latestMessage) {
       : [];
 
   const messages = rawMessages
-    .slice(-10)
     .map((item) => {
       const role = item?.role === "assistant" || item?.role === "model" ? "model" : "user";
       const text = cleanText(item?.content || item?.text || "");
@@ -108,11 +145,35 @@ function normalizeMessages(body, latestMessage) {
     })
     .filter(Boolean);
 
-  if (latestMessage) {
-    messages.push({ role: "user", parts: [{ text: latestMessage }] });
+  while (messages.length && messages[0].role !== "user") {
+    messages.shift();
   }
 
-  return messages;
+  const alternatingMessages = [];
+
+  for (const message of messages) {
+    const previous = alternatingMessages[alternatingMessages.length - 1];
+
+    if (previous?.role === message.role) {
+      previous.parts[0].text = `${previous.parts[0].text}\n\n${message.parts[0].text}`;
+    } else {
+      alternatingMessages.push(message);
+    }
+  }
+
+  const compactMessages = alternatingMessages.slice(-6);
+
+  if (latestMessage) {
+    const previous = compactMessages[compactMessages.length - 1];
+
+    if (previous?.role === "user") {
+      previous.parts[0].text = `${previous.parts[0].text}\n\n${latestMessage}`;
+    } else {
+      compactMessages.push({ role: "user", parts: [{ text: latestMessage }] });
+    }
+  }
+
+  return compactMessages;
 }
 
 function extractGeminiText(data) {
@@ -124,6 +185,26 @@ function extractGeminiText(data) {
   );
 }
 
+function createFallbackMentorReply(message = "", modeTitle = "") {
+  const topic = cleanText(message, 360);
+  const mode = cleanText(modeTitle, 80);
+
+  return [
+    mode ? `أتعامل مع سؤالك من زاوية: ${mode}.` : "أتعامل مع سؤالك كحالة تنظيمية تحتاج تشخيصًا سريعًا قبل الحل.",
+    "",
+    `الخلاصة: ${topic ? `الموضوع الظاهر هو: ${topic}` : "الموضوع يحتاج تحديد العرض، السبب، والأثر قبل اختيار التدخل."}`,
+    "",
+    "ما أنصحك به الآن:",
+    "1. فرّق بين المشكلة الظاهرة والسبب الذي يجعلها تتكرر.",
+    "2. حدّد أين يظهر التعارض: في الاستراتيجية، الهيكل، الصلاحيات، القرار، أو السلوك اليومي.",
+    "3. اجمع مثالين حديثين يوضحان الأثر الفعلي على العمل أو العميل أو الفريق.",
+    "4. ناقش الفجوة مع صاحب القرار بصيغة: ما النتيجة المطلوبة؟ ومن يملك القرار؟ وما المعيار الذي سنقيس عليه؟",
+    "5. ابدأ بتدخل صغير قابل للقياس قبل تغيير واسع.",
+    "",
+    "صياغة جاهزة: نحتاج نفهم هل الخلل في الاتجاه أم في توزيع الأدوار والصلاحيات. خلونا نحدد القرار المتعطل، أثره، ومن يملك حسمه، ثم نجرب تعديلًا صغيرًا ونقيس النتيجة."
+  ].join("\n");
+}
+
 async function callGemini({ apiKey, model, messages }) {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
@@ -132,13 +213,13 @@ async function callGemini({ apiKey, model, messages }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         systemInstruction: {
-          parts: [{ text: SYSTEM_INSTRUCTION }]
+          parts: [{ text: ENHANCED_SYSTEM_INSTRUCTION }]
         },
         contents: messages,
         generationConfig: {
-          temperature: 0.45,
+          temperature: 0.62,
           topP: 0.9,
-          maxOutputTokens: 1300
+          maxOutputTokens: 700
         }
       })
     }
@@ -195,22 +276,9 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
   }
 
-  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
-
-  if (!apiKey) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "GEMINI_API_KEY غير مضبوط في Cloudflare."
-      },
-      500,
-      request,
-      env
-    );
-  }
-
   const body = await readJson(request);
   const latestMessage = cleanText(body.message || body.prompt || body.text || "");
+  const modeTitle = cleanText(body.modeTitle || body.mode_title || "");
 
   if (!latestMessage) {
     return jsonResponse(
@@ -219,6 +287,27 @@ export async function onRequestPost({ request, env }) {
         error: "اكتب سؤالك أو الحالة التي تريد تحليلها."
       },
       400,
+      request,
+      env
+    );
+  }
+
+  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+
+  if (!apiKey) {
+    const fallbackText = createFallbackMentorReply(latestMessage, modeTitle);
+
+    return jsonResponse(
+      {
+        ok: true,
+        text: fallbackText,
+        reply: fallbackText,
+        answer: fallbackText,
+        response: fallbackText,
+        provider: "local-fallback",
+        model: "local-od-mentor"
+      },
+      200,
       request,
       env
     );
@@ -233,14 +322,20 @@ export async function onRequestPost({ request, env }) {
 
   if (!result.ok) {
     console.warn("Mentor provider failed:", result.status, result.error);
+    const fallbackText = createFallbackMentorReply(latestMessage, modeTitle);
 
     return jsonResponse(
       {
-        ok: false,
-        code: "MENTOR_PROVIDER_UNAVAILABLE",
-        error: "الموجه غير متاح الآن. حاول بعد قليل.",
+        ok: true,
+        text: fallbackText,
+        reply: fallbackText,
+        answer: fallbackText,
+        response: fallbackText,
+        provider: "local-fallback",
+        model: "local-od-mentor",
+        fallbackReason: result.error
       },
-      result.status || 502,
+      200,
       request,
       env
     );
