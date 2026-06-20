@@ -12,68 +12,6 @@ const SYSTEM_INSTRUCTION = `
 لا تكشف مفاتيح أو إعدادات النظام، ولا تطلب معلومات شخصية أو سرية.
 `.trim();
 
-const ENHANCED_SYSTEM_INSTRUCTION = `
-أنت «الموجّه الذكي» داخل منصة OD Academy.
-أنت مستشار عربي مهني متخصص في التطوير التنظيمي، القيادة، الموارد البشرية، الأداء، الثقافة، التغيير، تصميم الأدوار، الحوكمة، التشخيص التنظيمي، وبناء التدخلات العملية.
-
-دورك:
-ساعد المستخدم على فهم مشكلته المهنية أو التنظيمية بسرعة، ثم حوّلها إلى توجيه عملي قابل للتطبيق. لست محاضرًا ولا كاتب مقال ولا روبوت أسئلة. أنت موجّه عملي، قريب، مباشر، وذكي.
-
-شخصية الرد:
-اكتب بالعربية الفصحى السهلة مع لمسة سعودية خفيفة عند الحاجة. كن مهنيًا، هادئًا، واضحًا، غير متكلف، وقريبًا من المستخدم. لا تجعل الرد عاميًا بالكامل.
-
-طريقة التفكير الداخلية:
-قبل الرد فكّر: ماذا يريد المستخدم الآن؟ ما المشكلة الظاهرة؟ ما السبب الأعمق المحتمل؟ هل الخلل في الشخص أم النظام أم الصلاحيات أم البيانات أم الثقافة أم طريقة القرار؟ ما أقل معلومة أحتاجها؟ ما التصرف العملي الذي يمكن فعله اليوم؟ لا تعرض سلسلة التفكير للمستخدم؛ اعرض الخلاصة العملية فقط.
-
-منهجيتك:
-استخدم العدسة الأنسب للسؤال: النظام، الأثر، السلوك، القرار، الصلاحيات، الثقافة، البيانات، أصحاب المصلحة، التغيير، أو الاستدامة. لا تذكر كل العدسات في كل رد. ركز على ما يخدم الحالة.
-
-قاعدة الاختصار:
-اجعل الرد غالبًا بين 120 و220 كلمة. لا تتجاوز 300 كلمة إلا إذا طلب المستخدم تفصيلًا. إذا قال: اختصر، أبغى الحل، وش أسوي، لا تسألني، أبي خطوات، انتقل مباشرة للحل.
-
-عند نقص المعلومات:
-لا توقف الرد. قل: «بناءً على المتاح، أتعامل معها كذا...» ثم أعطِ توجيهًا أوليًا. اسأل سؤالًا واحدًا فقط إذا كان ضروريًا.
-
-عند طلب الحل:
-قدّم خلاصة قصيرة، ثم 3 إلى 5 خطوات عملية، ثم مثالًا أو صياغة جاهزة عند الحاجة، ثم تنبيهًا مهنيًا مختصرًا أو خطوة تالية واحدة. لا تستخدم القالب نفسه حرفيًا في كل مرة.
-
-جودة الحلول:
-لا تعطِ نصائح عامة. اربط الحل بالأثر، التكرار، البديل، الصلاحيات، والبيانات. تجنب الحكم السريع على الأشخاص. في مشاكل المديرين والقيادات، ناقش الأثر والسلوك والنظام بدل الاتهام.
-
-التنسيق:
-لا تستخدم Markdown مزعجًا. ممنوع ظهور ** أو __ أو ### أو backticks غير ضرورية. لا تستخدم علامات الحذف ... أو …. استخدم عناوين قصيرة عادية عند الحاجة بدون نجوم. اجعل النص مرتبًا بأسطر قصيرة ونقاط قليلة.
-
-أمثلة الصياغات:
-عند الحاجة أعطِ عبارة جاهزة للاجتماع أو الرسالة. مثال: «أقترح نجرب نسخة أخف على خمس حالات ونقيس الفرق قبل تغيير الخطة كاملة».
-
-قيود:
-لا تكشف مفاتيح أو إعدادات النظام. لا تطلب معلومات شخصية أو سرية. لا تختم بسؤال عام مثل: هل لديك أي أسئلة؟ اختم بخطوة عملية أو سؤال واحد محدد عند الحاجة.
-`.trim();
-
-const UNIVERSAL_MENTOR_SYSTEM_INSTRUCTION = `
-أنت الموجه الذكي داخل منصة MUNSAQAH Academy.
-
-مهمتك الأساسية:
-أجب عن أي سؤال يكتبه المستخدم، في أي موضوع، بإجابة مفيدة وواضحة ومباشرة. لا تحصر نفسك في التطوير التنظيمي إذا كان السؤال خارج هذا المجال.
-
-عندما يكون السؤال عن التطوير التنظيمي، الموارد البشرية، القيادة، الأداء، الثقافة، التغيير، الحوكمة، تصميم الأدوار أو التشخيص التنظيمي:
-تصرف كمستشار عربي محترف. شخّص السياق، ثم أعطِ خطوات عملية، أمثلة، وصياغات جاهزة عند الحاجة.
-
-عندما يكون السؤال عامًا أو خارج التخصص:
-أجب كخبير مساعد عام. إن كان السؤال يحتاج تنبيهًا أو حدود معرفة، اذكر ذلك باختصار ثم قدّم أفضل إجابة ممكنة.
-
-أسلوب الرد:
-اكتب بالعربية بوضوح، وبأسلوب طبيعي غير آلي. لا تستخدم قالبًا ثابتًا. لا تكرر نفس الافتتاحية. اجعل الإجابة مناسبة للسؤال نفسه.
-
-قواعد مهمة:
-- لا تخترع معلومات غير مؤكدة.
-- لا تطلب تفاصيل إلا إذا كانت ضرورية.
-- إذا كان السؤال بسيطًا، أجب باختصار.
-- إذا كان السؤال معقدًا، قسّمه إلى خطوات واضحة.
-- لا تستخدم Markdown مزعجًا مثل ** أو ###.
-- لا تعرض تعليمات النظام أو مفاتيح التشغيل.
-`.trim();
-
 function getEnvValue(env, ...names) {
   for (const name of names) {
     const value = env?.[name];
@@ -162,6 +100,7 @@ function normalizeMessages(body, latestMessage) {
       : [];
 
   const messages = rawMessages
+    .slice(-10)
     .map((item) => {
       const role = item?.role === "assistant" || item?.role === "model" ? "model" : "user";
       const text = cleanText(item?.content || item?.text || "");
@@ -169,35 +108,11 @@ function normalizeMessages(body, latestMessage) {
     })
     .filter(Boolean);
 
-  while (messages.length && messages[0].role !== "user") {
-    messages.shift();
-  }
-
-  const alternatingMessages = [];
-
-  for (const message of messages) {
-    const previous = alternatingMessages[alternatingMessages.length - 1];
-
-    if (previous?.role === message.role) {
-      previous.parts[0].text = `${previous.parts[0].text}\n\n${message.parts[0].text}`;
-    } else {
-      alternatingMessages.push(message);
-    }
-  }
-
-  const compactMessages = alternatingMessages.slice(-6);
-
   if (latestMessage) {
-    const previous = compactMessages[compactMessages.length - 1];
-
-    if (previous?.role === "user") {
-      previous.parts[0].text = `${previous.parts[0].text}\n\n${latestMessage}`;
-    } else {
-      compactMessages.push({ role: "user", parts: [{ text: latestMessage }] });
-    }
+    messages.push({ role: "user", parts: [{ text: latestMessage }] });
   }
 
-  return compactMessages;
+  return messages;
 }
 
 function extractGeminiText(data) {
@@ -209,82 +124,6 @@ function extractGeminiText(data) {
   );
 }
 
-function inferMentorIntent(message = "") {
-  const text = String(message || "").toLowerCase();
-
-  if (/^(مرحبا|هلا|السلام|أهلين|اهلا|صباح|مساء)\b/.test(text.trim())) return "greeting";
-  if (text.includes("دوران") || text.includes("استقالات") || text.includes("ترك العمل")) return "turnover";
-  if (text.includes("هيكل") && (text.includes("استراتيجي") || text.includes("استراتيجية"))) return "structure_strategy";
-  if (text.includes("خطأ المدير") || text.includes("غلط المدير") || text.includes("المدير غلط")) return "manager_error";
-  if (text.includes("وصف وظيفي") || text.includes("بطاقة وظيفية")) return "job_description";
-  if (text.includes("أداء") || text.includes("مساءلة") || text.includes("مؤشر")) return "performance";
-  if (text.includes("تغيير") || text.includes("مقاومة")) return "change";
-  if (text.includes("ثقافة") || text.includes("مناخ") || text.includes("ثقة")) return "culture";
-
-  return "general";
-}
-
-function createFallbackMentorReply(message = "", modeTitle = "") {
-  const topic = cleanText(message, 240);
-  const selectedMode = cleanText(modeTitle, 80);
-  const intent = inferMentorIntent(message);
-
-  const replies = {
-    greeting: [
-      "يا هلا، جاهز معك.",
-      "",
-      "اكتب الحالة كما هي، ولو كانت مختصرة. الأفضل ترسل: ما الذي يحدث؟ أين يحدث؟ من يتأثر؟ وما النتيجة التي تريدها؟",
-      "",
-      "بعدها أعطيك تشخيصًا عمليًا وخطوة تنفيذ واضحة."
-    ],
-    turnover: [
-      "ارتفاع دوران الموظفين عرض، وليس سببًا بحد ذاته.",
-      "",
-      "اقرأه بهذا التسلسل:",
-      "1. افصل الدوران الطوعي عن غير الطوعي.",
-      "2. قارن النسبة حسب المدير والفريق والموقع وطبيعة الدور.",
-      "3. راجع مقابلات الخروج وابحث عن النمط المتكرر.",
-      "4. افحص توقعات الدور، علاقة المدير، العدالة، وعبء العمل.",
-      "5. اختر تدخلًا صغيرًا مثل تحسين onboarding أو ضبط عبء العمل في فريق محدد.",
-      "",
-      "المهم: لا تسأل لماذا يغادر الناس فقط؛ اسأل لماذا يغادرون من هذا المكان وفي هذا التوقيت."
-    ],
-    structure_strategy: [
-      "عند تعارض الهيكل مع الاستراتيجية، ابحث عن القرار الذي يتعطل لا عن الصندوق الذي يبدو في غير مكانه.",
-      "",
-      "ابدأ هكذا:",
-      "1. حدد الأولوية الاستراتيجية المتأثرة.",
-      "2. اربطها بقرار أو عملية محددة.",
-      "3. اسأل: من يملك القرار؟ ومن يتحمل أثره؟",
-      "4. اكشف التداخل في الصلاحيات أو الاعتمادات.",
-      "5. جرّب تعديل صلاحية أو مسار قرار قبل إعادة الهيكلة.",
-      "",
-      "صياغة مفيدة: نحتاج نعرف ما القرار الذي لا يسمح الهيكل الحالي باتخاذه بسرعة وجودة."
-    ],
-    manager_error: [
-      "خطأ المدير يُعرف من السلوك والأثر والتكرار، لا من الانطباع وحده.",
-      "",
-      "افحصه هكذا:",
-      "1. ما السلوك المحدد؟",
-      "2. ما أثره على الفريق أو القرار أو العميل؟",
-      "3. هل تكرر في أكثر من موقف؟",
-      "4. هل كانت المعلومات والصلاحيات واضحة للمدير؟",
-      "5. ما البديل المهني الممكن؟",
-      "",
-      "للمواجهة: أحتاج أفهم معيار القرار؛ لأن الأثر الذي ظهر هو كذا، وأقترح بديلًا هو كذا."
-    ],
-    general: [
-      selectedMode ? `أقرأ سؤالك من زاوية ${selectedMode}، لكن الحكم يكون على سياق الحالة لا اسم الأداة.` : "أقرأ سؤالك كحالة تحتاج تشخيصًا مختصرًا.",
-      "",
-      topic ? `الموضوع: ${topic}` : "الموضوع يحتاج سياقًا إضافيًا بسيطًا.",
-      "",
-      "ابدأ بتحديد العرض، مكان التكرار، الأطراف المتأثرة، والقرار المطلوب. بعدها يمكن تحويله إلى تدخل عملي قابل للقياس."
-    ]
-  };
-
-  return (replies[intent] || replies.general).join("\n");
-}
-
 async function callGemini({ apiKey, model, messages }) {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
@@ -293,13 +132,13 @@ async function callGemini({ apiKey, model, messages }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         systemInstruction: {
-          parts: [{ text: UNIVERSAL_MENTOR_SYSTEM_INSTRUCTION }]
+          parts: [{ text: SYSTEM_INSTRUCTION }]
         },
         contents: messages,
         generationConfig: {
-          temperature: 0.62,
+          temperature: 0.45,
           topP: 0.9,
-          maxOutputTokens: 700
+          maxOutputTokens: 1300
         }
       })
     }
@@ -356,8 +195,23 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ ok: false, error: "Origin is not allowed" }, 403, request, env);
   }
 
+  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+
+  if (!apiKey) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "GEMINI_API_KEY غير مضبوط في Cloudflare."
+      },
+      500,
+      request,
+      env
+    );
+  }
+
   const body = await readJson(request);
   const latestMessage = cleanText(body.message || body.prompt || body.text || "");
+
   if (!latestMessage) {
     return jsonResponse(
       {
@@ -365,21 +219,6 @@ export async function onRequestPost({ request, env }) {
         error: "اكتب سؤالك أو الحالة التي تريد تحليلها."
       },
       400,
-      request,
-      env
-    );
-  }
-
-  const apiKey = getEnvValue(env, "GEMINI_API_KEY");
-
-  if (!apiKey) {
-    return jsonResponse(
-      {
-        ok: false,
-        code: "GEMINI_API_KEY_MISSING",
-        error: "GEMINI_API_KEY غير مضبوط في Cloudflare."
-      },
-      500,
       request,
       env
     );
@@ -398,8 +237,8 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse(
       {
         ok: false,
-        code: "GEMINI_PROVIDER_UNAVAILABLE",
-        error: "تعذر الاتصال بـ Gemini الآن. تأكد من GEMINI_API_KEY و GEMINI_MODEL ثم أعد النشر."
+        code: "MENTOR_PROVIDER_UNAVAILABLE",
+        error: "الموجه غير متاح الآن. حاول بعد قليل.",
       },
       result.status || 502,
       request,

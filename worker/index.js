@@ -409,81 +409,26 @@ function cleanUserMessage(message) {
     .slice(0, 6000);
 }
 
-function isStarterAssistantMessage(item) {
-  if (!item || item.role !== "assistant") return false;
-
-  const content = cleanUserMessage(item.content || item.text || "");
-
-  return (
-    content === "اختر الأداة المناسبة أو اكتب سؤالك مباشرة. سأتعامل مع طلبك كمسألة عمل: أوضح لك المنهجية، أعطيك خطوات قابلة للتنفيذ، ثم أختم بأسئلة تضبط التطبيق على حالتك." ||
-    content === "أبشر، اكتب سؤالك كما هو. بعطيك خلاصة عملية، خطوات مختصرة، ومثال يساعدك تطبق. وإذا احتجت تفاصيل بسألك سؤال واحد يضبط الاتجاه."
-  );
-}
-
 function normalizeMessages(rawMessages, latestMessage) {
   const messages = Array.isArray(rawMessages) ? rawMessages : [];
 
   const normalized = messages
     .slice(-12)
     .map((item) => {
-      const role = item?.role === "assistant" || item?.role === "model" ? "assistant" : "user";
+      const role = item?.role === "assistant" ? "assistant" : "user";
       const content = cleanUserMessage(item?.content || item?.text || "");
       return content ? { role, content } : null;
     })
-    .filter((item) => item && !isStarterAssistantMessage(item));
+    .filter(Boolean);
 
-  while (normalized.length && normalized[0].role !== "user") {
-    normalized.shift();
+  if (latestMessage && !normalized.some((item) => item.content === latestMessage)) {
+    normalized.push({
+      role: "user",
+      content: latestMessage
+    });
   }
 
-  const conversation = [];
-
-  for (const item of normalized) {
-    const previous = conversation[conversation.length - 1];
-
-    if (previous?.role === item.role) {
-      previous.content = `${previous.content}\n\n${item.content}`;
-    } else {
-      conversation.push(item);
-    }
-  }
-
-  if (latestMessage) {
-    const previous = conversation[conversation.length - 1];
-
-    if (previous?.role === "user") {
-      if (!previous.content.includes(latestMessage)) {
-        previous.content = `${previous.content}\n\n${latestMessage}`;
-      }
-    } else {
-      conversation.push({
-        role: "user",
-        content: latestMessage
-      });
-    }
-  }
-
-  return conversation.slice(-12);
-}
-
-function createLocalMentorReply(message = "", modeTitle = "") {
-  const topic = cleanUserMessage(message).slice(0, 360);
-  const mode = cleanUserMessage(modeTitle).slice(0, 100);
-
-  return [
-    mode ? `أتعامل مع سؤالك من زاوية: ${mode}.` : "أتعامل مع سؤالك كحالة تنظيمية تحتاج تشخيصًا سريعًا قبل الحل.",
-    "",
-    topic ? `الخلاصة: الموضوع الظاهر هو: ${topic}` : "الخلاصة: نحتاج تحديد العرض المتكرر والسبب المحتمل قبل اختيار التدخل.",
-    "",
-    "ما أنصحك به الآن:",
-    "1. افصل بين العرض الظاهر والسبب الذي يجعل المشكلة تتكرر.",
-    "2. حدّد أين يقع الخلل: الاستراتيجية، الهيكل، الصلاحيات، القرار، البيانات، أو السلوك اليومي.",
-    "3. اجمع مثالين حديثين يوضحان الأثر الفعلي على العمل أو العميل أو الفريق.",
-    "4. ناقش القرار المتعطل بصيغة: ما النتيجة المطلوبة؟ من يملك القرار؟ وما المعيار الذي يحسم الأولوية؟",
-    "5. ابدأ بتدخل صغير قابل للقياس قبل أي تغيير واسع.",
-    "",
-    "صياغة جاهزة: نحتاج نفهم هل الخلل في الاتجاه أم في توزيع الأدوار والصلاحيات. خلونا نحدد القرار المتعطل، أثره، ومن يملك حسمه، ثم نجرب تعديلًا صغيرًا ونقيس النتيجة."
-  ].join("\n");
+  return normalized;
 }
 
 function extractAiText(result) {
@@ -732,7 +677,6 @@ async function handleMentorRequest(request, env) {
 
   const body = parsedBody.data || {};
   const latestMessage = cleanUserMessage(body.message || body.prompt || body.text || "");
-  const modeTitle = cleanUserMessage(body.modeTitle || body.mode_title || body.modeName || "");
 
   if (!latestMessage) {
     return jsonResponse(
@@ -746,7 +690,7 @@ async function handleMentorRequest(request, env) {
     );
   }
 
-  const conversation = normalizeMessages(body.messages || body.history, latestMessage);
+  const conversation = normalizeMessages(body.messages, latestMessage);
 
   let result = await callWorkersAi(env, conversation);
 
@@ -758,21 +702,13 @@ async function handleMentorRequest(request, env) {
   if (!result.ok) {
     console.warn("Mentor provider failed:", result.error || result.errors);
 
-    const fallbackText = createLocalMentorReply(latestMessage, modeTitle);
-
     return jsonResponse(
       {
-        ok: true,
-        reply: fallbackText,
-        text: fallbackText,
-        answer: fallbackText,
-        response: fallbackText,
-        provider: "local-fallback",
-        model: "local-od-mentor",
-        fallback: true,
-        fallbackReason: "provider-unavailable"
+        ok: false,
+        code: "MENTOR_PROVIDER_UNAVAILABLE",
+        error: "الموجه غير متاح الآن. فيه ضغط على المختبر الذكي، جرّب بعد قليل."
       },
-      200,
+      503,
       request,
       env
     );
@@ -783,8 +719,6 @@ async function handleMentorRequest(request, env) {
       ok: true,
       reply: result.text,
       text: result.text,
-      answer: result.text,
-      response: result.text,
       provider: result.provider,
       model: result.model
     },

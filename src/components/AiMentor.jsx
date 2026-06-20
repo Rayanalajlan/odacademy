@@ -9,48 +9,48 @@ const THINKING_MODES = [
     title: "بناء وصف وظيفي",
     subtitle: "من الغرض إلى المخرجات والصلاحيات والمؤشرات",
     prompt:
-      "أريد وصفًا وظيفيًا عمليًا. أعطني خلاصة، 3 إلى 5 خطوات، قالبًا مختصرًا، ومثالًا قريبًا من الواقع. اسأل سؤالًا واحدًا فقط إذا كان ضروريًا.",
-    badge: "1"
+      "أريد بناء وصف وظيفي احترافي لدور عام. أعطني منهجية كاملة، قالبًا جاهزًا، وأخطاء يجب تجنبها.",
+    badge: "JD"
   },
   {
     id: "org_diagnosis",
     title: "تشخيص مشكلة تنظيمية",
     subtitle: "عرض، نمط، فرضيات، بيانات، قرار",
     prompt:
-      "لدي مشكلة تنظيمية. شخّصها باختصار من زاوية العرض، النمط، السبب المحتمل، البيانات المطلوبة، وأول تدخل عملي. لا تطل ولا تسأل أكثر من سؤال واحد.",
-    badge: "2"
+      "لدي مشكلة تنظيمية وأريد تشخيصها بمنهجية واضحة: العرض الظاهر، النمط، الفرضيات، البيانات المطلوبة، والتدخل المحتمل.",
+    badge: "DX"
   },
   {
     id: "intervention_design",
     title: "تصميم تدخل",
     subtitle: "تدخل متدرج لا يقفز فوق التشخيص",
     prompt:
-      "أريد تصميم تدخل تنظيمي عملي بعد التشخيص. أعطني خطوات قصيرة، تجربة صغيرة، مؤشرات أثر، وخطرًا مهنيًا يجب الانتباه له.",
-    badge: "3"
+      "بعد التشخيص، أريد تصميم تدخل تنظيمي متدرج مع المخاطر ومؤشرات قياس الأثر.",
+    badge: "OD"
   },
   {
     id: "change",
     title: "إدارة تغيير",
     subtitle: "رسائل، مقاومة، أصحاب مصلحة، تثبيت",
     prompt:
-      "أريد التعامل مع مقاومة تغيير. أعطني خلاصة عملية، قراءة مختصرة للمقاومة، خطة تواصل من 3 إلى 5 خطوات، وصياغة جاهزة عند الحاجة.",
-    badge: "4"
+      "أريد التعامل مع مقاومة تغيير. ساعدني على فهم الأطراف، أسباب المقاومة، خطة التواصل، ومؤشرات الاستدامة.",
+    badge: "CH"
   },
   {
     id: "performance",
     title: "أداء ومساءلة",
     subtitle: "أهداف، مؤشرات، تغذية راجعة، سلوك",
     prompt:
-      "أريد تحليل مشكلة أداء دون لوم الموظف. أعطني تشخيصًا مختصرًا، خطوات عملية، مؤشرًا مناسبًا، وسلوكًا واحدًا نبدأ بتعديله.",
-    badge: "5"
+      "أريد تحليل مشكلة أداء دون اختزالها في الموظف. ساعدني على قراءة الأهداف، المؤشرات، السلوك، والبيئة.",
+    badge: "PM"
   },
   {
     id: "culture",
     title: "ثقافة ومناخ",
     subtitle: "ثقة، صمت تنظيمي، سلوك متكرر",
     prompt:
-      "أريد قراءة مشكلة ثقافة أو مناخ تنظيمي. أعطني خلاصة، السلوك المتكرر، ما يكشفه عن النظام، وتدخلًا صغيرًا يمكن تجربته.",
-    badge: "6"
+      "أريد قراءة مشكلة ثقافية أو مناخ تنظيمي: ما السلوك المتكرر؟ ما الرسائل غير المعلنة؟ وكيف أقيسه؟",
+    badge: "CL"
   }
 ];
 
@@ -63,12 +63,6 @@ const STARTER_MESSAGE = {
 
 const QUOTA_MESSAGE =
   "المختبر مزدحم اليوم ووصل إلى الحد المتاح من تشغيل الذكاء الاصطناعي. ارجع بعد تجدد الحصة وسنكمل من نفس المحادثة؛ محفوظة هنا ولن تضيع.";
-
-const FRIENDLY_STARTER_MESSAGE = {
-  ...STARTER_MESSAGE,
-  content:
-    "أبشر، اكتب سؤالك كما هو. بعطيك خلاصة عملية، خطوات مختصرة، ومثال يساعدك تطبق. وإذا احتجت تفاصيل بسألك سؤال واحد يضبط الاتجاه."
-};
 
 function makeId(prefix = "id") {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -185,84 +179,6 @@ function isQuotaMessage(errorMessage = "") {
   );
 }
 
-function cleanAssistantReply(value = "") {
-  return String(value || "")
-    .replace(/\r\n/g, "\n")
-    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
-    .replace(/\*\*/g, "")
-    .replace(/__/g, "")
-    .replace(/`{1,3}/g, "")
-    .replace(/\.{3,}/g, ".")
-    .replace(/…/g, ".")
-    .replace(/[ \t]+([،؛؟.!])/g, "$1")
-    .replace(/([،؛؟.!])(?=\S)/g, "$1 ")
-    .replace(/\n{3,}/g, "\n\n")
-    .replace(/[ \t]{2,}/g, " ")
-    .trim();
-}
-
-function isStarterAssistantMessage(item) {
-  if (!item || item.role !== "assistant") return false;
-
-  const content = String(item.content || "").trim();
-
-  return (
-    item.id === STARTER_MESSAGE.id ||
-    content === STARTER_MESSAGE.content ||
-    content === FRIENDLY_STARTER_MESSAGE.content
-  );
-}
-
-function serializeMentorHistory(messages = []) {
-  const normalized = Array.isArray(messages)
-    ? messages
-        .filter((item) => !isStarterAssistantMessage(item))
-        .map((item) => {
-          const role = item?.role === "assistant" ? "assistant" : "user";
-          const content = String(item?.content || "").trim();
-          return content ? { role, content } : null;
-        })
-        .filter(Boolean)
-    : [];
-
-  while (normalized.length && normalized[0].role !== "user") {
-    normalized.shift();
-  }
-
-  const compact = [];
-
-  for (const item of normalized) {
-    const previous = compact[compact.length - 1];
-
-    if (previous?.role === item.role) {
-      previous.content = `${previous.content}\n\n${item.content}`;
-    } else {
-      compact.push(item);
-    }
-  }
-
-  return compact.slice(-8);
-}
-
-function createLocalMentorReply(message = "", modeTitle = "") {
-  const topic = String(message || "").trim().slice(0, 220);
-  const mode = String(modeTitle || "").trim();
-
-  return [
-    mode ? `أتعامل مع سؤالك من زاوية: ${mode}.` : "أتعامل مع سؤالك كحالة تنظيمية تحتاج تشخيصًا سريعًا.",
-    "",
-    topic ? `الخلاصة: السؤال يدور حول ${topic}.` : "الخلاصة: نحتاج تحديد العرض المتكرر قبل اختيار التدخل.",
-    "",
-    "الخطوة العملية:",
-    "1. حدّد أين يظهر التعارض بالضبط: هدف، هيكل، صلاحية، قرار، أو سلوك.",
-    "2. اكتب مثالين حديثين يوضحان أثر التعارض على العمل.",
-    "3. اسأل: من يملك القرار؟ وما المعيار الذي يحسم الأولوية؟",
-    "4. جرّب تعديلًا صغيرًا قابلًا للقياس قبل أي تغيير كبير.",
-    "",
-    "صياغة جاهزة: خلونا نفصل بين التعارض في الاتجاه والتعارض في الصلاحيات. إذا عرفنا القرار المتعطل ومن يملكه، نقدر نختبر حلًا صغيرًا ونقيس أثره."
-  ].join("\n");
-}
-
 function makeSession(modeId = "job_description") {
   const timestamp = nowIso();
 
@@ -272,7 +188,7 @@ function makeSession(modeId = "job_description") {
     modeId,
     createdAt: timestamp,
     updatedAt: timestamp,
-    messages: [FRIENDLY_STARTER_MESSAGE]
+    messages: [STARTER_MESSAGE]
   };
 }
 
@@ -464,7 +380,7 @@ export default function AiMentor() {
   function clearActiveSession() {
     updateActiveSession((session) => ({
       title: "جلسة جديدة",
-      messages: [FRIENDLY_STARTER_MESSAGE],
+      messages: [STARTER_MESSAGE],
       modeId: session.modeId || "job_description"
     }));
 
@@ -494,7 +410,10 @@ export default function AiMentor() {
     addMessage("user", message, { retitle: true });
 
     try {
-      const compactHistory = serializeMentorHistory(previousMessages);
+      const compactHistory = previousMessages.slice(-8).map((item) => ({
+        role: item.role,
+        content: item.content
+      }));
 
       const response = await fetch("/api/mentor", {
         method: "POST",
@@ -505,6 +424,7 @@ export default function AiMentor() {
           message,
           mode: activeMode?.id,
           modeTitle: activeMode?.title,
+          history: compactHistory,
           messages: compactHistory
         })
       });
@@ -550,8 +470,7 @@ export default function AiMentor() {
           return;
         }
 
-        addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
-        return;
+        throw new Error(serverMessage);
       }
 
       const answer =
@@ -561,10 +480,16 @@ export default function AiMentor() {
         data?.text ||
         "وصلني طلبك، لكن الرد لم يكن واضحًا. أعد صياغته بتفاصيل أكثر.";
 
-      addMessage("assistant", cleanAssistantReply(answer));
+      addMessage("assistant", answer);
     } catch (caughtError) {
-      setError("");
-      addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
+      const messageFromError =
+        caughtError?.message || "تعذر تشغيل الموجه الآن.";
+
+      setError(messageFromError);
+      addMessage(
+        "assistant",
+        "واجهتني مشكلة تقنية أثناء قراءة الطلب. جرّب مرة أخرى بعد قليل، أو اختصره في نقاط: ما الدور أو المشكلة؟ ما السياق؟ وما النتيجة المطلوبة؟"
+      );
     } finally {
       setBusy(false);
     }
@@ -897,8 +822,6 @@ export default function AiMentor() {
 
         .message-bubble {
           white-space: pre-wrap;
-          overflow-wrap: anywhere;
-          word-break: normal;
           border-radius: 24px;
           padding: 14px 16px;
           line-height: 1.95;
@@ -914,9 +837,6 @@ export default function AiMentor() {
         }
 
         .message.assistant .message-bubble {
-          direction: rtl;
-          text-align: right;
-          unicode-bidi: plaintext;
           color: #281748;
           background: #fff;
           border: 1px solid rgba(167, 139, 250,.22);
