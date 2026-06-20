@@ -20,8 +20,8 @@ const MAX_EMAIL_REQUEST_BYTES = 4 * 1024;
 const DEFAULT_LLAMA_DRAFT_MODEL = "@cf/meta/llama-3-8b-instruct";
 const DEFAULT_LLAMA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 const DEFAULT_LLAMA_EXTRA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct";
-const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
-const MENTOR_BACKEND_VERSION = "mentor-v3-2026-06-20-gemini-final-debug";
+const DEFAULT_GEMINI_MODEL = "gemini-3.5-flash";
+const MENTOR_BACKEND_VERSION = "mentor-v4-2026-06-20-gemini-model-fallback";
 
 const MENTOR_TIMEOUTS = {
   llamaMs: 22000,
@@ -787,13 +787,15 @@ function getGeminiModels(env) {
   const primary = getEnvValue(env, "GEMINI_MODEL") || DEFAULT_GEMINI_MODEL;
   const configuredList = splitEnvList(getEnvValue(env, "GEMINI_MODELS"));
 
+  // لا نعتمد على موديل واحد فقط؛ لأن أسماء النماذج تتغير بمرور الوقت وقد تكون بعض النماذج غير مفعلة على مفتاح معين.
+  // نبدأ بالمتغير الموجود عندك، ثم نجرب نماذج مستقرة/حديثة، ثم نماذج 2.5 الاحتياطية.
   return uniqueList([
     primary,
     ...configuredList,
+    "gemini-3.5-flash",
+    "gemini-3-flash",
     "gemini-2.5-flash",
-    "gemini-2.5-flash-lite",
-    "gemini-2.0-flash",
-    "gemini-1.5-flash"
+    "gemini-2.5-flash-lite"
   ]);
 }
 
@@ -985,7 +987,9 @@ async function callGeminiFinalWithFallback(env, conversation, latestMessage, lla
       error: result.error
     });
 
-    if (![0, 429, 500, 502, 503, 504].includes(Number(result.status))) {
+    // إذا كان الخطأ بسبب موديل غير متاح/اسم غير صحيح/حصة مؤقتة، جرّب الموديل التالي.
+    // توقف فقط عند مشاكل المفتاح أو الصلاحية لأنها لن تُحل بتغيير الموديل.
+    if ([401, 403].includes(Number(result.status))) {
       break;
     }
   }
@@ -1038,6 +1042,7 @@ async function handleMentorDiagnostics(request, env) {
     workersAiBindingPresent: Boolean(env?.AI && typeof env.AI.run === "function"),
     geminiKeyPresent: Boolean(getEnvValue(env, "GEMINI_API_KEY")),
     geminiModel: primaryGeminiModel,
+    geminiModelsToTry: getGeminiModels(env),
     workersAiTest: null,
     geminiTest: null
   };
@@ -1060,17 +1065,31 @@ async function handleMentorDiagnostics(request, env) {
     if (!apiKey) {
       diagnostics.geminiTest = { ok: false, error: "GEMINI_API_KEY غير موجود." };
     } else {
-      const geminiResult = await callGeminiOnce({
-        apiKey,
-        model: primaryGeminiModel,
-        conversation: [{ role: "user", content: "اختبار اتصال مختصر." }],
-        latestMessage: "اكتب جملة عربية واحدة تقول إن Gemini متصل بالموجه الذكي.",
-        llamaDraft: ""
-      });
+      const attempts = [];
 
-      diagnostics.geminiTest = geminiResult.ok
-        ? { ok: true, model: geminiResult.model, sample: geminiResult.text.slice(0, 220) }
-        : { ok: false, model: primaryGeminiModel, status: geminiResult.status, error: geminiResult.error };
+      for (const model of getGeminiModels(env)) {
+        const geminiResult = await callGeminiOnce({
+          apiKey,
+          model,
+          conversation: [{ role: "user", content: "اختبار اتصال مختصر." }],
+          latestMessage: "اكتب جملة عربية واحدة تقول إن Gemini متصل بالموجه الذكي.",
+          llamaDraft: ""
+        });
+
+        attempts.push(
+          geminiResult.ok
+            ? { ok: true, model: geminiResult.model, sample: geminiResult.text.slice(0, 220) }
+            : { ok: false, model, status: geminiResult.status, error: geminiResult.error }
+        );
+
+        if (geminiResult.ok) break;
+        if ([401, 403].includes(Number(geminiResult.status))) break;
+      }
+
+      diagnostics.geminiTest = {
+        ok: attempts.some((item) => item.ok),
+        attempts
+      };
     }
   } catch (error) {
     diagnostics.geminiTest = { ok: false, error: safeError(error) };
