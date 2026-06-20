@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const STORAGE_KEY = "odacademy_ai_mentor_sessions_v3";
-const ACTIVE_KEY = "odacademy_ai_mentor_active_session_v3";
+const STORAGE_KEY = "odacademy_ai_mentor_sessions_v2";
+const ACTIVE_KEY = "odacademy_ai_mentor_active_session_v2";
 
 const THINKING_MODES = [
   {
     id: "job_description",
     title: "بناء وصف وظيفي",
     subtitle: "من الغرض إلى المخرجات والصلاحيات والمؤشرات",
-    prompt:
-      "أريد بناء وصف وظيفي احترافي لدور عام. أعطني منهجية كاملة، قالبًا جاهزًا، وأخطاء يجب تجنبها.",
     prompt:
       "أريد وصفًا وظيفيًا عمليًا. أعطني خلاصة، 3 إلى 5 خطوات، قالبًا مختصرًا، ومثالًا قريبًا من الواقع. اسأل سؤالًا واحدًا فقط إذا كان ضروريًا.",
     badge: "1"
@@ -19,8 +17,6 @@ const THINKING_MODES = [
     title: "تشخيص مشكلة تنظيمية",
     subtitle: "عرض، نمط، فرضيات، بيانات، قرار",
     prompt:
-      "لدي مشكلة تنظيمية وأريد تشخيصها بمنهجية واضحة: العرض الظاهر، النمط، الفرضيات، البيانات المطلوبة، والتدخل المحتمل.",
-    prompt:
       "لدي مشكلة تنظيمية. شخّصها باختصار من زاوية العرض، النمط، السبب المحتمل، البيانات المطلوبة، وأول تدخل عملي. لا تطل ولا تسأل أكثر من سؤال واحد.",
     badge: "2"
   },
@@ -28,8 +24,6 @@ const THINKING_MODES = [
     id: "intervention_design",
     title: "تصميم تدخل",
     subtitle: "تدخل متدرج لا يقفز فوق التشخيص",
-    prompt:
-      "بعد التشخيص، أريد تصميم تدخل تنظيمي متدرج مع المخاطر ومؤشرات قياس الأثر.",
     prompt:
       "أريد تصميم تدخل تنظيمي عملي بعد التشخيص. أعطني خطوات قصيرة، تجربة صغيرة، مؤشرات أثر، وخطرًا مهنيًا يجب الانتباه له.",
     badge: "3"
@@ -39,8 +33,6 @@ const THINKING_MODES = [
     title: "إدارة تغيير",
     subtitle: "رسائل، مقاومة، أصحاب مصلحة، تثبيت",
     prompt:
-      "أريد التعامل مع مقاومة تغيير. ساعدني على فهم الأطراف، أسباب المقاومة، خطة التواصل، ومؤشرات الاستدامة.",
-    prompt:
       "أريد التعامل مع مقاومة تغيير. أعطني خلاصة عملية، قراءة مختصرة للمقاومة، خطة تواصل من 3 إلى 5 خطوات، وصياغة جاهزة عند الحاجة.",
     badge: "4"
   },
@@ -49,8 +41,6 @@ const THINKING_MODES = [
     title: "أداء ومساءلة",
     subtitle: "أهداف، مؤشرات، تغذية راجعة، سلوك",
     prompt:
-      "أريد تحليل مشكلة أداء دون اختزالها في الموظف. ساعدني على قراءة الأهداف، المؤشرات، السلوك، والبيئة.",
-    prompt:
       "أريد تحليل مشكلة أداء دون لوم الموظف. أعطني تشخيصًا مختصرًا، خطوات عملية، مؤشرًا مناسبًا، وسلوكًا واحدًا نبدأ بتعديله.",
     badge: "5"
   },
@@ -58,8 +48,6 @@ const THINKING_MODES = [
     id: "culture",
     title: "ثقافة ومناخ",
     subtitle: "ثقة، صمت تنظيمي، سلوك متكرر",
-    prompt:
-      "أريد قراءة مشكلة ثقافية أو مناخ تنظيمي: ما السلوك المتكرر؟ ما الرسائل غير المعلنة؟ وكيف أقيسه؟",
     prompt:
       "أريد قراءة مشكلة ثقافة أو مناخ تنظيمي. أعطني خلاصة، السلوك المتكرر، ما يكشفه عن النظام، وتدخلًا صغيرًا يمكن تجربته.",
     badge: "6"
@@ -213,141 +201,66 @@ function cleanAssistantReply(value = "") {
     .trim();
 }
 
-function inferMentorIntent(message = "") {
-  const text = String(message || "").toLowerCase();
+function isStarterAssistantMessage(item) {
+  if (!item || item.role !== "assistant") return false;
 
-  if (/^(مرحبا|هلا|السلام|أهلين|اهلا|صباح|مساء)\b/.test(text.trim())) return "greeting";
-  if (text.includes("دوران") || text.includes("استقالات") || text.includes("ترك العمل")) return "turnover";
-  if (text.includes("هيكل") && (text.includes("استراتيجي") || text.includes("استراتيجية"))) return "structure_strategy";
-  if (text.includes("خطأ المدير") || text.includes("غلط المدير") || text.includes("المدير غلط")) return "manager_error";
-  if (text.includes("وصف وظيفي") || text.includes("بطاقة وظيفية")) return "job_description";
-  if (text.includes("أداء") || text.includes("مساءلة") || text.includes("مؤشر")) return "performance";
-  if (text.includes("تغيير") || text.includes("مقاومة")) return "change";
-  if (text.includes("ثقافة") || text.includes("مناخ") || text.includes("ثقة")) return "culture";
+  const content = String(item.content || "").trim();
 
-  return "general";
+  return (
+    item.id === STARTER_MESSAGE.id ||
+    content === STARTER_MESSAGE.content ||
+    content === FRIENDLY_STARTER_MESSAGE.content
+  );
+}
+
+function serializeMentorHistory(messages = []) {
+  const normalized = Array.isArray(messages)
+    ? messages
+        .filter((item) => !isStarterAssistantMessage(item))
+        .map((item) => {
+          const role = item?.role === "assistant" ? "assistant" : "user";
+          const content = String(item?.content || "").trim();
+          return content ? { role, content } : null;
+        })
+        .filter(Boolean)
+    : [];
+
+  while (normalized.length && normalized[0].role !== "user") {
+    normalized.shift();
+  }
+
+  const compact = [];
+
+  for (const item of normalized) {
+    const previous = compact[compact.length - 1];
+
+    if (previous?.role === item.role) {
+      previous.content = `${previous.content}\n\n${item.content}`;
+    } else {
+      compact.push(item);
+    }
+  }
+
+  return compact.slice(-8);
 }
 
 function createLocalMentorReply(message = "", modeTitle = "") {
   const topic = String(message || "").trim().slice(0, 220);
-  const intent = inferMentorIntent(message);
-  const selectedMode = String(modeTitle || "").trim();
+  const mode = String(modeTitle || "").trim();
 
-  const replies = {
-    greeting: [
-      "يا هلا، جاهز معك.",
-      "",
-      "اكتب الحالة أو السؤال كما هو، حتى لو كان غير مرتب. الأفضل ترسله بهذا الشكل:",
-      "1. ما الذي يحدث؟",
-      "2. أين يحدث؟",
-      "3. من يتأثر؟",
-      "4. ما القرار أو النتيجة التي تريد الوصول لها؟",
-      "",
-      "إذا كتبت لي جملة واحدة فقط، سأبدأ بتشخيص أولي ثم أسألك سؤالًا واحدًا يضبط الاتجاه."
-    ],
-    turnover: [
-      "ارتفاع دوران الموظفين لا يُعالج غالبًا بإجراء واحد؛ لأنه عرض يظهر عندما تتكرر فجوة في التجربة أو الإدارة أو العدالة.",
-      "",
-      "ابدأ بهذه القراءة السريعة:",
-      "1. افصل الدوران الطوعي عن غير الطوعي، والجدد عن أصحاب الخبرة.",
-      "2. قارن الدوران حسب المدير، الفريق، الموقع، وطبيعة الدور.",
-      "3. راجع آخر 10 مقابلات خروج وابحث عن نمط متكرر لا عن سبب منفرد.",
-      "4. افحص ثلاثة مواضع: توقعات الدور، علاقة المدير، وعدالة المكافأة أو عبء العمل.",
-      "5. اختر تدخلًا صغيرًا: تحسين onboarding، ضبط عبء العمل، أو تدريب مديرين محددين.",
-      "",
-      "المؤشر المهم ليس نسبة الدوران فقط، بل أين يترك الناس العمل ومتى ولماذا يتكرر ذلك."
-    ],
-    structure_strategy: [
-      "عند تعارض الهيكل مع الاستراتيجية، لا تبدأ بإعادة رسم الصناديق. ابدأ بالسؤال: ما القرار الذي تحتاجه الاستراتيجية ولا يسمح به الهيكل الحالي؟",
-      "",
-      "اشتغل بهذا التسلسل:",
-      "1. حدد الأولوية الاستراتيجية التي تتعطل.",
-      "2. اربطها بقرار أو تدفق عمل محدد.",
-      "3. اسأل: من يملك القرار الآن؟ ومن يتحمل الأثر؟",
-      "4. ابحث عن التداخل: صلاحيات مزدوجة، اعتماد طويل، أو هدفان متعارضان.",
-      "5. جرّب تعديلًا محدودًا في الصلاحية أو مسار القرار قبل تغيير الهيكل كاملًا.",
-      "",
-      "صياغة مفيدة: مشكلتنا ليست في شكل الهيكل فقط، بل في القرارات التي يعطلها هذا الشكل."
-    ],
-    manager_error: [
-      "معرفة خطأ المدير لا تكون بالانطباع وحده. الأفضل تفصل بين الخطأ، أثره، وتكراره.",
-      "",
-      "استخدم هذا الفحص:",
-      "1. ما السلوك المحدد الذي حدث؟ تجنب وصف النية.",
-      "2. ما أثره على القرار أو الفريق أو العميل؟",
-      "3. هل تكرر مع أكثر من شخص أو موقف؟",
-      "4. هل كان لدى المدير معلومات وصلاحيات كافية وقتها؟",
-      "5. ما البديل المهني الذي كان ممكنًا؟",
-      "",
-      "إذا أردت مواجهته، قل: أحتاج أفهم معيار القرار هنا؛ لأن الأثر الذي ظهر هو كذا، والبديل الذي أقترحه هو كذا."
-    ],
-    job_description: [
-      "الوصف الوظيفي الجيد لا يبدأ بقائمة مهام؛ يبدأ بسبب وجود الدور داخل المنظمة.",
-      "",
-      "ابنه بهذا الترتيب:",
-      "1. الغرض من الدور في جملة واحدة.",
-      "2. المخرجات التي يُحاسب عليها صاحب الدور.",
-      "3. المسؤوليات اليومية والمتكررة.",
-      "4. الصلاحيات وحدود القرار.",
-      "5. العلاقات الداخلية والخارجية.",
-      "6. مؤشرات الأداء.",
-      "7. الكفاءات المطلوبة.",
-      "",
-      "اختبار الجودة: إذا قرأه شخص جديد، هل يعرف ماذا ينجز؟ وماذا يقرر؟ ومتى يصعّد؟"
-    ],
-    performance: [
-      "مشكلة الأداء لا تُقرأ من رقم واحد. اسأل أولًا: هل الخلل في القدرة، الوضوح، الدافعية، الموارد، أم المساءلة؟",
-      "",
-      "خطوات عملية:",
-      "1. حدد السلوك أو المخرج الضعيف بدقة.",
-      "2. قارن المتوقع بالفعلي خلال فترة محددة.",
-      "3. افحص وضوح الهدف والأداة والصلاحية.",
-      "4. اتفق على مؤشر واحد وسلوك واحد للتعديل.",
-      "5. راجع بعد أسبوعين بدل انتظار نهاية الربع.",
-      "",
-      "المؤشر الجيد لا يلوم الشخص؛ يكشف أين يحتاج النظام إلى ضبط."
-    ],
-    change: [
-      "مقاومة التغيير ليست دائمًا رفضًا. أحيانًا هي معلومة مبكرة عن ضعف الثقة أو غموض الأثر.",
-      "",
-      "تعامل معها هكذا:",
-      "1. حدد من سيتأثر فعليًا وليس من سيُبلّغ فقط.",
-      "2. اشرح لماذا الآن، وما الذي لن يتغير.",
-      "3. اجعل الاعتراضات بيانات تصميم لا خصومة.",
-      "4. ابدأ بمجموعة صغيرة تثبت الفكرة.",
-      "5. اربط الرسائل بالأثر اليومي على العمل.",
-      "",
-      "السؤال الحاسم: ما الخسارة التي يتوقعها الناس من هذا التغيير؟"
-    ],
-    culture: [
-      "الثقافة تظهر في السلوك المتكرر عندما لا يراقب أحد التفاصيل.",
-      "",
-      "للقراءة السريعة:",
-      "1. ما السلوك الذي يتكرر؟ صمت، لوم، مجاملة، تأخير، أو تجنب قرار.",
-      "2. ما الرسالة غير المعلنة التي تحمي هذا السلوك؟",
-      "3. من يستفيد من بقائه؟ ومن يدفع كلفته؟",
-      "4. ما القاعدة أو المكافأة التي تعززه؟",
-      "5. اختر سلوكًا واحدًا لتغييره علنًا في الاجتماعات أو القرارات.",
-      "",
-      "لا تغير الثقافة بشعار؛ غيّر ما يُكافأ وما يُسمح بتكراره."
-    ],
-    general: [
-      selectedMode ? `أفهم سؤالك من زاوية ${selectedMode}، لكني سأتعامل مع مضمونه لا مع اسم الأداة فقط.` : "أتعامل مع سؤالك كحالة تطوير تنظيمي تحتاج قراءة مختصرة.",
-      "",
-      topic ? `الموضوع المطروح: ${topic}` : "الموضوع يحتاج تحديد السياق والأثر قبل اقتراح الحل.",
-      "",
-      "ابدأ بهذا:",
-      "1. ما العرض الظاهر؟",
-      "2. أين يتكرر؟",
-      "3. من يتأثر به؟",
-      "4. ما القرار أو السلوك الذي يحتاج تغييرًا؟",
-      "5. ما أقل تجربة يمكن تنفيذها خلال أسبوعين؟",
-      "",
-      "أرسل لي السياق بجملة أو جملتين، وسأحوّله إلى تشخيص وخطة تدخل أوضح."
-    ]
-  };
-
-  return replies[intent].join("\n");
+  return [
+    mode ? `أتعامل مع سؤالك من زاوية: ${mode}.` : "أتعامل مع سؤالك كحالة تنظيمية تحتاج تشخيصًا سريعًا.",
+    "",
+    topic ? `الخلاصة: السؤال يدور حول ${topic}.` : "الخلاصة: نحتاج تحديد العرض المتكرر قبل اختيار التدخل.",
+    "",
+    "الخطوة العملية:",
+    "1. حدّد أين يظهر التعارض بالضبط: هدف، هيكل، صلاحية، قرار، أو سلوك.",
+    "2. اكتب مثالين حديثين يوضحان أثر التعارض على العمل.",
+    "3. اسأل: من يملك القرار؟ وما المعيار الذي يحسم الأولوية؟",
+    "4. جرّب تعديلًا صغيرًا قابلًا للقياس قبل أي تغيير كبير.",
+    "",
+    "صياغة جاهزة: خلونا نفصل بين التعارض في الاتجاه والتعارض في الصلاحيات. إذا عرفنا القرار المتعطل ومن يملكه، نقدر نختبر حلًا صغيرًا ونقيس أثره."
+  ].join("\n");
 }
 
 function makeSession(modeId = "job_description") {
@@ -581,10 +494,7 @@ export default function AiMentor() {
     addMessage("user", message, { retitle: true });
 
     try {
-      const compactHistory = previousMessages.slice(-6).map((item) => ({
-        role: item.role,
-        content: item.content
-      }));
+      const compactHistory = serializeMentorHistory(previousMessages);
 
       const response = await fetch("/api/mentor", {
         method: "POST",
@@ -595,7 +505,6 @@ export default function AiMentor() {
           message,
           mode: activeMode?.id,
           modeTitle: activeMode?.title,
-          history: compactHistory,
           messages: compactHistory
         })
       });
@@ -641,7 +550,7 @@ export default function AiMentor() {
           return;
         }
 
-        setError(serverMessage);
+        addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
         return;
       }
 
@@ -654,10 +563,8 @@ export default function AiMentor() {
 
       addMessage("assistant", cleanAssistantReply(answer));
     } catch (caughtError) {
-      setError(
-        caughtError?.message ||
-          "تعذر الاتصال بـ Gemini الآن. تأكد من نشر Worker مع GEMINI_API_KEY وGEMINI_MODEL ثم جرّب مرة أخرى."
-      );
+      setError("");
+      addMessage("assistant", cleanAssistantReply(createLocalMentorReply(message, activeMode?.title)));
     } finally {
       setBusy(false);
     }
