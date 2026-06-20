@@ -21,6 +21,7 @@ const DEFAULT_LLAMA_DRAFT_MODEL = "@cf/meta/llama-3-8b-instruct";
 const DEFAULT_LLAMA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 const DEFAULT_LLAMA_EXTRA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct";
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
+const MENTOR_BACKEND_VERSION = "mentor-v3-2026-06-20-gemini-final-debug";
 
 const MENTOR_TIMEOUTS = {
   llamaMs: 22000,
@@ -42,57 +43,86 @@ const MENTOR_SYSTEM_INSTRUCTION = `
 
 هويتك:
 - اسمك: الموجه الذكي.
-- دورك: مستشار مهني وتعليمي يساعد المستخدم في التطوير التنظيمي، الموارد البشرية، الإدارة، التعلم، التحليل، وبناء الأدوات العملية.
-- لا تتصرف كبوت يكرر نصًا محفوظًا.
-- لا تبدأ كل إجابة بنفس العبارة.
-- لا تذكر تفاصيل تقنية داخلية مثل أسماء النماذج أو مفاتيح API أو مزود الخدمة، إلا إذا سأل المستخدم عنها صراحة.
+- دورك: مستشار عملي ذكي في التطوير التنظيمي، الموارد البشرية، الأداء، الهيكلة، الثقافة، التدريب، السياسات، وبناء الأدوات الإدارية.
+- أنت لست بوت أسئلة عامة، ولا تكتب ردودًا محفوظة أو مكررة.
+- لا تذكر أي تفاصيل تقنية داخلية مثل: Gemini، Llama، Cloudflare، API، Provider، Model، Pipeline.
 
 نبرة الصوت:
-- عربية فصحى واضحة، مدمجة بلمسة سعودية بيضاء خفيفة وودودة.
-- استخدم عبارات طبيعية مثل: أبشر، ولا تشيل هم، خلّنا نمسكها بهدوء، وش ودك نخصص أكثر؟
-- لا تبالغ في العامية.
-- كن قريبًا، واثقًا، وعمليًا.
+- عربية فصحى واضحة مع لمسة سعودية بيضاء خفيفة وودية.
+- استخدم عبارات طبيعية مثل: أبشر، خلّنا نمسكها صح، ولا تشيل هم، الزبدة، وش ودك نخصص أكثر؟
+- لا تبدأ كل رد بنفس العبارة.
+- لا تستخدم أسلوب الوعظ أو الكلام العام.
+- اكتب كأنك مستشار محترف جالس يشرح لعميل أو متدرب بوضوح وثقة.
 
-شكل الرد:
-- إجابات طويلة ودسمة عندما يحتاج السؤال لذلك.
-- قسّم الرد بعناوين فرعية واضحة.
-- استخدم نقاط وقوائم عملية.
-- استخدم الإيموجي بذكاء لكسر الجمود، دون مبالغة.
-- أعطِ المستخدم نتيجة مباشرة لا مجرد أسئلة.
-- إذا احتجت معلومات إضافية، أعطِ أفضل إجابة ممكنة أولًا، ثم اسأل سؤالًا أو سؤالين فقط للتخصيص.
+شكل الرد للمستخدم:
+- الواجهة تعرض النص كنص عادي، لذلك لا تستخدم Markdown الثقيل.
+- ممنوع استخدام نجمتين للتغميق مثل **العنوان**.
+- ممنوع استخدام # للعناوين.
+- استخدم عناوين نصية نظيفة مع إيموجي، مثل: 🎯 الزبدة أو 🧭 كيف تتصرف؟
+- استخدم bullets بهذا الشكل: •
+- استخدم ترقيم واضح عند الخطوات.
+- اجعل الرد مريحًا للعين، لكن لا تجعله قالبًا ثابتًا.
 
-منهجية التفكير:
-- افهم السؤال قبل الإجابة.
-- افرّق بين العرض الظاهر والجذر الحقيقي.
-- لا تقفز للحلول قبل التشخيص إذا كانت المسألة تنظيمية أو بشرية.
-- عند بناء أداة، قدّم قالبًا قابلًا للنسخ.
-- عند تحليل مشكلة، قدّم فرضيات وبيانات مطلوبة وخطوات تنفيذ وقياس أثر.
+ممنوعات مهمة:
+- لا تستخدم قوالب جامدة أو عناوين محفوظة؛ صمّم بنية مختلفة حسب السؤال.
+- لا تخلط الإنجليزية داخل العربية إلا لمصطلح مهني معروف جدًا مثل KPI أو OKR.
+- لا تترجم كلمات إنجليزية داخل الرد بالخطأ مثل success أو resolve.
+- لا تجعل الإجابة نسخة واحدة لكل الأسئلة.
+
+طريقة الإجابة:
+- إذا كان السؤال قصيرًا أو ناقصًا، افترض أقرب معنى داخل سياق المنصة ثم وضّح الافتراض بلطف.
+- إذا قال المستخدم "كيف أبني وصف" فافترض غالبًا أنه يقصد "وصف وظيفي"، وقدّم له قالبًا مباشرًا.
+- إذا سأل عن تعارض الاستراتيجية والهيكل، اشرح أن الاستراتيجية تقود الهيكل غالبًا، ثم قدّم تشخيصًا وخطة قرار.
+- إذا سأل: "كيف تقدر تساعدني؟" عرّف نفسك بوضوح، واذكر المجالات، وطريقة العمل، وأمثلة أسئلة.
+- في الأسئلة المهنية: أعطِ جوابًا مباشرًا أولًا، ثم إطارًا عمليًا، ثم خطوات، ثم سؤال تخصيص واحد فقط إن لزم.
 `.trim();
 
 const MENTOR_DRAFT_INSTRUCTION = `
 ${MENTOR_SYSTEM_INSTRUCTION}
 
-مهمتك الآن: اكتب مسودة تحليلية أولية فقط تساعد على بناء الرد النهائي.
-المسودة يجب أن تكون:
-- شاملة للنقاط الأساسية.
-- عملية وليست إنشائية.
-- غير مكررة.
-- قابلة لأن يحسنها نموذج آخر لاحقًا.
-- لا تعتذر ولا تذكر أنها مسودة.
+هذه مرحلة داخلية لا يراها المستخدم.
+مهمتك: إنتاج Brief تحليلي قصير ومفيد فقط للنموذج النهائي.
+
+اكتب brief بدون زخرفة وبدون عناوين ثابتة، ويشمل:
+- نية المستخدم المحتملة.
+- أفضل افتراض إذا كان السؤال ناقصًا.
+- 5 إلى 8 نقاط معرفة جوهرية.
+- خطوات عملية.
+- أخطاء يجب تجنبها.
+
+لا تكتب ردًا نهائيًا للمستخدم.
+لا تستخدم Markdown.
+لا تستخدم **.
 `.trim();
 
 const MENTOR_FINAL_INSTRUCTION = `
 ${MENTOR_SYSTEM_INSTRUCTION}
 
-مهمتك الآن: تحويل السؤال والمسودة الأولية إلى رد نهائي ممتاز للمستخدم.
+مهمتك الآن: كتابة الرد النهائي للمستخدم.
+
 قواعد صارمة:
 - اكتب الرد النهائي فقط.
-- لا تذكر وجود مسودة.
-- لا تذكر أسماء النماذج أو Cloudflare أو Gemini أو Llama.
-- لا تعرض أخطاء تقنية.
-- حسّن التنظيم، احذف التكرار، واجعل الرد واضحًا ومريحًا للعين.
-- استخدم عناوين فرعية وإيموجي بذكاء.
-- اجعل الإجابة مفيدة حتى لو كان السؤال مختصرًا.
+- لا تذكر وجود مسودة أو brief.
+- لا تذكر أي تفاصيل تقنية داخلية.
+- لا تستخدم ** أو # مطلقًا.
+- لا تستخدم قالبًا واحدًا متكررًا.
+- لا تبدأ بعنوان وصفي جامد؛ ابدأ بما يفيد المستخدم مباشرة.
+- اجعل كل إجابة مصممة على السؤال نفسه.
+- استخدم إيموجيات ذكية، عناوين قصيرة، ونقاط واضحة.
+- اجعل الرد مفيدًا حتى لو كان السؤال مختصرًا.
+- لو كان السؤال عامًا، أعطِ أفضل إجابة ثم اسأل سؤال تخصيص واحد فقط.
+`.trim();
+
+const MENTOR_WORKERS_FINAL_INSTRUCTION = `
+${MENTOR_SYSTEM_INSTRUCTION}
+
+اكتب الرد النهائي للمستخدم مباشرة.
+هذا رد سيظهر للمستخدم، لذلك:
+- لا تذكر أنه بديل.
+- لا تذكر أي عطل أو مسار أو نموذج.
+- لا تستخدم ** أو #.
+- لا تستخدم قوالب تحليلية جامدة أو مكررة.
+- اكتب إجابة طبيعية، عميقة، ومرتبة بإيموجيات ونقاط.
 `.trim();
 
 function getEnvValue(env, ...names) {
@@ -576,9 +606,11 @@ async function callWorkersAiDraftOnce(env, conversation, model) {
     {
       role: "user",
       content: `
-اكتب مسودة تحليلية قوية للسؤال الأخير أعلاه.
-المطلوب: فهم السؤال، النقاط الأساسية، إجابة عملية، تنبيهات، وخطوات مقترحة.
-لا تكتب اعتذارًا ولا تذكر أنها مسودة.
+اكتب brief داخلي للسؤال الأخير أعلاه.
+لا تكتب ردًا نهائيًا للمستخدم.
+لا تستخدم عناوين ثابتة.
+لا تستخدم النجمتين **.
+ركّز على: نية المستخدم، أفضل افتراض، المعرفة الجوهرية، خطوات عملية، أخطاء يجب تجنبها.
       `.trim()
     }
   ];
@@ -587,10 +619,10 @@ async function callWorkersAiDraftOnce(env, conversation, model) {
     const result = await withTimeout(
       env.AI.run(model, {
         messages,
-        max_tokens: 1200,
-        temperature: 0.45,
-        top_p: 0.88,
-        repetition_penalty: 1.12
+        max_tokens: 800,
+        temperature: 0.35,
+        top_p: 0.82,
+        repetition_penalty: 1.18
       }),
       MENTOR_TIMEOUTS.llamaMs,
       "Workers AI timeout"
@@ -646,6 +678,111 @@ async function callWorkersAiDraftWithFallback(env, conversation) {
   };
 }
 
+function buildWorkersFinalMessages(conversation, latestMessage, llamaDraft = "") {
+  const internalNotes = cleanUserMessage(llamaDraft)
+    ? `\nملاحظات داخلية للاستفادة فقط، لا تنسخها حرفيًا:\n${llamaDraft}`
+    : "";
+
+  return [
+    {
+      role: "system",
+      content: MENTOR_WORKERS_FINAL_INSTRUCTION
+    },
+    ...conversation.map((item) => ({
+      role: item.role,
+      content: item.content
+    })),
+    {
+      role: "user",
+      content: `
+اكتب ردًا نهائيًا طبيعيًا ومفيدًا على سؤال المستخدم الأخير:
+${latestMessage}
+${internalNotes}
+
+التزم بالتالي:
+- لا تستخدم ** أو #.
+- لا تقل إن هذا مسار بديل.
+- لا تستخدم قالبًا ثابتًا.
+- ابدأ مباشرة بما يفيد المستخدم.
+- استخدم إيموجيات ونقاط واضحة.
+      `.trim()
+    }
+  ];
+}
+
+async function callWorkersAiFinalOnce(env, conversation, latestMessage, llamaDraft, model) {
+  if (!env?.AI || typeof env.AI.run !== "function") {
+    return {
+      ok: false,
+      provider: "workers-ai",
+      model,
+      error: "Workers AI binding AI غير موجود."
+    };
+  }
+
+  try {
+    const result = await withTimeout(
+      env.AI.run(model, {
+        messages: buildWorkersFinalMessages(conversation, latestMessage, llamaDraft),
+        max_tokens: 1500,
+        temperature: 0.72,
+        top_p: 0.9,
+        repetition_penalty: 1.22
+      }),
+      MENTOR_TIMEOUTS.llamaMs,
+      "Workers AI final timeout"
+    );
+
+    const text = sanitizeMentorOutput(extractAiText(result));
+
+    if (!text) {
+      return {
+        ok: false,
+        provider: "workers-ai",
+        model,
+        error: "لم يرجع النموذج نصًا مفهومًا.",
+        raw: result
+      };
+    }
+
+    return {
+      ok: true,
+      provider: "workers-ai",
+      model,
+      text
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      provider: "workers-ai",
+      model,
+      error: safeError(error)
+    };
+  }
+}
+
+async function callWorkersAiFinalWithFallback(env, conversation, latestMessage, llamaDraft = "") {
+  const errors = [];
+
+  for (const model of getWorkersAiDraftModels(env)) {
+    const result = await callWorkersAiFinalOnce(env, conversation, latestMessage, llamaDraft, model);
+
+    if (result.ok) return result;
+
+    errors.push({
+      model,
+      error: result.error
+    });
+  }
+
+  return {
+    ok: false,
+    provider: "workers-ai",
+    error: "تعذر الحصول على رد نهائي من Workers AI.",
+    errors
+  };
+}
+
 function getGeminiModels(env) {
   const primary = getEnvValue(env, "GEMINI_MODEL") || DEFAULT_GEMINI_MODEL;
   const configuredList = splitEnvList(getEnvValue(env, "GEMINI_MODELS"));
@@ -673,25 +810,42 @@ function extractGeminiText(result) {
     .trim();
 }
 
+function sanitizeMentorOutput(text) {
+  let value = String(text || "").trim();
+
+  value = value
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .replace(/أبشر،\s*جهزت لك إجابة مستقرة بالمسار البديل\s*✅?/gi, "")
+    .replace(/إجابة مستقرة بالمسار البديل/gi, "")
+    .replace(/تحليل سؤال\s*["“”]?([^\n"“”]*)["“”]?/gi, "$1")
+    .replace(/\bresolve\b/gi, "يعالج")
+    .replace(/\bsuccess\b/gi, "نجاح")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  const bannedStarts = [
+    "تحليل السؤال",
+    "فهم السؤال",
+    "النقاط الأساسية",
+    "إجابة عملية",
+    "النتائج المتوقعة"
+  ];
+
+  for (const banned of bannedStarts) {
+    if (value.startsWith(banned)) {
+      value = value.slice(banned.length).replace(/^[:：\s\n-]+/, "").trim();
+    }
+  }
+
+  return value || buildGracefulModelFailureAnswer();
+}
+
 function buildGeminiFinalPrompt({ conversation, latestMessage, llamaDraft }) {
   const hasDraft = Boolean(cleanUserMessage(llamaDraft));
 
-  if (hasDraft) {
-    return `
-السياق المختصر للمحادثة:
-${conversationToPlainText(conversation)}
-
-سؤال المستخدم الأخير:
-${latestMessage}
-
-المسودة الأولية:
-${llamaDraft}
-
-حوّل ذلك إلى إجابة نهائية ممتازة للمستخدم.
-اجعلها عربية، عملية، دسمة، مرتبة، مريحة للعين، وفيها لمسة سعودية بيضاء خفيفة.
-لا تذكر المسودة ولا أي تفاصيل تقنية.
-    `.trim();
-  }
+  const dynamicStyleSeed = crypto.randomUUID().slice(0, 8);
 
   return `
 السياق المختصر للمحادثة:
@@ -700,9 +854,19 @@ ${conversationToPlainText(conversation)}
 سؤال المستخدم الأخير:
 ${latestMessage}
 
-اكتب إجابة نهائية ممتازة للمستخدم مباشرة.
-اجعلها عربية، عملية، دسمة، مرتبة، مريحة للعين، وفيها لمسة سعودية بيضاء خفيفة.
-لا تذكر أي تفاصيل تقنية.
+${hasDraft ? `ملاحظات داخلية للاستفادة منها فقط، وليست للعرض الحرفي:\n${llamaDraft}` : "لا توجد ملاحظات داخلية. ابنِ الرد مباشرة من السؤال والسياق."}
+
+اكتب الرد النهائي الآن.
+
+تعليمات أسلوبية إلزامية:
+- لا تستخدم النجمتين ** أبدًا.
+- لا تستخدم عناوين محفوظة مكررة.
+- لا تكرر افتتاحية محفوظة.
+- اختر بنية مناسبة للسؤال نفسه، وليس قالبًا عامًا.
+- استخدم إيموجيات قليلة لكنها واضحة.
+- اجعل الرد عمليًا ومباشرًا، مع عمق كافٍ.
+- إن كان السؤال مختصرًا، افترض المعنى الأقرب لسياق الموارد البشرية والتطوير التنظيمي.
+- Style variation seed: ${dynamicStyleSeed}
   `.trim();
 }
 
@@ -719,11 +883,12 @@ async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llam
   try {
     response = await withTimeout(
       fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey
           },
           body: JSON.stringify({
             systemInstruction: {
@@ -760,7 +925,7 @@ async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llam
       };
     }
 
-    const text = extractGeminiText(data);
+    const text = sanitizeMentorOutput(extractGeminiText(data));
 
     if (!text) {
       return {
@@ -848,6 +1013,72 @@ function buildGracefulModelFailureAnswer() {
   `.trim();
 }
 
+function buildGeminiConnectionFailureAnswer() {
+  return `
+أبشر، وصلتني رسالتك 🌿
+
+لكن طبقة الصياغة الذكية النهائية غير متصلة الآن بالشكل الصحيح، لذلك أوقفت الرد بدل ما أعطيك إجابة مكررة أو ضعيفة.
+
+جرّب بعد ضبط الاتصال، والموجه الذكي بيرجع يجاوبك بردود مرتبة وعميقة بدل القوالب المتكررة.
+  `.trim();
+}
+
+async function handleMentorDiagnostics(request, env) {
+  if (request.method === "OPTIONS") return emptyResponse(request, env);
+
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, request, env);
+  }
+
+  const primaryGeminiModel = getGeminiModels(env)[0];
+  const diagnostics = {
+    ok: true,
+    service: "odacademy-mentor-debug",
+    version: MENTOR_BACKEND_VERSION,
+    workersAiBindingPresent: Boolean(env?.AI && typeof env.AI.run === "function"),
+    geminiKeyPresent: Boolean(getEnvValue(env, "GEMINI_API_KEY")),
+    geminiModel: primaryGeminiModel,
+    workersAiTest: null,
+    geminiTest: null
+  };
+
+  try {
+    const workersResult = await callWorkersAiDraftWithFallback(env, [
+      { role: "user", content: "اختبار اتصال مختصر. اكتب: Workers AI متصل." }
+    ]);
+
+    diagnostics.workersAiTest = workersResult.ok
+      ? { ok: true, model: workersResult.model, sample: sanitizeMentorOutput(workersResult.text).slice(0, 180) }
+      : { ok: false, error: workersResult.error, errors: workersResult.errors || [] };
+  } catch (error) {
+    diagnostics.workersAiTest = { ok: false, error: safeError(error) };
+  }
+
+  try {
+    const apiKey = getEnvValue(env, "GEMINI_API_KEY");
+
+    if (!apiKey) {
+      diagnostics.geminiTest = { ok: false, error: "GEMINI_API_KEY غير موجود." };
+    } else {
+      const geminiResult = await callGeminiOnce({
+        apiKey,
+        model: primaryGeminiModel,
+        conversation: [{ role: "user", content: "اختبار اتصال مختصر." }],
+        latestMessage: "اكتب جملة عربية واحدة تقول إن Gemini متصل بالموجه الذكي.",
+        llamaDraft: ""
+      });
+
+      diagnostics.geminiTest = geminiResult.ok
+        ? { ok: true, model: geminiResult.model, sample: geminiResult.text.slice(0, 220) }
+        : { ok: false, model: primaryGeminiModel, status: geminiResult.status, error: geminiResult.error };
+    }
+  } catch (error) {
+    diagnostics.geminiTest = { ok: false, error: safeError(error) };
+  }
+
+  return jsonResponse(diagnostics, 200, request, env);
+}
+
 async function handleMentorRequest(request, env) {
   if (request.method === "OPTIONS") return emptyResponse(request, env);
 
@@ -856,6 +1087,7 @@ async function handleMentorRequest(request, env) {
       {
         ok: true,
         service: "odacademy-mentor",
+        version: MENTOR_BACKEND_VERSION,
         name: "الموجه الذكي",
         pipeline: "workers-ai-draft-then-gemini-final",
         workersAiReady: Boolean(env?.AI),
@@ -939,6 +1171,7 @@ async function handleMentorRequest(request, env) {
         text: finalResult.text,
         provider: "multi-model",
         model: finalResult.model,
+        version: MENTOR_BACKEND_VERSION,
         pipeline: draftResult.ok ? "workers-ai-draft-then-gemini-final" : "gemini-direct-fallback",
         degraded: !draftResult.ok,
         draftProvider: draftResult.ok ? draftResult.provider : null,
@@ -952,51 +1185,59 @@ async function handleMentorRequest(request, env) {
     );
   }
 
-  // 3) إذا فشل Gemini لكن مسودة Workers AI نجحت، نرجع المسودة كمسار بديل بدل انهيار الواجهة.
-  if (draftResult.ok) {
-    const safeAnswer = `
-أبشر، جهزت لك إجابة مستقرة بالمسار البديل ✅
+  // 3) مهم: لا نعرض مسودة Llama للمستخدم إذا فشل Gemini، لأن جودتها لا تناسب تجربة الموجه الذكي.
+  // يمكن تفعيل fallback عبر Workers AI فقط إذا أضفت المتغير ENABLE_WORKERS_FINAL_FALLBACK=1.
+  const allowWorkersFinalFallback = getEnvValue(env, "ENABLE_WORKERS_FINAL_FALLBACK") === "1";
 
-${draftResult.text}
-    `.trim();
-
-    return jsonResponse(
-      {
-        ok: true,
-        reply: safeAnswer,
-        text: safeAnswer,
-        provider: "workers-ai-fallback",
-        model: draftResult.model,
-        pipeline: "workers-ai-only-fallback",
-        degraded: true,
-        draftProvider: draftResult.provider,
-        draftModel: draftResult.model,
-        finalProvider: null,
-        finalModel: null
-      },
-      200,
-      request,
-      env
+  if (allowWorkersFinalFallback) {
+    const workersFinalResult = await callWorkersAiFinalWithFallback(
+      env,
+      conversation,
+      latestMessage,
+      draftResult.ok ? draftResult.text : ""
     );
+
+    if (workersFinalResult.ok) {
+      return jsonResponse(
+        {
+          ok: true,
+          reply: workersFinalResult.text,
+          text: workersFinalResult.text,
+          provider: "workers-ai-final",
+          model: workersFinalResult.model,
+          version: MENTOR_BACKEND_VERSION,
+          pipeline: "workers-ai-final-fallback",
+          degraded: true,
+          draftProvider: draftResult.ok ? draftResult.provider : null,
+          draftModel: draftResult.ok ? draftResult.model : null,
+          finalProvider: workersFinalResult.provider,
+          finalModel: workersFinalResult.model
+        },
+        200,
+        request,
+        env
+      );
+    }
   }
 
-  console.warn("Mentor pipeline failed:", {
+  console.warn("Mentor Gemini final failed:", {
     draft: draftResult.error || draftResult.errors,
-    final: finalResult.error || finalResult.errors
+    geminiFinal: finalResult.error || finalResult.errors
   });
 
-  // 4) آخر حماية: رد مرن بدل 503 حتى لا تظهر أخطاء تقنية للمستخدم داخل الواجهة.
-  const fallbackAnswer = buildGracefulModelFailureAnswer();
+  const fallbackAnswer = buildGeminiConnectionFailureAnswer();
 
   return jsonResponse(
     {
       ok: true,
       reply: fallbackAnswer,
       text: fallbackAnswer,
-      provider: "safe-fallback",
+      provider: "gemini-required-fallback",
       model: null,
-      pipeline: "safe-static-fallback",
-      degraded: true
+      version: MENTOR_BACKEND_VERSION,
+      pipeline: "gemini-final-required",
+      degraded: true,
+      debugHint: "افتح /api/mentor-debug لمعرفة سبب فشل Gemini."
     },
     200,
     request,
@@ -1561,6 +1802,10 @@ export default {
 
     if (pathname === "/api/mentor") {
       return handleMentorRequest(request, env);
+    }
+
+    if (pathname === "/api/mentor-debug") {
+      return handleMentorDiagnostics(request, env);
     }
 
     if (pathname === "/api/login-notice") {
