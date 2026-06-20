@@ -1,6 +1,13 @@
+# wrangler.toml
+# MUNSAQAH / OD Academy - Cloudflare Worker + Static Assets
+# مهم: لا تضع أي مفاتيح سرية داخل هذا الملف.
+
 name = "munsaqah"
 main = "worker/index.js"
-compatibility_date = "2026-05-23"
+compatibility_date = "2026-06-19"
+
+# يمنع Wrangler من حذف/تجاوز المتغيرات والأسرار التي أضفتها من Cloudflare Dashboard عند النشر.
+keep_vars = true
 
 [assets]
 directory = "./dist"
@@ -11,18 +18,17 @@ run_worker_first = ["/api/*"]
 [ai]
 binding = "AI"
 
-# مهم:
-# استبدل REPLACE_WITH_YOUR_KV_NAMESPACE_ID بمعرّف KV الحقيقي من:
-# Cloudflare > Storage & Databases > KV > odacademy_rate_limit > Settings
-[[kv_namespaces]]
-binding = "RATE_LIMIT_KV"
-id = "3d594a4fe626455ab1ff8bd48cbbfdd4"
-
 [vars]
 ALLOWED_ORIGINS = "https://munsaqah.rayansalajlan.workers.dev"
+GEMINI_MODEL = "gemini-2.5-flash"
 BREVO_SENDER_EMAIL = "rayan.al.ajlan123@gmail.com"
-BREVO_SENDER_NAME = "OD Academy"
+BREVO_SENDER_NAME = "MUNSAQAH Academy"
 SITE_URL = "https://munsaqah.rayansalajlan.workers.dev"
 VITE_SUPABASE_URL = "https://vajfguzaylvddcyywmco.supabase.co"
-MENTOR_RATE_LIMIT_PER_MINUTE = "20"
-EMAIL_RATE_LIMIT_PER_MINUTE = "3"
+
+[secrets]
+required = [
+  "GEMINI_API_KEY",
+  "BREVO_API_KEY",
+  "VITE_SUPABASE_ANON_KEY"
+]
