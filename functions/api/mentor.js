@@ -138,7 +138,6 @@ function normalizeMessages(body, latestMessage) {
       : [];
 
   const messages = rawMessages
-    .slice(-6)
     .map((item) => {
       const role = item?.role === "assistant" || item?.role === "model" ? "model" : "user";
       const text = cleanText(item?.content || item?.text || "");
@@ -146,11 +145,35 @@ function normalizeMessages(body, latestMessage) {
     })
     .filter(Boolean);
 
-  if (latestMessage) {
-    messages.push({ role: "user", parts: [{ text: latestMessage }] });
+  while (messages.length && messages[0].role !== "user") {
+    messages.shift();
   }
 
-  return messages;
+  const alternatingMessages = [];
+
+  for (const message of messages) {
+    const previous = alternatingMessages[alternatingMessages.length - 1];
+
+    if (previous?.role === message.role) {
+      previous.parts[0].text = `${previous.parts[0].text}\n\n${message.parts[0].text}`;
+    } else {
+      alternatingMessages.push(message);
+    }
+  }
+
+  const compactMessages = alternatingMessages.slice(-6);
+
+  if (latestMessage) {
+    const previous = compactMessages[compactMessages.length - 1];
+
+    if (previous?.role === "user") {
+      previous.parts[0].text = `${previous.parts[0].text}\n\n${latestMessage}`;
+    } else {
+      compactMessages.push({ role: "user", parts: [{ text: latestMessage }] });
+    }
+  }
+
+  return compactMessages;
 }
 
 function extractGeminiText(data) {
