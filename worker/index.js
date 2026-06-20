@@ -21,7 +21,7 @@ const DEFAULT_LLAMA_DRAFT_MODEL = "@cf/meta/llama-3-8b-instruct";
 const DEFAULT_LLAMA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 const DEFAULT_LLAMA_EXTRA_FALLBACK_MODEL = "@cf/meta/llama-3.1-8b-instruct";
 const DEFAULT_GEMINI_MODEL = "gemini-3.5-flash";
-const MENTOR_BACKEND_VERSION = "mentor-v4-2026-06-20-gemini-model-fallback";
+const MENTOR_BACKEND_VERSION = "mentor-v7-2026-06-20-adaptive-depth-quota";
 
 const MENTOR_TIMEOUTS = {
   llamaMs: 22000,
@@ -37,6 +37,7 @@ const SECURITY_HEADERS = {
 };
 
 const MEMORY_RATE_LIMIT = new Map();
+const MEMORY_DAILY_QUOTA = new Map();
 
 const MENTOR_SYSTEM_INSTRUCTION = `
 أنت "الموجه الذكي" داخل منصة منسقة / OD Academy.
@@ -109,7 +110,12 @@ ${MENTOR_SYSTEM_INSTRUCTION}
 - لا تبدأ بعنوان وصفي جامد؛ ابدأ بما يفيد المستخدم مباشرة.
 - اجعل كل إجابة مصممة على السؤال نفسه.
 - استخدم إيموجيات ذكية، عناوين قصيرة، ونقاط واضحة.
-- اجعل الرد مفيدًا حتى لو كان السؤال مختصرًا.
+- مستوى التفصيل يجب أن يتغير حسب نوع السؤال:
+  • تحية أو سؤال بسيط: رد مختصر جدًا، طبيعي، بدون شرح طويل.
+  • سؤال متوسط: جواب عملي مركز مع خطوات قليلة.
+  • سؤال عميق/منهجي: جواب تفصيلي يغطي الأبعاد، الإطار، الخطوات، المؤشرات، المخاطر، ومثال تطبيقي عند الحاجة.
+- لا تعطِ إجابة طويلة لسؤال مثل: أهلا، شكراً، كيف تقدر تساعدني؟
+- لا تختصر سؤالًا عميقًا له قصد واضح؛ أعطه معالجة منهجية دسمة.
 - لو كان السؤال عامًا، أعطِ أفضل إجابة ثم اسأل سؤال تخصيص واحد فقط.
 `.trim();
 
@@ -494,6 +500,198 @@ function normalizeMessages(rawMessages, latestMessage) {
   return normalized;
 }
 
+function normalizeArabicForIntent(value = "") {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[إأآا]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function countIntentMatches(text, signals) {
+  return signals.reduce((count, signal) => {
+    return text.includes(normalizeArabicForIntent(signal)) ? count + 1 : count;
+  }, 0);
+}
+
+function classifyMentorRequest(message = "") {
+  const original = cleanUserMessage(message);
+  const text = normalizeArabicForIntent(original);
+  const length = original.length;
+  const wordCount = original.split(/\s+/).filter(Boolean).length;
+
+  const greetingSignals = [
+    "اهلا",
+    "هلا",
+    "مرحبا",
+    "السلام عليكم",
+    "صباح الخير",
+    "مساء الخير",
+    "شكرا",
+    "يعطيك العافيه",
+    "تمام",
+    "اوكي"
+  ];
+
+  const identitySignals = [
+    "كيف تقدر تساعدني",
+    "وش تقدر تسوي",
+    "وش مهمتك",
+    "من انت",
+    "عرفني عليك",
+    "ايش خدماتك",
+    "وش خدماتك"
+  ];
+
+  const simpleActionSignals = [
+    "اختصر",
+    "اشرح باختصار",
+    "اعطني مثال",
+    "صحح",
+    "رتب",
+    "اعد الصياغه",
+    "ترجم",
+    "لخص"
+  ];
+
+  const deepSignals = [
+    "كيف يمكن",
+    "نموذج",
+    "قياس",
+    "كمي",
+    "مؤشرات",
+    "مؤشر",
+    "kpi",
+    "kpis",
+    "okr",
+    "roi",
+    "العائد الاستثماري",
+    "تدخلات",
+    "التطوير التنظيمي",
+    "العوامل الناعمه",
+    "الثقه التنظيميه",
+    "التوافق بين القيادات",
+    "تفنيد",
+    "الادعاء",
+    "منهجي",
+    "منهجيه",
+    "تفصيلي",
+    "استراتيجي",
+    "استراتيجيه",
+    "هيكل",
+    "حوكمه",
+    "تحليل",
+    "شامل",
+    "تشخيص",
+    "مصفوفه",
+    "خارطه",
+    "اطار",
+    "تصميم",
+    "بناء",
+    "نظريه",
+    "انظمه",
+    "معقده",
+    "اداء",
+    "ثقافه"
+  ];
+
+  const deepCount = countIntentMatches(text, deepSignals);
+  const simpleCount = countIntentMatches(text, simpleActionSignals);
+  const isGreeting = length <= 70 && countIntentMatches(text, greetingSignals) > 0;
+  const isIdentity = length <= 120 && countIntentMatches(text, identitySignals) > 0;
+
+  if (isGreeting) {
+    return {
+      tier: "tiny",
+      label: "تحية أو تفاعل بسيط",
+      points: 1,
+      useDraft: false,
+      maxOutputTokens: 260,
+      temperature: 0.55,
+      depthInstruction: "رد قصير جدًا: جملة إلى ثلاث جمل، ودّي وبلهجة سعودية خفيفة، بدون عناوين وبدون شرح طويل.",
+      answerMode: "brief"
+    };
+  }
+
+  if (isIdentity) {
+    return {
+      tier: "intro",
+      label: "تعريف بالموجه",
+      points: 2,
+      useDraft: false,
+      maxOutputTokens: 650,
+      temperature: 0.55,
+      depthInstruction: "عرّف بالموجه الذكي باختصار مرتب: ماذا يقدم، أمثلة عملية، وكيف يبدأ المستخدم. لا تطل أكثر من اللازم.",
+      answerMode: "intro"
+    };
+  }
+
+  if (length <= 180 && deepCount === 0) {
+    return {
+      tier: "light",
+      label: "سؤال خفيف",
+      points: Math.max(1, simpleCount ? 2 : 1),
+      useDraft: false,
+      maxOutputTokens: 700,
+      temperature: 0.55,
+      depthInstruction: "أجب بإيجاز عملي: فقرة قصيرة أو 3 إلى 5 نقاط، ثم سؤال تخصيص واحد إن احتجت.",
+      answerMode: "concise"
+    };
+  }
+
+  if (length <= 450 && deepCount <= 1) {
+    return {
+      tier: "medium",
+      label: "سؤال متوسط",
+      points: 4,
+      useDraft: false,
+      maxOutputTokens: 1200,
+      temperature: 0.55,
+      depthInstruction: "أجب بجواب متوسط: الزبدة أولًا، ثم إطار عملي، ثم خطوات تنفيذية، بدون إسهاب زائد.",
+      answerMode: "standard"
+    };
+  }
+
+  if (length > 900 || deepCount >= 5) {
+    return {
+      tier: "expert",
+      label: "سؤال عميق/منهجي",
+      points: 18,
+      useDraft: true,
+      maxOutputTokens: 3800,
+      temperature: 0.5,
+      depthInstruction: "هذا سؤال عميق وله قصد معرفي واضح. أجب بإجابة منهجية تفصيلية تغطي: الفكرة المركزية، النموذج المقترح، خطوات التطبيق، مؤشرات القياس، مثال تطبيقي، أخطاء شائعة، وخلاصة تنفيذية. لا تختصر اختصارًا مخلًا.",
+      answerMode: "expert"
+    };
+  }
+
+  if (length > 450 || deepCount >= 2) {
+    return {
+      tier: "deep",
+      label: "سؤال مهني عميق",
+      points: 10,
+      useDraft: true,
+      maxOutputTokens: 2600,
+      temperature: 0.52,
+      depthInstruction: "أجب بإجابة مهنية عميقة: تشخيص الفكرة، إطار عملي، خطوات، مؤشرات أو أمثلة عند الحاجة، وتنبيه للمخاطر. اجعلها دسمة لكن مرتبة.",
+      answerMode: "deep"
+    };
+  }
+
+  return {
+    tier: "medium",
+    label: "سؤال متوسط",
+    points: 4,
+    useDraft: false,
+    maxOutputTokens: 1200,
+    temperature: 0.55,
+    depthInstruction: "أجب بجواب عملي واضح ومركز، مع خطوات قليلة قابلة للتطبيق.",
+    answerMode: "standard"
+  };
+}
+
 function conversationToPlainText(conversation) {
   if (!Array.isArray(conversation) || !conversation.length) return "لا يوجد سياق سابق.";
 
@@ -844,9 +1042,9 @@ function sanitizeMentorOutput(text) {
   return value || buildGracefulModelFailureAnswer();
 }
 
-function buildGeminiFinalPrompt({ conversation, latestMessage, llamaDraft }) {
+function buildGeminiFinalPrompt({ conversation, latestMessage, llamaDraft, requestProfile }) {
   const hasDraft = Boolean(cleanUserMessage(llamaDraft));
-
+  const profile = requestProfile || classifyMentorRequest(latestMessage);
   const dynamicStyleSeed = crypto.randomUUID().slice(0, 8);
 
   return `
@@ -855,6 +1053,12 @@ ${conversationToPlainText(conversation)}
 
 سؤال المستخدم الأخير:
 ${latestMessage}
+
+تصنيف الطلب الداخلي:
+- النوع: ${profile.label}
+- مستوى العمق: ${profile.tier}
+- وضع الإجابة المطلوب: ${profile.answerMode}
+- تعليمات التفصيل: ${profile.depthInstruction}
 
 ${hasDraft ? `ملاحظات داخلية للاستفادة منها فقط، وليست للعرض الحرفي:\n${llamaDraft}` : "لا توجد ملاحظات داخلية. ابنِ الرد مباشرة من السؤال والسياق."}
 
@@ -866,17 +1070,21 @@ ${hasDraft ? `ملاحظات داخلية للاستفادة منها فقط، �
 - لا تكرر افتتاحية محفوظة.
 - اختر بنية مناسبة للسؤال نفسه، وليس قالبًا عامًا.
 - استخدم إيموجيات قليلة لكنها واضحة.
-- اجعل الرد عمليًا ومباشرًا، مع عمق كافٍ.
+- اجعل حجم الرد مناسبًا للتصنيف أعلاه: لا تطوّل في التحيات والأسئلة البسيطة، ولا تختصر الأسئلة العميقة.
+- في الأسئلة العميقة، استخدم بنية منهجية مريحة: زبدة، إطار، خطوات، مؤشرات، مثال، تنبيهات، خلاصة.
+- في الأسئلة البسيطة، لا تضع عناوين كثيرة ولا شرحًا موسعًا.
 - إن كان السؤال مختصرًا، افترض المعنى الأقرب لسياق الموارد البشرية والتطوير التنظيمي.
 - Style variation seed: ${dynamicStyleSeed}
   `.trim();
 }
 
-async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llamaDraft }) {
+async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llamaDraft, requestProfile }) {
+  const profile = requestProfile || classifyMentorRequest(latestMessage);
   const prompt = buildGeminiFinalPrompt({
     conversation,
     latestMessage,
-    llamaDraft
+    llamaDraft,
+    requestProfile: profile
   });
 
   let response;
@@ -903,9 +1111,9 @@ async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llam
               }
             ],
             generationConfig: {
-              temperature: 0.55,
+              temperature: profile.temperature || 0.55,
               topP: 0.9,
-              maxOutputTokens: 2400
+              maxOutputTokens: profile.maxOutputTokens || 1800
             }
           })
         }
@@ -957,7 +1165,7 @@ async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llam
   }
 }
 
-async function callGeminiFinalWithFallback(env, conversation, latestMessage, llamaDraft = "") {
+async function callGeminiFinalWithFallback(env, conversation, latestMessage, llamaDraft = "", requestProfile = null) {
   const apiKey = getEnvValue(env, "GEMINI_API_KEY");
 
   if (!apiKey) {
@@ -976,7 +1184,8 @@ async function callGeminiFinalWithFallback(env, conversation, latestMessage, lla
       model,
       conversation,
       latestMessage,
-      llamaDraft
+      llamaDraft,
+      requestProfile
     });
 
     if (result.ok) return result;
@@ -1001,6 +1210,7 @@ async function callGeminiFinalWithFallback(env, conversation, latestMessage, lla
     errors
   };
 }
+
 
 function buildGracefulModelFailureAnswer() {
   return `
@@ -1027,6 +1237,495 @@ function buildGeminiConnectionFailureAnswer() {
   `.trim();
 }
 
+
+function getQuotaNumber(env, name, fallback) {
+  const raw = getEnvValue(env, name);
+  const value = Number(raw);
+  return Number.isFinite(value) && value >= 0 ? value : fallback;
+}
+
+function getMentorQuotaLimits(env) {
+  const newUserPoints = getQuotaNumber(
+    env,
+    "MENTOR_NEW_USER_DAILY_POINTS",
+    getQuotaNumber(env, "MENTOR_GUEST_DAILY_POINTS", 350)
+  );
+
+  return {
+    enabled: getEnvValue(env, "MENTOR_QUOTA_ENABLED") !== "0",
+    // لا يوجد زائر في المنصة؛ أي طلب غير مصنف نعامله كمستخدم جديد.
+    guestDailyPoints: newUserPoints,
+    newUserDailyPoints: newUserPoints,
+    regularDailyPoints: getQuotaNumber(env, "MENTOR_REGULAR_DAILY_POINTS", 350),
+    importantDailyPoints: getQuotaNumber(env, "MENTOR_IMPORTANT_DAILY_POINTS", 2500),
+    adminDailyPoints: getQuotaNumber(env, "MENTOR_ADMIN_DAILY_POINTS", 9000),
+    siteDailyPoints: getQuotaNumber(env, "MENTOR_SITE_DAILY_POINTS", 9500)
+  };
+}
+
+function normalizeEmail(value = "") {
+  return String(value || "").trim().toLowerCase();
+}
+
+function getConfiguredEmails(env, name, fallback = "") {
+  return splitEnvList(getEnvValue(env, name) || fallback).map(normalizeEmail).filter(Boolean);
+}
+
+function getMentorAdminEmails(env) {
+  return getConfiguredEmails(env, "MENTOR_ADMIN_EMAILS", "rayan.al.ajlan123@gmail.com");
+}
+
+function getMentorImportantEmails(env) {
+  return getConfiguredEmails(env, "MENTOR_IMPORTANT_EMAILS", "");
+}
+
+function decodeJwtPayload(token = "") {
+  try {
+    const payload = String(token).split(".")[1];
+    if (!payload) return null;
+
+    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), "=");
+    return JSON.parse(atob(padded));
+  } catch {
+    return null;
+  }
+}
+
+async function resolveMentorIdentity(request, env, body = {}) {
+  const accessToken = getAuthToken(request);
+  let userId = "";
+  let email = "";
+  let verified = false;
+
+  if (accessToken) {
+    const config = getRequiredEmailEnv(env);
+
+    if (config.supabaseUrl && config.supabaseAnonKey) {
+      const userResult = await getSupabaseUser({
+        supabaseUrl: config.supabaseUrl,
+        supabaseAnonKey: config.supabaseAnonKey,
+        accessToken
+      });
+
+      if (userResult.ok && userResult.user?.id) {
+        verified = true;
+        userId = String(userResult.user.id || "");
+        email = normalizeEmail(userResult.user.email || "");
+      }
+    }
+
+    if (!userId) {
+      const payload = decodeJwtPayload(accessToken) || {};
+      userId = String(payload.sub || payload.user_id || "");
+      email = normalizeEmail(payload.email || "");
+    }
+  }
+
+  if (!userId && body?.userId) userId = String(body.userId || "").trim();
+  if (!email && body?.email) email = normalizeEmail(body.email);
+
+  let role = "guest";
+  if (userId || email) role = "regular";
+
+  if (verified && email) {
+    if (getMentorAdminEmails(env).includes(email)) {
+      role = "admin";
+    } else if (getMentorImportantEmails(env).includes(email)) {
+      role = "important";
+    }
+  }
+
+  const ipHash = await sha256Hex(
+    `${getClientIp(request)}:${request.headers.get("User-Agent") || "unknown"}`
+  );
+
+  const identityRaw = userId
+    ? `user:${userId}`
+    : email
+      ? `email:${email}`
+      : `anon:${ipHash}`;
+
+  const identityHash = await sha256Hex(identityRaw);
+
+  return {
+    role,
+    verified,
+    email,
+    userId,
+    identityHash,
+    identityKey: identityRaw.startsWith("anon:") ? `anon:${identityHash}` : `user:${identityHash}`
+  };
+}
+
+function getRoleLimit(limits, role) {
+  if (role === "admin") return limits.adminDailyPoints;
+  if (role === "important") return limits.importantDailyPoints;
+  if (role === "regular") return limits.regularDailyPoints;
+  return limits.guestDailyPoints;
+}
+
+function getRoleArabicLabel(role) {
+  if (role === "admin") return "حساب إداري";
+  if (role === "important") return "حساب مهم";
+  if (role === "regular") return "مستخدم جديد";
+  return "مستخدم جديد";
+}
+
+function estimateMentorPointCost(message = "") {
+  return classifyMentorRequest(message).points;
+}
+
+
+function getPacificDateKey(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  })
+    .formatToParts(date)
+    .reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function getTimeZoneParts(date, timeZone) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  })
+    .formatToParts(date)
+    .reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+}
+
+function getTimeZoneOffsetMs(date, timeZone) {
+  const parts = getTimeZoneParts(date, timeZone);
+  const hour = Number(parts.hour) === 24 ? 0 : Number(parts.hour);
+  const asUtc = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day),
+    hour,
+    Number(parts.minute),
+    Number(parts.second)
+  );
+
+  return asUtc - date.getTime();
+}
+
+function getNextPacificMidnightIso(date = new Date()) {
+  const timeZone = "America/Los_Angeles";
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  })
+    .formatToParts(date)
+    .reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+
+  const localMidnightGuessUtc = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day) + 1,
+    0,
+    0,
+    0
+  );
+
+  let candidate = new Date(localMidnightGuessUtc);
+  for (let i = 0; i < 3; i += 1) {
+    const offset = getTimeZoneOffsetMs(candidate, timeZone);
+    candidate = new Date(localMidnightGuessUtc - offset);
+  }
+
+  if (candidate.getTime() <= date.getTime() + 60 * 1000) {
+    return new Date(candidate.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  }
+
+  return candidate.toISOString();
+}
+
+function getRetryAfterSeconds(resetAt) {
+  const diff = new Date(resetAt).getTime() - Date.now();
+  return Math.max(60, Math.ceil(diff / 1000));
+}
+
+function formatDurationAr(resetAt) {
+  const totalSeconds = Math.max(0, Math.floor((new Date(resetAt).getTime() - Date.now()) / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function formatSaudiTime(resetAt) {
+  return new Intl.DateTimeFormat("ar-SA", {
+    timeZone: "Asia/Riyadh",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  }).format(new Date(resetAt));
+}
+
+function getQuotaStorageMode(env) {
+  return env?.MENTOR_QUOTA_KV && typeof env.MENTOR_QUOTA_KV.get === "function" && typeof env.MENTOR_QUOTA_KV.put === "function"
+    ? "kv"
+    : "memory";
+}
+
+async function readQuotaRecord(env, key) {
+  if (getQuotaStorageMode(env) === "kv") {
+    try {
+      const raw = await env.MENTOR_QUOTA_KV.get(key);
+      return raw ? JSON.parse(raw) : { used: 0, requests: 0 };
+    } catch {
+      return { used: 0, requests: 0 };
+    }
+  }
+
+  const item = MEMORY_DAILY_QUOTA.get(key);
+  if (!item || item.expiresAt <= Date.now()) {
+    MEMORY_DAILY_QUOTA.delete(key);
+    return { used: 0, requests: 0 };
+  }
+
+  return item.record || { used: 0, requests: 0 };
+}
+
+async function writeQuotaRecord(env, key, record, resetAt) {
+  const expiresAtSeconds = Math.floor(new Date(resetAt).getTime() / 1000) + 60;
+
+  if (getQuotaStorageMode(env) === "kv") {
+    try {
+      await env.MENTOR_QUOTA_KV.put(key, JSON.stringify(record), {
+        expiration: expiresAtSeconds
+      });
+      return;
+    } catch (error) {
+      // إذا وصل KV لحد الكتابة في الخطة المجانية، لا نكسر الشات؛ نكمل مؤقتًا بالذاكرة.
+      console.warn("MENTOR_QUOTA_KV_WRITE_FAILED", safeError(error));
+    }
+  }
+
+  MEMORY_DAILY_QUOTA.set(key, {
+    record,
+    expiresAt: new Date(resetAt).getTime() + 60 * 1000
+  });
+}
+
+function buildQuotaLimitMessage({ target, resetAt, role, limit, used, cost }) {
+  const scopeLine = target === "site"
+    ? "ودنا نخدمك الآن، لكن الموجه الذكي وصل للحد الآمن اليومي للمنصة."
+    : "ودنا نخدمك الآن، لكن رصيدك اليومي في الموجه الذكي اكتمل.";
+
+  const roleLine = target === "user"
+    ? `تصنيف حسابك: ${getRoleArabicLabel(role)}.`
+    : "هذا حد عام لحماية جودة التجربة لكل المستخدمين، عشان ما نعطيك رد ناقص أو تتعطل الخدمة فجأة.";
+
+  return `
+${scopeLine} 🌿
+
+نعرف أن توقف الخدمة مزعج، ووالله ودنا نكمل معك، لكن وقفنا الطلبات الجديدة مؤقتًا حتى نحافظ على جودة الردود ونوزّع الرصيد بعدل بين الجميع.
+
+${roleLine}
+استخدمت اليوم: ${used} من ${limit} نقطة.
+هذا الطلب يحتاج: ${cost} نقطة.
+
+يتجدد الرصيد تلقائيًا بعد: ${formatDurationAr(resetAt)} ⏳
+تقدر ترجع تقريبًا بعد الساعة ${formatSaudiTime(resetAt)} بتوقيت السعودية، ونكمل معك من نفس المحادثة بإذن الله.
+
+ولا تشيل هم، أسئلتك محفوظة هنا وما تحتاج تبدأ من جديد.
+  `.trim();
+}
+
+function buildProviderQuotaMessage(resetAt) {
+  return `
+الموجه الذكي عليه ضغط عالي الآن 🌿
+
+ودنا نخدمك مباشرة، لكن مزود الذكاء الاصطناعي وصل لحد الاستخدام المؤقت. وقفنا الرد بدل ما تظهر لك إجابة ناقصة أو رسالة خطأ مزعجة.
+
+جرّب ترجع بعد: ${formatDurationAr(resetAt)} ⏳
+العودة المتوقعة: بعد الساعة ${formatSaudiTime(resetAt)} بتوقيت السعودية.
+
+أبشر، بعد التجدد كمل سؤالك من نفس المحادثة.
+  `.trim();
+}
+
+function quotaExceededResponse(request, env, quotaResult) {
+  const retryAfterSeconds = getRetryAfterSeconds(quotaResult.resetAt);
+  const message = quotaResult.message;
+
+  return jsonResponse(
+    {
+      ok: false,
+      code: "AI_QUOTA_EXCEEDED",
+      error: message,
+      message,
+      reply: message,
+      text: message,
+      resetAt: quotaResult.resetAt,
+      retryAfterSeconds,
+      quota: quotaResult
+    },
+    429,
+    request,
+    env,
+    {
+      "Retry-After": String(retryAfterSeconds),
+      "X-Mentor-Quota-Remaining": String(Math.max(0, quotaResult.remaining || 0)),
+      "X-Mentor-Quota-Role": quotaResult.role || "guest"
+    }
+  );
+}
+
+async function checkAndConsumeMentorQuota({ request, env, body, latestMessage, requestProfile = null }) {
+  const limits = getMentorQuotaLimits(env);
+  const identity = await resolveMentorIdentity(request, env, body);
+  const profile = requestProfile || classifyMentorRequest(latestMessage);
+  const cost = profile.points;
+  const resetAt = getNextPacificMidnightIso();
+  const dateKey = getPacificDateKey();
+
+  if (!limits.enabled) {
+    return {
+      allowed: true,
+      enabled: false,
+      role: identity.role,
+      cost,
+      resetAt,
+      storage: getQuotaStorageMode(env)
+    };
+  }
+
+  const userLimit = getRoleLimit(limits, identity.role);
+  const siteLimit = limits.siteDailyPoints;
+
+  const userKey = `mentor-quota:v2:${dateKey}:user:${identity.identityKey}`;
+  const siteKey = `mentor-quota:v2:${dateKey}:site`;
+
+  const [userRecord, siteRecord] = await Promise.all([
+    readQuotaRecord(env, userKey),
+    readQuotaRecord(env, siteKey)
+  ]);
+
+  const userUsed = Number(userRecord.used || 0);
+  const siteUsed = Number(siteRecord.used || 0);
+
+  if (siteLimit > 0 && siteUsed + cost > siteLimit) {
+    const message = buildQuotaLimitMessage({
+      target: "site",
+      resetAt,
+      role: identity.role,
+      limit: siteLimit,
+      used: siteUsed,
+      cost
+    });
+
+    return {
+      allowed: false,
+      target: "site",
+      role: identity.role,
+      cost,
+      limit: siteLimit,
+      used: siteUsed,
+      remaining: Math.max(0, siteLimit - siteUsed),
+      resetAt,
+      message,
+      storage: getQuotaStorageMode(env)
+    };
+  }
+
+  if (userLimit > 0 && userUsed + cost > userLimit) {
+    const message = buildQuotaLimitMessage({
+      target: "user",
+      resetAt,
+      role: identity.role,
+      limit: userLimit,
+      used: userUsed,
+      cost
+    });
+
+    return {
+      allowed: false,
+      target: "user",
+      role: identity.role,
+      cost,
+      limit: userLimit,
+      used: userUsed,
+      remaining: Math.max(0, userLimit - userUsed),
+      resetAt,
+      message,
+      storage: getQuotaStorageMode(env)
+    };
+  }
+
+  const now = new Date().toISOString();
+  const nextUserRecord = {
+    ...userRecord,
+    used: userUsed + cost,
+    requests: Number(userRecord.requests || 0) + 1,
+    role: identity.role,
+    verified: identity.verified,
+    updatedAt: now
+  };
+
+  const nextSiteRecord = {
+    ...siteRecord,
+    used: siteUsed + cost,
+    requests: Number(siteRecord.requests || 0) + 1,
+    updatedAt: now
+  };
+
+  await Promise.all([
+    writeQuotaRecord(env, userKey, nextUserRecord, resetAt),
+    writeQuotaRecord(env, siteKey, nextSiteRecord, resetAt)
+  ]);
+
+  return {
+    allowed: true,
+    enabled: true,
+    role: identity.role,
+    roleLabel: getRoleArabicLabel(identity.role),
+    verified: identity.verified,
+    cost,
+    requestTier: profile.tier,
+    requestLabel: profile.label,
+    limit: userLimit,
+    used: nextUserRecord.used,
+    remaining: userLimit > 0 ? Math.max(0, userLimit - nextUserRecord.used) : null,
+    siteLimit,
+    siteUsed: nextSiteRecord.used,
+    siteRemaining: siteLimit > 0 ? Math.max(0, siteLimit - nextSiteRecord.used) : null,
+    resetAt,
+    storage: getQuotaStorageMode(env)
+  };
+}
+
+function geminiFailureWasQuota(result) {
+  if (!result) return false;
+  if (Number(result.status) === 429) return true;
+  const serialized = JSON.stringify(result.errors || result.error || result.data || "").toLowerCase();
+  return serialized.includes("resource_exhausted") || serialized.includes("quota") || serialized.includes("rate limit") || serialized.includes("429");
+}
+
 async function handleMentorDiagnostics(request, env) {
   if (request.method === "OPTIONS") return emptyResponse(request, env);
 
@@ -1043,6 +1742,12 @@ async function handleMentorDiagnostics(request, env) {
     geminiKeyPresent: Boolean(getEnvValue(env, "GEMINI_API_KEY")),
     geminiModel: primaryGeminiModel,
     geminiModelsToTry: getGeminiModels(env),
+    quota: {
+      enabled: getMentorQuotaLimits(env).enabled,
+      storage: getQuotaStorageMode(env),
+      kvBindingPresent: getQuotaStorageMode(env) === "kv",
+      limits: getMentorQuotaLimits(env)
+    },
     workersAiTest: null,
     geminiTest: null
   };
@@ -1111,6 +1816,8 @@ async function handleMentorRequest(request, env) {
         pipeline: "workers-ai-draft-then-gemini-final",
         workersAiReady: Boolean(env?.AI),
         geminiReady: Boolean(getEnvValue(env, "GEMINI_API_KEY")),
+        quotaReady: getMentorQuotaLimits(env).enabled,
+        quotaStorage: getQuotaStorageMode(env),
         message: "خدمة الموجه الذكي متصلة."
       },
       200,
@@ -1169,17 +1876,35 @@ async function handleMentorRequest(request, env) {
     );
   }
 
+  const requestProfile = classifyMentorRequest(latestMessage);
+
+  const quotaResult = await checkAndConsumeMentorQuota({
+    request,
+    env,
+    body,
+    latestMessage,
+    requestProfile
+  });
+
+  if (!quotaResult.allowed) {
+    return quotaExceededResponse(request, env, quotaResult);
+  }
+
   const conversation = normalizeMessages(body.messages, latestMessage);
 
-  // 1) المسار الأساسي: Workers AI / Llama ينتج مسودة أولية.
-  const draftResult = await callWorkersAiDraftWithFallback(env, conversation);
+  // 1) المسار الذكي: الأسئلة الخفيفة لا تحتاج مسودة Llama؛ نوفر الرصيد ونخلي الرد مختصرًا.
+  // الأسئلة العميقة تستخدم Llama كمسودة تحليلية ثم Gemini كصياغة نهائية.
+  const draftResult = requestProfile.useDraft
+    ? await callWorkersAiDraftWithFallback(env, conversation)
+    : { ok: false, provider: "skipped", model: null, text: "", error: "تم تجاوز المسودة لأن الطلب بسيط أو متوسط." };
 
-  // 2) المسار النهائي: Gemini يحسن المسودة. إذا فشلت المسودة، يحاول Gemini الإجابة مباشرة.
+  // 2) المسار النهائي: Gemini يضبط طول الرد وعمقه حسب تصنيف الطلب.
   const finalResult = await callGeminiFinalWithFallback(
     env,
     conversation,
     latestMessage,
-    draftResult.ok ? draftResult.text : ""
+    draftResult.ok ? draftResult.text : "",
+    requestProfile
   );
 
   if (finalResult.ok) {
@@ -1196,7 +1921,15 @@ async function handleMentorRequest(request, env) {
         draftProvider: draftResult.ok ? draftResult.provider : null,
         draftModel: draftResult.ok ? draftResult.model : null,
         finalProvider: finalResult.provider,
-        finalModel: finalResult.model
+        finalModel: finalResult.model,
+        requestProfile: {
+          tier: requestProfile.tier,
+          label: requestProfile.label,
+          points: requestProfile.points,
+          answerMode: requestProfile.answerMode,
+          usedDraft: Boolean(requestProfile.useDraft)
+        },
+        quota: quotaResult
       },
       200,
       request,
@@ -1230,13 +1963,39 @@ async function handleMentorRequest(request, env) {
           draftProvider: draftResult.ok ? draftResult.provider : null,
           draftModel: draftResult.ok ? draftResult.model : null,
           finalProvider: workersFinalResult.provider,
-          finalModel: workersFinalResult.model
+          finalModel: workersFinalResult.model,
+          requestProfile: {
+            tier: requestProfile.tier,
+            label: requestProfile.label,
+            points: requestProfile.points,
+            answerMode: requestProfile.answerMode,
+            usedDraft: Boolean(requestProfile.useDraft)
+          },
+          quota: quotaResult
         },
         200,
         request,
         env
       );
     }
+  }
+
+  if (geminiFailureWasQuota(finalResult)) {
+    const resetAt = getNextPacificMidnightIso();
+    const message = buildProviderQuotaMessage(resetAt);
+
+    return quotaExceededResponse(request, env, {
+      allowed: false,
+      target: "provider",
+      role: quotaResult.role || "regular",
+      cost: quotaResult.cost || 1,
+      limit: quotaResult.limit || 0,
+      used: quotaResult.used || 0,
+      remaining: quotaResult.remaining || 0,
+      resetAt,
+      message,
+      storage: quotaResult.storage || getQuotaStorageMode(env)
+    });
   }
 
   console.warn("Mentor Gemini final failed:", {
@@ -1825,6 +2584,27 @@ export default {
 
     if (pathname === "/api/mentor-debug") {
       return handleMentorDiagnostics(request, env);
+    }
+
+    if (pathname === "/api/mentor-quota") {
+      if (request.method === "OPTIONS") return emptyResponse(request, env);
+      if (request.method !== "GET") return jsonResponse({ ok: false, error: "Method not allowed" }, 405, request, env);
+
+      const identity = await resolveMentorIdentity(request, env, {});
+      const limits = getMentorQuotaLimits(env);
+      return jsonResponse({
+        ok: true,
+        service: "odacademy-mentor-quota",
+        version: MENTOR_BACKEND_VERSION,
+        role: identity.role,
+        roleLabel: getRoleArabicLabel(identity.role),
+        verified: identity.verified,
+        limit: getRoleLimit(limits, identity.role),
+        siteLimit: limits.siteDailyPoints,
+        resetAt: getNextPacificMidnightIso(),
+        storage: getQuotaStorageMode(env),
+        kvBindingPresent: getQuotaStorageMode(env) === "kv"
+      }, 200, request, env);
     }
 
     if (pathname === "/api/login-notice") {
