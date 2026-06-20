@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const STORAGE_KEY = "odacademy_ai_mentor_sessions_v2";
-const ACTIVE_KEY = "odacademy_ai_mentor_active_session_v2";
+const STORAGE_KEY = "odacademy_ai_mentor_sessions_v3";
+const ACTIVE_KEY = "odacademy_ai_mentor_active_session_v3";
 
 const THINKING_MODES = [
   {

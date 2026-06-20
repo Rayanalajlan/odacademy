@@ -409,11 +409,32 @@ function cleanUserMessage(message) {
     .slice(0, 6000);
 }
 
+function createMentorFallbackReply(message = "", modeTitle = "") {
+  const topic = cleanUserMessage(message).slice(0, 320);
+  const mode = cleanUserMessage(modeTitle).slice(0, 80);
+
+  return [
+    mode ? `أتعامل مع سؤالك من زاوية: ${mode}.` : "أتعامل مع سؤالك كحالة تطوير تنظيمي تحتاج تشخيصًا قبل الحل.",
+    "",
+    topic
+      ? `الخلاصة: سؤالك يدور حول: ${topic}`
+      : "الخلاصة: قبل اختيار الحل نحتاج تحديد أين يتكرر الخلل وما الأثر الذي يصنعه.",
+    "",
+    "ما تسويه الآن:",
+    "1. حدّد التعارض بدقة: هل هو بين الاستراتيجية والهيكل، أم بين الصلاحيات والتنفيذ، أم بين القرار والسلوك اليومي؟",
+    "2. اكتب مثالين حديثين يوضحان متى ظهر التعارض ومن تأثر به.",
+    "3. افصل بين رأي الأشخاص وبين أثر النظام: ما القرار المتعطل؟ من يملكه؟ وما البيانات التي تثبت الأثر؟",
+    "4. اقترح تجربة صغيرة لمدة أسبوعين بدل تغيير واسع؛ مثل توضيح صلاحية واحدة أو تعديل مسار اعتماد واحد.",
+    "5. قِس النتيجة بمؤشر بسيط: سرعة القرار، انخفاض الإعادة، وضوح المسؤولية، أو رضا أصحاب المصلحة.",
+    "",
+    "صياغة جاهزة للاجتماع: نحتاج نفهم هل المشكلة في الاتجاه أم في توزيع الصلاحيات. خلونا نحدد قرارًا واحدًا يتعطل باستمرار، ثم نوضح من يملكه وما معيار نجاحه، ونقيس الأثر قبل تعميم أي تغيير."
+  ].join("\n");
+}
+
 function normalizeMessages(rawMessages, latestMessage) {
   const messages = Array.isArray(rawMessages) ? rawMessages : [];
 
   const normalized = messages
-    .slice(-12)
     .map((item) => {
       const role = item?.role === "assistant" ? "assistant" : "user";
       const content = cleanUserMessage(item?.content || item?.text || "");
@@ -421,10 +442,76 @@ function normalizeMessages(rawMessages, latestMessage) {
     })
     .filter(Boolean);
 
-  if (latestMessage && !normalized.some((item) => item.content === latestMessage)) {
-    normalized.push({
+  while (normalized.length && normalized[0].role !== "user") {
+    normalized.shift();
+  }
+
+  const alternating = [];
+
+  for (const message of normalized) {
+    const previous = alternating[alternating.length - 1];
+
+    if (previous?.role === message.role) {
+      previous.content = `${previous.content}\n\n${message.content}`;
+    } else {
+      alternating.push(message);
+    }
+  }
+
+  const compact = alternating.slice(-6);
+
+  if (latestMessage && !compact.some((item) => item.content === latestMessage)) {
+    const previous = compact[compact.length - 1];
+
+    if (previous?.role === "user") {
+      previous.content = `${previous.content}\n\n${latestMessage}`;
+    } else {
+      compact.push({
+        role: "user",
+        content: latestMessage
+      });
+    }
+  }
+
+  if (latestMessage && !compact.length) {
+    compact.push({
       role: "user",
       content: latestMessage
+    });
+  }
+
+  return compact;
+}
+
+function normalizeGeminiMessages(conversation) {
+  const normalized = [];
+
+  for (const item of conversation) {
+    const role = item.role === "assistant" ? "model" : "user";
+    const text = cleanUserMessage(item.content || item.text || "");
+
+    if (!text) continue;
+
+    const previous = normalized[normalized.length - 1];
+
+    if (previous?.role === role) {
+      previous.parts[0].text = `${previous.parts[0].text}\n\n${text}`;
+    } else {
+      normalized.push({
+        role,
+        parts: [{ text }]
+      });
+    }
+  }
+
+  while (normalized.length && normalized[0].role !== "user") {
+    normalized.shift();
+  }
+
+  if (!normalized.length) {
+    normalized.push({
+      role: "user",
+      parts: [{ text: "ابدأ بتوجيه عملي مختصر في التطوير التنظيمي." }]
     });
   }
 
@@ -483,8 +570,8 @@ async function callWorkersAi(env, conversation) {
 
   const result = await env.AI.run(model, {
     messages,
-    max_tokens: 1300,
-    temperature: 0.45
+    max_tokens: 700,
+    temperature: 0.62
   });
 
   const text = extractAiText(result);
@@ -528,10 +615,7 @@ function extractGeminiText(result) {
 }
 
 async function callGeminiOnce({ apiKey, model, conversation }) {
-  const contents = conversation.map((item) => ({
-    role: item.role === "assistant" ? "model" : "user",
-    parts: [{ text: item.content }]
-  }));
+  const contents = normalizeGeminiMessages(conversation);
 
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
@@ -546,9 +630,9 @@ async function callGeminiOnce({ apiKey, model, conversation }) {
         },
         contents,
         generationConfig: {
-          temperature: 0.45,
+          temperature: 0.62,
           topP: 0.9,
-          maxOutputTokens: 1300
+          maxOutputTokens: 700
         }
       })
     }
@@ -677,6 +761,7 @@ async function handleMentorRequest(request, env) {
 
   const body = parsedBody.data || {};
   const latestMessage = cleanUserMessage(body.message || body.prompt || body.text || "");
+  const modeTitle = cleanUserMessage(body.modeTitle || body.mode_title || "");
 
   if (!latestMessage) {
     return jsonResponse(
@@ -701,14 +786,20 @@ async function handleMentorRequest(request, env) {
 
   if (!result.ok) {
     console.warn("Mentor provider failed:", result.error || result.errors);
+    const fallbackText = createMentorFallbackReply(latestMessage, modeTitle);
 
     return jsonResponse(
       {
-        ok: false,
-        code: "MENTOR_PROVIDER_UNAVAILABLE",
-        error: "الموجه غير متاح الآن. فيه ضغط على المختبر الذكي، جرّب بعد قليل."
+        ok: true,
+        reply: fallbackText,
+        answer: fallbackText,
+        response: fallbackText,
+        text: fallbackText,
+        provider: "local-od-mentor",
+        model: "local-fallback",
+        fallbackReason: result.error || result.errors
       },
-      503,
+      200,
       request,
       env
     );
