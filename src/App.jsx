@@ -325,13 +325,16 @@ export default function App() {
         (_event, nextSession) => {
           if (!mounted) return;
 
+          setProgressRows([]);
           setSession(nextSession || null);
 
           if (nextSession?.user) {
             setUserName(getDisplayName(nextSession));
+            loadProgressSafely({ showLoader: true });
+          } else {
+            setUserName("");
+            setIsAdmin(false);
           }
-
-          loadProgressSafely({ showLoader: true });
         }
       );
 
@@ -471,6 +474,8 @@ export default function App() {
   }
 
   async function handleSignOut() {
+    const signingOutUserId = session?.user?.id;
+
     try {
       if (isSupabaseConfigured && supabase && session) {
         await supabase.auth.signOut();
@@ -482,6 +487,10 @@ export default function App() {
     setMobileNavOpen(false);
     setSession(null);
     setDemoMode(false);
+    setProgressRows([]);
+    if (signingOutUserId) {
+      progressService.clearLocalProgressForUser?.(signingOutUserId);
+    }
     localStorage.removeItem("od_demo_name");
     setUserName("");
     setActivePage("home");
@@ -1235,6 +1244,7 @@ export default function App() {
 
         {activePage === "learning-roi" && (
           <LearningROICalculator
+            key={session?.user?.id || (demoMode ? "demo" : "guest")}
             completedDays={completedDays}
             totalDays={totalJourneyDays}
           />

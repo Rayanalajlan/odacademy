@@ -68,15 +68,11 @@ function readLocalProgress(userId = "guest") {
     if (!storage) return [];
 
     const scopedKey = getLocalProgressKey(userId);
-    const raw = storage.getItem(scopedKey) || storage.getItem(LOCAL_PROGRESS_KEY);
+    const raw = storage.getItem(scopedKey);
     if (!raw) return [];
 
     const parsed = JSON.parse(raw);
     const rows = Array.isArray(parsed) ? sortProgressRows(parsed.map(normalizeRow)) : [];
-
-    if (rows.length && !storage.getItem(scopedKey)) {
-      storage.setItem(scopedKey, JSON.stringify(rows));
-    }
 
     return rows;
   } catch (error) {
@@ -94,6 +90,17 @@ function writeLocalProgress(rows, userId = "guest") {
     storage.setItem(getLocalProgressKey(userId), JSON.stringify(safeRows));
   } catch (error) {
     console.warn("تعذر تحديث نسخة التقدم المحلية:", error);
+  }
+}
+
+export function clearLocalProgressForUser(userId = "guest") {
+  try {
+    const storage = safeLocalStorage();
+    if (!storage) return;
+
+    storage.removeItem(getLocalProgressKey(userId));
+  } catch (error) {
+    console.warn("تعذر مسح نسخة التقدم المحلية:", error);
   }
 }
 
@@ -388,12 +395,11 @@ async function syncRowToSupabase({ monthIndex, weekIndex, dayIndex, status }) {
 
 export async function loadUserProgress() {
   const user = await getCurrentUserStrict();
-  const userKey = user?.id || "guest";
-  const localRows = readLocalProgress(userKey);
+  const localRows = user?.id ? readLocalProgress(user.id) : [];
 
   if (!user?.id) {
     // قبل تسجيل الدخول أو في وضع تجريبي فقط.
-    return localRows;
+    return [];
   }
 
   const remoteRows = await fetchRemoteProgress(user.id);

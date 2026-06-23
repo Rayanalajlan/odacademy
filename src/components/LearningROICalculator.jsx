@@ -1,4 +1,15 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  DEFAULT_ROI_INPUTS,
+  loadLearningRoiInputs,
+  saveLearningRoiInputs
+} from "../lib/learningRoiService";
+import {
+  formatEnglishCurrency,
+  formatEnglishNumber,
+  normalizeDigits,
+  toEnglishInteger
+} from "../lib/numberFormat";
 
 const TOTAL_JOURNEY_DAYS = 180;
 const DEFAULT_INFLATION_RATE = 0.019;
@@ -438,18 +449,11 @@ const SOURCES = [
 ];
 
 function formatCurrency(value) {
-  const number = Number(value || 0);
-  return new Intl.NumberFormat("ar-SA", {
-    style: "currency",
-    currency: "SAR",
-    maximumFractionDigits: 0
-  }).format(Math.max(0, Math.round(number)));
+  return formatEnglishCurrency(value);
 }
 
 function formatNumber(value) {
-  return new Intl.NumberFormat("ar-SA", {
-    maximumFractionDigits: 0
-  }).format(Math.max(0, Math.round(Number(value || 0))));
+  return formatEnglishNumber(Math.max(0, Math.round(Number(value || 0))));
 }
 
 function clamp(value, min, max) {
@@ -458,8 +462,8 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, numeric));
 }
 
-function getExperienceStage(years) {
-  const value = clamp(years, 0, 25);
+function getExperienceStage(experienceMonths) {
+  const value = clamp(experienceMonths, 0, 720) / 12;
 
   if (value < 1) {
     return {
@@ -602,17 +606,46 @@ export default function LearningROICalculator({
   const safeTotalDays = Math.max(1, Number(totalDays || TOTAL_JOURNEY_DAYS));
   const actualCompletedDays = clamp(completedDays, 0, safeTotalDays);
 
-  const [relation, setRelation] = useState("inside");
-  const [levelId, setLevelId] = useState(getDefaultLevel("inside"));
-  const [lens, setLens] = useState("od");
-  const [outcome, setOutcome] = useState("promotion");
-  const [yearsOfExperience, setYearsOfExperience] = useState(2);
-  const [currentSalary, setCurrentSalary] = useState(8000);
-  const [applicationLevel, setApplicationLevel] = useState(3);
-  const [marketContext, setMarketContext] = useState("balanced");
-  const [useActualProgress, setUseActualProgress] = useState(true);
-  const [scenarioDays, setScenarioDays] = useState(actualCompletedDays || 30);
+  const [relation, setRelation] = useState(DEFAULT_ROI_INPUTS.relation);
+  const [levelId, setLevelId] = useState(DEFAULT_ROI_INPUTS.level_id);
+  const [lens, setLens] = useState(DEFAULT_ROI_INPUTS.lens);
+  const [outcome, setOutcome] = useState(DEFAULT_ROI_INPUTS.outcome);
+  const [experienceYears, setExperienceYears] = useState(0);
+  const [experienceMonthsRemainder, setExperienceMonthsRemainder] = useState(0);
+  const [currentSalary, setCurrentSalary] = useState(DEFAULT_ROI_INPUTS.current_salary);
+  const [applicationLevel, setApplicationLevel] = useState(DEFAULT_ROI_INPUTS.application_level);
+  const [marketContext, setMarketContext] = useState(DEFAULT_ROI_INPUTS.market_context);
+  const [useActualProgress, setUseActualProgress] = useState(DEFAULT_ROI_INPUTS.use_actual_progress);
+  const [scenarioDays, setScenarioDays] = useState(DEFAULT_ROI_INPUTS.scenario_days);
+  const [hasUserInput, setHasUserInput] = useState(DEFAULT_ROI_INPUTS.has_user_input);
+  const [roiLoading, setRoiLoading] = useState(true);
+  const [roiError, setRoiError] = useState("");
   const [showSources, setShowSources] = useState(false);
+
+  const experienceMonths = experienceYears * 12 + experienceMonthsRemainder;
+
+  function applyInputs(inputs) {
+    const safeInputs = { ...DEFAULT_ROI_INPUTS, ...(inputs || {}) };
+    const safeExperienceMonths = clamp(safeInputs.experience_months, 0, 720);
+
+    setRelation(safeInputs.relation);
+    setLevelId(safeInputs.level_id || getDefaultLevel(safeInputs.relation));
+    setLens(safeInputs.lens);
+    setOutcome(safeInputs.outcome);
+    setExperienceYears(Math.floor(safeExperienceMonths / 12));
+    setExperienceMonthsRemainder(safeExperienceMonths % 12);
+    setCurrentSalary(safeInputs.current_salary);
+    setApplicationLevel(safeInputs.application_level);
+    setMarketContext(safeInputs.market_context);
+    setUseActualProgress(Boolean(safeInputs.use_actual_progress));
+    setScenarioDays(safeInputs.scenario_days);
+    setHasUserInput(Boolean(safeInputs.has_user_input));
+  }
+
+  function markUserInput(updater) {
+    setHasUserInput(true);
+    updater();
+  }
 
   const activeRelation = RELATION_GROUPS[relation];
   const activeLevel = getLevelObject(relation, levelId);
@@ -625,21 +658,118 @@ export default function LearningROICalculator({
 
   const effectiveDays = useActualProgress
     ? actualCompletedDays
-    : clamp(scenarioDays, 1, safeTotalDays);
+    : clamp(scenarioDays, 0, safeTotalDays);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadInputs() {
+      setRoiLoading(true);
+      setRoiError("");
+
+      try {
+        const { inputs } = await loadLearningRoiInputs();
+
+        if (mounted) {
+          applyInputs(inputs || DEFAULT_ROI_INPUTS);
+        }
+      } catch (error) {
+        console.warn("Unable to load learning ROI inputs:", error);
+
+        if (mounted) {
+          setRoiError("تعذر تحميل بيانات الحاسبة الخاصة بحسابك. حاول تحديث الصفحة.");
+          applyInputs(DEFAULT_ROI_INPUTS);
+        }
+      } finally {
+        if (mounted) {
+          setRoiLoading(false);
+        }
+      }
+    }
+
+    loadInputs();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (roiLoading || roiError) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      saveLearningRoiInputs({
+        relation,
+        level_id: levelId,
+        lens,
+        outcome,
+        experience_months: experienceMonths,
+        current_salary: currentSalary,
+        application_level: applicationLevel,
+        market_context: marketContext,
+        use_actual_progress: useActualProgress,
+        scenario_days: scenarioDays,
+        has_user_input: hasUserInput
+      }).catch((error) => {
+        console.warn("Unable to save learning ROI inputs:", error);
+        setRoiError("تعذر حفظ بيانات الحاسبة الخاصة بحسابك. لن يتم نقل أي بيانات بين المستخدمين.");
+      });
+    }, 450);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    applicationLevel,
+    currentSalary,
+    experienceMonths,
+    hasUserInput,
+    lens,
+    levelId,
+    marketContext,
+    outcome,
+    relation,
+    roiError,
+    roiLoading,
+    scenarioDays,
+    useActualProgress
+  ]);
 
   function changeRelation(nextRelation) {
-    setRelation(nextRelation);
-    setLevelId(getDefaultLevel(nextRelation));
+    markUserInput(() => {
+      setRelation(nextRelation);
+      setLevelId(getDefaultLevel(nextRelation));
 
-    const defaultOutcome = RELATION_GROUPS[nextRelation]?.defaultOutcome;
-    if (defaultOutcome && OUTCOMES[defaultOutcome]) {
-      setOutcome(defaultOutcome);
-    }
+      const defaultOutcome = RELATION_GROUPS[nextRelation]?.defaultOutcome;
+      if (defaultOutcome && OUTCOMES[defaultOutcome]) {
+        setOutcome(defaultOutcome);
+      }
+    });
   }
 
   const result = useMemo(() => {
+    if (!hasUserInput) {
+      return {
+        progressFactor: 0,
+        readinessPercent: 0,
+        readinessScore: 0,
+        readinessLabel: getReadinessLabel(0),
+        nextMove: getNextMove(0, relation, outcome, lens),
+        experienceStage: getExperienceStage(0),
+        nominalLow: 0,
+        nominalMid: 0,
+        nominalHigh: 0,
+        realLow: 0,
+        realMid: 0,
+        realHigh: 0,
+        monthlyOpportunity: 0,
+        annualOpportunity: 0,
+        valueMode: "empty",
+        position: getPositionLabel(0, { low: 0, mid: 0, high: 0 }),
+        commitmentMessage: getCommitmentMessage(0)
+      };
+    }
+
     const progressFactor = clamp(effectiveDays / safeTotalDays, 0, 1);
-    const experienceStage = getExperienceStage(yearsOfExperience);
+    const experienceStage = getExperienceStage(experienceMonths);
 
     const rawRange = activeRelation.baseRange;
     const progressLift = 0.74 + progressFactor * 0.26;
@@ -722,14 +852,44 @@ export default function LearningROICalculator({
     applicationLevel,
     currentSalary,
     effectiveDays,
+    experienceMonths,
+    hasUserInput,
     lens,
     outcome,
     relation,
-    safeTotalDays,
-    yearsOfExperience
+    safeTotalDays
   ]);
 
   const professionalPosition = `${activeLevel.title} · ${activeLens.title}`;
+
+  if (roiLoading) {
+    return (
+      <section className="roi-page" dir="rtl">
+        <div className="roi-wrap">
+          <div className="roi-panel" role="status" aria-live="polite">
+            <h2>جاري تحميل بيانات الحاسبة</h2>
+            <p>نقرأ بيانات حاسبة العائد المرتبطة بحسابك فقط.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (roiError) {
+    return (
+      <section className="roi-page" dir="rtl">
+        <div className="roi-wrap">
+          <div className="roi-panel" role="alert">
+            <h2>تعذر تحميل الحاسبة</h2>
+            <p>{roiError}</p>
+            <button type="button" onClick={() => window.location.reload()}>
+              إعادة المحاولة
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="roi-page" dir="rtl">
@@ -933,6 +1093,27 @@ export default function LearningROICalculator({
           font-size: 14px;
           font-weight: 850;
           outline: none;
+        }
+
+        .roi-field input[type="number"] {
+          direction: ltr;
+          text-align: left;
+          unicode-bidi: plaintext;
+          font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .roi-experience-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+
+        .roi-subfield span {
+          display: block;
+          margin-bottom: 6px;
+          color: #6d5f8c;
+          font-size: 12px;
+          font-weight: 900;
         }
 
         .roi-field select:focus,
@@ -1289,7 +1470,7 @@ export default function LearningROICalculator({
               >
                 <div className="roi-orbit-inner">
                   <span>مؤشر الجاهزية</span>
-                  <strong>{result.readinessScore}%</strong>
+                  <strong dir="ltr" lang="en">{formatNumber(result.readinessScore)}%</strong>
                   <b>{result.readinessLabel}</b>
                 </div>
               </div>
@@ -1321,7 +1502,7 @@ export default function LearningROICalculator({
 
             <div className="roi-field">
               <label>ثانيا: ما المستوى الأقرب لوضعك الحالي؟</label>
-              <select value={levelId} onChange={(event) => setLevelId(event.target.value)}>
+              <select value={levelId} onChange={(event) => markUserInput(() => setLevelId(event.target.value))}>
                 {(LEVELS_BY_RELATION[relation] || []).map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.title}
@@ -1332,7 +1513,7 @@ export default function LearningROICalculator({
 
             <div className="roi-field">
               <label>ثالثا: ما العدسة التي تريد تقويتها؟</label>
-              <select value={lens} onChange={(event) => setLens(event.target.value)}>
+              <select value={lens} onChange={(event) => markUserInput(() => setLens(event.target.value))}>
                 {Object.entries(LENSES).map(([key, item]) => (
                   <option key={key} value={key}>
                     {item.title}
@@ -1343,7 +1524,7 @@ export default function LearningROICalculator({
 
             <div className="roi-field">
               <label>رابعا: ما العائد الذي تبحث عنه من هذه الرحلة؟</label>
-              <select value={outcome} onChange={(event) => setOutcome(event.target.value)}>
+              <select value={outcome} onChange={(event) => markUserInput(() => setOutcome(event.target.value))}>
                 {Object.entries(OUTCOMES).map(([key, item]) => (
                   <option key={key} value={key}>
                     {item.title}
@@ -1353,14 +1534,43 @@ export default function LearningROICalculator({
             </div>
 
             <div className="roi-field">
-              <label>سنوات الخبرة العملية</label>
-              <input
-                type="number"
-                min="0"
-                max="25"
-                value={yearsOfExperience}
-                onChange={(event) => setYearsOfExperience(Number(event.target.value))}
-              />
+              <label>مدة الخبرة العملية</label>
+              <div className="roi-experience-grid">
+                <label className="roi-subfield">
+                  <span>سنوات الخبرة</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="60"
+                    inputMode="numeric"
+                    dir="ltr"
+                    lang="en"
+                    value={experienceYears}
+                    onChange={(event) =>
+                      markUserInput(() =>
+                        setExperienceYears(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 60))
+                      )
+                    }
+                  />
+                </label>
+                <label className="roi-subfield">
+                  <span>أشهر الخبرة</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="11"
+                    inputMode="numeric"
+                    dir="ltr"
+                    lang="en"
+                    value={experienceMonthsRemainder}
+                    onChange={(event) =>
+                      markUserInput(() =>
+                        setExperienceMonthsRemainder(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 11))
+                      )
+                    }
+                  />
+                </label>
+              </div>
             </div>
 
             <div className="roi-field">
@@ -1369,8 +1579,15 @@ export default function LearningROICalculator({
                 type="number"
                 min="0"
                 max="50000"
+                inputMode="numeric"
+                dir="ltr"
+                lang="en"
                 value={currentSalary}
-                onChange={(event) => setCurrentSalary(Number(event.target.value))}
+                onChange={(event) =>
+                  markUserInput(() =>
+                    setCurrentSalary(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 50000))
+                  )
+                }
               />
             </div>
 
@@ -1378,7 +1595,7 @@ export default function LearningROICalculator({
               <label>بيئة السوق المستهدفة</label>
               <select
                 value={marketContext}
-                onChange={(event) => setMarketContext(event.target.value)}
+                onChange={(event) => markUserInput(() => setMarketContext(event.target.value))}
               >
                 {Object.entries(MARKET_CONTEXTS).map(([key, item]) => (
                   <option key={key} value={key}>
@@ -1398,7 +1615,7 @@ export default function LearningROICalculator({
                     className={`application-pill ${
                       item.value === Number(applicationLevel) ? "active" : ""
                     }`}
-                    onClick={() => setApplicationLevel(item.value)}
+                    onClick={() => markUserInput(() => setApplicationLevel(item.value))}
                     title={item.description}
                   >
                     {item.short}
@@ -1411,7 +1628,7 @@ export default function LearningROICalculator({
               <button
                 type="button"
                 className={useActualProgress ? "active" : ""}
-                onClick={() => setUseActualProgress(true)}
+                onClick={() => markUserInput(() => setUseActualProgress(true))}
               >
                 تقدمي الفعلي
               </button>
@@ -1419,7 +1636,7 @@ export default function LearningROICalculator({
               <button
                 type="button"
                 className={!useActualProgress ? "active" : ""}
-                onClick={() => setUseActualProgress(false)}
+                onClick={() => markUserInput(() => setUseActualProgress(false))}
               >
                 سيناريو افتراضي
               </button>
@@ -1431,10 +1648,14 @@ export default function LearningROICalculator({
                 <input
                   className="roi-range"
                   type="range"
-                  min="1"
+                  min="0"
                   max={safeTotalDays}
                   value={scenarioDays}
-                  onChange={(event) => setScenarioDays(Number(event.target.value))}
+                  onChange={(event) =>
+                    markUserInput(() =>
+                      setScenarioDays(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, safeTotalDays))
+                    )
+                  }
                 />
               </div>
             )}
