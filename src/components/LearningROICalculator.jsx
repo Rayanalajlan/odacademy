@@ -452,6 +452,17 @@ function formatCurrency(value) {
   return formatEnglishCurrency(value);
 }
 
+function formatCurrencyRange(low, high) {
+  return (
+    <>
+      <span>من </span>
+      <bdi dir="ltr">{formatCurrency(low)}</bdi>
+      <span> إلى </span>
+      <bdi dir="ltr">{formatCurrency(high)}</bdi>
+    </>
+  );
+}
+
 function formatNumber(value) {
   return formatEnglishNumber(Math.max(0, Math.round(Number(value || 0))));
 }
@@ -1081,7 +1092,8 @@ export default function LearningROICalculator({
         }
 
         .roi-field select,
-        .roi-field input[type="number"] {
+        .roi-field input,
+        .roi-number-input {
           width: 100%;
           min-height: 48px;
           border-radius: 18px;
@@ -1095,7 +1107,7 @@ export default function LearningROICalculator({
           outline: none;
         }
 
-        .roi-field input[type="number"] {
+        .roi-number-input {
           direction: ltr;
           text-align: left;
           unicode-bidi: plaintext;
@@ -1117,7 +1129,8 @@ export default function LearningROICalculator({
         }
 
         .roi-field select:focus,
-        .roi-field input[type="number"]:focus {
+        .roi-field input:focus,
+        .roi-number-input:focus {
           border-color: #8b5cf6;
           box-shadow: 0 0 0 4px rgba(139, 92, 246,.09);
         }
@@ -1539,13 +1552,15 @@ export default function LearningROICalculator({
                 <label className="roi-subfield">
                   <span>سنوات الخبرة</span>
                   <input
-                    type="number"
+                    className="roi-number-input"
+                    type="text"
                     min="0"
                     max="60"
                     inputMode="numeric"
+                    pattern="[0-9]*"
                     dir="ltr"
                     lang="en"
-                    value={experienceYears}
+                    value={String(experienceYears)}
                     onChange={(event) =>
                       markUserInput(() =>
                         setExperienceYears(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 60))
@@ -1556,13 +1571,15 @@ export default function LearningROICalculator({
                 <label className="roi-subfield">
                   <span>أشهر الخبرة</span>
                   <input
-                    type="number"
+                    className="roi-number-input"
+                    type="text"
                     min="0"
                     max="11"
                     inputMode="numeric"
+                    pattern="[0-9]*"
                     dir="ltr"
                     lang="en"
-                    value={experienceMonthsRemainder}
+                    value={String(experienceMonthsRemainder)}
                     onChange={(event) =>
                       markUserInput(() =>
                         setExperienceMonthsRemainder(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 11))
@@ -1576,13 +1593,15 @@ export default function LearningROICalculator({
             <div className="roi-field">
               <label>راتبك الشهري الحالي - اختياري</label>
               <input
-                type="number"
+                className="roi-number-input"
+                type="text"
                 min="0"
                 max="50000"
                 inputMode="numeric"
+                pattern="[0-9]*"
                 dir="ltr"
                 lang="en"
-                value={currentSalary}
+                value={String(currentSalary)}
                 onChange={(event) =>
                   markUserInput(() =>
                     setCurrentSalary(clamp(toEnglishInteger(normalizeDigits(event.target.value)), 0, 50000))
@@ -1689,7 +1708,7 @@ export default function LearningROICalculator({
               <div className="roi-result-card green">
                 <span>النطاق الحقيقي المحافظ</span>
                 <strong>
-                  {formatCurrency(result.realLow)} - {formatCurrency(result.realHigh)}
+                  {formatCurrencyRange(result.realLow, result.realHigh)}
                 </strong>
                 <p>نطاق تقديري بعد أثر التضخم، وليس ضمانا للدخل.</p>
               </div>
