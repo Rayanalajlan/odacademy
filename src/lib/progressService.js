@@ -21,12 +21,17 @@ function normalizeRow(row = {}) {
   const status = normalizeStatus(row.status, row.completed);
   const openedAt = row.opened_at || row.openedAt || row.created_at || null;
   const completedAt = row.completed_at || row.completedAt || (status === "completed" ? row.updated_at : null);
+  const metadata =
+    row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata)
+      ? row.metadata
+      : {};
 
   return {
     month_index: Number(row.month_index ?? row.monthIndex ?? row.month_no ?? row.monthNo),
     week_index: Number(row.week_index ?? row.weekIndex ?? row.week_no ?? row.weekNo),
     day_index: Number(row.day_index ?? row.dayIndex ?? row.day_no ?? row.dayNo),
     status,
+    metadata,
     opened_at: openedAt,
     completed_at: completedAt || null,
     updated_at: row.updated_at || row.updatedAt || completedAt || openedAt || nowIso()
@@ -155,7 +160,7 @@ function mergeProgressRows(localRows, remoteRows) {
   return sortProgressRows(Array.from(map.values()));
 }
 
-function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status, userId = "guest" }) {
+function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status, userId = "guest", metadata = {} }) {
   const rows = readLocalProgress(userId);
   const key = makeProgressKey(monthIndex, weekIndex, dayIndex);
   const currentTime = nowIso();
@@ -166,6 +171,7 @@ function upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status, userId = "
     week_index: Number(weekIndex),
     day_index: Number(dayIndex),
     status: safeStatus,
+    metadata,
     opened_at: currentTime,
     completed_at: safeStatus === "completed" ? currentTime : null,
     updated_at: currentTime
@@ -312,6 +318,7 @@ async function upsertRemoteRows(userId, rows = []) {
     day_no: normalized.day_index,
     status: normalized.status,
     completed: normalized.status === "completed",
+    metadata: normalized.metadata || {},
     opened_at: normalized.opened_at || currentTime,
     completed_at:
       normalized.status === "completed"
@@ -353,11 +360,11 @@ async function upsertRemoteRows(userId, rows = []) {
   return fetchRemoteProgress(userId);
 }
 
-async function syncRowToSupabase({ monthIndex, weekIndex, dayIndex, status }) {
+async function syncRowToSupabase({ monthIndex, weekIndex, dayIndex, status, metadata = {} }) {
   const user = await getCurrentUserStrict();
 
   if (!user?.id) {
-    return upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status });
+    return upsertLocalMirror({ monthIndex, weekIndex, dayIndex, status, metadata });
   }
 
   const currentTime = nowIso();
@@ -379,6 +386,7 @@ async function syncRowToSupabase({ monthIndex, weekIndex, dayIndex, status }) {
     week_index: Number(weekIndex),
     day_index: Number(dayIndex),
     status: safeStatus,
+    metadata,
     opened_at: existingRemoteRow?.opened_at || currentTime,
     completed_at:
       safeStatus === "completed"
@@ -446,7 +454,8 @@ export async function updateUserProgress({
   monthIndex,
   weekIndex,
   dayIndex,
-  status
+  status,
+  metadata = {}
 }) {
   const safeStatus = normalizeStatus(status || "completed");
   const user = await getCurrentUserStrict();
@@ -456,7 +465,8 @@ export async function updateUserProgress({
     weekIndex,
     dayIndex,
     status: safeStatus,
-    userId: user?.id || "guest"
+    userId: user?.id || "guest",
+    metadata
   });
 
   if (!user?.id) {
@@ -467,6 +477,7 @@ export async function updateUserProgress({
     monthIndex,
     weekIndex,
     dayIndex,
-    status: safeStatus
+    status: safeStatus,
+    metadata
   });
 }

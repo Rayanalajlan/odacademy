@@ -471,10 +471,50 @@ function applyAnswerKeyMap(questions, answerKeyMap) {
   });
 }
 
+function getQuestionOrdinal(day, questionIndex) {
+  const monthIndex = Number(day?.monthIndex || 1);
+  const weekIndex = Number(day?.weekIndex || 1);
+  const dayIndex = Number(day?.dayIndex || 1);
+
+  return (
+    (Math.max(1, monthIndex) - 1) * 84 +
+    (Math.max(1, weekIndex) - 1) * 21 +
+    (Math.max(1, dayIndex) - 1) * 3 +
+    questionIndex +
+    1
+  );
+}
+
+function balanceQuizOptionOrder(questions, day) {
+  const targetLetters = ["A", "B", "C", "D"];
+
+  return questions.map((question, questionIndex) => {
+    if (!question.hasKnownCorrectAnswer || question.options.length !== 4) return question;
+
+    const correctOption = question.options.find((option) => option.isCorrect);
+    if (!correctOption) return question;
+
+    const targetLetter = targetLetters[(getQuestionOrdinal(day, questionIndex) - 1) % targetLetters.length];
+    const targetIndex = targetLetters.indexOf(targetLetter);
+    const currentIndex = question.options.findIndex((option) => option.isCorrect);
+
+    if (targetIndex < 0 || currentIndex === targetIndex) return question;
+
+    const nextOptions = [...question.options];
+    nextOptions.splice(currentIndex, 1);
+    nextOptions.splice(targetIndex, 0, correctOption);
+
+    return {
+      ...question,
+      options: nextOptions
+    };
+  });
+}
+
 function parseQuizText(day, quizText, fullText = "") {
   const answerKeyMap = extractAnswerKeyMap(day, fullText);
   const structured = normalizeStructuredQuiz(day);
-  if (structured.length) return applyAnswerKeyMap(structured, answerKeyMap);
+  if (structured.length) return balanceQuizOptionOrder(applyAnswerKeyMap(structured, answerKeyMap), day);
 
   const text = safeText(quizText);
   if (!text) return [];
@@ -521,7 +561,7 @@ function parseQuizText(day, quizText, fullText = "") {
     };
   }).filter((q) => q.question && q.options.length);
 
-  return applyAnswerKeyMap(questions, answerKeyMap);
+  return balanceQuizOptionOrder(applyAnswerKeyMap(questions, answerKeyMap), day);
 }
 
 function prepareLesson(day) {
@@ -630,7 +670,15 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
+function QuizPanel({
+  day,
+  questions,
+  hasQuizText = false,
+  onPass,
+  onComplete,
+  completing = false,
+  isCompleted = false
+}) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -651,10 +699,21 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   }, 0);
 
   const passed = hasKnownAnswers ? score === total : allAnswered;
+  const quizCompleted = submitted && allAnswered;
 
   function submitQuiz() {
+    if (!allAnswered) return;
+
     setSubmitted(true);
-    if (passed) onPass(true);
+    onPass?.({
+      completed: true,
+      score,
+      total,
+      correct: score,
+      wrong: Math.max(0, total - score),
+      percent: total ? Math.round((score / total) * 100) : 0,
+      hasKnownAnswers
+    });
   }
 
   if (!questions.length) {
@@ -775,6 +834,17 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
               : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
           </div>
         )}
+
+        {quizCompleted && (
+          <button
+            type="button"
+            className="jl-quiz-submit"
+            onClick={onComplete}
+            disabled={completing || isCompleted}
+          >
+            {isCompleted ? "تم إكمال اليوم" : "إكمال اليوم"}
+          </button>
+        )}
       </div>
     </section>
   );
@@ -794,6 +864,7 @@ export default function CourseJourney({
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [quizPassedByDay, setQuizPassedByDay] = useState({});
+  const [quizResultsByDay, setQuizResultsByDay] = useState({});
   const [lessonBookmarks, setLessonBookmarks] = useState([]);
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
   const [bookmarkSaving, setBookmarkSaving] = useState(false);
@@ -1184,6 +1255,7 @@ export default function CourseJourney({
 
     const hasQuiz = preparedLesson.quiz.length > 0;
     const quizPassed = quizPassedByDay[selectedDay.id];
+    const quizResult = quizResultsByDay[selectedDay.id] || null;
 
     if (hasQuiz && !quizPassed) {
       setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
@@ -1198,7 +1270,20 @@ export default function CourseJourney({
         monthIndex: selectedDay.monthIndex,
         weekIndex: selectedDay.weekIndex,
         dayIndex: selectedDay.dayIndex,
-        status: "completed"
+        status: "completed",
+        metadata: quizResult
+          ? {
+              quiz: {
+                score: quizResult.score,
+                total: quizResult.total,
+                correct: quizResult.correct,
+                wrong: quizResult.wrong,
+                percent: quizResult.percent,
+                completed: true,
+                completed_at: new Date().toISOString()
+              }
+            }
+          : {}
       });
 
       if (Array.isArray(rows)) {
@@ -1218,7 +1303,20 @@ export default function CourseJourney({
             month_index: selectedDay.monthIndex,
             week_index: selectedDay.weekIndex,
             day_index: selectedDay.dayIndex,
-            status: "completed"
+            status: "completed",
+            metadata: quizResult
+              ? {
+                  quiz: {
+                    score: quizResult.score,
+                    total: quizResult.total,
+                    correct: quizResult.correct,
+                    wrong: quizResult.wrong,
+                    percent: quizResult.percent,
+                    completed: true,
+                    completed_at: new Date().toISOString()
+                  }
+                }
+              : {}
           }
         ]);
       }
@@ -2557,10 +2655,17 @@ export default function CourseJourney({
                   day={selectedDay}
                   questions={preparedLesson.quiz}
                   hasQuizText={preparedLesson.hasQuizText}
-                  onPass={() => {
+                  completing={saving}
+                  isCompleted={currentDayState === "completed"}
+                  onComplete={completeCurrentDay}
+                  onPass={(result) => {
                     setQuizPassedByDay((current) => ({
                       ...current,
                       [selectedDay.id]: true
+                    }));
+                    setQuizResultsByDay((current) => ({
+                      ...current,
+                      [selectedDay.id]: result
                     }));
                   }}
                 />

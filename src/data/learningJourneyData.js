@@ -1,9 +1,3 @@
-/*
-  تم توليد هذا الملف آليًا من ملف: المحتوى التعليمي.docx
-  يحتوي على النص التعليمي الكامل القابل للاستخراج: 6 أشهر، 24 أسبوعًا، 168 يومًا، 504 سؤالًا.
-  لا تعدّل هذا الملف يدويًا إلا عند تحديث المصدر التعليمي.
-*/
-
 export const learningJourneyMeta = {
   "months": 6,
   "weeks": 24,
@@ -73,26 +67,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "البدء بتدريب قصير ثم قياس تغير الإنتاجية لاحقًا.",
-                    "isCorrectSource": false
+                    "text": "فحص تصميم العمل قبل افتراض أن المشكلة مهارية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "مقابلة المديرين فقط لتحديد نوع التدريب الأنسب.",
+                    "text": "البدء بتدريب قصير ثم قياس تغير الإنتاجية لاحقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "فحص تصميم العمل قبل افتراض أن المشكلة مهارية.",
-                    "isCorrectSource": true
+                    "text": "مقابلة المديرين فقط لتحديد نوع التدريب الأنسب.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مقارنة الإنتاجية الحالية بإنتاجية الإدارات الأخرى.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -100,26 +98,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يرتبط ضعف المبادرة بمحدودية الصلاحيات.",
-                    "isCorrectSource": true
+                    "text": "الموظفون لا يملكون عقلية تحمل المسؤولية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الموظفون لا يملكون عقلية تحمل المسؤولية.",
-                    "isCorrectSource": false
+                    "text": "قد يرتبط ضعف المبادرة بمحدودية الصلاحيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يجب بناء ثقافة أكثر مرونة وانفتاحًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الإدارة الوسطى تحتاج برنامجًا قياديًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -128,27 +130,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تضخم نطاق المشروع قبل جمع البيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إضعاف دور الموارد البشرية في التحليل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التركيز على البيانات النوعية دون الكمية.",
-                    "isCorrectSource": false
+                    "text": "تحويل تفسير طرف قوي إلى حقيقة نهائية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "تحويل تفسير طرف قوي إلى حقيقة نهائية.",
-                    "isCorrectSource": true
+                    "text": "التركيز على البيانات النوعية دون الكمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d2",
@@ -199,25 +206,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التركيز على زمن الشراء بدل جودة الموردين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "حصر التشخيص داخل إدارة واحدة فقط.",
-                    "isCorrectSource": true
+                    "text": "استخدام المقابلات بدل تحليل الوثائق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استخدام المقابلات بدل تحليل الوثائق.",
+                    "text": "تحليل الإجراءات قبل تحليل الثقافة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تحليل الإجراءات قبل تحليل الثقافة.",
-                    "isCorrectSource": false
+                    "text": "حصر التشخيص داخل إدارة واحدة فقط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -225,26 +236,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إصدار تقرير شهري عن شكاوى العملاء.",
-                    "isCorrectSource": false
+                    "text": "تعديل إجراءات الخدمة بناءً على الشكاوى.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "إرسال نتائج الرضا إلى الإدارة العليا.",
+                    "text": "إصدار تقرير شهري عن شكاوى العملاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حفظ بيانات الشكاوى في النظام الداخلي.",
+                    "text": "إرسال نتائج الرضا إلى الإدارة العليا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تعديل إجراءات الخدمة بناءً على الشكاوى.",
-                    "isCorrectSource": true
+                    "text": "حفظ بيانات الشكاوى في النظام الداخلي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -252,28 +267,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "توجد فجوة مواءمة بين الهدف ونظام التعزيز.",
-                    "isCorrectSource": true
+                    "text": "توجد مقاومة طبيعية لأي تغيير جديد.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "توجد مقاومة طبيعية لأي تغيير جديد.",
-                    "isCorrectSource": false
+                    "text": "توجد فجوة مواءمة بين الهدف ونظام التعزيز.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "توجد حاجة إلى تدريب على التفكير الإبداعي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "توجد مشكلة في وضوح الرسائل الاتصالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d3",
@@ -323,25 +343,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تحديد الخلل الإداري ثم اقتراح تدخل مناسب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "جمع بيانات كافية لتأكيد أو نفي رأي القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "فهم طريقة عمل النظام قبل تصميم التدخل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "البحث عن السبب الجذري في سلوك الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -350,25 +374,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد يجعل الثقافة عاملًا ثانويًا في التحليل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد يفسر خلل التصميم كضعف تواصل.",
-                    "isCorrectSource": true
+                    "text": "قد يزيد الاعتماد على البيانات الكمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قد يزيد الاعتماد على البيانات الكمية.",
+                    "text": "قد يقلل أهمية الثقة بين الأطراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قد يقلل أهمية الثقة بين الأطراف.",
-                    "isCorrectSource": false
+                    "text": "قد يفسر خلل التصميم كضعف تواصل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -376,28 +404,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل تدعم الثقافة الحالية التعلم من الخطأ؟",
-                    "isCorrectSource": false
+                    "text": "هل تتناسب الصلاحية مع المسؤولية؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "هل يملك الفريق هدفًا مشتركًا واضحًا؟",
+                    "text": "هل تدعم الثقافة الحالية التعلم من الخطأ؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل تتسق الاستراتيجية مع الهيكل الحالي؟",
+                    "text": "هل يملك الفريق هدفًا مشتركًا واضحًا؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "هل تتناسب الصلاحية مع المسؤولية؟",
-                    "isCorrectSource": true
+                    "text": "هل تتسق الاستراتيجية مع الهيكل الحالي؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d4",
@@ -449,26 +482,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "التأخير يظهر غالبًا عند انتقال العمل بين إدارتين.",
-                    "isCorrectSource": true
+                    "text": "الإدارة لا تتعاون بسبب ثقافة الصوامع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الإدارة لا تتعاون بسبب ثقافة الصوامع.",
-                    "isCorrectSource": false
+                    "text": "التأخير يظهر غالبًا عند انتقال العمل بين إدارتين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "الموظفون يحتاجون وعيًا بأهمية التنسيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الحل الأنسب هو مراجعة إجراءات التسليم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -477,25 +514,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لا تحدد نوع التدريب المطلوب قبل التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تفترض أن المشكلة نفسية لا تنظيمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تقلل من أثر الاتصال الداخلي في التبني.",
-                    "isCorrectSource": false
+                    "text": "تصف السلوك ولا تفسر شروط ظهوره.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "تصف السلوك ولا تفسر شروط ظهوره.",
-                    "isCorrectSource": true
+                    "text": "تقلل من أثر الاتصال الداخلي في التبني.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -504,27 +545,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن تكون سهلة الشرح أمام الإدارة العليا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أن تفسر النمط وتقبل الاختبار بالبيانات.",
-                    "isCorrectSource": true
+                    "text": "أن ترتبط بمفهوم إداري معروف وشائع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أن ترتبط بمفهوم إداري معروف وشائع.",
+                    "text": "أن تقود مباشرة إلى تدخل سريع التنفيذ.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أن تقود مباشرة إلى تدخل سريع التنفيذ.",
-                    "isCorrectSource": false
+                    "text": "أن تفسر النمط وتقبل الاختبار بالبيانات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d5",
@@ -573,26 +619,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ضعف في وعي الموظفين بتجربة العميل.",
-                    "isCorrectSource": false
+                    "text": "تعارض بين وعد الخدمة وتصميم الصلاحيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تعارض بين وعد الخدمة وتصميم الصلاحيات.",
-                    "isCorrectSource": true
+                    "text": "ضعف في وعي الموظفين بتجربة العميل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "حاجة إلى تدريب في مهارات خدمة العملاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قصور في قياس رضا العملاء بعد الخدمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -601,25 +651,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "موظف يعمل على مهام متعددة ضمن نفس الدور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "فريق يستخدم إجراءات موحدة في عمل متكرر.",
-                    "isCorrectSource": false
+                    "text": "مدير يحاسب على نتائج لا يملك قراراتها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "مدير يحاسب على نتائج لا يملك قراراتها.",
-                    "isCorrectSource": true
+                    "text": "فريق يستخدم إجراءات موحدة في عمل متكرر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إدارة لديها مؤشرات أداء شهرية واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -627,28 +681,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "وضوح الدور لا يغير دائمًا نظام القرار.",
-                    "isCorrectSource": true
+                    "text": "الوصف الوظيفي وثيقة إدارية غير تشغيلية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الوصف الوظيفي وثيقة إدارية غير تشغيلية.",
+                    "text": "الموظفين غالبًا لا يعودون للوثائق الرسمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الموظفين غالبًا لا يعودون للوثائق الرسمية.",
-                    "isCorrectSource": false
+                    "text": "وضوح الدور لا يغير غالبًا نظام القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تحليل الوظائف يسبق عادة تصميم الهيكل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d6",
@@ -696,25 +755,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مشاركة الأسماء إذا كانت الملاحظات موثقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "حذف الملاحظات الحساسة من التقرير النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إعادة المقابلات بصيغة أقل حساسية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عرض النتائج مجمعة دون كشف الأفراد.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -723,25 +786,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التشخيص لا يختزل الحقيقة في طالب المشروع.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "الموظفون هم المستفيد الأساسي من التدخل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "الإدارة العليا يجب أن تبقى خارج التحليل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المستشار يقرر الحل بعيدًا عن الأطراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -750,27 +817,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "استخدام أكثر من مصدر لجمع البيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اختبار الفرضيات قبل بناء التوصيات.",
-                    "isCorrectSource": false
+                    "text": "تفسير المشكلة مبكرًا من خبرة سابقة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تفسير المشكلة مبكرًا من خبرة سابقة.",
-                    "isCorrectSource": true
+                    "text": "اختبار الفرضيات قبل بناء التوصيات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "توضيح حدود السرية قبل المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w1d7",
@@ -851,25 +923,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأن القيادة ليست سببًا محتملًا في هذه الحالة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "لأن التدريب القيادي لا يعالج مؤشرات الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن السبب القيادي فرضية لم تُختبر بعد.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن إعادة الهيكلة أكثر شمولًا من التدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -878,25 +954,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وصف الحالة التنظيمية الحالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ما لا يمكن الجزم به الآن.",
-                    "isCorrectSource": true
+                    "text": "قائمة أصحاب المصلحة المتأثرين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قائمة أصحاب المصلحة المتأثرين.",
+                    "text": "ملخص الأعراض القابلة للملاحظة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "ملخص الأعراض القابلة للملاحظة.",
-                    "isCorrectSource": false
+                    "text": "ما لا يمكن الجزم به الآن.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -904,28 +984,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إطلاق تدريب قيادي ثم مراجعة أثره.",
-                    "isCorrectSource": false
+                    "text": "بدء تشخيص متعدد المصادر أولًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تحديث الهيكل قبل تفاقم المشكلة.",
+                    "text": "إطلاق تدريب قيادي ثم مراجعة أثره.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تنفيذ حملة داخلية لرفع الانتماء.",
+                    "text": "تحديث الهيكل قبل تفاقم المشكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "بدء تشخيص متعدد المصادر أولًا.",
-                    "isCorrectSource": true
+                    "text": "تنفيذ حملة داخلية لرفع الانتماء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": null
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": false
@@ -980,21 +1065,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الحصول على موافقة شكلية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "بداية بناء العلاقة المهنية وفهم الطلب الأولي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تنفيذ الحل المقترح فورًا.",
+                    "text": "البدء بتجهيز الحل المقترح قبل اختبار الفرضيات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إرسال استبيان رضا مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -1006,22 +1095,26 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تحديد موعد التدريب فورًا.",
+                    "text": "تحديد موعد التدريب بعد تأكيد النطاق المتوقع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "رفض التدريب نهائيًا.",
+                    "text": "تأجيل التدريب إلى حين اتضاح المشكلة التشغيلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تحويل الطلب إلى فرضية وفهم المشكلة قبل تصميم التدخل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "سؤال العميل عن اسم المدرب فقط.",
+                    "text": "سؤال العميل عن تفضيلات التنفيذ قبل فهم الحاجة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -1029,32 +1122,37 @@ export const learningJourneyData = [
               },
               {
                 "number": 3,
-                "question": "لماذا لا يُعد طلب العميل تشخيصًا نهائيًا؟",
+                "question": "عندما يصف العميل طلبًا أو ألمًا تنظيميًا في البداية، كيف ينبغي التعامل معه تشخيصيًا؟",
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه غالبًا يعبر عن رؤية أولية أو ألم تنظيمي لا عن السبب الكامل.",
-                    "isCorrectSource": true
+                    "text": "قبوله كتعريف عملي للمشكلة مع تحديد نطاق التنفيذ.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن العميل دائمًا مخطئ.",
+                    "text": "تحويله مباشرة إلى قائمة حلول قابلة للتطبيق السريع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن OD لا يهتم بالعميل.",
+                    "text": "استخدامه لتحديد أصحاب المصلحة قبل فحص السبب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن التشخيص يبدأ بعد التنفيذ.",
-                    "isCorrectSource": false
+                    "text": "اعتباره مؤشرًا أوليًا يحتاج اختبارًا قبل اختيار التدخل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d2",
@@ -1101,53 +1199,61 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "واضحة جدًا ولا تحتاج تفسيرًا.",
-                    "isCorrectSource": false
+                    "text": "عامة ولا تحدد السلوك أو النتيجة القابلة للفحص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "عامة ولا تحدد السلوك أو النتيجة القابلة للفحص.",
-                    "isCorrectSource": true
+                    "text": "واضحة جدًا ولا تحتاج تفسيرًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تصلح كتشخيص نهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تعني دائمًا ضعف القيم المكتوبة.",
+                    "text": "تعني غالبًا ضعف القيم المكتوبة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
-                "question": "أي صياغة أفضل كقضية تشخيصية؟",
+                "question": "أي صياغة أفضل كقضية تشخيصية قابلة للفحص؟",
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الموظفون لا يريدون العمل.",
+                    "text": "ضعف الالتزام يظهر في فرق محددة ويحتاج فهمًا لأسبابه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الإدارة الوسطى فاشلة.",
-                    "isCorrectSource": false
-                  },
-                  {
-                    "letter": "C",
-                    "text": "توجد مؤشرات على بطء القرار بسبب غموض محتمل في الصلاحيات ونقاط الحسم.",
+                    "text": "توجد مؤشرات على بطء القرار مرتبطة بغموض الصلاحيات ونقاط الحسم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
+                    "letter": "C",
+                    "text": "التأخير مرتبط غالبًا بضغط العمل ويحتاج توزيعًا أفضل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
+                  },
+                  {
                     "letter": "D",
-                    "text": "الحل هو تدريب شامل.",
+                    "text": "الحل الأولي هو تحسين التواصل بين المديرين والفرق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -1155,28 +1261,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الحل قد يكون غير مناسب قبل التشخيص.",
-                    "isCorrectSource": true
+                    "text": "لأن الحل قد يسبق فهم المشكلة وأصحاب المصلحة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الحلول ممنوعة في OD.",
+                    "text": "لأن الطلب يحتاج تحويله إلى فرضية قابلة للفحص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن العميل لا يملك حق طلب شيء.",
-                    "isCorrectSource": false
+                    "text": "لأن الحل قد يكون غير مناسب قبل التشخيص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن التعاقد لا يحتاج نطاقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d3",
@@ -1218,26 +1329,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه قد يرى جزءًا واحدًا من النظام.",
-                    "isCorrectSource": true
+                    "text": "لأن الراعي لا قيمة له.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الراعي لا قيمة له.",
+                    "text": "لأن الموظفين غالبًا أكثر دقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن الموظفين دائمًا أكثر دقة.",
+                    "text": "لأن OD لا يتعامل مع القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن OD لا يتعامل مع القيادة.",
-                    "isCorrectSource": false
+                    "text": "لأنه قد يرى جزءًا واحدًا من النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -1245,26 +1360,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الراعي فقط.",
-                    "isCorrectSource": false
+                    "text": "الطرف الذي يفترض أن تتحسن تجربته أو فعاليته في النهاية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "فريق المشروع فقط.",
+                    "text": "الراعي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الطرف الذي يفترض أن تتحسن تجربته أو فعاليته في النهاية.",
-                    "isCorrectSource": true
+                    "text": "فريق المشروع فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المستشار الخارجي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -1272,28 +1391,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يُختزل التشخيص في الأطراف الأضعف.",
-                    "isCorrectSource": true
-                  },
-                  {
-                    "letter": "B",
                     "text": "ستتحسن الثقة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
+                    "letter": "B",
+                    "text": "قد يُختزل التشخيص في الأطراف الأضعف.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
+                  },
+                  {
                     "letter": "C",
-                    "text": "سيصبح التعاقد أسهل دائمًا.",
+                    "text": "سيصبح التعاقد أسهل غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لا يوجد خطر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d4",
@@ -1336,25 +1460,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الشعار، الألوان، والرسائل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التوقعات، الوقت والموارد، وقواعد العمل.",
-                    "isCorrectSource": true
+                    "text": "التدريب، الحضور، والتصوير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التدريب، الحضور، والتصوير.",
-                    "isCorrectSource": false
+                    "text": "التوقعات، الوقت والموارد، وقواعد العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "التقرير، العرض، والتوقيع فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -1363,54 +1491,63 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وثيقة قانونية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التوقعات غير المعلنة حول العلاقة وطريقة العمل.",
-                    "isCorrectSource": true
+                    "text": "نموذج مالي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نموذج مالي.",
+                    "text": "قائمة حضور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قائمة حضور.",
-                    "isCorrectSource": false
+                    "text": "التوقعات غير المعلنة حول العلاقة وطريقة العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
-                "question": "متى تحتاج إعادة تعاقد؟",
+                "question": "متى تصبح إعادة التعاقد خطوة مهنية في مسار التشخيص؟",
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عند تغير النطاق أو ظهور حاجة لبيانات إضافية أو عوائق جديدة.",
+                    "text": "عند تغير النطاق أو ظهور بيانات تتطلب اتفاقًا جديدًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لا تحتاج أبدًا.",
+                    "text": "عند رغبة العميل في تسريع التنفيذ قبل اكتمال التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "فقط بعد انتهاء المشروع.",
+                    "text": "عند ظهور اختلافات بين أصحاب المصلحة حول أولوية الحل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عندما يريد الممارس إخفاء النتائج.",
+                    "text": "عند الحاجة إلى عرض النتائج بصيغة أبسط للإدارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d5",
@@ -1448,26 +1585,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنها تساعد على بيانات أكثر صدقًا وثقة أعلى.",
-                    "isCorrectSource": true
+                    "text": "لأنها تمنع عرض النتائج بشكل قاطع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها تمنع عرض النتائج نهائيًا.",
-                    "isCorrectSource": false
+                    "text": "لأنها تساعد على بيانات أكثر صدقًا وثقة أعلى.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأنها تجعل التشخيص سريًا حتى عن العميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها تلغي الحاجة للتعاقد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -1476,25 +1617,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كل ما تقولونه سيظل سريًا مطلقًا في كل الظروف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "سأعرض الأنماط مجمعة ولن أنسب الأقوال لأصحابها، مع توضيح حدود السرية.",
-                    "isCorrectSource": true
+                    "text": "سأرسل المقابلات الخام للقيادة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سأرسل المقابلات الخام للقيادة.",
-                    "isCorrectSource": false
+                    "text": "سأعرض الأنماط مجمعة ولن أنسب الأقوال لأصحابها، مع توضيح حدود السرية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "سأذكر أسماء المشاركين إذا كانت الملاحظات مهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -1503,27 +1648,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ذكر أسماء الأشخاص المنتقدين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عرض النمط كنمط تنظيمي قابل للفحص دون كشف الأفراد.",
-                    "isCorrectSource": true
+                    "text": "حذف النتيجة لأنها مزعجة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حذف النتيجة لأنها مزعجة.",
+                    "text": "اتهام الإدارة مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "اتهام الإدارة مباشرة.",
-                    "isCorrectSource": false
+                    "text": "عرض النمط كنمط تنظيمي قابل للفحص دون كشف الأفراد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d6",
@@ -1560,26 +1710,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "نريد فهمًا متعدد المصادر للمشكلة.",
-                    "isCorrectSource": false
+                    "text": "نريدك تثبت أن المشكلة في إدارة معينة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "نريدك تثبت أن المشكلة في إدارة معينة.",
-                    "isCorrectSource": true
+                    "text": "نريد فهمًا متعدد المصادر للمشكلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "نريد حماية السرية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "نريد فحص الفرضيات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -1588,21 +1742,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كتابة التقرير كما يريد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "توضيح أن رأيه فرضية تحتاج فحصًا متعدد المصادر.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "رفض الحديث معه نهائيًا.",
+                    "text": "رفض الحديث معه بشكل قاطع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مقابلة طرف واحد فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -1614,28 +1772,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "كبيانات عن الخوف والثقة والتاريخ التنظيمي.",
-                    "isCorrectSource": true
+                    "text": "كدليل أن الموظفين سيئون.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "كدليل أن الموظفين سيئون.",
+                    "text": "كسبب لإلغاء السرية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "كسبب لإلغاء السرية.",
-                    "isCorrectSource": false
+                    "text": "كبيانات عن الخوف والثقة والتاريخ التنظيمي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "كدليل أن التشخيص لا يفيد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w2d7",
@@ -1709,25 +1872,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تقديم الحل النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "توضيح الطلب والقضية والنطاق والعميل وقواعد التشخيص.",
-                    "isCorrectSource": true
+                    "text": "تنفيذ التدريب مباشرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تنفيذ التدريب مباشرة.",
+                    "text": "تقييم الأفراد أخلاقيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تقييم الأفراد أخلاقيًا.",
-                    "isCorrectSource": false
+                    "text": "توضيح الطلب والقضية والنطاق والعميل وقواعد التشخيص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -1735,26 +1902,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن القيادة ليست مهمة أبدًا.",
-                    "isCorrectSource": false
+                    "text": "لأن السبب القيادي فرضية ضمن فرضيات أخرى لم تُفحص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأن السبب القيادي فرضية ضمن فرضيات أخرى لم تُفحص.",
-                    "isCorrectSource": true
+                    "text": "لأن القيادة ليست مهمة أبدًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن العملاء خارج النظام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن التدريب ممنوع في OD.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -1763,27 +1934,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قبول رواية الراعي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تعدد مصادر البيانات وتوضيح أن النتائج ستعرض كنمط نظامي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "حذف المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "جعل التقرير سريًا عن جميع الأطراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true,
@@ -1843,25 +2019,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تقديم الحل النهائي مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "توجيه ما يجب فحصه ومنع جمع بيانات عشوائية.",
-                    "isCorrectSource": true
+                    "text": "استبدال البيانات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال البيانات.",
-                    "isCorrectSource": false
+                    "text": "توجيه ما يجب فحصه ومنع جمع بيانات عشوائية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "إثبات رأي العميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -1869,26 +2049,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد تتجاهل الهيكل والعمليات والصلاحيات.",
-                    "isCorrectSource": true
+                    "text": "يزيد عدد المؤشرات دون تحسين السؤال التشخيصي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد دقة التشخيص دائمًا.",
+                    "text": "يمنع تحيز الممارس تمامًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يمنع تحيز الممارس تمامًا.",
+                    "text": "يجعل البيانات غير ضرورية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يجعل البيانات غير ضرورية.",
-                    "isCorrectSource": false
+                    "text": "قد تتجاهل الهيكل والعمليات والصلاحيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -1896,28 +2080,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "النموذج حقيقة نهائية.",
-                    "isCorrectSource": false
+                    "text": "النموذج عدسة تساعد على الفهم لكنه لا يثبت السبب وحده.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "النموذج عدسة تساعد على الفهم لكنه لا يثبت السبب وحده.",
-                    "isCorrectSource": true
+                    "text": "النموذج حقيقة نهائية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "النموذج يغني عن مقابلة الأطراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "النموذج يستخدم بعد التوصيات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d2",
@@ -1968,21 +2157,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "هل يعرف الموظف مخرجات دوره اليومية؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "هل يدعم الهيكل الاستراتيجية الحالية؟",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "هل يجيد الموظف استخدام النظام؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "هل حضر الفرد التدريب؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -1995,25 +2188,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ضعف مهارة فردية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "فجوة مواءمة بين الاستراتيجية ونظام الأداء.",
-                    "isCorrectSource": true
+                    "text": "مشكلة في رضا الموظفين فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مشكلة في رضا الموظفين فقط.",
-                    "isCorrectSource": false
+                    "text": "فجوة مواءمة بين الاستراتيجية ونظام الأداء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "حاجة إلى شعار جديد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -2021,28 +2218,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن تصميم المنظمة يؤثر في الفريق والوظيفة.",
-                    "isCorrectSource": true
+                    "text": "لأن الفريق غير مهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الفريق غير مهم.",
+                    "text": "لأن الدور الفردي لا يحتاج فهمًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن الدور الفردي لا يحتاج فهمًا.",
+                    "text": "لأن البيئة الخارجية لا تؤثر في العمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن البيئة الخارجية لا تؤثر في العمل.",
-                    "isCorrectSource": false
+                    "text": "لأن تصميم المنظمة يؤثر في الفريق والوظيفة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d3",
@@ -2092,26 +2294,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل تدعم الاستراتيجية الهيكل؟",
-                    "isCorrectSource": false
+                    "text": "هل يعرف الفريق كيف يتخذ القرار ومن يملك الحسم؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "هل يعرف الفريق كيف يتخذ القرار ومن يملك الحسم؟",
-                    "isCorrectSource": true
+                    "text": "هل تدعم الاستراتيجية الهيكل؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "هل الوصف الوظيفي يحدد المؤهلات؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "هل السوق تغير؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -2120,21 +2326,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لا توجد مشكلات فعلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قد يكون الأمان النفسي أو التعامل مع الخطأ ضعيفًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "الفريق يحتاج شعارًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الحل دائمًا تدريب تقني.",
+                    "text": "الحل غالبًا تدريب تقني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -2146,28 +2356,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الصحي يناقش الأفكار، وغير الصحي يتحول إلى لوم أو تجنب.",
-                    "isCorrectSource": true
+                    "text": "الصحي ممنوع غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الصحي ممنوع دائمًا.",
+                    "text": "غير الصحي يزيد التعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "غير الصحي يزيد التعلم.",
-                    "isCorrectSource": false
+                    "text": "الصحي يناقش الأفكار، وغير الصحي يتحول إلى لوم أو تجنب.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لا يوجد فرق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d4",
@@ -2217,26 +2432,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل الدور يملك صلاحيات تناسب مسؤولياته؟",
-                    "isCorrectSource": true
+                    "text": "هل السوق الخارجي تغير؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "هل السوق الخارجي تغير؟",
+                    "text": "هل استراتيجية المنظمة مكتوبة؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل استراتيجية المنظمة مكتوبة؟",
+                    "text": "هل توجد منافسة عالية؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "هل توجد منافسة عالية؟",
-                    "isCorrectSource": false
+                    "text": "هل الدور يملك صلاحيات تناسب مسؤولياته؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -2245,21 +2464,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مسؤولية دون صلاحية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "صلاحية دون مسؤولية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "وضوح كامل للدور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تصميم مثالي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -2271,28 +2494,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه قد لا يعكس العمل الفعلي.",
-                    "isCorrectSource": true
+                    "text": "لأنه غالبًا خاطئ.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه دائمًا خاطئ.",
-                    "isCorrectSource": false
+                    "text": "لأنه قد لا يعكس العمل الفعلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأنه لا علاقة له بالأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يغني عن المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d5",
@@ -2334,26 +2562,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "فحص المنظمة والفريق والدور وربط العلاقات بينها.",
-                    "isCorrectSource": true
+                    "text": "مقابلة المدير فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مقابلة المدير فقط.",
+                    "text": "تحليل الفرد فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحليل الفرد فقط.",
-                    "isCorrectSource": false
+                    "text": "فحص المنظمة والفريق والدور وربط العلاقات بينها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "قياس الرضا العام فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -2361,26 +2593,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مستوى المنظمة ونظام الأداء.",
-                    "isCorrectSource": true
+                    "text": "مستوى مهارة فرد واحد فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مستوى مهارة فرد واحد فقط.",
+                    "text": "مستوى الحضور والانصراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مستوى الحضور والانصراف.",
+                    "text": "مستوى تصميم المكتب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "مستوى تصميم المكتب.",
-                    "isCorrectSource": false
+                    "text": "مستوى المنظمة ونظام الأداء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -2389,27 +2625,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد يعالج العرض ويترك النظام المنتج للمشكلة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "يضمن استدامة الحل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يقلل الحاجة للتشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يحل السبب الجذري دائمًا.",
+                    "text": "يحل السبب الجذري غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d6",
@@ -2456,26 +2697,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عندما تكون المشكلة في وضوح المسؤوليات والصلاحيات والمخرجات.",
-                    "isCorrectSource": true
+                    "text": "عندما نريد تحليل الاقتصاد العالمي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما نريد تحليل الاقتصاد العالمي.",
-                    "isCorrectSource": false
+                    "text": "عندما تكون المشكلة في وضوح المسؤوليات والصلاحيات والمخرجات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عندما لا توجد أي مشكلة في الأدوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما نريد تجاهل الوصف الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -2483,26 +2728,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد تفترض الحل قبل اكتمال التشخيص.",
-                    "isCorrectSource": true
+                    "text": "يزيد جودة التشخيص غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد جودة التشخيص دائمًا.",
+                    "text": "يمنع التحيز.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يمنع التحيز.",
-                    "isCorrectSource": false
+                    "text": "قد تفترض الحل قبل اكتمال التشخيص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يجعل البيانات غير ضرورية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -2511,27 +2760,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ما النموذج الذي أحبه؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ما العدسة التي تساعدني على فهم العرض والنمط والسبب المحتمل؟",
-                    "isCorrectSource": true
+                    "text": "ما النموذج الأسهل في الرسم؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ما النموذج الأسهل في الرسم؟",
+                    "text": "ما النموذج الذي يريده العميل فقط؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "ما النموذج الذي يريده العميل فقط؟",
-                    "isCorrectSource": false
+                    "text": "ما العدسة التي تساعدني على فهم العرض والنمط والسبب المحتمل؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w3d7",
@@ -2586,26 +2840,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تقديم الحل النهائي مباشرة.",
-                    "isCorrectSource": false
-                  },
-                  {
-                    "letter": "B",
-                    "text": "تنظيم التفكير التشخيصي عبر المنظمة والفريق والدور قبل جمع البيانات العميقة.",
+                    "text": "تنظيم الفرضيات عبر مستويات المنظمة والفريق والدور قبل التعمق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
+                    "letter": "B",
+                    "text": "اختصار النتائج في توصية تنفيذية واحدة قابلة للتطبيق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
+                  },
+                  {
                     "letter": "C",
-                    "text": "تقييم الموظفين فرديًا.",
+                    "text": "ترتيب أصحاب المصلحة حسب تأثيرهم في المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تنفيذ ورشة ثقافية.",
+                    "text": "تحديد ورشة أولية لتوحيد لغة الفريق حول المشكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -2613,26 +2871,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن هناك فرضيات تنظيمية وفريقية ودورية يجب فحصها.",
-                    "isCorrectSource": true
-                  },
-                  {
-                    "letter": "B",
                     "text": "لأن الموظفين لا علاقة لهم بالعمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
+                    "letter": "B",
+                    "text": "لأن هناك فرضيات تنظيمية وفريقية ودورية يجب فحصها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
+                  },
+                  {
                     "letter": "C",
-                    "text": "لأن القيادة دائمًا مخطئة.",
+                    "text": "لأن تفسير القيادة وحده قد يغفل مستويات أخرى.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن الشكاوى لا تهم.",
+                    "text": "لأن الشكاوى قد تمثل عرضًا يحتاج ربطًا بالبيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -2640,28 +2902,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "منسق الطلبات مسؤول عن المتابعة ولا يملك صلاحية الحسم.",
-                    "isCorrectSource": true
+                    "text": "تغير السوق الخارجي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تغير السوق الخارجي.",
+                    "text": "وجود منافس جديد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "وجود منافس جديد.",
-                    "isCorrectSource": false
+                    "text": "منسق الطلبات مسؤول عن المتابعة ولا يملك صلاحية الحسم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "إعلان استراتيجية جديدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true,
@@ -2740,26 +3007,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الدليل يكون رقميًا دائمًا.",
+                    "text": "الدليل يكون رقميًا غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الدليل يرتبط بفرضية.",
-                    "isCorrectSource": true
+                    "text": "الدليل يأتي من مقابلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الدليل يأتي من مقابلة.",
+                    "text": "الدليل لا يحتاج تفسيرًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الدليل لا يحتاج تفسيرًا.",
-                    "isCorrectSource": false
+                    "text": "الدليل يرتبط بفرضية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -2767,26 +3038,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة وقت المقابلات.",
-                    "isCorrectSource": false
+                    "text": "تراكم معلومات بلا معنى.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "ضعف تنسيق الجدول.",
+                    "text": "زيادة وقت المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تراكم معلومات بلا معنى.",
-                    "isCorrectSource": true
+                    "text": "ضعف تنسيق الجدول.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "ارتفاع تكلفة المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -2795,27 +3070,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عرض النتائج بأسماء واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "شرح استخدام البيانات مسبقًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "جمع البيانات بسرعة عالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقليل أسئلة المشاركين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d2",
@@ -2931,25 +3211,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قياس الرضا بدقة عالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "فهم معنى الخبرة.",
-                    "isCorrectSource": true
+                    "text": "تعميم النتيجة إحصائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تعميم النتيجة إحصائيًا.",
-                    "isCorrectSource": false
+                    "text": "فهم معنى الخبرة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "اختصار وقت التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -2958,25 +3242,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لماذا تقاومون التغيير؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "هل المشكلة في المديرين؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ماذا يحدث عند التعطل؟",
-                    "isCorrectSource": true
+                    "text": "أليس السبب الصلاحيات؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أليس السبب الصلاحيات؟",
-                    "isCorrectSource": false
+                    "text": "ماذا يحدث عند التعطل؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -2985,27 +3273,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عند وجود موضوع حساس.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "عند الحاجة إلى أمثلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عند تحليل لغة الفريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عند اختلاف الخبرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d3",
@@ -3093,26 +3386,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد لا يفسر سبب النتيجة.",
-                    "isCorrectSource": true
+                    "text": "قد يجمع بيانات كثيرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد يجمع بيانات كثيرة.",
-                    "isCorrectSource": false
+                    "text": "قد لا يفسر سبب النتيجة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "قد يسهل مقارنة الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قد يرفع سرعة التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -3121,25 +3418,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الصلاحيات في منظمتنا ممتازة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أعرف قراراتي دون موافقة.",
-                    "isCorrectSource": true
+                    "text": "الإدارة تفوض وتدعم التطوير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الإدارة تفوض وتدعم التطوير.",
-                    "isCorrectSource": false
+                    "text": "أعرف قراراتي دون موافقة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لا توجد لدينا مركزية عالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -3148,27 +3449,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اتساق الإجابات عبر الزمن.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "ارتفاع عدد المشاركين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قياس المفهوم المقصود.",
-                    "isCorrectSource": true
+                    "text": "سهولة تحليل المتوسطات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "سهولة تحليل المتوسطات.",
-                    "isCorrectSource": false
+                    "text": "قياس المفهوم المقصود.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d4",
@@ -3260,26 +3566,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تقيس الرضا بدقة أكبر.",
-                    "isCorrectSource": false
+                    "text": "ترى السلوك الفعلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "ترى السلوك الفعلي.",
-                    "isCorrectSource": true
+                    "text": "تقيس الرضا بدقة أكبر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تلغي تحيز الملاحظ.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تحتاج وقتًا أقل دائمًا.",
+                    "text": "تحتاج وقتًا أقل غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -3288,25 +3598,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الفريق دفاعي وضعيف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "المدير لا يحب التفويض.",
-                    "isCorrectSource": false
+                    "text": "القرار عاد للمدير ثلاث مرات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "القرار عاد للمدير ثلاث مرات.",
-                    "isCorrectSource": true
+                    "text": "المدير لا يحب التفويض.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الثقافة المركزية واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -3314,28 +3628,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد تعكس طريقة تسجيل منحازة.",
-                    "isCorrectSource": true
+                    "text": "قد تكون سهلة التحليل رقميًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد تكون سهلة التحليل رقميًا.",
+                    "text": "قد تقلل الحاجة للمقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قد تقلل الحاجة للمقابلات.",
-                    "isCorrectSource": false
+                    "text": "قد تعكس طريقة تسجيل منحازة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "قد تغطي فترات زمنية طويلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d5",
@@ -3405,25 +3724,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد يقل عدد المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد تنحاز العينة.",
-                    "isCorrectSource": true
+                    "text": "قد يصعب الجدولة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قد يصعب الجدولة.",
+                    "text": "قد تتكرر الأسئلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قد تتكرر الأسئلة.",
-                    "isCorrectSource": false
+                    "text": "قد تنحاز العينة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -3431,26 +3754,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مقابلة عشرة مديرين.",
-                    "isCorrectSource": false
+                    "text": "مقارنة مقابلات وسجلات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تكرار السؤال نفسه.",
+                    "text": "مقابلة عشرة مديرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مقارنة مقابلات وسجلات.",
-                    "isCorrectSource": true
+                    "text": "تكرار السؤال نفسه.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إرسال استبيان أطول.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -3459,27 +3786,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "بلوغ عدد كبير جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "انتهاء الوقت المتاح.",
-                    "isCorrectSource": false
+                    "text": "تكرار الأنماط الأساسية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تكرار الأنماط الأساسية.",
-                    "isCorrectSource": true
+                    "text": "انتهاء الوقت المتاح.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "موافقة جميع الأطراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d6",
@@ -3575,26 +3907,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يهمل أهمية حالات حرجة.",
-                    "isCorrectSource": true
+                    "text": "قد يزيد وقت الترميز.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد يزيد وقت الترميز.",
+                    "text": "قد يصعب عرض النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قد يصعب عرض النتائج.",
-                    "isCorrectSource": false
+                    "text": "قد يهمل أهمية حالات حرجة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "قد يقلل عدد الفرضيات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -3603,25 +3939,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ثبت أن القيادة سبب المشكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "الموظفون أكدوا ضعف القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "البيانات تدعم فرضية قيادية.",
-                    "isCorrectSource": true
+                    "text": "الحل هو تدريب القيادات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الحل هو تدريب القيادات.",
-                    "isCorrectSource": false
+                    "text": "البيانات تدعم فرضية قيادية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -3629,28 +3969,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "حذف البيانات غير المتسقة.",
-                    "isCorrectSource": false
+                    "text": "اختبار قوة التفسير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "اختبار قوة التفسير.",
-                    "isCorrectSource": true
+                    "text": "حذف البيانات غير المتسقة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تقليل حجم التقرير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إثبات رأي العميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m1w4d7",
@@ -3770,21 +4115,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تسليم التقرير للقيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تمكين النظام من الفهم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إقناع العميل بالحل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عرض كل البيانات الخام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -3797,21 +4146,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن تكون شاملة جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أن تكون فنية ومعقدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "أن تكون وصفية قابلة للتحقق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "أن تكون مركزة على الأخطاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -3824,27 +4177,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الدفاع عن التحليل بقوة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "حذف النتائج الحساسة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الرجوع للمنهجية والنمط.",
-                    "isCorrectSource": true
+                    "text": "إنهاء جلسة التغذية مباشرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إنهاء جلسة التغذية فورًا.",
-                    "isCorrectSource": false
+                    "text": "الرجوع للمنهجية والنمط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -3942,21 +4300,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التصميم أوسع من خطوط التبعية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "الهيكل أشمل من نموذج التشغيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "التصميم يخص الموارد البشرية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الهيكل يحدد الاستراتيجية دائمًا.",
+                    "text": "الهيكل يحدد الاستراتيجية غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -3969,25 +4331,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تحديد القدرات قبل الوحدات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحليل رحلة العميل أولًا.",
-                    "isCorrectSource": false
+                    "text": "دمج إدارتين دون فحص العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "دمج إدارتين دون فحص العمل.",
-                    "isCorrectSource": true
+                    "text": "تحليل رحلة العميل أولًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مراجعة مؤشرات الأداء قبل الرسم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -3996,27 +4362,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توافق التصميم مع الأنظمة القانونية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "توافق عناصر التصميم مع بعضها.",
-                    "isCorrectSource": true
+                    "text": "توافق المدير مع فريقه المباشر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "توافق المدير مع فريقه المباشر.",
-                    "isCorrectSource": false
+                    "text": "توافق عناصر التصميم مع بعضها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "توافق الخريطة مع أسماء الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d2",
@@ -4124,25 +4495,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مهارة فردية عالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "نشاط تدريبي متخصص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قدرة نظامية متكررة.",
-                    "isCorrectSource": true
+                    "text": "صلاحية إدارية مكتوبة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "صلاحية إدارية مكتوبة.",
-                    "isCorrectSource": false
+                    "text": "قدرة نظامية متكررة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -4150,26 +4525,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إنشاء إدارة تجربة العميل.",
-                    "isCorrectSource": false
+                    "text": "تقليل نقاط التسليم الحرجة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "دمج العمليات وخدمة العملاء.",
+                    "text": "إنشاء إدارة تجربة العميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تقليل نقاط التسليم الحرجة.",
-                    "isCorrectSource": true
+                    "text": "دمج العمليات وخدمة العملاء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تعيين مدير تحول رقمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -4177,28 +4556,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تجاهل القدرات المطلوبة.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح خطوط السلطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة وضوح خطوط السلطة.",
-                    "isCorrectSource": false
+                    "text": "تجاهل القدرات المطلوبة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تقليل الحاجة للمقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إبطاء اعتماد الخريطة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d3",
@@ -4279,25 +4663,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "رسم خطوط التبعية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ترجمة الاستراتيجية للعمل.",
-                    "isCorrectSource": true
+                    "text": "تحديد الرواتب الوظيفية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحديد الرواتب الوظيفية.",
-                    "isCorrectSource": false
+                    "text": "ترجمة الاستراتيجية للعمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "اختيار أسماء الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -4305,26 +4693,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "من يملك اعتماد التغيير.",
-                    "isCorrectSource": true
+                    "text": "عدد العاملين في الفريق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدد العاملين في الفريق.",
+                    "text": "اسم الوحدة التنظيمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اسم الوحدة التنظيمية.",
+                    "text": "موقع المكتب الرئيسي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "موقع المكتب الرئيسي.",
-                    "isCorrectSource": false
+                    "text": "من يملك اعتماد التغيير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -4332,28 +4724,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه يلغي الحاجة للهيكل.",
-                    "isCorrectSource": false
+                    "text": "لأنه يحدد تدفق القيمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يحدد تدفق القيمة.",
-                    "isCorrectSource": true
+                    "text": "لأنه يلغي الحاجة للهيكل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأنه يختصر تحليل الوظائف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يعتمد على المسميات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d4",
@@ -4493,21 +4890,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تعتمد على عدد الموظفين فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "غير دقيقة دون سياق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تعني الهيكل الوظيفي غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحددها الإدارة العليا وحدها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -4520,25 +4921,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ضعف التخصص الفني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة صوامع العمل.",
-                    "isCorrectSource": true
+                    "text": "غياب خطوط السلطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "غياب خطوط السلطة.",
-                    "isCorrectSource": false
+                    "text": "زيادة صوامع العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تضخم شرائح العملاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -4547,27 +4952,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عمل بسيط وروتيني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "بيئة مستقرة جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حاجة لتوازن بعدين.",
-                    "isCorrectSource": true
+                    "text": "منتج واحد ثابت.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "منتج واحد ثابت.",
-                    "isCorrectSource": false
+                    "text": "حاجة لتوازن بعدين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d5",
@@ -4666,26 +5076,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مستقرة وروتينية.",
-                    "isCorrectSource": false
+                    "text": "عالية التغير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "عالية التغير.",
-                    "isCorrectSource": true
+                    "text": "مستقرة وروتينية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "شديدة الامتثال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منخفضة الغموض.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -4693,26 +5107,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة الغموض.",
-                    "isCorrectSource": true
+                    "text": "غياب أي تواصل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "غياب أي تواصل.",
-                    "isCorrectSource": false
+                    "text": "زيادة الغموض.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "ضعف كل المرونة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "انعدام التعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -4721,27 +5139,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "فرق ذاتية القرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أدوار مرنة جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "قرارات مركزية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تدفق معلومات مفتوح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d6",
@@ -4820,26 +5243,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مدير مسؤول بلا صلاحية.",
-                    "isCorrectSource": true
+                    "text": "موظف لديه وصف وظيفي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "موظف لديه وصف وظيفي.",
+                    "text": "فريق يجتمع أسبوعيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "فريق يجتمع أسبوعيًا.",
+                    "text": "إدارة تملك مؤشرات أداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إدارة تملك مؤشرات أداء.",
-                    "isCorrectSource": false
+                    "text": "مدير مسؤول بلا صلاحية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -4847,26 +5274,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لون الخريطة التنظيمية.",
-                    "isCorrectSource": false
+                    "text": "طبيعة العمل وتعقيده.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "طبيعة العمل وتعقيده.",
-                    "isCorrectSource": true
+                    "text": "لون الخريطة التنظيمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عدد صفحات الوصف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "اسم الوحدة التنظيمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -4875,27 +5306,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الرسمية تعرض النفوذ الخفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "غير الرسمي يلغي السلطة.",
-                    "isCorrectSource": false
+                    "text": "الرسمية تعرض التبعية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "الرسمية تعرض التبعية.",
-                    "isCorrectSource": true
+                    "text": "غير الرسمي يلغي السلطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "غير الرسمي لا يؤثر في العمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w1d7",
@@ -4997,25 +5433,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تثبيت الهيكل النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "بناء منطق التصميم.",
-                    "isCorrectSource": true
+                    "text": "إلغاء الحاجة للبيانات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء الحاجة للبيانات.",
-                    "isCorrectSource": false
+                    "text": "بناء منطق التصميم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "توزيع المسميات الجديدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -5024,25 +5464,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توحيد كل القرارات في القمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تقليل مؤشرات رضا العملاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "توضيح مالك تجربة العميل.",
-                    "isCorrectSource": true
+                    "text": "زيادة عدد طبقات الإشراف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "زيادة عدد طبقات الإشراف.",
-                    "isCorrectSource": false
+                    "text": "توضيح مالك تجربة العميل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -5050,28 +5494,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ضعف التخصص دائمًا.",
-                    "isCorrectSource": false
+                    "text": "زيادة غموض السلطة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة غموض السلطة.",
-                    "isCorrectSource": true
+                    "text": "ضعف التخصص غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء التعاون بين الفرق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "اختفاء شرائح العملاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -5205,26 +5654,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عرض التبعية الرسمية.",
-                    "isCorrectSource": true
+                    "text": "قياس رضا الموظفين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قياس رضا الموظفين.",
-                    "isCorrectSource": false
+                    "text": "عرض التبعية الرسمية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تفسير الثقافة كاملة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحديد الرواتب تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -5233,21 +5686,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وجود إدارة موارد بشرية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "وضوح أسماء الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "اعتماد القرار على شخص غير موثق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "استخدام ألوان مختلفة في الخريطة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -5259,28 +5716,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل يتوافق مع طبيعة العمل؟",
-                    "isCorrectSource": true
+                    "text": "هل يظهر في أعلى الخريطة؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "هل يظهر في أعلى الخريطة؟",
+                    "text": "هل يساوي بين كل الإدارات؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل يساوي بين كل الإدارات؟",
+                    "text": "هل يقلل عدد المسميات؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "هل يقلل عدد المسميات؟",
-                    "isCorrectSource": false
+                    "text": "هل يتوافق مع طبيعة العمل؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d2",
@@ -5403,26 +5865,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ضعف التخصص المهني.",
-                    "isCorrectSource": false
+                    "text": "زيادة صوامع العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة صوامع العمل.",
-                    "isCorrectSource": true
+                    "text": "ضعف التخصص المهني.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "غياب الخريطة الرسمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "اختفاء خطوط السلطة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -5430,26 +5896,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "العملاء لهم احتياجات مختلفة.",
-                    "isCorrectSource": true
+                    "text": "الخدمات متطابقة تمامًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الخدمات متطابقة تمامًا.",
-                    "isCorrectSource": false
+                    "text": "العملاء لهم احتياجات مختلفة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "البيئة مستقرة وبسيطة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "القرار مركزي دائمًا.",
+                    "text": "القرار مركزي غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -5458,27 +5928,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ما التقسيم الأكثر شيوعًا؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ما التقسيم الأقل تكلفة فورًا؟",
+                    "text": "ما التقسيم الأقل تكلفة مباشرة؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "ما التقسيم الذي يخدم الاستراتيجية؟",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "ما التقسيم الأسهل في الرسم؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d3",
@@ -5610,25 +6085,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "يزيد التخصص المهني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يرفع سرعة القرار دائمًا.",
+                    "text": "يسرع القرار في بعض المواقف دون علاج السبب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يعوّد الوحدات على التصعيد.",
-                    "isCorrectSource": true
+                    "text": "يلغي الحاجة إلى المديرين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يلغي الحاجة إلى المديرين.",
-                    "isCorrectSource": false
+                    "text": "يعوّد الوحدات على التصعيد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -5637,21 +6116,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما تكون العملية عابرة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "عندما تكون الوظائف مستقلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عندما لا توجد نقاط تسليم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما يكون العمل فرديًا فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -5664,27 +6147,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لديها جدول اجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تضم إدارات متعددة.",
-                    "isCorrectSource": false
+                    "text": "لا تحسم قرارات واضحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تناقش موضوعات مشتركة.",
+                    "text": "تضم إدارات متعددة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لا تحسم قرارات واضحة.",
-                    "isCorrectSource": true
+                    "text": "تناقش موضوعات مشتركة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d4",
@@ -5762,26 +6250,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ضعف وضوح المساءلة.",
-                    "isCorrectSource": true
+                    "text": "زيادة سرعة القرار.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة سرعة القرار.",
+                    "text": "تحسن التخصص الفني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحسن التخصص الفني.",
-                    "isCorrectSource": false
+                    "text": "ضعف وضوح المساءلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "ارتفاع جودة الاستشارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -5790,25 +6282,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مدير يملك قرار ميزانيته.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "منسق مسؤول عن نتيجة لا يعتمدها.",
-                    "isCorrectSource": true
+                    "text": "فريق يستلم تغذية راجعة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "فريق يستلم تغذية راجعة.",
+                    "text": "إدارة تملك إجراءً مكتوبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إدارة تملك إجراءً مكتوبًا.",
-                    "isCorrectSource": false
+                    "text": "منسق مسؤول عن نتيجة لا يعتمدها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -5816,28 +6312,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة عدد المشاركين.",
-                    "isCorrectSource": false
+                    "text": "توضيح الأدوار في العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "توثيق كل بريد رسمي.",
+                    "text": "زيادة عدد المشاركين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "توضيح الأدوار في العمل.",
-                    "isCorrectSource": true
+                    "text": "توثيق كل بريد رسمي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إلغاء الحاجة للتفويض.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d5",
@@ -5928,26 +6429,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عمل روتيني موثق.",
-                    "isCorrectSource": true
+                    "text": "مخاطر عالية جدًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مخاطر عالية جدًا.",
-                    "isCorrectSource": false
+                    "text": "عمل روتيني موثق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "موظفون جدد بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قرارات غامضة كثيرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -5956,21 +6461,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تترجم الاستراتيجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تطور الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تضيف موافقات فقط.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تحسم تعارضات حقيقية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -5983,27 +6492,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة التغذية الراجعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "وضوح الصلاحيات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ضعف المتابعة.",
-                    "isCorrectSource": true
+                    "text": "انخفاض عدد التقارير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "انخفاض عدد التقارير.",
-                    "isCorrectSource": false
+                    "text": "ضعف المتابعة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d6",
@@ -6093,26 +6607,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة سرعة الحسم.",
-                    "isCorrectSource": false
+                    "text": "تحولها لاجتماع شكلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تحولها لاجتماع شكلي.",
-                    "isCorrectSource": true
+                    "text": "زيادة سرعة الحسم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تقليل عدد الحضور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "وضوح مسار التصعيد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -6121,25 +6639,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ما اسم اللجنة المناسب؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "من أكبر مدير سيحضر؟",
-                    "isCorrectSource": false
+                    "text": "ما القرار المفقود؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "ما القرار المفقود؟",
-                    "isCorrectSource": true
+                    "text": "من أكبر مدير سيحضر؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كم مرة ستجتمع؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -6147,28 +6669,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يتحول إلى ناقل ضغط.",
-                    "isCorrectSource": true
+                    "text": "يختفي من الخريطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يختفي من الخريطة.",
+                    "text": "يلغي الحاجة للهيكل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يلغي الحاجة للهيكل.",
-                    "isCorrectSource": false
+                    "text": "يتحول إلى ناقل ضغط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يقلل التواصل الأفقي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w2d7",
@@ -6263,25 +6790,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تعرض رسمًا واضحًا فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تربط الهيكل بالمفاضلات.",
-                    "isCorrectSource": true
+                    "text": "تقلل عدد الإدارات غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تقلل عدد الإدارات دائمًا.",
+                    "text": "تمنع وجود لجان تمامًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تمنع وجود لجان تمامًا.",
-                    "isCorrectSource": false
+                    "text": "تربط الهيكل بالمفاضلات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -6289,26 +6820,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "المشكلة في الرواتب.",
-                    "isCorrectSource": false
+                    "text": "المشكلة في التنسيق والقرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "المشكلة في التنسيق والقرار.",
-                    "isCorrectSource": true
+                    "text": "المشكلة في الرواتب.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "المشكلة في عدد الموظفين فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المشكلة في أسماء الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -6317,27 +6852,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنه يلغي التخصص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يخفي العملاء.",
-                    "isCorrectSource": false
+                    "text": "لأنه يزيد غموض السلطة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "لأنه يزيد غموض السلطة.",
-                    "isCorrectSource": true
+                    "text": "لأنه يخفي العملاء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يمنع الاجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -6434,26 +6974,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "البدء من قالب جاهز.",
-                    "isCorrectSource": true
+                    "text": "ذكر الرئيس المباشر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ذكر الرئيس المباشر.",
+                    "text": "تحديد موقع الوظيفة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحديد موقع الوظيفة.",
-                    "isCorrectSource": false
+                    "text": "البدء من قالب جاهز.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "توضيح علاقات العمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -6462,21 +7006,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إعداد تقارير شهرية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "حضور اجتماعات الفريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تحليل بيانات الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقديم توصيات قرار.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
@@ -6489,27 +7037,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الوظيفة رسمية والدور فعلي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "الوظيفة سلوكية والدور مالي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "الوظيفة مؤقتة والدور ثابت.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الوظيفة جماعية والدور فردي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d2",
@@ -6624,21 +7177,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نسخ وصف مشابه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "فهم سياق المنظمة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تحديد الراتب المناسب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كتابة مهام تفصيلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -6650,26 +7207,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تضخم أو ضعف الوصف.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح الصلاحيات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة وضوح الصلاحيات.",
+                    "text": "تحسين عدالة التقييم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحسين عدالة التقييم.",
-                    "isCorrectSource": false
+                    "text": "تضخم أو ضعف الوصف.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تقليل التداخل الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -6678,27 +7239,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لتوحيد كل المسميات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لكشف التداخل والفجوات.",
-                    "isCorrectSource": true
+                    "text": "لإلغاء كل الاختلافات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لإلغاء كل الاختلافات.",
+                    "text": "لتقليل عدد الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لتقليل عدد الموظفين.",
-                    "isCorrectSource": false
+                    "text": "لكشف التداخل والفجوات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d3",
@@ -6786,26 +7352,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تنوع المهارات.",
-                    "isCorrectSource": false
+                    "text": "هوية المهمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "هوية المهمة.",
-                    "isCorrectSource": true
+                    "text": "تنوع المهارات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "أهمية المهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "التغذية الراجعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -6814,25 +7384,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التبسيط الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التوسيع الأفقي.",
-                    "isCorrectSource": false
+                    "text": "الإثراء الوظيفي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "الإثراء الوظيفي.",
-                    "isCorrectSource": true
+                    "text": "التوسيع الأفقي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقليل المهام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -6840,28 +7414,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "وضوح أعلى دائمًا.",
+                    "text": "وضوح أعلى غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تحفيز بلا حدود.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "غموض أو فوضى.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تقليل كل المخاطر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d4",
@@ -6949,25 +7528,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "طوله وتفاصيله.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تركيزه على النتائج.",
-                    "isCorrectSource": true
+                    "text": "كثرة المهام الصغيرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "كثرة المهام الصغيرة.",
+                    "text": "استخدام مسمى جذاب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "استخدام مسمى جذاب.",
-                    "isCorrectSource": false
+                    "text": "تركيزه على النتائج.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -6975,26 +7558,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إعداد تقارير عند الطلب.",
-                    "isCorrectSource": false
+                    "text": "إدارة دقة بيانات الموظفين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "حضور اجتماعات الإدارة.",
+                    "text": "إعداد تقارير عند الطلب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إدارة دقة بيانات الموظفين.",
-                    "isCorrectSource": true
+                    "text": "حضور اجتماعات الإدارة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "التواصل مع جميع الأقسام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -7003,27 +7590,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لزيادة الغموض المقصود.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "لتقليل التداخل الوظيفي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لإلغاء العلاقات الداخلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لمنع تحديث الوصف لاحقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d5",
@@ -7096,25 +7688,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "المهارة سلوك عام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الكفاءة نمط أداء.",
-                    "isCorrectSource": true
+                    "text": "المهارة لا تُقاس.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "المهارة لا تُقاس.",
-                    "isCorrectSource": false
+                    "text": "الكفاءة نمط أداء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الكفاءة شهادة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -7123,25 +7719,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توسيع قاعدة المرشحين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "خفض تكلفة الاستقطاب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إضعاف العدالة والملاءمة.",
-                    "isCorrectSource": true
+                    "text": "تسهيل التدرج الوظيفي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تسهيل التدرج الوظيفي.",
-                    "isCorrectSource": false
+                    "text": "إضعاف العدالة والملاءمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -7149,28 +7749,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "شيوعها في السوق.",
-                    "isCorrectSource": false
+                    "text": "ارتباطها بمخرج الدور.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "ارتباطها بمخرج الدور.",
-                    "isCorrectSource": true
+                    "text": "شيوعها في السوق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "رغبة المدير بها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "سهولة كتابتها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d6",
@@ -7243,26 +7848,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يغفل الأثر.",
-                    "isCorrectSource": true
+                    "text": "يزيد وضوح النتائج.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد وضوح النتائج.",
-                    "isCorrectSource": false
+                    "text": "قد يغفل الأثر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يرفع جودة القرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يقلل السلوك العكسي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -7271,25 +7880,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الرسائل المرسلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "جاهزية البرامج في موعدها.",
-                    "isCorrectSource": true
+                    "text": "عدد الاجتماعات الأسبوعية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عدد الاجتماعات الأسبوعية.",
-                    "isCorrectSource": false
+                    "text": "جاهزية البرامج في موعدها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "ساعات الحضور المكتبية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -7298,27 +7911,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ترقية إلى إدارة فريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "نمو كخبير دون إدارة.",
-                    "isCorrectSource": true
+                    "text": "انتقال عشوائي بين وظائف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "انتقال عشوائي بين وظائف.",
+                    "text": "تخفيض مستوى المسؤولية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تخفيض مستوى المسؤولية.",
-                    "isCorrectSource": false
+                    "text": "نمو كخبير دون إدارة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w3d7",
@@ -7488,21 +8106,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "يربط الدور بالنظام.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "يطيل قائمة المهام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يلغي مؤشرات الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يركز على المؤهل فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -7515,21 +8137,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة عدد المدربين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "مسؤولية دون صلاحية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "غياب مسمى وظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كثرة العملاء فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -7541,28 +8167,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "حدود الدور.",
-                    "isCorrectSource": true
+                    "text": "الغرض العام.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الغرض العام.",
+                    "text": "المسمى الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "المسمى الوظيفي.",
-                    "isCorrectSource": false
+                    "text": "حدود الدور.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "المؤهل العلمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -7681,26 +8312,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ربط الوظائف في نظام.",
-                    "isCorrectSource": true
+                    "text": "زيادة عدد المسميات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة عدد المسميات.",
+                    "text": "استبدال الهيكل بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال الهيكل بالكامل.",
+                    "text": "توحيد كل الرواتب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "توحيد كل الرواتب.",
-                    "isCorrectSource": false
+                    "text": "ربط الوظائف في نظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -7709,21 +8344,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الهيكل يوضح التبعية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "الهيكل يحدد كل الكفاءات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "المعمارية تلغي الدرجات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المعمارية ترسم المديرين فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -7736,27 +8375,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قرب الموظف من المدير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لون المسمى في الخريطة.",
-                    "isCorrectSource": false
+                    "text": "تعقيد القرار والأثر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تعقيد القرار والأثر.",
-                    "isCorrectSource": true
+                    "text": "لون المسمى في الخريطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد الاجتماعات الشهرية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d2",
@@ -7862,26 +8506,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إضعاف المسار التخصصي.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح المستويات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة وضوح المستويات.",
+                    "text": "تحسين عدالة الترقيات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحسين عدالة الترقيات.",
-                    "isCorrectSource": false
+                    "text": "إضعاف المسار التخصصي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تقليل تضخم المسميات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -7889,26 +8537,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "جمع وظائف متقاربة مهنيًا.",
-                    "isCorrectSource": true
+                    "text": "تحديد المدير المباشر فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحديد المدير المباشر فقط.",
+                    "text": "إلغاء مواصفات الشاغل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء مواصفات الشاغل.",
+                    "text": "استبدال تقييم الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "استبدال تقييم الأداء.",
-                    "isCorrectSource": false
+                    "text": "جمع وظائف متقاربة مهنيًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -7916,28 +8568,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "رغبة الموظف فقط.",
-                    "isCorrectSource": false
+                    "text": "جاهزية وحاجة تنظيمية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "طول مدة الخدمة فقط.",
+                    "text": "رغبة الموظف فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "جاهزية وحاجة تنظيمية.",
-                    "isCorrectSource": true
+                    "text": "طول مدة الخدمة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قربه من منصب شاغر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d3",
@@ -8035,26 +8692,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الأول للدور والثاني للشخص.",
-                    "isCorrectSource": true
+                    "text": "الأول للراتب فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الأول للراتب فقط.",
-                    "isCorrectSource": false
+                    "text": "الأول للدور والثاني للشخص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "الثاني لا يحتاج بيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كلاهما يقيس السلوك فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -8063,25 +8724,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قرب الشاغل من المدير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تعقيد المشكلات.",
-                    "isCorrectSource": true
+                    "text": "شعبية الموظف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "شعبية الموظف.",
-                    "isCorrectSource": false
+                    "text": "تعقيد المشكلات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "رغبته في الترقية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -8090,27 +8755,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توحيد كل الدرجات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مقارنة القرارات واتساقها.",
-                    "isCorrectSource": true
+                    "text": "إلغاء الفروق بين الوظائف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء الفروق بين الوظائف.",
+                    "text": "رفع جميع المسميات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "رفع جميع المسميات.",
-                    "isCorrectSource": false
+                    "text": "مقارنة القرارات واتساقها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d4",
@@ -8181,21 +8851,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كفاءات الدور الحرجة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "أسئلة عامة شائعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تفضيل المدير الشخصي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "طول خبرة المرشح فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -8208,21 +8882,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تجميل الوظيفة للمرشح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تقليل صدمة التوقعات.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء الحاجة للاختيار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "رفع المؤهلات المطلوبة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -8235,27 +8913,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إعلان الوظيفة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عينة العمل.",
-                    "isCorrectSource": true
+                    "text": "السيرة الذاتية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "السيرة الذاتية.",
-                    "isCorrectSource": false
+                    "text": "عينة العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "خطاب العرض.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d5",
@@ -8332,25 +9015,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة العدالة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ظلم أو تشويه.",
-                    "isCorrectSource": true
+                    "text": "وضوح المساءلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "وضوح المساءلة.",
+                    "text": "تحسين الدافعية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تحسين الدافعية.",
-                    "isCorrectSource": false
+                    "text": "ظلم أو تشويه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -8358,26 +9045,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدد الحالات فقط.",
-                    "isCorrectSource": false
+                    "text": "نسبة الجودة أو الأخطاء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "عدد الاجتماعات فقط.",
+                    "text": "عدد الحالات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نسبة الجودة أو الأخطاء.",
-                    "isCorrectSource": true
+                    "text": "عدد الاجتماعات فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد الرسائل فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -8385,28 +9076,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "النتيجة وطريقة تحقيقها.",
-                    "isCorrectSource": true
+                    "text": "الوقت والتكلفة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الوقت والتكلفة فقط.",
-                    "isCorrectSource": false
+                    "text": "النتيجة وطريقة تحقيقها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "المدير والموظف فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الراتب والمزايا فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d6",
@@ -8507,21 +9203,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نقص معرفة نظام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "ضعف مهارة أداة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "غياب صلاحية الدور.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "قلة ممارسة تقنية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -8534,25 +9234,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مسمى جذاب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قربها من المدير فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أثرها وصعوبة استبدالها.",
-                    "isCorrectSource": true
+                    "text": "وجود شاغل قديم فيها.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "وجود شاغل قديم فيها.",
-                    "isCorrectSource": false
+                    "text": "أثرها وصعوبة استبدالها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -8560,28 +9264,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قراءة سياسة فقط.",
-                    "isCorrectSource": false
+                    "text": "قيادة مشروع فعلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "حضور محاضرة عامة.",
+                    "text": "قراءة سياسة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قيادة مشروع فعلي.",
-                    "isCorrectSource": true
+                    "text": "حضور محاضرة عامة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حفظ الوصف الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m2w4d7",
@@ -8744,26 +9453,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "غياب معمارية وظائف.",
-                    "isCorrectSource": true
+                    "text": "نقص عدد الموظفين فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "نقص عدد الموظفين فقط.",
-                    "isCorrectSource": false
+                    "text": "غياب معمارية وظائف.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "طول أوصاف الوظائف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كثرة برامج التدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -8772,25 +9485,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إنشاء مسمى عند الطلب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ربط المسمى بمعيار مستوى.",
-                    "isCorrectSource": true
+                    "text": "جعل كل مسمى إداريًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "جعل كل مسمى إداريًا.",
-                    "isCorrectSource": false
+                    "text": "ربط المسمى بمعيار مستوى.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تغيير المسمى سنويًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -8798,28 +9515,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ربط الأدوار بمنظومة HR.",
-                    "isCorrectSource": true
+                    "text": "إلغاء تقييم الوظائف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إلغاء تقييم الوظائف.",
+                    "text": "استبدال جميع المديرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال جميع المديرين.",
+                    "text": "توحيد كل الوظائف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "توحيد كل الوظائف.",
-                    "isCorrectSource": false
+                    "text": "ربط الأدوار بمنظومة HR.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -8913,21 +9635,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ارتباطه بتشخيص وفرضية أثر.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "تنفيذه بواسطة مستشار خارجي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "اعتماده ضمن خطة تدريبية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عرضه في تقرير رسمي طويل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -8940,25 +9666,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ورشة عامة عن التواصل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تدريب قصير بلا قياس أثر.",
-                    "isCorrectSource": false
+                    "text": "تدريب تفويض مع تعديل صلاحيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تحديث نماذج الموارد البشرية.",
+                    "text": "تدريب قصير بلا قياس أثر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تدريب تفويض مع تعديل صلاحيات.",
-                    "isCorrectSource": true
+                    "text": "تحديث نماذج الموارد البشرية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -8967,27 +9697,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة وضوح الأدوار تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "معالجة المستوى الخطأ للمشكلة.",
-                    "isCorrectSource": true
+                    "text": "تسريع التفويض بشكل مضمون.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تسريع التفويض بشكل مضمون.",
-                    "isCorrectSource": false
+                    "text": "معالجة المستوى الخطأ للمشكلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "إلغاء الحاجة إلى التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d2",
@@ -9044,26 +9779,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ارتباطه بواقع المنظمة.",
-                    "isCorrectSource": true
+                    "text": "انخفاض تكلفته غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "انخفاض تكلفته دائمًا.",
+                    "text": "شيوعه في السوق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "شيوعه في السوق.",
+                    "text": "سرعة تنفيذه فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "سرعة تنفيذه فقط.",
-                    "isCorrectSource": false
+                    "text": "ارتباطه بواقع المنظمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -9071,26 +9810,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "كم سيستغرق تنفيذه؟",
-                    "isCorrectSource": false
+                    "text": "لماذا سيُنتج النتيجة؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "من سيحضر النشاط؟",
+                    "text": "كم سيستغرق تنفيذه؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لماذا سيُنتج النتيجة؟",
-                    "isCorrectSource": true
+                    "text": "من سيحضر النشاط؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أين سيُعقد الاجتماع؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -9099,27 +9842,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اعتماد دائم على المستشار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قدرة المنظمة على التكرار.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "زيادة عدد الوثائق الرسمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تنفيذ النشاط مرة واحدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d3",
@@ -9231,26 +9979,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "بناء الفريق.",
-                    "isCorrectSource": true
+                    "text": "إعادة الهيكلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إعادة الهيكلة.",
+                    "text": "نظام المكافآت.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نظام المكافآت.",
-                    "isCorrectSource": false
+                    "text": "بناء الفريق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تصميم المنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -9258,26 +10010,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عملية مليئة بإعادة العمل.",
-                    "isCorrectSource": true
+                    "text": "احتياج فردي للإرشاد.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "احتياج فردي للإرشاد.",
+                    "text": "صراع شخصي محدود.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "صراع شخصي محدود.",
+                    "text": "غياب خطة مسار فردية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "غياب خطة مسار فردية.",
-                    "isCorrectSource": false
+                    "text": "عملية مليئة بإعادة العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -9286,27 +10042,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأن المشكلات مترابطة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأن التدريب دائمًا ضعيف.",
+                    "text": "لأن التدريب غالبًا ضعيف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن الهيكل لا يهم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن القياس غير مطلوب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d4",
@@ -9403,26 +10164,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تدخل في مستوى غير مناسب.",
-                    "isCorrectSource": true
+                    "text": "زيادة في جودة التدريب.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة في جودة التدريب.",
-                    "isCorrectSource": false
+                    "text": "تدخل في مستوى غير مناسب.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تقليل الحاجة للتشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حل مباشر للمشكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -9430,26 +10195,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "اتفاقية عمل الفريق.",
-                    "isCorrectSource": true
+                    "text": "اندماج منظمتين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اندماج منظمتين.",
+                    "text": "سياسة أجور شاملة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سياسة أجور شاملة.",
-                    "isCorrectSource": false
+                    "text": "اتفاقية عمل الفريق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "استراتيجية تنافسية جديدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -9457,28 +10226,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "أثر خارج المستوى الأساسي.",
-                    "isCorrectSource": true
+                    "text": "أثر غير قابل للملاحظة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أثر غير قابل للملاحظة.",
+                    "text": "أثر يحدث قبل التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أثر يحدث قبل التشخيص.",
+                    "text": "أثر يلغي كل مقاومة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أثر يلغي كل مقاومة.",
-                    "isCorrectSource": false
+                    "text": "أثر خارج المستوى الأساسي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d5",
@@ -9634,26 +10408,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تعدد القنوات.",
-                    "isCorrectSource": false
+                    "text": "غموض صاحب الحسم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "غموض صاحب الحسم.",
-                    "isCorrectSource": true
+                    "text": "تعدد القنوات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "ضعف صياغة الرسائل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "انخفاض عدد النشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -9662,21 +10440,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تدريب تواصل فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تحديث حقوق القرار.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "حملة قيم مؤسسية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "زيادة الاجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -9688,28 +10470,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تجاهل الأنظمة المنتجة للسلوك.",
-                    "isCorrectSource": true
+                    "text": "زيادة دقة مؤشرات الأداء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة دقة مؤشرات الأداء.",
+                    "text": "وضوح حقوق القرار مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "وضوح حقوق القرار فورًا.",
-                    "isCorrectSource": false
+                    "text": "تجاهل الأنظمة المنتجة للسلوك.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "خفض مقاومة التغيير دائمًا.",
+                    "text": "خفض مقاومة التغيير غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d6",
@@ -9791,26 +10578,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الحزمة لها منطق ترابط.",
-                    "isCorrectSource": true
+                    "text": "الحزمة أكثر تكلفة غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الحزمة أكثر تكلفة دائمًا.",
+                    "text": "التجميع أكثر منهجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التجميع أكثر منهجية.",
+                    "text": "النشاط لا يحتاج مالكًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "النشاط لا يحتاج مالكًا.",
-                    "isCorrectSource": false
+                    "text": "الحزمة لها منطق ترابط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -9819,21 +10610,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إبقاء التغيير مستمرًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "بدء التشخيص من جديد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "زيادة عدد الورش فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إلغاء قياس النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -9846,27 +10641,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وجود تسلسل واضح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "وجود مالك لكل تدخل.",
-                    "isCorrectSource": false
+                    "text": "أنشطة كثيرة بلا فرضية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "مؤشرات مرتبطة بالأثر.",
+                    "text": "وجود مالك لكل تدخل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أنشطة كثيرة بلا فرضية.",
-                    "isCorrectSource": true
+                    "text": "مؤشرات مرتبطة بالأثر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w1d7",
@@ -9990,25 +10790,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عرض نشاط فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "شرح فرضية الأثر.",
-                    "isCorrectSource": true
+                    "text": "إلغاء التشخيص السابق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء التشخيص السابق.",
-                    "isCorrectSource": false
+                    "text": "شرح فرضية الأثر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تحديد مكان الورشة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -10017,25 +10821,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأن التدريب لا يفيد المشاريع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الخلل في نظام التسليم.",
-                    "isCorrectSource": true
+                    "text": "لأن المشكلة مالية فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن المشكلة مالية فقط.",
+                    "text": "لأن المبيعات غير مهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن المبيعات غير مهمة.",
-                    "isCorrectSource": false
+                    "text": "لأن الخلل في نظام التسليم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -10043,28 +10851,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تقليل وضوح الوثيقة.",
-                    "isCorrectSource": false
+                    "text": "حماية حدود التوقعات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "حماية حدود التوقعات.",
-                    "isCorrectSource": true
+                    "text": "تقليل وضوح الوثيقة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء مؤشرات النجاح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منع مشاركة القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -10151,26 +10964,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "العملية تصف كيف يحدث التفاعل.",
-                    "isCorrectSource": true
+                    "text": "المحتوى يعني مشاعر الأعضاء فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "المحتوى يعني مشاعر الأعضاء فقط.",
-                    "isCorrectSource": false
+                    "text": "العملية تصف كيف يحدث التفاعل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "العملية تعني وثائق العمل الرسمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المحتوى يحدد التبعية التنظيمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -10178,26 +10995,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "غموض حقوق القرار.",
-                    "isCorrectSource": true
+                    "text": "ضعف الإصغاء في اجتماع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ضعف الإصغاء في اجتماع.",
+                    "text": "تجنب الخلاف داخل فريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تجنب الخلاف داخل فريق.",
-                    "isCorrectSource": false
+                    "text": "غموض حقوق القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "فقدان الثقة بين عضوين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -10205,28 +11026,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل المشكلة داخل الفريق فعلًا؟",
-                    "isCorrectSource": true
+                    "text": "كم عدد ساعات الورشة؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "كم عدد ساعات الورشة؟",
+                    "text": "أين سيعقد اللقاء؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أين سيعقد اللقاء؟",
+                    "text": "من سيصمم الشعار؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "من سيصمم الشعار؟",
-                    "isCorrectSource": false
+                    "text": "هل المشكلة داخل الفريق فعلًا؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d2",
@@ -10320,21 +11146,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "بناء قدرة الفريق الذاتية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "تقديم حل جاهز سريع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تقييم أداء كل عضو.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إدارة الوقت فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -10347,25 +11177,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الفريق دفاعي جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "القائد غير متعاون.",
-                    "isCorrectSource": false
+                    "text": "قوطع ثلاثة أعضاء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "قوطع ثلاثة أعضاء.",
-                    "isCorrectSource": true
+                    "text": "القائد غير متعاون.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "ثقافتكم ضعيفة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -10373,28 +11207,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عندما تكون المشكلة في المؤشرات.",
-                    "isCorrectSource": true
+                    "text": "عندما يحتاج الفريق رؤية عمليته.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما يحتاج الفريق رؤية عمليته.",
+                    "text": "عندما توجد أنماط تواصل ضعيفة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عندما توجد أنماط تواصل ضعيفة.",
-                    "isCorrectSource": false
+                    "text": "عندما تكون المشكلة في المؤشرات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عندما يتكرر القفز للحلول.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d3",
@@ -10489,26 +11328,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "وصف سلوك محدد.",
-                    "isCorrectSource": true
+                    "text": "تقييم شخصية الفرد.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تقييم شخصية الفرد.",
+                    "text": "تأجيلها لنهاية السنة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تأجيلها لنهاية السنة.",
+                    "text": "قولها أمام الجميع غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قولها أمام الجميع دائمًا.",
-                    "isCorrectSource": false
+                    "text": "وصف سلوك محدد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -10516,26 +11359,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الاجتماع أسبوعي.",
-                    "isCorrectSource": false
+                    "text": "لا تعارض القائد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لا تعارض القائد.",
-                    "isCorrectSource": true
+                    "text": "الاجتماع أسبوعي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "الفريق من خمسة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "التقرير شهري.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -10543,28 +11390,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "فهم الوعي والعلاقات.",
-                    "isCorrectSource": true
+                    "text": "تحديد الرواتب العادلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحديد الرواتب العادلة.",
-                    "isCorrectSource": false
+                    "text": "فهم الوعي والعلاقات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "رسم الهيكل التنظيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قياس تكلفة المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d4",
@@ -10658,26 +11510,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عند تعطل الحوار المباشر.",
-                    "isCorrectSource": true
+                    "text": "عند وضوح الهيكل تمامًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عند وضوح الهيكل تمامًا.",
+                    "text": "عند غياب أي خلاف حقيقي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عند غياب أي خلاف حقيقي.",
-                    "isCorrectSource": false
+                    "text": "عند تعطل الحوار المباشر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عند الحاجة لتدريب عام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -10685,26 +11541,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هو دائمًا غير متعاون.",
+                    "text": "هو غالبًا غير متعاون.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "الإدارة الأخرى سيئة النية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الطلبات تصل بلا مهلة.",
-                    "isCorrectSource": true
+                    "text": "المشكلة في شخصيته فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "المشكلة في شخصيته فقط.",
-                    "isCorrectSource": false
+                    "text": "الطلبات تصل بلا مهلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -10713,27 +11573,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "حله بعقد اجتماع فقط.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "توثيق الأدوار بدقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "توضيح حقوق القرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحليل نقاط التسليم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d5",
@@ -10829,26 +11694,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تحسين أداء الفريق.",
-                    "isCorrectSource": true
+                    "text": "تنفيذ نشاط ترفيهي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تنفيذ نشاط ترفيهي.",
-                    "isCorrectSource": false
+                    "text": "تحسين أداء الفريق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء كل الخلافات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "رفع عدد الاجتماعات.",
+                    "text": "رفع كثرة الاجتماعات دون وضوح القرار أو التعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -10857,21 +11726,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عند غموض هدف الفريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "عند تداخل أدوار الأعضاء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عند مشكلة هيكلية صرفة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عند ضعف قواعد الاجتماع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -10883,28 +11756,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "توثيق قواعد عمل الفريق.",
-                    "isCorrectSource": true
+                    "text": "تحديد رواتب الأعضاء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحديد رواتب الأعضاء.",
+                    "text": "إلغاء دور القائد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء دور القائد.",
+                    "text": "استبدال تقييم الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "استبدال تقييم الأداء.",
-                    "isCorrectSource": false
+                    "text": "توثيق قواعد عمل الفريق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d6",
@@ -11013,21 +11891,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عند توتر بين إدارتين.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "عند فجوة مهارة فردية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عند كتابة وصف وظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عند اختيار مورد خارجي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -11040,21 +11922,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تعكس النظام بدقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تصبح صوتًا محدودًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تزيد جودة المشاركة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تلغي الحاجة للمتابعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -11066,28 +11952,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "متابعة بعد الحدث.",
-                    "isCorrectSource": true
+                    "text": "غياب أصحاب المصلحة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "غياب أصحاب المصلحة.",
+                    "text": "عدم وجود مخرجات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عدم وجود مخرجات.",
-                    "isCorrectSource": false
+                    "text": "متابعة بعد الحدث.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "منع الحوار الواسع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w2d7",
@@ -11227,26 +12118,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الخلل له عوامل نظامية.",
-                    "isCorrectSource": true
+                    "text": "لأن العمليات لا تؤثر في العملاء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن العمليات لا تؤثر في العملاء.",
+                    "text": "لأن الحوار لا قيمة له إطلاقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن الحوار لا قيمة له إطلاقًا.",
+                    "text": "لأن المبيعات خارج المنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن المبيعات خارج المنظمة.",
-                    "isCorrectSource": false
+                    "text": "لأن الخلل له عوامل نظامية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -11255,21 +12150,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اتفاق عمل ونقاط تسليم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "نشاط تعارف فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تقرير حضور المشاركين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تغيير أسماء الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -11281,28 +12180,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ضبط توقعات الأطراف.",
-                    "isCorrectSource": true
+                    "text": "إلغاء خطة المتابعة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إلغاء خطة المتابعة.",
-                    "isCorrectSource": false
+                    "text": "ضبط توقعات الأطراف.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إخفاء حدود التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منع القياس لاحقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -11397,21 +12301,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "يركز على نوايا الأفراد فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "يستبدل التشخيص بالحوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يغير شروط العمل والتنظيم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يلغي الحاجة إلى القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -11424,25 +12332,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توتر شخصي بين موظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مسؤولية عالية بلا صلاحية.",
-                    "isCorrectSource": true
+                    "text": "اختلاف أسلوبين في الحوار.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختلاف أسلوبين في الحوار.",
+                    "text": "حاجة مدير إلى Coaching.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "حاجة مدير إلى Coaching.",
-                    "isCorrectSource": false
+                    "text": "مسؤولية عالية بلا صلاحية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -11450,28 +12362,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة وضوح العمليات دائمًا.",
-                    "isCorrectSource": false
+                    "text": "تغيير النظام دون كرامة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "رفع المشاركة تلقائيًا.",
+                    "text": "زيادة وضوح العمليات غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تقليل كل مقاومة تغيير.",
+                    "text": "رفع المشاركة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تغيير النظام دون كرامة.",
-                    "isCorrectSource": true
+                    "text": "تقليل كل مقاومة تغيير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d2",
@@ -11560,21 +12477,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "رغبة الإدارة في شكل جديد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "وجود خلل بين العمل والهيكل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "كثرة المسميات في الدليل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "انتهاء السنة المالية الحالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -11587,25 +12508,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "انعدام كل أشكال التخصص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إلغاء الحاجة للتنسيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختفاء العملاء نهائيًا.",
-                    "isCorrectSource": false
+                    "text": "غموض السلطة والمساءلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "غموض السلطة والمساءلة.",
-                    "isCorrectSource": true
+                    "text": "اختفاء العملاء بشكل قاطع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -11613,28 +12538,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "أدوات تعالج ضعف الهيكل.",
-                    "isCorrectSource": true
+                    "text": "مكافآت مالية للمديرين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مكافآت مالية للمديرين.",
+                    "text": "نماذج إجازات بديلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نماذج إجازات بديلة.",
+                    "text": "عبارات في إعلان التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عبارات في إعلان التغيير.",
-                    "isCorrectSource": false
+                    "text": "أدوات تعالج ضعف الهيكل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d3",
@@ -11724,26 +12654,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عند وجود نموذج ناقص فقط.",
-                    "isCorrectSource": false
+                    "text": "عند كسر جوهري في التدفق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "عند غياب شعار للعملية.",
+                    "text": "عند وجود نموذج ناقص فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عند كسر جوهري في التدفق.",
-                    "isCorrectSource": true
+                    "text": "عند غياب شعار للعملية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عند رغبة فريق في ورشة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -11751,26 +12685,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "جعل الخطأ أسرع.",
-                    "isCorrectSource": true
+                    "text": "تقليل الحاجة للبيانات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تقليل الحاجة للبيانات.",
-                    "isCorrectSource": false
+                    "text": "جعل الخطأ أسرع.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء كل التعقيد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "رفع المعنى الوظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -11779,27 +12717,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تجاهل المستخدمين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "غياب مقاييس واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حصرها في التقنية فقط.",
-                    "isCorrectSource": false
+                    "text": "تدريب المشاركين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "تدريب المشاركين.",
-                    "isCorrectSource": true
+                    "text": "حصرها في التقنية فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d4",
@@ -11890,26 +12833,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "فقدان وظائف حرجة.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح الهيكل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة وضوح الهيكل.",
+                    "text": "رفع الثقة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "رفع الثقة تلقائيًا.",
+                    "text": "تقليل غموض الأدوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تقليل غموض الأدوار.",
-                    "isCorrectSource": false
+                    "text": "فقدان وظائف حرجة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -11917,26 +12864,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عندما يكون النشاط جوهريًا جدًا.",
-                    "isCorrectSource": false
+                    "text": "عندما يكون العمل غير جوهري.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "عندما لا توجد حوكمة موردين.",
+                    "text": "عندما يكون النشاط جوهريًا جدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عندما يكون العمل غير جوهري.",
-                    "isCorrectSource": true
+                    "text": "عندما لا توجد حوكمة موردين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما تكون الجودة غير مهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -11944,28 +12895,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "سرعة القرار وعبء المديرين.",
-                    "isCorrectSource": true
+                    "text": "ألوان الخريطة التنظيمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ألوان الخريطة التنظيمية.",
-                    "isCorrectSource": false
+                    "text": "سرعة القرار وعبء المديرين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "أسماء قاعات الاجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد النشرات الداخلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d5",
@@ -12034,25 +12990,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تدريب، توظيف، أجور، إجازات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قوة، معلومات، معرفة، مكافآت.",
-                    "isCorrectSource": true
+                    "text": "هيكل، شعار، حملة، تقرير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هيكل، شعار، حملة، تقرير.",
-                    "isCorrectSource": false
+                    "text": "قوة، معلومات، معرفة، مكافآت.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "قائد، لجنة، بريد، اجتماع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -12060,26 +13020,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قرار ضعيف الجودة.",
-                    "isCorrectSource": true
+                    "text": "زيادة دقة التحليل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة دقة التحليل.",
+                    "text": "وضوح أعلى للنتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "وضوح أعلى للنتائج.",
+                    "text": "انخفاض الحاجة للتدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "انخفاض الحاجة للتدريب.",
-                    "isCorrectSource": false
+                    "text": "قرار ضعيف الجودة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -12088,27 +13052,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عند الحاجة لمساحة حل بديلة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "عند وضوح كل القرارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عند غياب أي مشكلة معقدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عند رفض مشاركة العاملين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d6",
@@ -12201,21 +13170,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التركيز على التقنية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تحسين الاجتماعي والتقني معًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء دور التصميم البشري.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تبسيط العمل في كل الحالات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -12228,25 +13201,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "غياب المعلومات عن الفريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "مكافآت فردية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سيطرة يومية من المشرف.",
-                    "isCorrectSource": false
+                    "text": "صلاحيات وحدود واضحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "صلاحيات وحدود واضحة.",
-                    "isCorrectSource": true
+                    "text": "سيطرة يومية من المشرف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -12255,27 +13232,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تنوع المهارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "هوية المهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التغذية الراجعة.",
-                    "isCorrectSource": true
+                    "text": "أهمية المهمة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أهمية المهمة.",
-                    "isCorrectSource": false
+                    "text": "التغذية الراجعة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w3d7",
@@ -12422,26 +13404,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يركز على العلاقات فقط.",
-                    "isCorrectSource": false
+                    "text": "يربط العمل والهيكل والناس.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "يستبدل التشخيص بالرسم.",
+                    "text": "يركز على العلاقات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يربط العمل والهيكل والناس.",
-                    "isCorrectSource": true
+                    "text": "يستبدل التشخيص بالرسم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يلغي مؤشرات الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -12450,21 +13436,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نقص نشاط ترفيهي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "ضعف تصميم التسليم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "كثرة رضا المدربين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "وضوح صلاحيات المنسق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -12477,27 +13467,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "دعم التعاون تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تقليل التعارض دائمًا.",
+                    "text": "تقليل التعارض غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختفاء الحاجة للقيادة.",
-                    "isCorrectSource": false
+                    "text": "بقاء السلوك القديم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "بقاء السلوك القديم.",
-                    "isCorrectSource": true
+                    "text": "اختفاء الحاجة للقيادة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -12580,25 +13575,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وجود نموذج رسمي لها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تأثيرها المقصود في السلوك.",
-                    "isCorrectSource": true
+                    "text": "تنفيذها بواسطة إدارة الموارد البشرية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تنفيذها بواسطة إدارة الموارد البشرية.",
+                    "text": "ارتباطها بالرواتب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "ارتباطها بالرواتب فقط.",
-                    "isCorrectSource": false
+                    "text": "تأثيرها المقصود في السلوك.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -12606,26 +13605,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تدريب مرتبط بفجوة كفاءة.",
-                    "isCorrectSource": false
+                    "text": "مكافأة فردية لسلوك جماعي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "توظيف مبني على ملف الدور.",
+                    "text": "تدريب مرتبط بفجوة كفاءة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مكافأة فردية لسلوك جماعي.",
-                    "isCorrectSource": true
+                    "text": "توظيف مبني على ملف الدور.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقويم يستخدم بيانات أداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -12633,28 +13636,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه قد لا يغير النظام الداعم.",
-                    "isCorrectSource": true
+                    "text": "لأنه يمنع جمع بيانات الأداء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يمنع جمع بيانات الأداء.",
-                    "isCorrectSource": false
+                    "text": "لأنه قد لا يغير النظام الداعم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأنه يلغي دور المدير المباشر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يرفع العدالة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d2",
@@ -12724,25 +13732,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التقييم نظام أشمل من الإدارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الإدارة تشمل الهدف والتطوير والتعزيز.",
-                    "isCorrectSource": true
+                    "text": "التقييم لا يستخدم أي بيانات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التقييم لا يستخدم أي بيانات.",
-                    "isCorrectSource": false
+                    "text": "الإدارة تشمل الهدف والتطوير والتعزيز.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الإدارة تعني الرواتب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -12750,26 +13762,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عندما يكون العمل عالي الترابط.",
-                    "isCorrectSource": true
+                    "text": "عندما لا توجد مخرجات مشتركة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما لا توجد مخرجات مشتركة.",
+                    "text": "عندما يكون كل عمل فرديًا تمامًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عندما يكون كل عمل فرديًا تمامًا.",
+                    "text": "عندما لا يوجد فريق فعلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عندما لا يوجد فريق فعلي.",
-                    "isCorrectSource": false
+                    "text": "عندما يكون العمل عالي الترابط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -12777,28 +13793,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة العدالة تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "تحفيز سلوك مشوه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تحفيز سلوك مشوه.",
-                    "isCorrectSource": true
+                    "text": "زيادة العدالة تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "توضيح السبب الجذري.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحسين جودة البيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d3",
@@ -12862,22 +13883,26 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "رفع التعاون دائمًا.",
+                    "text": "رفع التعاون غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إضعاف السلوك الجماعي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تقليل التنافس المضر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحسين العدالة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -12890,21 +13915,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مكافأة جودة مع رضا عميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "مكافأة سلامة مع التزام إجراء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "مكافأة سرعة دون جودة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "مكافأة تعلم مرتبطة بتطبيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -12916,28 +13945,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدالة طريقة اتخاذ القرار.",
-                    "isCorrectSource": true
+                    "text": "تساوي كل الرواتب تمامًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تساوي كل الرواتب تمامًا.",
+                    "text": "رضا الجميع عن النتيجة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "رضا الجميع عن النتيجة.",
+                    "text": "إلغاء كل الفروقات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إلغاء كل الفروقات.",
-                    "isCorrectSource": false
+                    "text": "عدالة طريقة اتخاذ القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d4",
@@ -13020,21 +14054,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما تكون الفجوة في الصلاحيات.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "عندما توجد فجوة معرفة واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عندما يحتاج الموظف أداة جديدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما يوجد تطبيق عملي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -13046,26 +14084,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ارتباطه بتحديات العمل.",
-                    "isCorrectSource": true
+                    "text": "عدد ساعات الحضور.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدد ساعات الحضور.",
-                    "isCorrectSource": false
+                    "text": "ارتباطه بتحديات العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "جمال المواد التدريبية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كثرة الشهادات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -13073,28 +14115,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد لا يقيس نقل التعلم.",
-                    "isCorrectSource": true
+                    "text": "يثبت تغير السلوك غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يثبت تغير السلوك دائمًا.",
+                    "text": "يكشف أثر العمل بدقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يكشف أثر العمل بدقة.",
-                    "isCorrectSource": false
+                    "text": "قد لا يقيس نقل التعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يغني عن متابعة المدير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d5",
@@ -13159,26 +14206,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الأول أداء محدد والثاني نمو مهني.",
-                    "isCorrectSource": true
+                    "text": "الأول إداري فقط والثاني مالي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الأول إداري فقط والثاني مالي.",
+                    "text": "الأول جماعي والثاني لا يحتاج علاقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الأول جماعي والثاني لا يحتاج علاقة.",
+                    "text": "الأول بلا هدف والثاني بلا خبرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الأول بلا هدف والثاني بلا خبرة.",
-                    "isCorrectSource": false
+                    "text": "الأول أداء محدد والثاني نمو مهني.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -13187,21 +14238,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تجاهل الفئات المحورية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "زيادة دقة الاستثمار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "رفع الملاءمة الفردية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحسين التعاقب تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -13213,28 +14268,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ربط احتياجات الفرد والمنظمة.",
-                    "isCorrectSource": true
+                    "text": "نشر قائمة مسميات فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "نشر قائمة مسميات فقط.",
-                    "isCorrectSource": false
+                    "text": "ربط احتياجات الفرد والمنظمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "وعد الجميع بترقية قريبة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "جعله سريًا وغير مفهوم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d6",
@@ -13303,26 +14363,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "بقاء آليات عدم العدالة.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح الفرص غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة وضوح الفرص دائمًا.",
+                    "text": "اختفاء التحيزات مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختفاء التحيزات فورًا.",
-                    "isCorrectSource": false
+                    "text": "بقاء آليات عدم العدالة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تحسن الترقيات تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -13330,26 +14394,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "غموض الدور وعبء العمل.",
-                    "isCorrectSource": true
+                    "text": "نقص هواية شخصية فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "نقص هواية شخصية فقط.",
+                    "text": "اختلاف أسلوب ترفيهي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختلاف أسلوب ترفيهي.",
+                    "text": "ضعف رغبة مؤقتة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "ضعف رغبة مؤقتة.",
-                    "isCorrectSource": false
+                    "text": "غموض الدور وعبء العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -13357,28 +14425,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "جلسة استرخاء فقط.",
-                    "isCorrectSource": false
+                    "text": "توضيح صلاحيات الدور.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "توضيح صلاحيات الدور.",
-                    "isCorrectSource": true
+                    "text": "جلسة استرخاء فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "شعار رفاه داخلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مسابقة رياضية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m3w4d7",
@@ -13506,26 +14579,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن المشكلة مدعومة بنظام أداء.",
-                    "isCorrectSource": true
+                    "text": "لأن المبيعات لا علاقة لها بالعميل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن المبيعات لا علاقة لها بالعميل.",
-                    "isCorrectSource": false
+                    "text": "لأن المشكلة مدعومة بنظام أداء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأن العمليات لا تتأثر بالمؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن التدريب يلغي الحاجة للمكافآت.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -13534,21 +14611,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "دورة عامة عن التواصل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إعلان قيم جديدة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "أهداف ومكافآت مشتركة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تغيير شعار المنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -13560,28 +14641,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "غموض المساءلة.",
-                    "isCorrectSource": true
+                    "text": "ارتفاع دقة القياس.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ارتفاع دقة القياس.",
+                    "text": "اختفاء التعارضات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختفاء التعارضات.",
+                    "text": "زيادة العدالة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "زيادة العدالة تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "غموض المساءلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -13661,21 +14747,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التدخل يحدد ما يتغير، والقيادة تدير الانتقال.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "التدخل يخص الأفراد فقط، والقيادة تخص الهيكل فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "التدخل يحدث بعد الاستدامة، والقيادة قبل التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "التدخل هو الاتصال، والقيادة هي التدريب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -13688,25 +14778,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كتابة شعار مبادرة جذاب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إعلان القرار النهائي فقط.",
-                    "isCorrectSource": false
+                    "text": "بناء خطة للانتقال والتعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "بناء خطة للانتقال والتعلم.",
-                    "isCorrectSource": true
+                    "text": "إعلان القرار النهائي فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "اختيار لون هوية المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -13714,28 +14808,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الانتقال يتطلب تعلمًا وتكيفًا.",
-                    "isCorrectSource": true
+                    "text": "لأن الموظفين يرفضون كل تغيير غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الموظفين يرفضون كل تغيير دائمًا.",
+                    "text": "لأن الخطة المالية تكفي وحدها للتنفيذ.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن الخطة المالية تكفي وحدها للتنفيذ.",
-                    "isCorrectSource": false
+                    "text": "لأن الانتقال يتطلب تعلمًا وتكيفًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن الرؤية لا علاقة لها بالسلوك.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d2",
@@ -13792,26 +14891,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قناعة عملية بأن الوضع الحالي غير كافٍ.",
-                    "isCorrectSource": true
+                    "text": "خوف عام من الإدارة العليا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "خوف عام من الإدارة العليا.",
+                    "text": "شعار تحفيزي يسبق كل اجتماع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "شعار تحفيزي يسبق كل اجتماع.",
+                    "text": "التزام صامت دون فهم السبب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "التزام صامت دون فهم السبب.",
-                    "isCorrectSource": false
+                    "text": "قناعة عملية بأن الوضع الحالي غير كافٍ.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -13819,26 +14922,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يجب أن تتغيروا لأن القرار صدر.",
-                    "isCorrectSource": false
+                    "text": "بيانات التعطل توضح فجوة محددة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "السوق تغير ولا وقت للنقاش.",
+                    "text": "يجب أن تتغيروا لأن القرار صدر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "بيانات التعطل توضح فجوة محددة.",
-                    "isCorrectSource": true
+                    "text": "السوق تغير ولا وقت للنقاش.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "من لا يقتنع فهو مقاوم للتطوير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -13846,28 +14953,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ترفع الثقة المستدامة دائمًا.",
+                    "text": "ترفع الثقة المستدامة غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تجعل مقاومة التغيير مستحيلة.",
-                    "isCorrectSource": false
+                    "text": "تضعف الثقة عند أول صعوبة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تضعف الثقة عند أول صعوبة.",
-                    "isCorrectSource": true
+                    "text": "تجعل مقاومة التغيير مستحيلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تلغي الحاجة إلى خطة انتقال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d3",
@@ -13926,25 +15038,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مقاومة نفسية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مقاومة سياسية.",
-                    "isCorrectSource": true
+                    "text": "مقاومة تقنية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مقاومة تقنية.",
-                    "isCorrectSource": false
+                    "text": "مقاومة سياسية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "مقاومة إجرائية بسيطة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -13952,26 +15068,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "اعتبارها بيانات عن النظام.",
-                    "isCorrectSource": true
+                    "text": "حذفها من تقارير التغيير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "حذفها من تقارير التغيير.",
+                    "text": "تصنيف أصحابها كمشكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تصنيف أصحابها كمشكلة.",
+                    "text": "منع مناقشتها في الاجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "منع مناقشتها في الاجتماعات.",
-                    "isCorrectSource": false
+                    "text": "اعتبارها بيانات عن النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -13980,27 +15100,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد يتجاهل مصالح القوة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "يحل تعارض الموارد فورًا.",
+                    "text": "يحل تعارض الموارد مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يحولها إلى مقاومة تقنية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يلغي الحاجة لتحليل أصحاب المصلحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d4",
@@ -14060,26 +15185,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تربط الهوية بالمستقبل المطلوب.",
-                    "isCorrectSource": true
+                    "text": "تستخدم عبارات عامة ومطمئنة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تستخدم عبارات عامة ومطمئنة فقط.",
-                    "isCorrectSource": false
+                    "text": "تربط الهوية بالمستقبل المطلوب.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تتجنب الحديث عن العمل اليومي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تركز على شكل العرض لا المعنى.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -14087,26 +15216,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الأولى مستقرة، والثاني يصمم للتغيير.",
-                    "isCorrectSource": true
+                    "text": "الأولى رقمية فقط، والثاني مالي فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الأولى رقمية فقط، والثاني مالي فقط.",
+                    "text": "الأولى تخص الهيكل، والثاني يخص الرواتب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الأولى تخص الهيكل، والثاني يخص الرواتب.",
-                    "isCorrectSource": false
+                    "text": "الأولى مستقرة، والثاني يصمم للتغيير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الأولى تلغي القيم، والثاني يلغي الغرض.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -14114,28 +15247,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تتحول إلى شعار بلا أثر.",
-                    "isCorrectSource": true
+                    "text": "تزيد وضوح التنفيذ تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تزيد وضوح التنفيذ تلقائيًا.",
+                    "text": "تمنع المقاومة السياسية تمامًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تمنع المقاومة السياسية تمامًا.",
+                    "text": "تعالج غموض الأدوار وحدها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تعالج غموض الأدوار وحدها.",
-                    "isCorrectSource": false
+                    "text": "تتحول إلى شعار بلا أثر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d5",
@@ -14201,21 +15339,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأن التنفيذ يحتاج أصحاب مصلحة متعددين.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأن القيادة العليا لا تؤثر في التغيير إطلاقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن أصحاب المصلحة الخارجيين أهم دائمًا.",
+                    "text": "لأن أصحاب المصلحة الخارجيين أهم غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن الدعم السياسي يلغي خطة الانتقال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -14227,26 +15369,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "من سيكسب أو يخسر من التغيير؟",
-                    "isCorrectSource": true
+                    "text": "من سيحضر حفل الإطلاق؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "من سيحضر حفل الإطلاق؟",
-                    "isCorrectSource": false
+                    "text": "من سيكسب أو يخسر من التغيير؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "من يفضل تصميم الشعار؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "من يرسل البريد الأسبوعي؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -14254,28 +15400,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عرض بيانات ومنطق بوضوح.",
-                    "isCorrectSource": true
+                    "text": "إخفاء المصالح المتعارضة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إخفاء المصالح المتعارضة.",
+                    "text": "تجاوز كل الإجراءات غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تجاوز كل الإجراءات دائمًا.",
-                    "isCorrectSource": false
+                    "text": "عرض بيانات ومنطق بوضوح.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تصنيف المعارضين كعقبات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d6",
@@ -14341,26 +15492,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "خطة الانتقال تشمل الالتزام والتعلم والحوكمة.",
-                    "isCorrectSource": true
+                    "text": "خطة الأنشطة تلغي الحاجة للقيادة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "خطة الأنشطة تلغي الحاجة للقيادة.",
+                    "text": "خطة الانتقال تعني جدول الاجتماعات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "خطة الانتقال تعني جدول الاجتماعات فقط.",
+                    "text": "خطة الأنشطة تعالج المقاومة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "خطة الأنشطة تعالج المقاومة تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "خطة الانتقال تشمل الالتزام والتعلم والحوكمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -14369,21 +15524,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تجعل الرؤية العامة قابلة للتقدم العملي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "تمنع الحاجة إلى مؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تعني إلغاء الهدف النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تستخدم فقط للاتصال الخارجي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -14395,28 +15554,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تصبح شكلية عند التعارضات.",
-                    "isCorrectSource": true
+                    "text": "تزيد سرعة الحسم غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تزيد سرعة الحسم دائمًا.",
-                    "isCorrectSource": false
+                    "text": "تصبح شكلية عند التعارضات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تلغي مقاومة أصحاب المصلحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تجعل التعلم غير ضروري.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w1d7",
@@ -14549,26 +15713,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه يمس السلطة والمساءلة والهوية.",
-                    "isCorrectSource": true
+                    "text": "لأنه يغير ألوان النماذج الرسمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يغير ألوان النماذج الرسمية.",
+                    "text": "لأنه يلغي الحاجة إلى المديرين غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنه يلغي الحاجة إلى المديرين دائمًا.",
-                    "isCorrectSource": false
+                    "text": "لأنه يمس السلطة والمساءلة والهوية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأنه لا يؤثر في طريقة اتخاذ القرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -14577,25 +15745,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد صفحات الوثيقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ربط التشخيص بالانتقال.",
-                    "isCorrectSource": true
+                    "text": "اختيار اسم جذاب للمبادرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اختيار اسم جذاب للمبادرة.",
+                    "text": "تقليل مشاركة المتأثرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تقليل مشاركة المتأثرين.",
-                    "isCorrectSource": false
+                    "text": "ربط التشخيص بالانتقال.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -14604,27 +15776,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد تتحول إلى معطل أو مفسر سلبي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "ستنخفض الحاجة إلى الاتصال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "ستزيد الجاهزية تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "سيصبح التغيير أقل سياسية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -14712,25 +15889,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الإبلاغ يستخدم بريدًا رسميًا، وصناعة المعنى تستخدم لقاءً فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الإبلاغ يخص الإدارة العليا، وصناعة المعنى تخص الموظفين فقط.",
-                    "isCorrectSource": false
+                    "text": "الإبلاغ ينقل ما سيحدث، وصناعة المعنى تفسر أثره ومنطقه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "الإبلاغ ينقل ما سيحدث، وصناعة المعنى تفسر أثره ومنطقه.",
-                    "isCorrectSource": true
+                    "text": "الإبلاغ يخص الإدارة العليا، وصناعة المعنى تخص الموظفين فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الإبلاغ يحدث بعد التطبيق، وصناعة المعنى تحدث قبل التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -14738,26 +15919,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "توضيح الفجوة والأثر والدعم.",
-                    "isCorrectSource": true
+                    "text": "استخدام عبارات عامة ومطمئنة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "استخدام عبارات عامة ومطمئنة.",
+                    "text": "تقليل الأسئلة بعد الإعلان.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تقليل الأسئلة بعد الإعلان.",
-                    "isCorrectSource": false
+                    "text": "توضيح الفجوة والأثر والدعم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الاكتفاء بذكر موعد التطبيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -14766,27 +15951,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ستصبح الرسالة أقصر من اللازم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "سيقل احتياج المنظمة للاتصال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "سيزداد الاعتماد على القنوات الرسمية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "سيملأ الناس الفراغ بتفسيراتهم الخاصة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
                 "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d2",
@@ -14850,26 +16040,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن القنوات الرسمية ممنوعة في التغيير.",
-                    "isCorrectSource": false
+                    "text": "لأن الأسئلة والمخاوف تختلف بين الفئات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الأسئلة والمخاوف تختلف بين الفئات.",
-                    "isCorrectSource": true
+                    "text": "لأن القنوات الرسمية ممنوعة في التغيير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن الإدارة العليا لا تحتاج إلى معلومات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن كل تغيير يجب أن يكون سريًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -14878,25 +16072,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لوحة إعلانات عامة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "بريد موحد للجميع.",
-                    "isCorrectSource": false
+                    "text": "حوار صغير آمن.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "منشور قصير في النظام.",
+                    "text": "بريد موحد للجميع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "حوار صغير آمن.",
-                    "isCorrectSource": true
+                    "text": "منشور قصير في النظام.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -14904,28 +16102,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "شرعيته وثقة الجمهور به.",
-                    "isCorrectSource": true
+                    "text": "تفرغه لإرسال البريد فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تفرغه لإرسال البريد فقط.",
+                    "text": "قربه من فريق الاتصال المؤسسي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قربه من فريق الاتصال المؤسسي.",
-                    "isCorrectSource": false
+                    "text": "شرعيته وثقة الجمهور به.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "قدرته على اختصار التفاصيل دائمًا.",
+                    "text": "قدرته على اختصار التفاصيل غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d3",
@@ -15001,21 +16204,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن يقرر الجميع كل التفاصيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أن تُلغى مسؤولية القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "أن تقتصر على لقاء تعريفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أن يُشرك المناسبون بدرجة مناسبة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
@@ -15027,26 +16234,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "توضيح حدود ما يمكن تغييره.",
-                    "isCorrectSource": false
+                    "text": "طلب الرأي بعد حسم القرار كاملًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "طلب الرأي بعد حسم القرار كاملًا.",
-                    "isCorrectSource": true
+                    "text": "توضيح حدود ما يمكن تغييره.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إشراك ممثلين من العمل اليومي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "العودة للمشاركين بنتائج واضحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -15055,27 +16266,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما يكون الحل قانونيًا محسومًا بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما لا يملك المتأثرون معرفة ميدانية.",
-                    "isCorrectSource": false
+                    "text": "عندما يكون الحل معقدًا ويحتاج معرفة محلية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "عندما يكون الحل معقدًا ويحتاج معرفة محلية.",
-                    "isCorrectSource": true
+                    "text": "عندما لا يملك المتأثرون معرفة ميدانية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما تريد القيادة تجنب أي نقاش.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d4",
@@ -15144,26 +16360,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنها تترجم التغيير إلى العمل اليومي.",
-                    "isCorrectSource": true
+                    "text": "لأنها لا تتأثر بأي تغيير تنظيمي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها لا تتأثر بأي تغيير تنظيمي.",
+                    "text": "لأنها تستطيع تجاهل الرؤية بلا أثر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها تستطيع تجاهل الرؤية بلا أثر.",
-                    "isCorrectSource": false
+                    "text": "لأنها تترجم التغيير إلى العمل اليومي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأنها مسؤولة عن التصميم البصري فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -15172,25 +16392,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إعطاؤهم أدوات للتواصل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إشراكهم قبل الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "طلب دعمهم قبل سماع مخاوفهم.",
-                    "isCorrectSource": true
+                    "text": "توضيح حدود دورهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "توضيح حدود دورهم.",
-                    "isCorrectSource": false
+                    "text": "طلب دعمهم قبل سماع مخاوفهم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -15198,28 +16422,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يكرر الرسالة دون فهم.",
-                    "isCorrectSource": false
+                    "text": "يربط التغيير بواقع فريقه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "يربط التغيير بواقع فريقه.",
-                    "isCorrectSource": true
+                    "text": "يكرر الرسالة دون فهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يحجب الأسئلة عن الإدارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يقرر وحده إلغاء التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d5",
@@ -15295,26 +16524,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يفقدون دورهم في السماع والتعلم.",
-                    "isCorrectSource": true
+                    "text": "يزيد تمثيل الفئات المتأثرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد تمثيل الفئات المتأثرة.",
-                    "isCorrectSource": false
+                    "text": "يفقدون دورهم في السماع والتعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تتضح أدوارهم أكثر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقل الشائعات تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -15323,21 +16556,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أعلى منصب رسمي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أقل اتصال بالموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "ثقة الزملاء وفهم العمل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "القدرة على إخفاء المخاوف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -15350,27 +16587,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "جمع أسئلة من فريقه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "اختبار نموذج جديد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "نقل عوائق التنفيذ.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حسم قرارات لا يملكها.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
                 "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d6",
@@ -15444,26 +16686,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مراقبة الأشخاص المعارضين.",
-                    "isCorrectSource": false
+                    "text": "التقاط إشارات الفهم والعوائق مبكرًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "التقاط إشارات الفهم والعوائق مبكرًا.",
-                    "isCorrectSource": true
+                    "text": "مراقبة الأشخاص المعارضين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تقليل الحاجة إلى المشاركة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "استبدال خطة الانتقال بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -15472,21 +16718,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وضوح كامل في كل التفاصيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "غموض مع قلق وضعف ثقة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "كثرة الإجابات الدقيقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "وجود قناة أسئلة فعالة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -15499,27 +16749,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إيقاف جميع القنوات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "جمع بيانات دون مشاركة النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحويل كل سؤال إلى شكوى رسمية.",
-                    "isCorrectSource": false
+                    "text": "إخبار الناس بما سُمع وما سيحدث.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "إخبار الناس بما سُمع وما سيحدث.",
-                    "isCorrectSource": true
+                    "text": "تحويل كل سؤال إلى شكوى رسمية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w2d7",
@@ -15640,25 +16895,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الحملة تلغي الحاجة إلى القنوات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الخطة تربط الرسائل بالجمهور والتوقيت والاستماع.",
-                    "isCorrectSource": true
+                    "text": "الحملة أكثر عمقًا لأنها تستخدم تصميمًا بصريًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الحملة أكثر عمقًا لأنها تستخدم تصميمًا بصريًا.",
+                    "text": "الخطة تعني إرسال بريد واحد لكل الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الخطة تعني إرسال بريد واحد لكل الموظفين.",
-                    "isCorrectSource": false
+                    "text": "الخطة تربط الرسائل بالجمهور والتوقيت والاستماع.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -15667,21 +16926,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنهم سيترجمون النظام في محادثات الأداء.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأن الموظفين لا يحتاجون فهمًا للنظام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن HR لا يملك أي دور في التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن الأهداف المشتركة لا تحتاج شرحًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -15694,27 +16957,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ستزيد جودة المحادثات تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ستختفي الشائعات دون تدخل.",
-                    "isCorrectSource": false
+                    "text": "قد لا تُكتشف عوائق التطبيق مبكرًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "قد لا تُكتشف عوائق التطبيق مبكرًا.",
-                    "isCorrectSource": true
+                    "text": "ستختفي الشائعات دون تدخل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "سيصبح المديرون أكثر التزامًا مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -15795,25 +17063,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الإطلاق يخص الموظفين، والتبنّي يخص الإدارة العليا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الإطلاق بداية رسمية، والتبنّي ممارسة فعلية.",
-                    "isCorrectSource": true
+                    "text": "الإطلاق يعني انتهاء التغيير، والتبنّي يعني كتابة الخطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الإطلاق يعني انتهاء التغيير، والتبنّي يعني كتابة الخطة.",
-                    "isCorrectSource": false
+                    "text": "الإطلاق بداية رسمية، والتبنّي ممارسة فعلية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الإطلاق يتطلب قياسًا، والتبنّي لا يمكن قياسه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -15822,25 +17094,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نشر دليل الصلاحيات على النظام الداخلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "اعتماد نموذج جديد لاجتماعات المتابعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "اتخاذ القرار داخل حد الصلاحية دون تصعيد.",
-                    "isCorrectSource": true
+                    "text": "إرسال بريد تعريفي عن آلية التفويض.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إرسال بريد تعريفي عن آلية التفويض.",
-                    "isCorrectSource": false
+                    "text": "اتخاذ القرار داخل حد الصلاحية دون تصعيد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -15848,28 +17124,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل تم الإعلان عن التغيير؟",
-                    "isCorrectSource": false
+                    "text": "هل تغير السلوك في لحظة العمل؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "هل شاهد الموظفون الشعار؟",
+                    "text": "هل تم الإعلان عن التغيير؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل وصلت الرسالة للجميع؟",
+                    "text": "هل شاهد الموظفون الشعار؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "هل تغير السلوك في لحظة العمل؟",
-                    "isCorrectSource": true
+                    "text": "هل وصلت الرسالة للجميع؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d2",
@@ -15935,21 +17216,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "استبدال الرؤية بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "جعل الرؤية قابلة للتقدم العملي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تأجيل قياس التغيير حتى النهاية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حذف الحاجة إلى أصحاب المصلحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -15962,21 +17247,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الشعارات المنشورة عن المبادرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "حجم ملف العرض التعريفي للتغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "نسبة استخدام RACI في قرارات محددة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عدد الألوان المستخدمة في هوية المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -15989,27 +17278,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تزيد وضوح الأثر النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تجعل التعلّم أثناء التنفيذ أسرع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تربط السلوك بالمؤشرات مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لا تكشف هل السلوك تغيّر فعلًا.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   }
                 ],
                 "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d3",
@@ -16084,26 +17378,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إثبات أن التصميم صحيح مهما حدث.",
-                    "isCorrectSource": false
+                    "text": "اختبار التغيير والتعلم قبل التعميم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "اختبار التغيير والتعلم قبل التعميم.",
-                    "isCorrectSource": true
+                    "text": "إثبات أن التصميم صحيح مهما حدث.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تجنب إشراك المستخدمين في التطبيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تقليل الحاجة إلى مؤشرات التبنّي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -16111,26 +17409,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "نطاق يمثل الواقع وله دعم محلي.",
-                    "isCorrectSource": true
+                    "text": "أسهل فريق فقط دون أي تحديات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أسهل فريق فقط دون أي تحديات.",
-                    "isCorrectSource": false
+                    "text": "نطاق يمثل الواقع وله دعم محلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "أصعب فريق مع رفض كامل للتغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "نطاق بلا بيانات ولا مالك محلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -16139,27 +17441,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "مراجعة ما نجح وما فشل قبل التوسع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تعديل الأدوات وفق التغذية الراجعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "افتراض أن كل الإدارات تشبه نطاق التجربة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تدريب الإدارات الجديدة قبل التطبيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d4",
@@ -16220,25 +17527,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة عدد الاجتماعات قدر الإمكان.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "منع أي تعديل على خطة التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "توضيح قرارات التنفيذ ومن يملكها.",
-                    "isCorrectSource": true
+                    "text": "نقل كل القرارات إلى الموظفين فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "نقل كل القرارات إلى الموظفين فقط.",
-                    "isCorrectSource": false
+                    "text": "توضيح قرارات التنفيذ ومن يملكها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -16247,21 +17558,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تتحول إلى اجتماع معلومات لا حسم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تزيد سرعة القرارات الحرجة دائمًا.",
+                    "text": "تزيد سرعة القرارات الحرجة غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تجعل الاستثناءات أكثر عدالة تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تلغي الحاجة إلى راعٍ تنفيذي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -16274,27 +17589,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اختيار لون العرض التعريفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحديد مكان اجتماع داخلي.",
-                    "isCorrectSource": false
+                    "text": "منح استثناء من تطبيق الإجراء الجديد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "إرسال تذكير للموظفين.",
+                    "text": "تحديد مكان اجتماع داخلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "منح استثناء من تطبيق الإجراء الجديد.",
-                    "isCorrectSource": true
+                    "text": "إرسال تذكير للموظفين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d5",
@@ -16378,25 +17698,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الأول يقيس الأثر النهائي فقط، والثاني يقيس الاستخدام اليومي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الأول يقيس سير التطبيق، والثاني يقيس النتائج الأوسع.",
-                    "isCorrectSource": true
+                    "text": "الأول لا يحتاج بيانات، والثاني لا يحتاج مؤشرات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الأول لا يحتاج بيانات، والثاني لا يحتاج مؤشرات.",
-                    "isCorrectSource": false
+                    "text": "الأول يقيس سير التطبيق، والثاني يقيس النتائج الأوسع.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الأول يحدث بعد سنة، والثاني يحدث قبل الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -16404,26 +17728,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه لا يثبت التبنّي أو تغير السلوك.",
-                    "isCorrectSource": true
+                    "text": "لأنه يلغي الحاجة إلى فهم المشاركين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يلغي الحاجة إلى فهم المشاركين.",
+                    "text": "لأنه يقيس الأثر النهائي بدقة كاملة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنه يقيس الأثر النهائي بدقة كاملة.",
+                    "text": "لأنه يثبت أن النظام أصبح مؤسسيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأنه يثبت أن النظام أصبح مؤسسيًا.",
-                    "isCorrectSource": false
+                    "text": "لأنه لا يثبت التبنّي أو تغير السلوك.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -16431,28 +17759,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدد الشرائح التي شرحت RACI.",
-                    "isCorrectSource": false
+                    "text": "نسبة القرارات العابرة التي استخدمته.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لون نموذج RACI المستخدم.",
+                    "text": "عدد الشرائح التي شرحت RACI.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نسبة القرارات العابرة التي استخدمته.",
-                    "isCorrectSource": true
+                    "text": "لون نموذج RACI المستخدم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد رسائل التذكير المرسلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d6",
@@ -16521,21 +17854,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تحديد المذنب في فشل التجربة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "استخراج تعلم وتعديل الجولة التالية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تأجيل اتخاذ القرارات التنفيذية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إثبات أن الخطة الأصلية كاملة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -16548,25 +17885,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن تعدل كل وحدة ما تريد دون حدود.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أن تكون الحدود وغير القابل للتفاوض واضحة.",
-                    "isCorrectSource": true
+                    "text": "أن يُمنع الفريق المحلي من طرح العوائق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أن يُمنع الفريق المحلي من طرح العوائق.",
-                    "isCorrectSource": false
+                    "text": "أن تكون الحدود وغير القابل للتفاوض واضحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "أن يتوقف القياس أثناء التطبيق المحلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -16575,27 +17916,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأن التعلم المحلي لا قيمة له.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "لأن كل تغيير يجب أن يبقى سريًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن المنظمة تحتاج نشر التعلم بين الوحدات.",
-                    "isCorrectSource": true
+                    "text": "لأن الوحدات لا تملك أي خبرة تطبيقية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن الوحدات لا تملك أي خبرة تطبيقية.",
-                    "isCorrectSource": false
+                    "text": "لأن المنظمة تحتاج نشر التعلم بين الوحدات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w3d7",
@@ -16714,26 +18060,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "استبدال التشخيص بخطة اتصال موسعة.",
-                    "isCorrectSource": false
+                    "text": "تحويل القرار إلى سلوك قابل للقياس.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تحويل القرار إلى سلوك قابل للقياس.",
-                    "isCorrectSource": true
+                    "text": "استبدال التشخيص بخطة اتصال موسعة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تأجيل التنفيذ حتى نهاية المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إلغاء دور القيادة الوسطى في التطبيق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -16742,21 +18092,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تصميم شعار نموذج التشغيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "استخدام البوابة قبل الوعد النهائي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إرسال بريد شكر لفريق المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حفظ العرض التعريفي في النظام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -16769,27 +18123,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "سيزداد التعلم بين الفرق تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "سيصبح التوسع أكثر دقة دائمًا.",
+                    "text": "سيصبح التوسع أكثر دقة غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "قد تتكرر الأخطاء قبل اكتشافها.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لن تحتاج المنظمة إلى مؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -16875,25 +18234,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التبنّي يظهر في الوثائق، والاستدامة تظهر في الشعار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التبنّي بداية السلوك، والاستدامة استمرار السلوك تحت الضغط.",
-                    "isCorrectSource": true
+                    "text": "التبنّي يخص الإدارة العليا، والاستدامة تخص فرق المشروع فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التبنّي يخص الإدارة العليا، والاستدامة تخص فرق المشروع فقط.",
+                    "text": "التبنّي لا يحتاج قيادة، والاستدامة لا تحتاج قياسًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "التبنّي لا يحتاج قيادة، والاستدامة لا تحتاج قياسًا.",
-                    "isCorrectSource": false
+                    "text": "التبنّي بداية السلوك، والاستدامة استمرار السلوك تحت الضغط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -16901,26 +18264,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "زيادة الأسئلة حول النظام الجديد في البداية.",
-                    "isCorrectSource": false
+                    "text": "تكرار الاستثناءات خارج المسار الرسمي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "ارتفاع حضور جلسات التطبيق الأولى.",
+                    "text": "زيادة الأسئلة حول النظام الجديد في البداية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "توثيق مسار التصعيد في الدليل.",
+                    "text": "ارتفاع حضور جلسات التطبيق الأولى.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تكرار الاستثناءات خارج المسار الرسمي.",
-                    "isCorrectSource": true
+                    "text": "توثيق مسار التصعيد في الدليل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -16928,28 +18295,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يكون التبنّي مؤقتًا بفعل المتابعة.",
-                    "isCorrectSource": true
+                    "text": "يعني أن الثقافة تغيرت بالكامل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يعني أن الثقافة تغيرت بالكامل.",
-                    "isCorrectSource": false
+                    "text": "قد يكون التبنّي مؤقتًا بفعل المتابعة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يثبت أن المكافآت أصبحت متوائمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يمنع ظهور مقاومة سياسية لاحقًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d2",
@@ -17013,26 +18385,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يتحول التغيير إلى عبء فوق العمل اليومي.",
-                    "isCorrectSource": true
+                    "text": "ستزيد سرعة التبنّي السلوكي تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ستزيد سرعة التبنّي السلوكي تلقائيًا.",
+                    "text": "ستختفي الحاجة إلى دعم المديرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ستختفي الحاجة إلى دعم المديرين.",
-                    "isCorrectSource": false
+                    "text": "قد يتحول التغيير إلى عبء فوق العمل اليومي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "سيصبح القياس النهائي أكثر صدقًا دائمًا.",
+                    "text": "سيصبح القياس النهائي أكثر صدقًا غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -17040,26 +18416,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مكافأة قرار اتُّخذ في مستوى الصلاحية الصحيح.",
-                    "isCorrectSource": true
+                    "text": "الاحتفاء بمن يتجاوز النظام لإنقاذ كل حالة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الاحتفاء بمن يتجاوز النظام لإنقاذ كل حالة.",
+                    "text": "تجاهل أول مخالفة لأن النوايا جيدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تجاهل أول مخالفة لأن النوايا جيدة.",
+                    "text": "تأجيل الاعتراف حتى نهاية السنة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تأجيل الاعتراف حتى نهاية السنة فقط.",
-                    "isCorrectSource": false
+                    "text": "مكافأة قرار اتُّخذ في مستوى الصلاحية الصحيح.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -17067,28 +18447,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ترك السلوك القديم يعود بلا تدخل.",
-                    "isCorrectSource": false
+                    "text": "دعم التعلم مع مراقبة وتصحيح.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "إلغاء القياس حتى يتعود الناس.",
+                    "text": "ترك السلوك القديم يعود بلا تدخل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تفسير كل تعثر بأنه فشل نهائي.",
+                    "text": "إلغاء القياس حتى يتعود الناس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "دعم التعلم مع مراقبة وتصحيح.",
-                    "isCorrectSource": true
+                    "text": "تفسير كل تعثر بأنه فشل نهائي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d3",
@@ -17150,21 +18535,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن يبقى التغيير في ملف المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أن يصبح جزءًا من العمل الطبيعي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "أن يعتمد التغيير على راعٍ واحد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أن تُغلق كل مؤشرات المتابعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -17177,21 +18566,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ترك السلوك الجديد خارج التقييم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "الاعتماد على ذاكرة فريق المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إدخال السلوك في التهيئة والأداء.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "السماح باستثناءات غير موثقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -17203,28 +18596,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يضعف تخصيص الموارد والشرعية.",
-                    "isCorrectSource": true
+                    "text": "ستصبح مقاومة التغيير أقل غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ستصبح مقاومة التغيير أقل دائمًا.",
+                    "text": "سيزداد تثبيت السلوك تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سيزداد تثبيت السلوك تلقائيًا.",
+                    "text": "لن يحتاج النظام إلى دعم داخلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لن يحتاج النظام إلى دعم داخلي.",
-                    "isCorrectSource": false
+                    "text": "قد يضعف تخصيص الموارد والشرعية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d4",
@@ -17263,26 +18661,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الأداء.",
-                    "isCorrectSource": false
+                    "text": "المعرفة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "المعرفة.",
-                    "isCorrectSource": true
+                    "text": "الأداء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "التوافق القيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "التفضيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -17291,25 +18693,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قراءة الموظفين لدليل التغيير مرة واحدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "استخدام النظام فقط عند حضور المدير.",
-                    "isCorrectSource": false
+                    "text": "تذكير الفريق لبعضه بعدم تجاوز القاعدة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "تذكير الفريق لبعضه بعدم تجاوز القاعدة.",
-                    "isCorrectSource": true
+                    "text": "استخدام النظام فقط عند حضور المدير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "نشر خبر داخلي عن إطلاق المبادرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -17317,28 +18723,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "التفضيل قبول شخصي، والقيمي ارتباط بمعنى أعمق.",
-                    "isCorrectSource": true
+                    "text": "التفضيل إجراء رسمي، والقيمي تدريب فني فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التفضيل إجراء رسمي، والقيمي تدريب فني فقط.",
+                    "text": "التفضيل لا يقاس، والقيمي يظهر في الحضور فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التفضيل لا يقاس، والقيمي يظهر في الحضور فقط.",
-                    "isCorrectSource": false
+                    "text": "التفضيل قبول شخصي، والقيمي ارتباط بمعنى أعمق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "التفضيل يخص العملاء، والقيمي يخص المالية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d5",
@@ -17412,26 +18823,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "التبنّي يقيس السلوك، والأثر يقيس النتيجة.",
-                    "isCorrectSource": true
+                    "text": "التبنّي يقيس الرضا فقط، والأثر يقيس الحضور.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التبنّي يقيس الرضا فقط، والأثر يقيس الحضور.",
+                    "text": "التبنّي يحدث بعد سنة فقط، والأثر قبل الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التبنّي يحدث بعد سنة فقط، والأثر قبل الإطلاق.",
+                    "text": "التبنّي لا يحتاج بيانات، والأثر لا يحتاج فرضية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "التبنّي لا يحتاج بيانات، والأثر لا يحتاج فرضية.",
-                    "isCorrectSource": false
+                    "text": "التبنّي يقيس السلوك، والأثر يقيس النتيجة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -17439,26 +18854,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنها لا تظهر في أي تغيير تنظيمي.",
-                    "isCorrectSource": false
+                    "text": "لأنها لا تفسر هل التدخل طُبق جيدًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها دائمًا تتحسن بسبب التغيير.",
+                    "text": "لأنها لا تظهر في أي تغيير تنظيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها تكفي لمعرفة جودة التنفيذ.",
+                    "text": "لأنها غالبًا تتحسن بسبب التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأنها لا تفسر هل التدخل طُبق جيدًا.",
-                    "isCorrectSource": true
+                    "text": "لأنها تكفي لمعرفة جودة التنفيذ.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -17467,27 +18886,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الحاضرين في ورشة RACI فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "استخدام RACI، وضوح القرار، وزمن الحسم.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عدد الشرائح المستخدمة في شرح النظام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "رضا المشاركين عن القاعة والمادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d6",
@@ -17559,25 +18983,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "منع أي تعديل على التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اكتشاف الانحراف وتصحيحه.",
-                    "isCorrectSource": true
+                    "text": "معاقبة كل مخالفة مباشرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "معاقبة كل مخالفة فورًا.",
-                    "isCorrectSource": false
+                    "text": "اكتشاف الانحراف وتصحيحه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "إغلاق كل قنوات التغذية الراجعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -17585,26 +19013,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "أداة جديدة معقدة لا تناسب الحالات الواقعية.",
-                    "isCorrectSource": true
+                    "text": "موظف يرفض النظام رغم فهمه الكامل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "موظف يرفض النظام رغم فهمه الكامل.",
+                    "text": "قائد يعلن الدعم ويمارس عكسه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قائد يعلن الدعم ويمارس عكسه.",
+                    "text": "مكافأة تشجع السلوك القديم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "مكافأة تشجع السلوك القديم.",
-                    "isCorrectSource": false
+                    "text": "أداة جديدة معقدة لا تناسب الحالات الواقعية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -17612,28 +19044,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "من نلوم أولًا؟",
-                    "isCorrectSource": false
+                    "text": "ما نوع الانحراف وسببه؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "كيف نخفي الانحراف؟",
+                    "text": "من نلوم أولًا؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل نوقف كل التغيير؟",
+                    "text": "كيف نخفي الانحراف؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "ما نوع الانحراف وسببه؟",
-                    "isCorrectSource": true
+                    "text": "هل نوقف كل التغيير؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m4w4d7",
@@ -17738,21 +19175,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة عدد رسائل الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "ضمان استمرار السلوك بعد المشروع.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء قياس الأثر النهائي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "استبدال تنفيذ التغيير بالتدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -17764,26 +19205,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تحسن جودة المحادثات فورًا.",
+                    "text": "تحسن جودة المحادثات مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "اختفاء الحاجة إلى المديرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "زيادة وضوح كل الأهداف.",
-                    "isCorrectSource": false
+                    "text": "عودة النظام إلى امتثال شكلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "عودة النظام إلى امتثال شكلي.",
-                    "isCorrectSource": true
+                    "text": "زيادة وضوح كل الأهداف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -17792,27 +19237,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إرسال تذكير سنوي عام فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إغلاق فريق المشروع فور الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إدخال جودة المحادثات في تقييم المديرين.",
-                    "isCorrectSource": true
+                    "text": "الاكتفاء بقياس عدد النماذج المكتملة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الاكتفاء بقياس عدد النماذج المكتملة.",
-                    "isCorrectSource": false
+                    "text": "إدخال جودة المحادثات في تقييم المديرين.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -17882,26 +19332,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قائمة القيم المنشورة في دليل الموظف.",
-                    "isCorrectSource": false
+                    "text": "أنماط افتراضات وقيم ومعايير تحكم السلوك.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "أنماط افتراضات وقيم ومعايير تحكم السلوك.",
-                    "isCorrectSource": true
+                    "text": "قائمة القيم المنشورة في دليل الموظف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "رضا الموظفين في فترة زمنية قصيرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد المبادرات الداخلية المرتبطة بالهوية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -17910,25 +19364,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "صياغة شعار جديد للمنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تصميم عرض تعريفي عن القيم.",
-                    "isCorrectSource": false
+                    "text": "قرار فعلي عند تعارض القيمة والمصلحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "توزيع كتيب الثقافة على الموظفين.",
+                    "text": "تصميم عرض تعريفي عن القيم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قرار فعلي عند تعارض القيمة والمصلحة.",
-                    "isCorrectSource": true
+                    "text": "توزيع كتيب الثقافة على الموظفين.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -17936,28 +19394,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "المناخ شعور حالي، والثقافة افتراضات أعمق.",
-                    "isCorrectSource": true
+                    "text": "المناخ أعمق من الثقافة غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "المناخ أعمق من الثقافة دائمًا.",
+                    "text": "الثقافة تقيس الرضا فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الثقافة تقيس الرضا فقط.",
-                    "isCorrectSource": false
+                    "text": "المناخ شعور حالي، والثقافة افتراضات أعمق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "المناخ لا علاقة له بالسلوك.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d2",
@@ -18027,25 +19490,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "افتراض أن الإنسان لا يُوثق به.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قيمة معلنة حول الجودة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "طريقة جلوس الناس ومن يتحدث في الاجتماع.",
-                    "isCorrectSource": true
+                    "text": "اعتقاد عميق بأن الخطأ خطر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "اعتقاد عميق بأن الخطأ خطر.",
-                    "isCorrectSource": false
+                    "text": "طريقة جلوس الناس ومن يتحدث في الاجتماع.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -18054,21 +19521,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قواعد غير مكتوبة تضبط السلوك.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "أهداف مالية معلنة سنويًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "سياسة رسمية صادرة من HR.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "وصف وظيفي معتمد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -18081,27 +19552,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها تظهر في كل بريد رسمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها تتغير يوميًا بسهولة.",
-                    "isCorrectSource": false
+                    "text": "لأنها مألوفة وغير مصرح بها غالبًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها لا تؤثر في السلوك.",
+                    "text": "لأنها تتغير يوميًا بسهولة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأنها مألوفة وغير مصرح بها غالبًا.",
-                    "isCorrectSource": true
+                    "text": "لأنها لا تؤثر في السلوك.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d3",
@@ -18187,25 +19663,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ما القيم المكتوبة في الدليل؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "هل تحبون العمل الجماعي؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل الثقافة جميلة هنا؟",
-                    "isCorrectSource": false
+                    "text": "ماذا حدث في آخر قرار صعب؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "ماذا حدث في آخر قرار صعب؟",
-                    "isCorrectSource": true
+                    "text": "هل الثقافة جميلة هنا؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -18214,25 +19694,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الموظفين في الإدارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "هل يبدأ النقاش بالتعلم أم باللوم.",
-                    "isCorrectSource": true
+                    "text": "لون شعار فريق الجودة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لون شعار فريق الجودة.",
+                    "text": "مكان مكتب المدير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "مكان مكتب المدير.",
-                    "isCorrectSource": false
+                    "text": "هل يبدأ النقاش بالتعلم أم باللوم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -18241,27 +19725,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها تكشف قواعد النجاح غير الرسمية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأنها تستبدل كل بيانات الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأنها تركز على المسميات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها تلغي الحاجة للملاحظة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d4",
@@ -18317,26 +19806,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "فهم التوترات الثقافية بدل الأحكام السطحية.",
-                    "isCorrectSource": true
+                    "text": "إثبات أن كل ثقافة هرمية سيئة غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إثبات أن كل ثقافة هرمية سيئة دائمًا.",
-                    "isCorrectSource": false
+                    "text": "فهم التوترات الثقافية بدل الأحكام السطحية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "اختيار قيمة واحدة وإلغاء البقية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منع القياس الثقافي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -18345,25 +19838,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نقص كامل في الانتماء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة الابتكار التقني دائمًا.",
+                    "text": "زيادة الابتكار التقني غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "انعدام العلاقات داخل الفريق.",
-                    "isCorrectSource": false
+                    "text": "تجنب المواجهة وضعف المساءلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "تجنب المواجهة وضعف المساءلة.",
-                    "isCorrectSource": true
+                    "text": "انعدام العلاقات داخل الفريق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -18371,28 +19868,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "هل نملك حدود مخاطر وتعلم؟",
-                    "isCorrectSource": true
+                    "text": "هل نلغي كل إجراءات الجودة؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "هل نلغي كل إجراءات الجودة؟",
+                    "text": "هل نوقف كل مؤشرات الأداء؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل نوقف كل مؤشرات الأداء؟",
+                    "text": "هل نمنع التوثيق تمامًا؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "هل نمنع التوثيق تمامًا؟",
-                    "isCorrectSource": false
+                    "text": "هل نملك حدود مخاطر وتعلم؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d5",
@@ -18453,26 +19955,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الثقافة الأكثر انتشارًا في السوق.",
-                    "isCorrectSource": false
+                    "text": "الثقافة التي تخدم الاستراتيجية والسياق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "الثقافة التي تخدم الاستراتيجية والسياق.",
-                    "isCorrectSource": true
+                    "text": "الثقافة الأكثر انتشارًا في السوق.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "الثقافة التي تبدو أكثر حداثة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الثقافة التي تلغي كل الضبط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -18480,26 +19986,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يخفي سببًا تصميميًا أدق.",
-                    "isCorrectSource": true
-                  },
-                  {
-                    "letter": "B",
                     "text": "يزيد دقة التشخيص تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
+                    "letter": "B",
+                    "text": "قد يخفي سببًا تصميميًا أدق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
+                  },
+                  {
                     "letter": "C",
-                    "text": "يجعل التدخل أقل تكلفة دائمًا.",
+                    "text": "يجعل التدخل أقل تكلفة غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يلغي الحاجة للبيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -18508,27 +20018,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ثقافة ضبط عالية في بيئة امتثال خطرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "ثقافة تعلم في منظمة ابتكار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "ثقافة مجاملة تعيق مساءلة التوسع السريع.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "ثقافة خدمة عميل تدعم التخصيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d6",
@@ -18574,26 +20089,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تتحول القيمة إلى شعار فاقد للمصداقية.",
-                    "isCorrectSource": true
+                    "text": "تصبح الثقافة أقوى تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تصبح الثقافة أقوى تلقائيًا.",
+                    "text": "يقل احتياج المنظمة إلى القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يقل احتياج المنظمة إلى القيادة.",
+                    "text": "تختفي مقاومة التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تختفي مقاومة التغيير.",
-                    "isCorrectSource": false
+                    "text": "تتحول القيمة إلى شعار فاقد للمصداقية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -18601,26 +20120,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مكافآت فردية تفصل الإدارات.",
-                    "isCorrectSource": false
+                    "text": "مؤشرات مشتركة حول رحلة العميل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "مؤشرات مشتركة حول رحلة العميل.",
-                    "isCorrectSource": true
+                    "text": "مكافآت فردية تفصل الإدارات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تصعيد كل قرار إلى أعلى مستوى.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إخفاء بيانات الأداء بين الإدارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -18628,28 +20151,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "بما يقيسه ويكافئه ويتغاضى عنه.",
-                    "isCorrectSource": true
+                    "text": "بكتابة القيم دون تغيير السلوك.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "بكتابة القيم دون تغيير السلوك.",
-                    "isCorrectSource": false
+                    "text": "بما يقيسه ويكافئه ويتغاضى عنه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "بتفويض الثقافة إلى الاتصال المؤسسي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "بإلغاء كل قواعد المساءلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w1d7",
@@ -18762,26 +20290,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إطلاق قيم جديدة فورًا.",
+                    "text": "إطلاق قيم جديدة مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تقييم الأفراد أخلاقيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال الهيكل بالكامل.",
-                    "isCorrectSource": false
+                    "text": "قراءة السلوك والافتراضات والأنظمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "قراءة السلوك والافتراضات والأنظمة.",
-                    "isCorrectSource": true
+                    "text": "استبدال الهيكل بالكامل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "D"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -18789,26 +20321,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الخطأ فرصة تعلم دائمًا.",
+                    "text": "الخطأ فرصة تعلم غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قول الحقيقة مبكرًا قد يكون خطرًا.",
-                    "isCorrectSource": true
+                    "text": "العميل لا يؤثر في العمل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "العميل لا يؤثر في العمل.",
+                    "text": "التعاون يعني وضوح القرار فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "التعاون يعني وضوح القرار فقط.",
-                    "isCorrectSource": false
+                    "text": "قول الحقيقة مبكرًا قد يكون خطرًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -18816,28 +20352,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "حملة شعارات واسعة.",
-                    "isCorrectSource": false
+                    "text": "تشخيص ثقافي-نظامي متعدد المصادر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تدريب عام على الإيجابية.",
+                    "text": "حملة شعارات واسعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تشخيص ثقافي-نظامي متعدد المصادر.",
-                    "isCorrectSource": true
+                    "text": "تدريب عام على الإيجابية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تغيير جميع المديرين مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -18887,21 +20428,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تجعل المشكلة أكثر وضوحًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قد تخفي سببًا تصميميًا أو تشغيليًا أدق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تلغي الحاجة إلى التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تثبت أن الموظفين هم السبب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -18914,25 +20459,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما تكون المشكلة في إجراء واحد غير واضح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما تكون الثقافة الحالية غير ملائمة للاستراتيجية الجديدة.",
-                    "isCorrectSource": true
+                    "text": "عندما يريد المدير حملة داخلية جذابة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عندما يريد المدير حملة داخلية جذابة.",
-                    "isCorrectSource": false
+                    "text": "عندما تكون الثقافة الحالية غير ملائمة للاستراتيجية الجديدة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عندما نحتاج شعارًا جديدًا للمنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -18941,27 +20490,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "ما اللون المناسب للحملة؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ما السلوك المحدد الذي نريد تغييره؟",
-                    "isCorrectSource": true
+                    "text": "كم ورشة سننفذ؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "كم ورشة سننفذ؟",
+                    "text": "من سيكتب القيم الجديدة؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "من سيكتب القيم الجديدة؟",
-                    "isCorrectSource": false
+                    "text": "ما السلوك المحدد الذي نريد تغييره؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d2",
@@ -18999,21 +20553,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها تحتاج ترجمة إلى سلوكيات يومية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأنها يجب أن تكون طويلة ومفصلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأنها تخص الاتصال المؤسسي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها لا علاقة لها بالاستراتيجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -19026,25 +20584,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "نؤمن بالتعاون.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "نريد الشفافية.",
-                    "isCorrectSource": false
+                    "text": "نرفع المخاطر مبكرًا قبل تحولها إلى أزمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "نرفع المخاطر مبكرًا قبل تحولها إلى أزمة.",
-                    "isCorrectSource": true
+                    "text": "نريد الشفافية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "نطمح إلى التميز.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -19053,27 +20615,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تغيير كل القيم دفعة واحدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اختيار سلوكيات حرجة قليلة.",
-                    "isCorrectSource": true
+                    "text": "إطلاق حملة عامة دون قياس.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إطلاق حملة عامة دون قياس.",
-                    "isCorrectSource": false
+                    "text": "اختيار سلوكيات حرجة قليلة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الاعتماد على التدريب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d3",
@@ -19109,25 +20676,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد رسائل البريد عن القيم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "سلوك القيادة في لحظات الضغط.",
-                    "isCorrectSource": true
+                    "text": "تصميم شعار الثقافة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تصميم شعار الثقافة.",
+                    "text": "عدد الملصقات في المكاتب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عدد الملصقات في المكاتب.",
-                    "isCorrectSource": false
+                    "text": "سلوك القيادة في لحظات الضغط.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -19135,26 +20706,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "البحث عن مذنب عند كل خطأ.",
-                    "isCorrectSource": false
+                    "text": "شكر من يرفع المخاطر مبكرًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تجاهل الدروس بعد المشاريع.",
+                    "text": "البحث عن مذنب عند كل خطأ.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "شكر من يرفع المخاطر مبكرًا.",
-                    "isCorrectSource": true
+                    "text": "تجاهل الدروس بعد المشاريع.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منع الأسئلة الصعبة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -19163,27 +20738,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "جعل الثقافة مسؤولية القيادة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "افتراض أن HR أو الاتصال وحدهما يغيران الثقافة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "ربط الثقافة بالاستراتيجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "قياس السلوكيات الثقافية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d4",
@@ -19223,25 +20803,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تصبح الثقافة أكثر واقعية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تتحول القيم إلى شعارات غير مصدّقة.",
-                    "isCorrectSource": true
+                    "text": "يقل الاحتياج إلى القيادة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يقل الاحتياج إلى القيادة.",
-                    "isCorrectSource": false
+                    "text": "تتحول القيم إلى شعارات غير مصدّقة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تختفي مقاومة التغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -19250,25 +20834,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "معاقبة من يرفع الخطر مبكرًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "إخفاء المؤشرات عن الفرق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مكافأة الإبلاغ المبكر عن المخاطر.",
-                    "isCorrectSource": true
+                    "text": "منع مناقشة الأخطاء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "منع مناقشة الأخطاء.",
-                    "isCorrectSource": false
+                    "text": "مكافأة الإبلاغ المبكر عن المخاطر.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -19276,28 +20864,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تغيير كل الأنظمة دفعة واحدة.",
-                    "isCorrectSource": false
+                    "text": "البدء بالنظام الأكثر تأثيرًا في السلوك المطلوب.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "البدء بالنظام الأكثر تأثيرًا في السلوك المطلوب.",
-                    "isCorrectSource": true
+                    "text": "تغيير كل الأنظمة دفعة واحدة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "الاكتفاء بالتدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "ترك أنظمة الأداء كما هي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d5",
@@ -19342,21 +20935,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "من دليل القيم فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "من القصص والسلوكيات والطقوس اليومية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "من شعار المنظمة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "من بطاقة العمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -19369,21 +20966,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "موظف أخفى مشكلة فنجا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "مدير عاقب من رفع المخاطر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "موظف قال الحقيقة مبكرًا وتم تقديره.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "فريق تجاهل شكوى العميل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -19395,28 +20996,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تكرار معنى وسلوك مرغوب حتى يصبح طبيعيًا.",
-                    "isCorrectSource": true
+                    "text": "زيادة الاجتماعات دون هدف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة الاجتماعات دون هدف.",
+                    "text": "استبدال أنظمة الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال أنظمة الأداء.",
+                    "text": "إخفاء التعارضات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إخفاء التعارضات.",
-                    "isCorrectSource": false
+                    "text": "تكرار معنى وسلوك مرغوب حتى يصبح طبيعيًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d6",
@@ -19453,26 +21059,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "غياب المساءلة تمامًا.",
-                    "isCorrectSource": false
-                  },
-                  {
-                    "letter": "B",
-                    "text": "شعور الفريق بالأمان عند المخاطرة الشخصية مثل السؤال والاعتراف بالخطأ.",
+                    "text": "إمكانية طرح الأسئلة والاعتراف بالخطأ دون خوف مهين.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
+                    "letter": "B",
+                    "text": "اتفاق الفريق على تجنب الخلافات أثناء الاجتماعات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
+                  },
+                  {
                     "letter": "C",
-                    "text": "منع الاختلاف.",
+                    "text": "تقليل المساءلة مؤقتًا حتى يشعر الفريق بالراحة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "جعل كل الأخطاء مقبولة.",
+                    "text": "حصر النقاشات الحساسة مع القائد خارج اجتماع الفريق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -19481,25 +21091,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أمان نفسي منخفض ومساءلة عالية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أمان نفسي عالٍ ومساءلة منخفضة.",
-                    "isCorrectSource": false
+                    "text": "أمان نفسي عالٍ ومساءلة عالية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "أمان نفسي عالٍ ومساءلة عالية.",
-                    "isCorrectSource": true
+                    "text": "أمان نفسي عالٍ ومساءلة منخفضة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أمان نفسي منخفض ومساءلة منخفضة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -19508,27 +21122,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الاكتفاء بعقد اجتماع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "استخراج درس دون تطبيقه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تحويل الدرس إلى تعديل في النظام وقياس أثره.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "البحث عن شخص يتحمل الخطأ فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w2d7",
@@ -19608,25 +21227,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كتابة شعارات جديدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تصميم تدخل يربط السلوك والأنظمة والقيادة والقياس.",
-                    "isCorrectSource": true
+                    "text": "استبدال التشخيص بحملة تواصل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال التشخيص بحملة تواصل.",
+                    "text": "تقييم الموظفين أخلاقيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تقييم الموظفين أخلاقيًا.",
-                    "isCorrectSource": false
+                    "text": "تصميم تدخل يربط السلوك والأنظمة والقيادة والقياس.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -19635,21 +21258,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "السلوكيات الحرجة المطلوبة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "ألوان الهوية البصرية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "عدد الملصقات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "شعار عام بلا مؤشر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -19661,28 +21288,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إطلاق قيم جديدة قبل تعديل المؤشرات وحقوق القرار.",
-                    "isCorrectSource": true
+                    "text": "قياس المخاطر المبكرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قياس المخاطر المبكرة.",
-                    "isCorrectSource": false
+                    "text": "إطلاق قيم جديدة قبل تعديل المؤشرات وحقوق القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "تدريب القادة على استقبال الأخبار السيئة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عقد مراجعات بلا لوم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -19731,25 +21363,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التدريب يخص المديرين فقط، والتعلم يخص الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التدريب يطور مهارة، والتعلم المؤسسي يغير طريقة عمل النظام.",
-                    "isCorrectSource": true
+                    "text": "التدريب لا يحتاج تقييمًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التدريب لا يحتاج تقييمًا.",
-                    "isCorrectSource": false
+                    "text": "التدريب يطور مهارة، والتعلم المؤسسي يغير طريقة عمل النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "التعلم المؤسسي يعني كثرة الدورات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -19758,25 +21394,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما حضرت دورة تدريبية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "عندما كتبت تقريرًا طويلًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عندما تغير إجراء أو قرار أو سلوك بناءً على الخبرة.",
-                    "isCorrectSource": true
+                    "text": "عندما زادت ساعات التدريب.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عندما زادت ساعات التدريب.",
-                    "isCorrectSource": false
+                    "text": "عندما تغير إجراء أو قرار أو سلوك بناءً على الخبرة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -19784,28 +21424,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تدريب خدمة العملاء دون تغيير الصلاحيات.",
-                    "isCorrectSource": false
+                    "text": "تحليل شكوى متكررة وتعديل عملية التسليم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تحليل شكوى متكررة وتعديل عملية التسليم.",
-                    "isCorrectSource": true
+                    "text": "تدريب خدمة العملاء دون تغيير الصلاحيات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إرسال بريد عن أهمية التعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عقد محاضرة عامة عن الجودة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d2",
@@ -19842,26 +21487,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن التعلم يجب أن يتحول إلى قدرة جماعية ونظامية.",
-                    "isCorrectSource": true
+                    "text": "لأن الذكاء الفردي غير مهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الذكاء الفردي غير مهم.",
-                    "isCorrectSource": false
+                    "text": "لأن التعلم يجب أن يتحول إلى قدرة جماعية ونظامية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأن التدريب لا علاقة له بالتعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن المنظمة المتعلمة لا تحتاج أفرادًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -19870,25 +21519,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "البراعة الشخصية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التفكير النظمي.",
-                    "isCorrectSource": true
+                    "text": "المكافآت المالية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "المكافآت المالية.",
-                    "isCorrectSource": false
+                    "text": "التفكير النظمي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "التدريب التقليدي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -19897,27 +21550,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تعلم الفريق يحدث في HR فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التعلم المؤسسي يحول ما تعلمه الفريق إلى تعديل في النظام.",
-                    "isCorrectSource": true
+                    "text": "تعلم الفريق لا يحتاج حوارًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تعلم الفريق لا يحتاج حوارًا.",
+                    "text": "التعلم المؤسسي يعني حضور ورشة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "التعلم المؤسسي يعني حضور ورشة.",
-                    "isCorrectSource": false
+                    "text": "التعلم المؤسسي يحول ما تعلمه الفريق إلى تعديل في النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d3",
@@ -19954,21 +21612,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الحدث حالة واحدة، والنمط تكرار له شروط وسياق.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "الحدث أهم دائمًا من النمط.",
+                    "text": "الحدث أهم غالبًا من النمط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "النمط لا يحتاج بيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "الحدث يعني الثقافة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -19981,25 +21643,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "من أخطأ؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لماذا لا يهتم الموظفون؟",
-                    "isCorrectSource": false
+                    "text": "ما البنية التي تجعل الخطأ يتكرر؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "ما البنية التي تجعل الخطأ يتكرر؟",
-                    "isCorrectSource": true
+                    "text": "لماذا لا يهتم الموظفون؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "من يجب معاقبته؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -20007,28 +21673,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "سنعالج العرض ونترك سبب التكرار.",
-                    "isCorrectSource": true
+                    "text": "سنزيد دقة التشخيص.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "سنزيد دقة التشخيص.",
+                    "text": "سنحسن التعلم تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سنحسن التعلم تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "سنعالج العرض ونترك سبب التكرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "سننهي الحاجة للبيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d4",
@@ -20063,25 +21734,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "خطة تدريب سنوية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "افتراض داخلي يؤثر في تفسير الواقع والقرار.",
-                    "isCorrectSource": true
+                    "text": "مؤشر مالي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مؤشر مالي.",
+                    "text": "وصف وظيفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "وصف وظيفي.",
-                    "isCorrectSource": false
+                    "text": "افتراض داخلي يؤثر في تفسير الواقع والقرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -20089,26 +21764,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تصحيح خطأ دون فحص القاعدة.",
-                    "isCorrectSource": false
+                    "text": "سؤال: هل الافتراض الذي نبني عليه القرار صحيح؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة عدد التقارير.",
+                    "text": "تصحيح خطأ دون فحص القاعدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سؤال: هل الافتراض الذي نبني عليه القرار صحيح؟",
-                    "isCorrectSource": true
+                    "text": "زيادة عدد التقارير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "معاقبة المتسبب مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -20117,27 +21796,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها لا تؤثر في السلوك.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "لأنها مرتبطة بالهوية والسلطة والعادات.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها مكتوبة في السياسات دائمًا.",
+                    "text": "لأنها مكتوبة في السياسات غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها تتغير تلقائيًا بالتدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d5",
@@ -20174,26 +21858,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "أرشيف ملفات قديم فقط.",
+                    "text": "تجميع الوثائق القديمة في مكان يسهل الرجوع إليه.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قدرة المنظمة على تخزين المعرفة المهمة واسترجاعها واستخدامها.",
-                    "isCorrectSource": true
+                    "text": "اعتماد خبرة المديرين بوصفها المصدر الرئيس للتعلم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ذاكرة المدير العام.",
-                    "isCorrectSource": false
+                    "text": "حفظ المعرفة المهمة وربطها بقرارات وممارسات قابلة للاستخدام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "عدد الدورات التدريبية.",
+                    "text": "زيادة الدورات التي تشرح ما حدث في المبادرات السابقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -20201,26 +21889,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لا يتحول إلى تعلم مؤسسي فعلي.",
-                    "isCorrectSource": true
+                    "text": "يزيد سرعة القرار غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد سرعة القرار دائمًا.",
+                    "text": "يحل كل مشكلات الثقافة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يحل كل مشكلات الثقافة.",
+                    "text": "يغني عن الحوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يغني عن الحوار.",
-                    "isCorrectSource": false
+                    "text": "لا يتحول إلى تعلم مؤسسي فعلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -20228,28 +21920,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "سياسة إجازات مكتوبة.",
-                    "isCorrectSource": false
+                    "text": "خبرة التعامل مع عميل حساس.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "نموذج طلب شراء.",
+                    "text": "سياسة إجازات مكتوبة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "خبرة التعامل مع عميل حساس.",
-                    "isCorrectSource": true
+                    "text": "نموذج طلب شراء.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لائحة حضور وانصراف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d6",
@@ -20286,21 +21983,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اتخاذ قرارات مالية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تبادل المعرفة وتطوير الممارسة المهنية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "استبدال الهيكل التنظيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مراقبة الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -20313,25 +22014,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "اللجنة للتعلم فقط، والمجتمع للقرار فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اللجنة غالبًا للقرار أو التنسيق، والمجتمع للتعلم المهني.",
-                    "isCorrectSource": true
+                    "text": "لا فرق بينهما.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لا فرق بينهما.",
-                    "isCorrectSource": false
+                    "text": "اللجنة غالبًا للقرار أو التنسيق، والمجتمع للتعلم المهني.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "المجتمع يجب أن يرأسه أعلى مسؤول دائمًا.",
+                    "text": "المجتمع يجب أن يرأسه أعلى مسؤول غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -20340,27 +22045,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "منع الاختلاف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "الحوار وفحص الافتراضات.",
-                    "isCorrectSource": true
+                    "text": "الاكتفاء بالتقارير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الاكتفاء بالتقارير.",
+                    "text": "إلغاء التغذية الراجعة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إلغاء التغذية الراجعة.",
-                    "isCorrectSource": false
+                    "text": "الحوار وفحص الافتراضات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w3d7",
@@ -20423,26 +22133,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إعداد خطة تدريب فقط.",
-                    "isCorrectSource": false
-                  },
-                  {
-                    "letter": "B",
-                    "text": "تصميم نظام يلتقط الخبرة ويحولها إلى معرفة وتعديل في العمل.",
+                    "text": "تصميم طريقة تلتقط الخبرة وتحولها إلى معرفة وتعديل في العمل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
+                    "letter": "B",
+                    "text": "تحويل الاحتياج التعلمي إلى خطة تدريب سنوية مفصلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
+                  },
+                  {
                     "letter": "C",
-                    "text": "زيادة عدد الملفات في الأرشيف.",
+                    "text": "توحيد قوالب التوثيق حتى يسهل حفظ الملفات واسترجاعها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "استبدال القيادة.",
+                    "text": "تحديد المسؤول عن أرشفة المخرجات بعد انتهاء كل مبادرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -20451,25 +22165,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الدورات المنفذة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدد الحاضرين في ورشة.",
-                    "isCorrectSource": false
+                    "text": "انخفاض تكرار الخطأ نفسه بعد تعديل النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "انخفاض تكرار الخطأ نفسه بعد تعديل النظام.",
-                    "isCorrectSource": true
+                    "text": "عدد الحاضرين في ورشة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد رسائل البريد عن التعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -20478,27 +22196,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تصبح ذاكرة حية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تتحول إلى أرشيف غير مستخدم.",
-                    "isCorrectSource": true
+                    "text": "تزيد التعلم تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تزيد التعلم تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "تتحول إلى أرشيف غير مستخدم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تلغي الحاجة للتعلم الجماعي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -20552,26 +22275,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مشروع التغيير دائم، وقدرة التغيير مؤقتة.",
+                    "text": "مشروع التغيير يركز على الإطلاق، وقدرة التغيير تركز على التواصل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "مشروع التغيير يركز على تنفيذ تغيير محدد، وقدرة التغيير تجعل المنظمة قادرة على التكيف المتكرر.",
-                    "isCorrectSource": true
+                    "text": "مشروع التغيير يعتمد على التدريب، وقدرة التغيير تعتمد على القياس.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قدرة التغيير تعني زيادة عدد الحملات الاتصالية.",
+                    "text": "مشروع التغيير يعالج الثقافة، وقدرة التغيير تعالج العمليات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "مشروع التغيير لا يحتاج قياسًا.",
-                    "isCorrectSource": false
+                    "text": "مشروع التغيير ينفذ تغييرًا محددًا، وقدرة التغيير تبني تكيفًا متكررًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -20579,26 +22306,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "انتهاء المشروع بعد الإطلاق مباشرة.",
-                    "isCorrectSource": false
+                    "text": "تحويل دروس المبادرة إلى حوكمة وتعلم وأدوار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "اعتماد المبادرة على مستشار واحد.",
+                    "text": "انتهاء المشروع بعد الإطلاق مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحويل دروس المبادرة إلى حوكمة وتعلم وأدوار.",
-                    "isCorrectSource": true
+                    "text": "اعتماد المبادرة على مستشار واحد.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قياس عدد الحضور فقط.",
+                    "text": "قياس الاعتماد على الحضور كمؤشر وحيد للأثر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -20607,27 +22338,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أنها تزيد التعلم المؤسسي تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أنها قد تنتهي دون أن تصبح جزءًا من طريقة العمل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "أنها تلغي الحاجة إلى القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أنها تمنع قياس الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d2",
@@ -20665,25 +22401,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "انتظار الأزمة حتى تظهر بوضوح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "التقاط الإشارات المبكرة وتحويلها إلى فهم وقرار.",
-                    "isCorrectSource": true
+                    "text": "زيادة التقارير دون استخدام.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "زيادة التقارير دون استخدام.",
-                    "isCorrectSource": false
+                    "text": "التقاط الإشارات المبكرة وتحويلها إلى فهم وقرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الاعتماد على رأي الإدارة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -20692,25 +22432,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "خسارة عميل استراتيجي بعد سنة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تكرار شكاوى صغيرة حول نقطة تسليم محددة.",
-                    "isCorrectSource": true
+                    "text": "إعلان الأزمة في الإعلام.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إعلان الأزمة في الإعلام.",
+                    "text": "انخفاض الربح السنوي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "انخفاض الربح السنوي فقط.",
-                    "isCorrectSource": false
+                    "text": "تكرار شكاوى صغيرة حول نقطة تسليم محددة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -20718,28 +22462,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن البيانات دائمًا غير مفيدة.",
-                    "isCorrectSource": false
+                    "text": "لأن الثقافة أو الهيكل قد يمنعان رفع الأخبار السيئة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الثقافة أو الهيكل قد يمنعان رفع الأخبار السيئة.",
-                    "isCorrectSource": true
+                    "text": "لأن البيانات غالبًا غير مفيدة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأن العملاء لا يرسلون إشارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن كل المؤشرات مبكرة بطبيعتها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d3",
@@ -20780,21 +22529,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن يغير المستشار الهيكل كل سنة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قدرة المنظمة على تشخيص وتصميم وتعديل نفسها باستمرار.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء كل الهياكل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الاعتماد على الحدس فقط.",
+                    "text": "بدء التحليل من انطباع مهني دون أدلة كافية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -20807,25 +22560,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها تحدد الرواتب فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها تترجم التصميم الجديد إلى مسؤوليات وصلاحيات وسلوك.",
-                    "isCorrectSource": true
+                    "text": "لأنها لا تتأثر بالاستراتيجية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها لا تتأثر بالاستراتيجية.",
-                    "isCorrectSource": false
+                    "text": "لأنها تترجم التصميم الجديد إلى مسؤوليات وصلاحيات وسلوك.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأنها وثيقة شكلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -20833,28 +22590,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "يتبنى الناس التصميم الجديد فورًا.",
+                    "text": "يتبنى الناس التصميم الجديد مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "قد يستمر السلوك القديم رغم الخريطة الجديدة.",
-                    "isCorrectSource": true
+                    "text": "تختفي الحاجة للقيادة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تختفي الحاجة للقيادة.",
+                    "text": "يزيد التعلم تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يزيد التعلم تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "قد يستمر السلوك القديم رغم الخريطة الجديدة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d4",
@@ -20891,26 +22653,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "بناء قدرة تعلم تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "إنهاك وتشتت وفقدان ثقة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "إنهاك وتشتت وفقدان ثقة.",
-                    "isCorrectSource": true
+                    "text": "بناء قدرة تعلم تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "وضوح الأولويات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "انخفاض الحاجة للحوكمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -20919,21 +22685,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "حفظ أسماء المشاريع فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "تنسيق المبادرات وربطها بالأولوية والأثر والعبء.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "استبدال الاستراتيجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "منع كل تغيير محلي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -20946,27 +22716,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "هل لها شعار جميل؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "هل يجب إيقاف أو دمج مبادرة أخرى أولًا؟",
-                    "isCorrectSource": true
+                    "text": "هل يمكن إعلانها بسرعة فقط؟",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "هل يمكن إعلانها بسرعة فقط؟",
-                    "isCorrectSource": false
+                    "text": "هل يجب إيقاف أو دمج مبادرة أخرى أولًا؟",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "هل تزيد عدد التقارير؟",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d5",
@@ -21002,25 +22777,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تغيير كل شيء بلا حدود.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "منح مساحة للتجريب ضمن حدود واضحة.",
-                    "isCorrectSource": true
+                    "text": "منع التجارب.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "منع التجارب.",
+                    "text": "إلغاء الحوكمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إلغاء الحوكمة.",
-                    "isCorrectSource": false
+                    "text": "منح مساحة للتجريب ضمن حدود واضحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -21028,26 +22807,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "كل إجراءات العمل التفصيلية.",
-                    "isCorrectSource": false
+                    "text": "معايير الأخلاقيات والسلامة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "معايير الأخلاقيات والسلامة.",
-                    "isCorrectSource": true
+                    "text": "كل إجراءات العمل التفصيلية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "كل أدوات التقنية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "كل تشكيلات الفرق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -21055,28 +22838,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يمنع العمل العابر والتكيف مع التغير.",
-                    "isCorrectSource": true
+                    "text": "يزيد الرشاقة تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد الرشاقة تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "قد يمنع العمل العابر والتكيف مع التغير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يلغي الحاجة للمساءلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يجعل كل الصلاحيات واضحة بالضرورة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d6",
@@ -21119,26 +22907,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يقيس الانشغال لا القدرة.",
-                    "isCorrectSource": true
+                    "text": "يعطي غالبًا صورة دقيقة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يعطي دائمًا صورة دقيقة.",
+                    "text": "يلغي الحاجة للمؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يلغي الحاجة للمؤشرات.",
-                    "isCorrectSource": false
+                    "text": "قد يقيس الانشغال لا القدرة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يثبت التعلم تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -21146,26 +22938,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدد الورش.",
+                    "text": "زيادة الورش دون اختبار أثرها على العمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "عدد الرسائل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "انخفاض تكرار الخطأ بعد تطبيق درس.",
-                    "isCorrectSource": true
+                    "text": "عدد ملفات المعرفة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عدد ملفات المعرفة.",
-                    "isCorrectSource": false
+                    "text": "انخفاض تكرار الخطأ بعد تطبيق درس.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -21174,27 +22970,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "معرفة الناس بالسلوك وممارسته وقبوله.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "إعلان القيم فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "انتهاء المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تغيير الشعار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m5w4d7",
@@ -21264,21 +23065,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تصميم حملة اتصال واحدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "بناء نظام مستمر للاستشعار والتعلم والتكيف والتثبيت.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "زيادة عدد المشاريع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "استبدال كل المديرين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -21291,25 +23096,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إغلاق كل مبادرة بعد الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "حوكمة محفظة التغيير ونظام التعلم.",
-                    "isCorrectSource": true
+                    "text": "قياس عدد الرسائل فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "قياس عدد الرسائل فقط.",
-                    "isCorrectSource": false
+                    "text": "حوكمة محفظة التغيير ونظام التعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "منع تحديث الأدوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -21317,28 +23126,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تتحول إلى فوضى وتضارب.",
-                    "isCorrectSource": true
+                    "text": "تزيد الانضباط تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تزيد الانضباط تلقائيًا.",
+                    "text": "تلغي الحاجة للقياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تلغي الحاجة للقياس.",
+                    "text": "تثبت الأدوار القديمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تثبت الأدوار القديمة.",
-                    "isCorrectSource": false
+                    "text": "تتحول إلى فوضى وتضارب.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -21409,21 +23223,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنه يقيس النشاط لا الأثر.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأنه لا يهم في التقييم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأنه يقيس الأثر الاستراتيجي مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يلغي الحاجة للمقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -21436,25 +23254,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الحضور في ورشة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدد الملفات المرسلة.",
-                    "isCorrectSource": false
+                    "text": "انخفاض زمن اتخاذ القرار بعد توضيح الصلاحيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "انخفاض زمن اتخاذ القرار بعد توضيح الصلاحيات.",
-                    "isCorrectSource": true
+                    "text": "عدد الملفات المرسلة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد الشرائح في العرض.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -21463,27 +23285,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "سننفذ ورشة لمدة يومين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إذا وضحنا الأدوار والصلاحيات فسينخفض التداخل ويتحسن القرار.",
-                    "isCorrectSource": true
+                    "text": "يجب أن يكون الموظفون أكثر تعاونًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يجب أن يكون الموظفون أكثر تعاونًا.",
-                    "isCorrectSource": false
+                    "text": "إذا وضحنا الأدوار والصلاحيات فسينخفض التداخل ويتحسن القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "نحتاج مبادرة ثقافية جذابة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d2",
@@ -21528,26 +23355,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ربط التدخل بالسلوك والنتيجة المتوقعة.",
-                    "isCorrectSource": true
+                    "text": "زيادة عدد الأنشطة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة عدد الأنشطة.",
+                    "text": "استبدال التشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال التشخيص.",
+                    "text": "إلغاء الحاجة للبيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إلغاء الحاجة للبيانات.",
-                    "isCorrectSource": false
+                    "text": "ربط التدخل بالسلوك والنتيجة المتوقعة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -21555,26 +23386,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الأثر الاستراتيجي فقط.",
-                    "isCorrectSource": false
+                    "text": "المخرجات المباشرة وسلوك التبنّي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "المخرجات المباشرة وسلوك التبنّي.",
-                    "isCorrectSource": true
+                    "text": "الأثر الاستراتيجي فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إغلاق المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حملة الاتصال.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -21582,28 +23417,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد نقيس مؤشرات لا علاقة لها بالتدخل.",
-                    "isCorrectSource": true
+                    "text": "تصبح النتائج أكثر دقة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تصبح النتائج أكثر دقة.",
-                    "isCorrectSource": false
+                    "text": "قد نقيس مؤشرات لا علاقة لها بالتدخل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يختفي أثر العوامل الخارجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يسهل تفسير كل النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d3",
@@ -21644,26 +23484,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن التدخل قد لا يكون نُفذ كما صُمم.",
-                    "isCorrectSource": true
+                    "text": "لأن الأثر لا يهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الأثر لا يهم.",
+                    "text": "لأن التبنّي يغني عن النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن التبنّي يغني عن النتائج.",
-                    "isCorrectSource": false
+                    "text": "لأن التدخل قد لا يكون نُفذ كما صُمم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن النشاط يكفي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -21672,25 +23516,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "رفع الملف في النظام فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "توقيع الموظف فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استخدام الوصف في التوظيف والتقييم وتحديد فجوات التعلم.",
-                    "isCorrectSource": true
+                    "text": "تغيير اسم الوظيفة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تغيير اسم الوظيفة فقط.",
-                    "isCorrectSource": false
+                    "text": "استخدام الوصف في التوظيف والتقييم وتحديد فجوات التعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -21698,28 +23546,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إعلان فشل الفكرة فورًا.",
-                    "isCorrectSource": false
-                  },
-                  {
-                    "letter": "B",
                     "text": "فحص عوائق التطبيق قبل الحكم على التدخل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
+                    "letter": "B",
+                    "text": "إعلان فشل الفكرة مباشرة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
+                  },
+                  {
                     "letter": "C",
-                    "text": "قياس الرضا فقط.",
+                    "text": "قياس الرضا دون ربطه بسلوك أو نتيجة عمل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إيقاف كل القياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d4",
@@ -21765,21 +23618,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن يكون سهلًا فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "أن يقيس ما يُفترض أنه يقيسه.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "أن يكون رقميًا دائمًا.",
+                    "text": "أن يكون رقميًا غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أن يرضي الإدارة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -21791,26 +23648,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لمعرفة الوضع قبل التدخل ومقارنة التغير.",
-                    "isCorrectSource": true
+                    "text": "لإلغاء المقابلات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لإلغاء المقابلات.",
+                    "text": "لزيادة عدد المؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لزيادة عدد المؤشرات.",
-                    "isCorrectSource": false
+                    "text": "لمعرفة الوضع قبل التدخل ومقارنة التغير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لمنع القياس اللاحق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -21819,27 +23680,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "يجعل التقرير أطول فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يقوي الاستنتاج ويقلل الاعتماد على مصدر واحد.",
-                    "isCorrectSource": true
+                    "text": "يلغي الحاجة للتفسير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يلغي الحاجة للتفسير.",
+                    "text": "يثبت السببية غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يثبت السببية دائمًا.",
-                    "isCorrectSource": false
+                    "text": "يقوي الاستنتاج ويقلل الاعتماد على مصدر واحد.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d5",
@@ -21892,21 +23758,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنه لا يقيس أثرها على وضوح الدور والسلوك والقرار.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأنه لا يصلح لأي تقرير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لأنه يقيس الأثر العميق تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يلغي الحاجة للتوظيف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -21919,25 +23789,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد صفحات الوصف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدد الأوصاف المعتمدة.",
-                    "isCorrectSource": false
+                    "text": "انخفاض التصعيد غير الضروري وزمن الحسم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "انخفاض التصعيد غير الضروري وزمن الحسم.",
-                    "isCorrectSource": true
+                    "text": "عدد الأوصاف المعتمدة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لون قالب الوصف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -21945,28 +23819,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الأداء يترجم مخرجات الدور إلى أهداف وتقييم وتطوير.",
-                    "isCorrectSource": true
+                    "text": "لأن الوصف وثيقة قانونية فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الوصف وثيقة قانونية فقط.",
+                    "text": "لأن الأداء لا يحتاج وضوح دور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن الأداء لا يحتاج وضوح دور.",
-                    "isCorrectSource": false
+                    "text": "لأن الأداء يترجم مخرجات الدور إلى أهداف وتقييم وتطوير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن التدريب منفصل تمامًا عن الدور.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d6",
@@ -22010,26 +23889,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إعلان فشل التدخل فورًا.",
+                    "text": "إعلان فشل التدخل مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "فحص جودة التطبيق والمدة والمؤشرات والعوامل الخارجية.",
-                    "isCorrectSource": true
+                    "text": "إخفاء النتائج.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إخفاء النتائج.",
+                    "text": "تغيير التقرير فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تغيير التقرير فقط.",
-                    "isCorrectSource": false
+                    "text": "فحص جودة التطبيق والمدة والمؤشرات والعوامل الخارجية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -22038,21 +23921,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التوسيع المدروس.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "الإيقاف الفوري.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تجاهل النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إعادة كل التشخيص من الصفر دائمًا.",
+                    "text": "إعادة كل التشخيص من الصفر غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -22064,28 +23951,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنها جزء من جودة العملية والتعلم المهني.",
-                    "isCorrectSource": true
+                    "text": "لأنها أهم من أثر التدخل غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنها أهم من أثر التدخل دائمًا.",
-                    "isCorrectSource": false
+                    "text": "لأنها جزء من جودة العملية والتعلم المهني.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأنها تلغي قياس النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها إجراء شكلي فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w1d7",
@@ -22161,25 +24053,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توثيق الأنشطة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "بناء منطق قياس يربط التدخل بالتبنّي والأثر والقرار.",
-                    "isCorrectSource": true
+                    "text": "إلغاء التشخيص.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "إلغاء التشخيص.",
-                    "isCorrectSource": false
+                    "text": "بناء منطق قياس يربط التدخل بالتبنّي والأثر والقرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "كتابة تقرير رضا سريع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -22188,25 +24084,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عدد الملفات المعتمدة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "انخفاض التداخل وسرعة القرار وتحسن التوظيف.",
-                    "isCorrectSource": true
+                    "text": "لون قالب الوصف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لون قالب الوصف.",
+                    "text": "عدد الاجتماعات التحضيرية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عدد الاجتماعات التحضيرية فقط.",
-                    "isCorrectSource": false
+                    "text": "انخفاض التداخل وسرعة القرار وتحسن التوظيف.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -22215,27 +24115,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لحماية الصدق المهني وتجنب الادعاء الزائد.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لإضعاف التقرير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لإلغاء النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لمنع القياس مستقبلًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -22296,26 +24201,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "OD Dashboard يقرأ النظام التنظيمي وعلاقاته، لا مؤشرات HR فقط.",
-                    "isCorrectSource": true
-                  },
-                  {
-                    "letter": "B",
-                    "text": "HR Dashboard لا يستخدم أرقامًا.",
+                    "text": "الأول يعرض مؤشرات القيادة فقط، والثاني يعرض مؤشرات الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
+                    "letter": "B",
+                    "text": "الأول يقرأ علاقات النظام وأثر التدخل، والثاني يركز أكثر على مؤشرات HR.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
+                  },
+                  {
                     "letter": "C",
-                    "text": "OD Dashboard يقيس الرواتب فقط.",
+                    "text": "الأول يستخدم بيانات نوعية فقط، والثاني يستخدم بيانات رقمية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لا يوجد فرق بينهما.",
+                    "text": "الأول يختص بالتدريب، والثاني يختص بالرواتب والمزايا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -22323,26 +24232,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد نقيس ما هو متاح لا ما هو مهم.",
-                    "isCorrectSource": true
+                    "text": "يزيد عدد المؤشرات دون تحسين السؤال التشخيصي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد دقة التشخيص دائمًا.",
+                    "text": "يلغي الحاجة للأسئلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يلغي الحاجة للأسئلة.",
-                    "isCorrectSource": false
+                    "text": "قد نقيس ما هو متاح لا ما هو مهم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يجعل اللوحة أكثر استراتيجية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -22351,27 +24264,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عرض أكبر عدد ممكن من الأرقام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "دعم الفهم والقرار التنظيمي.",
-                    "isCorrectSource": true
+                    "text": "استبدال التشخيص بالكامل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال التشخيص بالكامل.",
+                    "text": "تجميل التقارير فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تجميل التقارير فقط.",
-                    "isCorrectSource": false
+                    "text": "دعم الفهم والقرار التنظيمي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d2",
@@ -22415,21 +24333,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "لأنها قد تخفي تآكل الصحة والثقة والقدرة المستقبلية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "لأنها غير مهمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنها دائمًا خاطئة.",
+                    "text": "لأنها غالبًا خاطئة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأنها تغني عن الثقافة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -22442,21 +24364,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الربحية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "الثقة في القيادة والأمان النفسي.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عدد المنتجات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "عدد المكاتب.",
+                    "text": "توزيع فرق العمل بين المواقع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -22469,27 +24395,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "الفعالية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "القدرة التنظيمية.",
-                    "isCorrectSource": true
+                    "text": "الشكل التنظيمي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الشكل التنظيمي.",
-                    "isCorrectSource": false
+                    "text": "القدرة التنظيمية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "حجم القوى العاملة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d3",
@@ -22539,26 +24470,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "السؤال واسع ولا يكشف السلوكيات والأنظمة.",
-                    "isCorrectSource": true
+                    "text": "لأنه يقيس بدقة عالية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه يقيس بدقة عالية.",
+                    "text": "لأنه يغني عن المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنه يغني عن المقابلات.",
+                    "text": "لأنه يحدد السبب الجذري مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأنه يحدد السبب الجذري مباشرة.",
-                    "isCorrectSource": false
+                    "text": "السؤال واسع ولا يكشف السلوكيات والأنظمة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -22566,26 +24501,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدد الشعارات.",
-                    "isCorrectSource": false
+                    "text": "نسبة الدروس المطبقة بعد الأخطاء.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "نسبة الدروس المطبقة بعد الأخطاء.",
-                    "isCorrectSource": true
+                    "text": "عدد الشعارات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لون الهوية الداخلية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدد رسائل التهنئة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -22593,28 +24532,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الثقافة تختلف حسب الفرق والمواقف والسلوكيات.",
-                    "isCorrectSource": true
-                  },
-                  {
-                    "letter": "B",
                     "text": "لأن الثقافة لا تقاس أبدًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
+                    "letter": "B",
+                    "text": "لأن الثقافة تختلف حسب الفرق والمواقف والسلوكيات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
+                  },
+                  {
                     "letter": "C",
-                    "text": "لأن الأرقام دائمًا خاطئة.",
+                    "text": "لأن الأرقام غالبًا خاطئة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "لأن القيادة فقط تصنع الثقافة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d4",
@@ -22654,26 +24598,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "التفاعل يرتبط بالاندماج في العمل، والأمان النفسي يرتبط بقدرة الفرد على المخاطرة الشخصية مثل السؤال والاعتراف بالخطأ.",
-                    "isCorrectSource": true
+                    "text": "التفاعل يقيس الرضا العام، والأمان النفسي يقيس جودة التواصل الرسمي.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لا فرق بينهما.",
+                    "text": "التفاعل يرتبط بالحضور، والأمان النفسي يرتبط بسرعة إنجاز المهام.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "الأمان النفسي يقيس الرواتب فقط.",
-                    "isCorrectSource": false
+                    "text": "التفاعل يقيس الاندماج في العمل، والأمان النفسي يقيس أمان المخاطرة الصادقة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "التفاعل يعني غياب المساءلة.",
+                    "text": "التفاعل يخص الأفراد، والأمان النفسي يخص سياسات الموارد البشرية فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -22681,26 +24629,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عدد المكاتب.",
+                    "text": "توزيع فرق العمل بين المواقع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اتساق القول والفعل والعدالة في القرار.",
-                    "isCorrectSource": true
+                    "text": "عدد الرسائل الشهرية فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "عدد الرسائل الشهرية فقط.",
+                    "text": "طريقة عرض المؤشرات دون تفسير سياقها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لون التقرير.",
-                    "isCorrectSource": false
+                    "text": "اتساق القول والفعل والعدالة في القرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -22708,28 +24660,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن الناس قد يخافون من الإفصاح الصادق إذا شعروا أن البيانات ستستخدم ضدهم.",
+                    "text": "لأن الخوف من استخدام البيانات ضد الأفراد قد يقلل صدق الإجابات.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "لأن السرية تمنع التعلم.",
+                    "text": "لأن السرية تجعل النتائج أكثر قبولًا حتى لو كانت غير دقيقة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن النتائج لا تهم.",
+                    "text": "لأن الثقة تقاس غالبًا بالمقابلات الفردية لا بالمؤشرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن القياس يجب أن يكون فرديًا دائمًا.",
+                    "text": "لأن ربط الإجابات بالأسماء قد يسرع معالجة الحالات الفردية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d5",
@@ -22776,26 +24733,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لا تضع مؤشرًا لا يساعد على قرار.",
-                    "isCorrectSource": true
+                    "text": "اجعلها أطول ما يمكن.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اجعلها أطول ما يمكن.",
-                    "isCorrectSource": false
+                    "text": "لا تضع مؤشرًا لا يساعد على قرار.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "استخدم مؤشرات نشاط فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "اجمع كل الإدارات في رقم واحد دائمًا.",
+                    "text": "اجمع كل الإدارات في رقم واحد غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -22803,26 +24764,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "انخفاض الأمان النفسي قبل ارتفاع الأخطاء المخفية.",
-                    "isCorrectSource": true
+                    "text": "خسارة عميل بعد سنة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "خسارة عميل بعد سنة.",
+                    "text": "نهاية المشروع.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "نهاية المشروع.",
-                    "isCorrectSource": false
+                    "text": "انخفاض الأمان النفسي قبل ارتفاع الأخطاء المخفية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تقرير سنوي بعد فوات الأثر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -22830,28 +24795,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يخفي فروقًا خطيرة بين الإدارات والفرق.",
-                    "isCorrectSource": true
+                    "text": "يعطي تشخيصًا كاملًا غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يعطي تشخيصًا كاملًا دائمًا.",
+                    "text": "يغني عن المقابلات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يغني عن المقابلات.",
+                    "text": "يمنع الحاجة للقرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يمنع الحاجة للقرار.",
-                    "isCorrectSource": false
+                    "text": "قد يخفي فروقًا خطيرة بين الإدارات والفرق.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d6",
@@ -22902,26 +24872,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قراءة كل رقم منفصلًا.",
-                    "isCorrectSource": false
+                    "text": "قراءة العلاقات والأنماط بين المؤشرات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "قراءة العلاقات والأنماط بين المؤشرات.",
-                    "isCorrectSource": true
+                    "text": "قراءة كل رقم منفصلًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "التركيز على المؤشرات الخضراء فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تجاهل المؤشرات النوعية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -22929,26 +24903,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يعني أن الأخطاء تُخفى لا أنها اختفت.",
-                    "isCorrectSource": true
+                    "text": "يعني تحسنًا مؤكدًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يعني تحسنًا مؤكدًا.",
-                    "isCorrectSource": false
+                    "text": "قد يعني أن الأخطاء تُخفى لا أنها اختفت.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "يعني أن التدريب نجح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يعني عدم الحاجة للتشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -22956,28 +24934,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "معاقبة الفريق فورًا.",
+                    "text": "معاقبة الفريق مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "بناء فرضيات وجمع بيانات داعمة قبل الحكم.",
-                    "isCorrectSource": true
+                    "text": "حذف المؤشر.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حذف المؤشر.",
-                    "isCorrectSource": false
+                    "text": "بناء فرضيات وجمع بيانات داعمة قبل الحكم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "تفسيره كفشل قيادة دائمًا.",
+                    "text": "تفسيره كفشل قيادة غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w2d7",
@@ -23044,25 +25027,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عرض أرقام كثيرة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "تحويل المؤشرات إلى رؤى وقرارات تنظيمية.",
-                    "isCorrectSource": true
+                    "text": "استبدال كل المقابلات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استبدال كل المقابلات.",
+                    "text": "الاكتفاء بمؤشر حضور دون أثر أو سلوك.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قياس الحضور فقط.",
-                    "isCorrectSource": false
+                    "text": "تحويل المؤشرات إلى رؤى وقرارات تنظيمية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -23071,21 +25058,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "النشاط تحقق لكن جودة التبني ضعيفة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "التدخل نجح بالكامل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "لا حاجة لقياس إضافي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "المشكلة في العملاء فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -23097,28 +25088,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "المؤشرات والأنماط والفرضيات والقرارات.",
-                    "isCorrectSource": true
+                    "text": "ألوان التقرير فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ألوان التقرير فقط.",
-                    "isCorrectSource": false
+                    "text": "المؤشرات والأنماط والفرضيات والقرارات.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "أسماء المشاركين الفردية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "أرقام بلا تفسير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -23165,26 +25161,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "الموظفون يرفضون كل جديد دائمًا.",
+                    "text": "الموظفون يرفضون كل جديد غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "النظام القديم قد يكون ما زال يكافئ السلوك القديم.",
-                    "isCorrectSource": true
+                    "text": "التدريب غالبًا غير مفيد.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التدريب دائمًا غير مفيد.",
-                    "isCorrectSource": false
+                    "text": "النظام القديم قد يكون ما زال يكافئ السلوك القديم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "القياس لا علاقة له بالتغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -23192,26 +25192,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تحسن السلوك أثناء المشروع ثم تراجعه بعد إغلاقه.",
-                    "isCorrectSource": true
+                    "text": "عدم وجود أي تحسن منذ البداية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عدم وجود أي تحسن منذ البداية.",
+                    "text": "رفض التشخيص قبل التدخل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "رفض التشخيص قبل التدخل.",
+                    "text": "غياب المشكلة الأصلية تمامًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "غياب المشكلة الأصلية تمامًا.",
-                    "isCorrectSource": false
+                    "text": "تحسن السلوك أثناء المشروع ثم تراجعه بعد إغلاقه.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -23220,27 +25224,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "كبيانات تشخيصية عن ضعف التثبيت.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "كدليل نهائي على فشل الموظفين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "بإخفائه عن القيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "بإلغاء كل تدخلات OD.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d2",
@@ -23283,21 +25292,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "عندما ينتهي المشروع رسميًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "عندما يصبح جزءًا من طريقة العمل الطبيعية.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عندما يرسل المدير بريد شكر.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما يحضر الموظفون ورشة واحدة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -23310,21 +25323,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إغلاق فريق المشروع فور الإطلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "قياس عدد النماذج فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إدخال جودة محادثات الأداء في تقييم المديرين.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "الاكتفاء بشعار عن الأداء.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -23336,28 +25353,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد ينهار عند مغادرته أو تغير أولوياته.",
-                    "isCorrectSource": true
+                    "text": "يزيد الاستدامة غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد الاستدامة دائمًا.",
+                    "text": "يلغي الحاجة للأنظمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يلغي الحاجة للأنظمة.",
+                    "text": "يجعل التغيير ثقافة مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "يجعل التغيير ثقافة فورًا.",
-                    "isCorrectSource": false
+                    "text": "قد ينهار عند مغادرته أو تغير أولوياته.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d3",
@@ -23405,26 +25427,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تدخل جميل بصريًا.",
-                    "isCorrectSource": false
+                    "text": "تدخل يستطيع النظام حمله بعد انتهاء فريق المشروع.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تدخل يستطيع النظام حمله بعد انتهاء فريق المشروع.",
-                    "isCorrectSource": true
+                    "text": "تدخل جميل بصريًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "تدخل يعتمد على شخص واحد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تدخل لا يحتاج أي قياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -23432,26 +25458,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "وضوح السلوك المطلوب ووجود مالك داخلي.",
-                    "isCorrectSource": true
+                    "text": "غموض الهدف.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "غموض الهدف.",
-                    "isCorrectSource": false
+                    "text": "وضوح السلوك المطلوب ووجود مالك داخلي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "غياب الراعي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تعقيد الأداة قدر الإمكان.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 3,
@@ -23459,28 +25489,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يبدو احترافيًا لكنه لا يُستخدم.",
-                    "isCorrectSource": true
+                    "text": "يحسن التبني إذا دعمه النظام والحوافز.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "يضمن التبني دائمًا.",
+                    "text": "يمنع الانتكاس تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "يمنع الانتكاس تلقائيًا.",
-                    "isCorrectSource": false
+                    "text": "قد يبدو احترافيًا لكنه لا يُستخدم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "يلغي الحاجة للتدريب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d4",
@@ -23527,25 +25562,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "أن يبقى OD مسؤولًا عن كل تفصيل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "أن يقود العميل الداخلي الممارسة دون اعتماد دائم على OD.",
-                    "isCorrectSource": true
+                    "text": "أن تختفي المتابعة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أن تختفي المتابعة.",
+                    "text": "أن تُسلّم وثيقة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أن تُسلّم وثيقة فقط.",
-                    "isCorrectSource": false
+                    "text": "أن يقود العميل الداخلي الممارسة دون اعتماد دائم على OD.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -23553,26 +25592,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "سيصبح التغيير أكثر استدامة دائمًا.",
-                    "isCorrectSource": false
+                    "text": "قد تتحول الملكية إلى مسؤولية بلا قدرة على التأثير.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "قد تتحول الملكية إلى مسؤولية بلا قدرة على التأثير.",
-                    "isCorrectSource": true
+                    "text": "سيصبح التغيير أكثر استدامة غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "سيختفي الاحتياج للحوكمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "سيزيد التعلم تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -23581,27 +25624,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قيادة كل الاجتماعات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "دعم خفيف ومراجعة عند الحاجة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء كل القياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إعادة تصميم كل شيء من البداية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d5",
@@ -23634,26 +25682,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأنه يؤثر في استدامة التغيير ونقل الملكية.",
-                    "isCorrectSource": true
+                    "text": "لأنه إجراء مالي فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأنه إجراء مالي فقط.",
+                    "text": "لأنه يلغي التقييم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأنه يلغي التقييم.",
-                    "isCorrectSource": false
+                    "text": "لأنه يؤثر في استدامة التغيير ونقل الملكية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأنه يحدث قبل أي تغيير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -23662,25 +25714,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وجود مالك داخلي واضح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "غياب آلية قياس وملكية غير واضحة.",
-                    "isCorrectSource": true
+                    "text": "وجود خطة تحديث.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "وجود خطة تحديث.",
+                    "text": "قيادة العميل للممارسة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "قيادة العميل للممارسة.",
-                    "isCorrectSource": false
+                    "text": "غياب آلية قياس وملكية غير واضحة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -23689,27 +25745,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "بناء اعتماد مزمن على الممارس.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "زيادة الاستقلالية دائمًا.",
+                    "text": "زيادة الاستقلالية غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "اختفاء الحاجة للتعلم.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "تحسين التثبيت تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d6",
@@ -23744,26 +25805,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "عندما لا تستخدم في التوظيف والأداء والتعلم والتحديث.",
-                    "isCorrectSource": true
+                    "text": "عندما تكون مرتبطة بالكفاءات.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عندما تكون مرتبطة بالكفاءات.",
-                    "isCorrectSource": false
+                    "text": "عندما لا تستخدم في التوظيف والأداء والتعلم والتحديث.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عندما تُراجع دوريًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عندما تدخل في التهيئة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -23771,26 +25836,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "مالك واضح ومراجعة دورية وربطها بالأداء والتعلم.",
-                    "isCorrectSource": true
+                    "text": "اعتمادها مرة واحدة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اعتمادها مرة واحدة فقط.",
+                    "text": "فصلها عن التوظيف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "فصلها عن التوظيف.",
-                    "isCorrectSource": false
+                    "text": "مالك واضح ومراجعة دورية وربطها بالأداء والتعلم.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "تجاهلها عند إعادة الهيكلة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -23798,28 +25867,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "قد يستمر السلوك القديم داخل خريطة جديدة.",
-                    "isCorrectSource": true
+                    "text": "ستصبح الصلاحيات أوضح تلقائيًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ستصبح الصلاحيات أوضح تلقائيًا.",
+                    "text": "سينتهي التداخل مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "سينتهي التداخل فورًا.",
+                    "text": "لن يحتاج الموظفون لأي توضيح.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لن يحتاج الموظفون لأي توضيح.",
-                    "isCorrectSource": false
+                    "text": "قد يستمر السلوك القديم داخل خريطة جديدة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w3d7",
@@ -23888,26 +25962,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "إعلان نهاية المشروع فقط.",
-                    "isCorrectSource": false
+                    "text": "تصميم استدامة التغيير ونقل الملكية وخروج OD دون فراغ.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "تصميم استدامة التغيير ونقل الملكية وخروج OD دون فراغ.",
-                    "isCorrectSource": true
+                    "text": "إعلان نهاية المشروع فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "إلغاء القياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "حفظ الوثائق في الأرشيف.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "A"
               },
               {
                 "number": 2,
@@ -23916,21 +25994,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "استمرار RACI تلقائيًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "بقاء الأدوات دون ملكية أو تثبيت في الأداء والتهيئة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "زيادة وضوح الصلاحيات فورًا.",
+                    "text": "زيادة وضوح الصلاحيات مباشرة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "اختفاء الحاجة للقيادة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -23942,28 +26024,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "وجود مالك داخلي وآلية قياس وتحديث.",
-                    "isCorrectSource": true
+                    "text": "اعتماد وثيقة فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "اعتماد وثيقة فقط.",
+                    "text": "بقاء OD حاسمًا لكل قرار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "بقاء OD حاسمًا لكل قرار.",
-                    "isCorrectSource": false
+                    "text": "وجود مالك داخلي وآلية قياس وتحديث.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "عدم تدريب الموظفين الجدد.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true
@@ -24027,25 +26114,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "منفذ ورش تدريبية عند الطلب.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "شريك تشخيصي يساعد النظام على فهم نفسه وتطوير قدرته.",
-                    "isCorrectSource": true
+                    "text": "مصمم عروض تقديمية للتغيير.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "مصمم عروض تقديمية للتغيير.",
+                    "text": "شخص يطبق حلولًا جاهزة دون تشخيص.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "شخص يطبق حلولًا جاهزة دون تشخيص.",
-                    "isCorrectSource": false
+                    "text": "شريك تشخيصي يساعد النظام على فهم نفسه وتطوير قدرته.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -24053,26 +26144,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ينحاز للإدارة العليا دائمًا.",
-                    "isCorrectSource": false
+                    "text": "ينحاز لفهم صادق متعدد المصادر لما يحدث في النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "ينحاز للموظفين دائمًا.",
+                    "text": "ينحاز للإدارة العليا غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ينحاز لفهم صادق متعدد المصادر لما يحدث في النظام.",
-                    "isCorrectSource": true
+                    "text": "ينحاز للموظفين غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يرفض كل البيانات الرسمية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "C"
+                "correctLetter": "A"
               },
               {
                 "number": 3,
@@ -24081,27 +26176,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "القفز إلى الحل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "التفكير النظمي والتشخيص.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "كتابة الشعارات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "زيادة عدد المبادرات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d2",
@@ -24141,25 +26241,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "زيادة عدد المشاركين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "فقدان الثقة واحتمال استخدام البيانات ضد الأشخاص.",
-                    "isCorrectSource": true
+                    "text": "تحسن جودة التشخيص.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تحسن جودة التشخيص.",
-                    "isCorrectSource": false
+                    "text": "فقدان الثقة واحتمال استخدام البيانات ضد الأشخاص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "سهولة كتابة التقرير.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -24168,25 +26272,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تسليم الأسماء لأن القيادة طلبت ذلك.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "عرض النتائج مجمعة وحماية السرية المتفق عليها.",
-                    "isCorrectSource": true
+                    "text": "حذف كل النتائج السلبية.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "حذف كل النتائج السلبية.",
+                    "text": "اختصار التشخيص عند ظهور ضغط زمني.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "إلغاء التشخيص بالكامل فورًا.",
-                    "isCorrectSource": false
+                    "text": "عرض النتائج مجمعة وحماية السرية المتفق عليها.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -24195,27 +26303,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "استخدامها لفهم النظام لا لإذلال الأشخاص.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "استخدامها لإثبات رأي الممارس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "استخدامها لمعاقبة المعارضين.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "عدم مشاركتها بأي شكل مهما كان الاتفاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d3",
@@ -24260,26 +26373,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن النظام المتأثر أوسع من الراعي.",
-                    "isCorrectSource": true
+                    "text": "لأن الراعي غير مهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن الراعي غير مهم.",
-                    "isCorrectSource": false
+                    "text": "لأن النظام المتأثر أوسع من الراعي.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "لأن OD لا يحتاج عميلًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "لأن الموظفين فقط هم العميل دائمًا.",
+                    "text": "لأن الموظفين فقط هم العميل غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               },
               {
                 "number": 2,
@@ -24288,25 +26405,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "توضيح التوقعات والنطاق والبيانات والسرية والأدوار.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إلغاء التشخيص.",
-                    "isCorrectSource": true
+                    "text": "ضمان موافقة الجميع غالبًا.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "ضمان موافقة الجميع دائمًا.",
-                    "isCorrectSource": false
+                    "text": "إلغاء التشخيص.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "استبدال القياس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -24314,28 +26435,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "تنفيذ الحل فورًا.",
+                    "text": "تحويل الطلب إلى تدخل قبل اختبار الفرضية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "احترام الطلب وتحويله إلى فرضية تحتاج فحصًا.",
-                    "isCorrectSource": true
+                    "text": "رفض العميل بالكامل.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "رفض العميل بالكامل.",
+                    "text": "تغيير اسم الحل فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تغيير اسم الحل فقط.",
-                    "isCorrectSource": false
+                    "text": "احترام الطلب وتحويله إلى فرضية تحتاج فحصًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d4",
@@ -24369,26 +26495,30 @@ export const learningJourneyData = [
             "quiz": [
               {
                 "number": 1,
-                "question": "ما معنى “الذات كأداة” في OD؟",
+                "question": "ما معنى \"الذات كأداة\" في OD؟",
                 "options": [
                   {
                     "letter": "A",
-                    "text": "أن شخصية الممارس ووعيه وتحيزاته تؤثر في التشخيص والتدخل.",
+                    "text": "وعي الممارس بذاته وتحيزاته لأنها تؤثر في التشخيص والتدخل.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "أن الأدوات لا تهم.",
+                    "text": "اعتماد الممارس على أسلوبه الشخصي بدل أدوات جمع البيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "أن الممارس يجب أن يعمل وحده.",
+                    "text": "استخدام حضور الممارس لإقناع العميل بالتوصيات النهائية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "أن الممارس لا يحتاج بيانات.",
+                    "text": "تركيز الممارس على خبرته السابقة عند تفسير كل حالة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -24401,21 +26531,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "إنكاره.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
                     "text": "معرفته وفحصه بالبيانات والتأمل والزمالة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "اتباعه دائمًا.",
+                    "text": "اتباعه غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "إخفاؤه عن النفس.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -24427,28 +26561,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لفحص الفرضيات والأخلاقيات والتحيزات وحماية جودة العمل.",
-                    "isCorrectSource": true
+                    "text": "لتسليم المسؤولية لغيره.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لتسليم المسؤولية لغيره.",
+                    "text": "لتقليل النقاش حول الفرضيات المزعجة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لتجنب التعلم.",
-                    "isCorrectSource": false
+                    "text": "لفحص الفرضيات والأخلاقيات والتحيزات وحماية جودة العمل.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "لإلغاء دور العميل.",
+                    "text": "لتقليل تحيز طلب العميل عند تفسير النتائج.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d5",
@@ -24522,25 +26661,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "تلخيص نظري فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "إثبات القدرة على تطبيق دورة OD كاملة على حالة واقعية.",
-                    "isCorrectSource": true
+                    "text": "كتابة مقال عام عن الإدارة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "كتابة مقال عام عن الإدارة.",
+                    "text": "جمع تعريفات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "جمع تعريفات فقط.",
-                    "isCorrectSource": false
+                    "text": "إثبات القدرة على تطبيق دورة OD كاملة على حالة واقعية.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 2,
@@ -24549,21 +26692,25 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "حالة لها أعراض متعددة وأطراف وبيانات قابلة للجمع.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
                     "text": "حالة حلها معروف مسبقًا ولا تحتاج تشخيصًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "موضوع شخصي بلا نظام تنظيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "مشكلة لا يمكن ملاحظتها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -24575,28 +26722,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "خطة قياس الأثر والاستدامة.",
-                    "isCorrectSource": true
+                    "text": "شعار بصري فقط.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "شعار بصري فقط.",
-                    "isCorrectSource": false
+                    "text": "خطة قياس الأثر والاستدامة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
                     "text": "عدد صفحات كبير دون تحليل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "رأي شخصي بلا بيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "B"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d6",
@@ -24651,26 +26803,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "لأن OD يحتاج ممارسة وتأملًا وتعلمًا مستمرًا.",
-                    "isCorrectSource": true
+                    "text": "لأن المحتوى غير مهم.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لأن المحتوى غير مهم.",
+                    "text": "لأن التشخيص لا يحتاج تدريبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "لأن التشخيص لا يحتاج تدريبًا.",
-                    "isCorrectSource": false
+                    "text": "لأن OD يحتاج ممارسة وتأملًا وتعلمًا مستمرًا.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
                     "text": "لأن الأدوات تكفي وحدها.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "A"
+                "correctLetter": "C"
               },
               {
                 "number": 2,
@@ -24679,25 +26835,29 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "حفظ الأدوات فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ممارسة مشاريع حقيقية مع تأمل وقياس وتغذية راجعة.",
-                    "isCorrectSource": true
+                    "text": "استخدام حل واحد لكل حالة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "استخدام حل واحد لكل حالة.",
+                    "text": "تجنب البيانات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "تجنب البيانات.",
-                    "isCorrectSource": false
+                    "text": "ممارسة مشاريع حقيقية مع تأمل وقياس وتغذية راجعة.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               },
               {
                 "number": 3,
@@ -24706,27 +26866,32 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد تجعل الممارس يبدأ بالأداة بدل التشخيص.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "B",
-                    "text": "يزيد التفكير النظمي دائمًا.",
+                    "text": "يزيد التفكير النظمي غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "C",
                     "text": "يلغي الحاجة للأخلاق.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
                     "text": "يحسن كل تدخل.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
                 "correctLetter": "A"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           },
           {
             "id": "m6w4d7",
@@ -24792,22 +26957,26 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "حفظ تعريفات OD فقط.",
+                    "text": "ملخص معرفي يثبت فهم مصطلحات OD ومراجعه الأساسية.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "ملف احتراف ومشروع تخرج يثبت القدرة على ممارسة دورة OD كاملة.",
+                    "text": "ملف احتراف ومشروع تخرج يثبتان ممارسة دورة OD كاملة.",
+                    "isCorrect": true,
                     "isCorrectSource": true
                   },
                   {
                     "letter": "C",
-                    "text": "قائمة كتب فقط.",
+                    "text": "خطة قراءة لاحقة تجمع أهم المراجع والأدوات المستخدمة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "حضور البرنامج دون تطبيق.",
+                    "text": "عرض ختامي يوضح حضور البرنامج ومراحله الرئيسة.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
@@ -24819,26 +26988,30 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "ابدأ بالحل دائمًا.",
+                    "text": "ابدأ بالحل غالبًا.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "لا تبدأ بالحل؛ افهم النظام.",
-                    "isCorrectSource": true
+                    "text": "التدريب يعالج كل فجوة دون تغيير النظام.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "التدريب يحل كل شيء.",
-                    "isCorrectSource": false
+                    "text": "لا تبدأ بالحل؛ افهم النظام.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
-                    "text": "الثقافة مجرد شعار.",
+                    "text": "الثقافة تختزل في العبارات المعلنة فقط.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "C"
               },
               {
                 "number": 3,
@@ -24846,28 +27019,33 @@ export const learningJourneyData = [
                 "options": [
                   {
                     "letter": "A",
-                    "text": "امتلاك أداة جاهزة لكل مشكلة.",
+                    "text": "امتلاك مجموعة أدوات جاهزة يمكن تطبيقها في أغلب الحالات.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "B",
-                    "text": "القدرة على التشخيص الأخلاقي وتصميم تدخل مناسب وقياس أثره واستدامته.",
-                    "isCorrectSource": true
+                    "text": "القدرة على إقناع العميل بسرعة بقبول توصية واضحة.",
+                    "isCorrect": false,
+                    "isCorrectSource": false
                   },
                   {
                     "letter": "C",
-                    "text": "تجنب البيانات.",
+                    "text": "الاعتماد على خبراء خارجيين عند ظهور تعقيد تنظيمي.",
+                    "isCorrect": false,
                     "isCorrectSource": false
                   },
                   {
                     "letter": "D",
-                    "text": "الاعتماد الدائم على المستشار.",
-                    "isCorrectSource": false
+                    "text": "تشخيص أخلاقي وتصميم تدخل مناسب وقياس أثره واستدامته.",
+                    "isCorrect": true,
+                    "isCorrectSource": true
                   }
                 ],
-                "correctLetter": "B"
+                "correctLetter": "D"
               }
-            ]
+            ],
+            "answerKeyAvailable": true
           }
         ],
         "answerKeyAvailable": true

@@ -23,6 +23,43 @@ function BellIcon() {
   );
 }
 
+function NotificationLeafIcon() {
+  return (
+    <span className="notification-inline-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path
+          d="M19.2 4.8c-5.7.4-9.7 2.7-11.8 6.4-1.5 2.7-1.3 5.6-.7 7.4 1.9.5 4.8.6 7.4-.9 3.6-2.1 5.8-6.4 5.1-12.9Z"
+          fill="currentColor"
+          opacity=".92"
+        />
+        <path
+          d="M5.4 19.2c3.4-3.7 6.8-6.1 10.4-7.4"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function renderNotificationTitle(title = "") {
+  const text = String(title || "");
+  const leafTokens = ["\u{1F33F}", "ðŸŒ¿"];
+  const token = leafTokens.find((item) => text.includes(item));
+
+  if (!token) return text;
+
+  const parts = text.split(token);
+  return (
+    <>
+      {parts[0]}
+      <NotificationLeafIcon />
+      {parts.slice(1).join(token)}
+    </>
+  );
+}
+
 export default function NotificationsCenter({ setActivePage }) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
@@ -165,6 +202,22 @@ export default function NotificationsCenter({ setActivePage }) {
           font-weight: 780;
         }
 
+        .notification-inline-icon {
+          width: 18px;
+          height: 18px;
+          margin-inline-start: 6px;
+          color: #7c3aed;
+          display: inline-grid;
+          place-items: center;
+          vertical-align: -3px;
+        }
+
+        .notification-inline-icon svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+
         .notification-empty {
           color: #7a6c9a;
           font-size: 12px;
@@ -177,6 +230,11 @@ export default function NotificationsCenter({ setActivePage }) {
           color: #efe9ff;
           background: rgba(241, 236, 251, .10);
           border-color: rgba(196, 181, 253, .24);
+        }
+
+        body.od-theme-dark .notification-inline-icon {
+          color: #c4b5fd;
+          filter: drop-shadow(0 0 10px rgba(196, 181, 253, .35));
         }
       `}</style>
 
@@ -204,7 +262,7 @@ export default function NotificationsCenter({ setActivePage }) {
                   className={`notification-item ${item.read_at ? "" : "unread"}`}
                   onClick={() => handleItemClick(item)}
                 >
-                  <strong>{item.title}</strong>
+                  <strong>{renderNotificationTitle(item.title)}</strong>
                   {item.body && <span>{item.body}</span>}
                 </button>
               ))
