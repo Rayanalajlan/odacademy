@@ -2514,7 +2514,7 @@ export default function CourseJourney({
 
                   <button
                     type="button"
-                    className="jl-complete"
+                    className="jl-quiz-submit"
                     onClick={completeCurrentDay}
                     disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
@@ -2528,7 +2528,7 @@ export default function CourseJourney({
                   </button>
 
                   {currentDayState === "completed" && (
-                    <button type="button" className="jl-ghost-btn" onClick={openNextPoint}>
+                    <button type="button" className="jl-quiz-submit" onClick={openNextPoint}>
                       افتح المحطة التالية
                     </button>
                   )}
