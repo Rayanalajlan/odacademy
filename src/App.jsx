@@ -1,4 +1,4 @@
-import { Fragment, lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { supabase, isSupabaseConfigured } from "./lib/supabaseClient";
 import * as progressService from "./lib/progressService";
 import AuthGate from "./components/AuthGate";
@@ -27,6 +27,8 @@ import {
 } from "./lib/onboardingService";
 
 const TOTAL_JOURNEY_DAYS = 180;
+const ACTIVITY_TOUCH_INTERVAL_MS = 5 * 60 * 1000;
+const ACTIVITY_TOUCH_THROTTLE_MS = 60 * 1000;
 
 const CourseJourney = lazy(() => import("./components/CourseJourney"));
 const RadarAssessment = lazy(() => import("./components/RadarAssessment"));
@@ -226,6 +228,7 @@ export default function App() {
   const [resumeJourneyRequest, setResumeJourneyRequest] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [checkingOnboarding, setCheckingOnboarding] = useState(false);
+  const lastActivityTouchRef = useRef(0);
   const verificationSlug = getVerificationSlugFromLocation();
   const passwordRecoveryMode = isPasswordRecoveryRequest();
   const legalPageRequested = isLegalPath();
@@ -396,6 +399,56 @@ export default function App() {
 
     return () => {
       mounted = false;
+    };
+  }, [session?.user?.id, demoMode]);
+
+  useEffect(() => {
+    if (!session?.user?.id || demoMode || !isSupabaseConfigured || !supabase) {
+      return undefined;
+    }
+
+    let stopped = false;
+
+    async function touchActivity({ force = false } = {}) {
+      const now = Date.now();
+
+      if (!force && now - lastActivityTouchRef.current < ACTIVITY_TOUCH_THROTTLE_MS) {
+        return;
+      }
+
+      lastActivityTouchRef.current = now;
+
+      try {
+        await supabase.rpc("touch_user_activity");
+      } catch (error) {
+        if (!stopped) {
+          console.warn("تعذر تحديث آخر ظهور للمستخدم:", error);
+        }
+      }
+    }
+
+    function touchWhenVisible() {
+      if (document.visibilityState === "visible") {
+        touchActivity({ force: true });
+      }
+    }
+
+    touchActivity({ force: true });
+
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        touchActivity();
+      }
+    }, ACTIVITY_TOUCH_INTERVAL_MS);
+
+    window.addEventListener("focus", touchWhenVisible);
+    document.addEventListener("visibilitychange", touchWhenVisible);
+
+    return () => {
+      stopped = true;
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", touchWhenVisible);
+      document.removeEventListener("visibilitychange", touchWhenVisible);
     };
   }, [session?.user?.id, demoMode]);
 
