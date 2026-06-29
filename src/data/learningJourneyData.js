@@ -84,7 +84,7 @@ export const learningJourneyData = [
                   {
                     "letter": "C",
                     "text": "فحص تصميم العمل قبل افتراض أن المشكلة مهارية.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
@@ -101,7 +101,7 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "قد يرتبط ضعف المبادرة بمحدودية الصلاحيات.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
@@ -143,7 +143,7 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "تحويل تفسير طرف قوي إلى حقيقة نهائية.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
@@ -204,7 +204,7 @@ export const learningJourneyData = [
                   {
                     "letter": "B",
                     "text": "حصر التشخيص داخل إدارة واحدة فقط.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
@@ -241,19 +241,19 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "تعديل إجراءات الخدمة بناءً على الشكاوى.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
               },
               {
                 "number": 3,
-                "question": "منظمة تطلب الابتكار، لكنها تكافئ الالتزام الحرفي بالإجراءات وتمنع التجريب. ما التشخيص الأدق؟",
+                "question": "منظمة تطلب الابتكار، لكنها تكافئ الالتزام الحرفي بالإجراءات وتمنع التجريب؛ ما التشخيص الأدق؟",
                 "options": [
                   {
                     "letter": "A",
                     "text": "توجد فجوة مواءمة بين الهدف ونظام التعزيز.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
@@ -333,7 +333,7 @@ export const learningJourneyData = [
                   {
                     "letter": "C",
                     "text": "فهم طريقة عمل النظام قبل تصميم التدخل.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
@@ -355,7 +355,7 @@ export const learningJourneyData = [
                   {
                     "letter": "B",
                     "text": "قد يفسر خلل التصميم كضعف تواصل.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
@@ -392,7 +392,7 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "هل تتناسب الصلاحية مع المسؤولية؟",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
@@ -450,7 +450,7 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التأخير يظهر غالبًا عند انتقال العمل بين إدارتين.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
@@ -492,7 +492,7 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "تصف السلوك ولا تفسر شروط ظهوره.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
@@ -509,7 +509,7 @@ export const learningJourneyData = [
                   {
                     "letter": "B",
                     "text": "أن تفسر النمط وتقبل الاختبار بالبيانات.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
@@ -579,7 +579,7 @@ export const learningJourneyData = [
                   {
                     "letter": "B",
                     "text": "تعارض بين وعد الخدمة وتصميم الصلاحيات.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
@@ -611,7 +611,7 @@ export const learningJourneyData = [
                   {
                     "letter": "C",
                     "text": "مدير يحاسب على نتائج لا يملك قراراتها.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
@@ -628,7 +628,7 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "وضوح الدور لا يغير دائمًا نظام القرار.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
@@ -711,7 +711,7 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "عرض النتائج مجمعة دون كشف الأفراد.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
@@ -723,7 +723,7 @@ export const learningJourneyData = [
                   {
                     "letter": "A",
                     "text": "التشخيص لا يختزل الحقيقة في طالب المشروع.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "B",
@@ -760,7 +760,7 @@ export const learningJourneyData = [
                   {
                     "letter": "C",
                     "text": "تفسير المشكلة مبكرًا من خبرة سابقة.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
@@ -861,7 +861,7 @@ export const learningJourneyData = [
                   {
                     "letter": "C",
                     "text": "لأن السبب القيادي فرضية لم تُختبر بعد.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "D",
@@ -883,7 +883,7 @@ export const learningJourneyData = [
                   {
                     "letter": "B",
                     "text": "ما لا يمكن الجزم به الآن.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   },
                   {
                     "letter": "C",
@@ -920,7 +920,7 @@ export const learningJourneyData = [
                   {
                     "letter": "D",
                     "text": "بدء تشخيص متعدد المصادر أولًا.",
-                    "isCorrectSource": false
+                    "isCorrectSource": true
                   }
                 ],
                 "correctLetter": null
@@ -1990,7 +1990,7 @@ export const learningJourneyData = [
               },
               {
                 "number": 2,
-                "question": "منظمة تعلن “العميل أولًا”، لكنها تكافئ كل إدارة على إنجازها المنفرد. ما التشخيص الأقرب؟",
+                "question": "منظمة تعلن “العميل أولًا”، لكنها تكافئ كل إدارة على إنجازها المنفرد؛ ما التشخيص الأقرب؟",
                 "options": [
                   {
                     "letter": "A",
@@ -2357,7 +2357,7 @@ export const learningJourneyData = [
               },
               {
                 "number": 2,
-                "question": "فريق لا يتعاون لأن مؤشرات كل إدارة تكافئ نجاحها المنفرد. ما المستوى الأكثر تأثيرًا هنا؟",
+                "question": "فريق لا يتعاون لأن مؤشرات كل إدارة تكافئ نجاحها المنفرد؛ ما المستوى الأكثر تأثيرًا هنا؟",
                 "options": [
                   {
                     "letter": "A",
