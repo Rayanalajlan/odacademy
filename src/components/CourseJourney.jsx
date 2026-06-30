@@ -842,7 +842,7 @@ function QuizPanel({
             onClick={onComplete}
             disabled={completing || isCompleted}
           >
-            {isCompleted ? "تم إكمال اليوم" : "إكمال اليوم"}
+            {isCompleted ? "تم حفظ اليوم" : "الانتقال للدرس التالي"}
           </button>
         )}
       </div>
@@ -1131,6 +1131,31 @@ export default function CourseJourney({
     setNotice("");
   }
 
+  function findLearningPointAfter(day) {
+    if (!day) return null;
+
+    const orderedPoints = [];
+    for (const month of course) {
+      for (const week of month.weeks) {
+        for (const contentDay of getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex)) {
+          orderedPoints.push({ month, week, day: contentDay });
+        }
+      }
+    }
+
+    const currentIndex = orderedPoints.findIndex((point) => point.day.id === day.id);
+    return currentIndex >= 0 ? orderedPoints[currentIndex + 1] || null : null;
+  }
+
+  function openLearningPoint(point) {
+    if (!point?.month || !point?.week || !point?.day) return;
+
+    setSelectedMonthIndex(point.month.monthIndex);
+    setSelectedWeekIndex(point.week.weekIndex);
+    setSelectedDayIndex(point.day.dayIndex);
+    setStage("lesson");
+  }
+
   function jumpToSearchResult(result) {
     if (!result) return;
 
@@ -1256,6 +1281,7 @@ export default function CourseJourney({
     const hasQuiz = preparedLesson.quiz.length > 0;
     const quizPassed = quizPassedByDay[selectedDay.id];
     const quizResult = quizResultsByDay[selectedDay.id] || null;
+    const nextLearningPoint = findLearningPointAfter(selectedDay);
 
     if (hasQuiz && !quizPassed) {
       setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
@@ -1321,7 +1347,12 @@ export default function CourseJourney({
         ]);
       }
 
-      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
+      if (nextLearningPoint) {
+        openLearningPoint(nextLearningPoint);
+        setNotice("تم حفظ إنجاز اليوم وفتح الدرس التالي.");
+      } else {
+        setNotice("تم حفظ إنجاز اليوم. وصلت إلى نهاية الرحلة.");
+      }
     } catch (error) {
       setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
     } finally {
@@ -2617,17 +2648,17 @@ export default function CourseJourney({
                     disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
                     {currentDayState === "completed"
-                      ? "تم إكمال اليوم"
+                      ? "تم حفظ اليوم"
                       : saving
-                        ? "جارٍ الحفظ..."
+                        ? "جارٍ الحفظ والانتقال..."
                         : dayHasQuiz && !quizPassedByDay[selectedDay.id]
                           ? "أكمل الاختبار أولًا"
-                          : "إنهاء اليوم وحفظ التقدم"}
+                          : "إنهاء اليوم والانتقال للدرس التالي"}
                   </button>
 
                   {currentDayState === "completed" && (
                     <button type="button" className="jl-quiz-submit" onClick={openNextPoint}>
-                      افتح المحطة التالية
+                      افتح الدرس التالي
                     </button>
                   )}
 
