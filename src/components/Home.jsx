@@ -30,7 +30,7 @@ const BRAND_LOGO_SRC = "/rayan-logo.png";
 const cards = [
   {
     title: "رحلتك التعليمية",
-    text: "180 يومًا موزعة على 6 أشهر، من العقل التشخيصي إلى الاحتراف كممارس OD.",
+    text: "ستة أشهر تعليمية عبر 24 أسبوعًا، من العقل التشخيصي إلى الاحتراف كممارس OD.",
     icon: "🧭",
     page: "journey",
     badge: "المسار الرئيسي",
@@ -896,8 +896,8 @@ function FeatureCard({ card, onOpen, metric }) {
   );
 }
 
-export default function Home({ userName, setActivePage, completedDays = 0, totalDays = 180 }) {
-  const safeTotalDays = totalDays > 0 ? totalDays : 180;
+export default function Home({ userName, setActivePage, completedDays = 0, totalDays = 168 }) {
+  const safeTotalDays = totalDays > 0 ? totalDays : 168;
   const safeCompletedDays = Math.max(0, Math.min(completedDays || 0, safeTotalDays));
   const progress = Math.round((safeCompletedDays / safeTotalDays) * 100);
 

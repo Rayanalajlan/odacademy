@@ -24,17 +24,39 @@ function formatDate(value) {
   }
 }
 
+function buildMonthlyLinkedInPost(record) {
+  const monthNumber = safeNumber(record?.month_number, 1);
+  const title = record?.month_title || `إنجاز الشهر ${monthNumber}`;
+  const verificationUrl = buildVerificationUrl(record?.verification_slug || record?.certificate_code);
+
+  return `الحمد لله، أنجزت ${title} ضمن رحلتي في مختبر التطوير التنظيمي.
+
+شهر جديد خلصته بخطوات صغيرة لكنها ثابتة: قراءة، تطبيق، اختبار، وربط المفاهيم بسياق العمل السعودي.
+
+الشيء الجميل في الرحلة أنها ما تكتفي بالمعلومة، بل تدربك تسأل السؤال الصح قبل تقفز للحل.
+
+شكرًا لمنصة منسقة على هذه التجربة المرتبة والثرية.
+
+${record?.verification_enabled ? `رابط التحقق: ${verificationUrl}` : ""}
+
+#التطوير_التنظيمي
+#التعلم_المستمر
+#منسقة
+#OD`;
+}
+
 export default function MonthlyCertificates({
   userName = "متدرب",
   completedDays = 0,
-  totalDays = 180
+  totalDays = 168
 }) {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copiedSlug, setCopiedSlug] = useState("");
+  const [copiedPostMonth, setCopiedPostMonth] = useState("");
 
-  const safeCompletedDays = Math.max(0, Math.min(safeNumber(totalDays, 180), safeNumber(completedDays)));
+  const safeCompletedDays = Math.max(0, Math.min(safeNumber(totalDays, 168), safeNumber(completedDays)));
 
   async function syncMonthlyCertificates() {
     setLoading(true);
@@ -75,6 +97,54 @@ export default function MonthlyCertificates({
     } else {
       alert("لم يتم نسخ رابط التحقق تلقائيًا. انسخه يدويًا من البطاقة.");
     }
+  }
+
+  async function copyLinkedInPost(record) {
+    const ok = await copyTextSafely(buildMonthlyLinkedInPost(record));
+
+    if (ok) {
+      setCopiedPostMonth(record.month_number);
+      setTimeout(() => setCopiedPostMonth(""), 2400);
+      return;
+    }
+
+    alert("لم يتم نسخ نص LinkedIn تلقائيًا. انسخه يدويًا من بطاقة الشهادة.");
+  }
+
+  function shareMonthlyOnLinkedIn(record) {
+    copyLinkedInPost(record);
+
+    const url = record?.verification_enabled
+      ? buildVerificationUrl(record.verification_slug || record.certificate_code)
+      : "https://munsaqah.rayansalajlan.workers.dev/";
+
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      "_blank",
+      "width=760,height=680"
+    );
+  }
+
+  function printMonthlyCertificate(record) {
+    const style = document.createElement("style");
+    style.id = "monthly-certificate-print-style";
+    style.innerHTML = `
+      @media print {
+        body * { visibility: hidden !important; }
+        #monthly-certificate-${record.month_number},
+        #monthly-certificate-${record.month_number} * { visibility: visible !important; }
+        #monthly-certificate-${record.month_number} {
+          position: absolute !important;
+          inset: 24px !important;
+          width: calc(100% - 48px) !important;
+          box-shadow: none !important;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+    window.print();
+    window.setTimeout(() => style.remove(), 800);
   }
 
   const displayRecords = records.length
@@ -291,6 +361,53 @@ export default function MonthlyCertificates({
           background: linear-gradient(90deg, #8b5cf6, #10b981);
         }
 
+        .monthly-certificate-preview {
+          margin-top: 14px;
+          border-radius: 22px;
+          padding: 16px;
+          color: #18102e;
+          background:
+            radial-gradient(circle at 0% 0%, rgba(16,185,129,.18), transparent 36%),
+            radial-gradient(circle at 100% 100%, rgba(139,92,246,.18), transparent 36%),
+            linear-gradient(135deg, #ffffff, #f8fafc);
+          border: 1px solid rgba(139, 92, 246, .20);
+        }
+
+        .monthly-certificate-preview span {
+          display: block;
+          color: #6d28d9;
+          font-size: 10px;
+          font-weight: 950;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        .monthly-certificate-preview h4 {
+          margin: 0 0 8px;
+          color: #18102e;
+          font-size: 18px;
+          line-height: 1.45;
+          font-weight: 950;
+        }
+
+        .monthly-certificate-preview p {
+          margin: 0;
+          color: #5b4f78;
+          font-size: 12px;
+          line-height: 1.8;
+        }
+
+        .monthly-certificate-code {
+          margin-top: 12px;
+          padding-top: 10px;
+          border-top: 1px solid rgba(139, 92, 246, .16);
+          color: #18102e;
+          font-size: 11px;
+          font-weight: 900;
+          word-break: break-word;
+        }
+
         .monthly-actions {
           display: flex;
           flex-wrap: wrap;
@@ -357,7 +474,7 @@ export default function MonthlyCertificates({
           <h2>شهادات إنجاز شهرية قبل وثيقة الإتقان النهائية</h2>
           <p>
             بدل انتظار نهاية الرحلة كاملة، يحصل المتدرب على شهادة إنجاز موثقة
-            عند إكمال كل 30 يومًا. هذه الشهادات مرتبطة بتقدمه الفعلي داخل
+            عند إكمال كل شهر تعليمي من 4 أسابيع. هذه الشهادات مرتبطة بتقدمه الفعلي داخل
             المنصة وتظهر تدريجيًا مع الإنجاز.
           </p>
 
@@ -383,7 +500,7 @@ export default function MonthlyCertificates({
 
       <div className="monthly-grid">
         {displayRecords.map((record) => {
-          const requiredDays = safeNumber(record.required_days, 30);
+          const requiredDays = safeNumber(record.required_days, 28);
           const percent = Math.min(100, Math.round((safeCompletedDays / requiredDays) * 100));
           const issued = record.status === "issued";
           const canVerify = issued && record.verification_enabled;
@@ -426,16 +543,54 @@ export default function MonthlyCertificates({
               </div>
 
               {issued ? (
-                <div className="monthly-actions">
-                  <button
-                    type="button"
-                    className="monthly-button ghost"
-                    onClick={() => copyVerification(record)}
-                    disabled={!canVerify}
+                <>
+                  <div
+                    className="monthly-certificate-preview"
+                    id={`monthly-certificate-${record.month_number}`}
                   >
-                    {copied ? "تم نسخ رابط التحقق ✅" : canVerify ? "نسخ رابط التحقق" : "التحقق غير مفعل"}
-                  </button>
-                </div>
+                    <span>Monthly Achievement Certificate</span>
+                    <h4>{record.month_title}</h4>
+                    <p>
+                      تمنح هذه الشهادة إلى {userName || "المتدرب"} تقديرًا لإكمال محطة شهرية
+                      في رحلة منسقة للتطوير التنظيمي.
+                    </p>
+                    <div className="monthly-certificate-code">
+                      {record.certificate_code}
+                    </div>
+                  </div>
+
+                  <div className="monthly-actions">
+                    <button
+                      type="button"
+                      className="monthly-button ghost"
+                      onClick={() => copyVerification(record)}
+                      disabled={!canVerify}
+                    >
+                      {copied ? "تم نسخ رابط التحقق ✅" : canVerify ? "نسخ رابط التحقق" : "التحقق غير مفعل"}
+                    </button>
+                    <button
+                      type="button"
+                      className="monthly-button"
+                      onClick={() => copyLinkedInPost(record)}
+                    >
+                      {copiedPostMonth === record.month_number ? "تم نسخ نص LinkedIn" : "نسخ نص LinkedIn"}
+                    </button>
+                    <button
+                      type="button"
+                      className="monthly-button"
+                      onClick={() => shareMonthlyOnLinkedIn(record)}
+                    >
+                      مشاركة في LinkedIn
+                    </button>
+                    <button
+                      type="button"
+                      className="monthly-button ghost"
+                      onClick={() => printMonthlyCertificate(record)}
+                    >
+                      حفظ / طباعة الشهادة
+                    </button>
+                  </div>
+                </>
               ) : null}
             </article>
           );

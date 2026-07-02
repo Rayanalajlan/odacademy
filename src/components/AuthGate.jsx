@@ -93,7 +93,7 @@ const FAQ = [
   },
   {
     q: "كم مدة الرحلة؟",
-    a: "الرحلة مصممة على 180 يومًا، موزعة على 6 أشهر، مع دروس واختبارات ومحاكاة تطبيقية."
+    a: "الرحلة مصممة على ستة أشهر تعليمية، بواقع 24 أسبوعًا و168 يومًا تعليميًا، مع دروس واختبارات ومحاكاة تطبيقية."
   },
   {
     q: "كيف أتعلم داخل المنصة؟",
@@ -2571,7 +2571,7 @@ export default function AuthGate({
             </div>
             <div className="counter-card">
               <strong>{statsReady ? formatNumber(stats.completed_count) : "..."}</strong>
-              <span>أتموا الـ 180 يوما بنجاح</span>
+              <span>أتموا رحلة الستة أشهر بنجاح</span>
             </div>
           </div>
         </section>

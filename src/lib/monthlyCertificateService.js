@@ -3,37 +3,37 @@ import { isSupabaseConfigured, supabase } from "./supabaseClient";
 export const MONTHLY_MILESTONES = [
   {
     monthNumber: 1,
-    requiredDays: 30,
+    requiredDays: 28,
     title: "شهادة إنجاز الشهر الأول",
     subtitle: "أساسيات قراءة المنظمة كنظام وتشخيص الطلب الأولي"
   },
   {
     monthNumber: 2,
-    requiredDays: 60,
+    requiredDays: 56,
     title: "شهادة إنجاز الشهر الثاني",
     subtitle: "التشخيص التنظيمي وجمع البيانات وصياغة الفرضيات"
   },
   {
     monthNumber: 3,
-    requiredDays: 90,
+    requiredDays: 84,
     title: "شهادة إنجاز الشهر الثالث",
     subtitle: "التصميم التنظيمي والأدوار والصلاحيات"
   },
   {
     monthNumber: 4,
-    requiredDays: 120,
+    requiredDays: 112,
     title: "شهادة إنجاز الشهر الرابع",
     subtitle: "قيادة التغيير والثقافة والمقاومة والتبني"
   },
   {
     monthNumber: 5,
-    requiredDays: 150,
+    requiredDays: 140,
     title: "شهادة إنجاز الشهر الخامس",
     subtitle: "قياس الأثر والاستدامة والتعلم المؤسسي"
   },
   {
     monthNumber: 6,
-    requiredDays: 180,
+    requiredDays: 168,
     title: "شهادة إنجاز الشهر السادس",
     subtitle: "اكتمال المسار التطبيقي والجاهزية لوثيقة الإتقان"
   }
@@ -93,8 +93,8 @@ function makeLocalRecord(milestone, { userName, completedDays, totalDays }) {
     month_title: milestone.title,
     month_subtitle: milestone.subtitle,
     required_days: milestone.requiredDays,
-    completed_days: Math.min(safeNumber(completedDays), safeNumber(totalDays, 180)),
-    total_days: safeNumber(totalDays, 180),
+    completed_days: Math.min(safeNumber(completedDays), safeNumber(totalDays, 168)),
+    total_days: safeNumber(totalDays, 168),
     certificate_name: userName || "متدرب",
     certificate_code: code,
     verification_slug: slugify(code),
@@ -123,9 +123,9 @@ async function getCurrentUser() {
 export async function getOrCreateMonthlyCertificates({
   userName = "",
   completedDays = 0,
-  totalDays = 180
+  totalDays = 168
 } = {}) {
-  const safeTotal = safeNumber(totalDays, 180);
+  const safeTotal = safeNumber(totalDays, 168);
   const safeCompleted = Math.max(0, Math.min(safeTotal, safeNumber(completedDays)));
   const learnerName = String(userName || "").trim() || "متدرب";
 
@@ -155,7 +155,7 @@ export async function getOrCreateMonthlyCertificates({
 
   let savedRows = existingRows || [];
 
-  if (safeCompleted >= 30) {
+  if (safeCompleted >= 28) {
     const { data: issuedRows, error: issueError } = await supabase.rpc(
       "issue_monthly_certificates",
       {

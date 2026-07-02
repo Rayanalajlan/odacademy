@@ -9,6 +9,7 @@ import LearningTimeTracker from "./components/LearningTimeTracker";
 import NotificationsCenter from "./components/NotificationsCenter";
 import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
+import { toOfficialCompletedDays } from "./lib/journeyProgress";
 import { isCurrentUserAdmin } from "./lib/adminDashboardService";
 import OnboardingFlow from "./components/OnboardingFlow";
 import MobileNavigation from "./components/MobileNavigation";
@@ -25,8 +26,9 @@ import {
   getLocalOnboardingState,
   getOnboardingState
 } from "./lib/onboardingService";
+import { COURSE_TOTALS } from "./data/courseContent";
 
-const TOTAL_JOURNEY_DAYS = 180;
+const TOTAL_JOURNEY_DAYS = COURSE_TOTALS?.totalDays || 168;
 const ACTIVITY_TOUCH_INTERVAL_MS = 5 * 60 * 1000;
 const ACTIVITY_TOUCH_THROTTLE_MS = 60 * 1000;
 
@@ -243,6 +245,11 @@ export default function App() {
     return unique.size;
   }, [progressRows]);
 
+  const officialCompletedDays = useMemo(
+    () => toOfficialCompletedDays(completedDays, { officialDays: TOTAL_JOURNEY_DAYS }),
+    [completedDays]
+  );
+
   const totalJourneyDays = TOTAL_JOURNEY_DAYS;
 
   const authenticated = Boolean(
@@ -368,14 +375,14 @@ export default function App() {
   useEffect(() => {
     if (!session?.user?.id) return;
 
-    syncProgressBadge(completedDays).catch((error) => {
+    syncProgressBadge(officialCompletedDays).catch((error) => {
       console.warn("تعذر مزامنة الشارة:", error);
     });
 
-    maybeCreateMilestoneNotification(completedDays).catch((error) => {
+    maybeCreateMilestoneNotification(officialCompletedDays).catch((error) => {
       console.warn("تعذر إنشاء إشعار المرحلة:", error);
     });
-  }, [session?.user?.id, completedDays]);
+  }, [session?.user?.id, officialCompletedDays]);
 
 
 
@@ -1240,7 +1247,7 @@ export default function App() {
         toolPages={educationalToolPages}
         activePage={activePage}
         userName={displayName}
-        completedDays={completedDays}
+        completedDays={officialCompletedDays}
         totalDays={totalJourneyDays}
         onNavigate={navigate}
         onClose={() => setMobileNavOpen(false)}
@@ -1253,7 +1260,7 @@ export default function App() {
       <LearnerProfileCenter
         session={session}
         userName={displayName}
-        completedDays={completedDays}
+        completedDays={officialCompletedDays}
         totalDays={totalJourneyDays}
         setActivePage={navigate}
         onResumeJourney={resumeJourneyFromLastPoint}
@@ -1263,7 +1270,7 @@ export default function App() {
       {showOnboarding && (
         <OnboardingFlow
           userName={displayName}
-          completedDays={completedDays}
+          completedDays={officialCompletedDays}
           totalDays={totalJourneyDays}
           loading={checkingOnboarding}
           onComplete={handleOnboardingComplete}
@@ -1274,7 +1281,7 @@ export default function App() {
         <Home
           userName={displayName}
           setActivePage={navigate}
-          completedDays={completedDays}
+          completedDays={officialCompletedDays}
           totalDays={totalJourneyDays}
         />
       )}
@@ -1298,7 +1305,7 @@ export default function App() {
         {activePage === "learning-roi" && (
           <LearningROICalculator
             key={session?.user?.id || (demoMode ? "demo" : "guest")}
-            completedDays={completedDays}
+            completedDays={officialCompletedDays}
             totalDays={totalJourneyDays}
           />
         )}
@@ -1306,7 +1313,7 @@ export default function App() {
         {activePage === "portfolio" && (
           <LearningPortfolio
             userName={displayName}
-            completedDays={completedDays}
+            completedDays={officialCompletedDays}
             totalDays={totalJourneyDays}
             setActivePage={navigate}
             onResumeJourney={resumeJourneyFromLastPoint}
@@ -1316,7 +1323,7 @@ export default function App() {
         {activePage === "mastery" && (
           <MasteryCertificate
             userName={displayName}
-            completedDays={completedDays}
+            completedDays={officialCompletedDays}
             setActivePage={navigate}
           />
         )}

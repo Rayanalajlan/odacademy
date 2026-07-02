@@ -25,33 +25,33 @@ const RANKS = [
     subtitle: "أكملت أول أسبوع",
     minDays: 7,
     nextTitle: "محلل تشخيصي",
-    nextAt: 30
+    nextAt: 28
   },
   {
     title: "محلل تشخيصي",
     subtitle: "أكملت الشهر الأول",
-    minDays: 30,
+    minDays: 28,
     nextTitle: "مصمم تدخلات",
-    nextAt: 90
+    nextAt: 84
   },
   {
     title: "مصمم تدخلات",
     subtitle: "دخلت عمق تصميم التدخل",
-    minDays: 90,
+    minDays: 84,
     nextTitle: "ممارس أثر",
-    nextAt: 150
+    nextAt: 140
   },
   {
     title: "ممارس أثر",
     subtitle: "تربط التعلم بالقياس والاستدامة",
-    minDays: 150,
+    minDays: 140,
     nextTitle: "متقن الرحلة",
-    nextAt: 180
+    nextAt: 168
   },
   {
     title: "متقن الرحلة",
     subtitle: "أكملت رحلة الإتقان",
-    minDays: 180,
+    minDays: 168,
     nextTitle: null,
     nextAt: null
   }
@@ -91,9 +91,9 @@ function buildAchievements({
     {
       key: "first_month",
       title: "أنهى الشهر الأول",
-      status: completedDays >= 30 ? "مكتمل" : "قيد التقدم",
-      value: Math.min(completedDays, 30),
-      target: 30
+      status: completedDays >= 28 ? "مكتمل" : "قيد التقدم",
+      value: Math.min(completedDays, 28),
+      target: 28
     },
     {
       key: "first_simulation",
@@ -287,7 +287,7 @@ async function getRecentEvents() {
 export async function fetchProfileCenterData({
   fallbackName = "",
   completedDaysFallback = 0,
-  totalDays = 180
+  totalDays = 168
 } = {}) {
   if (!isSupabaseConfigured || !supabase) {
     const completedDays = safeNumber(completedDaysFallback);

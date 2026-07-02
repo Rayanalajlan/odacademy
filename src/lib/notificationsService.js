@@ -76,22 +76,22 @@ export async function maybeCreateMilestoneNotification(completedDays = 0) {
       body: "بدأت تقرأ المنظمة كنظام. واصل بنفس الهدوء والانضباط.",
       actionPage: "journey"
     },
-    30: {
+    28: {
       title: "أنهيت الشهر الأول 🧭",
       body: "انتقلت من القراءة العامة إلى التفكير التشخيصي المنظم.",
       actionPage: "journey"
     },
-    90: {
+    84: {
       title: "وصلت منتصف الرحلة تقريبًا 🚀",
       body: "هذه محطة ممتازة لتقييم تجربتك ومراجعة أثر التعلم.",
       actionPage: "journey"
     },
-    150: {
+    140: {
       title: "اقتربت من الإتقان 📈",
       body: "أصبحت في مرحلة ربط التعلم بالأثر والقياس والاستدامة.",
       actionPage: "mastery"
     },
-    180: {
+    168: {
       title: "أتممت الرحلة 🏅",
       body: "وثيقة الإتقان أصبحت جاهزة للمراجعة والتفعيل.",
       actionPage: "mastery"

@@ -61,9 +61,9 @@ export default function PortfolioExportReport({
 }) {
   const safeSummary = summary || {
     completedDays: 0,
-    totalDays: 180,
+    totalDays: 168,
     progressPercent: 0,
-    remainingDays: 180,
+    remainingDays: 168,
     estimatedHours: 0
   };
 

@@ -11,7 +11,7 @@ import {
   toEnglishInteger
 } from "../lib/numberFormat";
 
-const TOTAL_JOURNEY_DAYS = 180;
+const TOTAL_JOURNEY_DAYS = 168;
 const DEFAULT_INFLATION_RATE = 0.019;
 
 const RELATION_GROUPS = {
@@ -549,15 +549,15 @@ function getPositionLabel(currentSalary, range) {
 }
 
 function getCommitmentMessage(days) {
-  if (days < 30) {
+  if (days < 28) {
     return "تقدمك الحالي يعطي لمحة تأسيسية، لكنه لا يكفي وحده لصناعة نقلة مهنية واضحة.";
   }
 
-  if (days < 90) {
+  if (days < 84) {
     return "تقدمك جيد كبداية، لكنه يحتاج استمرار حتى يظهر أثر أقوى في اللغة المهنية والحكم الاستشاري.";
   }
 
-  if (days < 180) {
+  if (days < 168) {
     return "أنت في منطقة جدية. الاقتراب من إتمام الرحلة يزيد موثوقية الأثر المهني المتوقع.";
   }
 

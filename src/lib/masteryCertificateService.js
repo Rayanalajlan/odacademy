@@ -75,7 +75,7 @@ function makeLocalRecord({ fallbackCode, fallbackSlug, isUnlocked, safeCompleted
 export async function getOrCreateMasteryCertificate({
   userName = "",
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   isUnlocked = false
 } = {}) {
   const safeCompleted = Math.max(0, Math.min(totalDays, safeNumber(completedDays)));

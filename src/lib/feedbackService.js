@@ -24,13 +24,13 @@ export const FEEDBACK_STAGES = {
   }
 };
 
-export function getEligibleFeedbackStage(completedDays = 0, totalDays = 180) {
+export function getEligibleFeedbackStage(completedDays = 0, totalDays = 168) {
   const days = Number(completedDays || 0);
-  const total = Number(totalDays || 180);
+  const total = Number(totalDays || 168);
   const percent = total > 0 ? Math.round((days / total) * 100) : 0;
 
   if (days >= total || percent >= 100) return "final";
-  if (days >= 90 || percent >= 50) return "mid";
+  if (days >= 84 || percent >= 50) return "mid";
   if (days >= 7 || percent >= 10) return "initial";
   return null;
 }
@@ -52,7 +52,7 @@ export async function isCurrentUserAdmin() {
   return Boolean(data);
 }
 
-export async function fetchFeedbackState({ completedDays = 0, totalDays = 180 } = {}) {
+export async function fetchFeedbackState({ completedDays = 0, totalDays = 168 } = {}) {
   if (!isSupabaseConfigured || !supabase) {
     return {
       isAdmin: false,
@@ -82,7 +82,7 @@ export async function fetchFeedbackState({ completedDays = 0, totalDays = 180 } 
 export async function submitJourneyFeedback({
   stage,
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   clarityRating,
   odDepthRating,
   overallRating,
@@ -107,7 +107,7 @@ export async function submitJourneyFeedback({
   }
 
   const safeStage = normalizeStage(stage);
-  const total = Number(totalDays || 180);
+  const total = Number(totalDays || 168);
   const completed = Number(completedDays || 0);
   const completedPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
 

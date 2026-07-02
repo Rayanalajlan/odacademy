@@ -464,7 +464,7 @@ export default function CourseSearch({
 
       <div className="course-search-head">
         <div className="course-search-title">
-          <strong>بحث سريع داخل 180 يومًا</strong>
+          <strong>بحث سريع داخل ستة أشهر تعليمية</strong>
           <span>
             ابحث عن مفهوم أو أداة أو موضوع، ثم انتقل مباشرة إلى اليوم المرتبط إذا كان مفتوحًا في رحلتك.
           </span>

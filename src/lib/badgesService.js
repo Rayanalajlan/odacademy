@@ -3,11 +3,11 @@ import { isSupabaseConfigured, supabase } from "./supabaseClient";
 export function getBadgeIdForCompletedDays(completedDays = 0) {
   const days = Number(completedDays || 0);
 
-  if (days >= 180) return "od_mastery";
-  if (days >= 150) return "impact_practitioner";
-  if (days >= 120) return "change_leader";
-  if (days >= 90) return "intervention_designer";
-  if (days >= 30) return "diagnostic_thinker";
+  if (days >= 168) return "od_mastery";
+  if (days >= 140) return "impact_practitioner";
+  if (days >= 112) return "change_leader";
+  if (days >= 84) return "intervention_designer";
+  if (days >= 28) return "diagnostic_thinker";
   if (days >= 7) return "system_reader";
   return "od_explorer";
 }

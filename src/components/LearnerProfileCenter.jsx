@@ -38,7 +38,7 @@ export default function LearnerProfileCenter({
   session,
   userName = "",
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   setActivePage,
   onResumeJourney,
   onSignOut
@@ -131,22 +131,27 @@ export default function LearnerProfileCenter({
     nextTitle: "قارئ المنظمة",
     nextIn: 7
   };
-  const progressPercent =
-    data?.progressPercent ??
-    Math.round((Number(completedDays || 0) / Number(totalDays || 180)) * 100);
-  const hoursCounted = data?.hoursCounted ?? Number(completedDays || 0) * 4;
+  const displayCompletedDays = Math.min(
+    Number(totalDays || 168),
+    Math.max(Number(completedDays || 0), Number(data?.completedDays || 0))
+  );
+  const progressPercent = Math.max(
+    Number(data?.progressPercent || 0),
+    Math.round((displayCompletedDays / Number(totalDays || 168)) * 100)
+  );
+  const hoursCounted = data?.hoursCounted ?? displayCompletedDays * 4;
   const streak = data?.streak || 0;
   const mastery = data?.mastery || null;
   const masteryStatus =
     mastery?.status ||
-    (Number(data?.completedDays || completedDays) >= totalDays ? "ready" : "locked");
+    (displayCompletedDays >= totalDays ? "ready" : "locked");
 
   const unreadNotifications = (data?.notifications || []).filter((item) => !item.read_at).length;
 
   const nextActionLabel = useMemo(() => {
-    if (Number(data?.completedDays || completedDays) >= totalDays) return "معاينة وثيقة الإتقان";
+    if (displayCompletedDays >= totalDays) return "معاينة وثيقة الإتقان";
     return "متابعة من آخر محطة";
-  }, [completedDays, data?.completedDays, totalDays]);
+  }, [displayCompletedDays, totalDays]);
 
   async function saveProfile(event) {
     event.preventDefault();
@@ -226,7 +231,7 @@ export default function LearnerProfileCenter({
   }
 
   function resumeJourney() {
-    if (Number(data?.completedDays || completedDays) >= totalDays) {
+    if (displayCompletedDays >= totalDays) {
       navigate("mastery");
       return;
     }
@@ -1056,7 +1061,7 @@ export default function LearnerProfileCenter({
           </div>
           <div className="profile-metric">
             <b>الأيام المكتملة</b>
-            <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+            <strong>{displayCompletedDays} / {totalDays}</strong>
           </div>
           <div className="profile-metric">
             <b>وقت التعلم</b>
@@ -1116,7 +1121,7 @@ export default function LearnerProfileCenter({
                 </div>
                 <div className="profile-stat">
                   <b>الأيام المكتملة</b>
-                  <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+                  <strong>{displayCompletedDays} / {totalDays}</strong>
                 </div>
                 <div className="profile-stat">
                   <b>وقت التعلم الحقيقي</b>
@@ -1225,7 +1230,7 @@ export default function LearnerProfileCenter({
                   </div>
                   <div className="profile-stat">
                     <b>الأيام المكتملة</b>
-                    <strong>{data?.completedDays ?? completedDays} / {totalDays}</strong>
+                    <strong>{displayCompletedDays} / {totalDays}</strong>
                   </div>
                   <div className="profile-stat">
                     <b>وقت التعلم الحقيقي</b>

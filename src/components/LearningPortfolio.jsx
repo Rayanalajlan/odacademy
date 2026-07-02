@@ -41,7 +41,7 @@ function certificateStatusLabel(status) {
 export default function LearningPortfolio({
   userName = "متدرب",
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   setActivePage,
   onResumeJourney
 }) {
@@ -78,8 +78,8 @@ export default function LearningPortfolio({
   const summary = data?.summary || {
     completedDays,
     totalDays,
-    progressPercent: Math.round((Number(completedDays || 0) / Math.max(1, Number(totalDays || 180))) * 100),
-    remainingDays: Math.max(0, Number(totalDays || 180) - Number(completedDays || 0)),
+    progressPercent: Math.round((Number(completedDays || 0) / Math.max(1, Number(totalDays || 168))) * 100),
+    remainingDays: Math.max(0, Number(totalDays || 168) - Number(completedDays || 0)),
     estimatedHours: Number(completedDays || 0) * 4
   };
 

@@ -36,7 +36,7 @@ function StarRating({ value, onChange, label }) {
   );
 }
 
-export default function FeedbackPrompt({ completedDays = 0, totalDays = 180, onAdminDetected }) {
+export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onAdminDetected }) {
   const [state, setState] = useState({
     isAdmin: false,
     eligibleStage: null,

@@ -8,7 +8,7 @@ function clamp(value, min, max) {
 export default function OnboardingFlow({
   userName = "متدرب",
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   loading = false,
   onComplete
 }) {
@@ -326,7 +326,7 @@ export default function OnboardingFlow({
             </div>
 
             <aside className="onboarding-route" aria-label="ملخص تقدمك الحالي">
-              <h3>أنت داخل رحلة من 180 يومًا</h3>
+              <h3>أنت داخل رحلة من ستة أشهر</h3>
               <div
                 className="onboarding-progress-orb od-circular-indicator od-indicator-general"
                 style={{ "--od-indicator-progress": `${progress}%` }}
@@ -354,7 +354,7 @@ export default function OnboardingFlow({
             <div className="onboarding-step">
               <b>02</b>
               <strong>رحلة يومية</strong>
-              <span>تفتح الأيام وتكملها بالتدرج حتى 180 يومًا.</span>
+              <span>تفتح 168 يومًا تعليميًا بالتدرج عبر 24 أسبوعًا.</span>
             </div>
             <div className="onboarding-step">
               <b>03</b>
@@ -364,7 +364,7 @@ export default function OnboardingFlow({
             <div className="onboarding-step">
               <b>04</b>
               <strong>شهادات شهرية</strong>
-              <span>تظهر عند كل 30 يومًا مكتملًا.</span>
+              <span>تظهر عند إكمال كل شهر تعليمي من 4 أسابيع.</span>
             </div>
             <div className="onboarding-step">
               <b>05</b>

@@ -13,7 +13,7 @@ function safeNumber(value, fallback = 0) {
 }
 
 function percent(completedDays, totalDays) {
-  const total = Math.max(1, safeNumber(totalDays, 180));
+  const total = Math.max(1, safeNumber(totalDays, 168));
   const completed = Math.min(total, Math.max(0, safeNumber(completedDays, 0)));
   return Math.round((completed / total) * 100);
 }
@@ -73,7 +73,7 @@ function normalizeCertificates(rows = []) {
 export async function fetchLearningPortfolioData({
   userName = "متدرب",
   completedDays = 0,
-  totalDays = 180
+  totalDays = 168
 } = {}) {
   const progressPercent = percent(completedDays, totalDays);
 
@@ -130,9 +130,9 @@ export async function fetchLearningPortfolioData({
   return {
     summary: {
       completedDays: safeNumber(completedDays),
-      totalDays: safeNumber(totalDays, 180),
+      totalDays: safeNumber(totalDays, 168),
       progressPercent,
-      remainingDays: Math.max(0, safeNumber(totalDays, 180) - safeNumber(completedDays)),
+      remainingDays: Math.max(0, safeNumber(totalDays, 168) - safeNumber(completedDays)),
       estimatedHours: safeNumber(completedDays) * 4
     },
     bookmarks: bookmarks.slice(0, 8),
@@ -144,6 +144,6 @@ export async function fetchLearningPortfolioData({
     latestRadar,
     monthlyCertificates,
     issuedCertificates,
-    masteryReady: safeNumber(completedDays) >= safeNumber(totalDays, 180)
+    masteryReady: safeNumber(completedDays) >= safeNumber(totalDays, 168)
   };
 }

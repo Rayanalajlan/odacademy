@@ -12,6 +12,8 @@ import { isSupabaseConfigured, supabase } from "./supabaseClient";
  */
 const STORAGE_PREFIX = "odacademy_welcome_email_checked_v2";
 const IN_FLIGHT = new Set();
+const HEALTH_CACHE_MS = 6 * 60 * 60 * 1000;
+let welcomeEmailHealthCache = null;
 
 function getTimezone() {
   try {
@@ -79,6 +81,46 @@ export async function checkWelcomeEmailHealth() {
   }
 }
 
+async function checkWelcomeEmailHealthCached({ force = false } = {}) {
+  const now = Date.now();
+
+  if (
+    !force &&
+    welcomeEmailHealthCache &&
+    now - welcomeEmailHealthCache.checkedAt < HEALTH_CACHE_MS
+  ) {
+    return welcomeEmailHealthCache.payload;
+  }
+
+  const payload = await checkWelcomeEmailHealth();
+  welcomeEmailHealthCache = {
+    checkedAt: now,
+    payload
+  };
+
+  return payload;
+}
+
+function isWelcomeEmailConfigMissing(payload) {
+  const text = [
+    payload?.error,
+    payload?.message,
+    payload?.reason,
+    payload?.details
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  return (
+    payload?.configured === false ||
+    payload?.emailConfigured === false ||
+    text.includes("environment variables are incomplete") ||
+    text.includes("incomplete") ||
+    text.includes("missing")
+  );
+}
+
 export async function sendWelcomeEmailOnce({ force = false } = {}) {
   if (!isSupabaseConfigured || !supabase) {
     return {
@@ -133,6 +175,17 @@ export async function sendWelcomeEmailOnce({ force = false } = {}) {
   IN_FLIGHT.add(userId);
 
   try {
+    const health = await checkWelcomeEmailHealthCached({ force });
+
+    if (!force && isWelcomeEmailConfigMissing(health)) {
+      return {
+        ok: true,
+        skipped: true,
+        reason: "welcome_email_service_not_configured",
+        details: health
+      };
+    }
+
     const response = await fetch("/api/welcome-email", {
       method: "POST",
       headers: {

@@ -38,7 +38,7 @@ export default function MasteryCertificate({
   const [certificateLoading, setCertificateLoading] = useState(false);
   const [certificateError, setCertificateError] = useState("");
 
-  const totalDays = COURSE_TOTALS?.totalDays || 180;
+  const totalDays = COURSE_TOTALS?.totalDays || 168;
   const safeCompletedDays = clampNumber(completedDays, 0, totalDays);
   const progress = Math.round((safeCompletedDays / totalDays) * 100);
   const remainingDays = Math.max(0, totalDays - safeCompletedDays);
@@ -101,22 +101,22 @@ export default function MasteryCertificate({
 
 
   const linkedInPost = useMemo(() => {
-    return `أتممت بحمد الله رحلة معرفية امتدت 6 أشهر في هندسة التطوير التنظيمي OD، عبر مسار مكثف جمع بين التشخيص التنظيمي، تصميم الهياكل والأدوار، قيادة التغيير، الثقافة التنظيمية، التعلم المؤسسي، قياس الأثر، واستدامة تدخلات التطوير التنظيمي.
+    return `الحمد لله، أنهيت رحلة منسقة الكاملة في التطوير التنظيمي خلال ستة أشهر تعليمية (${totalDays} يومًا).
 
-لم تكن الرحلة مجرد محتوى تعليمي؛ بل تدريبًا عمليًا على سؤال جوهري:
-لا تبدأ بالحل، افهم النظام الذي جعل السلوك منطقيًا داخله.
+كانت رحلة ثرية، مو بس محتوى واختبارات، بل تدريب يومي على التفكير المنظومي: كيف نفهم السياق، نشخص السبب الحقيقي، ونصمم تدخل يحترم الناس والعمل والنتيجة.
 
-خرجت من هذه التجربة بمنهجية أكثر نضجًا في قراءة المنظمات:
-تشخيص → فرضيات → بيانات → تدخل → تبنّي → أثر → استدامة → تعلم.
+أكثر شيء طلع معي من التجربة: الحل الجيد يبدأ بسؤال جيد، والأثر الحقيقي يحتاج صبر وقياس وتعلّم مستمر.
 
-شكرًا لريان العجلان على بناء هذا المختبر المعرفي الملهم في التطوير التنظيمي.
+فخور بهذا الإنجاز، وممتن لكل محطة صنعت فرقًا في طريقة قراءتي للمنظمات.
+
+شهادة الإتمام: ${verificationUrl}
 
 #التطوير_التنظيمي
 #OD
-#الموارد_البشرية
+#التعلم_المستمر
 #قيادة_التغيير
-#التعلم_المؤسسي`;
-  }, []);
+#منسقة`;
+  }, [totalDays, verificationUrl]);
 
   async function copyLinkedInPost() {
     try {
@@ -861,7 +861,7 @@ export default function MasteryCertificate({
               </h1>
               <p>
                 هذه الوثيقة ليست شهادة حضور؛ إنها سجل إتمام لمسار معرفي تطبيقي
-                يمتد عبر 180 يومًا في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
+                يمتد عبر ستة أشهر في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
                 اكتمال جميع أيام الرحلة التعليمية.
               </p>
             </div>

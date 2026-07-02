@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { courseMap as rawCourseMap, COURSE_TOTALS } from "../data/courseContent";
 import { markDayOpened, updateUserProgress } from "../lib/progressService";
+import {
+  toOfficialCompletedDays,
+  toOfficialMonthCompletedDays
+} from "../lib/journeyProgress";
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
 import SavedLessonsPanel from "./SavedLessonsPanel";
@@ -630,7 +634,7 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({ day, questions, hasQuizText = false, onCompleteQuiz, onCompleteDay, canCompleteDay = false, dayCompleted = false }) {
+function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -651,18 +655,10 @@ function QuizPanel({ day, questions, hasQuizText = false, onCompleteQuiz, onComp
   }, 0);
 
   const passed = hasKnownAnswers ? score === total : allAnswered;
-  const wrong = hasKnownAnswers ? Math.max(0, total - score) : 0;
 
   function submitQuiz() {
-    if (!allAnswered) return;
     setSubmitted(true);
-    onCompleteQuiz({
-      score,
-      wrong,
-      total,
-      passed,
-      percent: total ? Math.round((score / total) * 100) : 100
-    });
+    if (passed) onPass(true);
   }
 
   if (!questions.length) {
@@ -675,7 +671,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onCompleteQuiz, onComp
               يوجد اختبار في النص الأصلي، لكن لم أستطع تحويله تلقائيًا إلى أزرار اختيار.
               اقرأ اختبار اليوم من الدرس، ثم اضغط الزر التالي لتأكيد أنك أجبت عنه.
             </p>
-            <button type="button" className="jl-quiz-submit" onClick={() => onCompleteQuiz({ score: 0, wrong: 0, total: 0, passed: true, percent: 100 })}>
+            <button type="button" className="jl-quiz-submit" onClick={() => onPass(true)}>
               أجبت على اختبار اليوم من النص الأصلي
             </button>
           </>
@@ -779,20 +775,9 @@ function QuizPanel({ day, questions, hasQuizText = false, onCompleteQuiz, onComp
             {hasKnownAnswers
               ? passed
                 ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
-                : `تم تسجيل نتيجتك الفعلية ${score} من ${total}. يمكنك مراجعة التصحيح ثم الانتقال للدرس التالي.`
+                : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
               : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
           </div>
-        )}
-
-        {submitted && !dayCompleted && (
-          <button
-            type="button"
-            className="jl-quiz-submit"
-            disabled={!canCompleteDay}
-            onClick={onCompleteDay}
-          >
-            الانتقال للدرس التالي
-          </button>
         )}
       </div>
     </section>
@@ -812,7 +797,7 @@ export default function CourseJourney({
   const [selectedDayIndex, setSelectedDayIndex] = useState(1);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
-  const [quizCompletedByDay, setQuizCompletedByDay] = useState({});
+  const [quizPassedByDay, setQuizPassedByDay] = useState({});
   const [lessonBookmarks, setLessonBookmarks] = useState([]);
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
   const [bookmarkSaving, setBookmarkSaving] = useState(false);
@@ -862,15 +847,19 @@ export default function CourseJourney({
   }, [lessonBookmarks, selectedDay]);
 
   // العدد الفعلي داخل المحتوى يبقى كما هو حتى لا ينكسر فتح الأسابيع والشهور.
-  // أما العرض أمام المتدرب فيكون حسب الخطة المعتمدة: 6 أشهر × 30 يوم = 180 يومًا.
+  // العرض أمام المتدرب يتبع الخطة المعتمدة: 6 أشهر × 4 أسابيع × 7 أيام = 168 يومًا تعليميًا.
   const actualCourseDays = getCourseTotalDays(course);
-  const totalCourseDays = COURSE_TOTALS?.totalDays || 180;
+  const totalCourseDays = COURSE_TOTALS?.totalDays || 168;
   const daysPerMonth = COURSE_TOTALS?.daysPerMonth || 30;
 
   const totalCompletedDays = course.reduce(
     (sum, month) => sum + countCompletedInMonth(completedSet, month),
     0
   );
+  const officialCompletedDays = toOfficialCompletedDays(totalCompletedDays, {
+    actualDays: actualCourseDays,
+    officialDays: totalCourseDays
+  });
 
   const actualMonthDays = selectedMonth
     ? selectedMonth.weeks.reduce((sum, week) => sum + getContentDays(week).length, 0)
@@ -879,10 +868,13 @@ export default function CourseJourney({
   const monthTotalDays = selectedMonth ? daysPerMonth : 0;
   const weekTotalDays = selectedWeek ? getContentDays(selectedWeek).length : 0;
   const monthCompletedDays = selectedMonth ? countCompletedInMonth(completedSet, selectedMonth) : 0;
+  const officialMonthCompletedDays = selectedMonth
+    ? toOfficialMonthCompletedDays(monthCompletedDays, selectedMonth)
+    : 0;
   const weekCompletedDays = selectedWeek ? countCompletedInWeek(completedSet, selectedWeek) : 0;
 
-  const overallProgress = totalCourseDays ? (totalCompletedDays / totalCourseDays) * 100 : 0;
-  const monthProgress = monthTotalDays ? (monthCompletedDays / monthTotalDays) * 100 : 0;
+  const overallProgress = totalCourseDays ? (officialCompletedDays / totalCourseDays) * 100 : 0;
+  const monthProgress = monthTotalDays ? (officialMonthCompletedDays / monthTotalDays) * 100 : 0;
   const weekProgress = weekTotalDays ? (weekCompletedDays / weekTotalDays) * 100 : 0;
 
   function isMonthCompleted(month) {
@@ -998,34 +990,6 @@ export default function CourseJourney({
     return { month: fallbackMonth, week: fallbackWeek, day: fallbackDay };
   }
 
-  function findNextLearningPointAfter(currentDay) {
-    const points = [];
-
-    for (const month of course) {
-      for (const week of month.weeks) {
-        for (const day of getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex)) {
-          points.push({ month, week, day });
-        }
-      }
-    }
-
-    const currentIndex = points.findIndex(({ day }) => {
-      return (
-        day.monthIndex === currentDay?.monthIndex &&
-        day.weekIndex === currentDay?.weekIndex &&
-        day.dayIndex === currentDay?.dayIndex
-      );
-    });
-
-    return currentIndex >= 0 ? points[currentIndex + 1] || null : null;
-  }
-
-  function scrollToLessonTop() {
-    window.requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
   useEffect(() => {
     if (!course.length) return;
 
@@ -1105,7 +1069,6 @@ export default function CourseJourney({
     setSelectedDayIndex(nextPoint.day.dayIndex);
     setStage("lesson");
     setNotice("");
-    scrollToLessonTop();
   }
 
   function jumpToSearchResult(result) {
@@ -1231,9 +1194,9 @@ export default function CourseJourney({
     if (isDayCompleted(selectedDay, completedSet)) return;
 
     const hasQuiz = preparedLesson.quiz.length > 0;
-    const quizCompleted = quizCompletedByDay[selectedDay.id];
+    const quizPassed = quizPassedByDay[selectedDay.id];
 
-    if (hasQuiz && !quizCompleted) {
+    if (hasQuiz && !quizPassed) {
       setNotice("أجب عن اختبار اليوم أولًا، ثم احفظ الإنجاز.");
       return;
     }
@@ -1271,19 +1234,7 @@ export default function CourseJourney({
         ]);
       }
 
-      const nextPoint = findNextLearningPointAfter(selectedDay);
-
-      if (nextPoint?.month && nextPoint?.week && nextPoint?.day) {
-        setSelectedMonthIndex(nextPoint.month.monthIndex);
-        setSelectedWeekIndex(nextPoint.week.weekIndex);
-        setSelectedDayIndex(nextPoint.day.dayIndex);
-        setStage("lesson");
-        setNotice("");
-        scrollToLessonTop();
-      } else {
-        setNotice("أكملت آخر درس في الرحلة.");
-        scrollToLessonTop();
-      }
+      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
     } catch (error) {
       setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
     } finally {
@@ -1310,7 +1261,7 @@ export default function CourseJourney({
   const dayHasQuiz = preparedLesson.hasQuizText || preparedLesson.quiz.length > 0;
   const canCompleteLesson =
     currentDayState === "active" &&
-    (!dayHasQuiz || quizCompletedByDay[selectedDay?.id]);
+    (!dayHasQuiz || quizPassedByDay[selectedDay?.id]);
 
   return (
     <section className="journey-lab" dir="rtl">
@@ -2361,13 +2312,13 @@ export default function CourseJourney({
           <MiniProgress
             label="التقدم الكلي"
             value={overallProgress}
-            help={`${totalCompletedDays} من ${totalCourseDays} يومًا`}
+            help={`${officialCompletedDays} من ${totalCourseDays} يومًا`}
           />
 
           <MiniProgress
             label={`تقدم ${selectedMonth?.title || "الشهر"}`}
             value={monthProgress}
-            help={`${monthCompletedDays} من ${monthTotalDays} يومًا`}
+            help={`${officialMonthCompletedDays} من ${monthTotalDays} يومًا`}
           />
 
           <MiniProgress
@@ -2455,7 +2406,10 @@ export default function CourseJourney({
               {course.map((month) => {
                 const state = monthState(month);
                 const total = daysPerMonth;
-                const done = countCompletedInMonth(completedSet, month);
+                const done = toOfficialMonthCompletedDays(
+                  countCompletedInMonth(completedSet, month),
+                  month
+                );
                 const percent = total ? (done / total) * 100 : 0;
 
                 return (
@@ -2579,17 +2533,17 @@ export default function CourseJourney({
                     disabled={saving || currentDayState !== "active" || !canCompleteLesson}
                   >
                     {currentDayState === "completed"
-                      ? "الدرس مكتمل"
+                      ? "تم إكمال اليوم"
                       : saving
                         ? "جارٍ الحفظ..."
-                        : dayHasQuiz && !quizCompletedByDay[selectedDay.id]
+                        : dayHasQuiz && !quizPassedByDay[selectedDay.id]
                           ? "أكمل الاختبار أولًا"
-                          : "الانتقال للدرس التالي"}
+                          : "إنهاء اليوم وحفظ التقدم"}
                   </button>
 
                   {currentDayState === "completed" && (
                     <button type="button" className="jl-quiz-submit" onClick={openNextPoint}>
-                      افتح الدرس التالي
+                      افتح المحطة التالية
                     </button>
                   )}
 
@@ -2617,15 +2571,12 @@ export default function CourseJourney({
                   day={selectedDay}
                   questions={preparedLesson.quiz}
                   hasQuizText={preparedLesson.hasQuizText}
-                  onCompleteQuiz={(result) => {
-                    setQuizCompletedByDay((current) => ({
+                  onPass={() => {
+                    setQuizPassedByDay((current) => ({
                       ...current,
-                      [selectedDay.id]: result
+                      [selectedDay.id]: true
                     }));
                   }}
-                  onCompleteDay={completeCurrentDay}
-                  canCompleteDay={canCompleteLesson}
-                  dayCompleted={currentDayState === "completed"}
                 />
 
               </article>

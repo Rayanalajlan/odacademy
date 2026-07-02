@@ -18,14 +18,14 @@ export default function MobileNavigation({
   activePage = "home",
   userName = "متدرب",
   completedDays = 0,
-  totalDays = 180,
+  totalDays = 168,
   onNavigate,
   onClose,
   onResumeJourney,
   onSignOut
 }) {
   const progress = useMemo(() => {
-    const safeTotal = Math.max(1, safeNumber(totalDays, 180));
+    const safeTotal = Math.max(1, safeNumber(totalDays, 168));
     const safeCompleted = Math.min(safeTotal, Math.max(0, safeNumber(completedDays, 0)));
 
     return {
@@ -138,11 +138,12 @@ export default function MobileNavigation({
         .mobile-nav-progress {
           border-radius: 24px;
           padding: 16px;
-          color: #ffffff;
+          color: #18102e;
           background:
-            radial-gradient(circle at 15% 15%, rgba(245,158,11,.24), transparent 34%),
-            linear-gradient(135deg, #18102e, #3b1d6e);
-          box-shadow: 0 18px 42px rgba(28, 17, 48,.16);
+            radial-gradient(circle at 15% 15%, rgba(245,158,11,.16), transparent 34%),
+            linear-gradient(135deg, #ffffff, #f6f2ff);
+          border: 1px solid rgba(139, 92, 246, .22);
+          box-shadow: 0 18px 42px rgba(28, 17, 48,.10);
           margin-bottom: 14px;
         }
 
@@ -155,13 +156,13 @@ export default function MobileNavigation({
         }
 
         .mobile-nav-progress-head span {
-          color: #c9bdf0;
+          color: #5b4f78;
           font-size: 12px;
           font-weight: 850;
         }
 
         .mobile-nav-progress-head strong {
-          color: #fbbf24;
+          color: #18102e;
           font-size: 28px;
           line-height: 1;
           font-weight: 950;
@@ -171,7 +172,7 @@ export default function MobileNavigation({
           height: 10px;
           overflow: hidden;
           border-radius: 999px;
-          background: rgba(255,255,255,.16);
+          background: #e4d8fb;
         }
 
         .mobile-nav-track i {
@@ -185,10 +186,32 @@ export default function MobileNavigation({
         .mobile-nav-progress small {
           display: block;
           margin-top: 10px;
-          color: #c9bdf0;
+          color: #5b4f78;
           font-size: 11px;
           line-height: 1.7;
           font-weight: 800;
+        }
+
+        body.od-theme-dark .mobile-nav-progress {
+          color: #ffffff;
+          background:
+            radial-gradient(circle at 15% 15%, rgba(245,158,11,.24), transparent 34%),
+            linear-gradient(135deg, #18102e, #3b1d6e);
+          border-color: rgba(255,255,255,.10);
+          box-shadow: 0 18px 42px rgba(28, 17, 48,.16);
+        }
+
+        body.od-theme-dark .mobile-nav-progress-head span,
+        body.od-theme-dark .mobile-nav-progress small {
+          color: #c9bdf0;
+        }
+
+        body.od-theme-dark .mobile-nav-progress-head strong {
+          color: #fbbf24;
+        }
+
+        body.od-theme-dark .mobile-nav-track {
+          background: rgba(255,255,255,.16);
         }
 
         .mobile-nav-resume {
