@@ -143,8 +143,9 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
           margin-bottom: 8px;
           padding: 6px 10px;
           border-radius: 999px;
-          color: #92400e;
-          background: #fef3c7;
+          color: #6d28d9;
+          background: #efe9fb;
+          border: 1px solid rgba(167, 139, 250, .22);
           font-size: 11px;
           font-weight: 950;
         }
@@ -330,6 +331,80 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
           line-height: 1.8;
           font-size: 12px;
           font-weight: 850;
+        }
+
+        body.od-theme-dark .feedback-card {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .18), transparent 34%),
+            linear-gradient(145deg, rgba(24, 16, 46, .96), rgba(17, 9, 35, .96));
+          border-color: rgba(196, 181, 253, .26);
+          box-shadow: 0 18px 48px rgba(0, 0, 0, .26);
+        }
+
+        body.od-theme-dark .feedback-card b {
+          color: #e9d5ff;
+          background: rgba(139, 92, 246, .18);
+          border-color: rgba(196, 181, 253, .24);
+        }
+
+        body.od-theme-dark .feedback-card h3,
+        body.od-theme-dark .feedback-head h2 {
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .feedback-card p,
+        body.od-theme-dark .feedback-head p {
+          color: #c9bdf0;
+        }
+
+        body.od-theme-dark .feedback-actions .soft,
+        body.od-theme-dark .feedback-close {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(196, 181, 253, .22);
+        }
+
+        body.od-theme-dark .feedback-modal {
+          background:
+            radial-gradient(circle at 0% 0%, rgba(139, 92, 246, .18), transparent 32%),
+            linear-gradient(145deg, rgba(24, 16, 46, .98), rgba(17, 9, 35, .98));
+          border: 1px solid rgba(196, 181, 253, .22);
+          box-shadow: 0 28px 90px rgba(0, 0, 0, .40);
+        }
+
+        body.od-theme-dark .feedback-field {
+          color: #e9d5ff;
+        }
+
+        body.od-theme-dark .feedback-field input,
+        body.od-theme-dark .feedback-field select,
+        body.od-theme-dark .feedback-field textarea {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .07);
+          border-color: rgba(196, 181, 253, .28);
+        }
+
+        body.od-theme-dark .feedback-rating {
+          background: rgba(255, 255, 255, .07);
+          border-color: rgba(196, 181, 253, .20);
+        }
+
+        body.od-theme-dark .feedback-rating span {
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .feedback-rating button {
+          color: rgba(201, 189, 240, .48);
+        }
+
+        body.od-theme-dark .feedback-rating button.active {
+          color: #c084fc;
+        }
+
+        body.od-theme-dark .feedback-note {
+          color: #d8b4fe;
+          background: rgba(139, 92, 246, .16);
+          border: 1px solid rgba(196, 181, 253, .20);
         }
 
         @media (max-width: 840px) {

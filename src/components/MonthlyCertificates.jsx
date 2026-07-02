@@ -29,7 +29,7 @@ function buildMonthlyLinkedInPost(record) {
   const title = record?.month_title || `إنجاز الشهر ${monthNumber}`;
   const verificationUrl = buildVerificationUrl(record?.verification_slug || record?.certificate_code);
 
-  return `الحمد لله، أنجزت ${title} ضمن رحلتي في مختبر التطوير التنظيمي.
+  return `الحمد لله، أنجزت ${title} ضمن رحلتي في منسقة للتطوير التنظيمي.
 
 شهر جديد خلصته بخطوات صغيرة لكنها ثابتة: قراءة، تطبيق، اختبار، وربط المفاهيم بسياق العمل السعودي.
 
@@ -42,7 +42,7 @@ ${record?.verification_enabled ? `رابط التحقق: ${verificationUrl}` : "
 #التطوير_التنظيمي
 #التعلم_المستمر
 #منسقة
-#OD`;
+#منسقة_للتطوير_التنظيمي`;
 }
 
 export default function MonthlyCertificates({
@@ -108,7 +108,7 @@ export default function MonthlyCertificates({
       return;
     }
 
-    alert("لم يتم نسخ نص LinkedIn تلقائيًا. انسخه يدويًا من بطاقة الشهادة.");
+    alert("لم يتم نسخ نص لينكدإن تلقائيًا. انسخه يدويًا من بطاقة الشهادة.");
   }
 
   function shareMonthlyOnLinkedIn(record) {
@@ -130,14 +130,45 @@ export default function MonthlyCertificates({
     style.id = "monthly-certificate-print-style";
     style.innerHTML = `
       @media print {
+        html,
+        body {
+          width: 297mm !important;
+          min-height: 210mm !important;
+          margin: 0 !important;
+          background: #fff !important;
+        }
+
         body * { visibility: hidden !important; }
         #monthly-certificate-${record.month_number},
         #monthly-certificate-${record.month_number} * { visibility: visible !important; }
         #monthly-certificate-${record.month_number} {
-          position: absolute !important;
-          inset: 24px !important;
-          width: calc(100% - 48px) !important;
+          position: fixed !important;
+          inset: 0 !important;
+          width: 297mm !important;
+          min-height: 210mm !important;
+          margin: 0 !important;
+          padding: 28mm !important;
+          box-sizing: border-box !important;
+          border-radius: 0 !important;
           box-shadow: none !important;
+          color: #18102e !important;
+          background:
+            radial-gradient(circle at 8% 10%, rgba(16,185,129,.18), transparent 28%),
+            radial-gradient(circle at 92% 90%, rgba(139,92,246,.20), transparent 30%),
+            linear-gradient(135deg, #ffffff, #f4f0fb) !important;
+          border: 0 !important;
+          print-color-adjust: exact !important;
+          -webkit-print-color-adjust: exact !important;
+        }
+
+        #monthly-certificate-${record.month_number} span {
+          letter-spacing: 0 !important;
+          text-transform: none !important;
+        }
+
+        @page {
+          size: A4 landscape;
+          margin: 0;
         }
       }
     `;
@@ -223,7 +254,7 @@ export default function MonthlyCertificates({
 
         .monthly-status strong {
           display: block;
-          color: #fbbf24;
+          color: #a7f3d0;
           font-size: 34px;
           line-height: 1;
           margin-bottom: 6px;
@@ -272,8 +303,9 @@ export default function MonthlyCertificates({
         }
 
         .monthly-badge {
-          width: 48px;
+          min-width: 58px;
           height: 48px;
+          padding: 0 12px;
           display: grid;
           place-items: center;
           border-radius: 18px;
@@ -378,8 +410,8 @@ export default function MonthlyCertificates({
           color: #6d28d9;
           font-size: 10px;
           font-weight: 950;
-          letter-spacing: .08em;
-          text-transform: uppercase;
+          letter-spacing: 0;
+          text-transform: none;
           margin-bottom: 8px;
         }
 
@@ -449,6 +481,92 @@ export default function MonthlyCertificates({
           line-height: 1.8;
         }
 
+        body.od-theme-dark .monthly-certificates {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .18), transparent 34%),
+            linear-gradient(145deg, rgba(24, 16, 46, .96), rgba(17, 9, 35, .96));
+          border-color: rgba(196, 181, 253, .24);
+          box-shadow: 0 18px 55px rgba(0, 0, 0, .28);
+        }
+
+        body.od-theme-dark .monthly-kicker,
+        body.od-theme-dark .monthly-button.ghost {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(196, 181, 253, .22);
+        }
+
+        body.od-theme-dark .monthly-head h2,
+        body.od-theme-dark .monthly-card h3,
+        body.od-theme-dark .monthly-mini strong,
+        body.od-theme-dark .monthly-certificate-preview h4,
+        body.od-theme-dark .monthly-certificate-code {
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .monthly-head p,
+        body.od-theme-dark .monthly-card p,
+        body.od-theme-dark .monthly-mini span,
+        body.od-theme-dark .monthly-certificate-preview p {
+          color: #c9bdf0;
+        }
+
+        body.od-theme-dark .monthly-status {
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(196, 181, 253, .20);
+        }
+
+        body.od-theme-dark .monthly-card {
+          background: rgba(255, 255, 255, .07);
+          border-color: rgba(196, 181, 253, .18);
+          box-shadow: 0 16px 38px rgba(0, 0, 0, .18);
+        }
+
+        body.od-theme-dark .monthly-card.issued {
+          background:
+            radial-gradient(circle at top left, rgba(16,185,129,.16), transparent 35%),
+            rgba(255, 255, 255, .07);
+          border-color: rgba(16,185,129,.30);
+        }
+
+        body.od-theme-dark .monthly-card.locked {
+          background: rgba(255, 255, 255, .05);
+        }
+
+        body.od-theme-dark .monthly-lock,
+        body.od-theme-dark .monthly-mini div {
+          color: #d8b4fe;
+          background: rgba(139, 92, 246, .14);
+          border-color: rgba(196, 181, 253, .18);
+        }
+
+        body.od-theme-dark .monthly-card.issued .monthly-lock {
+          color: #a7f3d0;
+          background: rgba(16,185,129,.14);
+          border-color: rgba(16,185,129,.28);
+        }
+
+        body.od-theme-dark .monthly-progress {
+          background: rgba(255, 255, 255, .10);
+        }
+
+        body.od-theme-dark .monthly-certificate-preview {
+          color: #f8f4ff;
+          background:
+            radial-gradient(circle at 0% 0%, rgba(16,185,129,.18), transparent 36%),
+            radial-gradient(circle at 100% 100%, rgba(139,92,246,.22), transparent 36%),
+            linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+          border-color: rgba(196, 181, 253, .24);
+        }
+
+        body.od-theme-dark .monthly-certificate-preview span {
+          color: #d8b4fe;
+        }
+
+        body.od-theme-dark .monthly-certificate-code {
+          border-top-color: rgba(196, 181, 253, .18);
+        }
+
         @media (max-width: 980px) {
           .monthly-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -470,7 +588,7 @@ export default function MonthlyCertificates({
 
       <div className="monthly-head">
         <div>
-          <span className="monthly-kicker">Phase 22 · Monthly Milestones</span>
+          <span className="monthly-kicker">المرحلة الثانية والعشرون · محطات الإنجاز الشهرية</span>
           <h2>شهادات إنجاز شهرية قبل وثيقة الإتقان النهائية</h2>
           <p>
             بدل انتظار نهاية الرحلة كاملة، يحصل المتدرب على شهادة إنجاز موثقة
@@ -514,7 +632,7 @@ export default function MonthlyCertificates({
               key={record.month_number}
             >
               <div className="monthly-card-top">
-                <div className="monthly-badge">M{record.month_number}</div>
+                <div className="monthly-badge">شهر {record.month_number}</div>
                 <span className="monthly-lock">{issued ? "مفتوحة" : "مقفلة"}</span>
               </div>
 
@@ -548,11 +666,12 @@ export default function MonthlyCertificates({
                     className="monthly-certificate-preview"
                     id={`monthly-certificate-${record.month_number}`}
                   >
-                    <span>Monthly Achievement Certificate</span>
+                    <span>شهادة إنجاز شهرية</span>
                     <h4>{record.month_title}</h4>
                     <p>
-                      تمنح هذه الشهادة إلى {userName || "المتدرب"} تقديرًا لإكمال محطة شهرية
-                      في رحلة منسقة للتطوير التنظيمي.
+                      تُمنح هذه الشهادة إلى {userName || "المتدرب"} تقديرًا لإكمال محطة شهرية
+                      في رحلة منسقة للتطوير التنظيمي؛ محطة جمعت بين الفهم والتطبيق والاختبار
+                      وبناء لغة مهنية أعمق لقراءة المنظمات.
                     </p>
                     <div className="monthly-certificate-code">
                       {record.certificate_code}
@@ -573,14 +692,14 @@ export default function MonthlyCertificates({
                       className="monthly-button"
                       onClick={() => copyLinkedInPost(record)}
                     >
-                      {copiedPostMonth === record.month_number ? "تم نسخ نص LinkedIn" : "نسخ نص LinkedIn"}
+                      {copiedPostMonth === record.month_number ? "تم نسخ نص لينكدإن" : "نسخ نص لينكدإن"}
                     </button>
                     <button
                       type="button"
                       className="monthly-button"
                       onClick={() => shareMonthlyOnLinkedIn(record)}
                     >
-                      مشاركة في LinkedIn
+                      مشاركة في لينكدإن
                     </button>
                     <button
                       type="button"

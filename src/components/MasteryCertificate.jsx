@@ -112,7 +112,6 @@ export default function MasteryCertificate({
 شهادة الإتمام: ${verificationUrl}
 
 #التطوير_التنظيمي
-#OD
 #التعلم_المستمر
 #قيادة_التغيير
 #منسقة`;
@@ -157,6 +156,14 @@ export default function MasteryCertificate({
     style.id = "mastery-print-style";
     style.innerHTML = `
       @media print {
+        html,
+        body {
+          width: 297mm !important;
+          min-height: 210mm !important;
+          margin: 0 !important;
+          background: #fff !important;
+        }
+
         body * {
           visibility: hidden !important;
         }
@@ -167,17 +174,27 @@ export default function MasteryCertificate({
         }
 
         #printable-certificate-frame {
-          position: absolute !important;
+          position: fixed !important;
           inset: 0 !important;
-          width: 100% !important;
-          max-width: 100% !important;
-          min-height: 100vh !important;
+          width: 297mm !important;
+          min-height: 210mm !important;
           margin: 0 !important;
-          padding: 24px !important;
+          padding: 14mm !important;
+          box-sizing: border-box !important;
           box-shadow: none !important;
           border: none !important;
-          background: #0e0820 !important;
+          border-radius: 0 !important;
+          background: linear-gradient(135deg, #a855f7, #8b5cf6, #18102e) !important;
           color: #fff !important;
+          print-color-adjust: exact !important;
+          -webkit-print-color-adjust: exact !important;
+        }
+
+        #printable-certificate-frame .certificate-inner {
+          min-height: calc(210mm - 28mm) !important;
+          padding: 18mm !important;
+          box-sizing: border-box !important;
+          box-shadow: none !important;
         }
 
         .mastery-no-print {
@@ -208,7 +225,7 @@ export default function MasteryCertificate({
           padding: 40px 18px 70px;
           background:
             radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.18), transparent 28%),
-            radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.16), transparent 26%),
+            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.12), transparent 26%),
             linear-gradient(180deg, #f4f0fb 0%, #efe9fb 48%, #f4f0fb 100%);
           color: #18102e;
           font-family: inherit;
@@ -277,7 +294,7 @@ export default function MasteryCertificate({
         }
 
         .mastery-hero h1 span {
-          color: #fbbf24;
+          color: #c4b5fd;
         }
 
         .mastery-hero p {
@@ -380,7 +397,7 @@ export default function MasteryCertificate({
           display: grid;
           place-items: center;
           font-size: 34px;
-          background: linear-gradient(135deg, #efe9fb, #fff7ed);
+          background: linear-gradient(135deg, #efe9fb, #f4f0fb);
           border: 1px solid #e0d8f5;
         }
 
@@ -483,7 +500,7 @@ export default function MasteryCertificate({
           min-height: 520px;
           padding: 44px;
           background:
-            radial-gradient(circle at 20% 15%, rgba(245, 158, 11, 0.18), transparent 25%),
+            radial-gradient(circle at 20% 15%, rgba(16, 185, 129, 0.16), transparent 25%),
             radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.24), transparent 28%),
             linear-gradient(145deg, #0e0820, #18102e 45%, #111827);
           color: white;
@@ -491,15 +508,15 @@ export default function MasteryCertificate({
         }
 
         .certificate-inner::before {
-          content: "OD";
+          content: "منسقة";
           position: absolute;
           left: 30px;
           top: 20px;
-          font-size: 220px;
+          font-size: 150px;
           line-height: 1;
           font-weight: 950;
           color: rgba(255,255,255,0.025);
-          letter-spacing: -14px;
+          letter-spacing: 0;
         }
 
         .certificate-top {
@@ -564,12 +581,12 @@ export default function MasteryCertificate({
           display: inline-flex;
           padding: 8px 14px;
           border-radius: 999px;
-          background: rgba(245, 158, 11, 0.1);
-          color: #fbbf24;
-          border: 1px solid rgba(245,158,11,0.28);
+          background: rgba(139, 92, 246, 0.18);
+          color: #e9d5ff;
+          border: 1px solid rgba(196,181,253,0.28);
           font-size: 12px;
           font-weight: 950;
-          letter-spacing: 1px;
+          letter-spacing: 0;
           margin-bottom: 18px;
         }
 
@@ -619,7 +636,7 @@ export default function MasteryCertificate({
 
         .certificate-pillar strong {
           display: block;
-          color: #fbbf24;
+          color: #a7f3d0;
           font-size: 18px;
           margin-bottom: 5px;
         }
@@ -659,10 +676,10 @@ export default function MasteryCertificate({
         }
 
         .signature .name {
-          color: #fbbf24;
+          color: #c4b5fd;
           font-size: 22px;
           font-weight: 950;
-          letter-spacing: 0.6px;
+          letter-spacing: 0;
         }
 
         .linkedin-panel {
@@ -799,9 +816,61 @@ export default function MasteryCertificate({
         }
 
         .certificate-verify-line strong {
-          color: #fbbf24;
+          color: #a7f3d0;
           display: inline;
           margin: 0;
+        }
+
+        body.od-theme-dark .mastery-page {
+          background:
+            radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.16), transparent 28%),
+            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.10), transparent 26%),
+            linear-gradient(180deg, #0e0820 0%, #18102e 52%, #0e0820 100%);
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .mastery-stat,
+        body.od-theme-dark .mastery-lock,
+        body.od-theme-dark .linkedin-panel,
+        body.od-theme-dark .certificate-verification-panel {
+          background:
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .14), transparent 34%),
+            linear-gradient(145deg, rgba(24, 16, 46, .96), rgba(17, 9, 35, .96));
+          border-color: rgba(196, 181, 253, .24);
+          box-shadow: 0 18px 55px rgba(0, 0, 0, .28);
+        }
+
+        body.od-theme-dark .mastery-stat strong,
+        body.od-theme-dark .mastery-lock h2,
+        body.od-theme-dark .linkedin-panel h3,
+        body.od-theme-dark .certificate-verification-card strong {
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .mastery-stat span,
+        body.od-theme-dark .mastery-lock p,
+        body.od-theme-dark .linkedin-panel p,
+        body.od-theme-dark .certificate-verification-card span,
+        body.od-theme-dark .certificate-verification-card small {
+          color: #c9bdf0;
+        }
+
+        body.od-theme-dark .mastery-lock-icon,
+        body.od-theme-dark .certificate-verification-card,
+        body.od-theme-dark .linkedin-textarea {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .07);
+          border-color: rgba(196, 181, 253, .20);
+        }
+
+        body.od-theme-dark .linkedin-textarea {
+          color: #f8f4ff;
+        }
+
+        body.od-theme-dark .mastery-button.ghost {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(196, 181, 253, .22);
         }
 
         @media (max-width: 850px) {
@@ -900,7 +969,7 @@ export default function MasteryCertificate({
           </div>
         </div>
 
-        {/* Phase 22: شهادات الإنجاز الشهرية قبل وثيقة الإتقان النهائية */}
+        {/* شهادات الإنجاز الشهرية قبل وثيقة الإتقان النهائية */}
         <MonthlyCertificates
           userName={learnerName}
           completedDays={safeCompletedDays}
@@ -979,10 +1048,10 @@ export default function MasteryCertificate({
                 <div className="certificate-inner">
                   <div className="certificate-top">
                     <div className="certificate-brand">
-                      <div className="brand-mark">RA</div>
+                      <div className="brand-mark">م</div>
                       <div>
-                        <strong>OD Engineering LAB</strong>
-                        <span>مختبر التطوير التنظيمي المستقل</span>
+                        <strong>منسقة للتطوير التنظيمي</strong>
+                        <span>رحلة معرفية تطبيقية في فهم المنظمة وبناء الأثر</span>
                       </div>
                     </div>
 
@@ -998,18 +1067,18 @@ export default function MasteryCertificate({
                   </div>
 
                   <div className="certificate-title">
-                    <span className="badge">وثيقة إتقان معرفي وتطبيقي</span>
+                    <span className="badge">وثيقة إتقان ختامية</span>
 
-                    <h2>إتمام رحلة هندسة التطوير التنظيمي</h2>
+                    <h2>إتمام رحلة منسقة للتطوير التنظيمي</h2>
 
                     <div className="learner">{learnerName}</div>
 
                     <p>
-                      تُمنح هذه الوثيقة تقديرًا لإتمام رحلة معرفية تطبيقية
-                      امتدت ستة أشهر كاملة، شملت التشخيص التنظيمي، تصميم
-                      المنظمة، الأدوار والأوصاف الوظيفية، قيادة التغيير،
-                      الثقافة التنظيمية، التعلم المؤسسي، قياس الأثر،
-                      واستدامة تدخلات التطوير التنظيمي.
+                      تُمنح هذه الوثيقة تقديرًا لإتمام رحلة منسقة للتطوير التنظيمي الممتدة عبر ستة أشهر؛
+                      رحلة جمعت بين القراءة المنهجية للمنظمة، التشخيص المبني على البيانات،
+                      تصميم الأدوار والتدخلات، قيادة التغيير، بناء القدرة، قياس الأثر،
+                      واستدامة التحسين. وتمثل هذه الوثيقة سجل إنجاز تعلّمي وتطبيقي داخل المنصة،
+                      لا شهادة أكاديمية رسمية.
                     </p>
                   </div>
 
@@ -1034,17 +1103,17 @@ export default function MasteryCertificate({
 
                   <div className="certificate-footer">
                     <div>
-                      <strong>المرجعيات العلمية للمسار</strong>
+                      <strong>منهجية المسار</strong>
                       <span>
-                        Cummings & Worley • Donald Anderson • Burke-Litwin •
-                        Peter Senge • Hackman & Oldham
+                        الفهم قبل الحل، البيانات قبل الحكم، النظام قبل اتهام الأفراد،
+                        والأثر قبل كثرة الأنشطة.
                       </span>
                     </div>
 
                     <div className="signature">
-                      <strong>اعتماد معرفي مستقل</strong>
-                      <div className="name">Rayan Alajlan</div>
-                      <small>SHRM-SCP • SPHRi • CPTD • PMP</small>
+                      <strong>إشراف وإعداد معرفي</strong>
+                      <div className="name">ريان العجلان</div>
+                      <small>منسقة للتطوير التنظيمي</small>
                     </div>
                   </div>
                 </div>
@@ -1060,19 +1129,19 @@ export default function MasteryCertificate({
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyLinkedInPost}>
-                  {copied ? "تم نسخ نص البوست ✅" : "نسخ نص بوست LinkedIn ✍️"}
+                  {copied ? "تم نسخ نص البوست ✅" : "نسخ نص بوست لينكدإن ✍️"}
                 </button>
 
                 <button className="mastery-button linkedin" onClick={shareOnLinkedIn}>
-                  فتح LinkedIn للمشاركة 🔗
+                  فتح لينكدإن للمشاركة 🔗
                 </button>
               </div>
             </div>
 
             <div className="linkedin-panel mastery-no-print">
-              <h3>نص مقترح للمشاركة على LinkedIn</h3>
+              <h3>نص مقترح للمشاركة على لينكدإن</h3>
               <p>
-                انسخ النص أو استخدم زر المشاركة. عند فتح LinkedIn الصق النص في
+                انسخ النص أو استخدم زر المشاركة. عند فتح لينكدإن الصق النص في
                 المنشور ثم انشره.
               </p>
 
