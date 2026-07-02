@@ -78,11 +78,12 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
   const stage = state.eligibleStage;
   const config = stage ? FEEDBACK_STAGES[stage] : null;
   const shouldShow = Boolean(stage && !state.currentStageSubmitted && !dismissed && !sent);
+  const isFinalStage = stage === "month_6";
 
   const primaryRatingMissing = useMemo(() => {
-    if (stage === "final") return !form.overallRating || !form.capabilityRating;
+    if (isFinalStage) return !form.overallRating || !form.capabilityRating;
     return !form.clarityRating || !form.odDepthRating;
-  }, [form, stage]);
+  }, [form, isFinalStage]);
 
   async function submit(event) {
     event.preventDefault();
@@ -377,7 +378,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
 
             <form className="feedback-form" onSubmit={submit}>
               <div className="feedback-grid">
-                {stage !== "final" && (
+                {!isFinalStage && (
                   <>
                     <StarRating
                       label="كيف تقيم وضوح المسار حتى الآن؟"
@@ -393,7 +394,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
                   </>
                 )}
 
-                {stage === "final" && (
+                {isFinalStage && (
                   <>
                     <StarRating
                       label="كيف تقيم الرحلة كاملة؟"
@@ -434,7 +435,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
                   </select>
                 </label>
 
-                {stage === "final" && (
+                {isFinalStage && (
                   <label className="feedback-field wide">
                     ما أكبر تحول حصل في فهمك للتطوير التنظيمي؟
                     <textarea

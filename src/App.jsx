@@ -7,6 +7,7 @@ import LearnerProfileCenter from "./components/LearnerProfileCenter";
 import { sendWelcomeEmailOnce } from "./lib/welcomeEmailService";
 import LearningTimeTracker from "./components/LearningTimeTracker";
 import NotificationsCenter from "./components/NotificationsCenter";
+import FeedbackPrompt from "./components/FeedbackPrompt";
 import { maybeCreateMilestoneNotification } from "./lib/notificationsService";
 import { syncProgressBadge } from "./lib/badgesService";
 import { toOfficialCompletedDays } from "./lib/journeyProgress";
@@ -1265,6 +1266,12 @@ export default function App() {
         setActivePage={navigate}
         onResumeJourney={resumeJourneyFromLastPoint}
         onSignOut={handleSignOut}
+      />
+
+      <FeedbackPrompt
+        completedDays={officialCompletedDays}
+        totalDays={totalJourneyDays}
+        onAdminDetected={setAdminMode}
       />
 
       {showOnboarding && (

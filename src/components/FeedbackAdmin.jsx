@@ -7,13 +7,19 @@ import {
 
 const TABS = [
   ["pending", "بانتظار المراجعة"],
-  ["approved", "منشورة/معتمدة"],
+  ["published", "منشورة/معتمدة"],
   ["rejected", "مرفوضة"],
   ["hidden", "مخفية"],
   ["all", "الكل"]
 ];
 
 function stageLabel(stage) {
+  if (stage === "month_1") return "تقييم الشهر الأول";
+  if (stage === "month_2") return "تقييم الشهر الثاني";
+  if (stage === "month_3") return "تقييم الشهر الثالث";
+  if (stage === "month_4") return "تقييم الشهر الرابع";
+  if (stage === "month_5") return "تقييم الشهر الخامس";
+  if (stage === "month_6") return "تقييم نهاية الرحلة";
   if (stage === "initial") return "تقييم البداية";
   if (stage === "mid") return "تقييم منتصف الرحلة";
   if (stage === "final") return "تقييم نهاية الرحلة";

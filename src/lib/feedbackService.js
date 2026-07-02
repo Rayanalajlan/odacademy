@@ -1,42 +1,80 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
 
 export const FEEDBACK_STAGES = {
-  initial: {
-    id: "initial",
-    title: "تقييم البداية",
-    badge: "انطباع البداية",
-    thresholdLabel: "بعد أول أسبوع",
-    description: "يساعدنا على تحسين وضوح التجربة في بدايتها."
+  month_1: {
+    id: "month_1",
+    title: "تقييم الشهر الأول",
+    badge: "بعد الشهر الأول",
+    thresholdLabel: "أكملت 4 أسابيع",
+    description: "يساعدنا على تحسين وضوح البداية وترتيب الرحلة."
   },
-  mid: {
-    id: "mid",
-    title: "تقييم منتصف الرحلة",
-    badge: "أكمل 50%",
-    thresholdLabel: "منتصف الرحلة",
-    description: "يقيس أثر المسار أثناء التعلم قبل نهاية التجربة."
+  month_2: {
+    id: "month_2",
+    title: "تقييم الشهر الثاني",
+    badge: "بعد الشهر الثاني",
+    thresholdLabel: "أكملت 8 أسابيع",
+    description: "يقيس أثر المسار بعد الدخول في عمق التشخيص والتصميم."
   },
-  final: {
-    id: "final",
+  month_3: {
+    id: "month_3",
+    title: "تقييم الشهر الثالث",
+    badge: "منتصف الرحلة",
+    thresholdLabel: "أكملت 12 أسبوعًا",
+    description: "يعطينا صورة صادقة عن منتصف الرحلة وما يحتاج تحسينًا."
+  },
+  month_4: {
+    id: "month_4",
+    title: "تقييم الشهر الرابع",
+    badge: "بعد الشهر الرابع",
+    thresholdLabel: "أكملت 16 أسبوعًا",
+    description: "يساعدنا على قراءة أثر التعلم في قيادة التغيير والتطبيق."
+  },
+  month_5: {
+    id: "month_5",
+    title: "تقييم الشهر الخامس",
+    badge: "بعد الشهر الخامس",
+    thresholdLabel: "أكملت 20 أسبوعًا",
+    description: "يرصد جودة التجربة قبل محطة الإتقان النهائية."
+  },
+  month_6: {
+    id: "month_6",
     title: "تقييم نهاية الرحلة",
-    badge: "أكمل الرحلة",
-    thresholdLabel: "نهاية الرحلة",
-    description: "يجمع شهادة أعمق بعد اكتمال التجربة."
+    badge: "أكملت الرحلة",
+    thresholdLabel: "أكملت الستة أشهر",
+    description: "يجمع شهادة أعمق بعد اكتمال التجربة كاملة."
   }
 };
 
-export function getEligibleFeedbackStage(completedDays = 0, totalDays = 168) {
+const MONTHLY_FEEDBACK_THRESHOLDS = [
+  { stage: "month_1", days: 28 },
+  { stage: "month_2", days: 56 },
+  { stage: "month_3", days: 84 },
+  { stage: "month_4", days: 112 },
+  { stage: "month_5", days: 140 },
+  { stage: "month_6", days: 168 }
+];
+
+export function getEligibleFeedbackStages(completedDays = 0, totalDays = 168) {
   const days = Number(completedDays || 0);
   const total = Number(totalDays || 168);
-  const percent = total > 0 ? Math.round((days / total) * 100) : 0;
+  const monthSize = Math.max(1, Math.round(total / 6));
 
-  if (days >= total || percent >= 100) return "final";
-  if (days >= 84 || percent >= 50) return "mid";
-  if (days >= 7 || percent >= 10) return "initial";
-  return null;
+  return MONTHLY_FEEDBACK_THRESHOLDS
+    .map((item, index) => ({
+      ...item,
+      days: index === 5 ? total : monthSize * (index + 1)
+    }))
+    .filter((item) => days >= item.days)
+    .map((item) => item.stage);
+}
+
+export function getEligibleFeedbackStage(completedDays = 0, totalDays = 168, submittedStages = []) {
+  const submitted = new Set(submittedStages || []);
+  return getEligibleFeedbackStages(completedDays, totalDays).find((stage) => !submitted.has(stage)) || null;
 }
 
 function normalizeStage(stage) {
-  return ["initial", "mid", "final"].includes(stage) ? stage : "initial";
+  return Object.prototype.hasOwnProperty.call(FEEDBACK_STAGES, stage) ? stage : "month_1";
 }
 
 export async function isCurrentUserAdmin() {
@@ -62,13 +100,13 @@ export async function fetchFeedbackState({ completedDays = 0, totalDays = 168 } 
     };
   }
 
-  const eligibleStage = getEligibleFeedbackStage(completedDays, totalDays);
   const [adminResult, feedbackResult] = await Promise.all([
     supabase.rpc("is_site_admin"),
     supabase.from("journey_feedback").select("*").order("submitted_at", { ascending: false })
   ]);
 
   const submittedStages = (feedbackResult.data || []).map((item) => item.stage);
+  const eligibleStage = getEligibleFeedbackStage(completedDays, totalDays, submittedStages);
 
   return {
     isAdmin: Boolean(adminResult.data),
