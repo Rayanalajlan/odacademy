@@ -1,0 +1,835 @@
+/* ============================================================================
+   OD Academy 3D Visual System
+   ----------------------------------------------------------------------------
+   CSS-only depth, motion, and glass layer for the existing OD Academy app.
+   It does not introduce brand/content changes, external images, or new colors.
+   Every visual color is pulled from the existing theme tokens.
+   ========================================================================== */
+
+:root {
+  --od3d-surface: var(--color-bg-surface, var(--surface));
+  --od3d-surface-elevated: var(--color-bg-surface-elevated, var(--surface-elevated));
+  --od3d-surface-muted: var(--color-bg-surface-muted, var(--bg-soft));
+  --od3d-card: var(--color-bg-card, var(--surface));
+  --od3d-card-hover: var(--color-bg-card-hover, var(--surface-elevated));
+  --od3d-page: var(--color-bg-page, var(--bg));
+  --od3d-app: var(--color-bg-app, var(--bg-tint));
+  --od3d-border: var(--color-border-default, var(--border));
+  --od3d-border-strong: var(--color-border-strong, var(--border-strong));
+  --od3d-accent: var(--color-accent-primary, var(--accent));
+  --od3d-accent-soft: var(--color-accent-primary-soft, var(--accent-soft));
+  --od3d-secondary-soft: var(--color-accent-secondary-soft, var(--accent-soft));
+  --od3d-text: var(--color-text-primary, var(--text));
+  --od3d-muted: var(--color-text-muted, var(--text-muted));
+  --od3d-invert: var(--color-bg-invert, var(--dark));
+  --od3d-invert-2: var(--color-bg-invert-2, var(--dark-2));
+  --od3d-invert-text: var(--color-text-on-invert, var(--text-on-invert));
+  --od3d-shadow-sm: var(--color-shadow-sm, var(--shadow));
+  --od3d-shadow: var(--color-shadow, var(--shadow-card));
+  --od3d-shadow-lg: var(--color-shadow-lg, var(--shadow-card));
+  --od3d-radius-shell: 42px;
+  --od3d-radius-hero: clamp(34px, 4vw, 64px);
+  --od3d-radius-panel: 34px;
+  --od3d-radius-card: 28px;
+  --od3d-radius-control: 18px;
+  --od3d-radius-pill: 999px;
+  --od3d-glass:
+    radial-gradient(circle at 12% 10%, var(--od3d-accent-soft), transparent 34%),
+    radial-gradient(circle at 88% 8%, var(--od3d-secondary-soft), transparent 32%),
+    linear-gradient(145deg, var(--od3d-surface-elevated), var(--od3d-card));
+  --od3d-invert-glass:
+    radial-gradient(circle at 12% 10%, var(--od3d-accent-soft), transparent 34%),
+    radial-gradient(circle at 88% 8%, var(--od3d-secondary-soft), transparent 32%),
+    linear-gradient(145deg, var(--od3d-invert), var(--od3d-invert-2));
+  --od3d-panel-glass:
+    radial-gradient(circle at 0% 0%, var(--od3d-accent-soft), transparent 30%),
+    linear-gradient(145deg, var(--od3d-surface-elevated), var(--od3d-surface));
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+html body {
+  background:
+    radial-gradient(circle at 10% 0%, var(--od3d-accent-soft), transparent 28%),
+    radial-gradient(circle at 92% 8%, var(--od3d-secondary-soft), transparent 30%),
+    linear-gradient(160deg, var(--od3d-page), var(--od3d-app)) !important;
+}
+
+html body #root {
+  isolation: isolate;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+html body #root :is(
+  .site-frame,
+  .public-wrap,
+  .od-home-wrap,
+  .learning-journey,
+  .jl-wrap,
+  .sim-wrap,
+  .command-wrap,
+  .about-rayan,
+  .admin-dashboard,
+  .learning-portfolio,
+  .mastery-certificate,
+  .verify-certificate
+) {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+html body #root :is(
+  .site-header,
+  .navigation-card,
+  .main-nav,
+  .mobile-menu,
+  .educational-tools-dropdown
+) {
+  border: 1px solid var(--od3d-border) !important;
+  background:
+    radial-gradient(circle at 5% 0%, var(--od3d-accent-soft), transparent 36%),
+    linear-gradient(145deg, var(--od3d-surface-elevated), var(--od3d-surface)) !important;
+  box-shadow: var(--od3d-shadow-sm) !important;
+  backdrop-filter: blur(18px) saturate(1.2);
+  transform-style: preserve-3d;
+}
+
+html body #root :is(
+  .hero-card,
+  .public-hero,
+  .od-hero,
+  .journey-hero,
+  .jl-hero,
+  .command-hero,
+  .sim-root .hero,
+  .roi-hero,
+  .mastery-hero,
+  .portfolio-hero,
+  .ar-hero,
+  .admin-hero
+) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--od3d-radius-hero) !important;
+  border: 1px solid var(--od3d-border-strong) !important;
+  background: var(--od3d-invert-glass) !important;
+  box-shadow: var(--od3d-shadow-lg) !important;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+}
+
+html body #root :is(
+  .hero-card,
+  .public-hero,
+  .od-hero,
+  .journey-hero,
+  .jl-hero,
+  .command-hero,
+  .sim-root .hero,
+  .roi-hero,
+  .mastery-hero,
+  .portfolio-hero,
+  .ar-hero,
+  .admin-hero
+) > * {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(18px);
+}
+
+html body #root :is(
+  .hero-card h1,
+  .public-hero h1,
+  .od-hero h1,
+  .journey-hero h1,
+  .jl-hero h1,
+  .command-hero h1,
+  .sim-root .hero h1,
+  .roi-hero h1,
+  .mastery-hero h1,
+  .portfolio-hero h1,
+  .ar-title,
+  .admin-hero h1
+) {
+  text-shadow:
+    0 1px 0 var(--od3d-border),
+    0 18px 46px var(--od3d-accent-soft) !important;
+  transform: translateZ(36px);
+}
+
+html body #root :is(
+  .content-container,
+  .public-section,
+  .auth-card,
+  .auth-panel,
+  .about-panel,
+  .journey-stage,
+  .jl-stage-panel,
+  .lesson-reader,
+  .quiz-panel,
+  .sim-root .page,
+  .command-panel,
+  .messages-box,
+  .roi-panel,
+  .mastery-lock,
+  .certificate-frame,
+  .linkedin-panel,
+  .certificate-verification-panel,
+  .monthly-certificates,
+  .weekly-reflection-panel,
+  .portfolio-section,
+  .ar-section,
+  .ar-bio-box,
+  .ar-dua-card,
+  .ar-consultation,
+  .ar-consultation-panel,
+  .admin-panel,
+  .admin-loading,
+  .admin-denied,
+  .admin-notice
+) {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--od3d-radius-panel) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background: var(--od3d-panel-glass) !important;
+  box-shadow: var(--od3d-shadow) !important;
+  transform-style: preserve-3d;
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+html body #root :is(
+  .od-command-card,
+  .od-stat-card,
+  .od-feature-card,
+  .od-lab-card,
+  .section-icon-grid__item,
+  .month-card,
+  .week-card,
+  .day-step,
+  .journey-dashboard-card,
+  .journey-note,
+  .intro-panel,
+  .week-intro-reader,
+  .references-panel,
+  .lesson-progress-card,
+  .question-card,
+  .jl-month-card,
+  .jl-week-card,
+  .jl-day-card,
+  .jl-lesson-side,
+  .jl-reader,
+  .jl-week-intro,
+  .jl-quiz,
+  .jl-question,
+  .radar-card,
+  .radar-tab,
+  .radar-summary-box,
+  .radar-legend-box,
+  .radar-history-item,
+  .radar-options-list button,
+  .sim-root .home-card,
+  .sim-root .card,
+  .sim-root .scenario-node,
+  .sim-root .briefing-card,
+  .sim-root .tree-card,
+  .sim-root .decision-card,
+  .sim-root .choice,
+  .feedback-panel,
+  .breakdown,
+  .scenario-mini,
+  .mastery-card,
+  .rubric-item,
+  .command-live-card,
+  .mode-button,
+  .archive-item,
+  .message-bubble,
+  .quota-card,
+  .error-card,
+  .roi-result-card,
+  .roi-source,
+  .value-step,
+  .roi-reading,
+  .mastery-stat,
+  .certificate-inner,
+  .certificate-pillar,
+  .certificate-verification-card,
+  .monthly-card,
+  .monthly-cert,
+  .monthly-certificate,
+  .monthly-status,
+  .saved-lessons-panel,
+  .saved-lesson,
+  .saved-lesson-card,
+  .lesson-notes-panel,
+  .weekly-reflection-card,
+  .weekly-reflection-progress,
+  .portfolio-row,
+  .portfolio-stat,
+  .portfolio-cert,
+  .portfolio-empty,
+  .ar-card,
+  .ar-lens,
+  .ar-domain,
+  .ar-social,
+  .ar-logo-card,
+  .ar-consultation-copy,
+  .admin-metric,
+  .admin-row,
+  .admin-empty,
+  .verify-card,
+  .legal-card,
+  .legal-content-card,
+  .legal-info-card
+) {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--od3d-radius-card) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background:
+    radial-gradient(circle at 10% 0%, var(--od3d-accent-soft), transparent 34%),
+    linear-gradient(145deg, var(--od3d-card), var(--od3d-surface-elevated)) !important;
+  box-shadow:
+    var(--od3d-shadow-sm),
+    inset 0 1px 0 var(--od3d-surface-elevated) !important;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease,
+    filter .28s ease;
+}
+
+html body #root :is(
+  .badge,
+  .pill,
+  .chip,
+  .tag,
+  .kicker,
+  .eyebrow,
+  .od-kicker,
+  .od-chip,
+  .od-section-kicker,
+  .od-feature-badge,
+  .public-badge,
+  .sample-kicker,
+  .journey-pill,
+  .jl-pill,
+  .jl-status,
+  .radar-kicker,
+  .radar-chip,
+  .portfolio-mini-tag,
+  .monthly-badge,
+  .verify-state,
+  .rank-pill,
+  .ar-eyebrow,
+  .ar-credential,
+  .mode-badge,
+  .points-badge,
+  .soft-button,
+  .nav-btn,
+  .panel-btn,
+  .causal-chip,
+  .briefing-head span,
+  .certificate-title .badge,
+  .monthly-kicker,
+  .weekly-reflection-kicker,
+  .command-kicker,
+  .admin-stars,
+  .quota-timer
+) {
+  border-radius: var(--od3d-radius-pill) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background:
+    linear-gradient(145deg, var(--od3d-surface-elevated), var(--od3d-surface-muted)) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface),
+    0 10px 26px var(--od3d-accent-soft) !important;
+}
+
+html body #root :is(
+  button,
+  .od-button,
+  .portfolio-button,
+  .profile-button,
+  .btn,
+  .ghost-button,
+  .secondary-button,
+  .primary-button,
+  .complete-button,
+  .send-button,
+  .sample-button,
+  .journey-primary,
+  .journey-secondary,
+  .journey-back,
+  .jl-back,
+  .jl-main-btn,
+  .jl-ghost-btn,
+  .jl-complete,
+  .jl-quiz-submit,
+  .radar-actions button,
+  .roi-sources-toggle button,
+  .mastery-button,
+  .saved-lessons-refresh,
+  .lesson-notes-actions button,
+  .weekly-reflection-actions button,
+  .ar-primary-action,
+  .ar-secondary-action,
+  .ar-consultation-button,
+  .admin-tabs button,
+  .admin-action,
+  .admin-soft-button,
+  .about-links a
+) {
+  border-radius: var(--od3d-radius-control) !important;
+  transform-style: preserve-3d;
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    filter .22s ease,
+    border-color .22s ease;
+}
+
+html body #root :is(
+  input,
+  textarea,
+  select,
+  .archive-search,
+  .course-search-input,
+  .command-search,
+  .auth-input,
+  .field-input,
+  .notes-textarea,
+  .field-textarea,
+  .comment-box,
+  .field input,
+  .field select,
+  .field textarea,
+  .roi-field input,
+  .roi-field select,
+  .admin-form input,
+  .admin-form select,
+  .admin-form textarea,
+  .weekly-reflection-panel input,
+  .weekly-reflection-panel select,
+  .weekly-reflection-panel textarea,
+  .lesson-notes-panel input,
+  .lesson-notes-panel textarea
+) {
+  border-radius: var(--od3d-radius-control) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background:
+    linear-gradient(145deg, var(--od3d-surface), var(--od3d-card)) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface-elevated),
+    inset 0 -12px 28px var(--od3d-accent-soft) !important;
+  transition:
+    box-shadow .22s ease,
+    border-color .22s ease,
+    transform .22s ease;
+}
+
+html body #root :is(
+  input,
+  textarea,
+  select,
+  .archive-search,
+  .course-search-input,
+  .command-search,
+  .auth-input,
+  .field-input,
+  .notes-textarea,
+  .field-textarea,
+  .comment-box
+):focus {
+  border-color: var(--od3d-border-strong) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface-elevated),
+    0 0 0 4px var(--od3d-accent-soft),
+    var(--od3d-shadow-sm) !important;
+  outline: none !important;
+  transform: translateY(-1px);
+}
+
+html body #root :is(
+  .radar-tabs,
+  .panel-tabs,
+  .sim-root .nav,
+  .sim-root .panel-tabs,
+  .auth-tabs,
+  .roi-switch,
+  .mode-switch,
+  .tab-list,
+  .admin-tabs,
+  .header-actions,
+  .portfolio-actions,
+  .mastery-actions,
+  .radar-actions,
+  .od-hero-actions,
+  .od-timer-actions,
+  .button-row,
+  .hero-actions,
+  .actions
+) {
+  border-radius: var(--od3d-radius-panel) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background:
+    linear-gradient(145deg, var(--od3d-surface-muted), var(--od3d-surface-elevated)) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface),
+    var(--od3d-shadow-sm) !important;
+  backdrop-filter: blur(14px) saturate(1.08);
+}
+
+html body #root :is(
+  .section-icon,
+  .section-icon--card,
+  .od-feature-icon,
+  .nav-ico,
+  .journey-ring,
+  .jl-day-number,
+  .day-number,
+  .jl-index,
+  .choice-letter,
+  .option-button > span:first-child,
+  .jl-option > span:first-child,
+  .radar-options-list button > span:first-child,
+  .ar-domain-mark,
+  .ar-social-icon,
+  .home-card b,
+  .node-badge,
+  .mastery-progress-orb,
+  .roi-orbit-card,
+  .score-orb,
+  .od-main-gauge,
+  .od-circular-indicator
+) {
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface-elevated),
+    0 18px 42px var(--od3d-accent-soft) !important;
+  transform-style: preserve-3d;
+  transition:
+    transform .28s ease,
+    filter .28s ease,
+    box-shadow .28s ease;
+}
+
+html body #root :is(
+  .progress-track,
+  .mini-progress,
+  .mastery-track,
+  .jl-mini-track,
+  .radar-progress-line,
+  .radar-score-track,
+  .od-progress-track,
+  .profile-progress-line,
+  .monthly-progress,
+  .weekly-reflection-progress,
+  .mini-bar-track,
+  .decision-progress
+) {
+  border-radius: var(--od3d-radius-pill) !important;
+  background:
+    linear-gradient(145deg, var(--od3d-surface-muted), var(--od3d-surface)) !important;
+  box-shadow:
+    inset 0 1px 0 var(--od3d-surface-elevated),
+    inset 0 -8px 18px var(--od3d-accent-soft) !important;
+}
+
+html body #root :is(
+  .progress-track i,
+  .mini-progress i,
+  .mastery-track i,
+  .jl-mini-track i,
+  .radar-progress-line i,
+  .radar-score-fill,
+  .od-progress-track i,
+  .profile-progress-line i,
+  .monthly-progress i,
+  .weekly-reflection-progress i,
+  .mini-bar-track i,
+  .decision-progress i
+) {
+  border-radius: inherit !important;
+  box-shadow: 0 10px 28px var(--od3d-accent-soft) !important;
+}
+
+html body #root :is(
+  .page-loader,
+  .boot-screen,
+  .global-notice,
+  .admin-empty,
+  .saved-lessons-empty,
+  .portfolio-empty,
+  .jl-empty,
+  .empty-state,
+  .error-card,
+  .quiz-message,
+  .jl-quiz-result,
+  .feedback-success,
+  .feedback-error,
+  .notice,
+  .alert,
+  .toast
+) {
+  border-radius: var(--od3d-radius-card) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background: var(--od3d-panel-glass) !important;
+  box-shadow: var(--od3d-shadow-sm) !important;
+  backdrop-filter: blur(14px) saturate(1.05);
+}
+
+html body #root :is(
+  .admin-table,
+  table,
+  .course-search-results,
+  .modal,
+  .dialog,
+  [role="dialog"],
+  .notifications-popover,
+  .full-profile-modal,
+  .profile-drawer,
+  .legal-confirm-dialog
+) {
+  border-radius: var(--od3d-radius-panel) !important;
+  border: 1px solid var(--od3d-border) !important;
+  background: var(--od3d-panel-glass) !important;
+  box-shadow: var(--od3d-shadow-lg) !important;
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html body #root :is(
+    .od-command-card,
+    .od-feature-card,
+    .od-lab-card,
+    .section-icon-grid__item,
+    .month-card,
+    .week-card,
+    .day-step,
+    .jl-month-card,
+    .jl-week-card,
+    .jl-day-card,
+    .question-card,
+    .radar-card,
+    .radar-tab,
+    .radar-options-list button,
+    .sim-root .home-card,
+    .sim-root .card,
+    .sim-root .scenario-node,
+    .sim-root .choice,
+    .archive-item,
+    .message-bubble,
+    .roi-result-card,
+    .roi-source,
+    .mastery-stat,
+    .monthly-card,
+    .saved-lesson,
+    .portfolio-row,
+    .portfolio-stat,
+    .ar-card,
+    .ar-lens,
+    .ar-domain,
+    .ar-social,
+    .admin-metric,
+    .admin-row
+  ):hover {
+    transform: perspective(900px) translate3d(0, -8px, 34px) rotateX(2deg);
+    border-color: var(--od3d-border-strong) !important;
+    box-shadow:
+      var(--od3d-shadow-lg),
+      0 24px 70px var(--od3d-accent-soft),
+      inset 0 1px 0 var(--od3d-surface-elevated) !important;
+    filter: saturate(1.04);
+  }
+
+  html body #root :is(
+    button,
+    .od-button,
+    .btn,
+    .primary-button,
+    .secondary-button,
+    .send-button,
+    .mastery-button,
+    .ar-primary-action,
+    .ar-secondary-action,
+    .ar-consultation-button,
+    .admin-action,
+    .admin-soft-button
+  ):hover {
+    transform: translate3d(0, -3px, 22px);
+    box-shadow:
+      var(--od3d-shadow-sm),
+      0 18px 42px var(--od3d-accent-soft) !important;
+  }
+
+  html body #root :is(
+    .section-icon,
+    .od-feature-icon,
+    .nav-ico,
+    .journey-ring,
+    .jl-day-number,
+    .day-number,
+    .ar-domain-mark,
+    .ar-social-icon,
+    .od-main-gauge,
+    .score-orb
+  ):hover {
+    transform: translate3d(0, -6px, 32px) rotateX(4deg) rotateY(-4deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html body #root :is(
+    .hero-card,
+    .public-hero,
+    .od-hero,
+    .journey-hero,
+    .jl-hero,
+    .command-hero,
+    .sim-root .hero,
+    .roi-hero,
+    .mastery-hero,
+    .portfolio-hero,
+    .ar-hero,
+    .admin-hero
+  ) {
+    animation: od3d-hero-rise .7s ease both;
+  }
+
+  html body #root :is(
+    .section-icon,
+    .od-feature-icon,
+    .journey-ring,
+    .jl-day-number,
+    .day-number,
+    .ar-domain-mark,
+    .ar-social-icon,
+    .od-main-gauge,
+    .score-orb,
+    .mastery-progress-orb,
+    .roi-orbit-card
+  ) {
+    animation: od3d-float 6s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    html body #root :is(
+      .od-feature-card,
+      .section-icon-grid__item,
+      .month-card,
+      .week-card,
+      .day-step,
+      .jl-month-card,
+      .jl-week-card,
+      .jl-day-card,
+      .radar-card,
+      .sim-root .home-card,
+      .command-panel,
+      .roi-panel,
+      .mastery-stat,
+      .portfolio-section,
+      .ar-section,
+      .admin-panel
+    ) {
+      animation: od3d-scroll-reveal both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 24%;
+    }
+  }
+}
+
+@keyframes od3d-hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes od3d-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 18px);
+  }
+  50% {
+    transform: translate3d(0, -8px, 26px);
+  }
+}
+
+@keyframes od3d-scroll-reveal {
+  from {
+    opacity: .72;
+    transform: translate3d(0, 22px, 0) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --od3d-radius-hero: 30px;
+    --od3d-radius-panel: 26px;
+    --od3d-radius-card: 22px;
+  }
+
+  html body #root :is(
+    .hero-card,
+    .public-hero,
+    .od-hero,
+    .journey-hero,
+    .jl-hero,
+    .command-hero,
+    .sim-root .hero,
+    .roi-hero,
+    .mastery-hero,
+    .portfolio-hero,
+    .ar-hero,
+    .admin-hero
+  ) > * {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body #root *,
+  html body #root *::before,
+  html body #root *::after {
+    animation: none !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html body #root :is(
+    .od-feature-card,
+    .section-icon-grid__item,
+    .month-card,
+    .week-card,
+    .day-step,
+    .jl-month-card,
+    .jl-week-card,
+    .jl-day-card,
+    .radar-card,
+    .sim-root .home-card,
+    .archive-item,
+    .message-bubble,
+    .ar-card,
+    .admin-row
+  ):hover {
+    transform: none !important;
+  }
+}

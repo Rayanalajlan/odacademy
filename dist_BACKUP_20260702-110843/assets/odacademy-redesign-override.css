@@ -1,0 +1,752 @@
+/* Visual override for already-built dist output. Design-only. */
+:root {
+  --od-ink: #211532;
+  --od-muted: #5f5270;
+  --od-purple: #7e60cd;
+  --od-purple-soft: #efe7ff;
+  --od-gold: #8b5cf6;
+  --od-paper: #f3edff;
+}
+
+html,
+body {
+  letter-spacing: 0 !important;
+  overflow-x: clip !important;
+}
+
+body {
+  color: var(--od-ink) !important;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(126, 96, 205, .18), transparent 30%),
+    radial-gradient(circle at 88% 9%, rgba(139, 92, 246, .16), transparent 28%),
+    linear-gradient(180deg, #fbf8ff 0%, #efe7ff 30%, #f3edff 100%) !important;
+}
+
+h1,
+h2,
+h3,
+.brand strong,
+.section-hero h2 {
+  letter-spacing: 0 !important;
+}
+
+.site-frame,
+.auth-screen,
+.boot-screen {
+  background:
+    radial-gradient(circle at 9% 7%, rgba(126, 96, 205, .16), transparent 30%),
+    radial-gradient(circle at 88% 10%, rgba(139, 92, 246, .14), transparent 28%),
+    linear-gradient(180deg, #fbf8ff 0%, #efe7ff 32%, #f3edff 100%) !important;
+}
+
+.site-header {
+  top: 14px !important;
+  width: min(1220px, calc(100% - 28px)) !important;
+  border-radius: 26px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90)) !important;
+  border: 1px solid rgba(126,96,205,.20) !important;
+  box-shadow: 0 18px 52px rgba(65,41,111,.12) !important;
+}
+
+.brand {
+  min-width: 174px !important;
+  min-height: 54px !important;
+  background: url("../brand/munsaqah-horizontal-official.png") center / contain no-repeat !important;
+}
+
+.brand > * {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.main-nav button {
+  color: #4a3c5f !important;
+  background: rgba(255,255,255,.64) !important;
+  border: 1px solid rgba(126,96,205,.14) !important;
+}
+
+.main-nav button.active,
+.main-nav button:hover {
+  color: #3b1d6e !important;
+  -webkit-text-fill-color: #3b1d6e !important;
+  background: linear-gradient(135deg, #c4b5fd, #8b5cf6) !important;
+  box-shadow: 0 12px 28px rgba(139,92,246,.18) !important;
+}
+
+.logout-button {
+  color: #7f1d1d !important;
+  background: #fff1f2 !important;
+  border: 1px solid rgba(248,113,113,.22) !important;
+}
+
+.auth-card-integrated,
+.home-hero,
+.quote-card,
+.feature-card,
+.stat-card,
+.lab-card,
+.radar-card,
+.chat-shell,
+.about-main,
+.about-side > div,
+.navigation-card,
+.content-container,
+.progress-card {
+  color: var(--od-ink) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(126,96,205,.10), transparent 30%),
+    rgba(255,255,255,.88) !important;
+  border: 1px solid rgba(126,96,205,.16) !important;
+  box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+}
+
+.home-hero {
+  position: relative !important;
+  overflow: hidden !important;
+  padding-block: clamp(44px, 8vw, 86px) !important;
+}
+
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border-radius: 30px;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(126,96,205,.18), transparent),
+    radial-gradient(circle at 22% 28%, rgba(139,92,246,.20), transparent 3px),
+    radial-gradient(circle at 76% 36%, rgba(126,96,205,.20), transparent 4px);
+  opacity: .9;
+}
+
+.home-hero > * {
+  position: relative;
+}
+
+.home-hero h1,
+.section-hero h2 {
+  color: var(--od-ink) !important;
+  text-shadow: none !important;
+}
+
+.home-hero h1 span,
+.welcome-chip,
+.tag,
+.eyebrow {
+  color: #5b3c8f !important;
+  background: rgba(126,96,205,.12) !important;
+}
+
+.home-hero p,
+.section-hero p,
+.feature-card p,
+.about-main p,
+.lab-intro p,
+.question-panel p {
+  color: var(--od-muted) !important;
+}
+
+.primary-button,
+.auth-tabs button.active,
+.sample-button {
+  color: #3b1d6e !important;
+  -webkit-text-fill-color: #3b1d6e !important;
+  background: linear-gradient(135deg, #c4b5fd, #8b5cf6) !important;
+  box-shadow: 0 16px 34px rgba(139,92,246,.22) !important;
+}
+
+.secondary-button,
+.ghost-button {
+  color: #4a3c5f !important;
+  background: #f5efff !important;
+  border: 1px solid rgba(126,96,205,.16) !important;
+}
+
+.quote-card,
+.dark-panel,
+.certificate-frame {
+  color: var(--od-ink) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139,92,246,.18), transparent 30%),
+    linear-gradient(135deg, #ffffff, #f4ecff 55%, #f3edff) !important;
+  border: 1px solid rgba(126,96,205,.18) !important;
+}
+
+.quote-card p,
+.dark-panel h4,
+.certificate-frame h2,
+.certificate-frame h3,
+.certificate-frame p {
+  color: var(--od-ink) !important;
+}
+
+.dark-panel .mini-card,
+.philosophy-card {
+  color: var(--od-ink) !important;
+  background: rgba(255,255,255,.72) !important;
+  border: 1px solid rgba(126,96,205,.16) !important;
+}
+
+.site-footer {
+  width: min(1180px, calc(100% - 28px)) !important;
+  margin: 28px auto 48px !important;
+  border-radius: 26px !important;
+  padding: 24px !important;
+  color: #4a3c5f !important;
+  background:
+    radial-gradient(circle at 0% 100%, rgba(139,92,246,.16), transparent 30%),
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,231,255,.90)) !important;
+  border: 1px solid rgba(126,96,205,.18) !important;
+  box-shadow: 0 18px 52px rgba(65,41,111,.10) !important;
+}
+
+.site-footer::before {
+  content: "";
+  display: block;
+  width: 150px;
+  height: 48px;
+  margin: 0 auto 12px;
+  background: url("../brand/munsaqah-horizontal-official.png") center / contain no-repeat;
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    width: calc(100% - 18px) !important;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+  }
+
+  .brand {
+    min-width: 140px !important;
+    min-height: 44px !important;
+  }
+
+  .feature-grid,
+  .stats-grid,
+  .assessment-grid,
+  .simulation-grid,
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* PHASE 55 - uploaded dist contrast repair */
+html body:not(.od-theme-dark):not(.od-theme-dark) {
+  --od55-heading: #2b155f;
+  --od55-text: #46345f;
+  --od55-muted: #6a5d85;
+  --od55-light-surface: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+  --od55-light-border: rgba(124, 58, 237, .20);
+}
+
+html body.od-theme-dark.od-theme-dark {
+  --od55-heading: #f7f3fc;
+  --od55-text: #e7ddfb;
+  --od55-muted: #cfc3ee;
+  --od55-dark-surface: linear-gradient(180deg, rgba(31, 19, 55, .98), rgba(22, 13, 42, .96));
+  --od55-dark-border: rgba(196, 181, 253, .28);
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--od55-heading) !important;
+  -webkit-text-fill-color: var(--od55-heading) !important;
+  background-image: none !important;
+  text-shadow: none !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+  .public-hero,
+  .od-hero,
+  .od-command-card,
+  .portfolio-hero,
+  .radar-card-dark,
+  .mastery-hero,
+  .ar-hero,
+  .roi-hero,
+  .command-hero,
+  .jl-hero,
+  .sim-root .hero,
+  .learning-journey .journey-hero
+) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: #f7f3fc !important;
+  -webkit-text-fill-color: #f7f3fc !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero,
+  .public-section,
+  .auth-card,
+  .hero-point,
+  .counter-card,
+  .path-card,
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .sample-box,
+  .sample-modal,
+  .sample-modal-card
+) {
+  background: var(--od55-light-surface) !important;
+  border-color: var(--od55-light-border) !important;
+  color: var(--od55-text) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero h1,
+  .section-head h2,
+  .auth-title,
+  .counter-card strong,
+  .path-card strong,
+  .info-card strong,
+  .legal-card strong,
+  .sample-box h3,
+  .sample-modal h2,
+  .sample-modal-card strong,
+  .faq-question > span:first-child
+) {
+  color: var(--od55-heading) !important;
+  -webkit-text-fill-color: var(--od55-heading) !important;
+  background-image: none !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero p,
+  .section-head p,
+  .hero-point span,
+  .counter-card span,
+  .path-card span,
+  .info-card span,
+  .legal-card span,
+  .sample-box p,
+  .sample-bullets li,
+  .sample-modal p,
+  .sample-modal-card span,
+  .faq-answer,
+  .public-footer,
+  .public-footer p,
+  .public-footer span
+) {
+  color: var(--od55-text) !important;
+  -webkit-text-fill-color: var(--od55-text) !important;
+  opacity: 1 !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-badge,
+  .sample-kicker,
+  .hero-point b,
+  .path-card b,
+  .legal-footer-link
+) {
+  color: #6d28d9 !important;
+  -webkit-text-fill-color: #6d28d9 !important;
+  background: rgba(124, 58, 237, .11) !important;
+  border-color: rgba(124, 58, 237, .28) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .auth-tabs button.active,
+  .auth-primary,
+  .sample-button
+),
+html body.od-theme-dark.od-theme-dark .public-gate :is(
+  .auth-tabs button.active,
+  .auth-primary,
+  .sample-button
+) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) {
+  background: var(--od55-light-surface) !important;
+  border-color: var(--od55-light-border) !important;
+  color: var(--od55-text) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) :is(h1, h2, h3, h4, strong, b) {
+  color: var(--od55-heading) !important;
+  -webkit-text-fill-color: var(--od55-heading) !important;
+  background-image: none !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) :is(p, span, small, label, time, li) {
+  color: var(--od55-muted) !important;
+  -webkit-text-fill-color: var(--od55-muted) !important;
+  opacity: 1 !important;
+}
+
+html body.od-theme-dark.od-theme-dark :is(
+  .public-section,
+  .auth-card,
+  .hero-point,
+  .counter-card,
+  .path-card,
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .sample-box,
+  .sample-modal,
+  .sample-modal-card,
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) {
+  background: var(--od55-dark-surface) !important;
+  border-color: var(--od55-dark-border) !important;
+  color: var(--od55-text) !important;
+}
+
+html body.od-theme-dark.od-theme-dark :is(
+  .public-section,
+  .auth-card,
+  .hero-point,
+  .counter-card,
+  .path-card,
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .sample-box,
+  .sample-modal,
+  .sample-modal-card,
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) :is(h1, h2, h3, h4, strong, b) {
+  color: var(--od55-heading) !important;
+  -webkit-text-fill-color: var(--od55-heading) !important;
+  background-image: none !important;
+}
+
+html body.od-theme-dark.od-theme-dark :is(
+  .public-section,
+  .auth-card,
+  .hero-point,
+  .counter-card,
+  .path-card,
+  .info-card,
+  .legal-card,
+  .faq-item,
+  .sample-box,
+  .sample-modal,
+  .sample-modal-card,
+  .od-feature-card,
+  .od-lab-card,
+  .od-milestone,
+  .od-stat-card,
+  .od-progress-line,
+  .profile-metric,
+  .profile-stat,
+  .portfolio-stat,
+  .portfolio-section,
+  .portfolio-row,
+  .radar-card:not(.radar-card-dark),
+  .onboarding-card,
+  .onboarding-step,
+  .monthly-certificates,
+  .issued,
+  .course-search-result,
+  .course-search-empty,
+  .jl-reader,
+  .jl-week-intro
+) :is(p, span, small, label, time, li) {
+  color: var(--od55-muted) !important;
+  -webkit-text-fill-color: var(--od55-muted) !important;
+  opacity: 1 !important;
+}
+
+html body.od-theme-dark.od-theme-dark :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+  color: #f7f3fc !important;
+  -webkit-text-fill-color: #f7f3fc !important;
+  background: rgba(167, 139, 250, .15) !important;
+  border-color: rgba(196, 181, 253, .30) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) :is(.od-button--ghost, .ghost-button, [class*="ghost"]) {
+  color: #4c2a86 !important;
+  -webkit-text-fill-color: #4c2a86 !important;
+  background: rgba(124, 58, 237, .10) !important;
+  border-color: rgba(124, 58, 237, .24) !important;
+}
+
+html body.od-theme-dark main[style*="min-height: 100vh"][style*="direction: rtl"] > div > section,
+html body.od-theme-dark main[style*="min-height: 100vh"][style*="direction: rtl"] [role="dialog"] > div {
+  background: var(--od55-dark-surface) !important;
+  border-color: var(--od55-dark-border) !important;
+  color: var(--od55-text) !important;
+}
+
+html body.od-theme-dark main[style*="min-height: 100vh"][style*="direction: rtl"] > div > section :is(h1, h2, h3, strong, b) {
+  color: var(--od55-heading) !important;
+  -webkit-text-fill-color: var(--od55-heading) !important;
+}
+
+html body.od-theme-dark main[style*="min-height: 100vh"][style*="direction: rtl"] > div > section :is(p, li, span, label, small) {
+  color: var(--od55-muted) !important;
+  -webkit-text-fill-color: var(--od55-muted) !important;
+}
+
+/* PHASE 56 - final visitor/about mixed-surface polish */
+html body:not(.od-theme-dark):not(.od-theme-dark) {
+  --od56-heading: #24123f;
+  --od56-text: #4d3f69;
+  --od56-muted: #6a5d85;
+  --od56-accent: #6d28d9;
+  --od56-dark-heading: #f7f3fc;
+  --od56-dark-muted: #d8cff2;
+}
+
+html body.od-theme-dark.od-theme-dark {
+  --od56-heading: #f7f3fc;
+  --od56-text: #e7ddfb;
+  --od56-muted: #cfc3ee;
+  --od56-accent: #d9c7ff;
+  --od56-dark-heading: #f7f3fc;
+  --od56-dark-muted: #d8cff2;
+}
+
+html body :is(.public-gate, .about-rayan) :is(h1, h2, h3, h4, strong, b, p, li, span, small, a, button) {
+  letter-spacing: 0 !important;
+}
+
+html body .public-gate .public-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.35rem) !important;
+  line-height: 1.22 !important;
+  font-weight: 850 !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero h1,
+  .section-head h2,
+  .auth-title,
+  .counter-card strong,
+  .path-card strong,
+  .info-card strong,
+  .sample-box h3
+) {
+  color: var(--od56-heading) !important;
+  -webkit-text-fill-color: var(--od56-heading) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .public-gate :is(
+  .public-hero p,
+  .section-head p,
+  .hero-point span,
+  .counter-card span,
+  .path-card span,
+  .info-card span,
+  .sample-box p,
+  .sample-bullets li
+) {
+  color: var(--od56-text) !important;
+  -webkit-text-fill-color: var(--od56-text) !important;
+}
+
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) :is(svg, path, span),
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html body :is(.public-gate, .about-rayan) :is(.social-linkedin, .social-x, .social-mail, .ar-social-icon, .ar-domain-mark) :is(svg, path) {
+  fill: currentColor !important;
+  stroke: currentColor;
+}
+
+html body .public-gate .about-links a.social-linkedin {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: #0a66c2 !important;
+  border-color: rgba(10, 102, 194, .95) !important;
+}
+
+html body .public-gate .about-links a.social-x {
+  color: #f7f3fc !important;
+  -webkit-text-fill-color: #f7f3fc !important;
+  background: #18102e !important;
+  border-color: rgba(196, 181, 253, .26) !important;
+}
+
+html body .public-gate .about-links a.social-mail {
+  color: #5b21b6 !important;
+  -webkit-text-fill-color: #5b21b6 !important;
+  background: rgba(124, 58, 237, .10) !important;
+  border-color: rgba(124, 58, 237, .28) !important;
+}
+
+html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) {
+  background: linear-gradient(150deg,#18102e 0%,#281748 100%) !important;
+  border-color: rgba(196,181,253,.22) !important;
+  color: #e7ddfb !important;
+}
+
+html body .about-rayan {
+  --x: #18102e !important;
+}
+
+html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(h1, h2, h3, strong, b) {
+  color: var(--od56-dark-heading) !important;
+  -webkit-text-fill-color: var(--od56-dark-heading) !important;
+}
+
+html body .about-rayan :is(.ar-hero, .ar-lens, .ar-consultation-panel) :is(p, span, small) {
+  color: var(--od56-dark-muted) !important;
+  -webkit-text-fill-color: var(--od56-dark-muted) !important;
+  opacity: 1 !important;
+}
+
+html body .about-rayan .ar-lens b {
+  color: #8b5cf6 !important;
+  -webkit-text-fill-color: #8b5cf6 !important;
+  opacity: .78 !important;
+}
+
+html body .about-rayan .ar-lens h3 {
+  color: #efe9ff !important;
+  -webkit-text-fill-color: #efe9ff !important;
+}
+
+html body .about-rayan .ar-lens p {
+  color: #d8cff2 !important;
+  -webkit-text-fill-color: #d8cff2 !important;
+}
+
+html body .about-rayan .ar-title span {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background: linear-gradient(90deg,#ffffff,#f4e8ff,#d9c7ff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(.ar-section-head h2, .ar-domain h3, .ar-card h3, .ar-social h3, .ar-consultation-copy h3) {
+  color: var(--od56-heading) !important;
+  -webkit-text-fill-color: var(--od56-heading) !important;
+}
+
+html body:not(.od-theme-dark):not(.od-theme-dark) .about-rayan :is(.ar-section-head p, .ar-domain p, .ar-card p, .ar-social p, .ar-consultation-copy p, .ar-bio-box p) {
+  color: var(--od56-muted) !important;
+  -webkit-text-fill-color: var(--od56-muted) !important;
+}
+
+html body.od-theme-dark.od-theme-dark .about-rayan :is(.ar-section, .ar-bio-box, .ar-consultation-copy, .ar-card, .ar-domain, .ar-social, .ar-dua-card) {
+  background: linear-gradient(180deg,rgba(31,19,55,.96),rgba(22,13,42,.94)) !important;
+  border-color: rgba(196,181,253,.26) !important;
+  color: var(--od56-text) !important;
+}
+
+html body.od-theme-dark.od-theme-dark .about-rayan :is(.ar-section-head h2, .ar-domain h3, .ar-card h3, .ar-social h3, .ar-consultation-copy h3) {
+  color: var(--od56-heading) !important;
+  -webkit-text-fill-color: var(--od56-heading) !important;
+}
+
+html body.od-theme-dark.od-theme-dark .about-rayan :is(.ar-section-head p, .ar-domain p, .ar-card p, .ar-social p, .ar-consultation-copy p, .ar-bio-box p) {
+  color: var(--od56-muted) !important;
+  -webkit-text-fill-color: var(--od56-muted) !important;
+}
+
+html body .about-rayan .ar-social.x .ar-social-icon {
+  background: #18102e !important;
+}
+
+html body .about-rayan .ar-social.x span,
+html body .about-rayan :is(.ar-primary-action, .ar-consultation-button) {
+  color: #5b21b6 !important;
+  -webkit-text-fill-color: #5b21b6 !important;
+}
+
+html body :is(.jl-question-title b, .jl-quiz-submit, .causal-meta-line b, .main-center h3) {
+  color: #24123f !important;
+  -webkit-text-fill-color: #24123f !important;
+}
