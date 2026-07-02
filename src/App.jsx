@@ -1271,7 +1271,7 @@ export default function App() {
       <FeedbackPrompt
         completedDays={officialCompletedDays}
         totalDays={totalJourneyDays}
-        onAdminDetected={setAdminMode}
+        onAdminDetected={setIsAdmin}
       />
 
       {showOnboarding && (

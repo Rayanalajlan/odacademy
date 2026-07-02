@@ -634,7 +634,7 @@ function MiniProgress({ label, value, help }) {
   );
 }
 
-function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
+function QuizPanel({ day, questions, hasQuizText = false, onPass, completionAction = null }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -655,6 +655,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
   }, 0);
 
   const passed = hasKnownAnswers ? score === total : allAnswered;
+  const showCompletionAction = submitted && passed && completionAction?.show;
 
   function submitQuiz() {
     setSubmitted(true);
@@ -678,6 +679,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
         ) : (
           <p>لم يتم العثور على اختبار منفصل داخل بيانات هذا اليوم. يمكنك إنهاء اليوم بعد قراءة الدرس.</p>
         )}
+
       </div>
     );
   }
@@ -778,6 +780,17 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass }) {
                 : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
               : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
           </div>
+        )}
+
+        {showCompletionAction && (
+          <button
+            type="button"
+            className="jl-quiz-submit"
+            onClick={completionAction.onClick}
+            disabled={completionAction.disabled}
+          >
+            {completionAction.label}
+          </button>
         )}
       </div>
     </section>
@@ -1262,6 +1275,19 @@ export default function CourseJourney({
   const canCompleteLesson =
     currentDayState === "active" &&
     (!dayHasQuiz || quizPassedByDay[selectedDay?.id]);
+  const quizCompletionAction = currentDayState === "completed"
+    ? {
+        show: true,
+        label: "افتح المحطة التالية",
+        onClick: openNextPoint,
+        disabled: false
+      }
+    : {
+        show: canCompleteLesson,
+        label: saving ? "جارٍ الحفظ..." : "إنهاء اليوم وحفظ التقدم",
+        onClick: completeCurrentDay,
+        disabled: saving || currentDayState !== "active" || !canCompleteLesson
+      };
 
   return (
     <section className="journey-lab" dir="rtl">
@@ -2571,6 +2597,7 @@ export default function CourseJourney({
                   day={selectedDay}
                   questions={preparedLesson.quiz}
                   hasQuizText={preparedLesson.hasQuizText}
+                  completionAction={quizCompletionAction}
                   onPass={() => {
                     setQuizPassedByDay((current) => ({
                       ...current,
