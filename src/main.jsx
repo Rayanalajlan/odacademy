@@ -20,8 +20,24 @@ createRoot(document.getElementById("root")).render(
 
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
-      // Registration is optional; the app must keep working if the browser blocks it.
-    });
+    if ("caches" in window) {
+      caches
+        .keys()
+        .then((keys) =>
+          Promise.all(
+            keys
+              .filter((key) => key.startsWith("odacademy-static-"))
+              .map((key) => caches.delete(key))
+          )
+        )
+        .catch(() => {});
+    }
+
+    navigator.serviceWorker
+      .register("/sw.js", { updateViaCache: "none" })
+      .then((registration) => registration.update())
+      .catch(() => {
+        // Registration is optional; the app must keep working if the browser blocks it.
+      });
   });
 }

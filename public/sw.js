@@ -1,6 +1,5 @@
-const CACHE_NAME = "odacademy-static-v3";
+const CACHE_NAME = "odacademy-static-v6";
 const STATIC_ASSETS = [
-  "/",
   "/site.webmanifest",
   "/favicon.ico",
   "/favicon-16.png",
@@ -53,6 +52,12 @@ function shouldSkipCache(request) {
   return (
     request.method !== "GET" ||
     url.origin !== self.location.origin ||
+    request.mode === "navigate" ||
+    url.pathname === "/" ||
+    url.pathname === "/index.html" ||
+    url.pathname.startsWith("/assets/") ||
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".css") ||
     url.pathname.startsWith("/api/") ||
     url.pathname === "/env-config.js"
   );
@@ -62,21 +67,6 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
 
   if (shouldSkipCache(request)) return;
-
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put("/", copy));
-          }
-          return response;
-        })
-        .catch(() => caches.match("/"))
-    );
-    return;
-  }
 
   event.respondWith(
     caches.match(request).then((cached) => {
