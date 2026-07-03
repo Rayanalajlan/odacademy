@@ -39,7 +39,7 @@ export default function VerifyCertificate({ slug }) {
 
   const isMonthly =
     record?.certificate_type === "monthly" ||
-    Number.isFinite(Number(record?.month_number));
+    Number(record?.month_number) > 0;
 
   const certificateTitle = isMonthly
     ? "شهادة إنجاز شهرية موثّقة"
