@@ -47,6 +47,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
   const [dismissed, setDismissed] = useState(false);
   const [saving, setSaving] = useState(false);
   const [sent, setSent] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [form, setForm] = useState({
     clarityRating: 0,
     odDepthRating: 0,
@@ -94,6 +95,7 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
     }
 
     setSaving(true);
+    setSubmitError("");
 
     try {
       await submitJourneyFeedback({
@@ -108,7 +110,12 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
       setOpen(false);
       await load();
     } catch (error) {
-      alert(error?.message || "تعذر إرسال التقييم.");
+      console.warn("تعذر إرسال التقييم:", error);
+      setSubmitError(
+        error?.message?.includes("journey_feedback")
+          ? "تعذر حفظ التقييم بسبب إعداد قديم في قاعدة البيانات. تم حفظ المحاولة في الواجهة، ويلزم تحديث قيد مراحل التقييم في Supabase."
+          : error?.message || "تعذر إرسال التقييم الآن. حاول مرة أخرى بعد قليل."
+      );
     } finally {
       setSaving(false);
     }
@@ -333,6 +340,17 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
           font-weight: 850;
         }
 
+        .feedback-error {
+          border-radius: 18px;
+          padding: 13px;
+          background: #fef2f2;
+          color: #991b1b;
+          border: 1px solid #fecaca;
+          line-height: 1.8;
+          font-size: 12px;
+          font-weight: 900;
+        }
+
         body.od-theme-dark .feedback-card {
           background:
             radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .18), transparent 34%),
@@ -405,6 +423,12 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
           color: #d8b4fe;
           background: rgba(139, 92, 246, .16);
           border: 1px solid rgba(196, 181, 253, .20);
+        }
+
+        body.od-theme-dark .feedback-error {
+          color: #fecaca;
+          background: rgba(127, 29, 29, .28);
+          border-color: rgba(248, 113, 113, .34);
         }
 
         @media (max-width: 840px) {
@@ -567,6 +591,8 @@ export default function FeedbackPrompt({ completedDays = 0, totalDays = 168, onA
               <div className="feedback-note">
                 التقييم يحفظ أولًا للمراجعة. لن يظهر للزوار إلا بعد موافقتك على النشر وموافقة مدير المنصة.
               </div>
+
+              {submitError ? <div className="feedback-error">{submitError}</div> : null}
 
               <button type="submit" className="feedback-submit" disabled={saving}>
                 {saving ? "جارٍ الإرسال..." : "إرسال التقييم"}

@@ -27,6 +27,26 @@ function buildCertificateId(userName, completedDays) {
   return `OD-${stamp}-${cleanName || "Learner"}-${completedDays}`;
 }
 
+function escapeSvgText(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf-8" }) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 800);
+}
+
 export default function MasteryCertificate({
   userName,
   completedDays = 0,
@@ -101,15 +121,15 @@ export default function MasteryCertificate({
 
 
   const linkedInPost = useMemo(() => {
-    return `الحمد لله، أنهيت رحلة منسقة الكاملة في التطوير التنظيمي خلال ستة أشهر تعليمية (${totalDays} يومًا).
+    return `الحمد لله، أنهيت رحلة منسقة للتطوير التنظيمي خلال ستة أشهر تعليمية (${totalDays} يومًا).
 
-كانت رحلة ثرية، مو بس محتوى واختبارات، بل تدريب يومي على التفكير المنظومي: كيف نفهم السياق، نشخص السبب الحقيقي، ونصمم تدخل يحترم الناس والعمل والنتيجة.
+كانت رحلة ثرية ومرتبة، مو بس دروس واختبارات؛ كانت تدريبًا يوميًا على عقلية ممارس OD: قراءة السياق قبل الحكم، تشخيص السبب قبل الحل، وتصميم تدخل يحترم الإنسان والنظام والأثر.
 
-أكثر شيء طلع معي من التجربة: الحل الجيد يبدأ بسؤال جيد، والأثر الحقيقي يحتاج صبر وقياس وتعلّم مستمر.
+أكثر فكرة أخذتها معي: المنظمة لا تتغير بكثرة المبادرات، بل بوضوح السؤال، جودة التشخيص، واتصال التعلم بالفعل اليومي.
 
-فخور بهذا الإنجاز، وممتن لكل محطة صنعت فرقًا في طريقة قراءتي للمنظمات.
+فخور بهذا الإنجاز، وممتن لكل محطة خلت قراءتي للمنظمات أعمق وأهدأ وأكثر مسؤولية.
 
-شهادة الإتمام: ${verificationUrl}
+رابط التحقق من الوثيقة: ${verificationUrl}
 
 #التطوير_التنظيمي
 #التعلم_المستمر
@@ -149,6 +169,80 @@ export default function MasteryCertificate({
     window.open(shareUrl, "_blank", "width=760,height=680");
   }
 
+  function downloadCertificateImage() {
+    if (!isUnlocked) return;
+
+    const safeName = escapeSvgText(learnerName);
+    const safeCode = escapeSvgText(certificateCode);
+    const safeDate = escapeSvgText(completionDate);
+    const safeUrl = escapeSvgText(verificationUrl);
+    const safeStatus = verificationEnabled ? "مفعّلة وقابلة للتحقق" : "صادرة وقيد نشر رابط التحقق";
+    const strategicLines = [
+      "أتم هذا المتدرب رحلة منسقة للتطوير التنظيمي؛ مسارًا تطبيقيًا امتد ستة أشهر",
+      "لبناء عقلية تشخيصية تقرأ المنظمة كنظام حي، وتربط البيانات بالسلوك،",
+      "والتدخل بالأثر، والتغيير بالقدرة المؤسسية المستدامة."
+    ];
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" direction="rtl">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#120826"/>
+      <stop offset="0.48" stop-color="#26164a"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="18%" cy="18%" r="55%">
+      <stop offset="0" stop-color="#10b981" stop-opacity=".36"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="82%" cy="12%" r="48%">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity=".48"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#000000" flood-opacity=".32"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0e0820"/>
+  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#glowA)"/>
+  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#glowB)"/>
+  <rect x="110" y="110" width="1380" height="780" rx="42" fill="none" stroke="#c4b5fd" stroke-opacity=".25" stroke-width="2"/>
+  <text x="1390" y="172" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="34" font-weight="900" fill="#ffffff">منسقة للتطوير التنظيمي</text>
+  <text x="1390" y="216" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="700" fill="#c9bdf0">رحلة معرفية تطبيقية في فهم المنظمة وبناء الأثر</text>
+  <rect x="130" y="140" width="188" height="58" rx="29" fill="#ffffff" fill-opacity=".08" stroke="#c4b5fd" stroke-opacity=".28"/>
+  <text x="224" y="177" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="900" fill="#e9d5ff">وثيقة ختامية</text>
+  <text x="800" y="330" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="76" font-weight="900" fill="#ffffff">إتمام رحلة منسقة</text>
+  <text x="800" y="418" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="68" font-weight="900" fill="#d8b4fe">للتطوير التنظيمي</text>
+  <rect x="455" y="470" width="690" height="96" rx="32" fill="#ffffff" fill-opacity=".10" stroke="#ffffff" stroke-opacity=".16"/>
+  <text x="800" y="534" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="54" font-weight="900" fill="#ffffff">${safeName}</text>
+  <text x="800" y="620" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[0])}</text>
+  <text x="800" y="660" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[1])}</text>
+  <text x="800" y="700" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[2])}</text>
+  <g font-family="Arial, Tahoma, sans-serif" font-weight="900">
+    <rect x="180" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
+    <text x="320" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">${totalDays}</text>
+    <text x="320" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">يومًا تعليميًا</text>
+    <rect x="500" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
+    <text x="640" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">${totalHours}</text>
+    <text x="640" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">ساعة تعلم</text>
+    <rect x="820" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
+    <text x="960" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">24</text>
+    <text x="960" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">أسبوعًا تطبيقيًا</text>
+    <rect x="1140" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
+    <text x="1280" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">6</text>
+    <text x="1280" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">أشهر إتقان</text>
+  </g>
+  <text x="1390" y="858" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="800" fill="#c9bdf0">رقم الوثيقة: ${safeCode} · ${safeStatus}</text>
+  <text x="1390" y="890" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="700" fill="#9d8fc0">تاريخ الإتمام: ${safeDate}</text>
+  <text x="210" y="858" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="700" fill="#9d8fc0">${safeUrl}</text>
+</svg>`;
+
+    downloadTextFile({
+      content: svg,
+      filename: `munsaqah-mastery-${certificateCode}.svg`
+    });
+  }
+
   function printCertificate() {
     if (!isUnlocked) return;
 
@@ -177,9 +271,9 @@ export default function MasteryCertificate({
           position: fixed !important;
           inset: 0 !important;
           width: 297mm !important;
-          min-height: 210mm !important;
+          height: 210mm !important;
           margin: 0 !important;
-          padding: 14mm !important;
+          padding: 0 !important;
           box-sizing: border-box !important;
           box-shadow: none !important;
           border: none !important;
@@ -191,8 +285,11 @@ export default function MasteryCertificate({
         }
 
         #printable-certificate-frame .certificate-inner {
-          min-height: calc(210mm - 28mm) !important;
-          padding: 18mm !important;
+          width: 297mm !important;
+          height: 210mm !important;
+          min-height: 210mm !important;
+          border-radius: 0 !important;
+          padding: 15mm !important;
           box-sizing: border-box !important;
           box-shadow: none !important;
         }
@@ -473,6 +570,20 @@ export default function MasteryCertificate({
           box-shadow: 0 16px 34px rgba(0,119,181,0.20);
         }
 
+        .linkedin-icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 7px;
+          display: inline-grid;
+          place-items: center;
+          background: #ffffff;
+          color: #0077b5;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          font-weight: 950;
+          line-height: 1;
+        }
+
         .mastery-button.ghost {
           background: #efe9fb;
           color: #18102e;
@@ -498,6 +609,7 @@ export default function MasteryCertificate({
           overflow: hidden;
           border-radius: 26px;
           min-height: 520px;
+          aspect-ratio: 16 / 9;
           padding: 44px;
           background:
             radial-gradient(circle at 20% 15%, rgba(16, 185, 129, 0.16), transparent 25%),
@@ -602,11 +714,13 @@ export default function MasteryCertificate({
           display: inline-block;
           padding: 10px 28px;
           border-radius: 22px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.12);
-          color: #fff;
+          background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(233,213,255,0.94));
+          border: 1px solid rgba(196,181,253,0.44);
+          color: #18102e;
+          text-shadow: none;
           font-size: clamp(24px, 4vw, 42px);
           font-weight: 950;
+          box-shadow: 0 18px 44px rgba(0,0,0,.18);
         }
 
         .certificate-title p {
@@ -728,10 +842,10 @@ export default function MasteryCertificate({
           border-radius: 30px;
           padding: 22px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.10), transparent 35%),
-            #ffffff;
-          border: 1px solid rgba(167, 139, 250, 0.22);
-          box-shadow: 0 18px 55px rgba(28, 17, 48, 0.08);
+            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.13), transparent 35%),
+            linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,250,252,.94));
+          border: 1px solid rgba(167, 139, 250, 0.24);
+          box-shadow: 0 18px 55px rgba(28, 17, 48, 0.09);
         }
 
         .certificate-verification-grid {
@@ -743,9 +857,11 @@ export default function MasteryCertificate({
 
         .certificate-verification-card {
           border-radius: 22px;
-          padding: 16px;
-          background: #f4f0fb;
-          border: 1px solid rgba(167, 139, 250,.18);
+          padding: 18px;
+          background:
+            linear-gradient(135deg, rgba(255,255,255,.92), rgba(239,233,251,.86));
+          border: 1px solid rgba(167, 139, 250,.24);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.62);
         }
 
         .certificate-verification-card span {
@@ -759,7 +875,7 @@ export default function MasteryCertificate({
         .certificate-verification-card strong {
           display: block;
           color: #18102e;
-          font-size: 15px;
+          font-size: 14px;
           line-height: 1.8;
           font-weight: 950;
           word-break: break-word;
@@ -1074,11 +1190,11 @@ export default function MasteryCertificate({
                     <div className="learner">{learnerName}</div>
 
                     <p>
-                      تُمنح هذه الوثيقة تقديرًا لإتمام رحلة منسقة للتطوير التنظيمي الممتدة عبر ستة أشهر؛
-                      رحلة جمعت بين القراءة المنهجية للمنظمة، التشخيص المبني على البيانات،
-                      تصميم الأدوار والتدخلات، قيادة التغيير، بناء القدرة، قياس الأثر،
-                      واستدامة التحسين. وتمثل هذه الوثيقة سجل إنجاز تعلّمي وتطبيقي داخل المنصة،
-                      لا شهادة أكاديمية رسمية.
+                      تُمنح هذه الوثيقة لمن أتم رحلة منسقة للتطوير التنظيمي بوصفها سجل إتقان
+                      لمسار تطبيقي امتد ستة أشهر؛ مسار بنى قدرة أعمق على قراءة المنظمة كنظام
+                      حي، وتحويل البيانات إلى تشخيص، والتشخيص إلى تدخل، والتدخل إلى أثر قابل
+                      للقياس والاستدامة. وهي توثيق لإنجاز تعلمي وتطبيقي داخل المنصة، لا شهادة
+                      أكاديمية رسمية.
                     </p>
                   </div>
 
@@ -1120,8 +1236,12 @@ export default function MasteryCertificate({
               </div>
 
               <div className="mastery-actions mastery-no-print">
+                <button className="mastery-button primary" onClick={downloadCertificateImage}>
+                  تحميل صورة الوثيقة
+                </button>
+
                 <button className="mastery-button dark" onClick={printCertificate}>
-                  طباعة الوثيقة / حفظ PDF 🖨️
+                  طباعة صفحة واحدة / حفظ PDF
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyVerificationLink}>
@@ -1129,11 +1249,12 @@ export default function MasteryCertificate({
                 </button>
 
                 <button className="mastery-button ghost" onClick={copyLinkedInPost}>
-                  {copied ? "تم نسخ نص البوست ✅" : "نسخ نص بوست لينكدإن ✍️"}
+                  {copied ? "تم نسخ نص المنشور" : "نسخ نص منشور LinkedIn"}
                 </button>
 
                 <button className="mastery-button linkedin" onClick={shareOnLinkedIn}>
-                  فتح لينكدإن للمشاركة 🔗
+                  <span className="linkedin-icon" aria-hidden="true">in</span>
+                  LinkedIn
                 </button>
               </div>
             </div>

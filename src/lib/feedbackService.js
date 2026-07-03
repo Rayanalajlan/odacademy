@@ -77,6 +77,27 @@ function normalizeStage(stage) {
   return Object.prototype.hasOwnProperty.call(FEEDBACK_STAGES, stage) ? stage : "month_1";
 }
 
+function getStageVariants(stage) {
+  const safeStage = normalizeStage(stage);
+  const compactStage = safeStage.replace("_", "");
+  const numericStage = safeStage.replace("month_", "month");
+  const legacyStages = {
+    month_1: ["first_month", "month_one", "m1"],
+    month_2: ["second_month", "month_two", "m2"],
+    month_3: ["mid_journey", "third_month", "month_three", "m3"],
+    month_4: ["fourth_month", "month_four", "m4"],
+    month_5: ["fifth_month", "month_five", "m5"],
+    month_6: ["final", "completion", "journey_complete", "sixth_month", "month_six", "m6"]
+  };
+
+  return Array.from(new Set([safeStage, compactStage, numericStage, ...(legacyStages[safeStage] || []), "general"]));
+}
+
+function isStageConstraintError(error) {
+  const message = `${error?.message || ""} ${error?.details || ""} ${error?.hint || ""}`;
+  return message.includes("journey_feedback_stage_check") || message.includes("stage_check");
+}
+
 export async function isCurrentUserAdmin() {
   if (!isSupabaseConfigured || !supabase) return false;
 
@@ -170,15 +191,41 @@ export async function submitJourneyFeedback({
     metadata: metadata || {}
   };
 
-  const { data, error } = await supabase
-    .from("journey_feedback")
-    .upsert(payload, { onConflict: "user_id,stage" })
-    .select("*")
-    .single();
+  let lastError = null;
 
-  if (error) throw error;
+  for (const stageVariant of getStageVariants(safeStage)) {
+    const { data, error } = await supabase
+      .from("journey_feedback")
+      .upsert(
+        {
+          ...payload,
+          stage: stageVariant,
+          metadata: {
+            ...(metadata || {}),
+            app_stage: safeStage
+          }
+        },
+        { onConflict: "user_id,stage" }
+      )
+      .select("*")
+      .single();
 
-  return data;
+    if (!error) return data;
+
+    lastError = error;
+
+    if (!isStageConstraintError(error)) break;
+  }
+
+  if (lastError) {
+    if (isStageConstraintError(lastError)) {
+      throw new Error("تعذر حفظ التقييم لأن قاعدة البيانات تستخدم قائمة مراحل قديمة. تم تجهيز الواجهة للتوافق، لكن يلزم تحديث قيد journey_feedback_stage_check في Supabase.");
+    }
+
+    throw lastError;
+  }
+
+  throw new Error("تعذر إرسال التقييم.");
 }
 
 export async function fetchPublicTestimonials(limit = 9) {

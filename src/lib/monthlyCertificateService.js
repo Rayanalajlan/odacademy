@@ -97,8 +97,10 @@ function makeLocalRecord(milestone, { userName, completedDays, totalDays }) {
     total_days: safeNumber(totalDays, 168),
     certificate_name: userName || "متدرب",
     certificate_code: code,
+    certificate_slug: slugify(code),
     verification_slug: slugify(code),
-    verification_enabled: false,
+    public_enabled: Boolean(unlocked),
+    verification_enabled: Boolean(unlocked),
     status: unlocked ? "issued" : "locked",
     issued_at: unlocked ? new Date().toISOString() : null,
     public_note: unlocked
@@ -167,6 +169,48 @@ export async function getOrCreateMonthlyCertificates({
       console.warn("تعذر إصدار الشهادات الشهرية عبر RPC:", issueError.message);
     } else {
       savedRows = Array.isArray(issuedRows) ? issuedRows : savedRows;
+    }
+
+    const savedByMonthBeforeUpsert = new Map(
+      (savedRows || []).map((row) => [Number(row.month_number), row])
+    );
+    const unlockedRows = localRecords
+      .filter((record) => record.status === "issued")
+      .map((record) => {
+        const saved = savedByMonthBeforeUpsert.get(Number(record.month_number));
+        const slug = saved?.verification_slug || saved?.certificate_slug || record.verification_slug;
+
+        return {
+          user_id: user.id,
+          month_number: record.month_number,
+          month_title: record.month_title,
+          certificate_code: saved?.certificate_code || record.certificate_code,
+          certificate_slug: saved?.certificate_slug || slug,
+          verification_slug: slug,
+          certificate_name: learnerName || user.email || "متدرب",
+          required_days: record.required_days,
+          completed_days: safeCompleted,
+          total_days: safeTotal,
+          status: "issued",
+          public_enabled: true,
+          verification_enabled: true,
+          public_note: `شهادة شهرية صادرة بعد إكمال الشهر ${record.month_number} من رحلة منسقة.`,
+          issued_at: saved?.issued_at || new Date().toISOString()
+        };
+      });
+
+    if (unlockedRows.length) {
+      const { data: directlySavedRows, error: directSaveError } = await supabase
+        .from("monthly_certificates")
+        .upsert(unlockedRows, { onConflict: "user_id,month_number" })
+        .select("*")
+        .order("month_number", { ascending: true });
+
+      if (directSaveError) {
+        console.warn("تعذر حفظ الشهادات الشهرية مباشرة:", directSaveError.message);
+      } else if (Array.isArray(directlySavedRows)) {
+        savedRows = directlySavedRows;
+      }
     }
   }
 

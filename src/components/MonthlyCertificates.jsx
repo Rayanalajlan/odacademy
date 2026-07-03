@@ -45,6 +45,26 @@ ${record?.verification_enabled ? `رابط التحقق: ${verificationUrl}` : "
 #منسقة_للتطوير_التنظيمي`;
 }
 
+function escapeSvgText(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf-8" }) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 800);
+}
+
 export default function MonthlyCertificates({
   userName = "متدرب",
   completedDays = 0,
@@ -133,7 +153,7 @@ export default function MonthlyCertificates({
         html,
         body {
           width: 297mm !important;
-          min-height: 210mm !important;
+          height: 210mm !important;
           margin: 0 !important;
           background: #fff !important;
         }
@@ -145,9 +165,9 @@ export default function MonthlyCertificates({
           position: fixed !important;
           inset: 0 !important;
           width: 297mm !important;
-          min-height: 210mm !important;
+          height: 210mm !important;
           margin: 0 !important;
-          padding: 28mm !important;
+          padding: 18mm !important;
           box-sizing: border-box !important;
           border-radius: 0 !important;
           box-shadow: none !important;
@@ -176,6 +196,57 @@ export default function MonthlyCertificates({
     document.head.appendChild(style);
     window.print();
     window.setTimeout(() => style.remove(), 800);
+  }
+
+  function downloadMonthlyCertificateImage(record) {
+    const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
+    const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
+    const safeName = escapeSvgText(userName || "متدرب");
+    const safeCode = escapeSvgText(record.certificate_code || "");
+    const safeDate = escapeSvgText(formatDate(record.issued_at));
+    const safeTitle = escapeSvgText(title);
+    const safeSubtitle = escapeSvgText(subtitle);
+    const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="875" viewBox="0 0 1400 875" direction="rtl">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".52" stop-color="#f4f0fb"/>
+      <stop offset="1" stop-color="#ecfeff"/>
+    </linearGradient>
+    <radialGradient id="a" cx="15%" cy="15%" r="55%">
+      <stop offset="0" stop-color="#10b981" stop-opacity=".20"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="88%" cy="90%" r="48%">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1400" height="875" rx="0" fill="#efe9fb"/>
+  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#bg)" stroke="#c4b5fd" stroke-opacity=".52" stroke-width="2"/>
+  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#a)"/>
+  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#b)"/>
+  <text x="1200" y="150" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="30" font-weight="900" fill="#18102e">منسقة للتطوير التنظيمي</text>
+  <rect x="140" y="118" width="210" height="56" rx="28" fill="#18102e"/>
+  <text x="245" y="154" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="900" fill="#ffffff">الشهر ${record.month_number}</text>
+  <text x="700" y="285" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="50" font-weight="900" fill="#3b1d6e">${safeTitle}</text>
+  <text x="700" y="348" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="27" font-weight="800" fill="#5b4f78">${safeSubtitle}</text>
+  <rect x="410" y="405" width="580" height="92" rx="30" fill="#ffffff" stroke="#c4b5fd" stroke-opacity=".55"/>
+  <text x="700" y="465" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="42" font-weight="900" fill="#18102e">${safeName}</text>
+  <text x="700" y="548" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="25" font-weight="800" fill="#463c63">أكمل محطة شهرية موثقة ضمن رحلة منسقة، بخطوات تعليمية وتطبيقية</text>
+  <text x="700" y="590" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="25" font-weight="800" fill="#463c63">تبني فهمًا أعمق للمنظمة وأثرًا أوضح في الممارسة.</text>
+  <line x1="220" y1="635" x2="1180" y2="635" stroke="#c4b5fd" stroke-opacity=".45"/>
+  <text x="1180" y="700" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="800" fill="#5b4f78">رقم الشهادة: ${safeCode}</text>
+  <text x="1180" y="735" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="800" fill="#7a6c9a">تاريخ الإصدار: ${safeDate}</text>
+  <text x="220" y="735" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#7a6c9a">${escapeSvgText(verificationUrl)}</text>
+</svg>`;
+
+    downloadTextFile({
+      content: svg,
+      filename: `munsaqah-month-${record.month_number}-${record.certificate_code || "certificate"}.svg`
+    });
   }
 
   const displayRecords = records.length
@@ -459,6 +530,26 @@ export default function MonthlyCertificates({
           background: linear-gradient(135deg,#8b5cf6,#3b1d6e);
         }
 
+        .monthly-button.linkedin {
+          background: #0077b5;
+          color: #fff;
+        }
+
+        .monthly-linkedin-icon {
+          width: 22px;
+          height: 22px;
+          margin-inline-end: 6px;
+          border-radius: 6px;
+          display: inline-grid;
+          place-items: center;
+          background: #fff;
+          color: #0077b5;
+          font-family: Arial, sans-serif;
+          font-size: 13px;
+          font-weight: 950;
+          line-height: 1;
+        }
+
         .monthly-button.ghost {
           background: #efe9fb;
           color: #18102e;
@@ -692,21 +783,29 @@ export default function MonthlyCertificates({
                       className="monthly-button"
                       onClick={() => copyLinkedInPost(record)}
                     >
-                      {copiedPostMonth === record.month_number ? "تم نسخ نص لينكدإن" : "نسخ نص لينكدإن"}
+                      {copiedPostMonth === record.month_number ? "تم نسخ نص LinkedIn" : "نسخ نص LinkedIn"}
+                    </button>
+                    <button
+                      type="button"
+                      className="monthly-button linkedin"
+                      onClick={() => shareMonthlyOnLinkedIn(record)}
+                    >
+                      <span className="monthly-linkedin-icon" aria-hidden="true">in</span>
+                      LinkedIn
                     </button>
                     <button
                       type="button"
                       className="monthly-button"
-                      onClick={() => shareMonthlyOnLinkedIn(record)}
+                      onClick={() => downloadMonthlyCertificateImage(record)}
                     >
-                      مشاركة في لينكدإن
+                      تحميل صورة الشهادة
                     </button>
                     <button
                       type="button"
                       className="monthly-button ghost"
                       onClick={() => printMonthlyCertificate(record)}
                     >
-                      حفظ / طباعة الشهادة
+                      طباعة صفحة واحدة
                     </button>
                   </div>
                 </>
