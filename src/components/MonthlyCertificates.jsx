@@ -53,8 +53,7 @@ function escapeSvgText(value) {
     .replaceAll('"', "&quot;");
 }
 
-function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf-8" }) {
-  const blob = new Blob([content], { type });
+function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -63,6 +62,46 @@ function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf
   link.click();
   link.remove();
   window.setTimeout(() => URL.revokeObjectURL(url), 800);
+}
+
+function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, width, height);
+      context.drawImage(image, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("تعذر إنشاء ملف JPEG."));
+            return;
+          }
+
+          downloadBlob(blob, filename);
+          resolve(true);
+        },
+        "image/jpeg",
+        0.94
+      );
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("تعذر تحميل تصميم الشهادة."));
+    };
+
+    image.src = url;
+  });
 }
 
 export default function MonthlyCertificates({
@@ -198,7 +237,7 @@ export default function MonthlyCertificates({
     window.setTimeout(() => style.remove(), 800);
   }
 
-  function downloadMonthlyCertificateImage(record) {
+  async function downloadMonthlyCertificateImage(record) {
     const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
     const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
     const safeName = escapeSvgText(userName || "متدرب");
@@ -208,45 +247,54 @@ export default function MonthlyCertificates({
     const safeSubtitle = escapeSvgText(subtitle);
     const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
 
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="875" viewBox="0 0 1400 875" direction="rtl">
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" direction="rtl">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".52" stop-color="#f4f0fb"/>
-      <stop offset="1" stop-color="#ecfeff"/>
+      <stop offset=".5" stop-color="#fbf9ff"/>
+      <stop offset="1" stop-color="#f3efff"/>
     </linearGradient>
-    <radialGradient id="a" cx="15%" cy="15%" r="55%">
-      <stop offset="0" stop-color="#10b981" stop-opacity=".20"/>
-      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    <radialGradient id="violetGlow" cx="50%" cy="12%" r="72%">
+      <stop offset="0" stop-color="#ddd6fe" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#ddd6fe" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="b" cx="88%" cy="90%" r="48%">
-      <stop offset="0" stop-color="#8b5cf6" stop-opacity=".22"/>
-      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
-    </radialGradient>
+    <pattern id="softPattern" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M0 34 L34 0 M-9 9 L9 -9 M25 43 L43 25" stroke="#d8cff8" stroke-opacity=".18" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="1400" height="875" rx="0" fill="#efe9fb"/>
-  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#bg)" stroke="#c4b5fd" stroke-opacity=".52" stroke-width="2"/>
-  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#a)"/>
-  <rect x="70" y="70" width="1260" height="735" rx="54" fill="url(#b)"/>
-  <text x="1200" y="150" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="30" font-weight="900" fill="#18102e">منسقة للتطوير التنظيمي</text>
-  <rect x="140" y="118" width="210" height="56" rx="28" fill="#18102e"/>
-  <text x="245" y="154" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="900" fill="#ffffff">الشهر ${record.month_number}</text>
-  <text x="700" y="285" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="50" font-weight="900" fill="#3b1d6e">${safeTitle}</text>
-  <text x="700" y="348" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="27" font-weight="800" fill="#5b4f78">${safeSubtitle}</text>
-  <rect x="410" y="405" width="580" height="92" rx="30" fill="#ffffff" stroke="#c4b5fd" stroke-opacity=".55"/>
-  <text x="700" y="465" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="42" font-weight="900" fill="#18102e">${safeName}</text>
-  <text x="700" y="548" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="25" font-weight="800" fill="#463c63">أكمل محطة شهرية موثقة ضمن رحلة منسقة، بخطوات تعليمية وتطبيقية</text>
-  <text x="700" y="590" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="25" font-weight="800" fill="#463c63">تبني فهمًا أعمق للمنظمة وأثرًا أوضح في الممارسة.</text>
-  <line x1="220" y1="635" x2="1180" y2="635" stroke="#c4b5fd" stroke-opacity=".45"/>
-  <text x="1180" y="700" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="800" fill="#5b4f78">رقم الشهادة: ${safeCode}</text>
-  <text x="1180" y="735" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="800" fill="#7a6c9a">تاريخ الإصدار: ${safeDate}</text>
-  <text x="220" y="735" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#7a6c9a">${escapeSvgText(verificationUrl)}</text>
+  <rect width="1600" height="1000" fill="#5f4ec4"/>
+  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#paper)"/>
+  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#violetGlow)"/>
+  <rect x="40" y="40" width="1520" height="920" rx="20" fill="url(#softPattern)" opacity=".7"/>
+  <rect x="44" y="44" width="1512" height="912" rx="22" fill="none" stroke="#6d5bd0" stroke-width="3"/>
+  <rect x="62" y="62" width="1476" height="876" rx="18" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
+  <path d="M62 190 C128 184 116 106 194 62 L62 62 Z M1538 190 C1472 184 1484 106 1406 62 L1538 62 Z M62 810 C128 816 116 894 194 938 L62 938 Z M1538 810 C1472 816 1484 894 1406 938 L1538 938 Z" fill="#ede9ff" stroke="#c7b6ef" stroke-width="2"/>
+  <path d="M91 168 C138 150 145 104 199 83 M1509 168 C1462 150 1455 104 1401 83 M91 832 C138 850 145 896 199 917 M1509 832 C1462 850 1455 896 1401 917" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
+  <text x="800" y="125" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="54" font-weight="900" fill="#6d5bd0">منسقة</text>
+  <text x="800" y="160" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="800" fill="#6d5bd0">Munsaqah</text>
+  <text x="800" y="220" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="25" font-weight="800" fill="#1f1b4d">منسقة للتطوير التنظيمي</text>
+  <rect x="650" y="250" width="300" height="48" rx="24" fill="#efe9fb" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="800" y="281" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="900" fill="#6d5bd0">الشهر ${record.month_number}</text>
+  <text x="800" y="365" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="58" font-weight="900" fill="#2c236c">${safeTitle}</text>
+  <text x="800" y="420" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="30" font-weight="900" fill="#6d5bd0">${safeSubtitle}</text>
+  <rect x="310" y="455" width="980" height="92" rx="28" fill="#ffffff" stroke="#d8b56d" stroke-width="2"/>
+  <rect x="330" y="469" width="940" height="64" rx="20" fill="none" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="800" y="514" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="44" font-weight="900" fill="#2c236c">${safeName}</text>
+  <text x="800" y="615" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="24" font-weight="800" fill="#1f1b4d">أكمل محطة شهرية موثقة ضمن رحلة منسقة، بخطوات تعليمية وتطبيقية</text>
+  <text x="800" y="654" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="24" font-weight="800" fill="#1f1b4d">تبني فهمًا أعمق للمنظمة وأثرًا أوضح في الممارسة.</text>
+  <circle cx="800" cy="770" r="72" fill="#5f4ec4" stroke="#d8b56d" stroke-width="8"/>
+  <text x="800" y="789" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="48" font-weight="900" fill="#ffffff">م</text>
+  <text x="460" y="850" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">رقم الشهادة: ${safeCode}</text>
+  <text x="1140" y="850" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">تاريخ الإصدار: ${safeDate}</text>
+  <rect x="230" y="900" width="1140" height="40" rx="20" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="800" y="926" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#6d5bd0">للتحقق من صحة الشهادة: ${escapeSvgText(verificationUrl)}</text>
 </svg>`;
 
-    downloadTextFile({
-      content: svg,
-      filename: `munsaqah-month-${record.month_number}-${record.certificate_code || "certificate"}.svg`
-    });
+    try {
+      await downloadSvgAsJpeg(svg, `munsaqah-month-${record.month_number}-${record.certificate_code || "certificate"}.jpg`);
+    } catch (error) {
+      alert(error?.message || "تعذر تحميل الشهادة بصيغة JPEG.");
+    }
   }
 
   const displayRecords = records.length
@@ -466,19 +514,20 @@ export default function MonthlyCertificates({
 
         .monthly-certificate-preview {
           margin-top: 14px;
-          border-radius: 22px;
-          padding: 16px;
+          border-radius: 24px;
+          padding: 22px 18px;
           color: #18102e;
           background:
-            radial-gradient(circle at 0% 0%, rgba(16,185,129,.18), transparent 36%),
-            radial-gradient(circle at 100% 100%, rgba(139,92,246,.18), transparent 36%),
-            linear-gradient(135deg, #ffffff, #f8fafc);
-          border: 1px solid rgba(139, 92, 246, .20);
+            radial-gradient(circle at 50% 0%, rgba(196,181,253,.38), transparent 40%),
+            linear-gradient(135deg, #ffffff, #fbf9ff);
+          border: 2px solid rgba(216, 181, 109, .44);
+          box-shadow: inset 0 0 0 1px rgba(109,91,208,.16);
+          text-align: center;
         }
 
         .monthly-certificate-preview span {
           display: block;
-          color: #6d28d9;
+          color: #6d5bd0;
           font-size: 10px;
           font-weight: 950;
           letter-spacing: 0;
@@ -488,7 +537,7 @@ export default function MonthlyCertificates({
 
         .monthly-certificate-preview h4 {
           margin: 0 0 8px;
-          color: #18102e;
+          color: #2c236c;
           font-size: 18px;
           line-height: 1.45;
           font-weight: 950;
@@ -496,7 +545,7 @@ export default function MonthlyCertificates({
 
         .monthly-certificate-preview p {
           margin: 0;
-          color: #5b4f78;
+          color: #1f1b4d;
           font-size: 12px;
           line-height: 1.8;
         }
@@ -504,8 +553,8 @@ export default function MonthlyCertificates({
         .monthly-certificate-code {
           margin-top: 12px;
           padding-top: 10px;
-          border-top: 1px solid rgba(139, 92, 246, .16);
-          color: #18102e;
+          border-top: 1px solid rgba(109, 91, 208, .20);
+          color: #3b2f76;
           font-size: 11px;
           font-weight: 900;
           word-break: break-word;
@@ -772,18 +821,17 @@ export default function MonthlyCertificates({
                   <div className="monthly-actions">
                     <button
                       type="button"
-                      className="monthly-button ghost"
-                      onClick={() => copyVerification(record)}
-                      disabled={!canVerify}
+                      className="monthly-button"
+                      onClick={() => downloadMonthlyCertificateImage(record)}
                     >
-                      {copied ? "تم نسخ رابط التحقق ✅" : canVerify ? "نسخ رابط التحقق" : "التحقق غير مفعل"}
+                      تحميل JPEG
                     </button>
                     <button
                       type="button"
-                      className="monthly-button"
-                      onClick={() => copyLinkedInPost(record)}
+                      className="monthly-button ghost"
+                      onClick={() => printMonthlyCertificate(record)}
                     >
-                      {copiedPostMonth === record.month_number ? "تم نسخ نص LinkedIn" : "نسخ نص LinkedIn"}
+                      حفظ PDF
                     </button>
                     <button
                       type="button"
@@ -791,21 +839,7 @@ export default function MonthlyCertificates({
                       onClick={() => shareMonthlyOnLinkedIn(record)}
                     >
                       <span className="monthly-linkedin-icon" aria-hidden="true">in</span>
-                      LinkedIn
-                    </button>
-                    <button
-                      type="button"
-                      className="monthly-button"
-                      onClick={() => downloadMonthlyCertificateImage(record)}
-                    >
-                      تحميل صورة الشهادة
-                    </button>
-                    <button
-                      type="button"
-                      className="monthly-button ghost"
-                      onClick={() => printMonthlyCertificate(record)}
-                    >
-                      طباعة صفحة واحدة
+                      مشاركة عبر LinkedIn
                     </button>
                   </div>
                 </>

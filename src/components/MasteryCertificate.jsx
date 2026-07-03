@@ -3,7 +3,6 @@ import { COURSE_TOTALS } from "../data/courseContent";
 import MonthlyCertificates from "./MonthlyCertificates";
 import {
   buildVerificationUrl,
-  copyTextSafely,
   getOrCreateMasteryCertificate
 } from "../lib/masteryCertificateService";
 
@@ -35,8 +34,7 @@ function escapeSvgText(value) {
     .replaceAll('"', "&quot;");
 }
 
-function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf-8" }) {
-  const blob = new Blob([content], { type });
+function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -45,6 +43,46 @@ function downloadTextFile({ content, filename, type = "image/svg+xml;charset=utf
   link.click();
   link.remove();
   window.setTimeout(() => URL.revokeObjectURL(url), 800);
+}
+
+function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, width, height);
+      context.drawImage(image, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("تعذر إنشاء ملف JPEG."));
+            return;
+          }
+
+          downloadBlob(blob, filename);
+          resolve(true);
+        },
+        "image/jpeg",
+        0.94
+      );
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("تعذر تحميل تصميم الشهادة."));
+    };
+
+    image.src = url;
+  });
 }
 
 export default function MasteryCertificate({
@@ -148,18 +186,6 @@ export default function MasteryCertificate({
     }
   }
 
-  async function copyVerificationLink() {
-    const ok = await copyTextSafely(verificationUrl);
-
-    if (ok) {
-      setVerificationCopied(true);
-      setTimeout(() => setVerificationCopied(false), 2500);
-    } else {
-      alert("لم يتم نسخ رابط التحقق تلقائيًا. انسخه يدويًا من البطاقة.");
-    }
-  }
-
-
   function shareOnLinkedIn() {
     copyLinkedInPost();
 
@@ -169,7 +195,7 @@ export default function MasteryCertificate({
     window.open(shareUrl, "_blank", "width=760,height=680");
   }
 
-  function downloadCertificateImage() {
+  async function downloadCertificateImage() {
     if (!isUnlocked) return;
 
     const safeName = escapeSvgText(learnerName);
@@ -185,62 +211,67 @@ export default function MasteryCertificate({
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" direction="rtl">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#120826"/>
-      <stop offset="0.48" stop-color="#26164a"/>
-      <stop offset="1" stop-color="#0f172a"/>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".5" stop-color="#fbf9ff"/>
+      <stop offset="1" stop-color="#f3efff"/>
     </linearGradient>
-    <radialGradient id="glowA" cx="18%" cy="18%" r="55%">
-      <stop offset="0" stop-color="#10b981" stop-opacity=".36"/>
-      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    <radialGradient id="violetGlow" cx="50%" cy="12%" r="72%">
+      <stop offset="0" stop-color="#ddd6fe" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#ddd6fe" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glowB" cx="82%" cy="12%" r="48%">
-      <stop offset="0" stop-color="#a78bfa" stop-opacity=".48"/>
-      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#000000" flood-opacity=".32"/>
-    </filter>
+    <pattern id="softPattern" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M0 34 L34 0 M-9 9 L9 -9 M25 43 L43 25" stroke="#d8cff8" stroke-opacity=".18" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="1600" height="1000" fill="#0e0820"/>
-  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#bg)" filter="url(#shadow)"/>
-  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#glowA)"/>
-  <rect x="70" y="70" width="1460" height="860" rx="54" fill="url(#glowB)"/>
-  <rect x="110" y="110" width="1380" height="780" rx="42" fill="none" stroke="#c4b5fd" stroke-opacity=".25" stroke-width="2"/>
-  <text x="1390" y="172" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="34" font-weight="900" fill="#ffffff">منسقة للتطوير التنظيمي</text>
-  <text x="1390" y="216" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="700" fill="#c9bdf0">رحلة معرفية تطبيقية في فهم المنظمة وبناء الأثر</text>
-  <rect x="130" y="140" width="188" height="58" rx="29" fill="#ffffff" fill-opacity=".08" stroke="#c4b5fd" stroke-opacity=".28"/>
-  <text x="224" y="177" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="900" fill="#e9d5ff">وثيقة ختامية</text>
-  <text x="800" y="330" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="76" font-weight="900" fill="#ffffff">إتمام رحلة منسقة</text>
-  <text x="800" y="418" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="68" font-weight="900" fill="#d8b4fe">للتطوير التنظيمي</text>
-  <rect x="455" y="470" width="690" height="96" rx="32" fill="#ffffff" fill-opacity=".10" stroke="#ffffff" stroke-opacity=".16"/>
-  <text x="800" y="534" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="54" font-weight="900" fill="#ffffff">${safeName}</text>
-  <text x="800" y="620" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[0])}</text>
-  <text x="800" y="660" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[1])}</text>
-  <text x="800" y="700" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="26" font-weight="700" fill="#e0d8f5">${escapeSvgText(strategicLines[2])}</text>
+  <rect width="1600" height="1000" fill="#5f4ec4"/>
+  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#paper)"/>
+  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#violetGlow)"/>
+  <rect x="40" y="40" width="1520" height="920" rx="20" fill="url(#softPattern)" opacity=".7"/>
+  <rect x="44" y="44" width="1512" height="912" rx="22" fill="none" stroke="#6d5bd0" stroke-width="3"/>
+  <rect x="62" y="62" width="1476" height="876" rx="18" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
+  <path d="M62 190 C128 184 116 106 194 62 L62 62 Z M1538 190 C1472 184 1484 106 1406 62 L1538 62 Z M62 810 C128 816 116 894 194 938 L62 938 Z M1538 810 C1472 816 1484 894 1406 938 L1538 938 Z" fill="#ede9ff" stroke="#c7b6ef" stroke-width="2"/>
+  <path d="M91 168 C138 150 145 104 199 83 M1509 168 C1462 150 1455 104 1401 83 M91 832 C138 850 145 896 199 917 M1509 832 C1462 850 1455 896 1401 917" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
+  <text x="800" y="115" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="54" font-weight="900" fill="#6d5bd0">منسقة</text>
+  <text x="800" y="150" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="800" fill="#6d5bd0">Munsaqah</text>
+  <text x="800" y="205" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="24" font-weight="800" fill="#1f1b4d">منسقة للتطوير التنظيمي</text>
+  <text x="800" y="245" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="700" fill="#4b3f87">رحلة معرفية تطبيقية في فهم المنظمة وبناء الأثر</text>
+  <text x="800" y="345" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="72" font-weight="900" fill="#2c236c">وثيقة إتمام</text>
+  <text x="800" y="405" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="44" font-weight="900" fill="#6d5bd0">مسار التطوير التنظيمي</text>
+  <rect x="285" y="438" width="1030" height="92" rx="28" fill="#ffffff" stroke="#d8b56d" stroke-width="2"/>
+  <rect x="305" y="452" width="990" height="64" rx="20" fill="none" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="800" y="497" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="44" font-weight="900" fill="#2c236c">${safeName}</text>
+  <text x="800" y="585" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[0])}</text>
+  <text x="800" y="622" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[1])}</text>
+  <text x="800" y="659" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[2])}</text>
   <g font-family="Arial, Tahoma, sans-serif" font-weight="900">
-    <rect x="180" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
-    <text x="320" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">${totalDays}</text>
-    <text x="320" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">يومًا تعليميًا</text>
-    <rect x="500" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
-    <text x="640" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">${totalHours}</text>
-    <text x="640" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">ساعة تعلم</text>
-    <rect x="820" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
-    <text x="960" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">24</text>
-    <text x="960" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">أسبوعًا تطبيقيًا</text>
-    <rect x="1140" y="735" width="280" height="96" rx="28" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
-    <text x="1280" y="777" text-anchor="middle" font-size="32" fill="#a7f3d0">6</text>
-    <text x="1280" y="810" text-anchor="middle" font-size="19" fill="#c9bdf0">أشهر إتقان</text>
+    <rect x="250" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+    <text x="372" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">${totalDays}</text>
+    <text x="372" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">يومًا تعليميًا</text>
+    <rect x="540" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+    <text x="662" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">${totalHours}</text>
+    <text x="662" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">ساعة تعلم</text>
+    <rect x="830" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+    <text x="952" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">24</text>
+    <text x="952" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">أسبوعًا تطبيقيًا</text>
+    <rect x="1120" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+    <text x="1242" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">6</text>
+    <text x="1242" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">أشهر إتقان</text>
   </g>
-  <text x="1390" y="858" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="800" fill="#c9bdf0">رقم الوثيقة: ${safeCode} · ${safeStatus}</text>
-  <text x="1390" y="890" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="700" fill="#9d8fc0">تاريخ الإتمام: ${safeDate}</text>
-  <text x="210" y="858" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="18" font-weight="700" fill="#9d8fc0">${safeUrl}</text>
+  <circle cx="800" cy="842" r="78" fill="#5f4ec4" stroke="#d8b56d" stroke-width="8"/>
+  <circle cx="800" cy="842" r="58" fill="none" stroke="#ffffff" stroke-opacity=".42" stroke-width="2"/>
+  <text x="800" y="857" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="48" font-weight="900" fill="#ffffff">م</text>
+  <text x="460" y="875" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">رقم الوثيقة: ${safeCode}</text>
+  <text x="1140" y="875" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">تاريخ الإتمام: ${safeDate}</text>
+  <rect x="230" y="910" width="1140" height="40" rx="20" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="800" y="936" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#6d5bd0">للتحقق من صحة الوثيقة: ${safeUrl}</text>
 </svg>`;
 
-    downloadTextFile({
-      content: svg,
-      filename: `munsaqah-mastery-${certificateCode}.svg`
-    });
+    try {
+      await downloadSvgAsJpeg(svg, `munsaqah-mastery-${certificateCode}.jpg`);
+    } catch (error) {
+      alert(error?.message || "تعذر تحميل الشهادة بصيغة JPEG.");
+    }
   }
 
   function printCertificate() {
@@ -598,10 +629,10 @@ export default function MasteryCertificate({
           position: relative;
           overflow: hidden;
           border-radius: 34px;
-          padding: 18px;
+          padding: 12px;
           background:
-            linear-gradient(135deg, #a855f7, #8b5cf6, #18102e);
-          box-shadow: 0 30px 85px rgba(28, 17, 48, 0.22);
+            linear-gradient(135deg, #6d5bd0, #efe9fb 46%, #d8b56d);
+          box-shadow: 0 30px 85px rgba(28, 17, 48, 0.18);
         }
 
         .certificate-inner {
@@ -612,23 +643,22 @@ export default function MasteryCertificate({
           aspect-ratio: 16 / 9;
           padding: 44px;
           background:
-            radial-gradient(circle at 20% 15%, rgba(16, 185, 129, 0.16), transparent 25%),
-            radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.24), transparent 28%),
-            linear-gradient(145deg, #0e0820, #18102e 45%, #111827);
-          color: white;
-          border: 1px solid rgba(255,255,255,0.12);
+            radial-gradient(circle at 50% 0%, rgba(196, 181, 253, .48), transparent 30%),
+            radial-gradient(circle at 6% 12%, rgba(216, 181, 109, .18), transparent 24%),
+            radial-gradient(circle at 94% 88%, rgba(109, 91, 208, .14), transparent 25%),
+            linear-gradient(135deg, #ffffff, #fbf9ff 52%, #f4f0fb);
+          color: #18102e;
+          border: 2px solid rgba(216, 181, 109, .45);
         }
 
         .certificate-inner::before {
-          content: "منسقة";
+          content: "";
           position: absolute;
-          left: 30px;
-          top: 20px;
-          font-size: 150px;
-          line-height: 1;
-          font-weight: 950;
-          color: rgba(255,255,255,0.025);
-          letter-spacing: 0;
+          inset: 16px;
+          border-radius: 20px;
+          border: 2px solid rgba(109, 91, 208, .22);
+          box-shadow: inset 0 0 0 1px rgba(216, 181, 109, .24);
+          pointer-events: none;
         }
 
         .certificate-top {
@@ -637,7 +667,7 @@ export default function MasteryCertificate({
           justify-content: space-between;
           gap: 20px;
           align-items: flex-start;
-          border-bottom: 1px solid rgba(255,255,255,0.12);
+          border-bottom: 1px solid rgba(109, 91, 208, .18);
           padding-bottom: 24px;
           margin-bottom: 34px;
         }
@@ -654,7 +684,7 @@ export default function MasteryCertificate({
           border-radius: 18px;
           display: grid;
           place-items: center;
-          background: linear-gradient(135deg, #8b5cf6, #a855f7);
+          background: linear-gradient(135deg, #6d5bd0, #8b5cf6);
           color: white;
           font-weight: 950;
           box-shadow: 0 16px 36px rgba(0,0,0,0.25);
@@ -670,14 +700,14 @@ export default function MasteryCertificate({
         .certificate-code span {
           display: block;
           margin-top: 4px;
-          color: #9d8fc0;
+          color: #6b5a91;
           font-size: 11px;
           font-weight: 800;
         }
 
         .certificate-code {
           text-align: left;
-          color: #e0d8f5;
+          color: #3b2f76;
           font-size: 12px;
           font-weight: 900;
         }
@@ -693,9 +723,9 @@ export default function MasteryCertificate({
           display: inline-flex;
           padding: 8px 14px;
           border-radius: 999px;
-          background: rgba(139, 92, 246, 0.18);
-          color: #e9d5ff;
-          border: 1px solid rgba(196,181,253,0.28);
+          background: #efe9fb;
+          color: #6d5bd0;
+          border: 1px solid rgba(109, 91, 208, .22);
           font-size: 12px;
           font-weight: 950;
           letter-spacing: 0;
@@ -714,19 +744,19 @@ export default function MasteryCertificate({
           display: inline-block;
           padding: 10px 28px;
           border-radius: 22px;
-          background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(233,213,255,0.94));
-          border: 1px solid rgba(196,181,253,0.44);
+          background: #ffffff;
+          border: 2px solid rgba(216,181,109,.55);
           color: #18102e;
           text-shadow: none;
           font-size: clamp(24px, 4vw, 42px);
           font-weight: 950;
-          box-shadow: 0 18px 44px rgba(0,0,0,.18);
+          box-shadow: 0 18px 44px rgba(109, 91, 208, .12);
         }
 
         .certificate-title p {
           margin: 0 auto;
           max-width: 820px;
-          color: #c9bdf0;
+          color: #1f1b4d;
           font-size: 15px;
           line-height: 2.05;
           font-weight: 700;
@@ -743,20 +773,20 @@ export default function MasteryCertificate({
         .certificate-pillar {
           padding: 14px;
           border-radius: 18px;
-          background: rgba(255,255,255,0.055);
-          border: 1px solid rgba(255,255,255,0.09);
+          background: #ffffff;
+          border: 1px solid rgba(109,91,208,.20);
           text-align: center;
         }
 
         .certificate-pillar strong {
           display: block;
-          color: #a7f3d0;
+          color: #6d5bd0;
           font-size: 18px;
           margin-bottom: 5px;
         }
 
         .certificate-pillar span {
-          color: #9d8fc0;
+          color: #1f1b4d;
           font-weight: 800;
           font-size: 11px;
         }
@@ -767,19 +797,19 @@ export default function MasteryCertificate({
           grid-template-columns: 1fr 1fr;
           gap: 20px;
           align-items: end;
-          border-top: 1px solid rgba(255,255,255,0.12);
+          border-top: 1px solid rgba(109,91,208,.18);
           padding-top: 24px;
         }
 
         .certificate-footer strong {
           display: block;
-          color: #e0d8f5;
+          color: #3b2f76;
           margin-bottom: 8px;
         }
 
         .certificate-footer span,
         .certificate-footer small {
-          color: #9d8fc0;
+          color: #5b4f78;
           line-height: 1.8;
           font-size: 12px;
           font-weight: 800;
@@ -790,7 +820,7 @@ export default function MasteryCertificate({
         }
 
         .signature .name {
-          color: #c4b5fd;
+          color: #6d5bd0;
           font-size: 22px;
           font-weight: 950;
           letter-spacing: 0;
@@ -1117,13 +1147,6 @@ export default function MasteryCertificate({
                   : "سيظهر رابط التحقق بعد إكمال جميع أيام الرحلة."}
               </small>
 
-              {isUnlocked && (
-                <div className="certificate-verification-actions">
-                  <button type="button" className="mastery-button ghost" onClick={copyVerificationLink}>
-                    {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </section>
@@ -1237,24 +1260,16 @@ export default function MasteryCertificate({
 
               <div className="mastery-actions mastery-no-print">
                 <button className="mastery-button primary" onClick={downloadCertificateImage}>
-                  تحميل صورة الوثيقة
+                  تحميل JPEG
                 </button>
 
                 <button className="mastery-button dark" onClick={printCertificate}>
-                  طباعة صفحة واحدة / حفظ PDF
-                </button>
-
-                <button className="mastery-button ghost" onClick={copyVerificationLink}>
-                  {verificationCopied ? "تم نسخ رابط التحقق ✅" : "نسخ رابط التحقق"}
-                </button>
-
-                <button className="mastery-button ghost" onClick={copyLinkedInPost}>
-                  {copied ? "تم نسخ نص المنشور" : "نسخ نص منشور LinkedIn"}
+                  حفظ PDF
                 </button>
 
                 <button className="mastery-button linkedin" onClick={shareOnLinkedIn}>
                   <span className="linkedin-icon" aria-hidden="true">in</span>
-                  LinkedIn
+                  مشاركة عبر LinkedIn
                 </button>
               </div>
             </div>
