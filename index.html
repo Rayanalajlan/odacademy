@@ -311,7 +311,9 @@
       (function () {
         try {
           var stored = localStorage.getItem("odacademy_theme_mode");
-          var t = stored === "light" ? "light" : "dark";
+          var hour = new Date().getHours();
+          var automaticTheme = hour >= 6 && hour < 18 ? "light" : "dark";
+          var t = stored === "light" || stored === "dark" ? stored : automaticTheme;
           var de = document.documentElement;
           var b = document.body;
           de.dataset.theme = t;
