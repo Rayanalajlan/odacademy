@@ -52,7 +52,7 @@ export async function listPublishedVisitorTestimonials({ limit = 32 } = {}) {
 function normalizeJourneyFeedback(row = {}) {
   const rating = Number(row.rating || row.overall_rating || row.clarity_rating || 5);
   const displayName = cleanText(row.display_name || row.reviewer_name || "متدرب في منسقة", 90);
-  const stageLabel = cleanText(row.badge_label || row.stage_label || row.role_title || "تقييم متدرب", 120);
+  const stageLabel = cleanText(row.badge_label || row.stage_label || row.role_title || stageToLabel(row.stage), 120);
 
   return {
     id: `journey-${row.id}`,
@@ -107,11 +107,8 @@ async function listPublishedJourneyFeedback({ limit = 32 } = {}) {
 function stageToLabel(stage) {
   const labels = {
     month_1: "بعد الشهر الأول",
-    month_2: "بعد الشهر الثاني",
     month_3: "منتصف الرحلة",
-    month_4: "بعد الشهر الرابع",
-    month_5: "بعد الشهر الخامس",
-    month_6: "أكمل الرحلة"
+    month_6: "بعد إتمام الرحلة"
   };
 
   return labels[stage] || "تقييم متدرب";

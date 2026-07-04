@@ -1,11 +1,17 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
 
-export async function getNotifications(limit = 12) {
+export async function getNotifications(limit = 12, { completedDays = null } = {}) {
   if (!isSupabaseConfigured || !supabase) return [];
+
+  const { data: userResult } = await supabase.auth.getUser();
+  const userId = userResult?.user?.id;
+
+  if (!userId) return [];
 
   const { data, error } = await supabase
     .from("notifications")
     .select("*")
+    .eq("user_id", userId)
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -14,7 +20,17 @@ export async function getNotifications(limit = 12) {
     return [];
   }
 
-  return data || [];
+  const progressLimit =
+    completedDays === null || completedDays === undefined
+      ? null
+      : Number(completedDays || 0);
+
+  return (data || []).filter((item) => {
+    if (progressLimit === null || item.type !== "milestone") return true;
+
+    const milestoneDays = Number(item.metadata?.completedDays || item.metadata?.completed_days || 0);
+    return !milestoneDays || milestoneDays <= progressLimit;
+  });
 }
 
 export async function createNotification({

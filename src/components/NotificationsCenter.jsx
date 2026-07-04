@@ -23,18 +23,18 @@ function BellIcon() {
   );
 }
 
-export default function NotificationsCenter({ setActivePage }) {
+export default function NotificationsCenter({ setActivePage, completedDays = null }) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
 
   async function load() {
-    const data = await getNotifications(12);
+    const data = await getNotifications(12, { completedDays });
     setItems(data);
   }
 
   useEffect(() => {
     load();
-  }, []);
+  }, [completedDays]);
 
   const unreadCount = items.filter((item) => !item.read_at).length;
 

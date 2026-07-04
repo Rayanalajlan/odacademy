@@ -77,14 +77,7 @@ export default function AdminDashboard() {
 
       if (!isAdmin) return;
 
-      const [
-        overviewResult,
-        feedbackResult,
-        publishedFeedbackResult,
-        learnersResult,
-        notesResult,
-        certificatesResult
-      ] = await Promise.all([
+      const results = await Promise.allSettled([
         getAdminOverview(),
         getPendingFeedback(40),
         getPublishedFeedback(40),
@@ -93,12 +86,21 @@ export default function AdminDashboard() {
         getRecentCertificates(24)
       ]);
 
-      setOverview(overviewResult);
-      setFeedback(feedbackResult);
-      setPublishedFeedback(publishedFeedbackResult);
-      setLearners(learnersResult);
-      setNotes(notesResult);
-      setCertificates(certificatesResult);
+      const [overviewResult, feedbackResult, publishedFeedbackResult, learnersResult, notesResult, certificatesResult] =
+        results.map((result) => (result.status === "fulfilled" ? result.value : null));
+
+      const failed = results.find((result) => result.status === "rejected");
+
+      setOverview(overviewResult || null);
+      setFeedback(Array.isArray(feedbackResult) ? feedbackResult : []);
+      setPublishedFeedback(Array.isArray(publishedFeedbackResult) ? publishedFeedbackResult : []);
+      setLearners(Array.isArray(learnersResult) ? learnersResult : []);
+      setNotes(Array.isArray(notesResult) ? notesResult : []);
+      setCertificates(Array.isArray(certificatesResult) ? certificatesResult : []);
+
+      if (failed) {
+        setNotice(failed.reason?.message || "تم تحميل اللوحة جزئيًا وتعذر تحميل أحد الأقسام.");
+      }
     } catch (error) {
       setNotice(error?.message || "تعذر تحميل لوحة الإدارة.");
     } finally {

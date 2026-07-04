@@ -1171,11 +1171,11 @@ export default function App() {
           min-height: 36px;
           padding: 8px 12px !important;
           border-radius: 999px;
-          color: #b3173a !important;
-          -webkit-text-fill-color: #b3173a !important;
-          background: rgba(254, 242, 242, .86) !important;
-          border: 1px solid rgba(239, 68, 68, .20) !important;
-          box-shadow: 0 10px 24px rgba(185, 28, 28, .08);
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+          border: 1px solid rgba(239, 68, 68, .34) !important;
+          box-shadow: 0 12px 26px rgba(185, 28, 28, .14);
           font-size: 12px;
           line-height: 1;
         }
@@ -1195,7 +1195,7 @@ export default function App() {
         .header-actions > .logout-button:focus-visible {
           color: #ffffff !important;
           -webkit-text-fill-color: #ffffff !important;
-          background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+          background: linear-gradient(135deg, #dc2626, #7f1d1d) !important;
           border-color: rgba(255, 255, 255, .34) !important;
           box-shadow: 0 14px 32px rgba(185, 28, 28, .18);
         }
@@ -1353,7 +1353,7 @@ export default function App() {
         <div className="header-actions">
           <ThemeToggle />
 
-          <NotificationsCenter setActivePage={navigate} />
+          <NotificationsCenter setActivePage={navigate} completedDays={officialCompletedDays} />
 
           <button
             type="button"

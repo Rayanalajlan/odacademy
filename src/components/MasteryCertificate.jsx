@@ -48,8 +48,7 @@ function downloadBlob(blob, filename) {
 function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
+    const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 
     image.onload = () => {
       const canvas = document.createElement("canvas");
@@ -59,7 +58,6 @@ function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
       context.fillStyle = "#ffffff";
       context.fillRect(0, 0, width, height);
       context.drawImage(image, 0, 0, width, height);
-      URL.revokeObjectURL(url);
 
       canvas.toBlob(
         (blob) => {
@@ -77,12 +75,86 @@ function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
     };
 
     image.onerror = () => {
-      URL.revokeObjectURL(url);
       reject(new Error("تعذر تحميل تصميم الشهادة."));
     };
 
     image.src = url;
   });
+}
+
+function printElementAsSinglePage(elementId, title = "munsaqah-certificate") {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    alert("تعذر العثور على تصميم الشهادة للطباعة.");
+    return;
+  }
+
+  const printWindow = window.open("", "_blank", "width=1200,height=800");
+  if (!printWindow) {
+    alert("تعذر فتح نافذة الطباعة. تأكد من السماح بالنوافذ المنبثقة.");
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>${title}</title>
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    html, body {
+      width: 297mm;
+      height: 210mm;
+      margin: 0;
+      background: #fff;
+      overflow: hidden;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+    .print-root {
+      width: 297mm;
+      height: 210mm;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      overflow: hidden;
+    }
+    .certificate-frame,
+    .monthly-certificate-preview {
+      width: 297mm !important;
+      height: 210mm !important;
+      max-width: 297mm !important;
+      max-height: 210mm !important;
+      min-height: 0 !important;
+      aspect-ratio: 297 / 210 !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .certificate-inner {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      box-sizing: border-box !important;
+      border-radius: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <main class="print-root">${element.outerHTML}</main>
+  <script>
+    window.onload = () => {
+      window.focus();
+      window.print();
+      setTimeout(() => window.close(), 600);
+    };
+  </script>
+</body>
+</html>`);
+  printWindow.document.close();
 }
 
 export default function MasteryCertificate({
@@ -276,73 +348,7 @@ export default function MasteryCertificate({
 
   function printCertificate() {
     if (!isUnlocked) return;
-
-    const style = document.createElement("style");
-    style.id = "mastery-print-style";
-    style.innerHTML = `
-      @media print {
-        html,
-        body {
-          width: 297mm !important;
-          min-height: 210mm !important;
-          margin: 0 !important;
-          background: #fff !important;
-        }
-
-        body * {
-          visibility: hidden !important;
-        }
-
-        #printable-certificate-frame,
-        #printable-certificate-frame * {
-          visibility: visible !important;
-        }
-
-        #printable-certificate-frame {
-          position: fixed !important;
-          inset: 0 !important;
-          width: 297mm !important;
-          height: 210mm !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          box-sizing: border-box !important;
-          box-shadow: none !important;
-          border: none !important;
-          border-radius: 0 !important;
-          background: linear-gradient(135deg, #a855f7, #8b5cf6, #18102e) !important;
-          color: #fff !important;
-          print-color-adjust: exact !important;
-          -webkit-print-color-adjust: exact !important;
-        }
-
-        #printable-certificate-frame .certificate-inner {
-          width: 297mm !important;
-          height: 210mm !important;
-          min-height: 210mm !important;
-          border-radius: 0 !important;
-          padding: 15mm !important;
-          box-sizing: border-box !important;
-          box-shadow: none !important;
-        }
-
-        .mastery-no-print {
-          display: none !important;
-        }
-
-        @page {
-          size: A4 landscape;
-          margin: 0;
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-    window.print();
-
-    setTimeout(() => {
-      const helper = document.getElementById("mastery-print-style");
-      if (helper) helper.remove();
-    }, 1000);
+    printElementAsSinglePage("printable-certificate-frame", "وثيقة إتقان منسقة");
   }
 
   return (
@@ -563,6 +569,7 @@ export default function MasteryCertificate({
           gap: 12px;
           justify-content: center;
           margin-top: 22px;
+          direction: rtl;
         }
 
         .mastery-button {
@@ -577,6 +584,8 @@ export default function MasteryCertificate({
           align-items: center;
           justify-content: center;
           gap: 10px;
+          min-width: 150px;
+          min-height: 48px;
         }
 
         .mastery-button:hover {
@@ -596,9 +605,9 @@ export default function MasteryCertificate({
         }
 
         .mastery-button.linkedin {
-          background: #0077b5;
+          background: linear-gradient(135deg, #0a66c2, #084c8f);
           color: white;
-          box-shadow: 0 16px 34px rgba(0,119,181,0.20);
+          box-shadow: 0 16px 34px rgba(10,102,194,0.22);
         }
 
         .linkedin-icon {
@@ -710,6 +719,13 @@ export default function MasteryCertificate({
           color: #3b2f76;
           font-size: 12px;
           font-weight: 900;
+          max-width: 360px;
+          padding: 14px;
+          border-radius: 18px;
+          background: rgba(255,255,255,.72);
+          border: 1px solid rgba(109,91,208,.16);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+          word-break: break-word;
         }
 
         .certificate-title {
@@ -953,8 +969,8 @@ export default function MasteryCertificate({
         .certificate-verify-line {
           margin-top: 14px;
           padding-top: 14px;
-          border-top: 1px solid rgba(255,255,255,.12);
-          color: #c9bdf0;
+          border-top: 1px solid rgba(109,91,208,.14);
+          color: #5b4f78;
           font-size: 11px;
           line-height: 1.8;
           font-weight: 800;
@@ -962,7 +978,7 @@ export default function MasteryCertificate({
         }
 
         .certificate-verify-line strong {
-          color: #a7f3d0;
+          color: #047857;
           display: inline;
           margin: 0;
         }
@@ -1017,6 +1033,21 @@ export default function MasteryCertificate({
           color: #f8f4ff;
           background: rgba(255, 255, 255, .08);
           border: 1px solid rgba(196, 181, 253, .22);
+        }
+
+        body.od-theme-dark .certificate-code {
+          color: #f8f4ff;
+          background: rgba(255, 255, 255, .08);
+          border-color: rgba(196, 181, 253, .20);
+        }
+
+        body.od-theme-dark .certificate-verify-line {
+          color: #d9c9ef;
+          border-top-color: rgba(196, 181, 253, .18);
+        }
+
+        body.od-theme-dark .certificate-verify-line strong {
+          color: #a7f3d0;
         }
 
         @media (max-width: 850px) {

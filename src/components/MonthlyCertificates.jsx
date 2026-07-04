@@ -67,8 +67,7 @@ function downloadBlob(blob, filename) {
 function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
+    const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 
     image.onload = () => {
       const canvas = document.createElement("canvas");
@@ -78,7 +77,6 @@ function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
       context.fillStyle = "#ffffff";
       context.fillRect(0, 0, width, height);
       context.drawImage(image, 0, 0, width, height);
-      URL.revokeObjectURL(url);
 
       canvas.toBlob(
         (blob) => {
@@ -96,12 +94,80 @@ function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
     };
 
     image.onerror = () => {
-      URL.revokeObjectURL(url);
       reject(new Error("تعذر تحميل تصميم الشهادة."));
     };
 
     image.src = url;
   });
+}
+
+function printElementAsSinglePage(elementId, title = "munsaqah-monthly-certificate") {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    alert("تعذر العثور على تصميم الشهادة للطباعة.");
+    return;
+  }
+
+  const printWindow = window.open("", "_blank", "width=1200,height=800");
+  if (!printWindow) {
+    alert("تعذر فتح نافذة الطباعة. تأكد من السماح بالنوافذ المنبثقة.");
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>${title}</title>
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    html, body {
+      width: 297mm;
+      height: 210mm;
+      margin: 0;
+      background: #fff;
+      overflow: hidden;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+    .print-root {
+      width: 297mm;
+      height: 210mm;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      overflow: hidden;
+    }
+    .monthly-certificate-preview {
+      width: 297mm !important;
+      height: 210mm !important;
+      max-width: 297mm !important;
+      max-height: 210mm !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 28mm !important;
+      box-sizing: border-box !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      display: grid !important;
+      align-content: center !important;
+    }
+  </style>
+</head>
+<body>
+  <main class="print-root">${element.outerHTML}</main>
+  <script>
+    window.onload = () => {
+      window.focus();
+      window.print();
+      setTimeout(() => window.close(), 600);
+    };
+  </script>
+</body>
+</html>`);
+  printWindow.document.close();
 }
 
 export default function MonthlyCertificates({
@@ -185,56 +251,7 @@ export default function MonthlyCertificates({
   }
 
   function printMonthlyCertificate(record) {
-    const style = document.createElement("style");
-    style.id = "monthly-certificate-print-style";
-    style.innerHTML = `
-      @media print {
-        html,
-        body {
-          width: 297mm !important;
-          height: 210mm !important;
-          margin: 0 !important;
-          background: #fff !important;
-        }
-
-        body * { visibility: hidden !important; }
-        #monthly-certificate-${record.month_number},
-        #monthly-certificate-${record.month_number} * { visibility: visible !important; }
-        #monthly-certificate-${record.month_number} {
-          position: fixed !important;
-          inset: 0 !important;
-          width: 297mm !important;
-          height: 210mm !important;
-          margin: 0 !important;
-          padding: 18mm !important;
-          box-sizing: border-box !important;
-          border-radius: 0 !important;
-          box-shadow: none !important;
-          color: #18102e !important;
-          background:
-            radial-gradient(circle at 8% 10%, rgba(16,185,129,.18), transparent 28%),
-            radial-gradient(circle at 92% 90%, rgba(139,92,246,.20), transparent 30%),
-            linear-gradient(135deg, #ffffff, #f4f0fb) !important;
-          border: 0 !important;
-          print-color-adjust: exact !important;
-          -webkit-print-color-adjust: exact !important;
-        }
-
-        #monthly-certificate-${record.month_number} span {
-          letter-spacing: 0 !important;
-          text-transform: none !important;
-        }
-
-        @page {
-          size: A4 landscape;
-          margin: 0;
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-    window.print();
-    window.setTimeout(() => style.remove(), 800);
+    printElementAsSinglePage(`monthly-certificate-${record.month_number}`, `شهادة الشهر ${record.month_number}`);
   }
 
   async function downloadMonthlyCertificateImage(record) {
@@ -565,6 +582,8 @@ export default function MonthlyCertificates({
           flex-wrap: wrap;
           gap: 10px;
           margin-top: 14px;
+          justify-content: center;
+          direction: rtl;
         }
 
         .monthly-button {
@@ -577,11 +596,18 @@ export default function MonthlyCertificates({
           font-weight: 950;
           color: #fff;
           background: linear-gradient(135deg,#8b5cf6,#3b1d6e);
+          min-width: 118px;
+          min-height: 42px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .monthly-button.linkedin {
-          background: #0077b5;
+          background: linear-gradient(135deg, #0a66c2, #084c8f);
           color: #fff;
+          min-width: 184px;
         }
 
         .monthly-linkedin-icon {

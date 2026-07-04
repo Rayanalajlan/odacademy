@@ -92,15 +92,15 @@ export default function VisitorTestimonialsMarquee() {
           --vt-line: rgba(139, 92, 246, .18);
           position: relative;
           overflow: hidden;
-          border-radius: 24px;
-          padding: clamp(18px, 3vw, 26px);
+          border-radius: 26px;
+          padding: clamp(16px, 2.4vw, 22px);
           background:
             radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.14), transparent 28%),
             radial-gradient(circle at 0% 100%, rgba(220,199,255,.14), transparent 30%),
             rgba(250,247,255,.94);
           border: 1px solid rgba(213,196,247,.72);
           box-shadow: 0 18px 52px rgba(60,37,98,.08);
-          margin: 18px 0;
+          margin: 16px 0;
         }
 
         .vt-head {
@@ -108,7 +108,7 @@ export default function VisitorTestimonialsMarquee() {
           justify-content: space-between;
           gap: 18px;
           align-items: flex-end;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
           position: relative;
           z-index: 2;
         }
@@ -129,7 +129,7 @@ export default function VisitorTestimonialsMarquee() {
         .vt-head h2 {
           margin: 0;
           color: var(--vt-ink);
-          font-size: clamp(22px, 3.2vw, 34px);
+          font-size: clamp(20px, 2.6vw, 30px);
           line-height: 1.25;
           font-weight: 950;
           letter-spacing: 0;
@@ -145,7 +145,7 @@ export default function VisitorTestimonialsMarquee() {
 
         .vt-wall {
           position: relative;
-          min-height: 204px;
+          min-height: 128px;
           overflow: hidden;
           mask-image: linear-gradient(to left, transparent 0%, #000 8%, #000 92%, transparent 100%);
         }
@@ -153,8 +153,8 @@ export default function VisitorTestimonialsMarquee() {
         .vt-track {
           display: flex;
           width: max-content;
-          gap: 14px;
-          animation: vtMoveLeft 38s linear infinite;
+          gap: 12px;
+          animation: vtMoveLeft 44s linear infinite;
           will-change: transform;
         }
 
@@ -169,13 +169,14 @@ export default function VisitorTestimonialsMarquee() {
         }
 
         .vt-card {
-          flex: 0 0 clamp(230px, 22vw, 292px);
-          min-height: 166px;
-          border-radius: 20px;
-          padding: 14px;
-          background: rgba(255,255,255,.94);
+          flex: 0 0 clamp(218px, 19vw, 262px);
+          min-height: 118px;
+          border-radius: 18px;
+          padding: 12px;
+          background:
+            linear-gradient(145deg, rgba(255,255,255,.98), rgba(250,247,255,.94));
           border: 1px solid var(--vt-line);
-          box-shadow: 0 12px 26px rgba(60,37,98,.07);
+          box-shadow: 0 14px 28px rgba(60,37,98,.08);
         }
 
         .vt-card-top {
@@ -183,7 +184,7 @@ export default function VisitorTestimonialsMarquee() {
           justify-content: space-between;
           align-items: center;
           gap: 10px;
-          margin-bottom: 9px;
+          margin-bottom: 7px;
         }
 
         .vt-stars {
@@ -202,22 +203,26 @@ export default function VisitorTestimonialsMarquee() {
         .vt-card p {
           margin: 0;
           color: #3d2a54;
-          font-size: 12px;
-          line-height: 1.85;
+          font-size: 11px;
+          line-height: 1.7;
           font-weight: 780;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .vt-person {
           display: grid;
           gap: 2px;
-          margin-top: 10px;
-          padding-top: 10px;
+          margin-top: 8px;
+          padding-top: 8px;
           border-top: 1px solid rgba(139, 92, 246,.14);
         }
 
         .vt-person strong {
           color: #211336;
-          font-size: 12px;
+          font-size: 11px;
           line-height: 1.55;
           font-weight: 950;
         }

@@ -61,14 +61,28 @@ function normalizeFeedbackRow(row = {}) {
 function stageToLabel(stage = "") {
   const labels = {
     month_1: "بعد الشهر الأول",
-    month_2: "بعد الشهر الثاني",
     month_3: "منتصف الرحلة",
-    month_4: "بعد الشهر الرابع",
-    month_5: "بعد الشهر الخامس",
     month_6: "أكمل الرحلة"
   };
 
   return labels[stage] || "تقييم متدرب";
+}
+
+async function loadProfilesByIds(userIds = []) {
+  const uniqueIds = Array.from(new Set(userIds.filter(Boolean)));
+  if (!uniqueIds.length) return new Map();
+
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .select("id, email, full_name, certificate_name")
+    .in("id", uniqueIds);
+
+  if (error) {
+    console.warn("تعذر تحميل أسماء المتدربين للتقييمات:", error.message);
+    return new Map();
+  }
+
+  return new Map((data || []).map((profile) => [profile.id, profile]));
 }
 
 export async function getPublishedFeedback(limit = 40) {
@@ -77,24 +91,7 @@ export async function getPublishedFeedback(limit = 40) {
   const safeLimit = Math.min(Math.max(Number(limit) || 40, 1), 100);
   const { data, error } = await supabase
     .from("journey_feedback")
-    .select(`
-      id,
-      stage,
-      testimonial_text,
-      improvement_text,
-      completed_percent,
-      submitted_at,
-      moderated_at,
-      published_at,
-      overall_rating,
-      clarity_rating,
-      status,
-      user_profiles:user_id (
-        email,
-        full_name,
-        certificate_name
-      )
-    `)
+    .select("id, user_id, stage, testimonial_text, improvement_text, completed_percent, submitted_at, moderated_at, published_at, overall_rating, clarity_rating, status")
     .eq("status", "published")
     .order("published_at", { ascending: false, nullsFirst: false })
     .order("submitted_at", { ascending: false })
@@ -102,7 +99,14 @@ export async function getPublishedFeedback(limit = 40) {
 
   if (error) throw error;
 
-  return (data || []).map(normalizeFeedbackRow);
+  const profileMap = await loadProfilesByIds((data || []).map((row) => row.user_id));
+
+  return (data || []).map((row) =>
+    normalizeFeedbackRow({
+      ...row,
+      user_profiles: profileMap.get(row.user_id) || {}
+    })
+  );
 }
 
 export async function moderateFeedback({ feedbackId, nextStatus, adminNote = "" }) {
