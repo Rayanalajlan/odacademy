@@ -492,7 +492,7 @@ export default function LearningPortfolio({
 
             <div className="portfolio-actions">
               <button type="button" className="portfolio-button primary" onClick={resume}>
-                متابعة من آخر محطة
+                متابعة من آخر درس
               </button>
               <button type="button" className="portfolio-button soft" onClick={() => go("journey")}>
                 فتح الرحلة

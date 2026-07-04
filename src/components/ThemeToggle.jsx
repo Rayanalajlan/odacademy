@@ -1,24 +1,47 @@
 import { useEffect, useState } from "react";
-import { initializeTheme, toggleTheme } from "../lib/themeService";
+import {
+  applyTheme,
+  cycleThemePreference,
+  getEffectiveTheme,
+  initializeThemeState
+} from "../lib/themeService";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState("dark");
+  const [themeState, setThemeState] = useState({ preference: "auto", theme: "dark" });
 
   useEffect(() => {
-    setTheme(initializeTheme());
+    setThemeState(initializeThemeState());
+
+    const intervalId = window.setInterval(() => {
+      setThemeState((current) => {
+        if (current.preference !== "auto") return current;
+        const nextTheme = getEffectiveTheme("auto");
+        if (nextTheme === current.theme) return current;
+        applyTheme(nextTheme);
+        return { ...current, theme: nextTheme };
+      });
+    }, 60 * 1000);
+
+    return () => window.clearInterval(intervalId);
   }, []);
 
   function handleToggle() {
-    setTheme(toggleTheme(theme));
+    setThemeState(cycleThemePreference(themeState.preference));
   }
 
-  const isDark = theme === "dark";
+  const isDark = themeState.theme === "dark";
+  const isAuto = themeState.preference === "auto";
+  const title = isAuto
+    ? `الوضع تلقائي الآن: ${isDark ? "داكن" : "فاتح"}. اضغط للتغيير اليدوي.`
+    : isDark
+      ? "الوضع الداكن مفعل. اضغط للعودة إلى التلقائي."
+      : "الوضع الفاتح مفعل. اضغط لتفعيل الوضع الداكن.";
 
   return (
     <label
-      className="theme-switch"
-      title={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
-      aria-label={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
+      className={`theme-switch ${isAuto ? "theme-switch--auto" : ""}`}
+      title={title}
+      aria-label={title}
     >
       <style>{`
         /*
@@ -275,6 +298,31 @@ export default function ThemeToggle() {
           background-color: var(--container-night-bg);
         }
 
+        .theme-switch__auto-mark {
+          position: absolute;
+          z-index: 3;
+          left: 50%;
+          top: 50%;
+          translate: -50% -50%;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          width: 1.7em;
+          height: 1.7em;
+          border-radius: 999px;
+          color: #f8f4ff;
+          background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(168,85,247,.92));
+          border: 1px solid rgba(255,255,255,.45);
+          box-shadow: 0 8px 20px rgba(28,17,48,.18);
+          font-size: .86em;
+          font-weight: 950;
+          pointer-events: none;
+        }
+
+        .theme-switch--auto .theme-switch__auto-mark {
+          display: inline-flex;
+        }
+
         @media (max-width: 980px) {
           .theme-switch {
             --toggle-size: 14px;
@@ -304,6 +352,7 @@ export default function ThemeToggle() {
       />
 
       <div className="theme-switch__container" aria-hidden="true">
+        <span className="theme-switch__auto-mark">☀︎☾</span>
         <div className="theme-switch__circle-container">
           <div className="theme-switch__sun-moon-container">
             <div className="theme-switch__moon">

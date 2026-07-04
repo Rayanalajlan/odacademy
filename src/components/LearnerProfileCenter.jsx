@@ -150,7 +150,7 @@ export default function LearnerProfileCenter({
 
   const nextActionLabel = useMemo(() => {
     if (displayCompletedDays >= totalDays) return "معاينة وثيقة الإتقان";
-    return "متابعة من آخر محطة";
+    return "متابعة من آخر درس";
   }, [displayCompletedDays, totalDays]);
 
   async function saveProfile(event) {

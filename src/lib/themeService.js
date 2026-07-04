@@ -1,21 +1,40 @@
 const THEME_KEY = "odacademy_theme_mode";
 const DARK_CLASS = "od-theme-dark";
 const LIGHT_CLASS = "od-theme-light";
+const AUTO_THEME = "auto";
 
 function safeWindow() {
   return typeof window !== "undefined" ? window : null;
 }
 
 export function getStoredTheme() {
+  return getEffectiveTheme(getStoredThemePreference());
+}
+
+export function getStoredThemePreference() {
   const win = safeWindow();
-  if (!win) return "dark";
+  if (!win) return AUTO_THEME;
 
   try {
-    // Default visual identity is dark; an explicit stored "light" is still honored.
-    return win.localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
+    const storedTheme = win.localStorage.getItem(THEME_KEY);
+    if (storedTheme === "light" || storedTheme === "dark" || storedTheme === AUTO_THEME) {
+      return storedTheme;
+    }
+
+    return AUTO_THEME;
   } catch {
-    return "dark";
+    return AUTO_THEME;
   }
+}
+
+export function getTimeBasedTheme(date = new Date()) {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18 ? "light" : "dark";
+}
+
+export function getEffectiveTheme(preference = AUTO_THEME) {
+  if (preference === "light" || preference === "dark") return preference;
+  return getTimeBasedTheme();
 }
 
 export function applyTheme(theme = "dark") {
@@ -33,6 +52,17 @@ export function applyTheme(theme = "dark") {
   return normalized;
 }
 
+export function getThemeState(preference = getStoredThemePreference()) {
+  const normalizedPreference =
+    preference === "light" || preference === "dark" || preference === AUTO_THEME
+      ? preference
+      : AUTO_THEME;
+  return {
+    preference: normalizedPreference,
+    theme: getEffectiveTheme(normalizedPreference)
+  };
+}
+
 export function saveTheme(theme = "light") {
   const win = safeWindow();
   const normalized = applyTheme(theme);
@@ -48,10 +78,43 @@ export function saveTheme(theme = "light") {
   return normalized;
 }
 
+export function saveThemePreference(preference = AUTO_THEME) {
+  const win = safeWindow();
+  const state = getThemeState(preference);
+  applyTheme(state.theme);
+
+  if (!win) return state;
+
+  try {
+    win.localStorage.setItem(THEME_KEY, state.preference);
+  } catch {
+    // اختيار بصري فقط؛ لا نوقف الموقع إذا منع المتصفح التخزين.
+  }
+
+  return state;
+}
+
 export function toggleTheme(currentTheme = "light") {
   return saveTheme(currentTheme === "dark" ? "light" : "dark");
 }
 
+export function cycleThemePreference(currentPreference = AUTO_THEME) {
+  const nextPreference =
+    currentPreference === AUTO_THEME
+      ? "light"
+      : currentPreference === "light"
+        ? "dark"
+        : AUTO_THEME;
+
+  return saveThemePreference(nextPreference);
+}
+
 export function initializeTheme() {
   return applyTheme(getStoredTheme());
+}
+
+export function initializeThemeState() {
+  const state = getThemeState();
+  applyTheme(state.theme);
+  return state;
 }

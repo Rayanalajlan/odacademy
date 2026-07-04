@@ -1093,6 +1093,43 @@ export default function App() {
           display: block;
         }
 
+        .site-header > .logout-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          min-height: 38px;
+          padding: 8px 11px;
+          border-radius: 999px;
+          color: #6b4bbd !important;
+          background: rgba(255, 255, 255, .62) !important;
+          border: 1px solid rgba(139, 92, 246, .18) !important;
+          box-shadow: 0 10px 24px rgba(59, 29, 110, .08);
+          font-size: 12px;
+          line-height: 1;
+        }
+
+        .site-header > .logout-button:hover,
+        .site-header > .logout-button:focus-visible {
+          color: #ffffff !important;
+          background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+          border-color: rgba(255, 255, 255, .28) !important;
+          box-shadow: 0 14px 32px rgba(139, 92, 246, .18);
+        }
+
+        .site-header > .logout-button svg {
+          width: 15px;
+          height: 15px;
+          flex: none;
+        }
+
+        body.od-theme-dark .site-header > .logout-button {
+          color: #d8ccff !important;
+          background: rgba(255, 255, 255, .07) !important;
+          border-color: rgba(196, 181, 253, .18) !important;
+          box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+        }
+
         .page-loader {
           width: min(1180px, calc(100% - 28px));
           margin: 18px auto;
@@ -1237,7 +1274,21 @@ export default function App() {
           type="button"
           className="logout-button"
           onClick={handleSignOut}
+          aria-label="تسجيل الخروج"
         >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M10 17l5-5-5-5" />
+            <path d="M15 12H3.8" />
+            <path d="M13.5 4.8H18a2 2 0 0 1 2 2v10.4a2 2 0 0 1-2 2h-4.5" />
+          </svg>
           خروج
         </button>
       </header>

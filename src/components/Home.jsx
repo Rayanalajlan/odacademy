@@ -937,6 +937,60 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
     return "فلسفة المنصة";
   };
 
+  const completedMonths = Math.min(6, Math.floor(safeCompletedDays / 28));
+  const completedWeeks = Math.min(24, Math.floor(safeCompletedDays / 7));
+  const learnedSkills =
+    progress >= 100
+      ? "قراءة المنظمة، التشخيص، تصميم التدخل، قياس الأثر"
+      : progress >= 70
+        ? "تشخيص نظامي وقيادة تغيير وتثبيت التحسين"
+        : progress >= 35
+          ? "قراءة المؤشرات وفهم السلوك التنظيمي"
+          : "أساسيات التفكير التنظيمي وبناء السؤال";
+  const shareableDocuments =
+    completedMonths >= 6
+      ? "6 وثائق شهرية + وثيقة ختامية"
+      : completedMonths > 0
+        ? `${completedMonths} وثيقة شهرية قابلة للمشاركة`
+        : "تبدأ بعد إكمال الشهر الأول";
+  const finalReadiness =
+    progress >= 100
+      ? "جاهز لإصدار الوثيقة الختامية"
+      : `${Math.max(0, 100 - progress)}% متبقية على الوثيقة الختامية`;
+
+  const impactItems = [
+    {
+      label: "مهارات اكتسبتها",
+      value: learnedSkills,
+      hint: "تتطور تلقائيًا مع تقدمك في الرحلة",
+      tone: "indigo"
+    },
+    {
+      label: "محاور أنجزتها",
+      value: `${completedMonths} / 6 أشهر`,
+      hint: `${completedWeeks} من 24 أسبوعًا تطبيقيًا`,
+      tone: "violet"
+    },
+    {
+      label: "وثائق قابلة للمشاركة",
+      value: shareableDocuments,
+      hint: "مهيأة للمشاركة المهنية بعد صدورها",
+      tone: "emerald"
+    },
+    {
+      label: "آخر تقييم/انطباع",
+      value: completedMonths > 0 ? "تقييم شهري قابل للمراجعة" : "يفتح بعد الشهر الأول",
+      hint: "يساعد على تحسين التجربة قبل نشره للزوار",
+      tone: "amber"
+    },
+    {
+      label: "الجاهزية النهائية",
+      value: finalReadiness,
+      hint: `${safeCompletedDays} من ${safeTotalDays} يومًا مكتملًا`,
+      tone: "slate"
+    }
+  ];
+
   return (
     <section className="od-home-v2" dir="rtl">
       <style>{`
@@ -1846,7 +1900,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
         .od-lab-strip {
           margin-top: 18px;
           display: grid;
-          grid-template-columns: 1.1fr .9fr;
+          grid-template-columns: 1fr;
           gap: 16px;
         }
 
@@ -1875,39 +1929,87 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
           font-weight: 750;
         }
 
-        .od-milestones {
+        .od-impact-grid {
           display: grid;
           grid-template-columns: repeat(5, minmax(0, 1fr));
-          gap: 10px;
-          margin-top: 18px;
+          gap: 12px;
+          margin-top: 20px;
         }
 
-        .od-milestone {
-          padding: 13px 10px;
-          border-radius: 20px;
-          background: #f4f0fb;
+        .od-impact-item {
+          position: relative;
+          overflow: hidden;
+          min-height: 150px;
+          padding: 16px;
+          border-radius: 24px;
+          background: rgba(255,255,255,.72);
           border: 1px solid rgba(167, 139, 250,.16);
-          text-align: center;
+          box-shadow: 0 14px 34px rgba(28, 17, 48,.055);
+          text-align: start;
         }
 
-        .od-milestone.is-done {
-          background: #ecfdf5;
-          border-color: rgba(16,185,129,.22);
+        .od-impact-item::before {
+          content: "";
+          position: absolute;
+          width: 108px;
+          height: 108px;
+          border-radius: 50%;
+          left: -44px;
+          bottom: -56px;
+          opacity: .12;
+          background: currentColor;
         }
 
-        .od-milestone strong {
+        .od-impact-item--indigo { color: #8b5cf6; }
+        .od-impact-item--violet { color: #7c3aed; }
+        .od-impact-item--emerald { color: #10b981; }
+        .od-impact-item--amber { color: #a855f7; }
+        .od-impact-item--slate { color: #463c63; }
+
+        .od-impact-item span {
           display: block;
+          position: relative;
+          z-index: 1;
+          color: #7a6c9a;
+          font-size: 10px;
+          font-weight: 950;
+          margin-bottom: 9px;
+        }
+
+        .od-impact-item strong {
+          display: block;
+          position: relative;
+          z-index: 1;
           color: #18102e;
-          font-size: 13px;
+          font-size: clamp(14px, 1.35vw, 17px);
+          line-height: 1.55;
           font-weight: 950;
         }
 
-        .od-milestone span {
+        .od-impact-item small {
           display: block;
-          margin-top: 5px;
-          color: #7a6c9a;
+          position: relative;
+          z-index: 1;
+          margin-top: 10px;
+          color: #8a7caf;
           font-size: 10px;
           font-weight: 850;
+          line-height: 1.65;
+        }
+
+        body.od-theme-dark .od-impact-item {
+          background: rgba(255,255,255,.065);
+          border-color: rgba(196,181,253,.16);
+          box-shadow: 0 14px 36px rgba(0,0,0,.18);
+        }
+
+        body.od-theme-dark .od-impact-item span,
+        body.od-theme-dark .od-impact-item small {
+          color: #cfc4ee;
+        }
+
+        body.od-theme-dark .od-impact-item strong {
+          color: #f7f3ff;
         }
 
         @media (max-width: 1050px) {
@@ -1947,7 +2049,7 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
           .od-feature-grid,
           .od-timer-grid,
-          .od-milestones {
+          .od-impact-grid {
             grid-template-columns: 1fr;
           }
 
@@ -2084,41 +2186,20 @@ export default function Home({ userName, setActivePage, completedDays = 0, total
 
         <section className="od-lab-strip">
           <div className="od-lab-card">
-            <div className="od-section-kicker">مؤشرات الإتقان</div>
-            <h3>المنصة لا تقيس الحضور فقط، بل تبني أثرًا قابلًا للتوثيق</h3>
+            <div className="od-section-kicker">أثر رحلتك</div>
+            <h3>مخرجاتك التعليمية تتحول إلى سجل إنجاز واضح وقابل للمشاركة</h3>
             <p>
-              العداد يحسب الوقت النشط، الرحلة تقيس الأيام المكتملة، ووثيقة الإتقان تجمع الساعات والإنجازات. الهدف أن يصبح التعلم قابلًا للقراءة، لا مجرد تصفح عابر.
+              هنا لا نعرض أرقامًا ساكنة؛ نقرأ ما أنجزته كمهارات ومحاور ووثائق وتقييمات، ثم نوضح مدى جاهزيتك للوثيقة الختامية.
             </p>
 
-            <div className="od-milestones">
-              {[1, 5, 10, 25, 50].map((hour) => (
-                <div key={hour} className={`od-milestone ${timer.completedHours >= hour ? "is-done" : ""}`}>
-                  <strong>{hour} س</strong>
-                  <span>{timer.completedHours >= hour ? "مكتمل" : "قادم"}</span>
+            <div className="od-impact-grid">
+              {impactItems.map((item) => (
+                <div key={item.label} className={`od-impact-item od-impact-item--${item.tone}`}>
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                  <small>{item.hint}</small>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="od-lab-card">
-            <div className="od-section-kicker">اقتراح ذكي</div>
-            <h3>ماذا تفعل الآن؟</h3>
-            <p>
-              {progress < 10
-                ? "ابدأ من الرحلة التعليمية ولا تتشتت بين الأقسام. ابنِ الأساس أولًا."
-                : progress < 60
-                  ? "وازن بين الدروس ورادار الأداء. اقرأ، ثم اختبر تفكيرك بالمواقف."
-                  : "اقتربت من مرحلة الإتقان. ركّز على المحاكاة ووثيقة الإتقان ومشروعك التطبيقي."}
-            </p>
-
-            <div className="od-timer-actions">
-              <button type="button" className="od-button od-button--primary" onClick={() => setActivePage("journey")}>
-                متابعة الرحلة
-              </button>
-
-              <button type="button" className="od-button od-button--ghost" onClick={() => setActivePage("mastery")}>
-                فتح وثيقة الإتقان
-              </button>
             </div>
           </div>
         </section>

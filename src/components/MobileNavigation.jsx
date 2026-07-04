@@ -426,7 +426,7 @@ export default function MobileNavigation({
         </div>
 
         <button type="button" className="mobile-nav-resume" onClick={onResumeJourney}>
-          متابعة من آخر محطة
+          متابعة من آخر درس
         </button>
 
         <nav className="mobile-nav-list" aria-label="أقسام المنصة للجوال">
