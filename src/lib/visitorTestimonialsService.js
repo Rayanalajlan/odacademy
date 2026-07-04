@@ -122,7 +122,7 @@ export function subscribeToPublishedVisitorTestimonials(onChange) {
     return () => undefined;
   }
 
-  const channel = supabase
+  const staticChannel = supabase
     .channel("visitor-testimonials-live")
     .on(
       "postgres_changes",
@@ -138,7 +138,24 @@ export function subscribeToPublishedVisitorTestimonials(onChange) {
     )
     .subscribe();
 
+  const journeyChannel = supabase
+    .channel("journey-feedback-testimonials-live")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "journey_feedback",
+        filter: "status=eq.published"
+      },
+      () => {
+        onChange?.();
+      }
+    )
+    .subscribe();
+
   return () => {
-    supabase.removeChannel(channel);
+    supabase.removeChannel(staticChannel);
+    supabase.removeChannel(journeyChannel);
   };
 }

@@ -32,6 +32,8 @@ import { COURSE_TOTALS } from "./data/courseContent";
 const TOTAL_JOURNEY_DAYS = COURSE_TOTALS?.totalDays || 168;
 const ACTIVITY_TOUCH_INTERVAL_MS = 5 * 60 * 1000;
 const ACTIVITY_TOUCH_THROTTLE_MS = 60 * 1000;
+const AUTO_SIGN_OUT_AFTER_MS = 7 * 24 * 60 * 60 * 1000;
+const LAST_ACTIVITY_STORAGE_KEY = "odacademy_last_active_at";
 
 const CourseJourney = lazy(() => import("./components/CourseJourney"));
 const RadarAssessment = lazy(() => import("./components/RadarAssessment"));
@@ -46,7 +48,7 @@ const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
-  { id: "portfolio", label: "ملفي التعليمي" },
+  { id: "portfolio", label: "حسابي" },
   { id: "journey", label: "رحلتك التعليمية" },
   { id: "mastery", label: "وثيقة الإتقان" },
   { id: "about", label: "عن ريان" }
@@ -181,6 +183,20 @@ function getDisplayName(session, fallbackName) {
   );
 }
 
+function getLastActivityKey(userId = "guest") {
+  return `${LAST_ACTIVITY_STORAGE_KEY}_${userId}`;
+}
+
+function readLastActivity(userId) {
+  if (typeof window === "undefined" || !userId) return 0;
+  return Number(window.localStorage.getItem(getLastActivityKey(userId)) || 0);
+}
+
+function writeLastActivity(userId, value = Date.now()) {
+  if (typeof window === "undefined" || !userId) return;
+  window.localStorage.setItem(getLastActivityKey(userId), String(value));
+}
+
 function withTimeout(promise, label, timeoutMs = BOOT_TIMEOUT_MS) {
   return Promise.race([
     promise,
@@ -295,11 +311,28 @@ export default function App() {
             console.warn("تعذر فحص جلسة Supabase:", error.message);
           }
 
-          if (mounted) {
-            setSession(data?.session || null);
+          const currentSession = data?.session || null;
+          const currentUserId = currentSession?.user?.id;
+          const lastActiveAt = readLastActivity(currentUserId);
 
-            if (data?.session?.user) {
-              setUserName(getDisplayName(data.session));
+          if (
+            currentSession?.user &&
+            lastActiveAt > 0 &&
+            Date.now() - lastActiveAt > AUTO_SIGN_OUT_AFTER_MS
+          ) {
+            await supabase.auth.signOut();
+
+            if (mounted) {
+              setSession(null);
+              setUserName("");
+              setNotice("تم تسجيل خروجك تلقائيًا لأن الحساب لم يُستخدم منذ أكثر من 7 أيام.");
+            }
+          } else if (mounted) {
+            setSession(currentSession);
+
+            if (currentSession?.user) {
+              writeLastActivity(currentUserId);
+              setUserName(getDisplayName(currentSession));
             }
           }
         } else {
@@ -340,6 +373,7 @@ export default function App() {
           setSession(nextSession || null);
 
           if (nextSession?.user) {
+            writeLastActivity(nextSession.user.id);
             setUserName(getDisplayName(nextSession));
             loadProgressSafely({ showLoader: true });
           } else {
@@ -425,6 +459,7 @@ export default function App() {
       }
 
       lastActivityTouchRef.current = now;
+      writeLastActivity(session.user.id, now);
 
       try {
         await supabase.rpc("touch_user_activity");
@@ -1093,40 +1128,58 @@ export default function App() {
           display: block;
         }
 
-        .site-header > .logout-button {
+        .header-actions {
           display: inline-flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 9px;
+          min-width: 0;
+        }
+
+        .site-header > .logout-button {
+          display: none !important;
+        }
+
+        .header-actions > .logout-button {
+          display: inline-flex !important;
           align-items: center;
           justify-content: center;
           gap: 6px;
-          min-height: 38px;
-          padding: 8px 11px;
+          min-width: 0;
+          width: auto !important;
+          max-width: max-content !important;
+          min-height: 36px;
+          padding: 8px 12px !important;
           border-radius: 999px;
-          color: #6b4bbd !important;
-          background: rgba(255, 255, 255, .62) !important;
-          border: 1px solid rgba(139, 92, 246, .18) !important;
-          box-shadow: 0 10px 24px rgba(59, 29, 110, .08);
+          color: #b3173a !important;
+          -webkit-text-fill-color: #b3173a !important;
+          background: rgba(254, 242, 242, .86) !important;
+          border: 1px solid rgba(239, 68, 68, .20) !important;
+          box-shadow: 0 10px 24px rgba(185, 28, 28, .08);
           font-size: 12px;
           line-height: 1;
         }
 
-        .site-header > .logout-button:hover,
-        .site-header > .logout-button:focus-visible {
+        .header-actions > .logout-button:hover,
+        .header-actions > .logout-button:focus-visible {
           color: #ffffff !important;
-          background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
-          border-color: rgba(255, 255, 255, .28) !important;
-          box-shadow: 0 14px 32px rgba(139, 92, 246, .18);
+          -webkit-text-fill-color: #ffffff !important;
+          background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+          border-color: rgba(255, 255, 255, .34) !important;
+          box-shadow: 0 14px 32px rgba(185, 28, 28, .18);
         }
 
-        .site-header > .logout-button svg {
+        .header-actions > .logout-button svg {
           width: 15px;
           height: 15px;
           flex: none;
         }
 
-        body.od-theme-dark .site-header > .logout-button {
-          color: #d8ccff !important;
-          background: rgba(255, 255, 255, .07) !important;
-          border-color: rgba(196, 181, 253, .18) !important;
+        body.od-theme-dark .header-actions > .logout-button {
+          color: #fecaca !important;
+          -webkit-text-fill-color: #fecaca !important;
+          background: rgba(127, 29, 29, .34) !important;
+          border-color: rgba(248, 113, 113, .24) !important;
           box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
         }
 
@@ -1266,31 +1319,33 @@ export default function App() {
           ))}
         </nav>
 
-        <ThemeToggle />
+        <div className="header-actions">
+          <ThemeToggle />
 
-        <NotificationsCenter setActivePage={navigate} />
+          <NotificationsCenter setActivePage={navigate} />
 
-        <button
-          type="button"
-          className="logout-button"
-          onClick={handleSignOut}
-          aria-label="تسجيل الخروج"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.9"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+          <button
+            type="button"
+            className="logout-button"
+            onClick={handleSignOut}
+            aria-label="تسجيل الخروج"
           >
-            <path d="M10 17l5-5-5-5" />
-            <path d="M15 12H3.8" />
-            <path d="M13.5 4.8H18a2 2 0 0 1 2 2v10.4a2 2 0 0 1-2 2h-4.5" />
-          </svg>
-          خروج
-        </button>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M10 17l5-5-5-5" />
+              <path d="M15 12H3.8" />
+              <path d="M13.5 4.8H18a2 2 0 0 1 2 2v10.4a2 2 0 0 1-2 2h-4.5" />
+            </svg>
+            خروج
+          </button>
+        </div>
       </header>
 
       <MobileNavigation

@@ -1044,13 +1044,13 @@ export default function LearnerProfileCenter({
           type="button"
           className="profile-identity"
           onClick={openDrawer}
-          aria-label="فتح ملفي"
+          aria-label="فتح حسابي"
         >
           <div className="profile-avatar" aria-hidden="true">{firstLetter(displayName)}</div>
           <div className="profile-name">
             <strong>{loading ? "جارٍ تحميل ملفك..." : displayName}</strong>
             <span>{rank.title} · {rank.subtitle}</span>
-            <small>اضغط لفتح ملفك</small>
+            <small>اضغط لفتح حسابك</small>
           </div>
         </button>
 
@@ -1078,10 +1078,10 @@ export default function LearnerProfileCenter({
 
         <div className="profile-actions">
           <button type="button" className="profile-button myfile" onClick={() => navigate("portfolio")}>
-            ملفي التعليمي
+            حسابي
           </button>
           <button type="button" className="profile-button soft" onClick={openDrawer}>
-            ملفي
+            حسابي
           </button>
           <button type="button" className="profile-button soft" onClick={resumeJourney}>
             {nextActionLabel}
@@ -1092,10 +1092,10 @@ export default function LearnerProfileCenter({
       {drawerOpen && (
         <>
           <div className="profile-drawer-backdrop" onClick={() => setDrawerOpen(false)} />
-          <aside className="profile-drawer" role="dialog" aria-modal="true" aria-label="ملفي">
+          <aside className="profile-drawer" role="dialog" aria-modal="true" aria-label="حسابي">
             <div className="drawer-head">
               <div>
-                <h2>ملفي</h2>
+                <h2>حسابي</h2>
                 <p>ملخص سريع لتقدمك، وقتك، شاراتك، وآخر نشاطاتك.</p>
               </div>
               <button type="button" className="close-button" onClick={() => setDrawerOpen(false)}>×</button>

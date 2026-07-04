@@ -116,11 +116,11 @@ export default function AdminDashboard() {
       await moderateFeedback({
         feedbackId: item.id,
         nextStatus,
-        adminNote: nextStatus === "approved" ? "تم اعتماد التقييم للنشر." : "تم رفض التقييم."
+        adminNote: nextStatus === "published" ? "تم اعتماد التقييم للنشر." : "تم رفض التقييم."
       });
 
       setFeedback((current) => current.filter((row) => row.id !== item.id));
-      setNotice(nextStatus === "approved" ? "تم نشر التقييم." : "تم رفض التقييم.");
+      setNotice(nextStatus === "published" ? "تم نشر التقييم." : "تم رفض التقييم.");
       await loadAll();
     } catch (error) {
       setNotice(error?.message || "تعذر تحديث حالة التقييم.");
@@ -641,7 +641,7 @@ export default function AdminDashboard() {
                               type="button"
                               className="admin-action approve"
                               disabled={moderatingId === item.id}
-                              onClick={() => handleModerate(item, "approved")}
+                              onClick={() => handleModerate(item, "published")}
                             >
                               اعتماد ونشر
                             </button>
