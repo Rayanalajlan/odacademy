@@ -236,17 +236,21 @@ export default function VisitorTestimonialsMarquee() {
 
         body.od-theme-dark .visitor-testimonials {
           background:
-            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.16), transparent 30%),
-            radial-gradient(circle at 0% 100%, rgba(139, 92, 246,.12), transparent 32%),
-            rgba(15,10,25,.94) !important;
-          border-color: rgba(124, 58, 237,.22) !important;
-          box-shadow: 0 22px 70px rgba(0,0,0,.26) !important;
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.14), transparent 32%),
+            linear-gradient(135deg, rgba(26, 15, 47,.72), rgba(16, 9, 31,.62)) !important;
+          border-color: rgba(196, 181, 253,.16) !important;
+          box-shadow: 0 22px 70px rgba(0,0,0,.20) !important;
+        }
+
+        body.od-theme-dark .vt-wall {
+          background: transparent !important;
         }
 
         body.od-theme-dark .vt-card {
-          background: rgba(32,22,48,.90) !important;
-          border-color: rgba(124, 58, 237,.20) !important;
-          box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
+          background:
+            linear-gradient(145deg, rgba(48, 31, 82,.96), rgba(24, 14, 42,.96)) !important;
+          border-color: rgba(196, 181, 253,.18) !important;
+          box-shadow: 0 14px 30px rgba(0,0,0,.20) !important;
         }
 
         body.od-theme-dark .vt-head h2,

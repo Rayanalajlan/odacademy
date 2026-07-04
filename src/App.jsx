@@ -1357,7 +1357,7 @@ export default function App() {
 
           <button
             type="button"
-            className="logout-button"
+            className="logout-button danger-logout-button"
             onClick={handleSignOut}
             aria-label="تسجيل الخروج"
           >

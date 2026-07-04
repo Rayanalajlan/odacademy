@@ -14,6 +14,19 @@ function slugify(value) {
     .slice(0, 80);
 }
 
+function createShortSlug(prefix = "od") {
+  const randomPart =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID().replace(/-/g, "").slice(0, 10)
+      : Math.random().toString(36).slice(2, 12);
+
+  return `${prefix}-${randomPart}`;
+}
+
+function isShortVerificationSlug(value) {
+  return /^[a-z0-9]+-[a-z0-9]{6,18}$/i.test(String(value || ""));
+}
+
 export function createLocalCertificateCode({ userName = "OD", completedDays = 0 } = {}) {
   const cleanName = String(userName || "OD")
     .replace(/\s+/g, "-")
@@ -87,10 +100,10 @@ export async function getOrCreateMasteryCertificate({
     userName,
     completedDays: safeCompleted
   });
-  const fallbackSlug = slugify(fallbackCode);
+  const fallbackShortSlug = createShortSlug("od");
   const localRecord = makeLocalRecord({
     fallbackCode,
-    fallbackSlug,
+    fallbackSlug: fallbackShortSlug,
     isUnlocked,
     safeCompleted,
     totalDays,
@@ -113,6 +126,9 @@ export async function getOrCreateMasteryCertificate({
   }
 
   if (isUnlocked) {
+    const existingShortSlug = [existing?.verification_slug, existing?.certificate_slug]
+      .find((value) => isShortVerificationSlug(value));
+
     const { data: issuedCertificate, error: issueError } = await supabase.rpc(
       "issue_mastery_certificate",
       {
@@ -131,8 +147,8 @@ export async function getOrCreateMasteryCertificate({
     const upsertPayload = {
       user_id: user.id,
       certificate_code: existing?.certificate_code || fallbackCode,
-      certificate_slug: existing?.certificate_slug || existing?.verification_slug || fallbackSlug,
-      verification_slug: existing?.verification_slug || existing?.certificate_slug || fallbackSlug,
+      certificate_slug: existingShortSlug || fallbackShortSlug,
+      verification_slug: existingShortSlug || fallbackShortSlug,
       certificate_name: userName || existing?.certificate_name || user.email || "متدرب",
       completed_days: safeCompleted,
       total_days: totalDays,

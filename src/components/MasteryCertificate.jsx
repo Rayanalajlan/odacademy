@@ -2,6 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "../data/courseContent";
 import MonthlyCertificates from "./MonthlyCertificates";
 import {
+  downloadCertificateJpeg,
+  printCertificatePdf
+} from "../lib/certificateExportService";
+import {
   buildVerificationUrl,
   getOrCreateMasteryCertificate
 } from "../lib/masteryCertificateService";
@@ -32,129 +36,6 @@ function escapeSvgText(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
-}
-
-function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 800);
-}
-
-function downloadSvgAsJpeg(svg, filename, width = 1600, height = 1000) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-
-    image.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const context = canvas.getContext("2d");
-      context.fillStyle = "#ffffff";
-      context.fillRect(0, 0, width, height);
-      context.drawImage(image, 0, 0, width, height);
-
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error("تعذر إنشاء ملف JPEG."));
-            return;
-          }
-
-          downloadBlob(blob, filename);
-          resolve(true);
-        },
-        "image/jpeg",
-        0.94
-      );
-    };
-
-    image.onerror = () => {
-      reject(new Error("تعذر تحميل تصميم الشهادة."));
-    };
-
-    image.src = url;
-  });
-}
-
-function printElementAsSinglePage(elementId, title = "munsaqah-certificate") {
-  const element = document.getElementById(elementId);
-  if (!element) {
-    alert("تعذر العثور على تصميم الشهادة للطباعة.");
-    return;
-  }
-
-  const printWindow = window.open("", "_blank", "width=1200,height=800");
-  if (!printWindow) {
-    alert("تعذر فتح نافذة الطباعة. تأكد من السماح بالنوافذ المنبثقة.");
-    return;
-  }
-
-  printWindow.document.open();
-  printWindow.document.write(`<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <title>${title}</title>
-  <style>
-    @page { size: A4 landscape; margin: 0; }
-    html, body {
-      width: 297mm;
-      height: 210mm;
-      margin: 0;
-      background: #fff;
-      overflow: hidden;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
-      font-family: Tahoma, Arial, sans-serif;
-    }
-    .print-root {
-      width: 297mm;
-      height: 210mm;
-      display: grid;
-      place-items: center;
-      background: #fff;
-      overflow: hidden;
-    }
-    .certificate-frame,
-    .monthly-certificate-preview {
-      width: 297mm !important;
-      height: 210mm !important;
-      max-width: 297mm !important;
-      max-height: 210mm !important;
-      min-height: 0 !important;
-      aspect-ratio: 297 / 210 !important;
-      margin: 0 !important;
-      box-sizing: border-box !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-    }
-    .certificate-inner {
-      width: 100% !important;
-      height: 100% !important;
-      min-height: 0 !important;
-      box-sizing: border-box !important;
-      border-radius: 0 !important;
-    }
-  </style>
-</head>
-<body>
-  <main class="print-root">${element.outerHTML}</main>
-  <script>
-    window.onload = () => {
-      window.focus();
-      window.print();
-      setTimeout(() => window.close(), 600);
-    };
-  </script>
-</body>
-</html>`);
-  printWindow.document.close();
 }
 
 export default function MasteryCertificate({
@@ -270,85 +151,35 @@ export default function MasteryCertificate({
   async function downloadCertificateImage() {
     if (!isUnlocked) return;
 
-    const safeName = escapeSvgText(learnerName);
-    const safeCode = escapeSvgText(certificateCode);
-    const safeDate = escapeSvgText(completionDate);
-    const safeUrl = escapeSvgText(verificationUrl);
-    const safeStatus = verificationEnabled ? "مفعّلة وقابلة للتحقق" : "صادرة وقيد نشر رابط التحقق";
-    const strategicLines = [
-      "أتم هذا المتدرب رحلة منسقة للتطوير التنظيمي؛ مسارًا تطبيقيًا امتد ستة أشهر",
-      "لبناء عقلية تشخيصية تقرأ المنظمة كنظام حي، وتربط البيانات بالسلوك،",
-      "والتدخل بالأثر، والتغيير بالقدرة المؤسسية المستدامة."
-    ];
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" direction="rtl">
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".5" stop-color="#fbf9ff"/>
-      <stop offset="1" stop-color="#f3efff"/>
-    </linearGradient>
-    <radialGradient id="violetGlow" cx="50%" cy="12%" r="72%">
-      <stop offset="0" stop-color="#ddd6fe" stop-opacity=".72"/>
-      <stop offset="1" stop-color="#ddd6fe" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="softPattern" width="34" height="34" patternUnits="userSpaceOnUse">
-      <path d="M0 34 L34 0 M-9 9 L9 -9 M25 43 L43 25" stroke="#d8cff8" stroke-opacity=".18" stroke-width="1"/>
-    </pattern>
-  </defs>
-  <rect width="1600" height="1000" fill="#5f4ec4"/>
-  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#paper)"/>
-  <rect x="22" y="22" width="1556" height="956" rx="28" fill="url(#violetGlow)"/>
-  <rect x="40" y="40" width="1520" height="920" rx="20" fill="url(#softPattern)" opacity=".7"/>
-  <rect x="44" y="44" width="1512" height="912" rx="22" fill="none" stroke="#6d5bd0" stroke-width="3"/>
-  <rect x="62" y="62" width="1476" height="876" rx="18" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
-  <path d="M62 190 C128 184 116 106 194 62 L62 62 Z M1538 190 C1472 184 1484 106 1406 62 L1538 62 Z M62 810 C128 816 116 894 194 938 L62 938 Z M1538 810 C1472 816 1484 894 1406 938 L1538 938 Z" fill="#ede9ff" stroke="#c7b6ef" stroke-width="2"/>
-  <path d="M91 168 C138 150 145 104 199 83 M1509 168 C1462 150 1455 104 1401 83 M91 832 C138 850 145 896 199 917 M1509 832 C1462 850 1455 896 1401 917" fill="none" stroke="#d8b56d" stroke-width="2" stroke-opacity=".75"/>
-  <text x="800" y="115" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="54" font-weight="900" fill="#6d5bd0">منسقة</text>
-  <text x="800" y="150" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="22" font-weight="800" fill="#6d5bd0">Munsaqah</text>
-  <text x="800" y="205" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="24" font-weight="800" fill="#1f1b4d">منسقة للتطوير التنظيمي</text>
-  <text x="800" y="245" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="20" font-weight="700" fill="#4b3f87">رحلة معرفية تطبيقية في فهم المنظمة وبناء الأثر</text>
-  <text x="800" y="345" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="72" font-weight="900" fill="#2c236c">وثيقة إتمام</text>
-  <text x="800" y="405" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="44" font-weight="900" fill="#6d5bd0">مسار التطوير التنظيمي</text>
-  <rect x="285" y="438" width="1030" height="92" rx="28" fill="#ffffff" stroke="#d8b56d" stroke-width="2"/>
-  <rect x="305" y="452" width="990" height="64" rx="20" fill="none" stroke="#c4b5fd" stroke-width="2"/>
-  <text x="800" y="497" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="44" font-weight="900" fill="#2c236c">${safeName}</text>
-  <text x="800" y="585" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[0])}</text>
-  <text x="800" y="622" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[1])}</text>
-  <text x="800" y="659" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="23" font-weight="800" fill="#1f1b4d">${escapeSvgText(strategicLines[2])}</text>
-  <g font-family="Arial, Tahoma, sans-serif" font-weight="900">
-    <rect x="250" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-    <text x="372" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">${totalDays}</text>
-    <text x="372" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">يومًا تعليميًا</text>
-    <rect x="540" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-    <text x="662" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">${totalHours}</text>
-    <text x="662" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">ساعة تعلم</text>
-    <rect x="830" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-    <text x="952" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">24</text>
-    <text x="952" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">أسبوعًا تطبيقيًا</text>
-    <rect x="1120" y="700" width="245" height="108" rx="16" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-    <text x="1242" y="745" text-anchor="middle" font-size="43" fill="#6d5bd0">6</text>
-    <text x="1242" y="780" text-anchor="middle" font-size="21" fill="#1f1b4d">أشهر إتقان</text>
-  </g>
-  <circle cx="800" cy="842" r="78" fill="#5f4ec4" stroke="#d8b56d" stroke-width="8"/>
-  <circle cx="800" cy="842" r="58" fill="none" stroke="#ffffff" stroke-opacity=".42" stroke-width="2"/>
-  <text x="800" y="857" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="48" font-weight="900" fill="#ffffff">م</text>
-  <text x="460" y="875" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">رقم الوثيقة: ${safeCode}</text>
-  <text x="1140" y="875" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">تاريخ الإتمام: ${safeDate}</text>
-  <rect x="230" y="910" width="1140" height="40" rx="20" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-  <text x="800" y="936" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#6d5bd0">للتحقق من صحة الوثيقة: ${safeUrl}</text>
-</svg>`;
-
     try {
-      await downloadSvgAsJpeg(svg, `munsaqah-mastery-${certificateCode}.jpg`);
+      await downloadCertificateJpeg({
+        kind: "mastery",
+        learnerName,
+        certificateCode,
+        completionDate,
+        verificationUrl,
+        filename: `munsaqah-mastery-${certificateCode}.jpg`
+      });
     } catch (error) {
       alert(error?.message || "تعذر تحميل الشهادة بصيغة JPEG.");
     }
   }
 
-  function printCertificate() {
+  async function printCertificate() {
     if (!isUnlocked) return;
-    printElementAsSinglePage("printable-certificate-frame", "وثيقة إتقان منسقة");
+
+    try {
+      await printCertificatePdf({
+        kind: "mastery",
+        learnerName,
+        certificateCode,
+        completionDate,
+        verificationUrl,
+        title: "وثيقة إتقان منسقة"
+      });
+    } catch (error) {
+      alert(error?.message || "تعذر تجهيز الشهادة بصيغة PDF.");
+    }
   }
 
   return (

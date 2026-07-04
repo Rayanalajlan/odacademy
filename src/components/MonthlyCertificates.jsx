@@ -3,6 +3,10 @@ import {
   getOrCreateMonthlyCertificates,
   MONTHLY_MILESTONES
 } from "../lib/monthlyCertificateService";
+import {
+  downloadCertificateJpeg,
+  printCertificatePdf
+} from "../lib/certificateExportService";
 import { buildVerificationUrl, copyTextSafely } from "../lib/masteryCertificateService";
 
 function safeNumber(value, fallback = 0) {
@@ -250,19 +254,53 @@ export default function MonthlyCertificates({
     );
   }
 
-  function printMonthlyCertificate(record) {
-    printElementAsSinglePage(`monthly-certificate-${record.month_number}`, `شهادة الشهر ${record.month_number}`);
+  async function printMonthlyCertificate(record) {
+    const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
+    const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
+    const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
+
+    try {
+      await printCertificatePdf({
+        kind: "monthly",
+        learnerName: userName || "متدرب",
+        title,
+        subtitle,
+        certificateCode: record.certificate_code || "",
+        completionDate: formatDate(record.issued_at),
+        verificationUrl
+      });
+    } catch (error) {
+      alert(error?.message || "تعذر تجهيز الشهادة بصيغة PDF.");
+    }
   }
 
   async function downloadMonthlyCertificateImage(record) {
     const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
     const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
+    const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
+
+    try {
+      await downloadCertificateJpeg({
+        kind: "monthly",
+        learnerName: userName || "متدرب",
+        title,
+        subtitle,
+        certificateCode: record.certificate_code || "",
+        completionDate: formatDate(record.issued_at),
+        verificationUrl,
+        filename: `munsaqah-month-${record.month_number}-${record.certificate_code || "certificate"}.jpg`
+      });
+      return;
+    } catch (error) {
+      alert(error?.message || "تعذر تحميل الشهادة بصيغة JPEG.");
+      return;
+    }
+
     const safeName = escapeSvgText(userName || "متدرب");
     const safeCode = escapeSvgText(record.certificate_code || "");
     const safeDate = escapeSvgText(formatDate(record.issued_at));
     const safeTitle = escapeSvgText(title);
     const safeSubtitle = escapeSvgText(subtitle);
-    const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" direction="rtl">
   <defs>

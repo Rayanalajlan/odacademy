@@ -53,6 +53,19 @@ function slugify(value) {
     .slice(0, 90);
 }
 
+function createShortSlug(prefix = "m") {
+  const randomPart =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID().replace(/-/g, "").slice(0, 10)
+      : Math.random().toString(36).slice(2, 12);
+
+  return `${prefix}-${randomPart}`;
+}
+
+function isShortVerificationSlug(value) {
+  return /^[a-z0-9]+-[a-z0-9]{6,18}$/i.test(String(value || ""));
+}
+
 function cleanName(value) {
   return String(value || "OD")
     .replace(/\s+/g, "-")
@@ -85,6 +98,7 @@ function makeLocalRecord(milestone, { userName, completedDays, totalDays }) {
     userName,
     monthNumber: milestone.monthNumber
   });
+  const shortSlug = createShortSlug(`m${milestone.monthNumber}`);
 
   return {
     id: null,
@@ -97,8 +111,8 @@ function makeLocalRecord(milestone, { userName, completedDays, totalDays }) {
     total_days: safeNumber(totalDays, 168),
     certificate_name: userName || "متدرب",
     certificate_code: code,
-    certificate_slug: slugify(code),
-    verification_slug: slugify(code),
+    certificate_slug: shortSlug,
+    verification_slug: shortSlug,
     public_enabled: Boolean(unlocked),
     verification_enabled: Boolean(unlocked),
     status: unlocked ? "issued" : "locked",
@@ -178,14 +192,17 @@ export async function getOrCreateMonthlyCertificates({
       .filter((record) => record.status === "issued")
       .map((record) => {
         const saved = savedByMonthBeforeUpsert.get(Number(record.month_number));
-        const slug = saved?.verification_slug || saved?.certificate_slug || record.verification_slug;
+        const slug =
+          [saved?.verification_slug, saved?.certificate_slug].find((value) => isShortVerificationSlug(value)) ||
+          record.verification_slug ||
+          createShortSlug(`m${record.month_number}`);
 
         return {
           user_id: user.id,
           month_number: record.month_number,
           month_title: record.month_title,
           certificate_code: saved?.certificate_code || record.certificate_code,
-          certificate_slug: saved?.certificate_slug || slug,
+          certificate_slug: slug,
           verification_slug: slug,
           certificate_name: learnerName || user.email || "متدرب",
           required_days: record.required_days,

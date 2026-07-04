@@ -1099,6 +1099,21 @@ html[data-theme="light"] body.od-theme-light #root :is(
   box-shadow: 0 12px 28px rgba(36, 22, 63, .07) !important;
 }
 
+html[data-theme="light"] body.od-theme-light #root :is(.header-actions .danger-logout-button, button.danger-logout-button, .mobile-nav-signout) {
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+  border: 1px solid rgba(185, 28, 28, .42) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(185, 28, 28, .18) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root :is(.header-actions .danger-logout-button, button.danger-logout-button, .mobile-nav-signout):is(:hover, :focus-visible) {
+  background: linear-gradient(135deg, #f87171, #991b1b) !important;
+  border-color: rgba(153, 27, 27, .56) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 html[data-theme="light"] body.od-theme-light #root :is(
   .sim-root .nav button.active,
   .sim-root .panel-tabs button.active,

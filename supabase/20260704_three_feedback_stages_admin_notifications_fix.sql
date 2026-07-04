@@ -69,6 +69,10 @@ SET status = 'published',
     published_at = COALESCE(published_at, now())
 WHERE status = 'approved';
 
+DROP FUNCTION IF EXISTS public.moderate_feedback(uuid, text, text, boolean);
+DROP FUNCTION IF EXISTS public.moderate_journey_feedback(uuid, text, text);
+DROP FUNCTION IF EXISTS public.get_public_testimonials(integer);
+
 CREATE OR REPLACE FUNCTION public.moderate_feedback(
   feedback_id uuid,
   moderation_action text,
@@ -207,3 +211,141 @@ $$;
 GRANT EXECUTE ON FUNCTION public.moderate_feedback(uuid, text, text, boolean) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.moderate_journey_feedback(uuid, text, text) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.get_public_testimonials(integer) TO anon, authenticated;
+
+-- روابط تحقق قصيرة بدل الروابط العربية الطويلة المشفرة.
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+ALTER TABLE public.mastery_certificates
+  ADD COLUMN IF NOT EXISTS verification_slug text;
+
+ALTER TABLE public.monthly_certificates
+  ADD COLUMN IF NOT EXISTS verification_slug text;
+
+UPDATE public.mastery_certificates
+SET verification_slug = 'od-' || lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10)),
+    certificate_slug = 'od-' || lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10))
+WHERE verification_slug IS NULL
+   OR verification_slug !~ '^[a-z0-9]+-[a-z0-9]{6,18}$';
+
+UPDATE public.monthly_certificates
+SET verification_slug = 'm' || COALESCE(month_number, 1)::text || '-' || lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10)),
+    certificate_slug = 'm' || COALESCE(month_number, 1)::text || '-' || lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10))
+WHERE verification_slug IS NULL
+   OR verification_slug !~ '^[a-z0-9]+-[a-z0-9]{6,18}$';
+
+DROP FUNCTION IF EXISTS public.verify_mastery_certificate(text);
+CREATE OR REPLACE FUNCTION public.verify_mastery_certificate(slug_or_code text)
+RETURNS TABLE (
+  certificate_type text,
+  month_number integer,
+  month_title text,
+  certificate_code text,
+  certificate_slug text,
+  verification_slug text,
+  certificate_name text,
+  completed_days integer,
+  total_days integer,
+  issued_at timestamptz,
+  status text,
+  public_enabled boolean,
+  verification_enabled boolean
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  clean text := trim(coalesce(slug_or_code, ''));
+BEGIN
+  IF clean = '' THEN
+    RETURN;
+  END IF;
+
+  RETURN QUERY
+  SELECT
+    'mastery'::text,
+    null::integer,
+    null::text,
+    mc.certificate_code,
+    mc.certificate_slug,
+    mc.verification_slug,
+    mc.certificate_name,
+    mc.completed_days,
+    mc.total_days,
+    mc.issued_at,
+    mc.status,
+    mc.public_enabled,
+    mc.verification_enabled
+  FROM public.mastery_certificates mc
+  WHERE (mc.verification_slug = clean OR mc.certificate_slug = clean OR mc.certificate_code = clean)
+    AND mc.status = 'issued'
+    AND mc.public_enabled = true
+    AND mc.verification_enabled = true
+  LIMIT 1;
+
+  IF FOUND THEN
+    RETURN;
+  END IF;
+
+  RETURN QUERY
+  SELECT
+    'monthly'::text,
+    m.month_number,
+    m.month_title,
+    m.certificate_code,
+    m.certificate_slug,
+    m.verification_slug,
+    m.certificate_name,
+    m.completed_days,
+    m.total_days,
+    m.issued_at,
+    m.status,
+    m.public_enabled,
+    m.verification_enabled
+  FROM public.monthly_certificates m
+  WHERE (m.verification_slug = clean OR m.certificate_slug = clean OR m.certificate_code = clean)
+    AND m.status = 'issued'
+    AND m.public_enabled = true
+    AND m.verification_enabled = true
+  LIMIT 1;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.verify_mastery_certificate(text) TO anon, authenticated;
+
+-- تعرض لوحة الإدارة المتدربين مع آخر ظهور وحالة الاتصال بدون علاقات Supabase المخبأة.
+DROP FUNCTION IF EXISTS public.get_admin_recent_learners(integer);
+CREATE OR REPLACE FUNCTION public.get_admin_recent_learners(limit_count integer DEFAULT 20)
+RETURNS TABLE (
+  user_id uuid,
+  email text,
+  display_name text,
+  created_at timestamptz,
+  last_seen_at timestamptz,
+  total_seconds bigint,
+  completed_days integer
+)
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    p.id AS user_id,
+    p.email,
+    COALESCE(p.certificate_name, p.full_name, p.email, 'متدرب') AS display_name,
+    p.created_at,
+    p.last_seen_at,
+    COALESCE(p.total_learning_seconds, 0)::bigint AS total_seconds,
+    COALESCE(progress.completed_days, 0)::integer AS completed_days
+  FROM public.user_profiles p
+  LEFT JOIN LATERAL (
+    SELECT count(*)::integer AS completed_days
+    FROM public.user_progress up
+    WHERE up.user_id = p.id
+      AND (up.completed = true OR up.status = 'completed')
+  ) progress ON true
+  ORDER BY COALESCE(p.last_seen_at, p.created_at) DESC NULLS LAST
+  LIMIT LEAST(GREATEST(COALESCE(limit_count, 20), 1), 100);
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_admin_recent_learners(integer) TO authenticated;

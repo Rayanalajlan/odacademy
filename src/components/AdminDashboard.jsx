@@ -49,6 +49,17 @@ function MetricCard({ label, value, hint }) {
   );
 }
 
+function isOnlineLearner(learner = {}) {
+  if (!learner.last_seen_at) return false;
+  const lastSeen = new Date(learner.last_seen_at).getTime();
+  if (!Number.isFinite(lastSeen)) return false;
+  return Date.now() - lastSeen <= 10 * 60 * 1000;
+}
+
+function learnerStatusText(learner = {}) {
+  return isOnlineLearner(learner) ? "متصل الآن" : "غير متصل الآن";
+}
+
 export default function AdminDashboard() {
   const [allowed, setAllowed] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -116,20 +127,40 @@ export default function AdminDashboard() {
     return learners.find((learner) => learner.user_id === notificationDraft.userId);
   }, [learners, notificationDraft.userId]);
 
+  const onlineLearners = useMemo(() => {
+    return learners.filter((learner) => isOnlineLearner(learner)).length;
+  }, [learners]);
+
   async function handleModerate(item, nextStatus) {
     setModeratingId(item.id);
     setNotice("");
 
     try {
-      await moderateFeedback({
+      const updated = await moderateFeedback({
         feedbackId: item.id,
         nextStatus,
         adminNote: nextStatus === "published" ? "تم اعتماد التقييم للنشر." : "تم رفض التقييم."
       });
 
       setFeedback((current) => current.filter((row) => row.id !== item.id));
+      if (nextStatus === "published") {
+        const publishedItem = {
+          ...item,
+          ...updated,
+          status: "published",
+          published_at: updated?.published_at || new Date().toISOString(),
+          moderated_at: updated?.moderated_at || new Date().toISOString()
+        };
+
+        setPublishedFeedback((current) => [
+          publishedItem,
+          ...current.filter((row) => row.id !== item.id)
+        ]);
+      }
       setNotice(nextStatus === "published" ? "تم نشر التقييم." : "تم رفض التقييم.");
-      await loadAll();
+      window.setTimeout(() => {
+        loadAll();
+      }, 400);
     } catch (error) {
       setNotice(error?.message || "تعذر تحديث حالة التقييم.");
     } finally {
@@ -446,6 +477,26 @@ export default function AdminDashboard() {
           font-weight: 950;
         }
 
+        .admin-online-pill {
+          display: inline-flex;
+          align-items: center;
+          width: fit-content;
+          min-height: 28px;
+          padding: 0 10px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 950;
+          color: #6b7280;
+          background: #f1f5f9;
+          border: 1px solid rgba(100, 116, 139, .22);
+        }
+
+        .admin-online-pill.online {
+          color: #047857;
+          background: #d1fae5;
+          border-color: rgba(16, 185, 129, .26);
+        }
+
         .admin-soft-button {
           color: #463c63;
           background: #e0d8f5;
@@ -571,6 +622,20 @@ export default function AdminDashboard() {
           -webkit-text-fill-color: #e9ddff;
         }
 
+        html[data-theme="dark"] body.od-theme-dark .admin-online-pill {
+          color: #cdbcf8;
+          -webkit-text-fill-color: #cdbcf8;
+          background: rgba(100, 116, 139, .16);
+          border-color: rgba(196, 181, 253, .18);
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-online-pill.online {
+          color: #a7f3d0;
+          -webkit-text-fill-color: #a7f3d0;
+          background: rgba(16, 185, 129, .14);
+          border-color: rgba(16, 185, 129, .30);
+        }
+
         html[data-theme="dark"] body.od-theme-dark .admin-tabs button {
           color: #d9cdf2;
           -webkit-text-fill-color: #d9cdf2;
@@ -636,6 +701,7 @@ export default function AdminDashboard() {
             <section className="admin-metrics">
               <MetricCard label="إجمالي المتدربين" value={overview?.total_learners} />
               <MetricCard label="النشطون آخر 10 دقائق" value={overview?.active_now} />
+              <MetricCard label="المتصلون الآن في القائمة" value={onlineLearners} />
               <MetricCard label="تقييمات بانتظار المراجعة" value={overview?.pending_feedback} />
               <MetricCard label="وثائق صادرة" value={overview?.issued_certificates} />
             </section>
@@ -766,7 +832,12 @@ export default function AdminDashboard() {
                             <strong>{learner.display_name || learner.email || "متدرب"}</strong>
                             <small>{learner.email} · انضم: {safeDate(learner.created_at)}</small>
                           </div>
-                          <span>{learner.completed_days || 0} يوم مكتمل</span>
+                          <div className="admin-actions" style={{ marginTop: 0 }}>
+                            <span className={`admin-online-pill ${isOnlineLearner(learner) ? "online" : ""}`}>
+                              {learnerStatusText(learner)}
+                            </span>
+                            <span>{learner.completed_days || 0} يوم مكتمل</span>
+                          </div>
                         </div>
                         <p>
                           آخر ظهور: {safeDate(learner.last_seen_at)} · وقت التعلم: {Math.round((learner.total_seconds || 0) / 3600)} ساعة
