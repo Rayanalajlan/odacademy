@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   createAdminNotification,
+  deleteFeedback,
   getAdminOverview,
   getPendingFeedback,
+  getPublishedFeedback,
   getRecentCertificates,
   getRecentLearners,
   getRecentNotes,
@@ -52,6 +54,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [overview, setOverview] = useState(null);
   const [feedback, setFeedback] = useState([]);
+  const [publishedFeedback, setPublishedFeedback] = useState([]);
   const [learners, setLearners] = useState([]);
   const [notes, setNotes] = useState([]);
   const [certificates, setCertificates] = useState([]);
@@ -77,12 +80,14 @@ export default function AdminDashboard() {
       const [
         overviewResult,
         feedbackResult,
+        publishedFeedbackResult,
         learnersResult,
         notesResult,
         certificatesResult
       ] = await Promise.all([
         getAdminOverview(),
         getPendingFeedback(40),
+        getPublishedFeedback(40),
         getRecentLearners(24),
         getRecentNotes(24),
         getRecentCertificates(24)
@@ -90,6 +95,7 @@ export default function AdminDashboard() {
 
       setOverview(overviewResult);
       setFeedback(feedbackResult);
+      setPublishedFeedback(publishedFeedbackResult);
       setLearners(learnersResult);
       setNotes(notesResult);
       setCertificates(certificatesResult);
@@ -124,6 +130,26 @@ export default function AdminDashboard() {
       await loadAll();
     } catch (error) {
       setNotice(error?.message || "تعذر تحديث حالة التقييم.");
+    } finally {
+      setModeratingId("");
+    }
+  }
+
+  async function handleDeleteFeedback(item) {
+    const confirmed = window.confirm("هل تريد حذف هذا التقييم نهائيًا من صفحة الزوار ولوحة الإدارة؟");
+    if (!confirmed) return;
+
+    setModeratingId(item.id);
+    setNotice("");
+
+    try {
+      await deleteFeedback(item.id);
+      setPublishedFeedback((current) => current.filter((row) => row.id !== item.id));
+      setFeedback((current) => current.filter((row) => row.id !== item.id));
+      setNotice("تم حذف التقييم.");
+      await loadAll();
+    } catch (error) {
+      setNotice(error?.message || "تعذر حذف التقييم.");
     } finally {
       setModeratingId("");
     }
@@ -399,6 +425,25 @@ export default function AdminDashboard() {
           background: linear-gradient(135deg, #ef4444, #991b1b);
         }
 
+        .admin-action.delete {
+          color: #fff;
+          background: linear-gradient(135deg, #dc2626, #7f1d1d);
+        }
+
+        .admin-status-pill {
+          display: inline-flex;
+          align-items: center;
+          width: fit-content;
+          min-height: 28px;
+          padding: 0 10px;
+          border-radius: 999px;
+          color: #047857;
+          background: #d1fae5;
+          border: 1px solid rgba(16, 185, 129, .24);
+          font-size: 11px;
+          font-weight: 950;
+        }
+
         .admin-soft-button {
           color: #463c63;
           background: #e0d8f5;
@@ -597,6 +642,9 @@ export default function AdminDashboard() {
               <button className={activeTab === "feedback" ? "active" : ""} onClick={() => setActiveTab("feedback")}>
                 التقييمات
               </button>
+              <button className={activeTab === "published-feedback" ? "active" : ""} onClick={() => setActiveTab("published-feedback")}>
+                المعتمدة
+              </button>
               <button className={activeTab === "learners" ? "active" : ""} onClick={() => setActiveTab("learners")}>
                 المتدربون
               </button>
@@ -658,6 +706,47 @@ export default function AdminDashboard() {
                       ))
                     ) : (
                       <div className="admin-empty">لا توجد تقييمات بانتظار المراجعة.</div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {activeTab === "published-feedback" && (
+                <section className="admin-panel">
+                  <h2>تقييمات معتمدة ومنشورة</h2>
+
+                  <div className="admin-table">
+                    {publishedFeedback.length ? (
+                      publishedFeedback.map((item) => (
+                        <article className="admin-row" key={item.id}>
+                          <div className="admin-row-head">
+                            <div>
+                              <strong>{item.display_name || "متدرب"}</strong>
+                              <small>{item.email || "بدون بريد ظاهر"} · نُشر: {safeDate(item.published_at || item.moderated_at || item.submitted_at)}</small>
+                            </div>
+                            <Stars value={item.rating} />
+                          </div>
+
+                          <span className="admin-status-pill">تم الاعتماد</span>
+                          <span>{item.stage_label} · نسبة الإكمال: {item.completed_percent || 0}%</span>
+
+                          {item.testimonial_text && <p>{item.testimonial_text}</p>}
+                          {item.improvement_text && <p>ملاحظة تحسين: {item.improvement_text}</p>}
+
+                          <div className="admin-actions">
+                            <button
+                              type="button"
+                              className="admin-action delete"
+                              disabled={moderatingId === item.id}
+                              onClick={() => handleDeleteFeedback(item)}
+                            >
+                              حذف التقييم
+                            </button>
+                          </div>
+                        </article>
+                      ))
+                    ) : (
+                      <div className="admin-empty">لا توجد تقييمات معتمدة حاليًا.</div>
                     )}
                   </div>
                 </section>

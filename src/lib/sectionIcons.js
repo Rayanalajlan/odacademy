@@ -4,7 +4,7 @@ export const SECTION_ICON_ASSETS = {
     src: "/section-icons/home.webp"
   },
   portfolio: {
-    label: "حسابي",
+    label: "ملفي التعليمي",
     src: "/section-icons/portfolio.webp"
   },
   journey: {

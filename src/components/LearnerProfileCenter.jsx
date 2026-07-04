@@ -1078,7 +1078,7 @@ export default function LearnerProfileCenter({
 
         <div className="profile-actions">
           <button type="button" className="profile-button myfile" onClick={() => navigate("portfolio")}>
-            حسابي
+            ملفي التعليمي
           </button>
           <button type="button" className="profile-button soft" onClick={openDrawer}>
             حسابي

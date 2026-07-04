@@ -41,6 +41,70 @@ export async function getPendingFeedback(limit = 30) {
   return data || [];
 }
 
+function normalizeFeedbackRow(row = {}) {
+  const profile = row.user_profiles || {};
+
+  return {
+    ...row,
+    display_name:
+      row.display_name ||
+      profile.certificate_name ||
+      profile.full_name ||
+      "متدرب",
+    email: row.email || profile.email || "",
+    rating: row.rating || row.overall_rating || row.clarity_rating || 0,
+    stage_label: row.stage_label || stageToLabel(row.stage),
+    submitted_at: row.submitted_at || row.created_at
+  };
+}
+
+function stageToLabel(stage = "") {
+  const labels = {
+    month_1: "بعد الشهر الأول",
+    month_2: "بعد الشهر الثاني",
+    month_3: "منتصف الرحلة",
+    month_4: "بعد الشهر الرابع",
+    month_5: "بعد الشهر الخامس",
+    month_6: "أكمل الرحلة"
+  };
+
+  return labels[stage] || "تقييم متدرب";
+}
+
+export async function getPublishedFeedback(limit = 40) {
+  ensureSupabase();
+
+  const safeLimit = Math.min(Math.max(Number(limit) || 40, 1), 100);
+  const { data, error } = await supabase
+    .from("journey_feedback")
+    .select(`
+      id,
+      stage,
+      testimonial_text,
+      improvement_text,
+      completed_percent,
+      submitted_at,
+      moderated_at,
+      published_at,
+      overall_rating,
+      clarity_rating,
+      status,
+      user_profiles:user_id (
+        email,
+        full_name,
+        certificate_name
+      )
+    `)
+    .eq("status", "published")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("submitted_at", { ascending: false })
+    .limit(safeLimit);
+
+  if (error) throw error;
+
+  return (data || []).map(normalizeFeedbackRow);
+}
+
 export async function moderateFeedback({ feedbackId, nextStatus, adminNote = "" }) {
   ensureSupabase();
 
@@ -53,6 +117,19 @@ export async function moderateFeedback({ feedbackId, nextStatus, adminNote = "" 
   if (error) throw error;
 
   return data;
+}
+
+export async function deleteFeedback(feedbackId) {
+  ensureSupabase();
+
+  const { error } = await supabase
+    .from("journey_feedback")
+    .delete()
+    .eq("id", feedbackId);
+
+  if (error) throw error;
+
+  return true;
 }
 
 export async function getRecentLearners(limit = 20) {

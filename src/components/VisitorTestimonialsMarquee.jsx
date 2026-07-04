@@ -44,19 +44,13 @@ function ReviewCard({ review }) {
   );
 }
 
-function buildColumns(items, count = 4) {
-  return Array.from({ length: count }, (_, columnIndex) =>
-    items.filter((_, itemIndex) => itemIndex % count === columnIndex)
-  );
-}
-
 export default function VisitorTestimonialsMarquee() {
   const [items, setItems] = useState([]);
   const [ready, setReady] = useState(false);
 
   async function loadTestimonials() {
     try {
-      const rows = await listPublishedVisitorTestimonials({ limit: 40 });
+      const rows = await listPublishedVisitorTestimonials({ limit: 32 });
       setItems(rows);
     } catch (error) {
       console.warn("تعذر تحميل تقييمات الزوار:", error);
@@ -80,9 +74,11 @@ export default function VisitorTestimonialsMarquee() {
     };
   }, []);
 
-  const columns = useMemo(() => buildColumns(items, 4), [items]);
+  const marqueeItems = useMemo(() => {
+    const baseItems = items.length >= 4 ? items : [...items, ...items, ...items].slice(0, 6);
+    return [...baseItems, ...baseItems];
+  }, [items]);
 
-  // لا نعرض القسم إطلاقًا إذا لا توجد تقييمات منشورة؛ حتى لا يرى الزائر أي رسائل داخلية.
   if (!ready || items.length === 0) {
     return null;
   }
@@ -96,23 +92,23 @@ export default function VisitorTestimonialsMarquee() {
           --vt-line: rgba(139, 92, 246, .18);
           position: relative;
           overflow: hidden;
-          border-radius: 28px;
-          padding: clamp(22px, 4vw, 34px);
+          border-radius: 24px;
+          padding: clamp(18px, 3vw, 26px);
           background:
-            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.16), transparent 30%),
-            radial-gradient(circle at 0% 100%, rgba(220,199,255,.18), transparent 32%),
-            rgba(250,247,255,.92);
+            radial-gradient(circle at 100% 0%, rgba(124, 58, 237,.14), transparent 28%),
+            radial-gradient(circle at 0% 100%, rgba(220,199,255,.14), transparent 30%),
+            rgba(250,247,255,.94);
           border: 1px solid rgba(213,196,247,.72);
-          box-shadow: 0 22px 70px rgba(60,37,98,.10);
+          box-shadow: 0 18px 52px rgba(60,37,98,.08);
           margin: 18px 0;
         }
 
         .vt-head {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr);
+          display: flex;
+          justify-content: space-between;
           gap: 18px;
-          align-items: end;
-          margin-bottom: 22px;
+          align-items: flex-end;
+          margin-bottom: 16px;
           position: relative;
           z-index: 2;
         }
@@ -121,103 +117,65 @@ export default function VisitorTestimonialsMarquee() {
           display: inline-flex;
           width: fit-content;
           border-radius: 999px;
-          padding: 8px 12px;
+          padding: 7px 11px;
           color: #5b2bbd;
           background: rgba(240,232,255,.86);
           border: 1px solid rgba(139, 92, 246,.18);
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 950;
-          margin-bottom: 9px;
+          margin-bottom: 8px;
         }
 
         .vt-head h2 {
           margin: 0;
           color: var(--vt-ink);
-          font-size: clamp(24px, 4vw, 42px);
+          font-size: clamp(22px, 3.2vw, 34px);
           line-height: 1.25;
           font-weight: 950;
           letter-spacing: 0;
         }
 
         .vt-head p {
-          margin: 8px 0 0;
+          margin: 7px 0 0;
           color: var(--vt-muted);
-          font-size: 13px;
-          line-height: 1.9;
+          font-size: 12px;
+          line-height: 1.8;
           font-weight: 780;
         }
 
         .vt-wall {
           position: relative;
-          height: 520px;
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 14px;
+          min-height: 204px;
           overflow: hidden;
-          mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+          mask-image: linear-gradient(to left, transparent 0%, #000 8%, #000 92%, transparent 100%);
         }
 
-        .vt-wall::before,
-        .vt-wall::after {
-          content: "";
-          position: absolute;
-          right: 0;
-          left: 0;
-          height: 76px;
-          z-index: 4;
-          pointer-events: none;
-        }
-
-        .vt-wall::before {
-          top: 0;
-          background: linear-gradient(to bottom, rgba(250,247,255,.96), transparent);
-        }
-
-        .vt-wall::after {
-          bottom: 0;
-          background: linear-gradient(to top, rgba(250,247,255,.96), transparent);
-        }
-
-        .vt-column {
+        .vt-track {
           display: flex;
-          flex-direction: column;
-          gap: 12px;
-          min-width: 0;
-          animation: vtScrollUp var(--vt-duration, 32s) linear infinite;
+          width: max-content;
+          gap: 14px;
+          animation: vtMoveLeft 38s linear infinite;
           will-change: transform;
         }
 
-        .vt-column:nth-child(2),
-        .vt-column:nth-child(4) {
-          animation-name: vtScrollDown;
-        }
-
-        .vt-column:nth-child(1) { --vt-duration: 34s; }
-        .vt-column:nth-child(2) { --vt-duration: 40s; }
-        .vt-column:nth-child(3) { --vt-duration: 30s; }
-        .vt-column:nth-child(4) { --vt-duration: 46s; }
-
-        .visitor-testimonials:hover .vt-column,
-        .visitor-testimonials:focus-within .vt-column {
+        .visitor-testimonials:hover .vt-track,
+        .visitor-testimonials:focus-within .vt-track {
           animation-play-state: paused;
         }
 
-        @keyframes vtScrollUp {
-          from { transform: translateY(0); }
-          to { transform: translateY(-50%); }
-        }
-
-        @keyframes vtScrollDown {
-          from { transform: translateY(-50%); }
-          to { transform: translateY(0); }
+        @keyframes vtMoveLeft {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
         }
 
         .vt-card {
-          border-radius: 22px;
-          padding: 15px;
-          background: rgba(255,255,255,.92);
+          flex: 0 0 clamp(230px, 22vw, 292px);
+          min-height: 166px;
+          border-radius: 20px;
+          padding: 14px;
+          background: rgba(255,255,255,.94);
           border: 1px solid var(--vt-line);
-          box-shadow: 0 14px 30px rgba(60,37,98,.08);
+          box-shadow: 0 12px 26px rgba(60,37,98,.07);
         }
 
         .vt-card-top {
@@ -225,49 +183,49 @@ export default function VisitorTestimonialsMarquee() {
           justify-content: space-between;
           align-items: center;
           gap: 10px;
-          margin-bottom: 10px;
+          margin-bottom: 9px;
         }
 
         .vt-stars {
           color: #7c3aed;
           letter-spacing: 1px;
-          font-size: 13px;
+          font-size: 12px;
           line-height: 1;
         }
 
         .vt-card time {
           color: #8f7ca3;
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 850;
         }
 
         .vt-card p {
           margin: 0;
           color: #3d2a54;
-          font-size: 13px;
-          line-height: 1.9;
+          font-size: 12px;
+          line-height: 1.85;
           font-weight: 780;
         }
 
         .vt-person {
           display: grid;
           gap: 2px;
-          margin-top: 12px;
-          padding-top: 12px;
+          margin-top: 10px;
+          padding-top: 10px;
           border-top: 1px solid rgba(139, 92, 246,.14);
         }
 
         .vt-person strong {
           color: #211336;
-          font-size: 13px;
-          line-height: 1.6;
+          font-size: 12px;
+          line-height: 1.55;
           font-weight: 950;
         }
 
         .vt-person span {
           color: #6d607d;
-          font-size: 11px;
-          line-height: 1.6;
+          font-size: 10px;
+          line-height: 1.55;
           font-weight: 760;
         }
 
@@ -277,15 +235,7 @@ export default function VisitorTestimonialsMarquee() {
             radial-gradient(circle at 0% 100%, rgba(139, 92, 246,.12), transparent 32%),
             rgba(15,10,25,.94) !important;
           border-color: rgba(124, 58, 237,.22) !important;
-          box-shadow: 0 22px 70px rgba(0,0,0,.28) !important;
-        }
-
-        body.od-theme-dark .vt-wall::before {
-          background: linear-gradient(to bottom, rgba(15,10,25,.96), transparent);
-        }
-
-        body.od-theme-dark .vt-wall::after {
-          background: linear-gradient(to top, rgba(15,10,25,.96), transparent);
+          box-shadow: 0 22px 70px rgba(0,0,0,.26) !important;
         }
 
         body.od-theme-dark .vt-card {
@@ -306,65 +256,34 @@ export default function VisitorTestimonialsMarquee() {
           color: #d9c9ef !important;
         }
 
-        @media (max-width: 1040px) {
-          .vt-wall {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-
-          .vt-column:nth-child(4) {
-            display: none;
-          }
-        }
-
         @media (max-width: 760px) {
           .vt-head {
+            display: grid;
             grid-template-columns: 1fr;
           }
 
-          .vt-wall {
-            height: 580px;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-
-          .vt-column:nth-child(3),
-          .vt-column:nth-child(4) {
-            display: none;
+          .vt-card {
+            flex-basis: 252px;
           }
         }
 
         @media (max-width: 480px) {
-          .vt-wall {
-            height: 560px;
-            grid-template-columns: 1fr;
-          }
-
-          .vt-column:nth-child(2),
-          .vt-column:nth-child(3),
-          .vt-column:nth-child(4) {
-            display: none;
+          .vt-card {
+            flex-basis: 236px;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .vt-wall {
-            height: auto;
-            max-height: none;
+            min-height: auto;
             overflow: visible;
             mask-image: none;
           }
 
-          .vt-wall::before,
-          .vt-wall::after {
-            display: none;
-          }
-
-          .vt-column {
+          .vt-track {
+            width: auto;
+            flex-wrap: wrap;
             animation: none !important;
-            transform: none !important;
-          }
-
-          .vt-column .vt-card:nth-child(n + 7) {
-            display: none;
           }
         }
       `}</style>
@@ -373,27 +292,16 @@ export default function VisitorTestimonialsMarquee() {
         <div>
           <span className="vt-kicker">تجارب الزوار</span>
           <h2>أصوات من تجربة منسقة</h2>
-          <p>
-            مقتطفات قصيرة من تجارب حقيقية تعكس وضوح الرحلة وأثرها المعرفي.
-          </p>
+          <p>مقتطفات قصيرة تتحرك بهدوء وتعرض أثر الرحلة بدون ازدحام بصري.</p>
         </div>
       </div>
 
       <div className="vt-wall" tabIndex={0}>
-        {columns.map((column, columnIndex) => {
-          const repeated = [...column, ...column, ...column, ...column];
-
-          return (
-            <div className="vt-column" key={`column-${columnIndex}`}>
-              {repeated.map((review, index) => (
-                <ReviewCard
-                  key={`${columnIndex}-${review.id}-${index}`}
-                  review={review}
-                />
-              ))}
-            </div>
-          );
-        })}
+        <div className="vt-track">
+          {marqueeItems.map((review, index) => (
+            <ReviewCard review={review} key={`${review.id}-${index}`} />
+          ))}
+        </div>
       </div>
     </section>
   );

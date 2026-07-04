@@ -48,7 +48,7 @@ const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
 const pages = [
   { id: "home", label: "الرئيسية" },
-  { id: "portfolio", label: "حسابي" },
+  { id: "portfolio", label: "ملفي التعليمي" },
   { id: "journey", label: "رحلتك التعليمية" },
   { id: "mastery", label: "وثيقة الإتقان" },
   { id: "about", label: "عن ريان" }
@@ -1130,10 +1130,30 @@ export default function App() {
 
         .header-actions {
           display: inline-flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: flex-end;
-          gap: 9px;
+          justify-content: center;
+          gap: 6px;
           min-width: 0;
+          width: 166px;
+        }
+
+        .header-actions .theme-switch {
+          align-self: center;
+          transform: scale(.88);
+          transform-origin: center;
+        }
+
+        .header-actions .notifications-center,
+        .header-actions .notification-button {
+          width: 100%;
+        }
+
+        .header-actions .notification-button {
+          min-height: 36px !important;
+          border-radius: 999px !important;
+          padding: 0 11px !important;
+          font-size: 12px !important;
         }
 
         .site-header > .logout-button {
@@ -1146,8 +1166,8 @@ export default function App() {
           justify-content: center;
           gap: 6px;
           min-width: 0;
-          width: auto !important;
-          max-width: max-content !important;
+          width: 100% !important;
+          max-width: none !important;
           min-height: 36px;
           padding: 8px 12px !important;
           border-radius: 999px;
@@ -1158,6 +1178,17 @@ export default function App() {
           box-shadow: 0 10px 24px rgba(185, 28, 28, .08);
           font-size: 12px;
           line-height: 1;
+        }
+
+        @media (max-width: 980px) {
+          .header-actions {
+            width: 142px;
+            gap: 5px;
+          }
+
+          .header-actions .theme-switch {
+            transform: scale(.78);
+          }
         }
 
         .header-actions > .logout-button:hover,
