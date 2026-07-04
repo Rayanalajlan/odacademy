@@ -335,7 +335,7 @@ AS $$
     COALESCE(p.certificate_name, p.full_name, p.email, 'متدرب') AS display_name,
     p.created_at,
     p.last_seen_at,
-    COALESCE(p.total_learning_seconds, 0)::bigint AS total_seconds,
+    0::bigint AS total_seconds,
     COALESCE(progress.completed_days, 0)::integer AS completed_days
   FROM public.user_profiles p
   LEFT JOIN LATERAL (
