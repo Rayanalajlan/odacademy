@@ -338,8 +338,7 @@ export async function fetchProfileCenterData({
     mastery,
     recentEvents,
     recentNotes,
-    badges,
-    notifications
+    badges
   ] = await Promise.all([
     getProfile(user.id),
     getProgressCount(user.id),
@@ -349,8 +348,7 @@ export async function fetchProfileCenterData({
     getMastery(user.id),
     getRecentEvents(),
     getRecentLessonNotes(6),
-    getUserBadges(),
-    getNotifications(8)
+    getUserBadges()
   ]);
 
   const completedDays = Math.max(
@@ -363,6 +361,7 @@ export async function fetchProfileCenterData({
       ? Math.round((seconds / 3600) * 10) / 10
       : Math.round((completedDays * 4) * 10) / 10;
   const progressPercent = totalDays ? Math.round((completedDays / totalDays) * 100) : 0;
+  const notifications = await getNotifications(8, { completedDays });
 
   const recentActivity = [
     ...mapLearningEvents(recentEvents),
