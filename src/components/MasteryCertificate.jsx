@@ -522,7 +522,7 @@ export default function MasteryCertificate({
           display: block;
           width: 100%;
           height: auto;
-          aspect-ratio: 2000 / 1250;
+          aspect-ratio: 2454 / 1839;
           object-fit: contain;
           border-radius: 22px;
           background: #fff;
