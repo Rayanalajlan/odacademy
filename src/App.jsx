@@ -1361,6 +1361,12 @@ export default function App() {
             type="button"
             className="logout-button danger-logout-button"
             onClick={handleSignOut}
+            style={{
+              color: "#dc2626",
+              WebkitTextFillColor: "#dc2626",
+              background: "rgba(254, 242, 242, .96)",
+              borderColor: "rgba(220, 38, 38, .42)"
+            }}
             aria-label="تسجيل الخروج"
           >
             <svg
@@ -1371,6 +1377,7 @@ export default function App() {
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
+              style={{ color: "#dc2626", stroke: "#dc2626" }}
             >
               <path d="M10 17l5-5-5-5" />
               <path d="M15 12H3.8" />

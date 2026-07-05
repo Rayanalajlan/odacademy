@@ -166,6 +166,11 @@ export async function downloadCertificateJpeg(options) {
   });
 }
 
+export async function buildCertificateDataUrl(options) {
+  const canvas = await buildCertificateCanvas(options);
+  return canvas.toDataURL("image/jpeg", 0.96);
+}
+
 export async function printCertificatePdf(options) {
   const canvas = await buildCertificateCanvas(options);
   const dataUrl = canvas.toDataURL("image/jpeg", 0.96);

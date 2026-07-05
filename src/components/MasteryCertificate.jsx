@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { COURSE_TOTALS } from "../data/courseContent";
 import MonthlyCertificates from "./MonthlyCertificates";
 import {
+  buildCertificateDataUrl,
   downloadCertificateJpeg,
   printCertificatePdf
 } from "../lib/certificateExportService";
@@ -48,6 +49,7 @@ export default function MasteryCertificate({
   const [certificateRecord, setCertificateRecord] = useState(null);
   const [certificateLoading, setCertificateLoading] = useState(false);
   const [certificateError, setCertificateError] = useState("");
+  const [certificatePreviewUrl, setCertificatePreviewUrl] = useState("");
 
   const totalDays = COURSE_TOTALS?.totalDays || 168;
   const safeCompletedDays = clampNumber(completedDays, 0, totalDays);
@@ -110,6 +112,40 @@ export default function MasteryCertificate({
       active = false;
     };
   }, [learnerName, safeCompletedDays, totalDays, isUnlocked]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function renderPreview() {
+      if (!isUnlocked) {
+        setCertificatePreviewUrl("");
+        return;
+      }
+
+      try {
+        const dataUrl = await buildCertificateDataUrl({
+          kind: "mastery",
+          learnerName,
+          certificateCode,
+          completionDate,
+          verificationUrl,
+          verificationCode,
+          title: "وثيقة إتقان منسقة"
+        });
+
+        if (active) setCertificatePreviewUrl(dataUrl);
+      } catch (error) {
+        console.warn("تعذر تجهيز معاينة وثيقة الإتقان:", error);
+        if (active) setCertificatePreviewUrl("");
+      }
+    }
+
+    renderPreview();
+
+    return () => {
+      active = false;
+    };
+  }, [isUnlocked, learnerName, certificateCode, completionDate, verificationUrl, verificationCode]);
 
 
   const linkedInPost = useMemo(() => {
@@ -466,6 +502,40 @@ export default function MasteryCertificate({
         .certificate-stage {
           margin-top: 26px;
           display: ${isUnlocked ? "block" : "none"};
+        }
+
+        .certificate-stage .certificate-frame {
+          display: none !important;
+        }
+
+        .certificate-image-shell {
+          width: min(100%, 1120px);
+          margin: 0 auto;
+          border-radius: 28px;
+          padding: clamp(8px, 1.2vw, 14px);
+          background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(243,238,255,.82));
+          border: 1px solid rgba(196,181,253,.28);
+          box-shadow: 0 24px 70px rgba(28,17,48,.14);
+        }
+
+        .certificate-image-shell img {
+          display: block;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 2000 / 1250;
+          object-fit: contain;
+          border-radius: 22px;
+          background: #fff;
+        }
+
+        .certificate-image-loading {
+          min-height: clamp(220px, 42vw, 520px);
+          display: grid;
+          place-items: center;
+          border-radius: 22px;
+          color: #6d28d9;
+          background: rgba(255,255,255,.76);
+          font-weight: 900;
         }
 
         .certificate-frame {
@@ -884,6 +954,17 @@ export default function MasteryCertificate({
           color: #a7f3d0;
         }
 
+        body.od-theme-dark .certificate-image-shell {
+          background: linear-gradient(145deg, rgba(24,16,46,.96), rgba(17,9,35,.96));
+          border-color: rgba(196,181,253,.20);
+          box-shadow: 0 24px 70px rgba(0,0,0,.28);
+        }
+
+        body.od-theme-dark .certificate-image-loading {
+          color: #e9ddff;
+          background: rgba(255,255,255,.07);
+        }
+
         @media (max-width: 850px) {
           .mastery-hero-content,
           .mastery-lock-grid,
@@ -1048,6 +1129,14 @@ export default function MasteryCertificate({
         {isUnlocked && (
           <>
             <div className="certificate-stage">
+              <div className="certificate-image-shell">
+                {certificatePreviewUrl ? (
+                  <img src={certificatePreviewUrl} alt="Munsaqah mastery certificate preview" />
+                ) : (
+                  <div className="certificate-image-loading">جارٍ تجهيز معاينة الشهادة...</div>
+                )}
+              </div>
+
               <div id="printable-certificate-frame" className="certificate-frame">
                 <div className="certificate-inner">
                   <div className="certificate-top">
