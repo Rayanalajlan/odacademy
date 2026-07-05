@@ -773,11 +773,16 @@ html[data-theme="dark"] body.od-theme-dark :is(.danger, .error-card, .radar-acti
 }
 
 html[data-theme="dark"] body.od-theme-dark #root :is(.header-actions .danger-logout-button, button.danger-logout-button, .mobile-nav-signout) {
-  background: linear-gradient(135deg, #ef4444, #991b1b) !important;
+  background: rgba(127, 29, 29, .26) !important;
   border: 1px solid rgba(248, 113, 113, .34) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  box-shadow: 0 16px 34px rgba(127, 29, 29, .28) !important;
+  color: #fecaca !important;
+  -webkit-text-fill-color: #fecaca !important;
+  box-shadow: 0 16px 34px rgba(127, 29, 29, .20) !important;
+}
+
+html[data-theme="dark"] body.od-theme-dark #root :is(.header-actions .danger-logout-button, button.danger-logout-button, .mobile-nav-signout) svg {
+  color: #fecaca !important;
+  stroke: #fecaca !important;
 }
 
 html[data-theme="dark"] body.od-theme-dark #root :is(.header-actions .danger-logout-button, button.danger-logout-button, .mobile-nav-signout):is(:hover, :focus-visible) {

@@ -81,7 +81,8 @@ async function buildCertificateCanvas({
   subtitle,
   certificateCode,
   completionDate,
-  verificationUrl
+  verificationUrl,
+  verificationCode
 }) {
   const template = await loadImage(TEMPLATE_URL);
   const canvas = document.createElement("canvas");
@@ -129,7 +130,7 @@ async function buildCertificateCanvas({
     color: "#24194f",
     weight: 900
   });
-  drawCenteredText(ctx, verificationUrl, width / 2, 1190 * sy, 1120 * sx, 18 * sx, {
+  drawCenteredText(ctx, `رقم التحقق: ${safeText(verificationCode, certificateCode)}`, width / 2, 1190 * sy, 1120 * sx, 18 * sx, {
     color: "#6d5bd0",
     weight: 800,
     maxLines: 1

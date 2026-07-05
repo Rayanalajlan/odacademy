@@ -32,6 +32,7 @@ function buildMonthlyLinkedInPost(record) {
   const monthNumber = safeNumber(record?.month_number, 1);
   const title = record?.month_title || `إنجاز الشهر ${monthNumber}`;
   const verificationUrl = buildVerificationUrl(record?.verification_slug || record?.certificate_code);
+  const verificationCode = record?.verification_slug || record?.certificate_code;
 
   return `الحمد لله، أنجزت ${title} ضمن رحلتي في منسقة للتطوير التنظيمي.
 
@@ -41,7 +42,7 @@ function buildMonthlyLinkedInPost(record) {
 
 شكرًا لمنصة منسقة على هذه التجربة المرتبة والثرية.
 
-${record?.verification_enabled ? `رابط التحقق: ${verificationUrl}` : ""}
+${record?.verification_enabled ? `رقم التحقق: ${verificationCode}` : ""}
 
 #التطوير_التنظيمي
 #التعلم_المستمر
@@ -258,6 +259,7 @@ export default function MonthlyCertificates({
     const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
     const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
     const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
+    const verificationCode = record.verification_slug || record.certificate_code;
 
     try {
       await printCertificatePdf({
@@ -267,7 +269,8 @@ export default function MonthlyCertificates({
         subtitle,
         certificateCode: record.certificate_code || "",
         completionDate: formatDate(record.issued_at),
-        verificationUrl
+        verificationUrl,
+        verificationCode
       });
     } catch (error) {
       alert(error?.message || "تعذر تجهيز الشهادة بصيغة PDF.");
@@ -278,6 +281,7 @@ export default function MonthlyCertificates({
     const title = record.month_title || `شهادة إنجاز الشهر ${record.month_number}`;
     const subtitle = record.month_subtitle || "محطة شهرية في رحلة منسقة للتطوير التنظيمي";
     const verificationUrl = buildVerificationUrl(record.verification_slug || record.certificate_code);
+    const verificationCode = record.verification_slug || record.certificate_code;
 
     try {
       await downloadCertificateJpeg({
@@ -288,6 +292,7 @@ export default function MonthlyCertificates({
         certificateCode: record.certificate_code || "",
         completionDate: formatDate(record.issued_at),
         verificationUrl,
+        verificationCode,
         filename: `munsaqah-month-${record.month_number}-${record.certificate_code || "certificate"}.jpg`
       });
       return;
@@ -342,7 +347,7 @@ export default function MonthlyCertificates({
   <text x="460" y="850" text-anchor="end" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">رقم الشهادة: ${safeCode}</text>
   <text x="1140" y="850" text-anchor="start" font-family="Arial, Tahoma, sans-serif" font-size="21" font-weight="800" fill="#1f1b4d">تاريخ الإصدار: ${safeDate}</text>
   <rect x="230" y="900" width="1140" height="40" rx="20" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
-  <text x="800" y="926" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#6d5bd0">للتحقق من صحة الشهادة: ${escapeSvgText(verificationUrl)}</text>
+  <text x="800" y="926" text-anchor="middle" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="700" fill="#6d5bd0">رقم التحقق: ${escapeSvgText(record.verification_slug || record.certificate_code)}</text>
 </svg>`;
 
     try {
@@ -886,16 +891,9 @@ export default function MonthlyCertificates({
                     <button
                       type="button"
                       className="monthly-button"
-                      onClick={() => downloadMonthlyCertificateImage(record)}
-                    >
-                      تحميل JPEG
-                    </button>
-                    <button
-                      type="button"
-                      className="monthly-button ghost"
                       onClick={() => printMonthlyCertificate(record)}
                     >
-                      حفظ PDF
+                      طباعة الشهادة
                     </button>
                     <button
                       type="button"

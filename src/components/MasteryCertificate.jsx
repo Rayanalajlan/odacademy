@@ -63,6 +63,7 @@ export default function MasteryCertificate({
   const verificationSlug =
     certificateRecord?.verification_slug ||
     certificateCode.toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/gi, "-").replace(/^-+|-+$/g, "");
+  const verificationCode = verificationSlug || certificateCode;
   const verificationUrl = buildVerificationUrl(verificationSlug);
   const verificationEnabled = Boolean(
     certificateRecord?.verification_enabled &&
@@ -120,13 +121,13 @@ export default function MasteryCertificate({
 
 فخور بهذا الإنجاز، وممتن لكل محطة خلت قراءتي للمنظمات أعمق وأهدأ وأكثر مسؤولية.
 
-رابط التحقق من الوثيقة: ${verificationUrl}
+رقم التحقق من الوثيقة: ${verificationCode}
 
 #التطوير_التنظيمي
 #التعلم_المستمر
 #قيادة_التغيير
 #منسقة`;
-  }, [totalDays, verificationUrl]);
+  }, [totalDays, verificationCode]);
 
   async function copyLinkedInPost() {
     try {
@@ -158,6 +159,7 @@ export default function MasteryCertificate({
         certificateCode,
         completionDate,
         verificationUrl,
+        verificationCode,
         filename: `munsaqah-mastery-${certificateCode}.jpg`
       });
     } catch (error) {
@@ -175,6 +177,7 @@ export default function MasteryCertificate({
         certificateCode,
         completionDate,
         verificationUrl,
+        verificationCode,
         title: "وثيقة إتقان منسقة"
       });
     } catch (error) {
@@ -938,7 +941,7 @@ export default function MasteryCertificate({
               </h1>
               <p>
                 هذه الوثيقة ليست شهادة حضور؛ إنها سجل إتمام لمسار معرفي تطبيقي
-                يمتد عبر ستة أشهر في هندسة التطوير التنظيمي، ولا تظهر إلا بعد
+                يمتد عبر ستة أشهر في التطوير التنظيمي، ولا تظهر إلا بعد
                 اكتمال جميع أيام الرحلة التعليمية.
               </p>
             </div>
@@ -997,16 +1000,16 @@ export default function MasteryCertificate({
             </div>
 
             <div className="certificate-verification-card">
-              <span>حالة التحقق العام</span>
+              <span>رقم التحقق</span>
               <strong>
                 <i className={`verify-state ${verificationEnabled ? "enabled" : "locked"}`}>
-                  {verificationEnabled ? "مفعّل بعد الإكمال" : "غير مفعّل قبل الإكمال"}
+                  {verificationEnabled ? verificationCode : "يظهر بعد الإكمال"}
                 </i>
               </strong>
               <small>
                 {isUnlocked
-                  ? "يمكن مشاركة رابط التحقق بعد صدور الوثيقة."
-                  : "سيظهر رابط التحقق بعد إكمال جميع أيام الرحلة."}
+                  ? "استخدم هذا الرقم للبحث والتحقق من صحة الوثيقة."
+                  : "سيظهر رقم التحقق بعد إكمال جميع أيام الرحلة."}
               </small>
 
             </div>
@@ -1062,7 +1065,7 @@ export default function MasteryCertificate({
                       <div className="certificate-verify-line">
                         حالة التحقق: <strong>{verificationEnabled ? "مفعّل" : "قيد التفعيل"}</strong>
                         <br />
-                        {verificationEnabled ? verificationUrl : "يُفعّل الرابط عند صدور الوثيقة."}
+                        {verificationEnabled ? `رقم التحقق: ${verificationCode}` : "يُفعّل رقم التحقق عند صدور الوثيقة."}
                       </div>
                     </div>
                   </div>
@@ -1076,7 +1079,7 @@ export default function MasteryCertificate({
 
                     <p>
                       تُمنح هذه الوثيقة لمن أتم رحلة منسقة للتطوير التنظيمي بوصفها سجل إتقان
-                      لمسار تطبيقي امتد ستة أشهر؛ مسار بنى قدرة أعمق على قراءة المنظمة كنظام
+                      لمسار تطبيقي امتد ستة أشهر في التطوير التنظيمي؛ مسار بنى قدرة أعمق على قراءة المنظمة كنظام
                       حي، وتحويل البيانات إلى تشخيص، والتشخيص إلى تدخل، والتدخل إلى أثر قابل
                       للقياس والاستدامة. وهي توثيق لإنجاز تعلمي وتطبيقي داخل المنصة، لا شهادة
                       أكاديمية رسمية.
@@ -1121,12 +1124,8 @@ export default function MasteryCertificate({
               </div>
 
               <div className="mastery-actions mastery-no-print">
-                <button className="mastery-button primary" onClick={downloadCertificateImage}>
-                  تحميل JPEG
-                </button>
-
-                <button className="mastery-button dark" onClick={printCertificate}>
-                  حفظ PDF
+                <button className="mastery-button primary" onClick={printCertificate}>
+                  طباعة الشهادة
                 </button>
 
                 <button className="mastery-button linkedin" onClick={shareOnLinkedIn}>

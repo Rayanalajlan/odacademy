@@ -1171,11 +1171,11 @@ export default function App() {
           min-height: 36px;
           padding: 8px 12px !important;
           border-radius: 999px;
-          color: #ffffff !important;
-          -webkit-text-fill-color: #ffffff !important;
-          background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-          border: 1px solid rgba(239, 68, 68, .34) !important;
-          box-shadow: 0 12px 26px rgba(185, 28, 28, .14);
+          color: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+          background: rgba(254, 242, 242, .96) !important;
+          border: 1px solid rgba(220, 38, 38, .30) !important;
+          box-shadow: 0 12px 26px rgba(185, 28, 28, .10);
           font-size: 12px;
           line-height: 1;
         }
@@ -1195,8 +1195,8 @@ export default function App() {
         .header-actions > .logout-button:focus-visible {
           color: #ffffff !important;
           -webkit-text-fill-color: #ffffff !important;
-          background: linear-gradient(135deg, #dc2626, #7f1d1d) !important;
-          border-color: rgba(255, 255, 255, .34) !important;
+          background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+          border-color: rgba(220, 38, 38, .48) !important;
           box-shadow: 0 14px 32px rgba(185, 28, 28, .18);
         }
 
@@ -1204,6 +1204,8 @@ export default function App() {
           width: 15px;
           height: 15px;
           flex: none;
+          color: currentColor !important;
+          stroke: currentColor !important;
         }
 
         body.od-theme-dark .header-actions > .logout-button {
