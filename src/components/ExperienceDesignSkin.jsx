@@ -736,10 +736,25 @@ export default function ExperienceDesignSkin() {
         box-shadow: 0 16px 36px rgba(168, 85, 247,.22) !important;
       }
 
-      .logout-button {
+      .logout-button:not(.danger-logout-button) {
         border-radius: 16px !important;
         background: rgba(127,29,29,.36) !important;
         border: 1px solid rgba(248,113,113,.20) !important;
+      }
+
+      .logout-button.danger-logout-button,
+      .mobile-nav-signout.danger-logout-button {
+        color: #dc2626 !important;
+        -webkit-text-fill-color: #dc2626 !important;
+        background: rgba(254,242,242,.98) !important;
+        border: 1px solid rgba(220,38,38,.46) !important;
+        box-shadow: 0 14px 30px rgba(185,28,28,.10) !important;
+      }
+
+      .logout-button.danger-logout-button svg,
+      .logout-button.danger-logout-button path {
+        color: #dc2626 !important;
+        stroke: #dc2626 !important;
       }
 
       .global-notice,

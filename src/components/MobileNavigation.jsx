@@ -359,6 +359,15 @@ export default function MobileNavigation({
           border-color: rgba(185, 28, 28, .52);
         }
 
+        html[data-theme="light"] body.od-theme-light #root .mobile-nav-layer .mobile-nav-panel .mobile-nav-bottom > button.mobile-nav-signout.danger-logout-button,
+        body:not(.od-theme-dark) #root .mobile-nav-layer .mobile-nav-panel .mobile-nav-bottom > button.mobile-nav-signout.danger-logout-button {
+          color: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+          background: rgba(254, 242, 242, .98) !important;
+          border-color: rgba(220, 38, 38, .46) !important;
+          box-shadow: 0 14px 30px rgba(185, 28, 28, .10) !important;
+        }
+
         .mobile-nav-note {
           margin: 0;
           color: #7a6c9a;
@@ -455,7 +464,7 @@ export default function MobileNavigation({
         </nav>
 
         <div className="mobile-nav-bottom">
-          <button type="button" className="mobile-nav-signout" onClick={onSignOut}>
+          <button type="button" className="mobile-nav-signout danger-logout-button" onClick={onSignOut}>
             تسجيل الخروج
           </button>
         </div>
