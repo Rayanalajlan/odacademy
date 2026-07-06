@@ -340,14 +340,23 @@ export default function MobileNavigation({
         }
 
         .mobile-nav-signout {
-          border: 0;
+          border: 1px solid rgba(220, 38, 38, .42);
           cursor: pointer;
           min-height: 46px;
           border-radius: 18px;
-          color: #991b1b;
-          background: #fef2f2;
+          color: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+          background: rgba(254, 242, 242, .98);
           font-family: inherit;
           font-weight: 950;
+        }
+
+        .mobile-nav-signout:hover,
+        .mobile-nav-signout:focus-visible {
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          background: linear-gradient(135deg, #ef4444, #b91c1c);
+          border-color: rgba(185, 28, 28, .52);
         }
 
         .mobile-nav-note {

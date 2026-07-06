@@ -26,7 +26,7 @@ function roundedRect(ctx, x, y, width, height, radius) {
   ctx.closePath();
 }
 
-function cover(ctx, x, y, width, height, radius = 18, fill = "rgba(246,242,255,.96)") {
+function cover(ctx, x, y, width, height, radius = 18, fill = "#ffffff") {
   ctx.save();
   roundedRect(ctx, x, y, width, height, radius);
   ctx.fillStyle = fill;
@@ -88,16 +88,11 @@ function drawRightText(ctx, text, x, y, maxWidth, fontSize, options = {}) {
   ctx.restore();
 }
 
-function drawMetric(ctx, value, label, x, y, width, fontScale = 1) {
-  cover(ctx, x - width / 2, y - 62, width, 94, 18, "rgba(255,255,255,.86)");
-  drawCenteredText(ctx, value, x, y - 16, width - 30, 42 * fontScale, {
+function drawMetricValue(ctx, value, x, y, width, fontScale = 1) {
+  cover(ctx, x - width / 2, y - 78, width, 76, 10, "#ffffff");
+  drawCenteredText(ctx, value, x, y - 38, width - 30, 44 * fontScale, {
     color: "#8b6ff0",
     weight: 950,
-    maxLines: 1
-  });
-  drawCenteredText(ctx, label, x, y + 34, width - 28, 18 * fontScale, {
-    color: "#4f4389",
-    weight: 850,
     maxLines: 1
   });
 }
@@ -110,40 +105,40 @@ function drawCourseCertificate(ctx, options, width, height) {
   const completionDate = safeText(options.completionDate, "غير محدد");
   const verificationCode = safeText(options.verificationCode, certificateCode);
 
-  cover(ctx, 640 * sx, 730 * sy, 1175 * sx, 150 * sy, 18 * sx, "rgba(245,240,255,.98)");
+  cover(ctx, 650 * sx, 725 * sy, 1155 * sx, 160 * sy, 18 * sx, "#f3efff");
   drawCenteredText(ctx, learnerName, width / 2, 805 * sy, 1040 * sx, 62 * sx, {
     color: "#2f236f",
     weight: 950,
     maxLines: 1
   });
 
-  cover(ctx, 870 * sx, 1015 * sy, 720 * sx, 76 * sy, 12 * sx, "rgba(255,255,255,.92)");
+  cover(ctx, 850 * sx, 1010 * sy, 760 * sx, 92 * sy, 12 * sx, "#ffffff");
   drawCenteredText(ctx, "مسار منسقة للتطوير التنظيمي", width / 2, 1053 * sy, 660 * sx, 38 * sx, {
     color: "#6d5bd0",
     weight: 900,
     maxLines: 1
   });
 
-  drawMetric(ctx, "168", "يومًا تعليميًا", 710 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetric(ctx, "672", "ساعة تعليمية", 1030 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetric(ctx, "24", "أسبوعًا تطبيقيًا", 1350 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetric(ctx, "6", "أشهر مدة البرنامج", 1670 * sx, 1360 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "168", 710 * sx, 1360 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "672", 1030 * sx, 1360 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "24", 1350 * sx, 1360 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "6", 1670 * sx, 1360 * sy, 290 * sx, sx);
 
-  cover(ctx, 190 * sx, 1625 * sy, 500 * sx, 58 * sy, 8 * sx, "rgba(255,255,255,.82)");
+  cover(ctx, 185 * sx, 1618 * sy, 520 * sx, 70 * sy, 8 * sx, "#ffffff");
   drawCenteredText(ctx, completionDate, 440 * sx, 1654 * sy, 430 * sx, 27 * sx, {
     color: "#5b4a94",
     weight: 850,
     maxLines: 1
   });
 
-  cover(ctx, 1712 * sx, 1625 * sy, 500 * sx, 58 * sy, 8 * sx, "rgba(255,255,255,.82)");
+  cover(ctx, 1700 * sx, 1618 * sy, 535 * sx, 70 * sy, 8 * sx, "#ffffff");
   drawCenteredText(ctx, certificateCode, 1962 * sx, 1654 * sy, 430 * sx, 27 * sx, {
     color: "#5b4a94",
     weight: 850,
     maxLines: 1
   });
 
-  cover(ctx, 780 * sx, 1767 * sy, 900 * sx, 40 * sy, 10 * sx, "rgba(255,255,255,.82)");
+  cover(ctx, 780 * sx, 1765 * sy, 900 * sx, 44 * sy, 10 * sx, "#ffffff");
   drawCenteredText(ctx, `رقم التحقق: ${verificationCode}`, width / 2, 1787 * sy, 820 * sx, 20 * sx, {
     color: "#6d5bd0",
     weight: 850,
@@ -161,14 +156,14 @@ function drawMonthlyCertificate(ctx, options, width, height) {
   const monthMatch = title.match(/الشهر\s+(.+)$/);
   const monthLabel = monthMatch?.[1] || title.replace("شهادة إنجاز", "").trim() || "منجز";
 
-  cover(ctx, 640 * sx, 632 * sy, 1175 * sx, 145 * sy, 18 * sx, "rgba(245,240,255,.98)");
+  cover(ctx, 650 * sx, 627 * sy, 1155 * sx, 155 * sy, 18 * sx, "#f3efff");
   drawCenteredText(ctx, learnerName, width / 2, 705 * sy, 1040 * sx, 58 * sx, {
     color: "#2f236f",
     weight: 950,
     maxLines: 1
   });
 
-  cover(ctx, 700 * sx, 968 * sy, 1060 * sx, 78 * sy, 16 * sx, "rgba(245,240,255,.96)");
+  cover(ctx, 700 * sx, 966 * sy, 1060 * sx, 84 * sy, 16 * sx, "#f4f0ff");
   drawRightText(ctx, monthLabel, 1585 * sx, 1007 * sy, 320 * sx, 33 * sx, {
     color: "#4f4389",
     weight: 950
@@ -178,25 +173,25 @@ function drawMonthlyCertificate(ctx, options, width, height) {
     weight: 950
   });
 
-  cover(ctx, 900 * sx, 1175 * sy, 660 * sx, 68 * sy, 12 * sx, "rgba(255,255,255,.90)");
+  cover(ctx, 880 * sx, 1170 * sy, 700 * sx, 80 * sy, 12 * sx, "#ffffff");
   drawCenteredText(ctx, "مسار منسقة للتطوير التنظيمي", width / 2, 1209 * sy, 610 * sx, 34 * sx, {
     color: "#6d5bd0",
     weight: 900,
     maxLines: 1
   });
 
-  drawMetric(ctx, "112", "ساعة خلال الشهر", 1620 * sx, 1420 * sy, 290 * sx, sx);
-  drawMetric(ctx, "28", "يومًا تعليميًا", 1230 * sx, 1420 * sy, 290 * sx, sx);
-  drawMetric(ctx, "4", "أسابيع تطبيقية", 840 * sx, 1420 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "112", 1620 * sx, 1420 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "28", 1230 * sx, 1420 * sy, 290 * sx, sx);
+  drawMetricValue(ctx, "4", 840 * sx, 1420 * sy, 290 * sx, sx);
 
-  cover(ctx, 190 * sx, 1625 * sy, 500 * sx, 58 * sy, 8 * sx, "rgba(255,255,255,.82)");
+  cover(ctx, 185 * sx, 1618 * sy, 520 * sx, 70 * sy, 8 * sx, "#ffffff");
   drawCenteredText(ctx, completionDate, 440 * sx, 1654 * sy, 430 * sx, 27 * sx, {
     color: "#5b4a94",
     weight: 850,
     maxLines: 1
   });
 
-  cover(ctx, 1712 * sx, 1625 * sy, 500 * sx, 58 * sy, 8 * sx, "rgba(255,255,255,.82)");
+  cover(ctx, 1700 * sx, 1618 * sy, 535 * sx, 70 * sy, 8 * sx, "#ffffff");
   drawCenteredText(ctx, certificateCode, 1962 * sx, 1654 * sy, 430 * sx, 27 * sx, {
     color: "#5b4a94",
     weight: 850,

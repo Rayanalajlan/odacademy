@@ -1208,6 +1208,22 @@ export default function App() {
           stroke: currentColor !important;
         }
 
+        body.od-theme-light .header-actions > .danger-logout-button:not(:hover):not(:focus-visible),
+        html[data-theme="light"] .header-actions > .danger-logout-button:not(:hover):not(:focus-visible) {
+          color: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+          background: rgba(254, 242, 242, .98) !important;
+          border-color: rgba(220, 38, 38, .46) !important;
+        }
+
+        body.od-theme-light .header-actions > .danger-logout-button:not(:hover):not(:focus-visible) svg,
+        html[data-theme="light"] .header-actions > .danger-logout-button:not(:hover):not(:focus-visible) svg,
+        body.od-theme-light .header-actions > .danger-logout-button:not(:hover):not(:focus-visible) path,
+        html[data-theme="light"] .header-actions > .danger-logout-button:not(:hover):not(:focus-visible) path {
+          color: #dc2626 !important;
+          stroke: #dc2626 !important;
+        }
+
         body.od-theme-dark .header-actions > .logout-button {
           color: #fecaca !important;
           -webkit-text-fill-color: #fecaca !important;
