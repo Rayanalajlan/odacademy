@@ -78,11 +78,58 @@ function normalizeSummaryText(value) {
     .trim();
 }
 
+const SUMMARY_HEADINGS = [
+  "الفكرة المركزية",
+  "الفكرة الأساسية",
+  "المقصود",
+  "ما المقصود",
+  "لماذا هذا مهم",
+  "قاعدة اليوم",
+  "تطبيق اليوم",
+  "أداة اليوم",
+  "مثال تطبيقي",
+  "القراءة المهنية",
+  "الحصيلة المعرفية",
+  "المهمة النهائية",
+  "مؤشرات النجاح",
+  "خطة التنفيذ",
+  "خطة القياس",
+  "خطة الاستدامة",
+  "مخاطر التطبيق",
+  "أخطاء شائعة",
+  "مكونات الخطة"
+];
+
+const SUMMARY_TEMPLATES = [
+  ({ topic, detail }) => `يفكك الدرس ${topic} بطريقة عملية، ويقرّب لك ${detail}`,
+  ({ topic, detail }) => `تتعرّف هنا على ${topic} من زاوية تطبيقية تساعدك على تحويل الفكرة إلى ممارسة. ${detail}`,
+  ({ topic, detail }) => `هذه المحطة توضّح كيف تتعامل مهنيًا مع ${topic}، بدل الاكتفاء بفهمه كنظرية. ${detail}`,
+  ({ topic, detail }) => `يربط الدرس ${topic} بسياق العمل الحقيقي داخل المنظمة، مع إبراز ${detail}`,
+  ({ topic, detail }) => `تنتقل في هذا اليوم من العنوان العام إلى قراءة أعمق لـ ${topic}. ${detail}`,
+  ({ topic, detail }) => `يساعدك الدرس على بناء حكم مهني حول ${topic}، خصوصًا عندما تختلط الأعراض بالأسباب. ${detail}`,
+  ({ topic, detail }) => `محطة قصيرة لفهم ${topic} كما يظهر في القرارات والسلوك والأنظمة، لا كما يرد في المصطلحات فقط. ${detail}`,
+  ({ topic, detail }) => `يضع هذا الدرس ${topic} تحت عدسة التشخيص والتطبيق، مع تنبيهك إلى ${detail}`
+];
+
+function stripSummaryHeadings(text) {
+  let clean = normalizeSummaryText(text);
+
+  SUMMARY_HEADINGS.forEach((heading) => {
+    const pattern = new RegExp(`(^|[.؟!؛،]\\s*)${heading}\\s*[:：-]?\\s*`, "gi");
+    clean = clean.replace(pattern, "$1");
+  });
+
+  return clean
+    .replace(/^(كثير\s+من|ليس\s+كل|لا\s+يكفي|اختيار|التدخلات|المنظمات)\s+/g, (match) => match)
+    .replace(/^[:：\-–—]\s*/g, "")
+    .trim();
+}
+
 function removeRepeatedHeadings(text, day) {
   const title = normalizeSummaryText(day?.title);
   const label = normalizeSummaryText(day?.label);
 
-  return normalizeSummaryText(text)
+  return stripSummaryHeadings(text)
     .replace(title, "")
     .replace(label, "")
     .replace(/^الشهر\s+[^:：]+[:：]?\s*/g, "")
@@ -92,7 +139,7 @@ function removeRepeatedHeadings(text, day) {
     .trim();
 }
 
-function truncateSummary(text, maxLength = 142) {
+function truncateSummary(text, maxLength = 145) {
   const clean = normalizeSummaryText(text);
   if (!clean) return "";
   if (clean.length <= maxLength) return clean;
@@ -102,22 +149,50 @@ function truncateSummary(text, maxLength = 142) {
   return `${(lastSpace > 35 ? sliced.slice(0, lastSpace) : sliced).trim()}…`;
 }
 
-function getLessonSummary(day) {
+function getLessonTopic(day) {
+  const title = normalizeSummaryText(day?.title || getDayLabel(day));
+  const parts = title.split(/[:：؟?]/).map((part) => part.trim()).filter(Boolean);
+
+  if (parts.length > 1 && parts[0].length <= 70) return parts[0];
+  return truncateSummary(title, 82);
+}
+
+function getLessonDetail(day) {
   const explicitSummary = day?.summary || day?.excerpt || day?.description || day?.intro;
   const content = removeRepeatedHeadings(explicitSummary || day?.content, day);
 
-  if (content) {
-    const preferred = content
-      .split(/(?<=[.؟!])\s+|\n+/)
-      .map((item) => removeRepeatedHeadings(item, day))
-      .filter((item) => item.length >= 24)
-      .find(Boolean);
+  if (!content) return "";
 
-    if (preferred) return truncateSummary(preferred);
-  }
+  const title = normalizeSummaryText(day?.title);
+  const sentences = content
+    .split(/(?<=[.؟!])\s+|\n+/)
+    .map((item) => removeRepeatedHeadings(item, day))
+    .map((item) => item.replace(title, "").trim())
+    .filter((item) => item.length >= 24)
+    .filter((item) => !SUMMARY_HEADINGS.some((heading) => item === heading || item.startsWith(`${heading} `)));
 
-  const title = normalizeSummaryText(day?.title || getDayLabel(day));
-  return `شرح مبسط يساعدك على فهم: ${truncateSummary(title, 96)}.`;
+  return truncateSummary(sentences[0] || content, 110);
+}
+
+function getTemplateIndex(day) {
+  const month = Number(day?.monthIndex) || 0;
+  const week = Number(day?.weekIndex) || 0;
+  const dayNumber = Number(day?.dayIndex) || 0;
+  return Math.abs((month * 11) + (week * 5) + dayNumber) % SUMMARY_TEMPLATES.length;
+}
+
+function getLessonSummary(day) {
+  const topic = getLessonTopic(day);
+  const detail = getLessonDetail(day);
+  const fallbackDetail = "ما الذي يجب ملاحظته، وما الخطأ الشائع، وكيف تستخدم المفهوم في موقف تنظيمي واقعي.";
+
+  return truncateSummary(
+    SUMMARY_TEMPLATES[getTemplateIndex(day)]({
+      topic,
+      detail: detail || fallbackDetail
+    }),
+    178
+  );
 }
 
 export default function CourseJourneyIndex({
