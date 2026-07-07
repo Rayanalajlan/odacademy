@@ -8,6 +8,7 @@ import {
 import LessonNotesPanel from "./LessonNotesPanel";
 import CourseSearch from "./CourseSearch";
 import SavedLessonsPanel from "./SavedLessonsPanel";
+import CourseJourneyIndex from "./CourseJourneyIndex";
 import {
   deleteLessonBookmarkByLocation,
   listLessonBookmarks,
@@ -1248,6 +1249,29 @@ export default function CourseJourney({
       weekIndex: Number(bookmark?.week_index),
       dayIndex: Number(bookmark?.day_index)
     });
+  }
+
+  function jumpToIndexLesson(point) {
+    const targetMonth = point?.month;
+    const targetWeek = point?.week;
+    const targetDay = point?.day;
+
+    if (!targetMonth || !targetWeek || !targetDay) return false;
+
+    const targetState = dayState(targetDay, targetWeek, targetMonth);
+
+    if (targetState === "locked") {
+      setNotice("هذا الدرس سيفتح بعد إكمال المحطات السابقة.");
+      return false;
+    }
+
+    setSelectedMonthIndex(targetMonth.monthIndex);
+    setSelectedWeekIndex(targetWeek.weekIndex);
+    setSelectedDayIndex(targetDay.dayIndex);
+    setStage("lesson");
+    setNotice("");
+    scrollLessonToTop();
+    return true;
   }
 
   async function toggleCurrentBookmark() {
@@ -2647,6 +2671,20 @@ export default function CourseJourney({
             help={`${weekCompletedDays} من ${weekTotalDays} أيام`}
           />
         </section>
+
+        <CourseJourneyIndex
+          course={course}
+          selectedPoint={{
+            monthIndex: selectedMonthIndex,
+            weekIndex: selectedWeekIndex,
+            dayIndex: selectedDayIndex
+          }}
+          lessonBookmarks={lessonBookmarks}
+          getMonthStatus={monthState}
+          getWeekStatus={weekState}
+          getDayStatus={dayState}
+          onSelectDay={jumpToIndexLesson}
+        />
 
         <CourseSearch
           course={course}
