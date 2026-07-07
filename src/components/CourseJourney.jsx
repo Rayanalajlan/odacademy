@@ -713,11 +713,12 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass, completionActi
   }, 0);
 
   const passed = hasKnownAnswers ? score === total : allAnswered;
-  const showCompletionAction = submitted && passed && completionAction?.show;
+  const submittedCompleteAttempt = submitted && allAnswered;
+  const showCompletionAction = submittedCompleteAttempt && completionAction?.show;
 
   function submitQuiz() {
     setSubmitted(true);
-    if (passed) onPass(true);
+    if (allAnswered) onPass(true);
   }
 
   if (!questions.length) {
@@ -835,7 +836,7 @@ function QuizPanel({ day, questions, hasQuizText = false, onPass, completionActi
             {hasKnownAnswers
               ? passed
                 ? `ممتاز. نتيجتك ${score} من ${total}. يمكنك حفظ إنجاز اليوم.`
-                : `نتيجتك ${score} من ${total}. راجع إجاباتك ثم حاول مرة أخرى.`
+                : `نتيجتك ${score} من ${total}. راجع إجاباتك، ويمكنك الانتقال بعد تسجيل المحاولة.`
               : "تم تسجيل محاولة الاختبار. يمكنك حفظ إنجاز اليوم."}
           </div>
         )}
@@ -2138,19 +2139,36 @@ export default function CourseJourney({
           justify-content:space-between;
           align-items:center;
           gap:12px;
-          margin-bottom:10px;
+          margin-bottom:14px;
+          padding:12px 14px;
+          border-radius:18px;
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(196,181,253,.18);
+          box-shadow:none;
         }
 
         .jl-quiz-header span {
           color:#c4b5fd;
           font-size:12px;
           font-weight:950;
+          background:transparent;
+          border:0;
+          padding:0;
+          box-shadow:none;
         }
 
         .jl-quiz-header strong {
           color:white;
           font-size:13px;
           font-weight:950;
+          display:inline-flex;
+          min-width:72px;
+          justify-content:center;
+          padding:8px 12px;
+          border-radius:999px;
+          background:rgba(255,255,255,.10);
+          border:1px solid rgba(196,181,253,.24);
+          box-shadow:none;
         }
 
         .jl-quiz h3 {
@@ -2299,11 +2317,31 @@ export default function CourseJourney({
 
         .jl-quiz-submit {
           padding:13px 18px;
+          border:0;
           border-radius:18px;
           color:#24123f;
           background:linear-gradient(135deg,#c4b5fd,#a855f7);
+          box-shadow:0 14px 30px rgba(139,92,246,.24);
           font-size:12px;
           font-weight:950;
+          transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+
+        .jl-quiz-submit:hover:not(:disabled),
+        .jl-quiz-submit:focus-visible:not(:disabled) {
+          transform:translateY(-1px);
+          filter:saturate(1.04);
+          box-shadow:0 18px 36px rgba(139,92,246,.30);
+          outline:0;
+        }
+
+        .jl-quiz-submit:active:not(:disabled) {
+          transform:translateY(0);
+          box-shadow:0 10px 22px rgba(139,92,246,.22);
+        }
+
+        .jl-quiz-submit:disabled {
+          opacity:.58;
         }
 
         .jl-quiz-result {

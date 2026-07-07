@@ -1,4 +1,4 @@
-const CACHE_NAME = "odacademy-static-v6";
+const CACHE_NAME = "odacademy-static-v7";
 const STATIC_ASSETS = [
   "/site.webmanifest",
   "/favicon.ico",

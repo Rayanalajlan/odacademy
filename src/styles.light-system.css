@@ -2161,3 +2161,20 @@ html[data-theme="light"] body.od-theme-light #root .radar-assessment-page .radar
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
+
+/* زر الخروج إجراء خطر؛ لا يرث لون أزرار التنقل البنفسجية في الوضع الفاتح. */
+html[data-theme="light"] body.od-theme-light #root .site-header .header-actions > button.logout-button.danger-logout-button,
+html[data-theme="light"] body.od-theme-light #root .mobile-nav-layer .mobile-nav-panel .mobile-nav-bottom > button.mobile-nav-signout.danger-logout-button {
+  color: #dc2626 !important;
+  -webkit-text-fill-color: #dc2626 !important;
+  background: rgba(254, 242, 242, .98) !important;
+  background-image: none !important;
+  border-color: rgba(220, 38, 38, .48) !important;
+  box-shadow: 0 12px 26px rgba(185, 28, 28, .12) !important;
+}
+
+html[data-theme="light"] body.od-theme-light #root .site-header .header-actions > button.logout-button.danger-logout-button :is(svg, path),
+html[data-theme="light"] body.od-theme-light #root .mobile-nav-layer .mobile-nav-panel .mobile-nav-bottom > button.mobile-nav-signout.danger-logout-button :is(svg, path) {
+  color: #dc2626 !important;
+  stroke: #dc2626 !important;
+}

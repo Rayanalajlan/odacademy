@@ -1232,6 +1232,25 @@ export default function App() {
           box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
         }
 
+        #root .site-header .header-actions > button.logout-button.danger-logout-button,
+        html[data-theme="light"] body.od-theme-light #root .site-header .header-actions > button.logout-button.danger-logout-button,
+        body:not(.od-theme-dark) #root .site-header .header-actions > button.logout-button.danger-logout-button {
+          color: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+          background: rgba(254, 242, 242, .98) !important;
+          background-image: none !important;
+          border: 1px solid rgba(220, 38, 38, .48) !important;
+          box-shadow: 0 12px 26px rgba(185, 28, 28, .12) !important;
+        }
+
+        #root .site-header .header-actions > button.logout-button.danger-logout-button :is(svg, path),
+        html[data-theme="light"] body.od-theme-light #root .site-header .header-actions > button.logout-button.danger-logout-button :is(svg, path),
+        body:not(.od-theme-dark) #root .site-header .header-actions > button.logout-button.danger-logout-button :is(svg, path) {
+          color: #dc2626 !important;
+          stroke: #dc2626 !important;
+          -webkit-text-fill-color: #dc2626 !important;
+        }
+
         .page-loader {
           width: min(1180px, calc(100% - 28px));
           margin: 18px auto;
