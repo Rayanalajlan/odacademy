@@ -98,6 +98,53 @@ function safeText(value) {
   return "";
 }
 
+function localizeQuizText(value) {
+  return safeText(value)
+    .replace(/\bEntry & Contracting Brief\b/g, "موجز الدخول والتعاقد")
+    .replace(/\bMulti-Level Diagnostic Brief\b/g, "موجز التشخيص متعدد المستويات")
+    .replace(/\bDesign Principles & Operating Model Brief\b/g, "موجز مبادئ التصميم ونموذج التشغيل")
+    .replace(/\bCulture Diagnostic Brief\b/g, "موجز تشخيص الثقافة")
+    .replace(/\bOrganization Design Brief\b/g, "موجز تصميم المنظمة")
+    .replace(/\bJob Description Quality Review\b/g, "مراجعة جودة الوصف الوظيفي")
+    .replace(/\bOD Impact Measurement Brief\b/g, "موجز قياس أثر التطوير التنظيمي")
+    .replace(/\bOD Dashboard & Insight Brief\b/g, "موجز لوحة التطوير التنظيمي والبصيرة")
+    .replace(/\bOD Dashboard\b/g, "لوحة التطوير التنظيمي")
+    .replace(/\bSustainability & Exit Brief\b/g, "موجز الاستدامة والخروج")
+    .replace(/\bCulture Change Intervention Brief\b/g, "موجز تدخل تغيير الثقافة")
+    .replace(/\bLearning System Brief\b/g, "موجز نظام التعلم")
+    .replace(/\bContinuous Capability Brief\b/g, "موجز القدرة المستمرة")
+    .replace(/\bOD Professional Portfolio & Capstone Brief\b/g, "ملف الاحتراف ومشروع التخرج لممارس التطوير التنظيمي")
+    .replace(/\bOD Practitioner\b/g, "ممارس التطوير التنظيمي")
+    .replace(/\bProfessional Portfolio\b/g, "ملف الاحتراف")
+    .replace(/\bCapstone Brief\b/g, "موجز مشروع التخرج")
+    .replace(/\bPortfolio\b/g, "ملف الأعمال")
+    .replace(/\bAccountable\b/g, "مسؤول نهائيًا")
+    .replace(/\bCalibration\b/g, "المعايرة")
+    .replace(/\bTeam Charter\b/g, "ميثاق الفريق")
+    .replace(/\bCoaching\b/g, "التوجيه الفردي")
+    .replace(/\bMentoring\b/g, "الإرشاد المهني")
+    .replace(/\bMidpoint Goals\b/g, "الأهداف الوسطية")
+    .replace(/\bPilot\b/g, "التجربة المحدودة")
+    .replace(/\bRollout\b/g, "التوسع في التطبيق")
+    .replace(/\bImplementation Feedback\b/g, "تغذية راجعة عن التنفيذ")
+    .replace(/\bEvaluation Feedback\b/g, "تغذية راجعة عن التقييم")
+    .replace(/\bAAR\b/g, "مراجعة ما بعد العمل")
+    .replace(/\bSurvey Feedback\b/g, "التغذية الراجعة بالاستبيان")
+    .replace(/\bOrganization Design\b/g, "تصميم المنظمة")
+    .replace(/\bOrganization Structure\b/g, "الهيكل التنظيمي")
+    .replace(/\bPeople Analytics\b/g, "تحليلات الأفراد")
+    .replace(/\bHRBP\b/g, "شريك الموارد البشرية")
+    .replace(/\bHRM\b/g, "إدارة الموارد البشرية")
+    .replace(/\bWhat\b/g, "ماذا")
+    .replace(/\bHow\b/g, "كيف")
+    .replace(/\bSenge\b/g, "سنجي")
+    .replace(/\bRACI\b/g, "مصفوفة المسؤوليات")
+    .replace(/\bHR\b/g, "الموارد البشرية")
+    .replace(/\bOD\b/g, "التطوير التنظيمي")
+    .replace(/\bISODC Code of Ethics\b/g, "مدونة أخلاقيات ممارسة التطوير التنظيمي")
+    .replace(/\bself mastery\b/gi, "إتقان الذات");
+}
+
 function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -252,6 +299,17 @@ function calculateCompletedSet(progressRows) {
   );
 }
 
+function scrollLessonToTop() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      const target = document.querySelector(".journey-lab .jl-reader") || document.querySelector(".journey-lab");
+      target?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+
 function countCompletedInWeek(completedSet, week) {
   return getContentDays(week).filter((day) =>
     completedSet.has(progressKey(day.monthIndex, day.weekIndex, day.dayIndex))
@@ -313,7 +371,7 @@ function normalizeStructuredQuiz(day) {
         return {
           id: key,
           originalKey: key,
-          text: option,
+          text: localizeQuizText(option),
           isCorrect:
             correctKey === key ||
             correctKey === optionIndex ||
@@ -327,7 +385,7 @@ function normalizeStructuredQuiz(day) {
       return {
         id: key,
         originalKey: key,
-        text: option.text || option.label || option.value || "",
+        text: localizeQuizText(option.text || option.label || option.value || ""),
         isCorrect:
           Boolean(option.isCorrect) ||
           Boolean(option.correct) ||
@@ -338,7 +396,7 @@ function normalizeStructuredQuiz(day) {
 
     return {
       id: q.id || `q-${index + 1}`,
-      question: q.question || q.title || q.text || "",
+      question: localizeQuizText(q.question || q.title || q.text || ""),
       options,
       hasKnownCorrectAnswer: options.some((option) => option.isCorrect)
     };
@@ -511,14 +569,14 @@ function parseQuizText(day, quizText, fullText = "") {
       options.push({
         id: optionKeyMap[match[1]] || match[1],
         originalKey: match[1],
-        text: match[2].trim(),
+        text: localizeQuizText(match[2].trim()),
         isCorrect: false
       });
     }
 
     return {
       id: `${day.id}-parsed-q-${index + 1}`,
-      question,
+      question: localizeQuizText(question),
       // تعديل مهم: لا نعيد ترتيب الخيارات؛ حتى تبقى كما وردت في المحتوى التعليمي.
       options,
       hasKnownCorrectAnswer: false
@@ -1073,15 +1131,59 @@ export default function CourseJourney({
     setStage("lesson");
   }
 
-  function openNextPoint() {
-    const nextPoint = firstAvailableLearningPoint();
-    if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) return;
+  function openLearningPoint(point) {
+    if (!point?.month || !point?.week || !point?.day) return false;
 
-    setSelectedMonthIndex(nextPoint.month.monthIndex);
-    setSelectedWeekIndex(nextPoint.week.weekIndex);
-    setSelectedDayIndex(nextPoint.day.dayIndex);
+    setSelectedMonthIndex(point.month.monthIndex);
+    setSelectedWeekIndex(point.week.weekIndex);
+    setSelectedDayIndex(point.day.dayIndex);
     setStage("lesson");
     setNotice("");
+    scrollLessonToTop();
+    return true;
+  }
+
+  function findLearningPointAfter(day) {
+    if (!day) return null;
+
+    let passedCurrentDay = false;
+
+    for (const month of course) {
+      for (const week of month.weeks) {
+        const days = getContentDays(week).sort((a, b) => a.dayIndex - b.dayIndex);
+
+        for (const item of days) {
+          if (passedCurrentDay) {
+            return { month, week, day: item };
+          }
+
+          if (
+            item.monthIndex === day.monthIndex &&
+            item.weekIndex === day.weekIndex &&
+            item.dayIndex === day.dayIndex
+          ) {
+            passedCurrentDay = true;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function openNextLessonAfter(day = selectedDay) {
+    const nextPoint = findLearningPointAfter(day);
+
+    if (!nextPoint?.month || !nextPoint?.week || !nextPoint?.day) {
+      setNotice("أكملت الرحلة التعليمية كاملة.");
+      return false;
+    }
+
+    return openLearningPoint(nextPoint);
+  }
+
+  function openNextPoint() {
+    return openLearningPoint(firstAvailableLearningPoint());
   }
 
   function jumpToSearchResult(result) {
@@ -1201,10 +1303,16 @@ export default function CourseJourney({
     }
   }
 
-  async function completeCurrentDay() {
+  async function completeCurrentDay(options = {}) {
     if (!selectedDay) return;
+    const shouldOpenNext = Boolean(options?.goNext);
+    const completedDay = selectedDay;
+
     if (!isDayUnlocked(selectedDay, selectedWeek, selectedMonth)) return;
-    if (isDayCompleted(selectedDay, completedSet)) return;
+    if (isDayCompleted(selectedDay, completedSet)) {
+      if (shouldOpenNext) openNextLessonAfter(completedDay);
+      return;
+    }
 
     const hasQuiz = preparedLesson.quiz.length > 0;
     const quizPassed = quizPassedByDay[selectedDay.id];
@@ -1247,7 +1355,15 @@ export default function CourseJourney({
         ]);
       }
 
-      setNotice("تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية.");
+      setNotice(
+        shouldOpenNext
+          ? "تم حفظ إنجاز اليوم. ننتقل الآن للدرس التالي."
+          : "تم حفظ إنجاز اليوم. فُتحت لك المحطة التالية."
+      );
+
+      if (shouldOpenNext) {
+        window.setTimeout(() => openNextLessonAfter(completedDay), 120);
+      }
     } catch (error) {
       setNotice(error?.message || "تعذر حفظ التقدم. تأكد من تسجيل الدخول أو إعداد Supabase.");
     } finally {
@@ -1278,14 +1394,14 @@ export default function CourseJourney({
   const quizCompletionAction = currentDayState === "completed"
     ? {
         show: true,
-        label: "افتح المحطة التالية",
-        onClick: openNextPoint,
+        label: "الانتقال للدرس التالي",
+        onClick: () => openNextLessonAfter(selectedDay),
         disabled: false
       }
     : {
         show: canCompleteLesson,
-        label: saving ? "جارٍ الحفظ..." : "إنهاء اليوم وحفظ التقدم",
-        onClick: completeCurrentDay,
+        label: saving ? "جارٍ الحفظ..." : "الانتقال للدرس التالي",
+        onClick: () => completeCurrentDay({ goNext: true }),
         disabled: saving || currentDayState !== "active" || !canCompleteLesson
       };
 
@@ -2210,6 +2326,146 @@ export default function CourseJourney({
           color:#fecaca;
         }
 
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-bullet,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-bullet {
+          color:#2b2147 !important;
+          -webkit-text-fill-color:#2b2147 !important;
+          background:linear-gradient(180deg,#fbf9ff,#f4f0fb) !important;
+          border-color:rgba(167,139,250,.28) !important;
+          box-shadow:none !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-bullet *,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-bullet * {
+          color:inherit !important;
+          -webkit-text-fill-color:inherit !important;
+          opacity:1 !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz {
+          background:linear-gradient(145deg,#ffffff 0%,#f8f4ff 100%) !important;
+          color:#24123f !important;
+          -webkit-text-fill-color:#24123f !important;
+          border:1px solid rgba(139,92,246,.18) !important;
+          box-shadow:0 22px 55px rgba(28,17,48,.10) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz {
+          background:linear-gradient(145deg,rgba(24,16,46,.98),rgba(14,8,32,.98)) !important;
+          color:#f8f4ff !important;
+          -webkit-text-fill-color:#f8f4ff !important;
+          border:1px solid rgba(196,181,253,.18) !important;
+          box-shadow:0 22px 55px rgba(0,0,0,.24) !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header {
+          padding:12px 14px !important;
+          border-radius:18px !important;
+          margin-bottom:14px !important;
+          border:1px solid rgba(139,92,246,.18) !important;
+          box-shadow:none !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header {
+          background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(255,255,255,.86)) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header {
+          background:linear-gradient(135deg,rgba(139,92,246,.24),rgba(255,255,255,.06)) !important;
+          border-color:rgba(196,181,253,.22) !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header span,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header span {
+          background:transparent !important;
+          border:0 !important;
+          padding:0 !important;
+          box-shadow:none !important;
+          font-size:12px !important;
+          font-weight:950 !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header span {
+          color:#5b21b6 !important;
+          -webkit-text-fill-color:#5b21b6 !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header span {
+          color:#ddd6fe !important;
+          -webkit-text-fill-color:#ddd6fe !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header strong,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header strong {
+          display:inline-flex !important;
+          min-width:72px !important;
+          justify-content:center !important;
+          padding:8px 12px !important;
+          border-radius:999px !important;
+          font-size:13px !important;
+          font-weight:950 !important;
+          box-shadow:none !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz-header strong {
+          background:#ffffff !important;
+          color:#4c1d95 !important;
+          -webkit-text-fill-color:#4c1d95 !important;
+          border:1px solid rgba(139,92,246,.18) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz-header strong {
+          background:rgba(255,255,255,.10) !important;
+          color:#ffffff !important;
+          -webkit-text-fill-color:#ffffff !important;
+          border:1px solid rgba(196,181,253,.24) !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-quiz h3,
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-question-title span,
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-option strong {
+          color:#24123f !important;
+          -webkit-text-fill-color:#24123f !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-quiz h3,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-question-title span,
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-option strong {
+          color:#f8f4ff !important;
+          -webkit-text-fill-color:#f8f4ff !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-question {
+          background:#ffffff !important;
+          color:#24123f !important;
+          -webkit-text-fill-color:#24123f !important;
+          border:1px solid rgba(139,92,246,.16) !important;
+          box-shadow:0 14px 34px rgba(36,22,63,.06) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-question {
+          background:rgba(255,255,255,.07) !important;
+          color:#f8f4ff !important;
+          -webkit-text-fill-color:#f8f4ff !important;
+          border:1px solid rgba(196,181,253,.14) !important;
+          box-shadow:none !important;
+        }
+
+        html[data-theme="light"] body.od-theme-light #root .journey-lab .jl-option:not(.jl-option--selected):not(.jl-option--correct):not(.jl-option--wrong) {
+          background:linear-gradient(180deg,#ffffff,#f6f1ff) !important;
+          color:#24123f !important;
+          -webkit-text-fill-color:#24123f !important;
+          border-color:rgba(139,92,246,.18) !important;
+        }
+
+        html[data-theme="dark"] body.od-theme-dark #root .journey-lab .jl-option:not(.jl-option--selected):not(.jl-option--correct):not(.jl-option--wrong) {
+          background:rgba(24,16,46,.92) !important;
+          color:#f8f4ff !important;
+          -webkit-text-fill-color:#f8f4ff !important;
+          border-color:rgba(196,181,253,.22) !important;
+        }
+
         .jl-exact-source {
           margin-top:24px;
           border-radius:24px;
@@ -2568,8 +2824,8 @@ export default function CourseJourney({
                   </button>
 
                   {currentDayState === "completed" && (
-                    <button type="button" className="jl-quiz-submit" onClick={openNextPoint}>
-                      افتح المحطة التالية
+                    <button type="button" className="jl-quiz-submit" onClick={() => openNextLessonAfter(selectedDay)}>
+                      الانتقال للدرس التالي
                     </button>
                   )}
 
