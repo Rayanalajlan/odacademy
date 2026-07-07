@@ -68,6 +68,58 @@ function makeWeekKey(month, week) {
   return `m${month?.monthIndex}-w${week?.weekIndex}`;
 }
 
+function normalizeSummaryText(value) {
+  return String(value || "")
+    .replace(/\r/g, "\n")
+    .replace(/اختبار\s+اليوم[\s\S]*$/g, "")
+    .replace(/مفتاح\s+إجابات[\s\S]*$/g, "")
+    .replace(/ملحق\s+غير\s+مخصص[\s\S]*$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function removeRepeatedHeadings(text, day) {
+  const title = normalizeSummaryText(day?.title);
+  const label = normalizeSummaryText(day?.label);
+
+  return normalizeSummaryText(text)
+    .replace(title, "")
+    .replace(label, "")
+    .replace(/^الشهر\s+[^:：]+[:：]?\s*/g, "")
+    .replace(/^الأسبوع\s+[^:：]+[:：]?\s*/g, "")
+    .replace(/^اليوم\s+[^:：]+[:：]?\s*/g, "")
+    .replace(/^\d+\.\s*/g, "")
+    .trim();
+}
+
+function truncateSummary(text, maxLength = 142) {
+  const clean = normalizeSummaryText(text);
+  if (!clean) return "";
+  if (clean.length <= maxLength) return clean;
+
+  const sliced = clean.slice(0, maxLength);
+  const lastSpace = sliced.lastIndexOf(" ");
+  return `${(lastSpace > 35 ? sliced.slice(0, lastSpace) : sliced).trim()}…`;
+}
+
+function getLessonSummary(day) {
+  const explicitSummary = day?.summary || day?.excerpt || day?.description || day?.intro;
+  const content = removeRepeatedHeadings(explicitSummary || day?.content, day);
+
+  if (content) {
+    const preferred = content
+      .split(/(?<=[.؟!])\s+|\n+/)
+      .map((item) => removeRepeatedHeadings(item, day))
+      .filter((item) => item.length >= 24)
+      .find(Boolean);
+
+    if (preferred) return truncateSummary(preferred);
+  }
+
+  const title = normalizeSummaryText(day?.title || getDayLabel(day));
+  return `شرح مبسط يساعدك على فهم: ${truncateSummary(title, 96)}.`;
+}
+
 export default function CourseJourneyIndex({
   course = [],
   selectedPoint = {},
@@ -106,30 +158,13 @@ export default function CourseJourneyIndex({
   }, [lessonBookmarks]);
 
   const journeyStats = useMemo(() => {
-    let totalLessons = 0;
-    let completedLessons = 0;
-    let availableLessons = 0;
     let lockedLessons = 0;
-    let completedWeeks = 0;
-    let totalWeeks = 0;
-    let completedMonths = 0;
     let nextLesson = null;
 
     course.forEach((month) => {
-      const monthStatus = getMonthStatus(month);
-      if (monthStatus === "completed") completedMonths += 1;
-
       getWeeks(month).forEach((week) => {
-        totalWeeks += 1;
-        const weekStatus = getWeekStatus(week, month);
-        if (weekStatus === "completed") completedWeeks += 1;
-
         getDays(week).forEach((day) => {
           const state = getDayStatus(day, week, month);
-          totalLessons += 1;
-
-          if (state === "completed") completedLessons += 1;
-          if (state === "active") availableLessons += 1;
           if (state === "locked") lockedLessons += 1;
           if (!nextLesson && state === "active") {
             nextLesson = { month, week, day };
@@ -138,18 +173,8 @@ export default function CourseJourneyIndex({
       });
     });
 
-    return {
-      totalLessons,
-      completedLessons,
-      availableLessons,
-      lockedLessons,
-      completedWeeks,
-      totalWeeks,
-      completedMonths,
-      totalMonths: course.length,
-      nextLesson
-    };
-  }, [course, getDayStatus, getMonthStatus, getWeekStatus]);
+    return { lockedLessons, nextLesson };
+  }, [course, getDayStatus]);
 
   const selectedMonth = course.find((month) => Number(month.monthIndex) === Number(selectedPoint?.monthIndex));
   const selectedWeek = getWeeks(selectedMonth).find((week) => Number(week.weekIndex) === Number(selectedPoint?.weekIndex));
@@ -223,6 +248,7 @@ export default function CourseJourneyIndex({
           </span>
 
           <strong>{day?.title || getDayLabel(day)}</strong>
+          <span className="jli-day-summary">{getLessonSummary(day)}</span>
 
           <span className="jli-badges">
             <em className={`jli-badge jli-badge--${state}`}>{STATE_LABELS[state] || state}</em>
@@ -237,21 +263,54 @@ export default function CourseJourneyIndex({
     <section className="journey-index" aria-label="فهرس الرحلة التعليمية">
       <style>{`
         .journey-index {
+          direction:rtl;
+          position:relative;
+          isolation:isolate;
+          overflow:hidden;
           margin:18px 0;
-          border-radius:30px;
-          padding:22px;
+          border-radius:34px;
+          padding:24px;
           background:
-            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.11), transparent 30%),
-            rgba(255,255,255,.88);
-          border:1px solid rgba(167, 139, 250,.22);
-          box-shadow:0 18px 48px rgba(28, 17, 48,.07);
+            radial-gradient(circle at 98% 0%, rgba(139, 92, 246,.16), transparent 30%),
+            radial-gradient(circle at 0% 100%, rgba(16, 185, 129,.10), transparent 28%),
+            linear-gradient(135deg, rgba(255,255,255,.92), rgba(250,248,255,.82));
+          border:1px solid rgba(167, 139, 250,.24);
+          box-shadow:0 20px 56px rgba(28, 17, 48,.08);
           backdrop-filter:blur(18px);
+        }
+
+        .journey-index::before {
+          content:"";
+          position:absolute;
+          inset:18px 24px auto auto;
+          width:170px;
+          height:170px;
+          border-radius:50%;
+          background:
+            linear-gradient(135deg, rgba(139,92,246,.18), transparent 58%),
+            repeating-conic-gradient(from 10deg, rgba(139,92,246,.12) 0deg 12deg, transparent 12deg 28deg);
+          opacity:.65;
+          filter:blur(.2px);
+          pointer-events:none;
+          z-index:-1;
+        }
+
+        .journey-index::after {
+          content:"";
+          position:absolute;
+          inset:auto auto -70px -50px;
+          width:230px;
+          height:230px;
+          border-radius:50%;
+          background:radial-gradient(circle, rgba(16,185,129,.14), transparent 66%);
+          pointer-events:none;
+          z-index:-1;
         }
 
         .jli-head {
           display:grid;
-          grid-template-columns:minmax(0, 1fr) auto;
-          gap:14px;
+          grid-template-columns:minmax(0, 1fr) minmax(220px, 330px);
+          gap:16px;
           align-items:start;
           margin-bottom:16px;
         }
@@ -263,16 +322,17 @@ export default function CourseJourneyIndex({
           padding:7px 12px;
           border-radius:999px;
           color:#6d28d9;
-          background:#efe9fb;
-          border:1px solid rgba(139,92,246,.16);
+          background:rgba(239,233,251,.90);
+          border:1px solid rgba(139,92,246,.18);
           font-size:11px;
           font-weight:950;
+          box-shadow:0 8px 18px rgba(139,92,246,.08);
         }
 
         .jli-title {
           margin:0;
           color:var(--ink, #18102e);
-          font-size:clamp(20px,2.4vw,30px);
+          font-size:clamp(21px,2.4vw,31px);
           line-height:1.35;
           font-weight:950;
         }
@@ -287,18 +347,37 @@ export default function CourseJourneyIndex({
         }
 
         .jli-current {
+          position:relative;
           display:grid;
           gap:5px;
-          min-width:230px;
-          border-radius:24px;
-          padding:14px 16px;
-          background:#18102e;
+          min-width:0;
+          border-radius:26px;
+          padding:16px 18px 16px 58px;
+          background:
+            radial-gradient(circle at 15% 20%, rgba(255,255,255,.18), transparent 24%),
+            linear-gradient(135deg, #24183f, #161024);
           color:#f8f4ff;
-          box-shadow:0 16px 36px rgba(28, 17, 48,.16);
+          box-shadow:0 18px 40px rgba(28, 17, 48,.20);
+          overflow:hidden;
+        }
+
+        .jli-current::before {
+          content:"";
+          position:absolute;
+          left:18px;
+          top:50%;
+          width:24px;
+          height:24px;
+          border-radius:50%;
+          transform:translateY(-50%);
+          background:#d9ccff;
+          box-shadow:
+            0 0 0 8px rgba(216,204,255,.12),
+            0 0 0 16px rgba(216,204,255,.08);
         }
 
         .jli-current span {
-          color:#c4b5fd;
+          color:#d8ccff;
           font-size:11px;
           font-weight:950;
         }
@@ -311,55 +390,38 @@ export default function CourseJourneyIndex({
         }
 
         .jli-current small {
-          color:rgba(255,255,255,.72);
+          color:rgba(255,255,255,.76);
           font-size:11px;
           line-height:1.7;
           font-weight:800;
         }
 
-        .jli-stats {
-          display:grid;
-          grid-template-columns:repeat(4,minmax(0,1fr));
-          gap:10px;
-          margin:0 0 14px;
-        }
-
-        .jli-stat {
-          border-radius:20px;
-          padding:12px 13px;
-          background:rgba(255,255,255,.82);
-          border:1px solid rgba(167,139,250,.18);
-        }
-
-        .jli-stat span {
-          display:block;
-          color:var(--muted, #7a6c9a);
-          font-size:10px;
-          font-weight:900;
-          line-height:1.7;
-        }
-
-        .jli-stat strong {
-          display:block;
-          color:var(--ink, #18102e);
-          font-size:18px;
-          font-weight:950;
-          line-height:1.3;
-        }
-
         .jli-next {
+          position:relative;
           display:flex;
           align-items:center;
           justify-content:space-between;
           gap:12px;
           margin:0 0 14px;
-          border-radius:22px;
-          padding:13px 14px;
+          border-radius:24px;
+          padding:14px 16px;
           color:#3b2764;
-          background:linear-gradient(135deg,rgba(196,181,253,.36),rgba(255,255,255,.74));
+          background:
+            linear-gradient(90deg, rgba(139,92,246,.12), transparent 42%),
+            linear-gradient(135deg,rgba(196,181,253,.34),rgba(255,255,255,.78));
           border:1px solid rgba(139,92,246,.18);
           font-size:12px;
           font-weight:900;
+        }
+
+        .jli-next::before {
+          content:"";
+          width:10px;
+          height:10px;
+          border-radius:50%;
+          flex:0 0 auto;
+          background:#7c3aed;
+          box-shadow:0 0 0 6px rgba(124,58,237,.10);
         }
 
         .jli-next strong {
@@ -381,7 +443,7 @@ export default function CourseJourneyIndex({
           border-radius:999px;
           border:1px solid rgba(167,139,250,.24);
           padding:8px 12px;
-          background:#ffffff;
+          background:rgba(255,255,255,.86);
           color:#5f527c;
           font-size:11px;
           font-weight:950;
@@ -394,6 +456,7 @@ export default function CourseJourneyIndex({
           color:#4c1d95;
           background:#efe9fb;
           border-color:rgba(139,92,246,.28);
+          box-shadow:0 10px 22px rgba(139,92,246,.10);
         }
 
         .jli-filter-count {
@@ -416,14 +479,15 @@ export default function CourseJourneyIndex({
 
         .jli-months {
           display:grid;
-          gap:10px;
+          gap:12px;
         }
 
         .jli-month {
-          border-radius:24px;
+          border-radius:28px;
           overflow:hidden;
-          background:rgba(255,255,255,.78);
+          background:rgba(255,255,255,.72);
           border:1px solid rgba(167,139,250,.20);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
         }
 
         .jli-month-toggle,
@@ -442,25 +506,36 @@ export default function CourseJourneyIndex({
         }
 
         .jli-month-toggle {
-          padding:15px;
+          padding:16px;
         }
 
         .jli-month-toggle:hover,
         .jli-week-toggle:hover {
-          background:rgba(239,233,251,.48);
+          background:rgba(239,233,251,.50);
         }
 
         .jli-number {
+          position:relative;
           display:grid;
           place-items:center;
-          width:38px;
-          height:38px;
-          border-radius:15px;
+          width:42px;
+          height:42px;
+          border-radius:17px;
           color:#4c1d95;
-          background:#efe9fb;
-          border:1px solid rgba(139,92,246,.16);
+          background:
+            radial-gradient(circle at 30% 25%, #ffffff 0%, #efe9fb 52%, #d8ccff 100%);
+          border:1px solid rgba(139,92,246,.18);
           font-size:13px;
           font-weight:950;
+          box-shadow:0 10px 26px rgba(139,92,246,.12);
+        }
+
+        .jli-number::after {
+          content:"";
+          position:absolute;
+          inset:-5px;
+          border-radius:21px;
+          border:1px solid rgba(139,92,246,.10);
         }
 
         .jli-month-title,
@@ -496,8 +571,15 @@ export default function CourseJourneyIndex({
         }
 
         .jli-chevron {
-          color:#7c3aed;
+          display:inline-grid;
+          place-items:center;
+          width:24px;
+          height:24px;
+          border-radius:999px;
+          color:#6d28d9;
+          background:rgba(239,233,251,.78);
           font-size:14px;
+          font-style:normal;
           font-weight:950;
           transition:.2s ease;
         }
@@ -508,88 +590,124 @@ export default function CourseJourneyIndex({
 
         .jli-weeks {
           display:grid;
-          gap:9px;
-          padding:0 12px 12px;
+          gap:10px;
+          padding:0 14px 14px;
         }
 
         .jli-week {
-          border-radius:20px;
+          border-radius:22px;
           overflow:hidden;
-          background:rgba(255,255,255,.76);
+          background:rgba(255,255,255,.70);
           border:1px solid rgba(167,139,250,.16);
         }
 
         .jli-week-toggle {
-          padding:12px;
+          padding:13px;
         }
 
         .jli-week .jli-number {
-          width:32px;
-          height:32px;
-          border-radius:13px;
+          width:34px;
+          height:34px;
+          border-radius:14px;
           font-size:12px;
         }
 
         .jli-days {
+          position:relative;
           display:grid;
-          gap:8px;
-          padding:0 12px 12px;
+          gap:9px;
+          padding:4px 18px 14px 12px;
+        }
+
+        .jli-days::before {
+          content:"";
+          position:absolute;
+          top:6px;
+          bottom:16px;
+          right:32px;
+          width:2px;
+          border-radius:999px;
+          background:linear-gradient(180deg, rgba(124,58,237,.32), rgba(16,185,129,.24), rgba(124,58,237,.10));
         }
 
         .jli-day {
+          position:relative;
           width:100%;
           border:0;
           cursor:pointer;
           display:grid;
           grid-template-columns:auto minmax(0,1fr);
-          gap:10px;
+          gap:11px;
           align-items:start;
           text-align:right;
           font-family:inherit;
-          border-radius:18px;
-          padding:12px;
-          background:#ffffff;
+          border-radius:20px;
+          padding:13px;
+          background:
+            linear-gradient(135deg, rgba(255,255,255,.96), rgba(250,248,255,.82));
           border:1px solid rgba(167,139,250,.16);
-          box-shadow:0 10px 24px rgba(28,17,48,.045);
+          box-shadow:0 12px 26px rgba(28,17,48,.05);
           transition:.22s ease;
+          overflow:hidden;
+        }
+
+        .jli-day::after {
+          content:"";
+          position:absolute;
+          inset:0 auto 0 0;
+          width:4px;
+          background:linear-gradient(180deg, rgba(139,92,246,.45), rgba(16,185,129,.28));
+          opacity:.55;
         }
 
         .jli-day:hover {
           transform:translateY(-2px);
-          box-shadow:0 16px 30px rgba(139,92,246,.10);
+          box-shadow:0 18px 34px rgba(139,92,246,.12);
+          border-color:rgba(139,92,246,.26);
         }
 
         .jli-day--locked {
-          opacity:.68;
+          opacity:.78;
           cursor:not-allowed;
           background:rgba(248,246,252,.82);
         }
 
         .jli-day--current {
           border-color:rgba(139,92,246,.42);
-          box-shadow:0 0 0 4px rgba(139,92,246,.08), 0 16px 34px rgba(139,92,246,.12);
+          box-shadow:0 0 0 4px rgba(139,92,246,.08), 0 18px 36px rgba(139,92,246,.13);
+        }
+
+        .jli-day--current::after {
+          opacity:1;
+          width:5px;
         }
 
         .jli-day-icon {
+          position:relative;
+          z-index:1;
           display:grid;
           place-items:center;
-          width:30px;
-          height:30px;
-          border-radius:12px;
+          width:32px;
+          height:32px;
+          border-radius:13px;
           color:#4c1d95;
           background:#efe9fb;
+          border:1px solid rgba(139,92,246,.14);
           font-size:12px;
           font-weight:950;
+          box-shadow:0 0 0 5px rgba(255,255,255,.86);
         }
 
         .jli-day--completed .jli-day-icon {
           color:#065f46;
           background:#ecfdf5;
+          border-color:rgba(16,185,129,.22);
         }
 
         .jli-day--locked .jli-day-icon {
           color:#6b6478;
           background:#f1eef7;
+          border-color:rgba(107,100,120,.16);
         }
 
         .jli-day-body {
@@ -620,9 +738,16 @@ export default function CourseJourneyIndex({
 
         .jli-day strong {
           color:var(--ink, #18102e);
-          font-size:12px;
+          font-size:12.5px;
           line-height:1.8;
           font-weight:950;
+        }
+
+        .jli-day-summary {
+          color:var(--muted, #7a6c9a);
+          font-size:11px;
+          line-height:1.85;
+          font-weight:800;
         }
 
         .jli-badges {
@@ -656,7 +781,7 @@ export default function CourseJourneyIndex({
         }
 
         .jli-badge--locked {
-          color:#6b6478;
+          color:#51485f;
           background:#f1eef7;
           border-color:rgba(107,100,120,.16);
         }
@@ -678,70 +803,226 @@ export default function CourseJourneyIndex({
           font-weight:900;
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index {
+        html[data-theme="dark"] .journey-index,
+        body.od-theme-dark .journey-index,
+        .od-theme-dark .journey-index,
+        .dark .journey-index {
           background:
-            radial-gradient(circle at 100% 0%, rgba(139, 92, 246,.16), transparent 32%),
-            rgba(24,16,46,.78);
+            radial-gradient(circle at 98% 0%, rgba(139, 92, 246,.18), transparent 32%),
+            radial-gradient(circle at 0% 100%, rgba(16, 185, 129,.11), transparent 30%),
+            linear-gradient(135deg, rgba(28,20,50,.92), rgba(19,13,34,.88));
+          border-color:rgba(196,181,253,.18);
+          box-shadow:0 24px 58px rgba(0,0,0,.22);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-month,
+        html[data-theme="dark"] .journey-index .jli-week,
+        html[data-theme="dark"] .journey-index .jli-day,
+        body.od-theme-dark .journey-index .jli-month,
+        body.od-theme-dark .journey-index .jli-week,
+        body.od-theme-dark .journey-index .jli-day,
+        .od-theme-dark .journey-index .jli-month,
+        .od-theme-dark .journey-index .jli-week,
+        .od-theme-dark .journey-index .jli-day,
+        .dark .journey-index .jli-month,
+        .dark .journey-index .jli-week,
+        .dark .journey-index .jli-day {
+          background:rgba(255,255,255,.065);
           border-color:rgba(196,181,253,.16);
-          box-shadow:0 22px 52px rgba(0,0,0,.20);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-month,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-week,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-stat,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-day {
-          background:rgba(255,255,255,.06);
-          border-color:rgba(196,181,253,.14);
+        html[data-theme="dark"] .journey-index .jli-month-toggle:hover,
+        html[data-theme="dark"] .journey-index .jli-week-toggle:hover,
+        body.od-theme-dark .journey-index .jli-month-toggle:hover,
+        body.od-theme-dark .journey-index .jli-week-toggle:hover,
+        .od-theme-dark .journey-index .jli-month-toggle:hover,
+        .od-theme-dark .journey-index .jli-week-toggle:hover,
+        .dark .journey-index .jli-month-toggle:hover,
+        .dark .journey-index .jli-week-toggle:hover {
+          background:rgba(255,255,255,.055);
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-filter {
+        html[data-theme="dark"] .journey-index .jli-next,
+        body.od-theme-dark .journey-index .jli-next,
+        .od-theme-dark .journey-index .jli-next,
+        .dark .journey-index .jli-next {
+          color:#f5f3ff;
+          background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(255,255,255,.06));
+          border-color:rgba(196,181,253,.20);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-next strong,
+        body.od-theme-dark .journey-index .jli-next strong,
+        .od-theme-dark .journey-index .jli-next strong,
+        .dark .journey-index .jli-next strong {
+          color:#ffffff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-filter,
+        body.od-theme-dark .journey-index .jli-filter,
+        .od-theme-dark .journey-index .jli-filter,
+        .dark .journey-index .jli-filter {
           background:rgba(255,255,255,.08);
           color:#ddd6fe;
           border-color:rgba(196,181,253,.18);
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-filter--active,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-filter:hover {
-          background:rgba(139,92,246,.22);
+        html[data-theme="dark"] .journey-index .jli-filter--active,
+        html[data-theme="dark"] .journey-index .jli-filter:hover,
+        body.od-theme-dark .journey-index .jli-filter--active,
+        body.od-theme-dark .journey-index .jli-filter:hover,
+        .od-theme-dark .journey-index .jli-filter--active,
+        .od-theme-dark .journey-index .jli-filter:hover,
+        .dark .journey-index .jli-filter--active,
+        .dark .journey-index .jli-filter:hover {
+          background:rgba(139,92,246,.24);
           color:#ffffff;
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-day--locked {
-          background:rgba(255,255,255,.035);
-        }
-
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-title,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-stat strong,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-month-title strong,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-week-title strong,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-day strong {
+        html[data-theme="dark"] .journey-index .jli-title,
+        html[data-theme="dark"] .journey-index .jli-month-title strong,
+        html[data-theme="dark"] .journey-index .jli-week-title strong,
+        html[data-theme="dark"] .journey-index .jli-day strong,
+        body.od-theme-dark .journey-index .jli-title,
+        body.od-theme-dark .journey-index .jli-month-title strong,
+        body.od-theme-dark .journey-index .jli-week-title strong,
+        body.od-theme-dark .journey-index .jli-day strong,
+        .od-theme-dark .journey-index .jli-title,
+        .od-theme-dark .journey-index .jli-month-title strong,
+        .od-theme-dark .journey-index .jli-week-title strong,
+        .od-theme-dark .journey-index .jli-day strong,
+        .dark .journey-index .jli-title,
+        .dark .journey-index .jli-month-title strong,
+        .dark .journey-index .jli-week-title strong,
+        .dark .journey-index .jli-day strong {
           color:#f8f4ff;
         }
 
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-subtitle,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-stat span,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-month-title small,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-week-title small,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-filter-count,
-        html[data-theme="dark"] body.od-theme-dark #root .journey-index .jli-day-meta {
-          color:#c4b5fd;
+        html[data-theme="dark"] .journey-index .jli-subtitle,
+        html[data-theme="dark"] .journey-index .jli-month-title small,
+        html[data-theme="dark"] .journey-index .jli-week-title small,
+        html[data-theme="dark"] .journey-index .jli-filter-count,
+        html[data-theme="dark"] .journey-index .jli-day-meta,
+        html[data-theme="dark"] .journey-index .jli-day-summary,
+        body.od-theme-dark .journey-index .jli-subtitle,
+        body.od-theme-dark .journey-index .jli-month-title small,
+        body.od-theme-dark .journey-index .jli-week-title small,
+        body.od-theme-dark .journey-index .jli-filter-count,
+        body.od-theme-dark .journey-index .jli-day-meta,
+        body.od-theme-dark .journey-index .jli-day-summary,
+        .od-theme-dark .journey-index .jli-subtitle,
+        .od-theme-dark .journey-index .jli-month-title small,
+        .od-theme-dark .journey-index .jli-week-title small,
+        .od-theme-dark .journey-index .jli-filter-count,
+        .od-theme-dark .journey-index .jli-day-meta,
+        .od-theme-dark .journey-index .jli-day-summary,
+        .dark .journey-index .jli-subtitle,
+        .dark .journey-index .jli-month-title small,
+        .dark .journey-index .jli-week-title small,
+        .dark .journey-index .jli-filter-count,
+        .dark .journey-index .jli-day-meta,
+        .dark .journey-index .jli-day-summary {
+          color:#cfc4ff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-number,
+        body.od-theme-dark .journey-index .jli-number,
+        .od-theme-dark .journey-index .jli-number,
+        .dark .journey-index .jli-number {
+          color:#ffffff;
+          background:linear-gradient(135deg, rgba(196,181,253,.28), rgba(139,92,246,.16));
+          border-color:rgba(216,204,255,.32);
+          box-shadow:0 10px 24px rgba(0,0,0,.16);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-chevron,
+        body.od-theme-dark .journey-index .jli-chevron,
+        .od-theme-dark .journey-index .jli-chevron,
+        .dark .journey-index .jli-chevron {
+          color:#ffffff;
+          background:rgba(196,181,253,.18);
+          border:1px solid rgba(196,181,253,.20);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-day-icon,
+        body.od-theme-dark .journey-index .jli-day-icon,
+        .od-theme-dark .journey-index .jli-day-icon,
+        .dark .journey-index .jli-day-icon {
+          color:#ffffff;
+          background:rgba(196,181,253,.16);
+          border-color:rgba(196,181,253,.22);
+          box-shadow:0 0 0 5px rgba(19,13,34,.84);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-day--completed .jli-day-icon,
+        body.od-theme-dark .journey-index .jli-day--completed .jli-day-icon,
+        .od-theme-dark .journey-index .jli-day--completed .jli-day-icon,
+        .dark .journey-index .jli-day--completed .jli-day-icon {
+          color:#d1fae5;
+          background:rgba(16,185,129,.16);
+          border-color:rgba(16,185,129,.24);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-day--locked .jli-day-icon,
+        body.od-theme-dark .journey-index .jli-day--locked .jli-day-icon,
+        .od-theme-dark .journey-index .jli-day--locked .jli-day-icon,
+        .dark .journey-index .jli-day--locked .jli-day-icon {
+          color:#f5f3ff;
+          background:rgba(255,255,255,.10);
+          border-color:rgba(196,181,253,.18);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-badge--active,
+        body.od-theme-dark .journey-index .jli-badge--active,
+        .od-theme-dark .journey-index .jli-badge--active,
+        .dark .journey-index .jli-badge--active {
+          color:#ffffff;
+          background:rgba(139,92,246,.24);
+          border-color:rgba(196,181,253,.20);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-badge--completed,
+        body.od-theme-dark .journey-index .jli-badge--completed,
+        .od-theme-dark .journey-index .jli-badge--completed,
+        .dark .journey-index .jli-badge--completed {
+          color:#d1fae5;
+          background:rgba(16,185,129,.16);
+          border-color:rgba(16,185,129,.24);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-badge--locked,
+        body.od-theme-dark .journey-index .jli-badge--locked,
+        .od-theme-dark .journey-index .jli-badge--locked,
+        .dark .journey-index .jli-badge--locked {
+          color:#f5f3ff;
+          background:rgba(255,255,255,.11);
+          border-color:rgba(196,181,253,.18);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-badge--saved,
+        body.od-theme-dark .journey-index .jli-badge--saved,
+        .od-theme-dark .journey-index .jli-badge--saved,
+        .dark .journey-index .jli-badge--saved {
+          color:#fde68a;
+          background:rgba(245,158,11,.16);
+          border-color:rgba(245,158,11,.24);
         }
 
         @media (max-width:980px) {
-          .jli-head,
-          .jli-stats {
+          .jli-head {
             grid-template-columns:1fr;
-          }
-
-          .jli-current {
-            min-width:0;
           }
         }
 
         @media (max-width:640px) {
           .journey-index {
-            border-radius:24px;
+            border-radius:26px;
             padding:16px;
+          }
+
+          .jli-current {
+            padding-inline-start:52px;
           }
 
           .jli-month-toggle,
@@ -764,6 +1045,14 @@ export default function CourseJourneyIndex({
             align-items:flex-start;
             flex-direction:column;
           }
+
+          .jli-days {
+            padding-inline-end:12px;
+          }
+
+          .jli-days::before {
+            right:26px;
+          }
         }
       `}</style>
 
@@ -772,36 +1061,17 @@ export default function CourseJourneyIndex({
           <span className="jli-kicker">خريطة الرحلة</span>
           <h2 className="jli-title">فهرس الرحلة التعليمية</h2>
           <p className="jli-subtitle">
-            واصل من محطتك الحالية أو استعرض خريطة الرحلة كاملة دون كسر تسلسل التقدّم.
+            واصل من محطتك الحالية أو استعرض مسار الرحلة كاملًا كمحطات متتابعة دون كسر منطق التقدّم.
           </p>
         </div>
 
         <aside className="jli-current" aria-label="محطتك الحالية">
-          <span>أنت الآن في</span>
+          <span>محطتك الحالية</span>
           <strong>
             {selectedMonth?.title || "الشهر الحالي"} · {selectedWeek?.title || "الأسبوع الحالي"} · {getDayLabel(selectedDay)}
           </strong>
           <small>{selectedDay?.title || "واصل من هنا"}</small>
         </aside>
-      </div>
-
-      <div className="jli-stats" aria-label="ملخص تقدم الفهرس">
-        <div className="jli-stat">
-          <span>الأشهر المنجزة</span>
-          <strong>{journeyStats.completedMonths} / {journeyStats.totalMonths}</strong>
-        </div>
-        <div className="jli-stat">
-          <span>الأسابيع المنجزة</span>
-          <strong>{journeyStats.completedWeeks} / {journeyStats.totalWeeks}</strong>
-        </div>
-        <div className="jli-stat">
-          <span>الدروس المكتملة</span>
-          <strong>{journeyStats.completedLessons} / {journeyStats.totalLessons}</strong>
-        </div>
-        <div className="jli-stat">
-          <span>متاحة الآن</span>
-          <strong>{journeyStats.availableLessons}</strong>
-        </div>
       </div>
 
       <div className="jli-next">
