@@ -534,3 +534,36 @@ html body.od-theme-dark {
   --radius-pill: 999px;     /* .pill, .badge, .chip, .tag, .kicker, .eyebrow */
   --radius-card-mobile: 22px;
 }
+
+/* ===========================================================================
+   Motion tokens + Accessibility baseline (دفعة improve-full-site-audit)
+   ---------------------------------------------------------------------------
+   • رموز حركة موحّدة بدل المدد المبعثرة داخل المكوّنات.
+   • قاعدة focus-visible عامة بصفرية الأولوية (:where) — لا تكسر أي قاعدة
+     تركيز مخصّصة موجودة، وتضمن حدًا أدنى واضحًا للتنقّل بلوحة المفاتيح.
+   • مفتاح إيقاف شامل للحركة عند prefers-reduced-motion يغطي كل الملفات،
+     بدل الاعتماد على تغطية كل مكوّن لنفسه.
+   =========================================================================== */
+:root {
+  --motion-fast: 150ms;
+  --motion-base: 240ms;
+  --motion-slow: 420ms;
+  --motion-ease: cubic-bezier(.22, .61, .36, 1);
+  --motion-ease-spring: cubic-bezier(0, -0.02, 0.4, 1.25);
+}
+
+:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-border-focus, #7c3aed);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
