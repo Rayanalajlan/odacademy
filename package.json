@@ -9,8 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "deploy": "npm run build && wrangler deploy",
-    "check:worker": "node --check worker/index.js",
-    "check:functions": "node --check worker/index.js && node --check functions/api/login-notice.js && node --check functions/api/mentor.js && node --check functions/api/welcome-email.js"
+    "check:worker": "node --check worker/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.106.1",
