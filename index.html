@@ -276,6 +276,8 @@
     <meta name="application-name" content="منسقة" />
     <meta name="apple-mobile-web-app-title" content="منسقة" />
 
+    <link rel="canonical" href="https://munsaqah.rayansalajlan.workers.dev/" />
+
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ar_SA" />
     <meta property="og:site_name" content="منسقة" />
@@ -304,6 +306,27 @@
       }
     </script>
 
+    <script type="application/ld+json" id="site-jsonld-course">
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "منسقة | تعلّم ما وراء السلوك",
+        "description": "رحلة تعليمية في التطوير التنظيمي تساعدك على قراءة السلوك، فهم النظام، وتشخيص جذور المشكلات قبل القفز إلى الحلول.",
+        "inLanguage": "ar",
+        "url": "https://munsaqah.rayansalajlan.workers.dev/",
+        "provider": {
+          "@type": "EducationalOrganization",
+          "name": "منسقة",
+          "url": "https://munsaqah.rayansalajlan.workers.dev/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "P6M"
+        }
+      }
+    </script>
+
     <title>منسقة | تعلّم ما وراء السلوك</title>
   </head>
   <body class="od-theme-dark">
@@ -311,8 +334,8 @@
       (function () {
         try {
           var stored = localStorage.getItem("odacademy_theme_mode");
-          var hour = new Date().getHours();
-          var automaticTheme = hour >= 6 && hour < 18 ? "light" : "dark";
+          var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var automaticTheme = systemDark ? "dark" : "light";
           var t = stored === "light" || stored === "dark" ? stored : automaticTheme;
           var de = document.documentElement;
           var b = document.body;
@@ -321,6 +344,8 @@
           de.style.backgroundColor = t === "dark" ? "#0c0717" : "#f3eefb";
           b.classList.toggle("od-theme-dark", t === "dark");
           b.classList.toggle("od-theme-light", t !== "dark");
+          var tc = document.querySelector('meta[name="theme-color"]');
+          if (tc) tc.setAttribute("content", t === "dark" ? "#0c0717" : "#f3eefb");
         } catch (e) {}
       })();
     </script>

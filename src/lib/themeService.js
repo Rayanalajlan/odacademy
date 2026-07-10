@@ -27,15 +27,46 @@ export function getStoredThemePreference() {
   }
 }
 
-export function getTimeBasedTheme(date = new Date()) {
-  const hour = date.getHours();
-  return hour >= 6 && hour < 18 ? "light" : "dark";
+// الوضع التلقائي يتبع إعداد نظام الجهاز (prefers-color-scheme)
+// وليس ساعة اليوم، حتى يتطابق مع توقع المستخدم ومع بقية التطبيقات.
+export function getSystemTheme() {
+  const win = safeWindow();
+
+  if (win?.matchMedia) {
+    return win.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  return "dark";
 }
 
 export function getEffectiveTheme(preference = AUTO_THEME) {
   if (preference === "light" || preference === "dark") return preference;
-  return getTimeBasedTheme();
+  return getSystemTheme();
 }
+
+// يستدعي callback عند تغيّر وضع النظام (مثلاً غروب الشمس مع الوضع التلقائي للجهاز).
+// يعيد دالة لإلغاء الاشتراك.
+export function watchSystemTheme(callback) {
+  const win = safeWindow();
+  if (!win?.matchMedia || typeof callback !== "function") return () => {};
+
+  const query = win.matchMedia("(prefers-color-scheme: dark)");
+  const handler = (event) => callback(event.matches ? "dark" : "light");
+
+  if (typeof query.addEventListener === "function") {
+    query.addEventListener("change", handler);
+    return () => query.removeEventListener("change", handler);
+  }
+
+  // متصفحات قديمة (Safari < 14).
+  query.addListener(handler);
+  return () => query.removeListener(handler);
+}
+
+const THEME_COLORS = {
+  dark: "#0c0717",
+  light: "#f3eefb"
+};
 
 export function applyTheme(theme = "dark") {
   const win = safeWindow();
@@ -48,6 +79,12 @@ export function applyTheme(theme = "dark") {
   body.classList.toggle(LIGHT_CLASS, normalized !== "dark");
   documentElement.dataset.theme = normalized;
   documentElement.style.colorScheme = normalized;
+
+  // شريط المتصفح على الجوال يجب أن يطابق خلفية الوضع الحالي.
+  const themeColorMeta = win.document.querySelector('meta[name="theme-color"]');
+  if (themeColorMeta) {
+    themeColorMeta.setAttribute("content", THEME_COLORS[normalized]);
+  }
 
   return normalized;
 }

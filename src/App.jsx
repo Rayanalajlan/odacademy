@@ -27,7 +27,7 @@ import {
   getLocalOnboardingState,
   getOnboardingState
 } from "./lib/onboardingService";
-import { COURSE_TOTALS } from "./data/courseContent";
+import { COURSE_TOTALS } from "./data/courseTotals";
 
 const TOTAL_JOURNEY_DAYS = COURSE_TOTALS?.totalDays || 168;
 const ACTIVITY_TOUCH_INTERVAL_MS = 5 * 60 * 1000;
