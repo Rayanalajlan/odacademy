@@ -30,6 +30,9 @@ const ARABIC_ORDINAL = {
   7: "السابع"
 };
 
+const JOURNEY_INDEX_PDF_URL = "/فهرس منسقة.pdf";
+const JOURNEY_INDEX_PDF_NAME = "فهرس منسقة - النسخة المطبوعة.pdf";
+
 function progressKey(monthIndex, weekIndex, dayIndex) {
   return `${Number(monthIndex)}-${Number(weekIndex)}-${Number(dayIndex)}`;
 }
@@ -934,6 +937,38 @@ export default function CourseJourneyIndex({
           color:#ffffff;
         }
 
+        html[data-theme="dark"] .journey-index .jli-download,
+        body.od-theme-dark .journey-index .jli-download,
+        .od-theme-dark .journey-index .jli-download,
+        .dark .journey-index .jli-download {
+          background:linear-gradient(135deg, rgba(255,255,255,.07), rgba(139,92,246,.14));
+          border-color:rgba(196,181,253,.18);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-copy strong,
+        body.od-theme-dark .journey-index .jli-download-copy strong,
+        .od-theme-dark .journey-index .jli-download-copy strong,
+        .dark .journey-index .jli-download-copy strong {
+          color:#ffffff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-copy small,
+        body.od-theme-dark .journey-index .jli-download-copy small,
+        .od-theme-dark .journey-index .jli-download-copy small,
+        .dark .journey-index .jli-download-copy small {
+          color:#cfc4ff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-link,
+        body.od-theme-dark .journey-index .jli-download-link,
+        .od-theme-dark .journey-index .jli-download-link,
+        .dark .journey-index .jli-download-link {
+          color:#ffffff;
+          background:rgba(196,181,253,.16);
+          border-color:rgba(196,181,253,.22);
+        }
+
         html[data-theme="dark"] .journey-index .jli-filter,
         body.od-theme-dark .journey-index .jli-filter,
         .od-theme-dark .journey-index .jli-filter,
@@ -1116,9 +1151,14 @@ export default function CourseJourneyIndex({
             margin-inline-start:0;
           }
 
-          .jli-next {
+          .jli-next,
+          .jli-download {
             align-items:flex-start;
             flex-direction:column;
+          }
+
+          .jli-download-link {
+            width:100%;
           }
 
           .jli-days {
@@ -1147,6 +1187,22 @@ export default function CourseJourneyIndex({
           </strong>
           <small>{selectedDay?.title || "واصل من هنا"}</small>
         </aside>
+      </div>
+
+      <div className="jli-download" aria-label="تحميل فهرس الرحلة التعليمية">
+        <span className="jli-download-copy">
+          <strong>النسخة المطبوعة من الفهرس</strong>
+          <small>ملف جاهز للتحميل والطباعة كمرجع سريع للرحلة.</small>
+        </span>
+
+        <a
+          className="jli-download-link"
+          href={JOURNEY_INDEX_PDF_URL}
+          download={JOURNEY_INDEX_PDF_NAME}
+        >
+          <span aria-hidden="true">↓</span>
+          تحميل المطبوع
+        </a>
       </div>
 
       <div className="jli-next">
