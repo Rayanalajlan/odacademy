@@ -2,6 +2,8 @@ const CACHE_NAME = "odacademy-static-v8";
 // أيقونات الأقسام (~340KB لكل واحدة) خرجت من الـ precache حتى لا يحمّل
 // الجوال ~2MB عند التثبيت؛ تُخزّن تلقائيًا عند أول استخدام عبر معالج fetch.
 const STATIC_ASSETS = [
+  "/offline.html",
+  "/brand/munsaqah-icon-official.png",
   "/site.webmanifest",
   "/favicon.ico",
   "/favicon-16.png",
@@ -61,6 +63,20 @@ function shouldSkipCache(request) {
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
+
+  // تنقّل بدون اتصال: نحاول الشبكة أولًا، وعند الفشل نعرض صفحة offline بدل خطأ المتصفح.
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request).catch(() =>
+        caches.match("/offline.html").then(
+          (cached) =>
+            cached ||
+            new Response("", { status: 503, statusText: "Offline" })
+        )
+      )
+    );
+    return;
+  }
 
   if (shouldSkipCache(request)) return;
 
