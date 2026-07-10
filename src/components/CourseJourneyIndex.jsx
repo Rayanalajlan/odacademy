@@ -1119,6 +1119,53 @@ export default function CourseJourneyIndex({
           border-color:rgba(245,158,11,.24);
         }
 
+
+        html[data-theme="dark"] .journey-index .jli-download,
+        body.od-theme-dark .journey-index .jli-download,
+        .od-theme-dark .journey-index .jli-download,
+        .dark .journey-index .jli-download {
+          background:linear-gradient(135deg, rgba(255,255,255,.075), rgba(139,92,246,.13));
+          border-color:rgba(196,181,253,.18);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-icon,
+        body.od-theme-dark .journey-index .jli-download-icon,
+        .od-theme-dark .journey-index .jli-download-icon,
+        .dark .journey-index .jli-download-icon {
+          color:#ffffff;
+          background:rgba(196,181,253,.16);
+          border-color:rgba(196,181,253,.24);
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-copy strong,
+        body.od-theme-dark .journey-index .jli-download-copy strong,
+        .od-theme-dark .journey-index .jli-download-copy strong,
+        .dark .journey-index .jli-download-copy strong {
+          color:#ffffff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-copy span,
+        body.od-theme-dark .journey-index .jli-download-copy span,
+        .od-theme-dark .journey-index .jli-download-copy span,
+        .dark .journey-index .jli-download-copy span {
+          color:#cfc4ff;
+        }
+
+        html[data-theme="dark"] .journey-index .jli-download-link,
+        html[data-theme="dark"] .journey-index .jli-download-link:visited,
+        body.od-theme-dark .journey-index .jli-download-link,
+        body.od-theme-dark .journey-index .jli-download-link:visited,
+        .od-theme-dark .journey-index .jli-download-link,
+        .od-theme-dark .journey-index .jli-download-link:visited,
+        .dark .journey-index .jli-download-link,
+        .dark .journey-index .jli-download-link:visited {
+          color:#ffffff !important;
+          background:linear-gradient(135deg, rgba(139,92,246,.95), rgba(91,33,182,.95));
+          border-color:rgba(196,181,253,.22);
+          text-decoration:none !important;
+        }
+
         @media (max-width:980px) {
           .jli-head {
             grid-template-columns:1fr;
@@ -1151,13 +1198,18 @@ export default function CourseJourneyIndex({
             margin-inline-start:0;
           }
 
-          .jli-next,
-          .jli-download {
+          .jli-next {
             align-items:flex-start;
             flex-direction:column;
           }
 
+          .jli-download {
+            grid-template-columns:auto minmax(0,1fr);
+            align-items:start;
+          }
+
           .jli-download-link {
+            grid-column:1 / -1;
             width:100%;
           }
 
@@ -1188,19 +1240,19 @@ export default function CourseJourneyIndex({
           <small>{selectedDay?.title || "واصل من هنا"}</small>
         </aside>
       </div>
+      <div className="jli-download" aria-label="تحميل النسخة المطبوعة من فهرس الرحلة التعليمية">
+        <span className="jli-download-icon" aria-hidden="true">PDF</span>
 
-      <div className="jli-download" aria-label="تحميل فهرس الرحلة التعليمية">
-        <span className="jli-download-copy">
-          <strong>النسخة المطبوعة من الفهرس</strong>
-          <small>ملف جاهز للتحميل والطباعة كمرجع سريع للرحلة.</small>
-        </span>
+        <div className="jli-download-copy">
+          <strong>الفهرس المطبوع</strong>
+          <span>نسخة PDF أنيقة وجاهزة للتحميل والطباعة كمرجع سريع للرحلة.</span>
+        </div>
 
         <a
           className="jli-download-link"
           href={JOURNEY_INDEX_PDF_URL}
           download={JOURNEY_INDEX_PDF_NAME}
         >
-          <span aria-hidden="true">↓</span>
           تحميل المطبوع
         </a>
       </div>
