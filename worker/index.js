@@ -1279,19 +1279,6 @@ function getMentorImportantEmails(env) {
   return getConfiguredEmails(env, "MENTOR_IMPORTANT_EMAILS", "");
 }
 
-function decodeJwtPayload(token = "") {
-  try {
-    const payload = String(token).split(".")[1];
-    if (!payload) return null;
-
-    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
-    const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), "=");
-    return JSON.parse(atob(padded));
-  } catch {
-    return null;
-  }
-}
-
 async function resolveMentorIdentity(request, env, body = {}) {
   const accessToken = getAuthToken(request);
   let userId = "";
@@ -1315,18 +1302,13 @@ async function resolveMentorIdentity(request, env, body = {}) {
       }
     }
 
-    if (!userId) {
-      const payload = decodeJwtPayload(accessToken) || {};
-      userId = String(payload.sub || payload.user_id || "");
-      email = normalizeEmail(payload.email || "");
-    }
+    // ملاحظة أمنية: لا نقبل هوية من JWT غير موقّع أو من جسم الطلب،
+    // لأن ذلك يسمح بانتحال حصة أعلى وتجاوز حد الـ IP بتدوير المعرفات.
+    // الهوية تُعتمد فقط بعد تحقق Supabase أعلاه.
   }
 
-  if (!userId && body?.userId) userId = String(body.userId || "").trim();
-  if (!email && body?.email) email = normalizeEmail(body.email);
-
   let role = "guest";
-  if (userId || email) role = "regular";
+  if (verified && (userId || email)) role = "regular";
 
   if (verified && email) {
     if (getMentorAdminEmails(env).includes(email)) {
@@ -1731,6 +1713,24 @@ async function handleMentorDiagnostics(request, env) {
 
   if (request.method !== "GET") {
     return jsonResponse({ ok: false, error: "Method not allowed" }, 405, request, env);
+  }
+
+  // نقطة تشخيص داخلية: تكشف تكوينًا وتشغّل استدعاءات AI مدفوعة،
+  // لذلك لا تُتاح إلا لحساب admin موثق عبر Supabase. أي طلب آخر يرى 404.
+  const identity = await resolveMentorIdentity(request, env, {});
+
+  if (!identity.verified || identity.role !== "admin") {
+    return jsonResponse({ ok: false, error: "Not found" }, 404, request, env);
+  }
+
+  const rateLimitResult = await checkRateLimit(request, env, {
+    bucket: "mentor-debug",
+    windowSeconds: 60,
+    limit: getRateLimitNumber(env, "DEBUG_RATE_LIMIT_PER_MINUTE", 3)
+  });
+
+  if (!rateLimitResult.allowed) {
+    return rateLimitResponse(request, env, rateLimitResult);
   }
 
   const primaryGeminiModel = getGeminiModels(env)[0];
