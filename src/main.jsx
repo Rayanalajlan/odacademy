@@ -20,19 +20,8 @@ createRoot(document.getElementById("root")).render(
 
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
-    if ("caches" in window) {
-      caches
-        .keys()
-        .then((keys) =>
-          Promise.all(
-            keys
-              .filter((key) => key.startsWith("odacademy-static-"))
-              .map((key) => caches.delete(key))
-          )
-        )
-        .catch(() => {});
-    }
-
+    // تنظيف الكاش القديم مسؤولية الـ Service Worker نفسه في حدث activate.
+    // الحذف من هنا كان يمسح كاش النسخة الحالية عند كل زيارة ويلغي فائدته.
     navigator.serviceWorker
       .register("/sw.js", { updateViaCache: "none" })
       .then((registration) => registration.update())

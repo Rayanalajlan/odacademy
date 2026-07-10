@@ -1,4 +1,6 @@
-const CACHE_NAME = "odacademy-static-v7";
+const CACHE_NAME = "odacademy-static-v8";
+// أيقونات الأقسام (~340KB لكل واحدة) خرجت من الـ precache حتى لا يحمّل
+// الجوال ~2MB عند التثبيت؛ تُخزّن تلقائيًا عند أول استخدام عبر معالج fetch.
 const STATIC_ASSETS = [
   "/site.webmanifest",
   "/favicon.ico",
@@ -6,13 +8,7 @@ const STATIC_ASSETS = [
   "/favicon-32.png",
   "/apple-touch-icon.png",
   "/icons/app-icon-192.png",
-  "/icons/app-icon-512.png",
-  "/section-icons/home.png",
-  "/section-icons/portfolio.png",
-  "/section-icons/journey.png",
-  "/section-icons/tools.png",
-  "/section-icons/mastery.png",
-  "/section-icons/about.png"
+  "/icons/app-icon-512.png"
 ];
 
 async function cacheStaticAssets() {
