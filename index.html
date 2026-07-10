@@ -311,8 +311,8 @@
       (function () {
         try {
           var stored = localStorage.getItem("odacademy_theme_mode");
-          var hour = new Date().getHours();
-          var automaticTheme = hour >= 6 && hour < 18 ? "light" : "dark";
+          var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var automaticTheme = systemDark ? "dark" : "light";
           var t = stored === "light" || stored === "dark" ? stored : automaticTheme;
           var de = document.documentElement;
           var b = document.body;
@@ -321,6 +321,8 @@
           de.style.backgroundColor = t === "dark" ? "#0c0717" : "#f3eefb";
           b.classList.toggle("od-theme-dark", t === "dark");
           b.classList.toggle("od-theme-light", t !== "dark");
+          var tc = document.querySelector('meta[name="theme-color"]');
+          if (tc) tc.setAttribute("content", t === "dark" ? "#0c0717" : "#f3eefb");
         } catch (e) {}
       })();
     </script>

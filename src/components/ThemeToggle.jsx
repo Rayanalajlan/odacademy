@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import {
   applyTheme,
   cycleThemePreference,
-  getEffectiveTheme,
-  initializeThemeState
+  initializeThemeState,
+  watchSystemTheme
 } from "../lib/themeService";
 
 export default function ThemeToggle() {
@@ -12,17 +12,15 @@ export default function ThemeToggle() {
   useEffect(() => {
     setThemeState(initializeThemeState());
 
-    const intervalId = window.setInterval(() => {
+    // في الوضع التلقائي نتبع تغيّر وضع النظام فورًا بدل الفحص كل دقيقة.
+    return watchSystemTheme((systemTheme) => {
       setThemeState((current) => {
         if (current.preference !== "auto") return current;
-        const nextTheme = getEffectiveTheme("auto");
-        if (nextTheme === current.theme) return current;
-        applyTheme(nextTheme);
-        return { ...current, theme: nextTheme };
+        if (systemTheme === current.theme) return current;
+        applyTheme(systemTheme);
+        return { ...current, theme: systemTheme };
       });
-    }, 60 * 1000);
-
-    return () => window.clearInterval(intervalId);
+    });
   }, []);
 
   function handleToggle() {
