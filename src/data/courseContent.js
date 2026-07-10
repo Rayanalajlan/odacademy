@@ -518,12 +518,36 @@ export const courseMap = monthNames.map((name, index) => {
   };
 });
 
-export const COURSE_TOTALS = {
-  months: 6,
-  weeksPerMonth: 4,
-  daysPerWeek: 7,
+// الإجماليات انتقلت إلى ملف مستقل صغير حتى لا يسحب استيرادها ملف المحتوى
+// كاملًا إلى الحزمة الرئيسية. يُعاد تصديرها من هنا للحفاظ على التوافق.
+export { COURSE_TOTALS } from "./courseTotals";
 
-  // الرحلة التعليمية مصممة كستة أشهر، كل شهر 4 أسابيع × 7 أيام.
-  daysPerMonth: 28,
-  totalDays: 168
-};
+// فحص تطابق في وضع التطوير فقط: إذا تغيّر عدد أيام المحتوى الفعلية
+// يجب تحديث ACTUAL_CONTENT_DAYS في courseTotals.js.
+if (import.meta.env?.DEV) {
+  import("./courseTotals").then(({ ACTUAL_CONTENT_DAYS }) => {
+    const actual = courseMap.reduce(
+      (monthTotal, month) =>
+        monthTotal +
+        (month?.weeks || []).reduce(
+          (weekTotal, week) =>
+            weekTotal +
+            (week?.days || []).filter(
+              (day) =>
+                day &&
+                ((Array.isArray(day.quiz) && day.quiz.length) ||
+                  (typeof day.content === "string" && day.content.trim()) ||
+                  (Array.isArray(day.lesson) && day.lesson.length))
+            ).length,
+          0
+        ),
+      0
+    );
+
+    if (actual !== ACTUAL_CONTENT_DAYS) {
+      console.warn(
+        `تنبيه محتوى: أيام المحتوى الفعلية (${actual}) لا تطابق ACTUAL_CONTENT_DAYS (${ACTUAL_CONTENT_DAYS}). حدّث src/data/courseTotals.js.`
+      );
+    }
+  });
+}

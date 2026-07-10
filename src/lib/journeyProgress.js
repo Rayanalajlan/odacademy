@@ -1,4 +1,7 @@
-import { COURSE_TOTALS, courseMap } from "../data/courseContent";
+// نستورد الإجماليات من الملف الصغير فقط — استيراد courseContent هنا كان
+// يدمج المحتوى التعليمي كاملًا (~1.2MB) في الحزمة الرئيسية لأن App.jsx
+// يستدعي هذا الملف عند الإقلاع.
+import { ACTUAL_CONTENT_DAYS, COURSE_TOTALS } from "../data/courseTotals";
 
 function safeNumber(value, fallback = 0) {
   const number = Number(value);
@@ -13,7 +16,10 @@ function dayHasContent(day) {
   return false;
 }
 
-export function getActualJourneyDays(course = courseMap) {
+export function getActualJourneyDays(course) {
+  // بدون تمرير بيانات الرحلة نعتمد الثابت المحسوب مسبقًا
+  // (يتحقق منه فحص التطوير في courseContent.js).
+  if (course === undefined) return ACTUAL_CONTENT_DAYS;
   if (!Array.isArray(course)) return 0;
 
   return course.reduce((monthTotal, month) => {
