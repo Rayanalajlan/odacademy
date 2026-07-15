@@ -528,17 +528,18 @@ export default function CourseJourneyIndex({
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          min-width:44px;
-          height:44px;
-          padding:0 10px;
-          border-radius:14px;
+          width:46px;
+          height:46px;
+          border-radius:15px;
           color:#ffffff;
           background:linear-gradient(145deg, #8b5cf6, #6d28d9);
           border:1px solid rgba(255,255,255,.22);
           box-shadow:0 10px 22px rgba(124,58,237,.22);
-          font-size:11px;
-          font-weight:950;
-          letter-spacing:.5px;
+        }
+
+        .jli-download-icon svg {
+          width:24px;
+          height:24px;
         }
 
         .jli-download-copy {
@@ -570,6 +571,7 @@ export default function CourseJourneyIndex({
           display:inline-flex;
           align-items:center;
           justify-content:center;
+          gap:7px;
           min-height:40px;
           padding:9px 20px;
           border-radius:999px;
@@ -578,9 +580,14 @@ export default function CourseJourneyIndex({
           border:1px solid rgba(124,58,237,.30);
           box-shadow:0 12px 24px rgba(124,58,237,.24);
           font-size:12px;
-          font-weight:900;
+          font-weight:800;
           text-decoration:none;
           transition:background var(--motion-fast, 150ms) var(--motion-ease, ease), transform var(--motion-fast, 150ms) var(--motion-ease, ease);
+        }
+
+        .journey-index a.jli-download-link svg {
+          width:16px;
+          height:16px;
         }
 
         .journey-index a.jli-download-link:hover {
@@ -1323,7 +1330,14 @@ export default function CourseJourneyIndex({
         </aside>
       </div>
       <div className="jli-download" aria-label="تحميل النسخة المطبوعة من فهرس الرحلة التعليمية">
-        <span className="jli-download-icon" aria-hidden="true">PDF</span>
+        <span className="jli-download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 2.6h8L19 7v12.8A1.6 1.6 0 0 1 17.4 21H6A1.6 1.6 0 0 1 4.4 19.4V4.2A1.6 1.6 0 0 1 6 2.6Z" />
+            <path d="M13.6 2.6V7H19" />
+            <path d="M11.5 11v6" />
+            <path d="M8.8 14.4 11.5 17l2.7-2.6" />
+          </svg>
+        </span>
 
         <div className="jli-download-copy">
           <strong>الفهرس المطبوع</strong>
@@ -1335,6 +1349,11 @@ export default function CourseJourneyIndex({
           href={JOURNEY_INDEX_PDF_URL}
           download={JOURNEY_INDEX_PDF_NAME}
         >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 4v10" />
+            <path d="M8 11l4 4 4-4" />
+            <path d="M5 19h14" />
+          </svg>
           تحميل المطبوع
         </a>
       </div>
