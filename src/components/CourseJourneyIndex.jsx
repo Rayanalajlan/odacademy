@@ -30,7 +30,9 @@ const ARABIC_ORDINAL = {
   7: "السابع"
 };
 
-const JOURNEY_INDEX_PDF_URL = "/فهرس منسقة.pdf";
+// اسم الملف على الخادم ASCII حتى لا تفشل الروابط العربية في بعض عارضات الجوال؛
+// اسم التنزيل الظاهر للمستخدم يبقى عربيًا عبر خاصية download أدناه.
+const JOURNEY_INDEX_PDF_URL = "/journey-index.pdf";
 const JOURNEY_INDEX_PDF_NAME = "فهرس منسقة - النسخة المطبوعة.pdf";
 
 function progressKey(monthIndex, weekIndex, dayIndex) {
@@ -507,6 +509,86 @@ export default function CourseJourneyIndex({
           font-weight:950;
         }
 
+        .jli-download {
+          display:flex;
+          align-items:center;
+          flex-wrap:wrap;
+          gap:12px;
+          margin:0 0 14px;
+          border-radius:24px;
+          padding:14px 16px;
+          background:
+            linear-gradient(90deg, rgba(139,92,246,.10), transparent 46%),
+            linear-gradient(135deg, rgba(196,181,253,.26), rgba(255,255,255,.82));
+          border:1px solid rgba(139,92,246,.18);
+        }
+
+        .jli-download-icon {
+          flex:0 0 auto;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-width:44px;
+          height:44px;
+          padding:0 10px;
+          border-radius:14px;
+          color:#ffffff;
+          background:linear-gradient(145deg, #8b5cf6, #6d28d9);
+          border:1px solid rgba(255,255,255,.22);
+          box-shadow:0 10px 22px rgba(124,58,237,.22);
+          font-size:11px;
+          font-weight:950;
+          letter-spacing:.5px;
+        }
+
+        .jli-download-copy {
+          flex:1 1 220px;
+          display:grid;
+          gap:3px;
+          min-width:0;
+        }
+
+        .jli-download-copy strong {
+          color:#4c1d95;
+          font-size:13px;
+          line-height:1.7;
+          font-weight:950;
+        }
+
+        .jli-download-copy span {
+          color:#574874;
+          font-size:11.5px;
+          line-height:1.8;
+          font-weight:700;
+        }
+
+        /* منطاق تحت .journey-index لتجاوز أي قاعدة روابط عامة في الثيم
+           (وإلا ظهر نص الزر بلون الروابط البنفسجي على خلفية بنفسجية). */
+        .journey-index a.jli-download-link {
+          flex:0 0 auto;
+          margin-inline-start:auto;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-height:40px;
+          padding:9px 20px;
+          border-radius:999px;
+          color:#ffffff;
+          background:#7c3aed;
+          border:1px solid rgba(124,58,237,.30);
+          box-shadow:0 12px 24px rgba(124,58,237,.24);
+          font-size:12px;
+          font-weight:900;
+          text-decoration:none;
+          transition:background var(--motion-fast, 150ms) var(--motion-ease, ease), transform var(--motion-fast, 150ms) var(--motion-ease, ease);
+        }
+
+        .journey-index a.jli-download-link:hover {
+          background:#6d28d9;
+          color:#ffffff;
+          transform:translateY(-1px);
+        }
+
         .jli-filters {
           display:flex;
           flex-wrap:wrap;
@@ -953,20 +1035,20 @@ export default function CourseJourneyIndex({
           color:#ffffff;
         }
 
-        html[data-theme="dark"] .journey-index .jli-download-copy small,
-        body.od-theme-dark .journey-index .jli-download-copy small,
-        .od-theme-dark .journey-index .jli-download-copy small,
-        .dark .journey-index .jli-download-copy small {
+        html[data-theme="dark"] .journey-index .jli-download-copy span,
+        body.od-theme-dark .journey-index .jli-download-copy span,
+        .od-theme-dark .journey-index .jli-download-copy span,
+        .dark .journey-index .jli-download-copy span {
           color:#cfc4ff;
         }
 
-        html[data-theme="dark"] .journey-index .jli-download-link,
-        body.od-theme-dark .journey-index .jli-download-link,
-        .od-theme-dark .journey-index .jli-download-link,
-        .dark .journey-index .jli-download-link {
+        html[data-theme="dark"] .journey-index a.jli-download-link,
+        body.od-theme-dark .journey-index a.jli-download-link,
+        .od-theme-dark .journey-index a.jli-download-link,
+        .dark .journey-index a.jli-download-link {
           color:#ffffff;
-          background:rgba(196,181,253,.16);
-          border-color:rgba(196,181,253,.22);
+          background:linear-gradient(145deg, #8b5cf6, #6d28d9);
+          border-color:rgba(196,181,253,.28);
         }
 
         html[data-theme="dark"] .journey-index .jli-filter,
@@ -1249,7 +1331,7 @@ export default function CourseJourneyIndex({
         </div>
 
         <a
-          className="jli-download-link"
+          className="jli-download-link jli-download-button"
           href={JOURNEY_INDEX_PDF_URL}
           download={JOURNEY_INDEX_PDF_NAME}
         >

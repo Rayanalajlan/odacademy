@@ -520,7 +520,7 @@ export const courseMap = monthNames.map((name, index) => {
 
 // الإجماليات انتقلت إلى ملف مستقل صغير حتى لا يسحب استيرادها ملف المحتوى
 // كاملًا إلى الحزمة الرئيسية. يُعاد تصديرها من هنا للحفاظ على التوافق.
-export { COURSE_TOTALS } from "./courseTotals";
+export { COURSE_TOTALS } from "./courseTotals.js";
 
 // فحص تطابق في وضع التطوير فقط: إذا تغيّر عدد أيام المحتوى الفعلية
 // يجب تحديث ACTUAL_CONTENT_DAYS في courseTotals.js.
