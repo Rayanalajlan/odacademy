@@ -19,22 +19,38 @@ function loadImage(src) {
   });
 }
 
-// يقرأ اللون الفعلي لخلفية الخانة من نقطة خالية من النص، فيصبح القناع بلا حواف ظاهرة.
-function sampleFill(ctx, x, y) {
-  try {
-    const [r, g, b] = ctx.getImageData(Math.round(x), Math.round(y), 1, 1).data;
-    return `rgb(${r}, ${g}, ${b})`;
-  } catch {
-    return "#ffffff";
-  }
-}
+// يفرّغ خانة النص النائب دون أي رقعة لونية: خلفيات الخانات متدرّجة رأسيًا
+// (أبيض في الوسط، لافندر أعلى/أسفل). لذا ننسخ عمودًا رأسيًا نظيفًا من نفس
+// الخانة (srcX) ونكرّره أفقيًا فوق منطقة النص النائب — فيُعاد التدرّج بدقّة
+// تامّة بلا حواف أو تفاوت. srcX يجب أن يكون داخل نفس الخانة وخاليًا من النص.
+function clearRegion(ctx, x0, y0, width, height, srcX) {
+  const w = Math.round(width);
+  const h = Math.round(height);
+  const sx = Math.round(srcX);
+  const oy = Math.round(y0);
+  const ox = Math.round(x0);
 
-// يمسح مستطيلًا بلون خلفية الخانة (يغطّي النص النائب) دون لمس حدود الخانة أو خطوط التسطير.
-function maskRect(ctx, x, y, width, height, fill) {
-  ctx.save();
-  ctx.fillStyle = fill;
-  ctx.fillRect(x, y, width, height);
-  ctx.restore();
+  try {
+    const col = ctx.getImageData(sx, oy, 1, h).data;
+    const patch = ctx.createImageData(w, h);
+    const data = patch.data;
+    for (let row = 0; row < h; row++) {
+      const r = col[row * 4];
+      const g = col[row * 4 + 1];
+      const b = col[row * 4 + 2];
+      const a = col[row * 4 + 3];
+      for (let cx = 0; cx < w; cx++) {
+        const i = (row * w + cx) * 4;
+        data[i] = r;
+        data[i + 1] = g;
+        data[i + 2] = b;
+        data[i + 3] = a;
+      }
+    }
+    ctx.putImageData(patch, ox, oy);
+  } catch {
+    // في حال تعذّر قراءة البكسل (نادر)، لا نفعل شيئًا حتى لا نُفسد القالب.
+  }
 }
 
 // يختار حجم خط يجعل النص ضمن العرض المتاح (لأسماء وأرقام طويلة).
@@ -72,18 +88,15 @@ function drawCourseCertificate(ctx, options) {
   const certificateCode = safeText(options.certificateCode, "OD");
   const completionDate = safeText(options.completionDate, "غير محدد");
 
-  const paper = sampleFill(ctx, 1227, 500);
-  const nameFill = sampleFill(ctx, 770, 815);
-
-  // اسم المتدرب — الخانة الكبيرة (مركز النص النائب 1263,838)
-  maskRect(ctx, 815, 748, 900, 160, nameFill);
+  // اسم المتدرب — نفرّغ منطقة النص بنسخ عمود نظيف من داخل الخانة نفسها
+  clearRegion(ctx, 900, 748, 720, 160, 760);
   drawCenteredValue(ctx, learnerName, 1263, 833, 900, 62, {
     color: "#2f236f",
     weight: 950
   });
 
-  // اسم المسار (مع تسطير ذهبي أسفله، لا نلمسه)
-  maskRect(ctx, 895, 986, 720, 58, paper);
+  // اسم المسار (على الورق فوق التسطير الذهبي)
+  clearRegion(ctx, 895, 986, 720, 56, 300);
   drawCenteredValue(ctx, "مسار منسقة للتطوير التنظيمي", 1254, 1017, 700, 40, {
     color: "#6d5bd0",
     weight: 900
@@ -96,25 +109,24 @@ function drawCourseCertificate(ctx, options) {
     { cx: 1448, value: "24" },
     { cx: 1835, value: "6" }
   ];
-  const statFill = sampleFill(ctx, 674, 1150);
   stats.forEach(({ cx, value }) => {
-    maskRect(ctx, cx - 150, 1268, 300, 96, statFill);
+    clearRegion(ctx, cx - 150, 1266, 300, 106, cx - 130);
     drawCenteredValue(ctx, value, cx, 1322, 250, 62, {
       color: "#8b6ff0",
       weight: 950
     });
   });
 
-  // تاريخ الإتمام (يسار) — أعلى خط التسطير
-  maskRect(ctx, 175, 1636, 590, 70, paper);
-  drawCenteredValue(ctx, completionDate, 455, 1672, 560, 28, {
+  // تاريخ الإتمام (يسار) — فوق خط التسطير مباشرة
+  clearRegion(ctx, 175, 1632, 590, 64, 150);
+  drawCenteredValue(ctx, completionDate, 455, 1666, 560, 28, {
     color: "#5b4a94",
     weight: 800
   });
 
-  // رقم الوثيقة (يمين) — القناع يمتد حتى حافة القالب لتغطية النص النائب كاملًا
-  maskRect(ctx, 1355, 1620, 860, 92, paper);
-  drawCenteredValue(ctx, certificateCode, 1730, 1668, 780, 26, {
+  // رقم الوثيقة (يمين) — يمتد حتى حافة القالب لتغطية النص النائب كاملًا
+  clearRegion(ctx, 1355, 1620, 860, 76, 1320);
+  drawCenteredValue(ctx, certificateCode, 1730, 1662, 780, 26, {
     color: "#5b4a94",
     weight: 800
   });
@@ -129,30 +141,25 @@ function drawMonthlyCertificate(ctx, options) {
   const monthLabel = monthMatch?.[1] || title.replace("شهادة إنجاز", "").trim() || "منجز";
   const year = safeText(options.year) || String(new Date().getFullYear());
 
-  const paper = sampleFill(ctx, 1227, 500);
-  const nameFill = sampleFill(ctx, 620, 760);
-
-  // اسم المتدرب — القناع يغطّي النص النائب كاملًا رأسيًا (656→876)
-  maskRect(ctx, 720, 648, 1070, 236, nameFill);
+  // اسم المتدرب — نفرّغ الخانة بنسخ عمود نظيف من داخلها (656→884 رأسيًا)
+  clearRegion(ctx, 720, 648, 1070, 236, 560);
   drawCenteredValue(ctx, learnerName, 1254, 762, 1000, 60, {
     color: "#2f236f",
     weight: 950
   });
 
-  // الشهر (يمين الصندوق) والسنة (وسطه) — أعلى خطي التسطير
-  maskRect(ctx, 1165, 950, 500, 52, paper);
-  drawCenteredValue(ctx, monthLabel, 1410, 982, 480, 34, {
+  // الشهر والسنة: خانتان بسطور فارغة أصلًا — لا تفريغ، نكتب القيمة فوق السطر فقط.
+  drawCenteredValue(ctx, monthLabel, 1410, 978, 480, 34, {
     color: "#4f4389",
     weight: 950
   });
-  maskRect(ctx, 605, 950, 455, 52, paper);
-  drawCenteredValue(ctx, year, 830, 982, 430, 34, {
+  drawCenteredValue(ctx, year, 830, 978, 430, 34, {
     color: "#4f4389",
     weight: 950
   });
 
-  // اسم المسار (تسطير ذهبي أسفله)
-  maskRect(ctx, 900, 1133, 710, 55, paper);
+  // اسم المسار (على الورق فوق التسطير الذهبي)
+  clearRegion(ctx, 900, 1133, 710, 53, 300);
   drawCenteredValue(ctx, "مسار منسقة للتطوير التنظيمي", 1254, 1164, 690, 36, {
     color: "#6d5bd0",
     weight: 900
@@ -164,23 +171,22 @@ function drawMonthlyCertificate(ctx, options) {
     { cx: 1254, value: "28" },
     { cx: 1664, value: "112" }
   ];
-  const statFill = sampleFill(ctx, 843, 1220);
   stats.forEach(({ cx, value }) => {
-    maskRect(ctx, cx - 150, 1262, 300, 130, statFill);
-    drawCenteredValue(ctx, value, cx, 1326, 250, 60, {
+    clearRegion(ctx, cx - 150, 1264, 300, 118, cx - 130);
+    drawCenteredValue(ctx, value, cx, 1324, 250, 60, {
       color: "#8b6ff0",
       weight: 950
     });
   });
 
   // تاريخ الإصدار (يسار) ورقم الوثيقة (يمين)
-  maskRect(ctx, 175, 1636, 590, 70, paper);
-  drawCenteredValue(ctx, completionDate, 455, 1672, 560, 28, {
+  clearRegion(ctx, 175, 1632, 590, 64, 150);
+  drawCenteredValue(ctx, completionDate, 455, 1666, 560, 28, {
     color: "#5b4a94",
     weight: 800
   });
-  maskRect(ctx, 1355, 1620, 860, 92, paper);
-  drawCenteredValue(ctx, certificateCode, 1730, 1668, 780, 26, {
+  clearRegion(ctx, 1355, 1620, 860, 76, 1320);
+  drawCenteredValue(ctx, certificateCode, 1730, 1662, 780, 26, {
     color: "#5b4a94",
     weight: 800
   });
