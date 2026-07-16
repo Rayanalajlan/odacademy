@@ -6,6 +6,7 @@
   "packageManager": "npm@10.8.2",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "deploy": "npm run build && wrangler deploy",
