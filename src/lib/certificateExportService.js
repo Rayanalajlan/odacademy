@@ -1,6 +1,10 @@
 const COURSE_TEMPLATE_URL = "/certificates/munsaqah-course-certificate.png";
 const MONTHLY_TEMPLATE_URL = "/certificates/munsaqah-monthly-certificate.png";
 
+// إحداثيات الخانات مُستخرجة آليًا من قالبي PNG بدقّة البكسل (فحص لوني للنصوص
+// النائبة والمربعات)، لا بالتخمين. لذلك تُغطّى النصوص النائبة بالكامل وتُوضع
+// القيم في مركز كل خانة دون أي تراكب. القالبان بمقاس 2454×1839.
+
 function safeText(value, fallback = "") {
   return String(value || fallback).replace(/\s+/g, " ").trim();
 }
@@ -15,187 +19,170 @@ function loadImage(src) {
   });
 }
 
-function roundedRect(ctx, x, y, width, height, radius) {
-  const r = Math.min(radius, width / 2, height / 2);
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + width, y, x + width, y + height, r);
-  ctx.arcTo(x + width, y + height, x, y + height, r);
-  ctx.arcTo(x, y + height, x, y, r);
-  ctx.arcTo(x, y, x + width, y, r);
-  ctx.closePath();
+// يقرأ اللون الفعلي لخلفية الخانة من نقطة خالية من النص، فيصبح القناع بلا حواف ظاهرة.
+function sampleFill(ctx, x, y) {
+  try {
+    const [r, g, b] = ctx.getImageData(Math.round(x), Math.round(y), 1, 1).data;
+    return `rgb(${r}, ${g}, ${b})`;
+  } catch {
+    return "#ffffff";
+  }
 }
 
-function cover(ctx, x, y, width, height, radius = 18, fill = "#ffffff") {
+// يمسح مستطيلًا بلون خلفية الخانة (يغطّي النص النائب) دون لمس حدود الخانة أو خطوط التسطير.
+function maskRect(ctx, x, y, width, height, fill) {
   ctx.save();
-  roundedRect(ctx, x, y, width, height, radius);
   ctx.fillStyle = fill;
-  ctx.fill();
+  ctx.fillRect(x, y, width, height);
   ctx.restore();
 }
 
-function drawCenteredText(ctx, text, x, y, maxWidth, fontSize, options = {}) {
+// يختار حجم خط يجعل النص ضمن العرض المتاح (لأسماء وأرقام طويلة).
+function fitFontSize(ctx, text, family, weight, startSize, maxWidth) {
+  let size = startSize;
+  ctx.font = `${weight} ${size}px ${family}`;
+  while (ctx.measureText(text).width > maxWidth && size > 12) {
+    size -= 2;
+    ctx.font = `${weight} ${size}px ${family}`;
+  }
+  return size;
+}
+
+function drawCenteredValue(ctx, text, cx, cy, maxWidth, size, options = {}) {
   const {
     weight = 900,
     color = "#2f236f",
-    family = "Tahoma, Arial, sans-serif",
-    lineHeight = 1.25,
-    maxLines = 2
+    family = '"Tajawal", "Tahoma", Arial, sans-serif'
   } = options;
 
-  const words = safeText(text).split(" ");
-  const lines = [];
-  let currentLine = "";
-
+  const value = safeText(text);
   ctx.save();
-  ctx.font = `${weight} ${fontSize}px ${family}`;
   ctx.direction = "rtl";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = color;
-
-  words.forEach((word) => {
-    const nextLine = currentLine ? `${currentLine} ${word}` : word;
-    if (ctx.measureText(nextLine).width <= maxWidth || !currentLine) {
-      currentLine = nextLine;
-      return;
-    }
-
-    lines.push(currentLine);
-    currentLine = word;
-  });
-
-  if (currentLine) lines.push(currentLine);
-
-  const visibleLines = lines.slice(0, maxLines);
-  const totalHeight = (visibleLines.length - 1) * fontSize * lineHeight;
-
-  visibleLines.forEach((line, index) => {
-    ctx.fillText(line, x, y - totalHeight / 2 + index * fontSize * lineHeight);
-  });
-
+  const finalSize = fitFontSize(ctx, value, family, weight, size, maxWidth);
+  ctx.font = `${weight} ${finalSize}px ${family}`;
+  ctx.fillText(value, cx, cy);
   ctx.restore();
 }
 
-function drawRightText(ctx, text, x, y, maxWidth, fontSize, options = {}) {
-  ctx.save();
-  ctx.font = `${options.weight || 800} ${fontSize}px ${options.family || "Tahoma, Arial, sans-serif"}`;
-  ctx.direction = "rtl";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = options.color || "#2f236f";
-  ctx.fillText(safeText(text), x, y, maxWidth);
-  ctx.restore();
-}
-
-function drawMetricValue(ctx, value, x, y, width, fontScale = 1) {
-  cover(ctx, x - width / 2, y - 78, width, 76, 10, "#ffffff");
-  drawCenteredText(ctx, value, x, y - 38, width - 30, 44 * fontScale, {
-    color: "#8b6ff0",
-    weight: 950,
-    maxLines: 1
-  });
-}
-
-function drawCourseCertificate(ctx, options, width, height) {
-  const sx = width / 2454;
-  const sy = height / 1839;
+function drawCourseCertificate(ctx, options) {
   const learnerName = safeText(options.learnerName, "متدرب");
   const certificateCode = safeText(options.certificateCode, "OD");
   const completionDate = safeText(options.completionDate, "غير محدد");
-  const verificationCode = safeText(options.verificationCode, certificateCode);
 
-  cover(ctx, 650 * sx, 725 * sy, 1155 * sx, 160 * sy, 18 * sx, "#f3efff");
-  drawCenteredText(ctx, learnerName, width / 2, 805 * sy, 1040 * sx, 62 * sx, {
+  const paper = sampleFill(ctx, 1227, 500);
+  const nameFill = sampleFill(ctx, 770, 815);
+
+  // اسم المتدرب — الخانة الكبيرة (مركز النص النائب 1263,838)
+  maskRect(ctx, 815, 748, 900, 160, nameFill);
+  drawCenteredValue(ctx, learnerName, 1263, 833, 900, 62, {
     color: "#2f236f",
-    weight: 950,
-    maxLines: 1
+    weight: 950
   });
 
-  cover(ctx, 850 * sx, 1010 * sy, 760 * sx, 92 * sy, 12 * sx, "#ffffff");
-  drawCenteredText(ctx, "مسار منسقة للتطوير التنظيمي", width / 2, 1053 * sy, 660 * sx, 38 * sx, {
+  // اسم المسار (مع تسطير ذهبي أسفله، لا نلمسه)
+  maskRect(ctx, 895, 986, 720, 58, paper);
+  drawCenteredValue(ctx, "مسار منسقة للتطوير التنظيمي", 1254, 1017, 700, 40, {
     color: "#6d5bd0",
-    weight: 900,
-    maxLines: 1
+    weight: 900
   });
 
-  drawMetricValue(ctx, "168", 710 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetricValue(ctx, "672", 1030 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetricValue(ctx, "24", 1350 * sx, 1360 * sy, 290 * sx, sx);
-  drawMetricValue(ctx, "6", 1670 * sx, 1360 * sy, 290 * sx, sx);
+  // أربع خانات إحصائية — الترتيب من اليسار: 168 / 672 / 24 / 6
+  const stats = [
+    { cx: 674, value: "168" },
+    { cx: 1061, value: "672" },
+    { cx: 1448, value: "24" },
+    { cx: 1835, value: "6" }
+  ];
+  const statFill = sampleFill(ctx, 674, 1150);
+  stats.forEach(({ cx, value }) => {
+    maskRect(ctx, cx - 150, 1268, 300, 96, statFill);
+    drawCenteredValue(ctx, value, cx, 1322, 250, 62, {
+      color: "#8b6ff0",
+      weight: 950
+    });
+  });
 
-  cover(ctx, 185 * sx, 1618 * sy, 520 * sx, 70 * sy, 8 * sx, "#ffffff");
-  drawCenteredText(ctx, completionDate, 440 * sx, 1654 * sy, 430 * sx, 27 * sx, {
+  // تاريخ الإتمام (يسار) — أعلى خط التسطير
+  maskRect(ctx, 175, 1636, 590, 70, paper);
+  drawCenteredValue(ctx, completionDate, 455, 1672, 560, 28, {
     color: "#5b4a94",
-    weight: 850,
-    maxLines: 1
+    weight: 800
   });
 
-  cover(ctx, 1700 * sx, 1618 * sy, 535 * sx, 70 * sy, 8 * sx, "#ffffff");
-  drawCenteredText(ctx, certificateCode, 1962 * sx, 1654 * sy, 430 * sx, 27 * sx, {
+  // رقم الوثيقة (يمين) — القناع يمتد حتى حافة القالب لتغطية النص النائب كاملًا
+  maskRect(ctx, 1355, 1620, 860, 92, paper);
+  drawCenteredValue(ctx, certificateCode, 1730, 1668, 780, 26, {
     color: "#5b4a94",
-    weight: 850,
-    maxLines: 1
-  });
-
-  cover(ctx, 780 * sx, 1765 * sy, 900 * sx, 44 * sy, 10 * sx, "#ffffff");
-  drawCenteredText(ctx, `رقم التحقق: ${verificationCode}`, width / 2, 1787 * sy, 820 * sx, 20 * sx, {
-    color: "#6d5bd0",
-    weight: 850,
-    maxLines: 1
+    weight: 800
   });
 }
 
-function drawMonthlyCertificate(ctx, options, width, height) {
-  const sx = width / 2454;
-  const sy = height / 1839;
+function drawMonthlyCertificate(ctx, options) {
   const learnerName = safeText(options.learnerName, "متدرب");
   const title = safeText(options.title, "شهادة إنجاز شهرية");
   const certificateCode = safeText(options.certificateCode, "ODM");
   const completionDate = safeText(options.completionDate, "غير محدد");
   const monthMatch = title.match(/الشهر\s+(.+)$/);
   const monthLabel = monthMatch?.[1] || title.replace("شهادة إنجاز", "").trim() || "منجز";
+  const year = safeText(options.year) || String(new Date().getFullYear());
 
-  cover(ctx, 650 * sx, 627 * sy, 1155 * sx, 155 * sy, 18 * sx, "#f3efff");
-  drawCenteredText(ctx, learnerName, width / 2, 705 * sy, 1040 * sx, 58 * sx, {
+  const paper = sampleFill(ctx, 1227, 500);
+  const nameFill = sampleFill(ctx, 620, 760);
+
+  // اسم المتدرب — القناع يغطّي النص النائب كاملًا رأسيًا (656→876)
+  maskRect(ctx, 720, 648, 1070, 236, nameFill);
+  drawCenteredValue(ctx, learnerName, 1254, 762, 1000, 60, {
     color: "#2f236f",
-    weight: 950,
-    maxLines: 1
-  });
-
-  cover(ctx, 700 * sx, 966 * sy, 1060 * sx, 84 * sy, 16 * sx, "#f4f0ff");
-  drawRightText(ctx, monthLabel, 1585 * sx, 1007 * sy, 320 * sx, 33 * sx, {
-    color: "#4f4389",
-    weight: 950
-  });
-  drawRightText(ctx, "2026", 1050 * sx, 1007 * sy, 250 * sx, 33 * sx, {
-    color: "#4f4389",
     weight: 950
   });
 
-  cover(ctx, 880 * sx, 1170 * sy, 700 * sx, 80 * sy, 12 * sx, "#ffffff");
-  drawCenteredText(ctx, "مسار منسقة للتطوير التنظيمي", width / 2, 1209 * sy, 610 * sx, 34 * sx, {
+  // الشهر (يمين الصندوق) والسنة (وسطه) — أعلى خطي التسطير
+  maskRect(ctx, 1165, 950, 500, 52, paper);
+  drawCenteredValue(ctx, monthLabel, 1410, 982, 480, 34, {
+    color: "#4f4389",
+    weight: 950
+  });
+  maskRect(ctx, 605, 950, 455, 52, paper);
+  drawCenteredValue(ctx, year, 830, 982, 430, 34, {
+    color: "#4f4389",
+    weight: 950
+  });
+
+  // اسم المسار (تسطير ذهبي أسفله)
+  maskRect(ctx, 900, 1133, 710, 55, paper);
+  drawCenteredValue(ctx, "مسار منسقة للتطوير التنظيمي", 1254, 1164, 690, 36, {
     color: "#6d5bd0",
-    weight: 900,
-    maxLines: 1
+    weight: 900
   });
 
-  drawMetricValue(ctx, "112", 1620 * sx, 1420 * sy, 290 * sx, sx);
-  drawMetricValue(ctx, "28", 1230 * sx, 1420 * sy, 290 * sx, sx);
-  drawMetricValue(ctx, "4", 840 * sx, 1420 * sy, 290 * sx, sx);
-
-  cover(ctx, 185 * sx, 1618 * sy, 520 * sx, 70 * sy, 8 * sx, "#ffffff");
-  drawCenteredText(ctx, completionDate, 440 * sx, 1654 * sy, 430 * sx, 27 * sx, {
-    color: "#5b4a94",
-    weight: 850,
-    maxLines: 1
+  // ثلاث خانات إحصائية — من اليسار: 4 أسابيع / 28 يومًا / 112 ساعة
+  const stats = [
+    { cx: 843, value: "4" },
+    { cx: 1254, value: "28" },
+    { cx: 1664, value: "112" }
+  ];
+  const statFill = sampleFill(ctx, 843, 1220);
+  stats.forEach(({ cx, value }) => {
+    maskRect(ctx, cx - 150, 1262, 300, 130, statFill);
+    drawCenteredValue(ctx, value, cx, 1326, 250, 60, {
+      color: "#8b6ff0",
+      weight: 950
+    });
   });
 
-  cover(ctx, 1700 * sx, 1618 * sy, 535 * sx, 70 * sy, 8 * sx, "#ffffff");
-  drawCenteredText(ctx, certificateCode, 1962 * sx, 1654 * sy, 430 * sx, 27 * sx, {
+  // تاريخ الإصدار (يسار) ورقم الوثيقة (يمين)
+  maskRect(ctx, 175, 1636, 590, 70, paper);
+  drawCenteredValue(ctx, completionDate, 455, 1672, 560, 28, {
     color: "#5b4a94",
-    weight: 850,
-    maxLines: 1
+    weight: 800
+  });
+  maskRect(ctx, 1355, 1620, 860, 92, paper);
+  drawCenteredValue(ctx, certificateCode, 1730, 1668, 780, 26, {
+    color: "#5b4a94",
+    weight: 800
   });
 }
 
@@ -209,9 +196,9 @@ async function buildCertificateCanvas(options) {
   ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
   if (options.kind === "monthly") {
-    drawMonthlyCertificate(ctx, options, canvas.width, canvas.height);
+    drawMonthlyCertificate(ctx, options);
   } else {
-    drawCourseCertificate(ctx, options, canvas.width, canvas.height);
+    drawCourseCertificate(ctx, options);
   }
 
   return canvas;
