@@ -1509,14 +1509,17 @@ export default function CourseJourney({
 
         .jl-title {
           margin:16px 0 12px;
-          font-size:clamp(30px,5vw,62px);
-          line-height:1.06;
+          font-size:clamp(28px,4.6vw,52px);
+          line-height:1.28;
           font-weight:950;
-          letter-spacing:-1.2px;
+          letter-spacing:-0.4px;
         }
 
         .jl-title span {
           display:block;
+          margin-top:10px;
+          font-size:clamp(17px,2.8vw,28px);
+          line-height:1.5;
           color:transparent;
           background:linear-gradient(90deg,#fff,#c3b5e8,#c4b5fd);
           -webkit-background-clip:text;

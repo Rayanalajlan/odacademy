@@ -1886,10 +1886,11 @@ export default function ExperienceDesignSkin() {
         .mastery-hero h1, .ar-title, .roi-hero h1, .jl-title, .sim-root .hero h1,
         .command-hero h1, .journey-hero h1) {
         font-size: clamp(2rem, 4.2vw, 3.45rem) !important;
-        line-height: 1.15 !important;
+        line-height: 1.3 !important;
         letter-spacing: 0 !important;
         overflow: visible !important;
         text-wrap: balance;
+        padding-bottom: 0.08em;
       }
 
       html body :is(.od-section-head h2, .section-head h2, .portfolio-section-head h2,

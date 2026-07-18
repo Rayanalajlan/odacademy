@@ -259,7 +259,7 @@ export default function AdminDashboard() {
         .admin-hero-title {
           margin: 0;
           font-size: clamp(28px, 5vw, 52px);
-          line-height: 1.14;
+          line-height: 1.28;
           font-weight: 950;
           letter-spacing: -1px;
           color: #f8f2ff !important;
