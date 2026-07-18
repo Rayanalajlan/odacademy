@@ -811,7 +811,7 @@ function buildPresentationReportHTML({ scenario, answers, score, notes, breakdow
         <div class="box"><b>الصعوبة</b><span>${escapeReportHtml(scenario.level.name)}</span></div>
         <div class="box"><b>المرجع</b><span>${safeReference}</span></div>
       </div>
-      <div class="footer"><span>OD Engineering Simulation</span><span>صنع بواسطة ريان العجلان</span></div>
+      <div class="footer"><span>محاكاة OD</span><span>صنع بواسطة ريان العجلان</span></div>
     </section>
 
     <section class="slide">

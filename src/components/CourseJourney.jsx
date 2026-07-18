@@ -1405,7 +1405,7 @@ export default function CourseJourney({
   if (!course.length) {
     return (
       <section className="journey-lab" dir="rtl">
-        <div className="jl-empty">لم يتم العثور على محتوى الرحلة داخل courseContent.</div>
+        <div className="jl-empty">لم يتم العثور على محتوى الرحلة.</div>
       </section>
     );
   }
@@ -2625,11 +2625,11 @@ export default function CourseJourney({
         <header className="jl-hero">
           <div className="jl-hero-inner">
             <div>
-              <span className="jl-eyebrow">رحلتك التعليمية · 6 أشهر · OD Mastery</span>
+              <span className="jl-eyebrow">رحلتك التعليمية · مسار OD</span>
 
               <h1 className="jl-title">
                 رحلة تعليمية متدرجة
-                <span>شهر ← أسبوع ← يوم ← درس ← اختبار</span>
+                <span>6 أشهر · 24 أسبوعًا · 168 يومًا</span>
               </h1>
 
               <p>

@@ -480,7 +480,7 @@ export default function LearningPortfolio({
       <section className="portfolio-hero">
         <div className="portfolio-hero-grid">
           <div>
-            <span className="portfolio-kicker">Learning Portfolio Center</span>
+            <span className="portfolio-kicker">مركز الملف التعليمي</span>
             <h1>
               ملفك التعليمي يا <span>{firstName}</span>
             </h1>
@@ -669,7 +669,7 @@ export default function LearningPortfolio({
                 <h2>آخر نتيجة رادار</h2>
                 <p>أحدث تقييم محفوظ من رادار الأداء.</p>
               </div>
-              <span className="portfolio-mini-tag">Radar</span>
+              <span className="portfolio-mini-tag">الرادار</span>
             </div>
 
             {loading ? (

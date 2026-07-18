@@ -447,7 +447,7 @@ export default function PortfolioExportReport({
         </div>
 
         <header className="report-cover">
-          <span className="report-kicker">OD Academy · Learning Portfolio Report</span>
+          <span className="report-kicker">منسقة · تقرير الملف التعليمي</span>
           <h1>تقرير الملف التعليمي</h1>
           <p>
             تقرير موجز يجمع أثر التعلم داخل المنصة: التقدم، المحفوظات، الملاحظات،
