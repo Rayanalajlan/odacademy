@@ -71,6 +71,7 @@ export default function AdminDashboard() {
   const [certificates, setCertificates] = useState([]);
   const [activeTab, setActiveTab] = useState("feedback");
   const [notice, setNotice] = useState("");
+  const [lastLiveAt, setLastLiveAt] = useState(null);
   const [moderatingId, setModeratingId] = useState("");
   const [notificationDraft, setNotificationDraft] = useState({
     userId: "",
@@ -123,12 +124,50 @@ export default function AdminDashboard() {
     loadAll();
   }, []);
 
+  // تحديث حيّ صامت لبيانات "المتصلين الآن" وآخر الزيارات كل 40 ثانية،
+  // بدون مؤشر تحميل وبدون لمس بقية اللوحة، وفقط عندما يكون التبويب ظاهرًا.
+  useEffect(() => {
+    if (!allowed) return undefined;
+
+    async function refreshLive() {
+      if (document.visibilityState !== "visible") return;
+
+      try {
+        const [ov, lr] = await Promise.all([getAdminOverview(), getRecentLearners(24)]);
+        if (ov) setOverview(ov);
+        if (Array.isArray(lr)) setLearners(lr);
+        setLastLiveAt(Date.now());
+      } catch {
+        // تحديث صامت؛ لا نزعج المشرف بأخطاء عابرة.
+      }
+    }
+
+    setLastLiveAt(Date.now());
+    const id = window.setInterval(refreshLive, 40000);
+    window.addEventListener("focus", refreshLive);
+
+    return () => {
+      window.clearInterval(id);
+      window.removeEventListener("focus", refreshLive);
+    };
+  }, [allowed]);
+
   const selectedLearner = useMemo(() => {
     return learners.find((learner) => learner.user_id === notificationDraft.userId);
   }, [learners, notificationDraft.userId]);
 
   const onlineLearners = useMemo(() => {
     return learners.filter((learner) => isOnlineLearner(learner)).length;
+  }, [learners]);
+
+  // نرتّب المتصلين الآن في الأعلى، ثم الأحدث ظهورًا، ليراهم المشرف مباشرة.
+  const sortedLearners = useMemo(() => {
+    return [...learners].sort((a, b) => {
+      const aOnline = isOnlineLearner(a) ? 1 : 0;
+      const bOnline = isOnlineLearner(b) ? 1 : 0;
+      if (aOnline !== bOnline) return bOnline - aOnline;
+      return new Date(b.last_seen_at || 0).getTime() - new Date(a.last_seen_at || 0).getTime();
+    });
   }, [learners]);
 
   async function handleModerate(item, nextStatus) {
@@ -497,6 +536,45 @@ export default function AdminDashboard() {
           border-color: rgba(16, 185, 129, .26);
         }
 
+        .admin-live-bar {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 14px;
+          padding: 7px 14px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 850;
+          color: #047857;
+          background: #ecfdf5;
+          border: 1px solid rgba(16, 185, 129, .24);
+        }
+
+        .admin-live-dot {
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, .5);
+          animation: adminLivePulse 1.8s ease-out infinite;
+        }
+
+        @keyframes adminLivePulse {
+          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, .5); }
+          70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .admin-live-dot { animation: none; }
+        }
+
+        html[data-theme="dark"] body.od-theme-dark .admin-live-bar {
+          color: #6ee7b7;
+          background: rgba(16, 185, 129, .12);
+          border-color: rgba(16, 185, 129, .28);
+        }
+
         .admin-soft-button {
           color: #463c63;
           background: #e0d8f5;
@@ -698,10 +776,15 @@ export default function AdminDashboard() {
 
         {!loading && allowed && (
           <>
+            <div className="admin-live-bar">
+              <span className="admin-live-dot" aria-hidden="true" />
+              <span>تحديث حيّ كل 40 ثانية{lastLiveAt ? ` · آخر تحديث ${new Date(lastLiveAt).toLocaleTimeString("ar-SA")}` : ""}</span>
+            </div>
+
             <section className="admin-metrics">
               <MetricCard label="إجمالي المتدربين" value={overview?.total_learners} />
-              <MetricCard label="النشطون آخر 10 دقائق" value={overview?.active_now} />
-              <MetricCard label="المتصلون الآن في القائمة" value={onlineLearners} />
+              <MetricCard label="المتصلون الآن" value={overview?.active_now} />
+              <MetricCard label="متصلون في القائمة" value={onlineLearners} />
               <MetricCard label="تقييمات بانتظار المراجعة" value={overview?.pending_feedback} />
               <MetricCard label="وثائق صادرة" value={overview?.issued_certificates} />
             </section>
@@ -822,10 +905,10 @@ export default function AdminDashboard() {
 
               {activeTab === "learners" && (
                 <section className="admin-panel">
-                  <h2>آخر المتدربين</h2>
+                  <h2>المتدربون · المتصلون الآن أولًا</h2>
 
                   <div className="admin-table">
-                    {learners.map((learner) => (
+                    {sortedLearners.map((learner) => (
                       <article className="admin-row" key={learner.user_id}>
                         <div className="admin-row-head">
                           <div>
