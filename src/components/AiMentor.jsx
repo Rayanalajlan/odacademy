@@ -296,6 +296,7 @@ export default function AiMentor() {
   const [countdown, setCountdown] = useState({ total: 0, label: "" });
   const [archiveQuery, setArchiveQuery] = useState("");
   const endRef = useRef(null);
+  const messagesBoxRef = useRef(null);
 
   const activeSession = useMemo(
     () => sessions.find((session) => session.id === activeSessionId) || sessions[0],
@@ -336,7 +337,9 @@ export default function AiMentor() {
   }, [sessions, activeSessionId]);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    // نمرّر داخل صندوق المحادثة فقط، لا الصفحة كاملة — حتى لا "ترتفع" الصفحة عند الإرسال.
+    const box = messagesBoxRef.current;
+    if (box) box.scrollTop = box.scrollHeight;
   }, [activeSession?.messages, busy, error, quota]);
 
   useEffect(() => {
@@ -1261,7 +1264,7 @@ export default function AiMentor() {
                 </div>
               )}
 
-              <div className="messages-box" aria-live="polite">
+              <div className="messages-box" aria-live="polite" ref={messagesBoxRef}>
                 {(activeSession?.messages || []).map((message, index) => (
                   <div key={message.id || `${message.role}-${index}`} className={`message ${message.role}`}>
                     <span className="message-label">{message.role === "user" ? "أنت" : "الموجه"}</span>

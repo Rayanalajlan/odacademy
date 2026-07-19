@@ -634,7 +634,7 @@ function classifyMentorRequest(message = "") {
       label: "سؤال خفيف",
       points: Math.max(1, simpleCount ? 2 : 1),
       useDraft: false,
-      maxOutputTokens: 700,
+      maxOutputTokens: 1100,
       temperature: 0.55,
       depthInstruction: "أجب بإيجاز عملي: فقرة قصيرة أو 3 إلى 5 نقاط، ثم سؤال تخصيص واحد إن احتجت.",
       answerMode: "concise"
@@ -647,7 +647,7 @@ function classifyMentorRequest(message = "") {
       label: "سؤال متوسط",
       points: 4,
       useDraft: false,
-      maxOutputTokens: 1200,
+      maxOutputTokens: 1600,
       temperature: 0.55,
       depthInstruction: "أجب بجواب متوسط: الزبدة أولًا، ثم إطار عملي، ثم خطوات تنفيذية، بدون إسهاب زائد.",
       answerMode: "standard"
@@ -1113,7 +1113,11 @@ async function callGeminiOnce({ apiKey, model, conversation, latestMessage, llam
             generationConfig: {
               temperature: profile.temperature || 0.55,
               topP: 0.9,
-              maxOutputTokens: profile.maxOutputTokens || 1800
+              maxOutputTokens: profile.maxOutputTokens || 1800,
+              // نماذج Gemini 2.5 "تفكّر" افتراضيًا، وميزانية التفكير تُخصم من
+              // maxOutputTokens، فتُقتطع إجابة المستخدم في منتصفها. نوقف التفكير
+              // ليذهب كامل الميزانية للنص الظاهر (والموجه لديه مرحلة مسودة منفصلة).
+              thinkingConfig: { thinkingBudget: 0 }
             }
           })
         }
