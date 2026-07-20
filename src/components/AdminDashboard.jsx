@@ -160,6 +160,12 @@ export default function AdminDashboard() {
     return learners.filter((learner) => isOnlineLearner(learner)).length;
   }, [learners]);
 
+  // قائمة الطلبات تعرض المعلّقة فقط؛ لأن RPC القائمة تُرجع كل الحالات،
+  // فبدون هذا الفلتر يبقى التقييم المعتمد ظاهرًا في الطلبات بعد اعتماده.
+  const pendingFeedback = useMemo(() => {
+    return feedback.filter((row) => (row.status || "pending") === "pending");
+  }, [feedback]);
+
   // نرتّب المتصلين الآن في الأعلى، ثم الأحدث ظهورًا، ليراهم المشرف مباشرة.
   const sortedLearners = useMemo(() => {
     return [...learners].sort((a, b) => {
@@ -181,7 +187,10 @@ export default function AdminDashboard() {
         adminNote: nextStatus === "published" ? "تم اعتماد التقييم للنشر." : "تم رفض التقييم."
       });
 
+      // نزيله من قائمة الطلبات دائمًا، ونضيفه للمعتمدة فقط عند الاعتماد،
+      // ونزيله من المعتمدة عند الرفض أو الإعادة للطلبات — حتى لا يظهر في مكانين.
       setFeedback((current) => current.filter((row) => row.id !== item.id));
+
       if (nextStatus === "published") {
         const publishedItem = {
           ...item,
@@ -195,8 +204,23 @@ export default function AdminDashboard() {
           publishedItem,
           ...current.filter((row) => row.id !== item.id)
         ]);
+      } else {
+        setPublishedFeedback((current) => current.filter((row) => row.id !== item.id));
+        if (nextStatus === "pending") {
+          setFeedback((current) => [
+            { ...item, ...updated, status: "pending" },
+            ...current.filter((row) => row.id !== item.id)
+          ]);
+        }
       }
-      setNotice(nextStatus === "published" ? "تم نشر التقييم." : "تم رفض التقييم.");
+
+      setNotice(
+        nextStatus === "published"
+          ? "تم اعتماد التقييم ونقله إلى المعتمدة."
+          : nextStatus === "pending"
+            ? "تمت إعادة التقييم إلى الطلبات."
+            : "تم رفض التقييم."
+      );
       window.setTimeout(() => {
         loadAll();
       }, 400);
@@ -819,8 +843,8 @@ export default function AdminDashboard() {
                   <h2>تقييمات بانتظار المراجعة</h2>
 
                   <div className="admin-table">
-                    {feedback.length ? (
-                      feedback.map((item) => (
+                    {pendingFeedback.length ? (
+                      pendingFeedback.map((item) => (
                         <article className="admin-row" key={item.id}>
                           <div className="admin-row-head">
                             <div>
@@ -885,6 +909,22 @@ export default function AdminDashboard() {
                           {item.improvement_text && <p>ملاحظة تحسين: {item.improvement_text}</p>}
 
                           <div className="admin-actions">
+                            <button
+                              type="button"
+                              className="admin-action"
+                              disabled={moderatingId === item.id}
+                              onClick={() => handleModerate(item, "pending")}
+                            >
+                              إعادة إلى الطلبات
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-action reject"
+                              disabled={moderatingId === item.id}
+                              onClick={() => handleModerate(item, "rejected")}
+                            >
+                              إلغاء الاعتماد
+                            </button>
                             <button
                               type="button"
                               className="admin-action delete"
